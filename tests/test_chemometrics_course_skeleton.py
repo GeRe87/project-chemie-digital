@@ -46,6 +46,11 @@ CHEMOMETRICS_ROWS = [
         str(EX["unit-placement-chemometrics-variance-dispersion"]),
         str(EX["learning-unit-variance-dispersion"]),
     ),
+    (
+        50,
+        str(EX["unit-placement-chemometrics-quantiles-moments-shape"]),
+        str(EX["learning-unit-quantiles-moments-shape"]),
+    ),
 ]
 
 SECTION_SPECS = [
@@ -65,6 +70,7 @@ SECTION_SPECS = [
             EX["unit-placement-chemometrics-random-variables"],
             EX["unit-placement-chemometrics-mean-values"],
             EX["unit-placement-chemometrics-variance-dispersion"],
+            EX["unit-placement-chemometrics-quantiles-moments-shape"],
         ),
     ),
     (
@@ -302,6 +308,28 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 EX["standard-error"],
                 EX["relative-standard-deviation"],
             },
+            EX["learning-unit-quantiles-moments-shape"]: {
+                EX["sample-range"],
+                EX["order-statistic"],
+                EX["quartile"],
+                EX["boxplot"],
+                EX["histogram"],
+                EX["histogram-2d"],
+                EX["histogram-bin-width"],
+                EX["histogram-density"],
+                EX["sample-quantile"],
+                EX["quantile-estimation-method"],
+                EX["empirical-cdf"],
+                EX["interquartile-range"],
+                EX["median-absolute-deviation"],
+                EX["potential-outlier"],
+                EX["empirical-central-moment"],
+                EX["skewness"],
+                EX["kurtosis"],
+                EX["sample-skewness"],
+                EX["sample-excess-kurtosis"],
+                EX["moment-estimation-convention"],
+            },
         }
         for unit, focus_concepts in expected.items():
             with self.subTest(unit=unit):
@@ -312,7 +340,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")
 
-    def test_all_four_chemometrics_units_have_exact_paths(self) -> None:
+    def test_all_five_chemometrics_units_have_exact_paths(self) -> None:
         self.assertEqual(
             {EX["path-chemometrics-introduction"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-chemometrics-introduction"])),
@@ -328,6 +356,10 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
         self.assertEqual(
             {EX["path-chemometrics-variance-dispersion-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-variance-dispersion"])),
+        )
+        self.assertEqual(
+            {EX["path-chemometrics-level4-distribution-shape-lecture"]},
+            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-quantiles-moments-shape"])),
         )
 
     def test_course_order_is_independent_of_trig_file_order(self) -> None:

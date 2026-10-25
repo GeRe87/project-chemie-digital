@@ -1,0 +1,82 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+# New placements preserve all earlier steps/scenes without mutating their identities.
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> {
+  ex:path-chemometrics-level4-distribution-shape-lecture cd:hasStep ex:l4-revised-19, ex:l4-revised-20, ex:l4-revised-21, ex:l4-revised-22, ex:l4-revised-23, ex:l4-revised-24, ex:l4-revised-25, ex:l4-revised-26, ex:l4-revised-27, ex:l4-revised-28, ex:l4-revised-29, ex:l4-revised-30, ex:l4-revised-31, ex:l4-revised-32, ex:l4-revised-33, ex:l4-revised-34, ex:l4-revised-35, ex:l4-revised-36, ex:l4-revised-37, ex:l4-revised-38, ex:l4-revised-39, ex:l4-revised-40, ex:l4-revised-41, ex:l4-revised-42, ex:l4-revised-43, ex:l4-revised-44, ex:l4-revised-45, ex:l4-revised-46, ex:l4-revised-47, ex:l4-revised-48, ex:l4-revised-49, ex:l4-revised-50, ex:l4-revised-51, ex:l4-revised-52, ex:l4-revised-53, ex:l4-revised-54, ex:l4-revised-55 .
+  ex:l4-revised-19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l4-scene-spread-normal ; cd:usesResource ex:l4-spread-normal-title, ex:l4-spread-normal-scenario, ex:l4-spread-use, ex:l4-spread-convention, ex:l4-spread-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l4-scene-spread-skewed ; cd:usesResource ex:l4-spread-skewed-title, ex:l4-spread-skewed-scenario, ex:l4-spread-skewed-reading, ex:l4-spread-skewed-limit, ex:l4-spread-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l4-scene-box-construction ; cd:usesResource ex:l4-box-construction-title, ex:l4-box-scenario, ex:l4-box-construction-table, ex:l4-box-points, ex:l4-order-boxes-one ; cd:authoredResource true .
+  ex:l4-revised-22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l4-scene-box-applications ; cd:usesResource ex:l4-ba-chart, ex:l4-ba-context, ex:l4-ba-points, ex:l4-ba-table, ex:l4-ba-title ; cd:authoredResource true .
+  ex:l4-revised-23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l4-scene-box-limits ; cd:usesResource ex:l4-bl-chart, ex:l4-bl-context, ex:l4-bl-points, ex:l4-bl-table, ex:l4-bl-title ; cd:authoredResource true .
+  ex:l4-revised-24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l4-scene-box-extremes ; cd:usesResource ex:l4-box-extremes-title, ex:l4-box-extremes-chart ; cd:authoredResource true .
+  ex:l4-revised-25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l4-scene-box-symmetric ; cd:usesResource ex:l4-box-symmetric-title, ex:l4-box-symmetric-chart ; cd:authoredResource true .
+  ex:l4-revised-26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l4-scene-box-skewed ; cd:usesResource ex:l4-box-skewed-title, ex:l4-box-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l4-scene-box-bimodal ; cd:usesResource ex:l4-box-bimodal-title, ex:l4-box-bimodal-chart ; cd:authoredResource true .
+  ex:l4-revised-28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l4-scene-box-uniform ; cd:usesResource ex:l4-box-uniform-title, ex:l4-box-uniform-chart ; cd:authoredResource true .
+  ex:l4-revised-29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l4-scene-box-lab ; cd:usesResource ex:l4-box-lab-title, ex:l4-box-task, ex:l4-box-code ; cd:authoredResource true .
+  ex:l4-revised-30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l4-scene-histogram-intro ; cd:usesResource ex:l4-histogram-intro-title, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l4-scene-histogram-reading ; cd:usesResource ex:l4-histogram-reading-title, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l4-scene-histogram-skewed ; cd:usesResource ex:l4-histogram-skewed-title, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l4-scene-histogram-bimodal ; cd:usesResource ex:l4-histogram-bimodal-title, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-revised-34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l4-scene-histogram-2d-intro ; cd:usesResource ex:l4-histogram-2d-intro-title, ex:l4-hist-2d-chart ; cd:authoredResource true .
+  ex:l4-revised-35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l4-scene-histogram-2d-reading ; cd:usesResource ex:l4-histogram-2d-reading-title, ex:l4-hist-2d-chart ; cd:authoredResource true .
+  ex:l4-revised-36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l4-scene-histogram-too-coarse ; cd:usesResource ex:l4-histogram-too-coarse-title, ex:l4-hist-coarse-chart ; cd:authoredResource true .
+  ex:l4-revised-37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l4-scene-histogram-too-fine ; cd:usesResource ex:l4-histogram-too-fine-title, ex:l4-hist-fine-chart ; cd:authoredResource true .
+  ex:l4-revised-38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l4-scene-histogram-sensible-width ; cd:usesResource ex:l4-histogram-sensible-width-title, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-revised-39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l4-scene-histogram-origin ; cd:usesResource ex:l4-histogram-origin-title, ex:l4-hist-origin-chart ; cd:authoredResource true .
+  ex:l4-revised-40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l4-scene-histogram-rules ; cd:usesResource ex:l4-histogram-rules-title, ex:l4-hist-rules-formula, ex:l4-histogram-rules-intro, ex:l4-histogram-rules-points ; cd:authoredResource true .
+  ex:l4-revised-41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l4-scene-histogram-rule-example ; cd:usesResource ex:l4-histogram-rule-example-title, ex:l4-hist-adjustable-chart ; cd:authoredResource true .
+  ex:l4-revised-42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l4-scene-histogram-variable-width ; cd:usesResource ex:l4-histogram-variable-width-title, ex:l4-hist-density-formula ; cd:authoredResource true .
+  ex:l4-revised-43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l4-scene-unequal-sort ; cd:usesResource ex:l4-unequal-sort ; cd:authoredResource true .
+  ex:l4-revised-44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l4-scene-unequal-interpolate ; cd:usesResource ex:l4-unequal-interpolate ; cd:authoredResource true .
+  ex:l4-revised-45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l4-scene-unequal-density ; cd:usesResource ex:l4-unequal-density, ex:l4-unequal-chart ; cd:authoredResource true .
+  ex:l4-revised-46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l4-scene-histogram-variable-construction ; cd:usesResource ex:l4-histogram-variable-construction-title, ex:l4-hist-adaptive-chart ; cd:authoredResource true .
+  ex:l4-revised-47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l4-scene-histogram-variable-use ; cd:usesResource ex:l4-histogram-variable-use-title, ex:l4-hist-adaptive-chart ; cd:authoredResource true .
+  ex:l4-revised-48 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l4-scene-histogram-lab ; cd:usesResource ex:l4-hist-lab-title, ex:l4-hist-lab-task, ex:l4-hist-lab-code ; cd:authoredResource true .
+  ex:l4-revised-49 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l4-scene-ecdf-question ; cd:usesResource ex:l4-ecdf-question ; cd:authoredResource true .
+  ex:l4-revised-50 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l4-scene-ecdf-concept ; cd:usesResource ex:l4-ecdf-concept, ex:l4-formula-empirical-cdf ; cd:authoredResource true .
+  ex:l4-revised-51 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l4-scene-ecdf-worked ; cd:usesResource ex:l4-ecdf-worked, ex:l4-ecdf-small-chart ; cd:authoredResource true .
+  ex:l4-revised-52 a cd:PathStep ; cd:position 52 ; cd:usesScene ex:l4-scene-ecdf-river ; cd:usesResource ex:l4-ecdf-river, ex:l4-ecdf-river-chart ; cd:authoredResource true .
+  ex:l4-revised-53 a cd:PathStep ; cd:position 53 ; cd:usesScene ex:l4-scene-ecdf-shapes ; cd:usesResource ex:l4-ecdf-shapes, ex:l4-ecdf-shapes-chart ; cd:authoredResource true .
+  ex:l4-revised-54 a cd:PathStep ; cd:position 54 ; cd:usesScene ex:l4-scene-ecdf-crossing ; cd:usesResource ex:l4-ecdf-crossing, ex:l4-ecdf-shapes-chart ; cd:authoredResource true .
+  ex:l4-revised-55 a cd:PathStep ; cd:position 55 ; cd:usesScene ex:l4-scene-ecdf-inverse ; cd:usesResource ex:l4-ecdf-inverse, ex:l4-ecdf-river-chart ; cd:authoredResource true .
+  ex:l4-revised-56 a cd:PathStep ; cd:position 56 ; cd:usesScene ex:l4-scene-raw1 ; cd:usesResource ex:l4-raw1, ex:l4-raw1-formula ; cd:authoredResource true .
+  ex:l4-revised-57 a cd:PathStep ; cd:position 57 ; cd:usesScene ex:l4-scene-raw1-use ; cd:usesResource ex:l4-raw1-use, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-58 a cd:PathStep ; cd:position 58 ; cd:usesScene ex:l4-scene-raw1-limit ; cd:usesResource ex:l4-raw1-limit, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-revised-59 a cd:PathStep ; cd:position 59 ; cd:usesScene ex:l4-scene-raw2 ; cd:usesResource ex:l4-raw2, ex:l4-raw2-formula ; cd:authoredResource true .
+  ex:l4-revised-60 a cd:PathStep ; cd:position 60 ; cd:usesScene ex:l4-scene-raw2-use ; cd:usesResource ex:l4-raw2-use, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-61 a cd:PathStep ; cd:position 61 ; cd:usesScene ex:l4-scene-raw2-limit ; cd:usesResource ex:l4-raw2-limit, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-62 a cd:PathStep ; cd:position 62 ; cd:usesScene ex:l4-scene-raw3 ; cd:usesResource ex:l4-raw3, ex:l4-raw3-formula ; cd:authoredResource true .
+  ex:l4-revised-63 a cd:PathStep ; cd:position 63 ; cd:usesScene ex:l4-scene-raw3-use ; cd:usesResource ex:l4-raw3-use, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-64 a cd:PathStep ; cd:position 64 ; cd:usesScene ex:l4-scene-raw3-limit ; cd:usesResource ex:l4-raw3-limit, ex:l4-hist-normal-chart ; cd:authoredResource true .
+  ex:l4-revised-65 a cd:PathStep ; cd:position 65 ; cd:usesScene ex:l4-scene-raw4 ; cd:usesResource ex:l4-raw4, ex:l4-raw4-formula ; cd:authoredResource true .
+  ex:l4-revised-66 a cd:PathStep ; cd:position 66 ; cd:usesScene ex:l4-scene-raw4-use ; cd:usesResource ex:l4-raw4-use, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-67 a cd:PathStep ; cd:position 67 ; cd:usesScene ex:l4-scene-raw4-limit ; cd:usesResource ex:l4-raw4-limit, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-68 a cd:PathStep ; cd:position 68 ; cd:usesScene ex:l4-scene-central ; cd:usesResource ex:l4-central, ex:l4-formula-empirical-central-moment ; cd:authoredResource true .
+  ex:l4-revised-69 a cd:PathStep ; cd:position 69 ; cd:usesScene ex:l4-scene-central-worked ; cd:usesResource ex:l4-central-worked ; cd:authoredResource true .
+  ex:l4-revised-70 a cd:PathStep ; cd:position 70 ; cd:usesScene ex:l4-scene-standardized ; cd:usesResource ex:l4-standardized, ex:l4-standardized-formula ; cd:authoredResource true .
+  ex:l4-revised-71 a cd:PathStep ; cd:position 71 ; cd:usesScene ex:l4-scene-skew-use ; cd:usesResource ex:l4-skew-use, ex:l4-hist-skewed-chart ; cd:authoredResource true .
+  ex:l4-revised-72 a cd:PathStep ; cd:position 72 ; cd:usesScene ex:l4-scene-skew-zero ; cd:usesResource ex:l4-skew-zero ; cd:authoredResource true .
+  ex:l4-revised-73 a cd:PathStep ; cd:position 73 ; cd:usesScene ex:l4-scene-kurt-use ; cd:usesResource ex:l4-kurt-use, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
+  ex:l4-revised-74 a cd:PathStep ; cd:position 74 ; cd:usesScene ex:l4-scene-moment-lab ; cd:usesResource ex:l4-moment-lab, ex:l4-moment-code, ex:l4-moment-lab-title ; cd:authoredResource true .
+  ex:l4-revised-24 cd:usesResource ex:l4-box-extremes-intro, ex:l4-box-extremes-reading-1, ex:l4-box-extremes-reading-2 .
+  ex:l4-revised-25 cd:usesResource ex:l4-box-symmetric-intro, ex:l4-box-symmetric-reading-1, ex:l4-box-symmetric-reading-2 .
+  ex:l4-revised-26 cd:usesResource ex:l4-box-skewed-intro, ex:l4-box-skewed-reading-1, ex:l4-box-skewed-reading-2 .
+  ex:l4-revised-27 cd:usesResource ex:l4-box-bimodal-intro, ex:l4-box-bimodal-reading-1, ex:l4-box-bimodal-reading-2 .
+  ex:l4-revised-28 cd:usesResource ex:l4-box-uniform-intro, ex:l4-box-uniform-reading-1, ex:l4-box-uniform-reading-2 .
+  ex:l4-revised-30 cd:usesResource ex:l4-histogram-intro-intro, ex:l4-histogram-intro-reading-1, ex:l4-histogram-intro-reading-2 .
+  ex:l4-revised-31 cd:usesResource ex:l4-histogram-reading-intro, ex:l4-histogram-reading-reading-1, ex:l4-histogram-reading-reading-2 .
+  ex:l4-revised-32 cd:usesResource ex:l4-histogram-skewed-intro, ex:l4-histogram-skewed-reading-1, ex:l4-histogram-skewed-reading-2 .
+  ex:l4-revised-33 cd:usesResource ex:l4-histogram-bimodal-intro, ex:l4-histogram-bimodal-reading-1, ex:l4-histogram-bimodal-reading-2 .
+  ex:l4-revised-34 cd:usesResource ex:l4-histogram-2d-intro-intro, ex:l4-histogram-2d-intro-reading-1, ex:l4-histogram-2d-intro-reading-2 .
+  ex:l4-revised-35 cd:usesResource ex:l4-histogram-2d-reading-intro, ex:l4-histogram-2d-reading-reading-1, ex:l4-histogram-2d-reading-reading-2 .
+  ex:l4-revised-36 cd:usesResource ex:l4-histogram-too-coarse-intro, ex:l4-histogram-too-coarse-reading-1, ex:l4-histogram-too-coarse-reading-2 .
+  ex:l4-revised-37 cd:usesResource ex:l4-histogram-too-fine-intro, ex:l4-histogram-too-fine-reading-1, ex:l4-histogram-too-fine-reading-2 .
+  ex:l4-revised-38 cd:usesResource ex:l4-histogram-sensible-width-intro, ex:l4-histogram-sensible-width-reading-1, ex:l4-histogram-sensible-width-reading-2 .
+  ex:l4-revised-39 cd:usesResource ex:l4-histogram-origin-intro, ex:l4-histogram-origin-reading-1, ex:l4-histogram-origin-reading-2 .
+  ex:l4-revised-41 cd:usesResource ex:l4-histogram-rule-example-intro, ex:l4-histogram-rule-example-reading-1, ex:l4-histogram-rule-example-reading-2 .
+  ex:l4-revised-42 cd:usesResource ex:l4-histogram-variable-width-intro, ex:l4-histogram-variable-width-points .
+  ex:l4-revised-46 cd:usesResource ex:l4-histogram-variable-construction-intro, ex:l4-histogram-variable-construction-reading-1, ex:l4-histogram-variable-construction-reading-2 .
+  ex:l4-revised-47 cd:usesResource ex:l4-histogram-variable-use-intro, ex:l4-histogram-variable-use-reading-1, ex:l4-histogram-variable-use-reading-2 .
+}

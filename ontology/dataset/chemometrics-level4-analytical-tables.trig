@@ -1,0 +1,121 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-analytical-teaching> {
+  ex:l4-ra-table a cd:TableDefinition ; skos:prefLabel "Range = maximum − minimum (mg/L)"@en ; cd:hasTableColumn ex:l4-ra-c1, ex:l4-ra-c2 ; cd:hasTableRow ex:l4-ra-r1, ex:l4-ra-r2 ; cd:authoredResource true .
+  ex:l4-ra-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Case (n=50)"@en ; cd:authoredResource true .
+  ex:l4-ra-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Observed span"@en ; cd:authoredResource true .
+  ex:l4-ra-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ra-r1a, ex:l4-ra-r1b ; cd:authoredResource true .
+  ex:l4-ra-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ra-r2a, ex:l4-ra-r2b ; cd:authoredResource true .
+  ex:l4-ra-r1a a cd:TableCell ; cd:position 1 ; cd:body "Repeat determinations"@en ; cd:authoredResource true .
+  ex:l4-ra-r1b a cd:TableCell ; cd:position 2 ; cd:body "10.49 − 9.51 = 0.98"@en ; dct:source ex:l4-large-repeat ; cd:authoredResource true .
+  ex:l4-ra-r2a a cd:TableCell ; cd:position 1 ; cd:body "River samples"@en ; cd:authoredResource true .
+  ex:l4-ra-r2b a cd:TableCell ; cd:position 2 ; cd:body "25 − 0.5 = 24.5"@en ; dct:source ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-rl-table a cd:TableDefinition ; skos:prefLabel "Same range, n=5 each (mg/L)"@en ; cd:hasTableColumn ex:l4-rl-c1, ex:l4-rl-c2 ; cd:hasTableRow ex:l4-rl-r1, ex:l4-rl-r2 ; cd:authoredResource true .
+  ex:l4-rl-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Profile"@en ; cd:authoredResource true .
+  ex:l4-rl-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Values → range"@en ; cd:authoredResource true .
+  ex:l4-rl-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-rl-r1a, ex:l4-rl-r1b ; cd:authoredResource true .
+  ex:l4-rl-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-rl-r2a, ex:l4-rl-r2b ; cd:authoredResource true .
+  ex:l4-rl-r1a a cd:TableCell ; cd:position 1 ; cd:body "Centre-heavy"@en ; cd:authoredResource true .
+  ex:l4-rl-r1b a cd:TableCell ; cd:position 2 ; cd:body "0,5,5,5,10 → 10"@en ; dct:source ex:l4-ac-centre ; cd:authoredResource true .
+  ex:l4-rl-r2a a cd:TableCell ; cd:position 1 ; cd:body "Endpoint-heavy"@en ; cd:authoredResource true .
+  ex:l4-rl-r2b a cd:TableCell ; cd:position 2 ; cd:body "0,0,5,10,10 → 10"@en ; dct:source ex:l4-ac-ends ; cd:authoredResource true .
+  ex:l4-qa-table a cd:TableDefinition ; skos:prefLabel "Q₁ / median / Q₃, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-qa-c1, ex:l4-qa-c2 ; cd:hasTableRow ex:l4-qa-r1, ex:l4-qa-r2 ; cd:authoredResource true .
+  ex:l4-qa-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Case (n=50)"@en ; cd:authoredResource true .
+  ex:l4-qa-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Quartile landmarks"@en ; cd:authoredResource true .
+  ex:l4-qa-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-qa-r1a, ex:l4-qa-r1b ; cd:authoredResource true .
+  ex:l4-qa-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-qa-r2a, ex:l4-qa-r2b ; cd:authoredResource true .
+  ex:l4-qa-r1a a cd:TableCell ; cd:position 1 ; cd:body "River"@en ; cd:authoredResource true .
+  ex:l4-qa-r1b a cd:TableCell ; cd:position 2 ; cd:body "6.625 / 12.75 / 18.875"@en ; dct:source ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-qa-r2a a cd:TableCell ; cd:position 1 ; cd:body "Effluent"@en ; cd:authoredResource true .
+  ex:l4-qa-r2b a cd:TableCell ; cd:position 2 ; cd:body "34.5 / 59 / 83.5"@en ; dct:source ex:l4-large-effluent ; cd:authoredResource true .
+  ex:l4-ql-table a cd:TableDefinition ; skos:prefLabel "Matching quartiles, different maxima (mg/L)"@en ; cd:hasTableColumn ex:l4-ql-c1, ex:l4-ql-c2 ; cd:hasTableRow ex:l4-ql-r1, ex:l4-ql-r2 ; cd:authoredResource true .
+  ex:l4-ql-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-ql-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Q₁ / Q₂ / Q₃; max"@en ; cd:authoredResource true .
+  ex:l4-ql-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ql-r1a, ex:l4-ql-r1b ; cd:authoredResource true .
+  ex:l4-ql-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ql-r2a, ex:l4-ql-r2b ; cd:authoredResource true .
+  ex:l4-ql-r1a a cd:TableCell ; cd:position 1 ; cd:body "River"@en ; cd:authoredResource true .
+  ex:l4-ql-r1b a cd:TableCell ; cd:position 2 ; cd:body "6.625 / 12.75 / 18.875; max 25"@en ; dct:source ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-ql-r2a a cd:TableCell ; cd:position 1 ; cd:body "High tail"@en ; cd:authoredResource true .
+  ex:l4-ql-r2b a cd:TableCell ; cd:position 2 ; cd:body "6.625 / 12.75 / 18.875; max 90"@en ; dct:source ex:l4-large-tail ; cd:authoredResource true .
+  ex:l4-na-table a cd:TableDefinition ; skos:prefLabel "90th percentiles, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-na-c1, ex:l4-na-c2 ; cd:hasTableRow ex:l4-na-r1, ex:l4-na-r2 ; cd:authoredResource true .
+  ex:l4-na-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Case (n=50)"@en ; cd:authoredResource true .
+  ex:l4-na-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "0.9 x₍₄₅₎ + 0.1 x₍₄₆₎"@en ; cd:authoredResource true .
+  ex:l4-na-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-na-r1a, ex:l4-na-r1b ; cd:authoredResource true .
+  ex:l4-na-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-na-r2a, ex:l4-na-r2b ; cd:authoredResource true .
+  ex:l4-na-r1a a cd:TableCell ; cd:position 1 ; cd:body "River"@en ; cd:authoredResource true .
+  ex:l4-na-r1b a cd:TableCell ; cd:position 2 ; cd:body "0.9 × 22.5 + 0.1 × 23 = 22.55"@en ; dct:source ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-na-r2a a cd:TableCell ; cd:position 1 ; cd:body "Blank"@en ; cd:authoredResource true .
+  ex:l4-na-r2b a cd:TableCell ; cd:position 2 ; cd:body "0.9 × 0.44 + 0.1 × 0.45 = 0.441"@en ; dct:source ex:l4-large-blank ; cd:authoredResource true .
+  ex:l4-nl-table a cd:TableDefinition ; skos:prefLabel "95th percentiles, linear interpolation (mg/L)"@en ; cd:hasTableColumn ex:l4-nl-c1, ex:l4-nl-c2 ; cd:hasTableRow ex:l4-nl-r1, ex:l4-nl-r2 ; cd:authoredResource true .
+  ex:l4-nl-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Blank case (n=5)"@en ; cd:authoredResource true .
+  ex:l4-nl-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "0.2 x₍₄₎ + 0.8 x₍₅₎"@en ; cd:authoredResource true .
+  ex:l4-nl-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-nl-r1a, ex:l4-nl-r1b ; cd:authoredResource true .
+  ex:l4-nl-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-nl-r2a, ex:l4-nl-r2b ; cd:authoredResource true .
+  ex:l4-nl-r1a a cd:TableCell ; cd:position 1 ; cd:body "Blank"@en ; cd:authoredResource true .
+  ex:l4-nl-r1b a cd:TableCell ; cd:position 2 ; cd:body "0.2 × 0.3 + 0.8 × 0.4 = 0.38"@en ; dct:source ex:l4-ac-blank ; cd:authoredResource true .
+  ex:l4-nl-r2a a cd:TableCell ; cd:position 1 ; cd:body "High blank"@en ; cd:authoredResource true .
+  ex:l4-nl-r2b a cd:TableCell ; cd:position 2 ; cd:body "0.2 × 0.3 + 0.8 × 2 = 1.66"@en ; dct:source ex:l4-ac-blank-high ; cd:authoredResource true .
+  ex:l4-ia-table a cd:TableDefinition ; skos:prefLabel "IQR = Q₃ − Q₁ (percentage points)"@en ; cd:hasTableColumn ex:l4-ia-c1, ex:l4-ia-c2 ; cd:hasTableRow ex:l4-ia-r1, ex:l4-ia-r2, ex:l4-ia-r3 ; cd:authoredResource true .
+  ex:l4-ia-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series (n=50)"@en ; cd:authoredResource true .
+  ex:l4-ia-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Central spread, linear interpolation"@en ; cd:authoredResource true .
+  ex:l4-ia-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ia-r1a, ex:l4-ia-r1b ; cd:authoredResource true .
+  ex:l4-ia-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ia-r2a, ex:l4-ia-r2b ; cd:authoredResource true .
+  ex:l4-ia-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l4-ia-r3a, ex:l4-ia-r3b ; cd:authoredResource true .
+  ex:l4-ia-r1a a cd:TableCell ; cd:position 1 ; cd:body "Extraction A"@en ; cd:authoredResource true .
+  ex:l4-ia-r1b a cd:TableCell ; cd:position 2 ; cd:body "102.45 − 97.55 = 4.9"@en ; dct:source ex:l4-large-extract-a ; cd:authoredResource true .
+  ex:l4-ia-r2a a cd:TableCell ; cd:position 1 ; cd:body "Extraction B"@en ; cd:authoredResource true .
+  ex:l4-ia-r2b a cd:TableCell ; cd:position 2 ; cd:body "109.8 − 90.2 = 19.6"@en ; dct:source ex:l4-large-extract-b ; cd:authoredResource true .
+  ex:l4-ia-r3a a cd:TableCell ; cd:position 1 ; cd:body "Control"@en ; cd:authoredResource true .
+  ex:l4-ia-r3b a cd:TableCell ; cd:position 2 ; cd:body "100.98 − 99.02 = 1.96"@en ; dct:source ex:l4-large-control ; cd:authoredResource true .
+  ex:l4-il-table a cd:TableDefinition ; skos:prefLabel "IQR versus recovery location"@en ; cd:hasTableColumn ex:l4-il-c1, ex:l4-il-c2 ; cd:hasTableRow ex:l4-il-r1, ex:l4-il-r2 ; cd:authoredResource true .
+  ex:l4-il-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Series"@en ; cd:authoredResource true .
+  ex:l4-il-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "IQR (pp); median (%)"@en ; cd:authoredResource true .
+  ex:l4-il-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-il-r1a, ex:l4-il-r1b ; cd:authoredResource true .
+  ex:l4-il-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-il-r2a, ex:l4-il-r2b ; cd:authoredResource true .
+  ex:l4-il-r1a a cd:TableCell ; cd:position 1 ; cd:body "Near target"@en ; cd:authoredResource true .
+  ex:l4-il-r1b a cd:TableCell ; cd:position 2 ; cd:body "1.96; median 100"@en ; dct:source ex:l4-large-control ; cd:authoredResource true .
+  ex:l4-il-r2a a cd:TableCell ; cd:position 1 ; cd:body "Shifted"@en ; cd:authoredResource true .
+  ex:l4-il-r2b a cd:TableCell ; cd:position 2 ; cd:body "1.96; median 110"@en ; dct:source ex:l4-large-biased ; cd:authoredResource true .
+  ex:l4-ma-table a cd:TableDefinition ; skos:prefLabel "Raw MAD, 50 readings per case (mg/L)"@en ; cd:hasTableColumn ex:l4-ma-c1, ex:l4-ma-c2 ; cd:hasTableRow ex:l4-ma-r1, ex:l4-ma-r2 ; cd:authoredResource true .
+  ex:l4-ma-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Case; median 10"@en ; cd:authoredResource true .
+  ex:l4-ma-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Median of 50 absolute distances"@en ; cd:authoredResource true .
+  ex:l4-ma-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ma-r1a, ex:l4-ma-r1b ; cd:authoredResource true .
+  ex:l4-ma-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ma-r2a, ex:l4-ma-r2b ; cd:authoredResource true .
+  ex:l4-ma-r1a a cd:TableCell ; cd:position 1 ; cd:body "Repeat"@en ; cd:authoredResource true .
+  ex:l4-ma-r1b a cd:TableCell ; cd:position 2 ; cd:body "Raw MAD = 0.25"@en ; dct:source ex:l4-large-repeat ; cd:authoredResource true .
+  ex:l4-ma-r2a a cd:TableCell ; cd:position 1 ; cd:body "High reading"@en ; cd:authoredResource true .
+  ex:l4-ma-r2b a cd:TableCell ; cd:position 2 ; cd:body "Raw MAD = 0.26"@en ; dct:source ex:l4-large-spike ; cd:authoredResource true .
+  ex:l4-ml-table a cd:TableDefinition ; skos:prefLabel "Nonconstant rounded readings (mg/L)"@en ; cd:hasTableColumn ex:l4-ml-c1, ex:l4-ml-c2 ; cd:hasTableRow ex:l4-ml-r1, ex:l4-ml-r2 ; cd:authoredResource true .
+  ex:l4-ml-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Descriptor"@en ; cd:authoredResource true .
+  ex:l4-ml-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+  ex:l4-ml-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ml-r1a, ex:l4-ml-r1b ; cd:authoredResource true .
+  ex:l4-ml-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ml-r2a, ex:l4-ml-r2b ; cd:authoredResource true .
+  ex:l4-ml-r1a a cd:TableCell ; cd:position 1 ; cd:body "Raw MAD"@en ; cd:authoredResource true .
+  ex:l4-ml-r1b a cd:TableCell ; cd:position 2 ; cd:body "median(0,0,0,0,1) = 0"@en ; dct:source ex:l4-ac-rounded ; cd:authoredResource true .
+  ex:l4-ml-r2a a cd:TableCell ; cd:position 1 ; cd:body "Range"@en ; cd:authoredResource true .
+  ex:l4-ml-r2b a cd:TableCell ; cd:position 2 ; cd:body "11 − 10 = 1"@en ; dct:source ex:l4-ac-rounded ; cd:authoredResource true .
+  ex:l4-ba-table a cd:TableDefinition ; skos:prefLabel "Box summaries, linear interpolation, recoveries (%)"@en ; cd:hasTableColumn ex:l4-ba-c1, ex:l4-ba-c2 ; cd:hasTableRow ex:l4-ba-r1, ex:l4-ba-r2, ex:l4-ba-r3 ; cd:authoredResource true .
+  ex:l4-ba-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method / matrix"@en ; cd:authoredResource true .
+  ex:l4-ba-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Q₁ / median / Q₃"@en ; cd:authoredResource true .
+  ex:l4-ba-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-ba-r1a, ex:l4-ba-r1b ; cd:authoredResource true .
+  ex:l4-ba-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-ba-r2a, ex:l4-ba-r2b ; cd:authoredResource true .
+  ex:l4-ba-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l4-ba-r3a, ex:l4-ba-r3b ; cd:authoredResource true .
+  ex:l4-ba-r1a a cd:TableCell ; cd:position 1 ; cd:body "A / matrix 1"@en ; cd:authoredResource true .
+  ex:l4-ba-r1b a cd:TableCell ; cd:position 2 ; cd:body "97.55 / 100 / 102.45"@en ; dct:source ex:l4-large-extract-a ; cd:authoredResource true .
+  ex:l4-ba-r2a a cd:TableCell ; cd:position 1 ; cd:body "B / matrix 1"@en ; cd:authoredResource true .
+  ex:l4-ba-r2b a cd:TableCell ; cd:position 2 ; cd:body "90.2 / 100 / 109.8"@en ; dct:source ex:l4-large-extract-b ; cd:authoredResource true .
+  ex:l4-ba-r3a a cd:TableCell ; cd:position 1 ; cd:body "A / matrix 2"@en ; cd:authoredResource true .
+  ex:l4-ba-r3b a cd:TableCell ; cd:position 2 ; cd:body "80.6 / 90.4 / 100.2"@en ; dct:source ex:l4-large-matrix ; cd:authoredResource true .
+  ex:l4-bl-table a cd:TableDefinition ; skos:prefLabel "Identical box summaries, different run order"@en ; cd:hasTableColumn ex:l4-bl-c1, ex:l4-bl-c2 ; cd:hasTableRow ex:l4-bl-r1, ex:l4-bl-r2 ; cd:authoredResource true .
+  ex:l4-bl-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Sequence (n=5)"@en ; cd:authoredResource true .
+  ex:l4-bl-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Q₁ / median / Q₃ (%)"@en ; cd:authoredResource true .
+  ex:l4-bl-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-bl-r1a, ex:l4-bl-r1b ; cd:authoredResource true .
+  ex:l4-bl-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-bl-r2a, ex:l4-bl-r2b ; cd:authoredResource true .
+  ex:l4-bl-r1a a cd:TableCell ; cd:position 1 ; cd:body "Increasing"@en ; cd:authoredResource true .
+  ex:l4-bl-r1b a cd:TableCell ; cd:position 2 ; cd:body "99 / 100 / 101"@en ; dct:source ex:l4-ac-control ; cd:authoredResource true .
+  ex:l4-bl-r2a a cd:TableCell ; cd:position 1 ; cd:body "Reordered"@en ; cd:authoredResource true .
+  ex:l4-bl-r2b a cd:TableCell ; cd:position 2 ; cd:body "99 / 100 / 101"@en ; dct:source ex:l4-ac-shuffled ; cd:authoredResource true .
+}

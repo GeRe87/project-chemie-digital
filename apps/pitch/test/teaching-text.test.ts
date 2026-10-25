@@ -1,6 +1,18 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { teachingInlineMarkup, teachingTextMarkup } from "../src/teaching-text.ts";
+import { teachingInlineMarkup, teachingTextMarkup, symbolLegendMarkup } from "../src/teaching-text.ts";
+
+test("formula symbols have stable distinct palette tokens without coloring prose words",()=>{
+  const symbols=symbolLegendMarkup("n, i and xᵢ; mean is in the original unit");
+  assert.match(symbols,/pcd-math-symbol-\d">n<\/span>/);
+  assert.match(symbols,/pcd-math-symbol-\d">i<\/span>/);
+  assert.match(symbols,/pcd-math-symbol-\d">xᵢ<\/span>/);
+  assert.match(symbols,/; mean is in the original unit$/);
+  assert.equal(symbolLegendMarkup("n"),symbolLegendMarkup("n"));
+  assert.notEqual(symbolLegendMarkup("n").match(/symbol-(\d)/)?.[1],symbolLegendMarkup("i").match(/symbol-(\d)/)?.[1]);
+  assert.equal(new Set(["K","m₂","m₄"].map(s=>symbolLegendMarkup(s).match(/symbol-(\d)/)?.[1])).size,3);
+  assert.doesNotMatch(symbolLegendMarkup('<script>n</script>'),/<script>/);
+});
 
 test("inline card emphasis keeps ordinary explanation outside strong and highlight spans", () => {
   assert.equal(teachingInlineMarkup("Keep **conditions** fixed for a ==short interval==."),

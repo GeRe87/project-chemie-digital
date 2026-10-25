@@ -1,0 +1,82 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/observation-explorer> {
+  cd:LearningDomain cdm:definesConcept cd:ObservationSeries, cd:ObservationPlacement ;
+    cdm:definesControlledValue cd:ObservationExplorer ;
+    cdm:definesRelation cd:hasObservationSeries, cd:hasObservationPlacement, cd:placedObservation, cd:formalDefinition, cd:formalExpression ;
+    cdm:definesAttribute cd:observationView, cd:thresholdMinimum, cd:thresholdMaximum, cd:thresholdInitial, cd:thresholdStep .
+  cd:ObservationExplorer a cdm:ControlledValue ; rdfs:comment "Equal-weight observation comparison, ordering, cumulative counting or right-continuous ECDF; not a line chart."@en .
+  cd:ObservationSeries a rdfs:Class, cdm:ConceptDescriptor .
+  cd:ObservationPlacement a rdfs:Class, cdm:ConceptDescriptor ; rdfs:comment "A presentation position for an existing observation, not a new measurement or acquisition-order claim."@en .
+  cd:hasObservationSeries a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:ObservationSeries .
+  cd:hasObservationPlacement a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ObservationSeries ; rdfs:range cd:ObservationPlacement .
+  cd:placedObservation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ObservationPlacement ; rdfs:range cd:Observation ; rdfs:comment "Observation retained at this presentation position; distinct from a chart annotation's targetObservation."@en .
+  cd:formalDefinition a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:Definition .
+  cd:formalExpression a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:MathExpression .
+  cd:observationView a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:thresholdMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:thresholdMaximum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:thresholdInitial a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:thresholdStep a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/observation-explorer> {
+  cd:ObservationSeriesShape a sh:NodeShape ; sh:targetClass cd:ObservationSeries ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] ;
+    sh:property [ sh:path cd:hasObservationPlacement ; sh:minCount 1 ; sh:class cd:ObservationPlacement ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ] ;
+    sh:sparql [ sh:message "Presentation placements must retain every source observation exactly once, with contiguous positions." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        { $this cd:usesDataset/cd:hasObservation ?o . FILTER NOT EXISTS { $this cd:hasObservationPlacement/cd:placedObservation ?o } }
+        UNION { $this cd:hasObservationPlacement ?p ; cd:usesDataset ?d . ?p cd:placedObservation ?o . FILTER NOT EXISTS { ?d cd:hasObservation ?o } }
+        UNION { $this cd:hasObservationPlacement ?p, ?q . ?p cd:placedObservation ?o . ?q cd:placedObservation ?o . FILTER (?p != ?q) }
+        UNION { $this cd:hasObservationPlacement ?p, ?q . ?p cd:position ?n . ?q cd:position ?n . FILTER (?p != ?q) }
+        UNION { $this cd:hasObservationPlacement ?p . ?p cd:position ?n . FILTER (?n > 1 && NOT EXISTS { $this cd:hasObservationPlacement/cd:position ?previous . FILTER (?previous = ?n - 1) }) }
+      }""" ] .
+  cd:ObservationPlacementShape a sh:NodeShape ; sh:targetClass cd:ObservationPlacement ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:placedObservation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Observation ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:hasValue true ] .
+  cd:ObservationExplorerShape a sh:NodeShape ; sh:targetSubjectsOf cd:observationView, cd:hasObservationSeries ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:ObservationExplorer ] ;
+    sh:property [ sh:path cd:observationView ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "compare" "order" "count" "ecdf" "summary" "moments" ) ] ;
+    sh:property [ sh:path cd:hasObservationSeries ; sh:minCount 1 ; sh:class cd:ObservationSeries ] ;
+    sh:property [ sh:path cd:liveUpdateIntervalMs ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:liveJitterAmplitude ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:liveDecimalPlaces ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:hasChartAnnotation ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:thresholdMinimum ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:thresholdMaximum ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:thresholdInitial ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:thresholdStep ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:formalDefinition ; sh:maxCount 1 ; sh:class cd:Definition ] ;
+    sh:property [ sh:path cd:formalExpression ; sh:maxCount 1 ; sh:class cd:MathExpression ] ;
+    sh:sparql [ sh:message "Series positions and units must agree with their explorer." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        { $this cd:hasObservationSeries ?s, ?t . ?s cd:position ?n . ?t cd:position ?n . FILTER (?s != ?t) }
+        UNION { $this cd:hasObservationSeries ?s . ?s cd:position ?n . FILTER (?n > 1 && NOT EXISTS { $this cd:hasObservationSeries/cd:position ?p . FILTER (?p = ?n - 1) }) }
+        UNION { $this cd:xAxisUnit ?u ; cd:hasObservationSeries/cd:usesDataset/cd:unit ?v . FILTER (?u != ?v) }
+        UNION { $this cd:observationView ?view ; cd:hasObservationSeries ?s, ?t . FILTER (?view NOT IN ("compare", "summary", "ecdf", "moments") && ?s != ?t) }
+      }""" ] ;
+    sh:sparql [ sh:message "Counting views require a finite threshold range spanning both tails, a valid initial value and a positive step." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:observationView ?view . FILTER (?view IN ("count", "ecdf"))
+        { FILTER NOT EXISTS { $this cd:thresholdMinimum ?a ; cd:thresholdMaximum ?b ; cd:thresholdInitial ?i ; cd:thresholdStep ?s } }
+        UNION { $this cd:thresholdMinimum ?a ; cd:thresholdMaximum ?b ; cd:thresholdInitial ?i . FILTER (?a >= ?b || ?i < ?a || ?i > ?b) }
+        UNION { $this cd:thresholdMinimum ?a ; cd:hasObservationSeries/cd:usesDataset/cd:hasObservation/cd:numericValue ?v . FILTER (?v <= ?a) }
+        UNION { $this cd:thresholdMaximum ?b ; cd:hasObservationSeries/cd:usesDataset/cd:hasObservation/cd:numericValue ?v . FILTER (?v >= ?b) }
+      }""" ] ;
+    sh:sparql [ sh:message "Only ECDF views allow a paired formal definition and expression; non-counting views have no threshold controls." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        { $this cd:formalDefinition ?d . FILTER NOT EXISTS { $this cd:observationView "ecdf" ; cd:formalExpression ?f } }
+        UNION { $this cd:formalExpression ?f . FILTER NOT EXISTS { $this cd:observationView "ecdf" ; cd:formalDefinition ?d } }
+        UNION { $this cd:observationView ?v . FILTER (?v NOT IN ("count", "ecdf")) . $this ?p ?value . FILTER (?p IN (cd:thresholdMinimum, cd:thresholdMaximum, cd:thresholdInitial, cd:thresholdStep)) }
+      }""" ] .
+}

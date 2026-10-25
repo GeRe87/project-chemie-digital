@@ -1,0 +1,79 @@
+/* Generic observation/ECDF surface, independent of scene identities and skins. */
+body:not(.pcd-background-active):has(.observation-explorer),
+body:not(.pcd-background-active):has(.observation-explorer) .scroll-page { background-color: var(--pcd-page-bg); }
+.reveal .slides section:has(.observation-chart-host) > h2 { text-transform: none; }
+.observation-chart-host {
+  width: 100%; min-width: 0; box-sizing: border-box;
+  color: var(--pcd-foreground); background: var(--pcd-surface-strong);
+  border: 1px solid var(--pcd-border); padding: 1.1rem 1.4rem;
+  text-align: left;
+  max-height: calc(100dvh - 220px); overflow: auto; overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.observation-explorer { --oe-ink: var(--pcd-foreground); --oe-accent: var(--pcd-accent); font-size: clamp(20px, 1.7vw, 28px); line-height: 1.4; }
+.observation-explorer p.oe-description { font-size: 1em; line-height: 1.45; margin: 0 0 .8em; max-width: 76ch; }
+.oe-controls { display: flex; flex-wrap: wrap; gap: .6em; align-items: center; margin-bottom: .65em; }
+.observation-explorer button, .observation-explorer input { font: inherit; }
+.oe-controls button { border: 1px solid var(--pcd-border); padding: .4em .75em; background: var(--pcd-surface); color: var(--oe-ink); cursor: pointer; min-height: 44px; }
+.oe-controls button:first-of-type { border-color: var(--oe-accent); }
+.oe-controls label { display: flex; gap: .55em; align-items: center; }
+.oe-controls input[type=number] { width: 5em; padding: .3em; background: var(--pcd-surface); border: 1px solid var(--pcd-border); color: var(--oe-ink); }
+.oe-controls input[type=range] { flex: 1 1 180px; min-width: 120px; min-height: 44px; accent-color: var(--oe-accent); }
+.observation-explorer :focus-visible { outline: 3px solid var(--oe-accent); outline-offset: 4px; }
+.oe-validation { font-size: .8em; }
+.oe-readout { display: flex; flex-wrap: wrap; gap: .6em; align-items: baseline; padding: .55em .8em; background: var(--pcd-surface); border-left: 4px solid var(--oe-accent); margin-bottom: .6em; }
+.oe-count { font-size: 1.65em; font-weight: 750; font-variant-numeric: tabular-nums; }
+.oe-fraction { font-size: 1.15em; font-variant-numeric: tabular-nums; }
+.oe-condition { font-size: .85em; margin-left: auto; }
+.oe-series + .oe-series { margin-top: .8em; }
+.oe-comparison-plot { width: 100%; height: 85px; display: block; }
+.observation-explorer h3.oe-series-label { font: inherit; font-size: .8em; font-weight: 650; text-transform: none; margin: .35em 0; letter-spacing: .02em; }
+.oe-observations { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: .45em; }
+.oe-observation { position: relative; display: flex; flex-direction: column; align-items: center; gap: .15em; min-width: 0; min-height: 92px; padding: .55em .15em; border: 1px solid var(--pcd-border); background: var(--pcd-surface); color: var(--oe-ink); cursor: pointer; }
+.oe-identity { font-size: .7em; color: var(--pcd-muted); }
+.oe-value { font-size: 1.6em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.oe-rank { font-size: .66em; white-space: nowrap; }
+.oe-observation[data-included=true] { border: 2px solid var(--oe-accent); background: color-mix(in srgb,var(--oe-accent) 14%, var(--pcd-surface)); }
+.oe-observation[data-included=true] .oe-identity::before { content: '✓ '; }
+.oe-observation[data-selected=true] { outline: 3px solid var(--oe-accent); outline-offset: 2px; }
+.oe-stage svg { display: block; width: 100%; height: auto; max-height: 240px; overflow: visible; }
+.oe-grid { stroke: var(--pcd-border); stroke-width: 1; }
+.oe-tick, .oe-axis-title { fill: var(--oe-ink); font: 20px system-ui,sans-serif; }
+.oe-axis-title { font-size: 21px; }
+.oe-step { stroke: var(--oe-accent); stroke-width: 3; }
+.oe-jump { stroke: var(--oe-accent); stroke-width: 1; stroke-dasharray: 3 4; opacity: .6; }
+.oe-open { stroke: var(--oe-accent); stroke-width: 2; fill: var(--pcd-surface-strong); }
+.oe-closed { fill: var(--oe-accent); }
+.oe-threshold { stroke: var(--oe-ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.oe-current { fill: var(--oe-ink); stroke: var(--pcd-surface-strong); stroke-width: 2; }
+.oe-data, .oe-formal-trigger { font-size: .85em; margin-top: .65em; }
+.oe-data summary { cursor: pointer; padding: .25em 0; }
+.oe-data pre { max-height: 180px; overflow: auto; white-space: pre-wrap; font: .8em/1.4 system-ui,sans-serif; }
+.oe-formal-trigger { display: block; padding: .4em .6em; background: var(--pcd-surface); color: var(--pcd-foreground); border: 1px solid var(--pcd-border); cursor: pointer; }
+.oe-formal { box-sizing: border-box; width: min(900px,92vw); max-height: 85vh; padding: 1.5rem 2rem; overflow: auto; background: var(--pcd-surface-strong); color: var(--pcd-foreground); border: 2px solid var(--pcd-accent); font: 24px/1.5 Arial,sans-serif; }
+.oe-formal::backdrop { background: rgb(0 0 0 / .65); }
+.oe-formal button { float: right; font: inherit; color: inherit; background: var(--pcd-surface); border: 1px solid var(--pcd-border); padding: .25em .6em; cursor: pointer; }
+.oe-formal :focus-visible { outline: 3px solid var(--pcd-accent); outline-offset: 3px; }
+.oe-formal h3 { font-size: 1.2em; }
+.oe-formula { overflow-x: auto; }
+@media (max-width: 650px) {
+  body.pcd-native-mobile .reveal .slides section[data-composition]:has(.observation-chart-host) > h2[data-composition-region="heading"] {
+    font-size: clamp(1.7rem,8vw,2.15rem) !important; line-height: 1.08 !important;
+    margin-bottom: .6rem !important;
+  }
+  .observation-chart-host { padding: .8rem; max-height: calc(100dvh - 150px); }
+  .oe-observations { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .oe-condition { margin-left: 0; }
+  .oe-stage svg { min-height: 180px; }
+  .oe-tick, .oe-axis-title { font-size: 16px; }
+  .oe-formal { font-size: 20px; padding: 1rem; }
+}
+@media print { .oe-controls { display: none; } .oe-data { display: block; } }
+.observation-explorer[data-compact="true"] { min-height:0; border:1px solid var(--pcd-chart-axis); padding:.6rem; background:var(--pcd-chart-surface); }
+.observation-explorer[data-compact="true"] .oe-description { font-size:.65em; margin:.2rem 0; }
+.observation-explorer[data-compact="true"] .oe-rows { display:none; }
+.observation-explorer[data-compact="true"] .oe-readout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25em .6em; font-size:.7em; }
+.observation-explorer[data-compact="true"] .oe-count { font-size:1em; }
+.observation-explorer[data-compact="true"] .oe-condition { grid-column:1/-1; margin:0; }
+.observation-explorer[data-compact="true"] .oe-stage svg { max-height:none; }
+.oe-legend { display:flex; justify-content:center; flex-wrap:wrap; gap:1rem; font-size:.7em; font-weight:700; }

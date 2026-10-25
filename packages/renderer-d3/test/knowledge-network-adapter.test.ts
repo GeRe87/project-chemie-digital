@@ -38,7 +38,7 @@ const document = {
     description: "Two nodes and one relation.",
     nodeReadingOrder: ["node:concept", "node:definition"],
     edgeReadingOrder: ["edge:definition"],
-    staticFallback: "Nodes:\n- Standard deviation\n- Definition\nRelations:\n- Standard deviation — has definition → Definition",
+    staticFallback: "Nodes:\n- Standard deviation\n- Definition\nRelations:\n- Standard deviation: has definition → Definition",
   },
   source,
 } as unknown as KnowledgeNetworkDocument;

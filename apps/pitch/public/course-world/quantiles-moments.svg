@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" fill="none" role="img" aria-labelledby="qm-title qm-description">
+  <title id="qm-title">Quantiles and statistical moments</title>
+  <desc id="qm-description">A floating study island with three illustrated views of a distribution: histogram, quartile box and cumulative steps. Decorative artwork, not measurement data.</desc>
+  <defs><linearGradient id="qm-sky" x2="360" y2="200" gradientUnits="userSpaceOnUse"><stop stop-color="#e1f8ec"/><stop offset="1" stop-color="#b9dae7"/></linearGradient></defs>
+  <rect width="360" height="200" rx="16" fill="url(#qm-sky)"/>
+  <circle cx="298" cy="38" r="23" fill="#fff0cc"/>
+  <path d="M28 48h48m-31-9h28M266 85h47" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".7"/>
+  <path d="m39 145 34 30 31 0 30 20 38-12 40 8 29-17 39 1 41-32" fill="#759da6"/>
+  <path d="m109 157 12 22m113-23-17 25m-45-14 3 19" stroke="#4f727e" stroke-width="5"/>
+  <ellipse cx="180" cy="141" rx="142" ry="24" fill="#8bbba4" stroke="#3c6470" stroke-width="3"/>
+  <ellipse cx="180" cy="136" rx="126" ry="15" fill="#c3dfb5"/>
+  <path d="M83 133V52h194v81" fill="#f6fbf7" stroke="#3c6470" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M77 51h206m-154 87v-9m102 9v-9" stroke="#3c6470" stroke-width="5" stroke-linecap="round"/>
+  <g stroke="#94b6bc" stroke-width="1.5"><path d="M94 68h51v47H94zM154 68h51v47h-51zM214 68h51v47h-51z" fill="#eef7f6"/></g>
+  <g fill="#65b9bd" stroke="#3c6470" stroke-width="1.5"><path d="M100 108V97h8v11zm8 0V85h8v23zm8 0V77h8v31zm8 0V91h8v17zm8 0V101h8v7z"/></g>
+  <path d="M160 92h39m-39-7v14m39-14v14" stroke="#3c6470" stroke-width="2.5"/>
+  <path d="M168 80h23v24h-23z" fill="#b39bd1" stroke="#665387" stroke-width="2"/>
+  <path d="M179 80v24" stroke="#3c6470" stroke-width="3"/>
+  <path d="M220 108h9V98h10V87h11V76h9" stroke="#d99163" stroke-width="3.5" stroke-linejoin="round"/>
+  <g fill="#fff0cc" stroke="#3c6470" stroke-width="2"><circle cx="130" cy="151" r="5"/><circle cx="156" cy="151" r="5"/><circle cx="204" cy="151" r="5"/><circle cx="230" cy="151" r="5"/></g>
+  <path d="M135 151h16m10 0h38m10 0h16" stroke="#3c6470" stroke-width="2"/>
+  <path d="m51 124 9-15 9 15m-9-15v29m240 0v-24m-9 13 9-13 9 13" stroke="#5d988c" stroke-width="4" stroke-linecap="round"/>
+  <path d="m60 75 3 6 6 2-6 2-3 6-2-6-6-2 6-2z" fill="#fff9dd"/>
+</svg>

@@ -24,6 +24,8 @@ MEAN_PATH = f"{EX}path-chemometrics-mean-values-lecture"
 MEAN_GRAPH = f"{GRAPH}paths/chemometrics-mean-values-lecture"
 VARIANCE_PATH = f"{EX}path-chemometrics-variance-dispersion-lecture"
 VARIANCE_GRAPH = f"{GRAPH}paths/chemometrics-variance-dispersion-lecture"
+LEVEL4_PATH = f"{EX}path-chemometrics-level4-distribution-shape-lecture"
+LEVEL4_GRAPH = f"{GRAPH}paths/chemometrics-level4-distribution-shape-lecture"
 
 
 class SelfStudyCourseBundleTests(unittest.TestCase):
@@ -50,10 +52,13 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         random_position = placements[f"{EX}learning-unit-random-variables"]
         mean_position = placements[f"{EX}learning-unit-mean-values"]
         variance_position = placements[f"{EX}learning-unit-variance-dispersion"]
+        level4_position = placements[f"{EX}learning-unit-quantiles-moments-shape"]
         self.assertLess(random_position, mean_position)
         self.assertLess(mean_position, variance_position)
+        self.assertLess(variance_position, level4_position)
         self.assertEqual(10, mean_position - random_position)
         self.assertEqual(10, variance_position - mean_position)
+        self.assertEqual(10, level4_position - variance_position)
 
         introduction_id = f"{EX}learning-unit-chemometrics-introduction"
         if introduction_id in placements:
@@ -66,6 +71,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         self.assertIn((RANDOM_PATH, RANDOM_GRAPH), binding_pairs)
         self.assertIn((MEAN_PATH, MEAN_GRAPH), binding_pairs)
         self.assertIn((VARIANCE_PATH, VARIANCE_GRAPH), binding_pairs)
+        self.assertIn((LEVEL4_PATH, LEVEL4_GRAPH), binding_pairs)
         if introduction_id in placements:
             self.assertIn(
                 (
@@ -75,7 +81,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
                 binding_pairs,
             )
 
-        expected_renderable_count = 4 if introduction_id in placements else 3
+        expected_renderable_count = 5 if introduction_id in placements else 4
         self.assertEqual(
             expected_renderable_count,
             len(artifact["sceneDocuments"]),
@@ -100,6 +106,16 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
             [{"id": VARIANCE_PATH, "graphId": VARIANCE_GRAPH, "labels": [{"value": "Chemometrics Variance and Dispersion lecture path", "language": "en"}], "descriptions": []}],
             variance_unit["paths"],
         )
+        level4_unit = next(
+            unit for unit in document["units"]
+            if unit["id"] == f"{EX}learning-unit-quantiles-moments-shape"
+        )
+        self.assertEqual(
+            [{"id": LEVEL4_PATH, "graphId": LEVEL4_GRAPH,
+              "labels": [{"value": "Quantiles & Statistical Moments", "language": "en"}],
+              "descriptions": []}],
+            level4_unit["paths"],
+        )
 
     def test_scene_free_path_is_valid_but_not_renderable_and_variance_is_now_ready(self) -> None:
         dataset = Dataset()
@@ -108,6 +124,7 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         graph.add((path,URIRef(CD+'hasStep'),step));graph.add((step,URIRef(CD+'position'),Literal(1)))
         self.assertFalse(RUNTIME.path_is_fully_scene_bound(dataset,RUNTIME.CoursePathReference(str(path),str(graph.identifier))))
         self.assertTrue(RUNTIME.path_is_fully_scene_bound(RUNTIME.assemble_dataset(),RUNTIME.CoursePathReference(VARIANCE_PATH,VARIANCE_GRAPH)))
+        self.assertTrue(RUNTIME.path_is_fully_scene_bound(RUNTIME.assemble_dataset(),RUNTIME.CoursePathReference(LEVEL4_PATH,LEVEL4_GRAPH)))
 
     def test_partial_scene_binding_fails_closed(self) -> None:
         dataset = RUNTIME.assemble_dataset()

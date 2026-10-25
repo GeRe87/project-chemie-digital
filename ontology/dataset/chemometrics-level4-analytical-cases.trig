@@ -1,0 +1,135 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-analytical-teaching> {
+  # Two foundations before the first order-based descriptor.
+  ex:l4-data-title a cd:Interpretation ; skos:prefLabel "A dataset starts with a measurement question"@en ; cd:authoredResource true .
+  ex:l4-data-intro a cd:Interpretation ; cd:body "Five repeated nitrate determinations of one prepared water sample; acquisition order, values in mg/L."@en ; cd:authoredResource true .
+  ex:l4-data-formula a cd:MathExpression ; cd:formulaLabel "Observation index: not a rank"@en ; cd:latex "\\begin{gathered}x_1,\\ldots,x_n,\\qquad n=5\\\\(10.2,\\ 9.8,\\ 10.0,\\ 10.0,\\ 10.1)\\;\\mathrm{mg/L}\\end{gathered}" ; dct:hasPart ex:l4-data-legend ; cd:hasSource ex:l4-source-r-quantile ; cd:authoredResource true .
+  ex:l4-data-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-data-symbols ; cd:authoredResource true .
+  ex:l4-data-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What does i identify?"@en ; cd:body "i labels the observation in acquisition order, not its rank. n counts all readings, including ties. Synthetic teaching data."@en ; dct:source ex:l4-ac-repeat ; cd:authoredResource true .
+  ex:l4-data-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-data-k1, ex:l4-data-k2 ; cd:authoredResource true .
+  ex:l4-data-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Repeat determinations describe this preparation, **not variability between water samples**."@en ; cd:authoredResource true .
+  ex:l4-data-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Retain sample identity, unit and acquisition order alongside every value."@en ; cd:authoredResource true .
+  ex:l4-order-notation-title a cd:Interpretation ; skos:prefLabel "Parentheses turn an index into a rank"@en ; cd:authoredResource true .
+  ex:l4-order-notation-intro a cd:Interpretation ; cd:body "Sort the same five observations from smallest to largest. No measurement is removed or changed; equal values keep separate ranks."@en ; cd:authoredResource true .
+  ex:l4-order-notation-formula a cd:MathExpression ; cd:formulaLabel "Original order versus nondecreasing order"@en ; cd:latex "\\begin{gathered}(x_1,\\ldots,x_5)=(10.2,9.8,10.0,10.0,10.1)\\\\x_{(1)}\\le\\cdots\\le x_{(5)}\\\\(x_{(1)},\\ldots,x_{(5)})=(9.8,10.0,10.0,10.1,10.2)\\end{gathered}" ; dct:hasPart ex:l4-order-notation-legend ; cd:derivedFromResource ex:l4-formula-order-statistic ; cd:hasSource ex:l4-source-r-quantile ; cd:authoredResource true .
+  ex:l4-order-notation-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-order-notation-symbols ; cd:authoredResource true .
+  ex:l4-order-notation-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Same values, different meaning of the index"@en ; cd:body "All values are in mg/L. x₁=10.2, but x₍₁₎=9.8 is the minimum. x₍₂₎=x₍₃₎=10.0: two observations, not one. x₍ₙ₎ is the maximum."@en ; dct:source ex:l4-ac-repeat ; cd:authoredResource true .
+  ex:l4-order-notation-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-order-notation-k1, ex:l4-order-notation-k2 ; cd:authoredResource true .
+  ex:l4-order-notation-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**i: observation identity. (i): rank after sorting.** Parentheses are not optional."@en ; cd:authoredResource true .
+  ex:l4-order-notation-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Sorted values alone cannot reveal acquisition order or a time trend."@en ; cd:authoredResource true .
+
+  # Each application slide contains two analytical questions, not just two numbers.
+  ex:l4-ra-title a cd:Interpretation ; skos:prefLabel "Range: repeat measurements or different samples?"@en ; cd:authoredResource true .
+  ex:l4-ra-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ra-card ; cd:authoredResource true .
+  ex:l4-ra-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two uses: different measurement questions"@en ; cd:body "• **Repeat:** what span did 50 nitrate determinations of one preparation cover?\n• **River:** what concentrations did 50 different grab samples cover?\n• Synthetic teaching data; both in mg/L."@en ; dct:source ex:l4-large-repeat, ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-ra-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ra-k ; cd:authoredResource true .
+  ex:l4-ra-k a cd:KeyPoint ; cd:position 1 ; cd:body "Use range for the **observed span**. The river span is not repeatability; neither span is a validated working range."@en ; cd:authoredResource true .
+  ex:l4-rl-title a cd:Interpretation ; skos:prefLabel "Range: the same span can hide different data"@en ; cd:authoredResource true .
+  ex:l4-rl-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-rl-card ; cd:authoredResource true .
+  ex:l4-rl-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: two concentration profiles"@en ; cd:body "• Same n=5, minimum 0 and maximum 10 mg/L.\n• **Centre-heavy:** most values near 5.\n• **Endpoint-heavy:** most values at 0 or 10.\n• Constructed synthetic profiles, not instrument trials."@en ; dct:source ex:l4-ac-centre, ex:l4-ac-ends ; cd:authoredResource true .
+  ex:l4-rl-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-rl-k1, ex:l4-rl-k2 ; cd:authoredResource true .
+  ex:l4-rl-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Range misses the interior.** Compare all observations, not endpoints alone."@en ; cd:authoredResource true .
+  ex:l4-rl-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "More observations offer more chances for extremes: report n when comparing spans."@en ; cd:authoredResource true .
+  ex:l4-qa-title a cd:Interpretation ; skos:prefLabel "Quartiles: locate the typical concentration levels"@en ; cd:authoredResource true .
+  ex:l4-qa-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-qa-card ; cd:authoredResource true .
+  ex:l4-qa-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two uses for nitrate summaries"@en ; cd:body "• **River survey:** locate the middle and outer quartiles of the sampled concentrations.\n• **Effluent:** summarize central observed levels without reducing everything to the mean.\n• Synthetic samples, **n=50 each**; linear interpolation."@en ; dct:source ex:l4-large-river, ex:l4-large-effluent ; cd:authoredResource true .
+  ex:l4-qa-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-qa-k ; cd:authoredResource true .
+  ex:l4-qa-k a cd:KeyPoint ; cd:position 1 ; cd:body "Quartiles describe **levels**, not just widths. These synthetic summaries do not establish compliance or treatment effectiveness."@en ; cd:authoredResource true .
+  ex:l4-ql-title a cd:Interpretation ; skos:prefLabel "Quartiles: a high concentration can disappear"@en ; cd:authoredResource true .
+  ex:l4-ql-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ql-card ; cd:authoredResource true .
+  ex:l4-ql-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: do quartiles catch a high sample?"@en ; cd:body "• **50 synthetic river concentrations**, 0.5 to 25 mg/L.\n• Replace the maximum **25 by 90 mg/L**; retain the other 49 values.\n• Same linearly interpolated quartiles, very different maximum.\n• Constructed comparison, not paired field evidence."@en ; dct:source ex:l4-large-river, ex:l4-large-tail ; cd:authoredResource true .
+  ex:l4-ql-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ql-k ; cd:authoredResource true .
+  ex:l4-ql-k a cd:KeyPoint ; cd:position 1 ; cd:body "**Always inspect the tail.** Matching quartiles neither rule out high concentrations nor justify discarding them."@en ; cd:authoredResource true .
+  ex:l4-na-title a cd:Interpretation ; skos:prefLabel "Quantiles: ask specifically about the upper tail"@en ; cd:authoredResource true .
+  ex:l4-na-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-na-card ; cd:authoredResource true .
+  ex:l4-na-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two descriptive uses: choose p to match the question"@en ; cd:body "• **River:** describe the upper observed concentration region with p=0.90.\n• **Blank:** summarize high blank-equivalent signals with p=0.90.\n• Synthetic uncensored readings; **n=50 each**, linear interpolation."@en ; dct:source ex:l4-large-river, ex:l4-large-blank ; cd:authoredResource true .
+  ex:l4-na-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-na-k ; cd:authoredResource true .
+  ex:l4-na-k a cd:KeyPoint ; cd:position 1 ; cd:body "The interpolated 90th percentile need not be measured. Here h=45.1: **0.9 × rank 45 + 0.1 × rank 46**."@en ; cd:authoredResource true .
+  ex:l4-nl-title a cd:Interpretation ; skos:prefLabel "Quantiles: five blanks cannot define a detection limit"@en ; cd:authoredResource true .
+  ex:l4-nl-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-nl-card ; cd:authoredResource true .
+  ex:l4-nl-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: estimate a high tail from n=5"@en ; cd:body "• Compare **0,0.1,0.2,0.3,0.4** with **0,0.1,0.2,0.3,2.0 mg/L**.\n• At p=0.95, linear interpolation puts **80% weight on the maximum**.\n• Both are synthetic blank-equivalent series."@en ; dct:source ex:l4-ac-blank, ex:l4-ac-blank-high ; cd:authoredResource true .
+  ex:l4-nl-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-nl-k1, ex:l4-nl-k2 ; cd:authoredResource true .
+  ex:l4-nl-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "A high quantile from a tiny sample is **tail-sensitive**, not a well-established population threshold."@en ; cd:authoredResource true .
+  ex:l4-nl-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "A descriptive blank quantile alone is **not an analytical detection limit**; validation and error probabilities need a separate design."@en ; cd:authoredResource true .
+  ex:l4-ia-title a cd:Interpretation ; skos:prefLabel "IQR: compare the central spread of recoveries"@en ; cd:authoredResource true .
+  ex:l4-ia-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ia-card ; cd:authoredResource true .
+  ex:l4-ia-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two uses at the same fortification level"@en ; cd:body "• **Extraction A vs B:** which has less central recovery spread?\n• **Control series:** summarize central variation over 50 runs.\n• Synthetic recoveries (%), **n=50 each**; linear interpolation."@en ; dct:source ex:l4-large-extract-a, ex:l4-large-extract-b, ex:l4-large-control ; cd:authoredResource true .
+  ex:l4-ia-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ia-k ; cd:authoredResource true .
+  ex:l4-ia-k a cd:KeyPoint ; cd:position 1 ; cd:body "A has a smaller IQR here. For the control series, **also inspect run order**: a narrow spread does not establish stability."@en ; cd:authoredResource true .
+  ex:l4-il-title a cd:Interpretation ; skos:prefLabel "IQR: a narrow band can still miss the target"@en ; cd:authoredResource true .
+  ex:l4-il-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-il-card ; cd:authoredResource true .
+  ex:l4-il-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: same spread, shifted recovery"@en ; cd:body "• Nominal control target: **100%**.\n• Two synthetic series, **n=50 each**.\n• Medians **100% versus 110%**.\n• Both IQRs are **1.96 percentage points**."@en ; dct:source ex:l4-large-control, ex:l4-large-biased ; cd:authoredResource true .
+  ex:l4-il-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-il-k ; cd:authoredResource true .
+  ex:l4-il-k a cd:KeyPoint ; cd:position 1 ; cd:body "**Spread is not trueness.** Report location relative to the target as well; do not choose a method by IQR alone."@en ; cd:authoredResource true .
+  ex:l4-ma-title a cd:Interpretation ; skos:prefLabel "MAD: describe typical departures, retain unusual readings"@en ; cd:authoredResource true .
+  ex:l4-ma-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ma-card ; cd:authoredResource true .
+  ex:l4-ma-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two questions for repeated nitrate determinations"@en ; cd:body "• **Repeat:** typical departure from the median in 50 determinations.\n• **High reading:** describe central scatter while investigating one unusual result.\n• Synthetic series, **n=50 each**; raw MAD, mg/L."@en ; dct:source ex:l4-large-repeat, ex:l4-large-spike ; cd:authoredResource true .
+  ex:l4-ma-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ma-k ; cd:authoredResource true .
+  ex:l4-ma-k a cd:KeyPoint ; cd:position 1 ; cd:body "Raw MAD changes only **0.25 → 0.26 mg/L** here. Retain and investigate 15 mg/L: robust does not mean unchanged."@en ; cd:authoredResource true .
+  ex:l4-ml-title a cd:Interpretation ; skos:prefLabel "MAD: zero does not mean perfect repeatability"@en ; cd:authoredResource true .
+  ex:l4-ml-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ml-card ; cd:authoredResource true .
+  ex:l4-ml-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: coarse reporting creates ties"@en ; cd:body "• Synthetic readings rounded to whole mg/L: **10,10,10,10,11**.\n• Median 10; ordered absolute deviations **0,0,0,0,1**.\n• The middle deviation is zero, but the range is 1 mg/L."@en ; dct:source ex:l4-ac-rounded ; cd:authoredResource true .
+  ex:l4-ml-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ml-k1, ex:l4-ml-k2 ; cd:authoredResource true .
+  ex:l4-ml-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Check **measurement/reporting resolution**. MAD=0 is not proof of zero underlying variation."@en ; cd:authoredResource true .
+  ex:l4-ml-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "In R use **constant=1** for raw MAD; the default 1.4826 scaling cannot undo rounding."@en ; cd:authoredResource true .
+  ex:l4-ba-title a cd:Interpretation ; skos:prefLabel "Boxplots: compare methods and sample matrices"@en ; cd:authoredResource true .
+  ex:l4-ba-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-ba-card ; cd:authoredResource true .
+  ex:l4-ba-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two comparisons: same fortification level"@en ; cd:body "**50 synthetic preparations per group**; recoveries (%), linearly interpolated quartiles.\n\n- **Method:** extraction A versus B in matrix 1.\n- **Matrix:** extraction A in matrices 1 versus 2.\n\n==Same fortification level in both comparisons.=="@en ; dct:source ex:l4-large-extract-a, ex:l4-large-extract-b, ex:l4-large-matrix ; cd:authoredResource true .
+  ex:l4-ba-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-ba-k ; cd:authoredResource true .
+  ex:l4-ba-k a cd:KeyPoint ; cd:position 1 ; cd:body "Compare **median and IQR together**. The matrix-2 shift motivates investigation; these small groups do not prove a causal matrix effect."@en ; cd:authoredResource true .
+  ex:l4-bl-title a cd:Interpretation ; skos:prefLabel "Boxplots: identical boxes can hide a run-order trend"@en ; cd:authoredResource true .
+  ex:l4-bl-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-bl-card ; cd:authoredResource true .
+  ex:l4-bl-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Counterexample: keep the chronological sequence"@en ; cd:body "Synthetic control-sample runs: **the same five values**.\n\n- **Increasing:** 98,99,100,101,102%.\n- **Reordered:** 100,98,102,99,101%.\n\n==Same boxplot, different run order.== Only the first sequence is strictly increasing."@en ; dct:source ex:l4-ac-control, ex:l4-ac-shuffled ; cd:authoredResource true .
+  ex:l4-bl-points a cd:Interpretation ; cd:hasKeyPoint ex:l4-bl-k ; cd:authoredResource true .
+  ex:l4-bl-k a cd:KeyPoint ; cd:position 1 ; cd:body "A boxplot **discards time order**. Add a run chart before judging drift or stability; five runs alone do not establish a process model."@en ; cd:authoredResource true .
+
+  # Ordinary categorical chart groups; positions belong to each chart's own groups.
+  ex:l4-ra-chart cd:yAxisMinimum 0.0 .
+  ex:l4-rl-chart cd:yAxisMinimum 0.0 .
+  ex:l4-qa-chart cd:yAxisMinimum 0.0 .
+  ex:l4-ql-chart cd:yAxisMinimum 0.0 .
+  ex:l4-na-chart cd:yAxisMinimum 0.0 .
+  ex:l4-nl-chart cd:yAxisMinimum 0.0 .
+  ex:l4-ra-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Repeat"@en ; cd:usesDataset ex:l4-large-repeat ; cd:authoredResource true .
+  ex:l4-ra-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "River"@en ; cd:usesDataset ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-rl-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Centre-heavy"@en ; cd:usesDataset ex:l4-ac-centre ; cd:authoredResource true .
+  ex:l4-rl-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Endpoint-heavy"@en ; cd:usesDataset ex:l4-ac-ends ; cd:authoredResource true .
+  ex:l4-qa-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "River"@en ; cd:usesDataset ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-qa-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Effluent"@en ; cd:usesDataset ex:l4-large-effluent ; cd:authoredResource true .
+  ex:l4-ql-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "River"@en ; cd:usesDataset ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-ql-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "High tail"@en ; cd:usesDataset ex:l4-large-tail ; cd:authoredResource true .
+  ex:l4-na-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "River"@en ; cd:usesDataset ex:l4-large-river ; cd:authoredResource true .
+  ex:l4-na-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Blank"@en ; cd:usesDataset ex:l4-large-blank ; cd:authoredResource true .
+  ex:l4-nl-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Blank"@en ; cd:usesDataset ex:l4-ac-blank ; cd:authoredResource true .
+  ex:l4-nl-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "High blank"@en ; cd:usesDataset ex:l4-ac-blank-high ; cd:authoredResource true .
+  ex:l4-ia-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Extraction A"@en ; cd:usesDataset ex:l4-large-extract-a ; cd:authoredResource true .
+  ex:l4-ia-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Extraction B"@en ; cd:usesDataset ex:l4-large-extract-b ; cd:authoredResource true .
+  ex:l4-ia-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "Control"@en ; cd:usesDataset ex:l4-large-control ; cd:authoredResource true .
+  ex:l4-il-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Near target"@en ; cd:usesDataset ex:l4-large-control ; cd:authoredResource true .
+  ex:l4-il-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Shifted"@en ; cd:usesDataset ex:l4-large-biased ; cd:authoredResource true .
+  ex:l4-ma-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Repeat"@en ; cd:usesDataset ex:l4-large-repeat ; cd:authoredResource true .
+  ex:l4-ma-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "High reading"@en ; cd:usesDataset ex:l4-large-spike ; cd:authoredResource true .
+  ex:l4-ml-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Rounded"@en ; cd:usesDataset ex:l4-ac-rounded ; cd:authoredResource true .
+  ex:l4-ba-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "A / matrix 1"@en ; cd:usesDataset ex:l4-large-extract-a ; cd:authoredResource true .
+  ex:l4-ba-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "B / matrix 1"@en ; cd:usesDataset ex:l4-large-extract-b ; cd:authoredResource true .
+  ex:l4-ba-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "A / matrix 2"@en ; cd:usesDataset ex:l4-large-matrix ; cd:authoredResource true .
+  ex:l4-bl-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Increasing"@en ; cd:usesDataset ex:l4-ac-control ; cd:authoredResource true .
+  ex:l4-bl-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Reordered"@en ; cd:usesDataset ex:l4-ac-shuffled ; cd:authoredResource true .
+  ex:l4-ra-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Repeat determinations versus river samples"@en ; cd:body "50 synthetic nitrate observations per case; all values retained. Different sampling questions, same physical unit."@en ; cd:xAxisLabel "Analytical case"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-ra-g1, ex:l4-ra-g2 ; cd:authoredResource true .
+  ex:l4-rl-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Same range, different interiors"@en ; cd:body "Both ranges are 10 mg/L; every synthetic observation is shown, including ties."@en ; cd:xAxisLabel "Constructed profile"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-rl-g1, ex:l4-rl-g2 ; cd:authoredResource true .
+  ex:l4-qa-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Nitrate levels in river and effluent samples"@en ; cd:body "Synthetic concentrations; linearly interpolated quartiles are calculated in the table, not drawn as means."@en ; cd:xAxisLabel "Sampling context"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-qa-g1, ex:l4-qa-g2 ; cd:authoredResource true .
+  ex:l4-ql-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Matching quartiles do not bound the upper tail"@en ; cd:body "n=50 per synthetic series; maxima 25 and 90 mg/L, while all three quartiles agree."@en ; cd:xAxisLabel "Concentration series"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-ql-g1, ex:l4-ql-g2 ; cd:authoredResource true .
+  ex:l4-na-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Two upper-tail questions"@en ; cd:body "Synthetic river concentrations and blank-equivalent signals. Each quantile describes its own series; do not pool them."@en ; cd:xAxisLabel "Analytical case"@en ; cd:yAxisLabel "Nitrate-equivalent concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-na-g1, ex:l4-na-g2 ; cd:authoredResource true .
+  ex:l4-nl-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Small-sample blank tail sensitivity"@en ; cd:body "Synthetic uncensored blank-equivalent readings. At n=5 a high interpolated quantile relies heavily on the largest value."@en ; cd:xAxisLabel "Blank series"@en ; cd:yAxisLabel "Nitrate-equivalent concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-nl-g1, ex:l4-nl-g2 ; cd:authoredResource true .
+  ex:l4-ia-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Central spread of recovery results"@en ; cd:body "Synthetic recoveries at the same fortification level. IQR is a width in percentage points, not a relative percent change."@en ; cd:xAxisLabel "Preparation / control"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l4-ia-g1, ex:l4-ia-g2, ex:l4-ia-g3 ; cd:authoredResource true .
+  ex:l4-il-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Same IQR, different position relative to 100 percent"@en ; cd:body "n=50 synthetic recoveries per series; both IQRs 1.96 percentage points, medians 100 and 110 percent."@en ; cd:xAxisLabel "Control series"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l4-il-g1, ex:l4-il-g2 ; cd:authoredResource true .
+  ex:l4-ma-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Typical scatter and an unusual determination"@en ; cd:body "50 synthetic determinations per series; raw MAD 0.25 and 0.26 mg/L. The unusual 15 mg/L reading remains visible."@en ; cd:xAxisLabel "Repeat-determination case"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-ma-g1, ex:l4-ma-g2 ; cd:authoredResource true .
+  ex:l4-ml-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Nonconstant data with zero MAD"@en ; cd:body "Five synthetic rounded readings, four at 10 and one at 11 mg/L. All observations retained."@en ; cd:xAxisLabel "Reporting resolution case"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l4-ml-g1 ; cd:authoredResource true .
+  ex:l4-ba-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "Extraction and matrix comparisons"@en ; cd:body "50 synthetic recoveries per group. Linearly interpolated quartiles, 1.5 IQR fences; compare location and spread, not statistical significance."@en ; cd:xAxisLabel "Extraction / matrix"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l4-ba-g1, ex:l4-ba-g2, ex:l4-ba-g3 ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:authoredResource true .
+  ex:l4-bl-chart a cd:ChartDefinition ; cd:chartType cd:BoxPlot ; skos:prefLabel "A boxplot cannot recover run order"@en ; cd:body "Identical synthetic boxplots: Q1=99, median=100, Q3=101 percent; whiskers 98 and 102 percent. See the chronological sequences on the left."@en ; cd:xAxisLabel "Chronological control series"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l4-bl-g1, ex:l4-bl-g2 ; cd:dependsOn ex:sample-quantile-type-7 ; cd:fenceMultiplier 1.5 ; cd:authoredResource true .
+}

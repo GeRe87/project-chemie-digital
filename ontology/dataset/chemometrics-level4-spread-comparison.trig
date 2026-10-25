@@ -1,0 +1,47 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-spread-comparison> {
+  ex:l4-spread-normal-title a cd:Interpretation ; skos:prefLabel "SD, IQR and MAD: three different questions"@en ; cd:authoredResource true .
+  ex:l4-spread-normal-scenario a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Control-signal repeatability**\n\n100 synthetic normal-like readings; mean **50**, sample SD **10 a.u.** Same observations in each column."@en ; cd:authoredResource true .
+  ex:l4-spread-use a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Choose the question**\n\n- **SD:** repeatability and variance-based models; sensitive to extremes.\n- **IQR:** middle-rank width for skewed data/boxplots; ignores tail magnitude.\n- **Raw MAD:** robust median distance; may be zero with ties."@en ; cd:authoredResource true .
+  ex:l4-spread-convention a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Different interval choices**\n\nMean ± SD; [Q₁,Q₃]; median ± raw MAD. **IQR = Q₃−Q₁ is a width, not a radius.** Quartiles use linear interpolation; MAD constant 1. ==Actual closed-interval coverage, not confidence intervals or universal percentages.=="@en ; cd:authoredResource true .
+  ex:l4-spread-normal-sd a cd:ObservationInterval ; skos:prefLabel "Mean ± sample SD: [40,60]"@en ; cd:lowerBound 40.0 ; cd:upperBound 60.0 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-normal-iqr a cd:ObservationInterval ; skos:prefLabel "[Q1,Q3]: [43.324,56.676]"@en ; cd:lowerBound 43.323867735722 ; cd:upperBound 56.676132264278 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-normal-mad a cd:ObservationInterval ; skos:prefLabel "Median ± raw MAD: [43.245,56.755]"@en ; cd:lowerBound 43.245082784163 ; cd:upperBound 56.754917215837 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-normal-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Mean ± SD"@en ; cd:usesDataset ex:l4-shapes-normal ; cd:displayInterval ex:l4-spread-normal-sd ; cd:authoredResource true .
+  ex:l4-spread-normal-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "[Q1,Q3]"@en ; cd:usesDataset ex:l4-shapes-normal ; cd:displayInterval ex:l4-spread-normal-iqr ; cd:authoredResource true .
+  ex:l4-spread-normal-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "Median ± MAD"@en ; cd:usesDataset ex:l4-shapes-normal ; cd:displayInterval ex:l4-spread-normal-mad ; cd:authoredResource true .
+  ex:l4-spread-normal-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Same 100 readings, different intervals"@en ; cd:body "Points are observations. Bands and dashed boundaries show the stated intervals; percentages count contained observations. Here: 68%, 50%, 50%."@en ; cd:xAxisLabel "Interval choice"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-spread-normal-g1, ex:l4-spread-normal-g2, ex:l4-spread-normal-g3 ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-spread-normal a cd:SceneDefinition ; cd:focusConcept ex:interquartile-range ; cd:hasSceneItem ex:l4-spread-normal-item1, ex:l4-spread-normal-item2, ex:l4-spread-normal-item3, ex:l4-spread-normal-item4, ex:l4-spread-normal-item5 ; cd:authoredResource true .
+  ex:l4-spread-normal-item1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-spread-normal-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-normal-item2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-spread-normal-scenario ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-normal-item3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-spread-use ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-normal-item4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-spread-convention ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-normal-item5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-spread-normal-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-spread-comparison> {
+  ex:l4-spread-skewed-title a cd:Interpretation ; skos:prefLabel "Same SD, different coverage: a long upper tail"@en ; cd:authoredResource true .
+  ex:l4-spread-skewed-scenario a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Scenario: occasional high detector responses**\n\n100 synthetic right-skewed readings. Mean **50** and sample SD **10 a.u.**, just as before; median **46.919**."@en ; cd:authoredResource true .
+  ex:l4-spread-skewed-reading a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Read the consequences**\n\n- Mean ± SD: **85/100** readings, not 68.\n- IQR **11.024 a.u.** describes the middle ranks.\n- Raw MAD **4.900 a.u.** describes a typical median distance.\n- The quartile interval is **not centred on the median**."@en ; cd:authoredResource true .
+  ex:l4-spread-skewed-limit a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Application and limit**\n\nUse median/IQR or MAD when tail values dominate a mean-based summary. But retain the tail for exposure or contamination questions. ==Robust does not mean scientifically unimportant extremes may be ignored.=="@en ; cd:authoredResource true .
+  ex:l4-spread-skewed-sd a cd:ObservationInterval ; skos:prefLabel "Mean ± sample SD: [40,60]"@en ; cd:lowerBound 40.0 ; cd:upperBound 60.0 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-skewed-iqr a cd:ObservationInterval ; skos:prefLabel "[Q1,Q3]: [42.835,53.859]"@en ; cd:lowerBound 42.8350428083665 ; cd:upperBound 53.85876088150624 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-skewed-mad a cd:ObservationInterval ; skos:prefLabel "Median ± raw MAD: [42.020,51.819]"@en ; cd:lowerBound 42.019552785228 ; cd:upperBound 51.819073055251 ; cd:unit "a.u." ; cd:authoredResource true .
+  ex:l4-spread-skewed-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Mean ± SD"@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:displayInterval ex:l4-spread-skewed-sd ; cd:authoredResource true .
+  ex:l4-spread-skewed-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "[Q1,Q3]"@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:displayInterval ex:l4-spread-skewed-iqr ; cd:authoredResource true .
+  ex:l4-spread-skewed-g3 a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "Median ± MAD"@en ; cd:usesDataset ex:l4-shapes-skewed ; cd:displayInterval ex:l4-spread-skewed-mad ; cd:authoredResource true .
+  ex:l4-spread-skewed-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Repeated data, different interval coverage"@en ; cd:body "Same 100 points in each column. Closed intervals contain 85%, 50% and 50% respectively; no universal percentage is asserted."@en ; cd:xAxisLabel "Interval choice"@en ; cd:yAxisLabel "Detector response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l4-spread-skewed-g1, ex:l4-spread-skewed-g2, ex:l4-spread-skewed-g3 ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-spread-skewed a cd:SceneDefinition ; cd:focusConcept ex:median-absolute-deviation ; cd:hasSceneItem ex:l4-spread-skewed-item1, ex:l4-spread-skewed-item2, ex:l4-spread-skewed-item3, ex:l4-spread-skewed-item4, ex:l4-spread-skewed-item5 ; cd:authoredResource true .
+  ex:l4-spread-skewed-item1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-spread-skewed-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-skewed-item2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-spread-skewed-scenario ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-skewed-item3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-spread-skewed-reading ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-skewed-item4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-spread-skewed-limit ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-spread-skewed-item5 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-spread-skewed-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

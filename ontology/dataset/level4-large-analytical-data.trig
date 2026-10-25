@@ -1,0 +1,532 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Authored deterministic synthetic snapshot; construction described in the histogram review.
+<https://w3id.org/project-chemie-digital/graph/examples/level4-large-analytical-cases> {
+  ex:l4-large-river a cd:Dataset ; dct:description "Synthetic teaching data. Fifty constructed nitrate concentrations in different river grab samples; equally spaced illustration, not measured environmental evidence."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-river-1, ex:l4-large-river-2, ex:l4-large-river-3, ex:l4-large-river-4, ex:l4-large-river-5, ex:l4-large-river-6, ex:l4-large-river-7, ex:l4-large-river-8, ex:l4-large-river-9, ex:l4-large-river-10, ex:l4-large-river-11, ex:l4-large-river-12, ex:l4-large-river-13, ex:l4-large-river-14, ex:l4-large-river-15, ex:l4-large-river-16, ex:l4-large-river-17, ex:l4-large-river-18, ex:l4-large-river-19, ex:l4-large-river-20, ex:l4-large-river-21, ex:l4-large-river-22, ex:l4-large-river-23, ex:l4-large-river-24, ex:l4-large-river-25, ex:l4-large-river-26, ex:l4-large-river-27, ex:l4-large-river-28, ex:l4-large-river-29, ex:l4-large-river-30, ex:l4-large-river-31, ex:l4-large-river-32, ex:l4-large-river-33, ex:l4-large-river-34, ex:l4-large-river-35, ex:l4-large-river-36, ex:l4-large-river-37, ex:l4-large-river-38, ex:l4-large-river-39, ex:l4-large-river-40, ex:l4-large-river-41, ex:l4-large-river-42, ex:l4-large-river-43, ex:l4-large-river-44, ex:l4-large-river-45, ex:l4-large-river-46, ex:l4-large-river-47, ex:l4-large-river-48, ex:l4-large-river-49, ex:l4-large-river-50 ; cd:authoredResource true .
+  ex:l4-large-river-1 a cd:Observation ; cd:position 1 ; cd:numericValue "0.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-2 a cd:Observation ; cd:position 2 ; cd:numericValue "1.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-3 a cd:Observation ; cd:position 3 ; cd:numericValue "1.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-4 a cd:Observation ; cd:position 4 ; cd:numericValue "2.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-5 a cd:Observation ; cd:position 5 ; cd:numericValue "2.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-6 a cd:Observation ; cd:position 6 ; cd:numericValue "3.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-7 a cd:Observation ; cd:position 7 ; cd:numericValue "3.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-8 a cd:Observation ; cd:position 8 ; cd:numericValue "4.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-9 a cd:Observation ; cd:position 9 ; cd:numericValue "4.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-10 a cd:Observation ; cd:position 10 ; cd:numericValue "5.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-11 a cd:Observation ; cd:position 11 ; cd:numericValue "5.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-12 a cd:Observation ; cd:position 12 ; cd:numericValue "6.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-13 a cd:Observation ; cd:position 13 ; cd:numericValue "6.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-14 a cd:Observation ; cd:position 14 ; cd:numericValue "7.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-15 a cd:Observation ; cd:position 15 ; cd:numericValue "7.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-16 a cd:Observation ; cd:position 16 ; cd:numericValue "8.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-17 a cd:Observation ; cd:position 17 ; cd:numericValue "8.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-18 a cd:Observation ; cd:position 18 ; cd:numericValue "9.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-19 a cd:Observation ; cd:position 19 ; cd:numericValue "9.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-20 a cd:Observation ; cd:position 20 ; cd:numericValue "10.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-21 a cd:Observation ; cd:position 21 ; cd:numericValue "10.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-22 a cd:Observation ; cd:position 22 ; cd:numericValue "11.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-23 a cd:Observation ; cd:position 23 ; cd:numericValue "11.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-24 a cd:Observation ; cd:position 24 ; cd:numericValue "12.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-25 a cd:Observation ; cd:position 25 ; cd:numericValue "12.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-26 a cd:Observation ; cd:position 26 ; cd:numericValue "13.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-27 a cd:Observation ; cd:position 27 ; cd:numericValue "13.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-28 a cd:Observation ; cd:position 28 ; cd:numericValue "14.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-29 a cd:Observation ; cd:position 29 ; cd:numericValue "14.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-30 a cd:Observation ; cd:position 30 ; cd:numericValue "15.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-31 a cd:Observation ; cd:position 31 ; cd:numericValue "15.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-32 a cd:Observation ; cd:position 32 ; cd:numericValue "16.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-33 a cd:Observation ; cd:position 33 ; cd:numericValue "16.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-34 a cd:Observation ; cd:position 34 ; cd:numericValue "17.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-35 a cd:Observation ; cd:position 35 ; cd:numericValue "17.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-36 a cd:Observation ; cd:position 36 ; cd:numericValue "18.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-37 a cd:Observation ; cd:position 37 ; cd:numericValue "18.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-38 a cd:Observation ; cd:position 38 ; cd:numericValue "19.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-39 a cd:Observation ; cd:position 39 ; cd:numericValue "19.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-40 a cd:Observation ; cd:position 40 ; cd:numericValue "20.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-41 a cd:Observation ; cd:position 41 ; cd:numericValue "20.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-42 a cd:Observation ; cd:position 42 ; cd:numericValue "21.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-43 a cd:Observation ; cd:position 43 ; cd:numericValue "21.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-44 a cd:Observation ; cd:position 44 ; cd:numericValue "22.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-45 a cd:Observation ; cd:position 45 ; cd:numericValue "22.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-46 a cd:Observation ; cd:position 46 ; cd:numericValue "23.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-47 a cd:Observation ; cd:position 47 ; cd:numericValue "23.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-48 a cd:Observation ; cd:position 48 ; cd:numericValue "24.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-49 a cd:Observation ; cd:position 49 ; cd:numericValue "24.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-river-50 a cd:Observation ; cd:position 50 ; cd:numericValue "25.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent a cd:Dataset ; dct:description "Synthetic teaching data. Fifty constructed nitrate concentrations in effluent samples, not a treatment-effect or compliance study."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-effluent-1, ex:l4-large-effluent-2, ex:l4-large-effluent-3, ex:l4-large-effluent-4, ex:l4-large-effluent-5, ex:l4-large-effluent-6, ex:l4-large-effluent-7, ex:l4-large-effluent-8, ex:l4-large-effluent-9, ex:l4-large-effluent-10, ex:l4-large-effluent-11, ex:l4-large-effluent-12, ex:l4-large-effluent-13, ex:l4-large-effluent-14, ex:l4-large-effluent-15, ex:l4-large-effluent-16, ex:l4-large-effluent-17, ex:l4-large-effluent-18, ex:l4-large-effluent-19, ex:l4-large-effluent-20, ex:l4-large-effluent-21, ex:l4-large-effluent-22, ex:l4-large-effluent-23, ex:l4-large-effluent-24, ex:l4-large-effluent-25, ex:l4-large-effluent-26, ex:l4-large-effluent-27, ex:l4-large-effluent-28, ex:l4-large-effluent-29, ex:l4-large-effluent-30, ex:l4-large-effluent-31, ex:l4-large-effluent-32, ex:l4-large-effluent-33, ex:l4-large-effluent-34, ex:l4-large-effluent-35, ex:l4-large-effluent-36, ex:l4-large-effluent-37, ex:l4-large-effluent-38, ex:l4-large-effluent-39, ex:l4-large-effluent-40, ex:l4-large-effluent-41, ex:l4-large-effluent-42, ex:l4-large-effluent-43, ex:l4-large-effluent-44, ex:l4-large-effluent-45, ex:l4-large-effluent-46, ex:l4-large-effluent-47, ex:l4-large-effluent-48, ex:l4-large-effluent-49, ex:l4-large-effluent-50 ; cd:authoredResource true .
+  ex:l4-large-effluent-1 a cd:Observation ; cd:position 1 ; cd:numericValue "10"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-2 a cd:Observation ; cd:position 2 ; cd:numericValue "12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-3 a cd:Observation ; cd:position 3 ; cd:numericValue "14"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-4 a cd:Observation ; cd:position 4 ; cd:numericValue "16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-5 a cd:Observation ; cd:position 5 ; cd:numericValue "18"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-6 a cd:Observation ; cd:position 6 ; cd:numericValue "20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-7 a cd:Observation ; cd:position 7 ; cd:numericValue "22"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-8 a cd:Observation ; cd:position 8 ; cd:numericValue "24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-9 a cd:Observation ; cd:position 9 ; cd:numericValue "26"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-10 a cd:Observation ; cd:position 10 ; cd:numericValue "28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-11 a cd:Observation ; cd:position 11 ; cd:numericValue "30"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-12 a cd:Observation ; cd:position 12 ; cd:numericValue "32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-13 a cd:Observation ; cd:position 13 ; cd:numericValue "34"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-14 a cd:Observation ; cd:position 14 ; cd:numericValue "36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-15 a cd:Observation ; cd:position 15 ; cd:numericValue "38"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-16 a cd:Observation ; cd:position 16 ; cd:numericValue "40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-17 a cd:Observation ; cd:position 17 ; cd:numericValue "42"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-18 a cd:Observation ; cd:position 18 ; cd:numericValue "44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-19 a cd:Observation ; cd:position 19 ; cd:numericValue "46"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-20 a cd:Observation ; cd:position 20 ; cd:numericValue "48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-21 a cd:Observation ; cd:position 21 ; cd:numericValue "50"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-22 a cd:Observation ; cd:position 22 ; cd:numericValue "52"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-23 a cd:Observation ; cd:position 23 ; cd:numericValue "54"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-24 a cd:Observation ; cd:position 24 ; cd:numericValue "56"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-25 a cd:Observation ; cd:position 25 ; cd:numericValue "58"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-26 a cd:Observation ; cd:position 26 ; cd:numericValue "60"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-27 a cd:Observation ; cd:position 27 ; cd:numericValue "62"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-28 a cd:Observation ; cd:position 28 ; cd:numericValue "64"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-29 a cd:Observation ; cd:position 29 ; cd:numericValue "66"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-30 a cd:Observation ; cd:position 30 ; cd:numericValue "68"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-31 a cd:Observation ; cd:position 31 ; cd:numericValue "70"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-32 a cd:Observation ; cd:position 32 ; cd:numericValue "72"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-33 a cd:Observation ; cd:position 33 ; cd:numericValue "74"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-34 a cd:Observation ; cd:position 34 ; cd:numericValue "76"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-35 a cd:Observation ; cd:position 35 ; cd:numericValue "78"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-36 a cd:Observation ; cd:position 36 ; cd:numericValue "80"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-37 a cd:Observation ; cd:position 37 ; cd:numericValue "82"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-38 a cd:Observation ; cd:position 38 ; cd:numericValue "84"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-39 a cd:Observation ; cd:position 39 ; cd:numericValue "86"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-40 a cd:Observation ; cd:position 40 ; cd:numericValue "88"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-41 a cd:Observation ; cd:position 41 ; cd:numericValue "90"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-42 a cd:Observation ; cd:position 42 ; cd:numericValue "92"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-43 a cd:Observation ; cd:position 43 ; cd:numericValue "94"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-44 a cd:Observation ; cd:position 44 ; cd:numericValue "96"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-45 a cd:Observation ; cd:position 45 ; cd:numericValue "98"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-46 a cd:Observation ; cd:position 46 ; cd:numericValue "100"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-47 a cd:Observation ; cd:position 47 ; cd:numericValue "102"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-48 a cd:Observation ; cd:position 48 ; cd:numericValue "104"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-49 a cd:Observation ; cd:position 49 ; cd:numericValue "106"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-effluent-50 a cd:Observation ; cd:position 50 ; cd:numericValue "108"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank a cd:Dataset ; dct:description "Synthetic teaching data. Fifty uncensored synthetic blank-equivalent nitrate readings; no analytical detection-limit claim."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-blank-1, ex:l4-large-blank-2, ex:l4-large-blank-3, ex:l4-large-blank-4, ex:l4-large-blank-5, ex:l4-large-blank-6, ex:l4-large-blank-7, ex:l4-large-blank-8, ex:l4-large-blank-9, ex:l4-large-blank-10, ex:l4-large-blank-11, ex:l4-large-blank-12, ex:l4-large-blank-13, ex:l4-large-blank-14, ex:l4-large-blank-15, ex:l4-large-blank-16, ex:l4-large-blank-17, ex:l4-large-blank-18, ex:l4-large-blank-19, ex:l4-large-blank-20, ex:l4-large-blank-21, ex:l4-large-blank-22, ex:l4-large-blank-23, ex:l4-large-blank-24, ex:l4-large-blank-25, ex:l4-large-blank-26, ex:l4-large-blank-27, ex:l4-large-blank-28, ex:l4-large-blank-29, ex:l4-large-blank-30, ex:l4-large-blank-31, ex:l4-large-blank-32, ex:l4-large-blank-33, ex:l4-large-blank-34, ex:l4-large-blank-35, ex:l4-large-blank-36, ex:l4-large-blank-37, ex:l4-large-blank-38, ex:l4-large-blank-39, ex:l4-large-blank-40, ex:l4-large-blank-41, ex:l4-large-blank-42, ex:l4-large-blank-43, ex:l4-large-blank-44, ex:l4-large-blank-45, ex:l4-large-blank-46, ex:l4-large-blank-47, ex:l4-large-blank-48, ex:l4-large-blank-49, ex:l4-large-blank-50 ; cd:authoredResource true .
+  ex:l4-large-blank-1 a cd:Observation ; cd:position 1 ; cd:numericValue "0.00"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-2 a cd:Observation ; cd:position 2 ; cd:numericValue "0.01"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-3 a cd:Observation ; cd:position 3 ; cd:numericValue "0.02"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-4 a cd:Observation ; cd:position 4 ; cd:numericValue "0.03"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-5 a cd:Observation ; cd:position 5 ; cd:numericValue "0.04"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-6 a cd:Observation ; cd:position 6 ; cd:numericValue "0.05"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-7 a cd:Observation ; cd:position 7 ; cd:numericValue "0.06"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-8 a cd:Observation ; cd:position 8 ; cd:numericValue "0.07"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-9 a cd:Observation ; cd:position 9 ; cd:numericValue "0.08"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-10 a cd:Observation ; cd:position 10 ; cd:numericValue "0.09"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-11 a cd:Observation ; cd:position 11 ; cd:numericValue "0.10"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-12 a cd:Observation ; cd:position 12 ; cd:numericValue "0.11"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-13 a cd:Observation ; cd:position 13 ; cd:numericValue "0.12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-14 a cd:Observation ; cd:position 14 ; cd:numericValue "0.13"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-15 a cd:Observation ; cd:position 15 ; cd:numericValue "0.14"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-16 a cd:Observation ; cd:position 16 ; cd:numericValue "0.15"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-17 a cd:Observation ; cd:position 17 ; cd:numericValue "0.16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-18 a cd:Observation ; cd:position 18 ; cd:numericValue "0.17"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-19 a cd:Observation ; cd:position 19 ; cd:numericValue "0.18"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-20 a cd:Observation ; cd:position 20 ; cd:numericValue "0.19"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-21 a cd:Observation ; cd:position 21 ; cd:numericValue "0.20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-22 a cd:Observation ; cd:position 22 ; cd:numericValue "0.21"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-23 a cd:Observation ; cd:position 23 ; cd:numericValue "0.22"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-24 a cd:Observation ; cd:position 24 ; cd:numericValue "0.23"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-25 a cd:Observation ; cd:position 25 ; cd:numericValue "0.24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-26 a cd:Observation ; cd:position 26 ; cd:numericValue "0.25"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-27 a cd:Observation ; cd:position 27 ; cd:numericValue "0.26"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-28 a cd:Observation ; cd:position 28 ; cd:numericValue "0.27"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-29 a cd:Observation ; cd:position 29 ; cd:numericValue "0.28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-30 a cd:Observation ; cd:position 30 ; cd:numericValue "0.29"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-31 a cd:Observation ; cd:position 31 ; cd:numericValue "0.30"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-32 a cd:Observation ; cd:position 32 ; cd:numericValue "0.31"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-33 a cd:Observation ; cd:position 33 ; cd:numericValue "0.32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-34 a cd:Observation ; cd:position 34 ; cd:numericValue "0.33"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-35 a cd:Observation ; cd:position 35 ; cd:numericValue "0.34"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-36 a cd:Observation ; cd:position 36 ; cd:numericValue "0.35"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-37 a cd:Observation ; cd:position 37 ; cd:numericValue "0.36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-38 a cd:Observation ; cd:position 38 ; cd:numericValue "0.37"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-39 a cd:Observation ; cd:position 39 ; cd:numericValue "0.38"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-40 a cd:Observation ; cd:position 40 ; cd:numericValue "0.39"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-41 a cd:Observation ; cd:position 41 ; cd:numericValue "0.40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-42 a cd:Observation ; cd:position 42 ; cd:numericValue "0.41"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-43 a cd:Observation ; cd:position 43 ; cd:numericValue "0.42"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-44 a cd:Observation ; cd:position 44 ; cd:numericValue "0.43"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-45 a cd:Observation ; cd:position 45 ; cd:numericValue "0.44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-46 a cd:Observation ; cd:position 46 ; cd:numericValue "0.45"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-47 a cd:Observation ; cd:position 47 ; cd:numericValue "0.46"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-48 a cd:Observation ; cd:position 48 ; cd:numericValue "0.47"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-49 a cd:Observation ; cd:position 49 ; cd:numericValue "0.48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-blank-50 a cd:Observation ; cd:position 50 ; cd:numericValue "0.49"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic recoveries, extraction A/matrix 1; same fortification level as B and matrix 2."@en ; cd:unit "%" ; cd:hasObservation ex:l4-large-extract-a-1, ex:l4-large-extract-a-2, ex:l4-large-extract-a-3, ex:l4-large-extract-a-4, ex:l4-large-extract-a-5, ex:l4-large-extract-a-6, ex:l4-large-extract-a-7, ex:l4-large-extract-a-8, ex:l4-large-extract-a-9, ex:l4-large-extract-a-10, ex:l4-large-extract-a-11, ex:l4-large-extract-a-12, ex:l4-large-extract-a-13, ex:l4-large-extract-a-14, ex:l4-large-extract-a-15, ex:l4-large-extract-a-16, ex:l4-large-extract-a-17, ex:l4-large-extract-a-18, ex:l4-large-extract-a-19, ex:l4-large-extract-a-20, ex:l4-large-extract-a-21, ex:l4-large-extract-a-22, ex:l4-large-extract-a-23, ex:l4-large-extract-a-24, ex:l4-large-extract-a-25, ex:l4-large-extract-a-26, ex:l4-large-extract-a-27, ex:l4-large-extract-a-28, ex:l4-large-extract-a-29, ex:l4-large-extract-a-30, ex:l4-large-extract-a-31, ex:l4-large-extract-a-32, ex:l4-large-extract-a-33, ex:l4-large-extract-a-34, ex:l4-large-extract-a-35, ex:l4-large-extract-a-36, ex:l4-large-extract-a-37, ex:l4-large-extract-a-38, ex:l4-large-extract-a-39, ex:l4-large-extract-a-40, ex:l4-large-extract-a-41, ex:l4-large-extract-a-42, ex:l4-large-extract-a-43, ex:l4-large-extract-a-44, ex:l4-large-extract-a-45, ex:l4-large-extract-a-46, ex:l4-large-extract-a-47, ex:l4-large-extract-a-48, ex:l4-large-extract-a-49, ex:l4-large-extract-a-50 ; cd:authoredResource true .
+  ex:l4-large-extract-a-1 a cd:Observation ; cd:position 1 ; cd:numericValue "95.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-2 a cd:Observation ; cd:position 2 ; cd:numericValue "95.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-3 a cd:Observation ; cd:position 3 ; cd:numericValue "95.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-4 a cd:Observation ; cd:position 4 ; cd:numericValue "95.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-5 a cd:Observation ; cd:position 5 ; cd:numericValue "95.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-6 a cd:Observation ; cd:position 6 ; cd:numericValue "96.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-7 a cd:Observation ; cd:position 7 ; cd:numericValue "96.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-8 a cd:Observation ; cd:position 8 ; cd:numericValue "96.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-9 a cd:Observation ; cd:position 9 ; cd:numericValue "96.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-10 a cd:Observation ; cd:position 10 ; cd:numericValue "96.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-11 a cd:Observation ; cd:position 11 ; cd:numericValue "97.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-12 a cd:Observation ; cd:position 12 ; cd:numericValue "97.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-13 a cd:Observation ; cd:position 13 ; cd:numericValue "97.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-14 a cd:Observation ; cd:position 14 ; cd:numericValue "97.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-15 a cd:Observation ; cd:position 15 ; cd:numericValue "97.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-16 a cd:Observation ; cd:position 16 ; cd:numericValue "98.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-17 a cd:Observation ; cd:position 17 ; cd:numericValue "98.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-18 a cd:Observation ; cd:position 18 ; cd:numericValue "98.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-19 a cd:Observation ; cd:position 19 ; cd:numericValue "98.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-20 a cd:Observation ; cd:position 20 ; cd:numericValue "98.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-21 a cd:Observation ; cd:position 21 ; cd:numericValue "99.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-22 a cd:Observation ; cd:position 22 ; cd:numericValue "99.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-23 a cd:Observation ; cd:position 23 ; cd:numericValue "99.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-24 a cd:Observation ; cd:position 24 ; cd:numericValue "99.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-25 a cd:Observation ; cd:position 25 ; cd:numericValue "99.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-26 a cd:Observation ; cd:position 26 ; cd:numericValue "100.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-27 a cd:Observation ; cd:position 27 ; cd:numericValue "100.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-28 a cd:Observation ; cd:position 28 ; cd:numericValue "100.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-29 a cd:Observation ; cd:position 29 ; cd:numericValue "100.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-30 a cd:Observation ; cd:position 30 ; cd:numericValue "100.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-31 a cd:Observation ; cd:position 31 ; cd:numericValue "101.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-32 a cd:Observation ; cd:position 32 ; cd:numericValue "101.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-33 a cd:Observation ; cd:position 33 ; cd:numericValue "101.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-34 a cd:Observation ; cd:position 34 ; cd:numericValue "101.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-35 a cd:Observation ; cd:position 35 ; cd:numericValue "101.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-36 a cd:Observation ; cd:position 36 ; cd:numericValue "102.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-37 a cd:Observation ; cd:position 37 ; cd:numericValue "102.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-38 a cd:Observation ; cd:position 38 ; cd:numericValue "102.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-39 a cd:Observation ; cd:position 39 ; cd:numericValue "102.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-40 a cd:Observation ; cd:position 40 ; cd:numericValue "102.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-41 a cd:Observation ; cd:position 41 ; cd:numericValue "103.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-42 a cd:Observation ; cd:position 42 ; cd:numericValue "103.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-43 a cd:Observation ; cd:position 43 ; cd:numericValue "103.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-44 a cd:Observation ; cd:position 44 ; cd:numericValue "103.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-45 a cd:Observation ; cd:position 45 ; cd:numericValue "103.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-46 a cd:Observation ; cd:position 46 ; cd:numericValue "104.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-47 a cd:Observation ; cd:position 47 ; cd:numericValue "104.3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-48 a cd:Observation ; cd:position 48 ; cd:numericValue "104.5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-49 a cd:Observation ; cd:position 49 ; cd:numericValue "104.7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-a-50 a cd:Observation ; cd:position 50 ; cd:numericValue "104.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic recoveries, extraction B/matrix 1; broader constructed spread, not a validated method comparison."@en ; cd:unit "%" ; cd:hasObservation ex:l4-large-extract-b-1, ex:l4-large-extract-b-2, ex:l4-large-extract-b-3, ex:l4-large-extract-b-4, ex:l4-large-extract-b-5, ex:l4-large-extract-b-6, ex:l4-large-extract-b-7, ex:l4-large-extract-b-8, ex:l4-large-extract-b-9, ex:l4-large-extract-b-10, ex:l4-large-extract-b-11, ex:l4-large-extract-b-12, ex:l4-large-extract-b-13, ex:l4-large-extract-b-14, ex:l4-large-extract-b-15, ex:l4-large-extract-b-16, ex:l4-large-extract-b-17, ex:l4-large-extract-b-18, ex:l4-large-extract-b-19, ex:l4-large-extract-b-20, ex:l4-large-extract-b-21, ex:l4-large-extract-b-22, ex:l4-large-extract-b-23, ex:l4-large-extract-b-24, ex:l4-large-extract-b-25, ex:l4-large-extract-b-26, ex:l4-large-extract-b-27, ex:l4-large-extract-b-28, ex:l4-large-extract-b-29, ex:l4-large-extract-b-30, ex:l4-large-extract-b-31, ex:l4-large-extract-b-32, ex:l4-large-extract-b-33, ex:l4-large-extract-b-34, ex:l4-large-extract-b-35, ex:l4-large-extract-b-36, ex:l4-large-extract-b-37, ex:l4-large-extract-b-38, ex:l4-large-extract-b-39, ex:l4-large-extract-b-40, ex:l4-large-extract-b-41, ex:l4-large-extract-b-42, ex:l4-large-extract-b-43, ex:l4-large-extract-b-44, ex:l4-large-extract-b-45, ex:l4-large-extract-b-46, ex:l4-large-extract-b-47, ex:l4-large-extract-b-48, ex:l4-large-extract-b-49, ex:l4-large-extract-b-50 ; cd:authoredResource true .
+  ex:l4-large-extract-b-1 a cd:Observation ; cd:position 1 ; cd:numericValue "80.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-2 a cd:Observation ; cd:position 2 ; cd:numericValue "81.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-3 a cd:Observation ; cd:position 3 ; cd:numericValue "82.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-4 a cd:Observation ; cd:position 4 ; cd:numericValue "82.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-5 a cd:Observation ; cd:position 5 ; cd:numericValue "83.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-6 a cd:Observation ; cd:position 6 ; cd:numericValue "84.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-7 a cd:Observation ; cd:position 7 ; cd:numericValue "85.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-8 a cd:Observation ; cd:position 8 ; cd:numericValue "86.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-9 a cd:Observation ; cd:position 9 ; cd:numericValue "86.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-10 a cd:Observation ; cd:position 10 ; cd:numericValue "87.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-11 a cd:Observation ; cd:position 11 ; cd:numericValue "88.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-12 a cd:Observation ; cd:position 12 ; cd:numericValue "89.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-13 a cd:Observation ; cd:position 13 ; cd:numericValue "90.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-14 a cd:Observation ; cd:position 14 ; cd:numericValue "90.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-15 a cd:Observation ; cd:position 15 ; cd:numericValue "91.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-16 a cd:Observation ; cd:position 16 ; cd:numericValue "92.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-17 a cd:Observation ; cd:position 17 ; cd:numericValue "93.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-18 a cd:Observation ; cd:position 18 ; cd:numericValue "94.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-19 a cd:Observation ; cd:position 19 ; cd:numericValue "94.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-20 a cd:Observation ; cd:position 20 ; cd:numericValue "95.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-21 a cd:Observation ; cd:position 21 ; cd:numericValue "96.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-22 a cd:Observation ; cd:position 22 ; cd:numericValue "97.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-23 a cd:Observation ; cd:position 23 ; cd:numericValue "98.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-24 a cd:Observation ; cd:position 24 ; cd:numericValue "98.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-25 a cd:Observation ; cd:position 25 ; cd:numericValue "99.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-26 a cd:Observation ; cd:position 26 ; cd:numericValue "100.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-27 a cd:Observation ; cd:position 27 ; cd:numericValue "101.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-28 a cd:Observation ; cd:position 28 ; cd:numericValue "102.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-29 a cd:Observation ; cd:position 29 ; cd:numericValue "102.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-30 a cd:Observation ; cd:position 30 ; cd:numericValue "103.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-31 a cd:Observation ; cd:position 31 ; cd:numericValue "104.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-32 a cd:Observation ; cd:position 32 ; cd:numericValue "105.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-33 a cd:Observation ; cd:position 33 ; cd:numericValue "106.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-34 a cd:Observation ; cd:position 34 ; cd:numericValue "106.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-35 a cd:Observation ; cd:position 35 ; cd:numericValue "107.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-36 a cd:Observation ; cd:position 36 ; cd:numericValue "108.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-37 a cd:Observation ; cd:position 37 ; cd:numericValue "109.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-38 a cd:Observation ; cd:position 38 ; cd:numericValue "110.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-39 a cd:Observation ; cd:position 39 ; cd:numericValue "110.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-40 a cd:Observation ; cd:position 40 ; cd:numericValue "111.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-41 a cd:Observation ; cd:position 41 ; cd:numericValue "112.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-42 a cd:Observation ; cd:position 42 ; cd:numericValue "113.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-43 a cd:Observation ; cd:position 43 ; cd:numericValue "114.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-44 a cd:Observation ; cd:position 44 ; cd:numericValue "114.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-45 a cd:Observation ; cd:position 45 ; cd:numericValue "115.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-46 a cd:Observation ; cd:position 46 ; cd:numericValue "116.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-47 a cd:Observation ; cd:position 47 ; cd:numericValue "117.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-48 a cd:Observation ; cd:position 48 ; cd:numericValue "118.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-49 a cd:Observation ; cd:position 49 ; cd:numericValue "118.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-extract-b-50 a cd:Observation ; cd:position 50 ; cd:numericValue "119.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic recoveries, extraction A/matrix 2; shifted and broader, not proof of causal matrix effects."@en ; cd:unit "%" ; cd:hasObservation ex:l4-large-matrix-1, ex:l4-large-matrix-2, ex:l4-large-matrix-3, ex:l4-large-matrix-4, ex:l4-large-matrix-5, ex:l4-large-matrix-6, ex:l4-large-matrix-7, ex:l4-large-matrix-8, ex:l4-large-matrix-9, ex:l4-large-matrix-10, ex:l4-large-matrix-11, ex:l4-large-matrix-12, ex:l4-large-matrix-13, ex:l4-large-matrix-14, ex:l4-large-matrix-15, ex:l4-large-matrix-16, ex:l4-large-matrix-17, ex:l4-large-matrix-18, ex:l4-large-matrix-19, ex:l4-large-matrix-20, ex:l4-large-matrix-21, ex:l4-large-matrix-22, ex:l4-large-matrix-23, ex:l4-large-matrix-24, ex:l4-large-matrix-25, ex:l4-large-matrix-26, ex:l4-large-matrix-27, ex:l4-large-matrix-28, ex:l4-large-matrix-29, ex:l4-large-matrix-30, ex:l4-large-matrix-31, ex:l4-large-matrix-32, ex:l4-large-matrix-33, ex:l4-large-matrix-34, ex:l4-large-matrix-35, ex:l4-large-matrix-36, ex:l4-large-matrix-37, ex:l4-large-matrix-38, ex:l4-large-matrix-39, ex:l4-large-matrix-40, ex:l4-large-matrix-41, ex:l4-large-matrix-42, ex:l4-large-matrix-43, ex:l4-large-matrix-44, ex:l4-large-matrix-45, ex:l4-large-matrix-46, ex:l4-large-matrix-47, ex:l4-large-matrix-48, ex:l4-large-matrix-49, ex:l4-large-matrix-50 ; cd:authoredResource true .
+  ex:l4-large-matrix-1 a cd:Observation ; cd:position 1 ; cd:numericValue "70.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-2 a cd:Observation ; cd:position 2 ; cd:numericValue "71.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-3 a cd:Observation ; cd:position 3 ; cd:numericValue "72.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-4 a cd:Observation ; cd:position 4 ; cd:numericValue "73.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-5 a cd:Observation ; cd:position 5 ; cd:numericValue "74.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-6 a cd:Observation ; cd:position 6 ; cd:numericValue "74.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-7 a cd:Observation ; cd:position 7 ; cd:numericValue "75.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-8 a cd:Observation ; cd:position 8 ; cd:numericValue "76.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-9 a cd:Observation ; cd:position 9 ; cd:numericValue "77.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-10 a cd:Observation ; cd:position 10 ; cd:numericValue "78.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-11 a cd:Observation ; cd:position 11 ; cd:numericValue "78.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-12 a cd:Observation ; cd:position 12 ; cd:numericValue "79.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-13 a cd:Observation ; cd:position 13 ; cd:numericValue "80.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-14 a cd:Observation ; cd:position 14 ; cd:numericValue "81.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-15 a cd:Observation ; cd:position 15 ; cd:numericValue "82.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-16 a cd:Observation ; cd:position 16 ; cd:numericValue "82.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-17 a cd:Observation ; cd:position 17 ; cd:numericValue "83.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-18 a cd:Observation ; cd:position 18 ; cd:numericValue "84.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-19 a cd:Observation ; cd:position 19 ; cd:numericValue "85.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-20 a cd:Observation ; cd:position 20 ; cd:numericValue "86.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-21 a cd:Observation ; cd:position 21 ; cd:numericValue "86.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-22 a cd:Observation ; cd:position 22 ; cd:numericValue "87.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-23 a cd:Observation ; cd:position 23 ; cd:numericValue "88.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-24 a cd:Observation ; cd:position 24 ; cd:numericValue "89.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-25 a cd:Observation ; cd:position 25 ; cd:numericValue "90.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-26 a cd:Observation ; cd:position 26 ; cd:numericValue "90.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-27 a cd:Observation ; cd:position 27 ; cd:numericValue "91.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-28 a cd:Observation ; cd:position 28 ; cd:numericValue "92.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-29 a cd:Observation ; cd:position 29 ; cd:numericValue "93.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-30 a cd:Observation ; cd:position 30 ; cd:numericValue "94.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-31 a cd:Observation ; cd:position 31 ; cd:numericValue "94.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-32 a cd:Observation ; cd:position 32 ; cd:numericValue "95.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-33 a cd:Observation ; cd:position 33 ; cd:numericValue "96.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-34 a cd:Observation ; cd:position 34 ; cd:numericValue "97.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-35 a cd:Observation ; cd:position 35 ; cd:numericValue "98.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-36 a cd:Observation ; cd:position 36 ; cd:numericValue "98.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-37 a cd:Observation ; cd:position 37 ; cd:numericValue "99.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-38 a cd:Observation ; cd:position 38 ; cd:numericValue "100.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-39 a cd:Observation ; cd:position 39 ; cd:numericValue "101.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-40 a cd:Observation ; cd:position 40 ; cd:numericValue "102.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-41 a cd:Observation ; cd:position 41 ; cd:numericValue "102.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-42 a cd:Observation ; cd:position 42 ; cd:numericValue "103.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-43 a cd:Observation ; cd:position 43 ; cd:numericValue "104.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-44 a cd:Observation ; cd:position 44 ; cd:numericValue "105.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-45 a cd:Observation ; cd:position 45 ; cd:numericValue "106.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-46 a cd:Observation ; cd:position 46 ; cd:numericValue "106.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-47 a cd:Observation ; cd:position 47 ; cd:numericValue "107.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-48 a cd:Observation ; cd:position 48 ; cd:numericValue "108.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-49 a cd:Observation ; cd:position 49 ; cd:numericValue "109.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-matrix-50 a cd:Observation ; cd:position 50 ; cd:numericValue "110.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic control recoveries in increasing chronological order; target 100 percent. Deliberately constructed trend."@en ; cd:unit "%" ; cd:hasObservation ex:l4-large-control-1, ex:l4-large-control-2, ex:l4-large-control-3, ex:l4-large-control-4, ex:l4-large-control-5, ex:l4-large-control-6, ex:l4-large-control-7, ex:l4-large-control-8, ex:l4-large-control-9, ex:l4-large-control-10, ex:l4-large-control-11, ex:l4-large-control-12, ex:l4-large-control-13, ex:l4-large-control-14, ex:l4-large-control-15, ex:l4-large-control-16, ex:l4-large-control-17, ex:l4-large-control-18, ex:l4-large-control-19, ex:l4-large-control-20, ex:l4-large-control-21, ex:l4-large-control-22, ex:l4-large-control-23, ex:l4-large-control-24, ex:l4-large-control-25, ex:l4-large-control-26, ex:l4-large-control-27, ex:l4-large-control-28, ex:l4-large-control-29, ex:l4-large-control-30, ex:l4-large-control-31, ex:l4-large-control-32, ex:l4-large-control-33, ex:l4-large-control-34, ex:l4-large-control-35, ex:l4-large-control-36, ex:l4-large-control-37, ex:l4-large-control-38, ex:l4-large-control-39, ex:l4-large-control-40, ex:l4-large-control-41, ex:l4-large-control-42, ex:l4-large-control-43, ex:l4-large-control-44, ex:l4-large-control-45, ex:l4-large-control-46, ex:l4-large-control-47, ex:l4-large-control-48, ex:l4-large-control-49, ex:l4-large-control-50 ; cd:authoredResource true .
+  ex:l4-large-control-1 a cd:Observation ; cd:position 1 ; cd:numericValue "98.04"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-2 a cd:Observation ; cd:position 2 ; cd:numericValue "98.12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-3 a cd:Observation ; cd:position 3 ; cd:numericValue "98.20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-4 a cd:Observation ; cd:position 4 ; cd:numericValue "98.28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-5 a cd:Observation ; cd:position 5 ; cd:numericValue "98.36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-6 a cd:Observation ; cd:position 6 ; cd:numericValue "98.44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-7 a cd:Observation ; cd:position 7 ; cd:numericValue "98.52"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-8 a cd:Observation ; cd:position 8 ; cd:numericValue "98.60"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-9 a cd:Observation ; cd:position 9 ; cd:numericValue "98.68"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-10 a cd:Observation ; cd:position 10 ; cd:numericValue "98.76"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-11 a cd:Observation ; cd:position 11 ; cd:numericValue "98.84"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-12 a cd:Observation ; cd:position 12 ; cd:numericValue "98.92"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-13 a cd:Observation ; cd:position 13 ; cd:numericValue "99.00"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-14 a cd:Observation ; cd:position 14 ; cd:numericValue "99.08"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-15 a cd:Observation ; cd:position 15 ; cd:numericValue "99.16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-16 a cd:Observation ; cd:position 16 ; cd:numericValue "99.24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-17 a cd:Observation ; cd:position 17 ; cd:numericValue "99.32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-18 a cd:Observation ; cd:position 18 ; cd:numericValue "99.40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-19 a cd:Observation ; cd:position 19 ; cd:numericValue "99.48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-20 a cd:Observation ; cd:position 20 ; cd:numericValue "99.56"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-21 a cd:Observation ; cd:position 21 ; cd:numericValue "99.64"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-22 a cd:Observation ; cd:position 22 ; cd:numericValue "99.72"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-23 a cd:Observation ; cd:position 23 ; cd:numericValue "99.80"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-24 a cd:Observation ; cd:position 24 ; cd:numericValue "99.88"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-25 a cd:Observation ; cd:position 25 ; cd:numericValue "99.96"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-26 a cd:Observation ; cd:position 26 ; cd:numericValue "100.04"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-27 a cd:Observation ; cd:position 27 ; cd:numericValue "100.12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-28 a cd:Observation ; cd:position 28 ; cd:numericValue "100.20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-29 a cd:Observation ; cd:position 29 ; cd:numericValue "100.28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-30 a cd:Observation ; cd:position 30 ; cd:numericValue "100.36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-31 a cd:Observation ; cd:position 31 ; cd:numericValue "100.44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-32 a cd:Observation ; cd:position 32 ; cd:numericValue "100.52"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-33 a cd:Observation ; cd:position 33 ; cd:numericValue "100.60"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-34 a cd:Observation ; cd:position 34 ; cd:numericValue "100.68"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-35 a cd:Observation ; cd:position 35 ; cd:numericValue "100.76"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-36 a cd:Observation ; cd:position 36 ; cd:numericValue "100.84"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-37 a cd:Observation ; cd:position 37 ; cd:numericValue "100.92"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-38 a cd:Observation ; cd:position 38 ; cd:numericValue "101.00"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-39 a cd:Observation ; cd:position 39 ; cd:numericValue "101.08"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-40 a cd:Observation ; cd:position 40 ; cd:numericValue "101.16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-41 a cd:Observation ; cd:position 41 ; cd:numericValue "101.24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-42 a cd:Observation ; cd:position 42 ; cd:numericValue "101.32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-43 a cd:Observation ; cd:position 43 ; cd:numericValue "101.40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-44 a cd:Observation ; cd:position 44 ; cd:numericValue "101.48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-45 a cd:Observation ; cd:position 45 ; cd:numericValue "101.56"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-46 a cd:Observation ; cd:position 46 ; cd:numericValue "101.64"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-47 a cd:Observation ; cd:position 47 ; cd:numericValue "101.72"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-48 a cd:Observation ; cd:position 48 ; cd:numericValue "101.80"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-49 a cd:Observation ; cd:position 49 ; cd:numericValue "101.88"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-control-50 a cd:Observation ; cd:position 50 ; cd:numericValue "101.96"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic shifted control recoveries; nominal target 100 percent, centre 110.02 percent."@en ; cd:unit "%" ; cd:hasObservation ex:l4-large-biased-1, ex:l4-large-biased-2, ex:l4-large-biased-3, ex:l4-large-biased-4, ex:l4-large-biased-5, ex:l4-large-biased-6, ex:l4-large-biased-7, ex:l4-large-biased-8, ex:l4-large-biased-9, ex:l4-large-biased-10, ex:l4-large-biased-11, ex:l4-large-biased-12, ex:l4-large-biased-13, ex:l4-large-biased-14, ex:l4-large-biased-15, ex:l4-large-biased-16, ex:l4-large-biased-17, ex:l4-large-biased-18, ex:l4-large-biased-19, ex:l4-large-biased-20, ex:l4-large-biased-21, ex:l4-large-biased-22, ex:l4-large-biased-23, ex:l4-large-biased-24, ex:l4-large-biased-25, ex:l4-large-biased-26, ex:l4-large-biased-27, ex:l4-large-biased-28, ex:l4-large-biased-29, ex:l4-large-biased-30, ex:l4-large-biased-31, ex:l4-large-biased-32, ex:l4-large-biased-33, ex:l4-large-biased-34, ex:l4-large-biased-35, ex:l4-large-biased-36, ex:l4-large-biased-37, ex:l4-large-biased-38, ex:l4-large-biased-39, ex:l4-large-biased-40, ex:l4-large-biased-41, ex:l4-large-biased-42, ex:l4-large-biased-43, ex:l4-large-biased-44, ex:l4-large-biased-45, ex:l4-large-biased-46, ex:l4-large-biased-47, ex:l4-large-biased-48, ex:l4-large-biased-49, ex:l4-large-biased-50 ; cd:authoredResource true .
+  ex:l4-large-biased-1 a cd:Observation ; cd:position 1 ; cd:numericValue "108.04"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-2 a cd:Observation ; cd:position 2 ; cd:numericValue "108.12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-3 a cd:Observation ; cd:position 3 ; cd:numericValue "108.20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-4 a cd:Observation ; cd:position 4 ; cd:numericValue "108.28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-5 a cd:Observation ; cd:position 5 ; cd:numericValue "108.36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-6 a cd:Observation ; cd:position 6 ; cd:numericValue "108.44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-7 a cd:Observation ; cd:position 7 ; cd:numericValue "108.52"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-8 a cd:Observation ; cd:position 8 ; cd:numericValue "108.60"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-9 a cd:Observation ; cd:position 9 ; cd:numericValue "108.68"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-10 a cd:Observation ; cd:position 10 ; cd:numericValue "108.76"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-11 a cd:Observation ; cd:position 11 ; cd:numericValue "108.84"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-12 a cd:Observation ; cd:position 12 ; cd:numericValue "108.92"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-13 a cd:Observation ; cd:position 13 ; cd:numericValue "109.00"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-14 a cd:Observation ; cd:position 14 ; cd:numericValue "109.08"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-15 a cd:Observation ; cd:position 15 ; cd:numericValue "109.16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-16 a cd:Observation ; cd:position 16 ; cd:numericValue "109.24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-17 a cd:Observation ; cd:position 17 ; cd:numericValue "109.32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-18 a cd:Observation ; cd:position 18 ; cd:numericValue "109.40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-19 a cd:Observation ; cd:position 19 ; cd:numericValue "109.48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-20 a cd:Observation ; cd:position 20 ; cd:numericValue "109.56"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-21 a cd:Observation ; cd:position 21 ; cd:numericValue "109.64"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-22 a cd:Observation ; cd:position 22 ; cd:numericValue "109.72"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-23 a cd:Observation ; cd:position 23 ; cd:numericValue "109.80"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-24 a cd:Observation ; cd:position 24 ; cd:numericValue "109.88"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-25 a cd:Observation ; cd:position 25 ; cd:numericValue "109.96"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-26 a cd:Observation ; cd:position 26 ; cd:numericValue "110.04"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-27 a cd:Observation ; cd:position 27 ; cd:numericValue "110.12"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-28 a cd:Observation ; cd:position 28 ; cd:numericValue "110.20"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-29 a cd:Observation ; cd:position 29 ; cd:numericValue "110.28"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-30 a cd:Observation ; cd:position 30 ; cd:numericValue "110.36"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-31 a cd:Observation ; cd:position 31 ; cd:numericValue "110.44"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-32 a cd:Observation ; cd:position 32 ; cd:numericValue "110.52"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-33 a cd:Observation ; cd:position 33 ; cd:numericValue "110.60"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-34 a cd:Observation ; cd:position 34 ; cd:numericValue "110.68"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-35 a cd:Observation ; cd:position 35 ; cd:numericValue "110.76"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-36 a cd:Observation ; cd:position 36 ; cd:numericValue "110.84"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-37 a cd:Observation ; cd:position 37 ; cd:numericValue "110.92"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-38 a cd:Observation ; cd:position 38 ; cd:numericValue "111.00"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-39 a cd:Observation ; cd:position 39 ; cd:numericValue "111.08"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-40 a cd:Observation ; cd:position 40 ; cd:numericValue "111.16"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-41 a cd:Observation ; cd:position 41 ; cd:numericValue "111.24"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-42 a cd:Observation ; cd:position 42 ; cd:numericValue "111.32"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-43 a cd:Observation ; cd:position 43 ; cd:numericValue "111.40"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-44 a cd:Observation ; cd:position 44 ; cd:numericValue "111.48"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-45 a cd:Observation ; cd:position 45 ; cd:numericValue "111.56"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-46 a cd:Observation ; cd:position 46 ; cd:numericValue "111.64"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-47 a cd:Observation ; cd:position 47 ; cd:numericValue "111.72"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-48 a cd:Observation ; cd:position 48 ; cd:numericValue "111.80"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-49 a cd:Observation ; cd:position 49 ; cd:numericValue "111.88"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-biased-50 a cd:Observation ; cd:position 50 ; cd:numericValue "111.96"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat a cd:Dataset ; dct:description "Synthetic teaching data. Fifty synthetic nitrate repeat determinations of one prepared sample; deterministic shuffled grid, not a precision validation."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-repeat-1, ex:l4-large-repeat-2, ex:l4-large-repeat-3, ex:l4-large-repeat-4, ex:l4-large-repeat-5, ex:l4-large-repeat-6, ex:l4-large-repeat-7, ex:l4-large-repeat-8, ex:l4-large-repeat-9, ex:l4-large-repeat-10, ex:l4-large-repeat-11, ex:l4-large-repeat-12, ex:l4-large-repeat-13, ex:l4-large-repeat-14, ex:l4-large-repeat-15, ex:l4-large-repeat-16, ex:l4-large-repeat-17, ex:l4-large-repeat-18, ex:l4-large-repeat-19, ex:l4-large-repeat-20, ex:l4-large-repeat-21, ex:l4-large-repeat-22, ex:l4-large-repeat-23, ex:l4-large-repeat-24, ex:l4-large-repeat-25, ex:l4-large-repeat-26, ex:l4-large-repeat-27, ex:l4-large-repeat-28, ex:l4-large-repeat-29, ex:l4-large-repeat-30, ex:l4-large-repeat-31, ex:l4-large-repeat-32, ex:l4-large-repeat-33, ex:l4-large-repeat-34, ex:l4-large-repeat-35, ex:l4-large-repeat-36, ex:l4-large-repeat-37, ex:l4-large-repeat-38, ex:l4-large-repeat-39, ex:l4-large-repeat-40, ex:l4-large-repeat-41, ex:l4-large-repeat-42, ex:l4-large-repeat-43, ex:l4-large-repeat-44, ex:l4-large-repeat-45, ex:l4-large-repeat-46, ex:l4-large-repeat-47, ex:l4-large-repeat-48, ex:l4-large-repeat-49, ex:l4-large-repeat-50 ; cd:authoredResource true .
+  ex:l4-large-repeat-1 a cd:Observation ; cd:position 1 ; cd:numericValue "9.51"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-2 a cd:Observation ; cd:position 2 ; cd:numericValue "9.85"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-3 a cd:Observation ; cd:position 3 ; cd:numericValue "10.19"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-4 a cd:Observation ; cd:position 4 ; cd:numericValue "9.53"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-5 a cd:Observation ; cd:position 5 ; cd:numericValue "9.87"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-6 a cd:Observation ; cd:position 6 ; cd:numericValue "10.21"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-7 a cd:Observation ; cd:position 7 ; cd:numericValue "9.55"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-8 a cd:Observation ; cd:position 8 ; cd:numericValue "9.89"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-9 a cd:Observation ; cd:position 9 ; cd:numericValue "10.23"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-10 a cd:Observation ; cd:position 10 ; cd:numericValue "9.57"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-11 a cd:Observation ; cd:position 11 ; cd:numericValue "9.91"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-12 a cd:Observation ; cd:position 12 ; cd:numericValue "10.25"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-13 a cd:Observation ; cd:position 13 ; cd:numericValue "9.59"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-14 a cd:Observation ; cd:position 14 ; cd:numericValue "9.93"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-15 a cd:Observation ; cd:position 15 ; cd:numericValue "10.27"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-16 a cd:Observation ; cd:position 16 ; cd:numericValue "9.61"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-17 a cd:Observation ; cd:position 17 ; cd:numericValue "9.95"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-18 a cd:Observation ; cd:position 18 ; cd:numericValue "10.29"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-19 a cd:Observation ; cd:position 19 ; cd:numericValue "9.63"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-20 a cd:Observation ; cd:position 20 ; cd:numericValue "9.97"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-21 a cd:Observation ; cd:position 21 ; cd:numericValue "10.31"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-22 a cd:Observation ; cd:position 22 ; cd:numericValue "9.65"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-23 a cd:Observation ; cd:position 23 ; cd:numericValue "9.99"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-24 a cd:Observation ; cd:position 24 ; cd:numericValue "10.33"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-25 a cd:Observation ; cd:position 25 ; cd:numericValue "9.67"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-26 a cd:Observation ; cd:position 26 ; cd:numericValue "10.01"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-27 a cd:Observation ; cd:position 27 ; cd:numericValue "10.35"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-28 a cd:Observation ; cd:position 28 ; cd:numericValue "9.69"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-29 a cd:Observation ; cd:position 29 ; cd:numericValue "10.03"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-30 a cd:Observation ; cd:position 30 ; cd:numericValue "10.37"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-31 a cd:Observation ; cd:position 31 ; cd:numericValue "9.71"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-32 a cd:Observation ; cd:position 32 ; cd:numericValue "10.05"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-33 a cd:Observation ; cd:position 33 ; cd:numericValue "10.39"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-34 a cd:Observation ; cd:position 34 ; cd:numericValue "9.73"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-35 a cd:Observation ; cd:position 35 ; cd:numericValue "10.07"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-36 a cd:Observation ; cd:position 36 ; cd:numericValue "10.41"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-37 a cd:Observation ; cd:position 37 ; cd:numericValue "9.75"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-38 a cd:Observation ; cd:position 38 ; cd:numericValue "10.09"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-39 a cd:Observation ; cd:position 39 ; cd:numericValue "10.43"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-40 a cd:Observation ; cd:position 40 ; cd:numericValue "9.77"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-41 a cd:Observation ; cd:position 41 ; cd:numericValue "10.11"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-42 a cd:Observation ; cd:position 42 ; cd:numericValue "10.45"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-43 a cd:Observation ; cd:position 43 ; cd:numericValue "9.79"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-44 a cd:Observation ; cd:position 44 ; cd:numericValue "10.13"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-45 a cd:Observation ; cd:position 45 ; cd:numericValue "10.47"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-46 a cd:Observation ; cd:position 46 ; cd:numericValue "9.81"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-47 a cd:Observation ; cd:position 47 ; cd:numericValue "10.15"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-48 a cd:Observation ; cd:position 48 ; cd:numericValue "10.49"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-49 a cd:Observation ; cd:position 49 ; cd:numericValue "9.83"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-repeat-50 a cd:Observation ; cd:position 50 ; cd:numericValue "10.17"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-tail a cd:Dataset ; dct:description "Synthetic teaching counterexample: first 49 observations shared with river; only observation 50 replaced. Not independent experimental evidence."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-river-1, ex:l4-large-river-2, ex:l4-large-river-3, ex:l4-large-river-4, ex:l4-large-river-5, ex:l4-large-river-6, ex:l4-large-river-7, ex:l4-large-river-8, ex:l4-large-river-9, ex:l4-large-river-10, ex:l4-large-river-11, ex:l4-large-river-12, ex:l4-large-river-13, ex:l4-large-river-14, ex:l4-large-river-15, ex:l4-large-river-16, ex:l4-large-river-17, ex:l4-large-river-18, ex:l4-large-river-19, ex:l4-large-river-20, ex:l4-large-river-21, ex:l4-large-river-22, ex:l4-large-river-23, ex:l4-large-river-24, ex:l4-large-river-25, ex:l4-large-river-26, ex:l4-large-river-27, ex:l4-large-river-28, ex:l4-large-river-29, ex:l4-large-river-30, ex:l4-large-river-31, ex:l4-large-river-32, ex:l4-large-river-33, ex:l4-large-river-34, ex:l4-large-river-35, ex:l4-large-river-36, ex:l4-large-river-37, ex:l4-large-river-38, ex:l4-large-river-39, ex:l4-large-river-40, ex:l4-large-river-41, ex:l4-large-river-42, ex:l4-large-river-43, ex:l4-large-river-44, ex:l4-large-river-45, ex:l4-large-river-46, ex:l4-large-river-47, ex:l4-large-river-48, ex:l4-large-river-49, ex:l4-large-tail-50 ; cd:authoredResource true .
+  ex:l4-large-tail-50 a cd:Observation ; cd:position 50 ; cd:numericValue "90"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-large-spike a cd:Dataset ; dct:description "Synthetic teaching counterexample: first 49 observations shared with repeat; only observation 50 replaced. Not independent experimental evidence."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l4-large-repeat-1, ex:l4-large-repeat-2, ex:l4-large-repeat-3, ex:l4-large-repeat-4, ex:l4-large-repeat-5, ex:l4-large-repeat-6, ex:l4-large-repeat-7, ex:l4-large-repeat-8, ex:l4-large-repeat-9, ex:l4-large-repeat-10, ex:l4-large-repeat-11, ex:l4-large-repeat-12, ex:l4-large-repeat-13, ex:l4-large-repeat-14, ex:l4-large-repeat-15, ex:l4-large-repeat-16, ex:l4-large-repeat-17, ex:l4-large-repeat-18, ex:l4-large-repeat-19, ex:l4-large-repeat-20, ex:l4-large-repeat-21, ex:l4-large-repeat-22, ex:l4-large-repeat-23, ex:l4-large-repeat-24, ex:l4-large-repeat-25, ex:l4-large-repeat-26, ex:l4-large-repeat-27, ex:l4-large-repeat-28, ex:l4-large-repeat-29, ex:l4-large-repeat-30, ex:l4-large-repeat-31, ex:l4-large-repeat-32, ex:l4-large-repeat-33, ex:l4-large-repeat-34, ex:l4-large-repeat-35, ex:l4-large-repeat-36, ex:l4-large-repeat-37, ex:l4-large-repeat-38, ex:l4-large-repeat-39, ex:l4-large-repeat-40, ex:l4-large-repeat-41, ex:l4-large-repeat-42, ex:l4-large-repeat-43, ex:l4-large-repeat-44, ex:l4-large-repeat-45, ex:l4-large-repeat-46, ex:l4-large-repeat-47, ex:l4-large-repeat-48, ex:l4-large-repeat-49, ex:l4-large-spike-50 ; cd:authoredResource true .
+  ex:l4-large-spike-50 a cd:Observation ; cd:position 50 ; cd:numericValue "15"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-data a cd:Dataset ; dct:description "Synthetic paired sensor readings: concentration and response on the same 60 observations, deterministic trend plus patterned deviations; not a calibration validation."@en ; cd:unit "mg/L" ; cd:yMeasurementUnit "a.u." ; cd:hasObservation ex:l4-paired-1, ex:l4-paired-2, ex:l4-paired-3, ex:l4-paired-4, ex:l4-paired-5, ex:l4-paired-6, ex:l4-paired-7, ex:l4-paired-8, ex:l4-paired-9, ex:l4-paired-10, ex:l4-paired-11, ex:l4-paired-12, ex:l4-paired-13, ex:l4-paired-14, ex:l4-paired-15, ex:l4-paired-16, ex:l4-paired-17, ex:l4-paired-18, ex:l4-paired-19, ex:l4-paired-20, ex:l4-paired-21, ex:l4-paired-22, ex:l4-paired-23, ex:l4-paired-24, ex:l4-paired-25, ex:l4-paired-26, ex:l4-paired-27, ex:l4-paired-28, ex:l4-paired-29, ex:l4-paired-30, ex:l4-paired-31, ex:l4-paired-32, ex:l4-paired-33, ex:l4-paired-34, ex:l4-paired-35, ex:l4-paired-36, ex:l4-paired-37, ex:l4-paired-38, ex:l4-paired-39, ex:l4-paired-40, ex:l4-paired-41, ex:l4-paired-42, ex:l4-paired-43, ex:l4-paired-44, ex:l4-paired-45, ex:l4-paired-46, ex:l4-paired-47, ex:l4-paired-48, ex:l4-paired-49, ex:l4-paired-50, ex:l4-paired-51, ex:l4-paired-52, ex:l4-paired-53, ex:l4-paired-54, ex:l4-paired-55, ex:l4-paired-56, ex:l4-paired-57, ex:l4-paired-58, ex:l4-paired-59, ex:l4-paired-60 ; cd:authoredResource true .
+  ex:l4-paired-1 a cd:Observation ; cd:position 1 ; cd:numericValue "0.5"^^xsd:decimal ; cd:pairedValue "11.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-2 a cd:Observation ; cd:position 2 ; cd:numericValue "0.6"^^xsd:decimal ; cd:pairedValue "19.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-3 a cd:Observation ; cd:position 3 ; cd:numericValue "0.7"^^xsd:decimal ; cd:pairedValue "16.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-4 a cd:Observation ; cd:position 4 ; cd:numericValue "0.8"^^xsd:decimal ; cd:pairedValue "24.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-5 a cd:Observation ; cd:position 5 ; cd:numericValue "0.9"^^xsd:decimal ; cd:pairedValue "21.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-6 a cd:Observation ; cd:position 6 ; cd:numericValue "1.0"^^xsd:decimal ; cd:pairedValue "19.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-7 a cd:Observation ; cd:position 7 ; cd:numericValue "1.1"^^xsd:decimal ; cd:pairedValue "27.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-8 a cd:Observation ; cd:position 8 ; cd:numericValue "1.2"^^xsd:decimal ; cd:pairedValue "24.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-9 a cd:Observation ; cd:position 9 ; cd:numericValue "1.3"^^xsd:decimal ; cd:pairedValue "21.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-10 a cd:Observation ; cd:position 10 ; cd:numericValue "1.4"^^xsd:decimal ; cd:pairedValue "29.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-11 a cd:Observation ; cd:position 11 ; cd:numericValue "1.5"^^xsd:decimal ; cd:pairedValue "27.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-12 a cd:Observation ; cd:position 12 ; cd:numericValue "1.6"^^xsd:decimal ; cd:pairedValue "24.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-13 a cd:Observation ; cd:position 13 ; cd:numericValue "1.7"^^xsd:decimal ; cd:pairedValue "32.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-14 a cd:Observation ; cd:position 14 ; cd:numericValue "1.8"^^xsd:decimal ; cd:pairedValue "29.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-15 a cd:Observation ; cd:position 15 ; cd:numericValue "1.9"^^xsd:decimal ; cd:pairedValue "37.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-16 a cd:Observation ; cd:position 16 ; cd:numericValue "2.0"^^xsd:decimal ; cd:pairedValue "35.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-17 a cd:Observation ; cd:position 17 ; cd:numericValue "2.1"^^xsd:decimal ; cd:pairedValue "32.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-18 a cd:Observation ; cd:position 18 ; cd:numericValue "2.2"^^xsd:decimal ; cd:pairedValue "40.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-19 a cd:Observation ; cd:position 19 ; cd:numericValue "2.3"^^xsd:decimal ; cd:pairedValue "37.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-20 a cd:Observation ; cd:position 20 ; cd:numericValue "2.4"^^xsd:decimal ; cd:pairedValue "34.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-21 a cd:Observation ; cd:position 21 ; cd:numericValue "2.5"^^xsd:decimal ; cd:pairedValue "43.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-22 a cd:Observation ; cd:position 22 ; cd:numericValue "2.6"^^xsd:decimal ; cd:pairedValue "40.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-23 a cd:Observation ; cd:position 23 ; cd:numericValue "2.7"^^xsd:decimal ; cd:pairedValue "37.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-24 a cd:Observation ; cd:position 24 ; cd:numericValue "2.8"^^xsd:decimal ; cd:pairedValue "45.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-25 a cd:Observation ; cd:position 25 ; cd:numericValue "2.9"^^xsd:decimal ; cd:pairedValue "42.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-26 a cd:Observation ; cd:position 26 ; cd:numericValue "3.0"^^xsd:decimal ; cd:pairedValue "51.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-27 a cd:Observation ; cd:position 27 ; cd:numericValue "3.1"^^xsd:decimal ; cd:pairedValue "48.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-28 a cd:Observation ; cd:position 28 ; cd:numericValue "3.2"^^xsd:decimal ; cd:pairedValue "45.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-29 a cd:Observation ; cd:position 29 ; cd:numericValue "3.3"^^xsd:decimal ; cd:pairedValue "53.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-30 a cd:Observation ; cd:position 30 ; cd:numericValue "3.4"^^xsd:decimal ; cd:pairedValue "50.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-31 a cd:Observation ; cd:position 31 ; cd:numericValue "0.5"^^xsd:decimal ; cd:pairedValue "12.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-32 a cd:Observation ; cd:position 32 ; cd:numericValue "0.6"^^xsd:decimal ; cd:pairedValue "20.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-33 a cd:Observation ; cd:position 33 ; cd:numericValue "0.7"^^xsd:decimal ; cd:pairedValue "17.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-34 a cd:Observation ; cd:position 34 ; cd:numericValue "0.8"^^xsd:decimal ; cd:pairedValue "14.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-35 a cd:Observation ; cd:position 35 ; cd:numericValue "0.9"^^xsd:decimal ; cd:pairedValue "22.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-36 a cd:Observation ; cd:position 36 ; cd:numericValue "1.0"^^xsd:decimal ; cd:pairedValue "20.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-37 a cd:Observation ; cd:position 37 ; cd:numericValue "1.1"^^xsd:decimal ; cd:pairedValue "28.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-38 a cd:Observation ; cd:position 38 ; cd:numericValue "1.2"^^xsd:decimal ; cd:pairedValue "25.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-39 a cd:Observation ; cd:position 39 ; cd:numericValue "1.3"^^xsd:decimal ; cd:pairedValue "22.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-40 a cd:Observation ; cd:position 40 ; cd:numericValue "1.4"^^xsd:decimal ; cd:pairedValue "30.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-41 a cd:Observation ; cd:position 41 ; cd:numericValue "1.5"^^xsd:decimal ; cd:pairedValue "28.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-42 a cd:Observation ; cd:position 42 ; cd:numericValue "1.6"^^xsd:decimal ; cd:pairedValue "25.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-43 a cd:Observation ; cd:position 43 ; cd:numericValue "1.7"^^xsd:decimal ; cd:pairedValue "33.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-44 a cd:Observation ; cd:position 44 ; cd:numericValue "1.8"^^xsd:decimal ; cd:pairedValue "30.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-45 a cd:Observation ; cd:position 45 ; cd:numericValue "1.9"^^xsd:decimal ; cd:pairedValue "27.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-46 a cd:Observation ; cd:position 46 ; cd:numericValue "2.0"^^xsd:decimal ; cd:pairedValue "36.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-47 a cd:Observation ; cd:position 47 ; cd:numericValue "2.1"^^xsd:decimal ; cd:pairedValue "33.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-48 a cd:Observation ; cd:position 48 ; cd:numericValue "2.2"^^xsd:decimal ; cd:pairedValue "41.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-49 a cd:Observation ; cd:position 49 ; cd:numericValue "2.3"^^xsd:decimal ; cd:pairedValue "38.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-50 a cd:Observation ; cd:position 50 ; cd:numericValue "2.4"^^xsd:decimal ; cd:pairedValue "35.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-51 a cd:Observation ; cd:position 51 ; cd:numericValue "2.5"^^xsd:decimal ; cd:pairedValue "44.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-52 a cd:Observation ; cd:position 52 ; cd:numericValue "2.6"^^xsd:decimal ; cd:pairedValue "41.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-53 a cd:Observation ; cd:position 53 ; cd:numericValue "2.7"^^xsd:decimal ; cd:pairedValue "38.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-54 a cd:Observation ; cd:position 54 ; cd:numericValue "2.8"^^xsd:decimal ; cd:pairedValue "46.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-55 a cd:Observation ; cd:position 55 ; cd:numericValue "2.9"^^xsd:decimal ; cd:pairedValue "43.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-56 a cd:Observation ; cd:position 56 ; cd:numericValue "3.0"^^xsd:decimal ; cd:pairedValue "41.0"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-57 a cd:Observation ; cd:position 57 ; cd:numericValue "3.1"^^xsd:decimal ; cd:pairedValue "49.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-58 a cd:Observation ; cd:position 58 ; cd:numericValue "3.2"^^xsd:decimal ; cd:pairedValue "46.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-59 a cd:Observation ; cd:position 59 ; cd:numericValue "3.3"^^xsd:decimal ; cd:pairedValue "54.6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-paired-60 a cd:Observation ; cd:position 60 ; cd:numericValue "3.4"^^xsd:decimal ; cd:pairedValue "51.8"^^xsd:decimal ; cd:authoredResource true .
+}

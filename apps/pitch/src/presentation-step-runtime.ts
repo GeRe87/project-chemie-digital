@@ -205,7 +205,7 @@ type PresentationStageDirection = "next" | "prev";
 
 export function stageDirectionForKey(event: KeyboardEvent): PresentationStageDirection | undefined {
   if (event.altKey || event.ctrlKey || event.metaKey) return undefined;
-  if ((event.target as Element | null)?.closest?.("dialog[open]")) return undefined;
+  if ((event.target as Element | null)?.closest?.("dialog[open], [data-presentation-interactive='true']")) return undefined;
   if ((event.key === " " || event.key === "Spacebar" || event.key === "Enter")
     && (event.target as Element | null)?.closest?.("button, a, [role='button']")) return undefined;
 
@@ -388,7 +388,7 @@ export function mountPresentationSwipeNavigation(
   const begin = (event: TouchEvent): void => {
     start = undefined;
     if (event.touches.length !== 1 || !isStageLockedSlide(deck.getCurrentSlide())
-      || (event.target as Element).closest("button, input, textarea, select, a, dialog, [contenteditable]")) return;
+      || (event.target as Element).closest("button, input, textarea, select, a, dialog, [contenteditable], [data-presentation-interactive='true']")) return;
     start = { x: event.touches[0]!.clientX, y: event.touches[0]!.clientY };
   };
   const end = (event: TouchEvent): void => {
@@ -422,7 +422,7 @@ export function mountPresentationWheelNavigation(
   const wheel = (event: WheelEvent): void => {
     if (event.ctrlKey || !event.deltaY || Math.abs(event.deltaX ?? 0) > Math.abs(event.deltaY)) return;
     if (options.root?.ownerDocument.body.classList.contains("pcd-course-world-active") || options.root?.ownerDocument.body.dataset?.presentationMode === "script") return;
-    if ((event.target as Element).closest("dialog, input, textarea, select, .cm-editor")) return;
+    if ((event.target as Element).closest("dialog, input, textarea, select, .cm-editor, [data-presentation-interactive='true']")) return;
     if (options.view !== "scroll" && !isStageLockedSlide(deck.getCurrentSlide())) return;
     event.preventDefault(); event.stopImmediatePropagation();
     const direction = Math.sign(event.deltaY);

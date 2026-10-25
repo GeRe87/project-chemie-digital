@@ -93,6 +93,7 @@
 }
 
 .reveal .code-run-button,
+.reveal .code-plot-button,
 .reveal .code-reset-button {
   border: 2px solid var(--pcd-accent);
   border-radius: 0.35rem;
@@ -103,6 +104,8 @@
   font-weight: 700;
   cursor: pointer;
 }
+
+.code-plot-gallery canvas { display: block; width: 100%; height: auto; margin: 0 auto 1rem; }
 
 .reveal .code-run-button:disabled {
   cursor: progress;

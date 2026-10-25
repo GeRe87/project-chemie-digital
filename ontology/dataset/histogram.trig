@@ -1,0 +1,35 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/histogram> {
+  cd:LearningDomain cdm:definesControlledValue cd:Histogram, cd:Histogram2D ;
+    cdm:definesRelation cd:binEdges, cd:yBinEdges ;
+    cdm:definesAttribute cd:histogramNormalization, cd:pairedValue, cd:yMeasurementUnit .
+  cd:Histogram a cdm:ControlledValue ; rdfs:label "Histogram"@en .
+  cd:Histogram2D a cdm:ControlledValue ; rdfs:label "Two-dimensional histogram"@en .
+  cd:binEdges a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range rdf:List .
+  cd:yBinEdges a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range rdf:List .
+  cd:histogramNormalization a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:pairedValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range xsd:decimal .
+  cd:yMeasurementUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:string .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/histogram> {
+  cd:HistogramShape a sh:NodeShape ; sh:targetClass cd:ChartDefinition ;
+    sh:or (
+      [ sh:not [ sh:property [ sh:path cd:chartType ; sh:in ( cd:Histogram cd:Histogram2D ) ] ] ]
+      [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:Histogram ] ;
+        sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] ;
+        sh:property [ sh:path cd:binEdges ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ] ;
+        sh:property [ sh:path cd:histogramNormalization ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "count" "density" ) ] ;
+        sh:property [ sh:path cd:xAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ]
+      [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:Histogram2D ] ;
+        sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] ;
+        sh:property [ sh:path cd:binEdges ; sh:minCount 1 ; sh:maxCount 1 ] ;
+        sh:property [ sh:path cd:yBinEdges ; sh:minCount 1 ; sh:maxCount 1 ] ;
+        sh:property [ sh:path cd:xAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+        sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ] ) .
+}

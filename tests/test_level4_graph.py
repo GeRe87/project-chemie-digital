@@ -61,7 +61,11 @@ class Level4KnowledgeGraphTests(unittest.TestCase):
             self.assertGreater(len(list(self.union.objects(item, CD.supportsResource))), 0)
             self.assertEqual(1, len(list(self.union.objects(item, CD.authoredResource))))
             for target in self.union.objects(item, CD.supportsResource):
-                self.assertIn((target, CD.hasSource, item), self.spec)
+                # A shared source can now also support the new order-statistics
+                # science graph; named graphs assemble into one logical dataset.
+                self.assertIn((target, CD.hasSource, item), self.union)
+                owners={str(g) for _,_,_,g in self.dataset.quads((target,CD.hasSource,item,None))}
+                self.assertTrue(owners <= {GRAPH_SPEC,"https://w3id.org/project-chemie-digital/graph/specifications/level4-order-statistics"},owners)
 
     def test_formulas_have_separate_population_and_sample_conventions(self):
         for concept in ("population-quantile", "sample-quantile-type-1", "sample-quantile-type-7",
@@ -175,8 +179,8 @@ class Level4KnowledgeGraphTests(unittest.TestCase):
     def test_empirical_iqr_formula_is_method_bound_and_not_a_population_quantile(self):
         formula_resource = EX["l4-formula-interquartile-range"]
         expression = str(next(self.spec.objects(formula_resource, CD.latex)))
-        self.assertIn(r"\widehat Q_7(0.75)", expression)
-        self.assertIn(r"\widehat Q_7(0.25)", expression)
+        self.assertIn(r"\widehat Q(0.75)", expression)
+        self.assertIn(r"\widehat Q(0.25)", expression)
         self.assertNotIn("=Q(0.75)", expression)
         self.assertIn((formula_resource, CD.dependsOn, EX["sample-quantile-type-7"]), self.spec)
 

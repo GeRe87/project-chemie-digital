@@ -1,0 +1,40 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/examples/level4-opening-comparison> {
+  ex:l4-opening-example a cd:WorkedExample ; skos:prefLabel "Beyond mean and variance: two synthetic concentration samples"@en ;
+    cd:body "Both constructed, equally weighted samples contain five concentrations in mg/L. Each sums to 25 mg/L and has a sum of squared deviations from 5 mg/L of 40 (mg/L)². Thus the arithmetic mean is 5 mg/L, the sample variance (divisor n−1) is 10 (mg/L)², and the sample SD is exactly √10 mg/L, approximately 3.162277660168379 mg/L. Equal summaries do not make these observed samples identical and do not establish a common population distribution."@en ;
+    cd:usesDataset ex:l4-opening-data-a, ex:l4-opening-data-b ;
+    dct:references ex:arithmetic-mean-formula, ex:sample-variance-formula, ex:sample-sd-formula ; cd:authoredResource true .
+  ex:l4-opening-data-a a cd:Dataset ; skos:prefLabel "Series A"@en ; dct:description "Synthetic concentration sample A; five constructed, equally weighted observations, not real analytical evidence."@en ; cd:unit "mg/L" ;
+    cd:hasObservation ex:l4-opening-a1, ex:l4-opening-a2, ex:l4-opening-a3, ex:l4-opening-a4, ex:l4-opening-a5 ; cd:authoredResource true .
+  ex:l4-opening-a1 a cd:Observation ; cd:position 1 ; cd:numericValue "1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-a2 a cd:Observation ; cd:position 2 ; cd:numericValue "3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-a3 a cd:Observation ; cd:position 3 ; cd:numericValue "5"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-a4 a cd:Observation ; cd:position 4 ; cd:numericValue "7"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-a5 a cd:Observation ; cd:position 5 ; cd:numericValue "9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-data-b a cd:Dataset ; skos:prefLabel "Series B"@en ; dct:description "Synthetic concentration sample B; five constructed, equally weighted observations, not real analytical evidence."@en ; cd:unit "mg/L" ;
+    cd:hasObservation ex:l4-opening-b1, ex:l4-opening-b2, ex:l4-opening-b3, ex:l4-opening-b4, ex:l4-opening-b5 ; cd:authoredResource true .
+  ex:l4-opening-b1 a cd:Observation ; cd:position 1 ; cd:numericValue "2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-b2 a cd:Observation ; cd:position 2 ; cd:numericValue "3"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-b3 a cd:Observation ; cd:position 3 ; cd:numericValue "4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-b4 a cd:Observation ; cd:position 4 ; cd:numericValue "6"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-b5 a cd:Observation ; cd:position 5 ; cd:numericValue "10"^^xsd:decimal ; cd:authoredResource true .
+  ex:l4-opening-mean a cd:StatisticalResult ; skos:prefLabel "Mean = 5 mg/L"@en ; cd:usesDataset ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:quantifiesProperty ex:arithmetic-mean ; cd:numericValue "5"^^xsd:decimal ; cd:unit "mg/L" ; dct:references ex:arithmetic-mean-formula ; cd:authoredResource true .
+  ex:l4-opening-variance a cd:StatisticalResult ; skos:prefLabel "Sample variance = 10 (mg/L)²"@en ; cd:usesDataset ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:quantifiesProperty ex:sample-variance ; cd:numericValue "10"^^xsd:decimal ; cd:unit "(mg/L)^2" ; dct:references ex:sample-variance-formula ; cd:authoredResource true .
+  ex:l4-opening-sd a cd:StatisticalResult ; skos:prefLabel "Sample SD = √10 ≈ 3.162 mg/L"@en ; cd:body "The stored decimal is an approximation; the exact result is √10 mg/L."@en ; cd:usesDataset ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:quantifiesProperty ex:sample-standard-deviation ; cd:numericValue "3.162277660168379"^^xsd:decimal ; cd:unit "mg/L" ; dct:references ex:sample-sd-formula, ex:l4-opening-sd-exact ; cd:authoredResource true .
+  ex:l4-opening-sd-exact a cd:MathExpression ; cd:formulaLabel "Exact worked sample SD for both series"@en ; cd:latex "s=\\sqrt{10}\\;\\mathrm{mg/L}" ; cd:derivedFromResource ex:l4-opening-sd ; cd:authoredResource true .
+  ex:l4-opening-median-a a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-a ; cd:quantifiesProperty ex:median ; cd:numericValue "5"^^xsd:decimal ; cd:unit "mg/L" ; dct:references ex:sample-median-formula ; cd:authoredResource true .
+  ex:l4-opening-median-b a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-b ; cd:quantifiesProperty ex:median ; cd:numericValue "4"^^xsd:decimal ; cd:unit "mg/L" ; dct:references ex:sample-median-formula ; cd:authoredResource true .
+  ex:l4-opening-q1 a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:quantifiesProperty ex:first-quartile ; cd:numericValue "3"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
+  ex:l4-opening-q3-a a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-a ; cd:quantifiesProperty ex:third-quartile ; cd:numericValue "7"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
+  ex:l4-opening-q3-b a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-b ; cd:quantifiesProperty ex:third-quartile ; cd:numericValue "6"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
+  ex:l4-opening-iqr-a a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-a ; cd:quantifiesProperty ex:interquartile-range ; cd:numericValue "4"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
+  ex:l4-opening-iqr-b a cd:StatisticalResult ; cd:usesDataset ex:l4-opening-data-b ; cd:quantifiesProperty ex:interquartile-range ; cd:numericValue "3"^^xsd:decimal ; cd:unit "mg/L" ; cd:dependsOn ex:sample-quantile-type-7 ; cd:authoredResource true .
+  ex:l4-opening-arrangement a cd:Interpretation ; skos:prefLabel "Observed arrangement, not a population model"@en ;
+    cd:body "In the observed Series A, 1 and 9 and 3 and 7 pair around 5 mg/L, with a point at 5. Series B is not symmetric about 5: for example, the reflection of 2 would be 8, which is absent. This describes the constructed samples; five observations do not establish population symmetry or a distribution family."@en ;
+    dct:references ex:distribution-symmetry ; cd:derivedFromResource ex:l4-opening-data-a, ex:l4-opening-data-b ; cd:authoredResource true .
+}

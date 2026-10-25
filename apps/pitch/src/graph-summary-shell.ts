@@ -140,7 +140,7 @@ export function createGraphSummaryModel(document: SceneKnowledgeNetworkDocument)
     const source = nodesById.get(edge.sourceNodeId);
     const target = nodesById.get(edge.targetNodeId);
     if (!source || !target) throw new Error(`Relation ${id} references an unknown node`);
-    return Object.freeze({ id, text: `${source.label} — ${edge.label} → ${target.label}` });
+    return Object.freeze({ id, text: `${source.label}: ${edge.label} → ${target.label}` });
   });
   return Object.freeze({
     label: document.accessibility.label ?? "Wissenskontext der aktuellen Szene",

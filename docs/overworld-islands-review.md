@@ -1,5 +1,22 @@
 # Oberwelt als Inselkarte
 
+## Ergänzung: Quantiles & Statistical Moments
+
+Für die inzwischen verfügbare fünfte Vorlesung ist jetzt ebenfalls eine eigene
+Inselgrafik verknüpft: `apps/pitch/public/course-world/quantiles-moments.svg`.
+Histogramm, Quartilsbox und kumulative Treppe greifen das Thema im gleichen
+360×200-SVG-Stil wie die anderen Inseln auf. Es sind dekorative Motive, keine
+Messdaten. Die bestehende RDF-Verknüpfung über `cd:hasThumbnail` liefert Bildpfad,
+Alternativtext und Provenienz; der Renderer benötigt keine Sonderregel.
+Das SVG bleibt unter 5 KB und enthält keine externen Ressourcen oder Skripte.
+Geprüft: gültiges SVG-XML mit 2.378 Bytes, 21 gezielte Node-Tests und 18
+Python-Tests für den Offering-Vertrag. Die Oberwelt lädt alle fünf Thumbnails
+in Hell/Dunkel auf Desktop und Mobilansicht ohne horizontalen Überlauf.
+Tastaturstart und Rückkehr funktionieren; die Oberwelt lädt weiterhin keine
+Vorlesung vor dem Start. Die neuen Karten wurden auch visuell geprüft.
+Nachweise: `C:/Users/PCUser/AppData/Local/Temp/opencode/level4-overworld-thumbnail/`.
+Die folgenden Zahlen und Prüfungen dokumentieren den früheren Vier-Level-Stand.
+
 ## Ergebnis
 
 Die vier verfügbaren Level sind jetzt kleine Inselstationen statt einer

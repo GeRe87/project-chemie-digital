@@ -1,0 +1,43 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/ontology/exploration-options> {
+  cd:LearningDomain cdm:definesConcept cd:ObservationInterval ; cdm:definesRelation cd:displayInterval ;
+    cdm:definesAttribute cd:lowerBound, cd:upperBound, cd:allowBinAdjustment, cd:binWidthMinimum, cd:binWidthMaximum, cd:binWidthStep, cd:compactObservations, cd:interactiveObservations, cd:momentMetric, cd:bodyFormat .
+  cd:ObservationInterval a rdfs:Class, cdm:ConceptDescriptor .
+  cd:displayInterval a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartGroup ; rdfs:range cd:ObservationInterval .
+  cd:lowerBound a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ObservationInterval ; rdfs:range xsd:decimal .
+  cd:upperBound a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ObservationInterval ; rdfs:range xsd:decimal .
+  cd:allowBinAdjustment a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:binWidthMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:binWidthMaximum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:binWidthStep a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:compactObservations a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:interactiveObservations a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:bodyFormat a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range xsd:string .
+  cd:momentMetric a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/exploration-options> {
+  cd:MomentViewShape a sh:NodeShape ; sh:targetSubjectsOf cd:momentMetric ;
+    sh:property [ sh:path cd:momentMetric ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "mean" "variance" "kurtosis" "skewness" ) ] ;
+    sh:property [ sh:path cd:observationView ; sh:hasValue "moments" ] ;
+    sh:property [ sh:path cd:hasObservationSeries ; sh:minCount 1 ; sh:maxCount 6 ] .
+  cd:StaticECDFShape a sh:NodeShape ; sh:targetSubjectsOf cd:interactiveObservations ;
+    sh:property [ sh:path cd:interactiveObservations ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:observationView ; sh:hasValue "ecdf" ] ;
+    sh:property [ sh:path cd:compactObservations ; sh:hasValue true ] .
+  cd:ObservationIntervalShape a sh:NodeShape ; sh:targetClass cd:ObservationInterval ;
+    sh:property [ sh:path cd:lowerBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:upperBound ] ;
+    sh:property [ sh:path cd:upperBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+  cd:BodyFormatShape a sh:NodeShape ; sh:targetSubjectsOf cd:bodyFormat ;
+    sh:property [ sh:path cd:bodyFormat ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "plain" "markdown" ) ] .
+  cd:BinAdjustmentShape a sh:NodeShape ; sh:targetSubjectsOf cd:allowBinAdjustment ;
+    sh:property [ sh:path cd:allowBinAdjustment ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path cd:binWidthMinimum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:lessThanOrEquals cd:binWidthMaximum ] ;
+    sh:property [ sh:path cd:binWidthMaximum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+    sh:property [ sh:path cd:binWidthStep ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] .
+}

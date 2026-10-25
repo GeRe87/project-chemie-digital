@@ -1,4 +1,11 @@
+import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
+import { histogramStaticFallback } from "../../core/src/histogram.ts";
 import {
+  SCENE_DOCUMENT_OBSERVATION_VERSION,
+  SCENE_DOCUMENT_BOX_PLOT_VERSION,
+  SCENE_DOCUMENT_HISTOGRAM_VERSION,
+  SCENE_DOCUMENT_EXPLORATION_VERSION,
+  SCENE_DOCUMENT_MOMENT_VERSION,
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
@@ -19,6 +26,7 @@ import {
   type SceneDocument,
   type SourceReference,
 } from "../../core/src/scene-document.ts";
+import { observationExplorerFallback } from "../../core/src/observation-explorer.ts";
 
 export interface RevealAdapterOptions {
   readonly reducedMotion: boolean;
@@ -300,7 +308,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       "Participants:",
       ...(block.participantRoles ?? []).map((role) => `- ${role.label}`),
       "Messages:",
-      ...(block.messages ?? []).map((message) => `- ${roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId} — ${message.label} → ${roleLabels.get(message.targetRoleId) ?? message.targetRoleId}`),
+      ...(block.messages ?? []).map((message) => `- ${roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId}: ${message.label} → ${roleLabels.get(message.targetRoleId) ?? message.targetRoleId}`),
       ...(block.states ?? []).flatMap((state) => [
         `State: ${state.label}`,
         ...(state.activeMessageIds ? [`- Active messages: ${state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", ")}`] : []),
@@ -314,11 +322,11 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.description,
     "Nodes:",
     ...block.nodes.flatMap((node) => [
-      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? ` — ${node.description}` : ""}`,
+      `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? `: ${node.description}` : ""}`,
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
-    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId} — ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
+    ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
@@ -344,7 +352,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
     case "math":
       if (block.spokenText.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Mathematics requires spokenText", block.id);
       return {
-        ...baseFor(block, position, options, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression} — ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
+        ...baseFor(block, position, options, [block.derivation ? mathematicalDerivationText(block.derivation) : `${block.expression}: ${block.spokenText}`, ...(block.derivationDetails ?? []).flatMap(d => [d.label,...d.sections.map(mathematicalDerivationText)])].join("\n")),
         kind: "math",
         expression: block.expression,
         spokenText: block.spokenText,
@@ -450,6 +458,11 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         fallback: block.fallback,
         interactive: options.interactionPolicy === "interactive-when-supported",
       };
+    case "chart":
+      if(block.chartType==="histogram"||block.chartType==="histogram2d")return {...baseFor(block,position,options,histogramStaticFallback(block)),kind:"prose",text:histogramStaticFallback(block),format:"plain"};
+      if (block.chartType === "box") return { ...baseFor(block, position, options, boxPlotStaticFallback(block)), kind: "prose", text: boxPlotStaticFallback(block), format: "plain" };
+      if (block.chartType !== "observations") throw new AdapterError("UNSUPPORTED_PRIMITIVE", "Use the chart renderer for this chart", block.id);
+      return { ...baseFor(block, position, options, observationExplorerFallback(block)), kind: "prose", text: observationExplorerFallback(block), format: "plain" };
     case "diagram":
       return {
         ...baseFor(block, position, options, diagramStaticFallback(block)),
@@ -513,7 +526,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION) {
+  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

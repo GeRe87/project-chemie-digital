@@ -180,7 +180,7 @@ function renderPathOptions(unit: PitchCourseWorldUnit): string {
     if (path.status === "available" && path.sceneDocumentId) {
       return `<div class="pitch-world-path" data-path-status="available">
         <span class="pitch-world-path-label">${escapeHtml(path.label)}</span>
-        <button type="button" class="pitch-world-start" aria-label="${escapeHtml(`Start level: ${unit.label}${unit.paths.length > 1 ? ` — ${path.label}` : ""}`)}" data-scene-document-id="${escapeHtml(path.sceneDocumentId)}">Start level <span aria-hidden="true">↗</span></button>
+        <button type="button" class="pitch-world-start" aria-label="${escapeHtml(`Start level: ${unit.label}${unit.paths.length > 1 ? `: ${path.label}` : ""}`)}" data-scene-document-id="${escapeHtml(path.sceneDocumentId)}">Start level <span aria-hidden="true">↗</span></button>
       </div>`;
     }
     return `<div class="pitch-world-path" data-path-status="in-preparation">

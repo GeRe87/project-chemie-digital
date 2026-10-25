@@ -1,0 +1,81 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level4-opening> {
+  ex:l4-gap-heading a cd:Interpretation ; skos:prefLabel "Same mean. Same variance. Same distribution?"@en ; cd:body "Do these summaries tell us everything about our measurements?"@en ; cd:authoredResource true .
+
+  ex:l4-opening-series-a a cd:ObservationSeries ; skos:prefLabel "Series A"@en ; cd:position 1 ; cd:usesDataset ex:l4-opening-data-a ; cd:hasObservationPlacement ex:l4-opening-pa1, ex:l4-opening-pa2, ex:l4-opening-pa3, ex:l4-opening-pa4, ex:l4-opening-pa5 ;
+    cd:comparisonCenter ex:l4-opening-mean ; cd:comparisonSpread ex:l4-opening-sd ; cd:comparisonVariance ex:l4-opening-variance ; cd:authoredResource true .
+  ex:l4-opening-series-b a cd:ObservationSeries ; skos:prefLabel "Series B"@en ; cd:position 2 ; cd:usesDataset ex:l4-opening-data-b ; cd:hasObservationPlacement ex:l4-opening-pb1, ex:l4-opening-pb2, ex:l4-opening-pb3, ex:l4-opening-pb4, ex:l4-opening-pb5 ;
+    cd:comparisonCenter ex:l4-opening-mean ; cd:comparisonSpread ex:l4-opening-sd ; cd:comparisonVariance ex:l4-opening-variance ; cd:authoredResource true .
+  ex:l4-opening-pa1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-opening-a1 ; cd:authoredResource true .
+  ex:l4-opening-pa2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-opening-a2 ; cd:authoredResource true .
+  ex:l4-opening-pa3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-opening-a3 ; cd:authoredResource true .
+  ex:l4-opening-pa4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-opening-a4 ; cd:authoredResource true .
+  ex:l4-opening-pa5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-opening-a5 ; cd:authoredResource true .
+  ex:l4-opening-pb1 a cd:ObservationPlacement ; cd:position 1 ; cd:placedObservation ex:l4-opening-b1 ; cd:authoredResource true .
+  ex:l4-opening-pb2 a cd:ObservationPlacement ; cd:position 2 ; cd:placedObservation ex:l4-opening-b2 ; cd:authoredResource true .
+  ex:l4-opening-pb3 a cd:ObservationPlacement ; cd:position 3 ; cd:placedObservation ex:l4-opening-b3 ; cd:authoredResource true .
+  ex:l4-opening-pb4 a cd:ObservationPlacement ; cd:position 4 ; cd:placedObservation ex:l4-opening-b4 ; cd:authoredResource true .
+  ex:l4-opening-pb5 a cd:ObservationPlacement ; cd:position 5 ; cd:placedObservation ex:l4-opening-b5 ; cd:authoredResource true .
+
+  ex:l4-opening-sd-guide a cd:KeyPoint ; cd:position 1 ; cd:body "Bars: mean ± one sample SD, not a confidence interval or the data range."@en ; dct:references ex:sample-sd-formula ; cd:authoredResource true .
+  ex:l4-opening-data-sd-guide a cd:KeyPoint ; cd:position 1 ; cd:body "Bars: mean ± one sample SD, not a confidence interval or the data range."@en ; dct:references ex:sample-sd-formula ; cd:authoredResource true .
+
+  ex:l4-gap-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "summary" ;
+    skos:prefLabel "Same summaries, four different empirical shapes"@en ; cd:body "Four constructed sets · 100 observations each · mean 50 and sample SD 10 a.u. (within decimal precision). Vertical stacking only separates points; it is not a second measured variable."@en ;
+    cd:xAxisLabel "Value"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Synthetic set"@en ;
+    cd:hasObservationSeries ex:l4-shapes-uniform-series, ex:l4-shapes-normal-series, ex:l4-shapes-skewed-series, ex:l4-shapes-bimodal-series ; cd:comparisonMinimum "20"^^xsd:decimal ; cd:comparisonMaximum "100"^^xsd:decimal ; cd:intervalLower "40"^^xsd:decimal ; cd:intervalUpper "60"^^xsd:decimal ;
+    cd:hasComparisonStage ex:l4-shapes-overview ;
+    dct:hasPart ex:arithmetic-mean-formula, ex:sample-variance-formula, ex:sd-definition-university-en, ex:sample-sd-formula, ex:l4-shapes-example ; cd:authoredResource true .
+  ex:l4-shapes-overview a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Same summaries, different shapes"@en ; cd:comparisonMode "distribution" ; cd:body "Vertical offsets separate observations. SD bars are not confidence intervals."@en ; cd:authoredResource true .
+  ex:l4-shapes-bridge a cd:KeyPoint ; cd:position 2 ; cd:body "Beyond mean and SD: ECDF, quantiles and distribution shape."@en ; dct:references ex:empirical-cdf, ex:sample-quantile, ex:empirical-central-moment ; cd:authoredResource true .
+
+  ex:l4-shapes-context a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l4-shapes-scenario ; cd:authoredResource true .
+  ex:l4-shapes-scenario a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Scenario: identical summaries"@en ; cd:body "• Four synthetic sets, **100 values each**.\n• All have the **same mean and sample SD**.\n• Do they also have the ==same distribution==?"@en ; dct:source ex:l4-shapes-example ; cd:authoredResource true .
+  ex:l4-shapes-conclusion a cd:Interpretation ; cd:hasKeyPoint ex:l4-shapes-message, ex:l4-shapes-bridge ; cd:authoredResource true .
+  ex:l4-shapes-message a cd:KeyPoint ; cd:position 1 ; cd:body "**Equal mean and SD do not determine the empirical distribution.**"@en ; cd:derivedFromResource ex:l4-shapes-example ; cd:authoredResource true .
+
+  ex:l4-shapes-table a cd:TableDefinition ; skos:prefLabel "Empirical summaries (a.u.)"@en ; cd:hasTableColumn ex:l4-shapes-col-set, ex:l4-shapes-col-mean, ex:l4-shapes-col-sd ; cd:hasTableRow ex:l4-shapes-row-u, ex:l4-shapes-row-n, ex:l4-shapes-row-s, ex:l4-shapes-row-b ; dct:source ex:l4-shapes-example ; cd:authoredResource true .
+  ex:l4-shapes-col-set a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Set"@en ; cd:authoredResource true .
+  ex:l4-shapes-col-mean a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Mean"@en ; cd:authoredResource true .
+  ex:l4-shapes-col-sd a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Sample SD"@en ; cd:authoredResource true .
+  ex:l4-shapes-row-u a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l4-shapes-u-name, ex:l4-shapes-u-mean, ex:l4-shapes-u-sd ; cd:authoredResource true .
+  ex:l4-shapes-row-n a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l4-shapes-n-name, ex:l4-shapes-n-mean, ex:l4-shapes-n-sd ; cd:authoredResource true .
+  ex:l4-shapes-row-s a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l4-shapes-s-name, ex:l4-shapes-s-mean, ex:l4-shapes-s-sd ; cd:authoredResource true .
+  ex:l4-shapes-row-b a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l4-shapes-b-name, ex:l4-shapes-b-mean, ex:l4-shapes-b-sd ; cd:authoredResource true .
+  ex:l4-shapes-u-name a cd:TableCell ; cd:position 1 ; cd:body "Uniform"@en ; dct:source ex:l4-shapes-uniform ; cd:authoredResource true .
+  ex:l4-shapes-n-name a cd:TableCell ; cd:position 1 ; cd:body "Normal-like"@en ; dct:source ex:l4-shapes-normal ; cd:authoredResource true .
+  ex:l4-shapes-s-name a cd:TableCell ; cd:position 1 ; cd:body "Right-skewed"@en ; dct:source ex:l4-shapes-skewed ; cd:authoredResource true .
+  ex:l4-shapes-b-name a cd:TableCell ; cd:position 1 ; cd:body "Bimodal"@en ; dct:source ex:l4-shapes-bimodal ; cd:authoredResource true .
+  ex:l4-shapes-u-mean a cd:TableCell ; cd:position 2 ; cd:body "50"@en ; dct:source ex:l4-shapes-mean ; cd:authoredResource true .
+  ex:l4-shapes-n-mean a cd:TableCell ; cd:position 2 ; cd:body "50"@en ; dct:source ex:l4-shapes-mean ; cd:authoredResource true .
+  ex:l4-shapes-s-mean a cd:TableCell ; cd:position 2 ; cd:body "50"@en ; dct:source ex:l4-shapes-mean ; cd:authoredResource true .
+  ex:l4-shapes-b-mean a cd:TableCell ; cd:position 2 ; cd:body "50"@en ; dct:source ex:l4-shapes-mean ; cd:authoredResource true .
+  ex:l4-shapes-u-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
+  ex:l4-shapes-n-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
+  ex:l4-shapes-s-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
+  ex:l4-shapes-b-sd a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; dct:source ex:l4-shapes-sd ; cd:authoredResource true .
+  ex:l4-gap-summary a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Known summaries"@en ; cd:comparisonMode "summaries" ; cd:body "Can identical summaries hide different measurements?"@en ; cd:hasKeyPoint ex:l4-opening-sd-guide ; cd:authoredResource true .
+  ex:l4-gap-data a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Reveal observations"@en ; cd:comparisonMode "spread" ; cd:body "Equal summaries do not uniquely determine the empirical distribution."@en ; cd:allowSeriesOverlay true ; cd:hasKeyPoint ex:l4-opening-data-sd-guide ; cd:authoredResource true .
+
+  ex:l4-needs-position a cd:ComparisonStage ; cd:position 1 ; skos:prefLabel "Position"@en ; cd:comparisonMode "rank" ; cd:body "Where do observations lie within the ordered data?"@en ; dct:references ex:order-statistic, ex:sample-quantile ; cd:authoredResource true .
+  ex:l4-needs-interval a cd:ComparisonStage ; cd:position 2 ; skos:prefLabel "Interval"@en ; cd:comparisonMode "interval" ; cd:body "How much of the data lies within a particular interval?"@en ; dct:references ex:quartile, ex:interquartile-range ; cd:authoredResource true .
+  ex:l4-needs-shape a cd:ComparisonStage ; cd:position 3 ; skos:prefLabel "Symmetry"@en ; cd:comparisonMode "mirror" ; cd:body "Are observations arranged symmetrically or asymmetrically?"@en ; dct:references ex:distribution-symmetry, ex:empirical-central-moment ; cd:authoredResource true .
+  ex:l4-needs-next a cd:ComparisonStage ; cd:position 3 ; skos:prefLabel "Explore what is missing"@en ; cd:comparisonMode "topics" ; cd:body "Next: order the measurements and inspect their ranks."@en ; cd:allowSeriesOverlay true ; cd:hasInvestigation ex:l4-needs-position, ex:l4-needs-interval, ex:l4-needs-shape ; cd:hasKeyPoint ex:l4-position-topic, ex:l4-concentration-topic, ex:l4-shape-topic ; cd:authoredResource true .
+  ex:l4-position-topic a cd:KeyPoint ; cd:position 1 ; cd:body "Position → Quantiles"@en ; dct:references ex:sample-quantile ; cd:authoredResource true .
+  ex:l4-concentration-topic a cd:KeyPoint ; cd:position 2 ; cd:body "Concentration → Quartiles & IQR"@en ; dct:references ex:quartile, ex:interquartile-range ; cd:authoredResource true .
+  ex:l4-shape-topic a cd:KeyPoint ; cd:position 3 ; cd:body "Shape → Statistical moments"@en ; dct:references ex:empirical-central-moment ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/chemometrics-level4-distribution-shape-lecture> {
+  ex:l4-scene-summary-gap a cd:SceneDefinition ; cd:focusConcept ex:sample-variance ; cd:hasSceneItem ex:l4-gap-h, ex:l4-gap-scenario, ex:l4-gap-table, ex:l4-gap-conclusion, ex:l4-gap-c ; cd:authoredResource true .
+  ex:l4-gap-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l4-gap-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-gap-scenario a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l4-shapes-context ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-gap-table a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l4-shapes-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-gap-conclusion a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l4-shapes-conclusion ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:l4-gap-c a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l4-gap-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

@@ -39,7 +39,9 @@
 
   cd:DotPlotShape a sh:NodeShape ;
     sh:targetSubjectsOf cd:hasChartGroup ;
-    sh:property [ sh:path cd:chartType ; sh:hasValue cd:DotPlot ] ;
+    # Both primitives use the same ordered observation groups. BoxPlotShape
+    # additionally requires its quantile convention, multiplier and unit.
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:DotPlot cd:BoxPlot ) ] ;
     sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
     sh:property [ sh:path cd:hasChartAnnotation ; sh:maxCount 1 ; sh:class cd:ChartReferenceLine ] ;
     sh:sparql [

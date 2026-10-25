@@ -1,0 +1,24 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/box-plot> {
+  cd:LearningDomain cdm:definesAttribute cd:fenceMultiplier, cd:showObservations ; cdm:definesControlledValue cd:BoxPlot .
+  cd:showObservations a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:BoxPlot a cdm:ControlledValue ; rdfs:label "Box-and-whisker plot"@en .
+  cd:fenceMultiplier a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/box-plot> {
+  cd:BoxPlotShape a sh:NodeShape ; sh:targetClass cd:ChartDefinition ;
+    sh:or ( [ sh:not [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:BoxPlot ] ] ]
+      [ sh:property [ sh:path cd:dependsOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( ex:sample-quantile-type-7 ) ] ;
+        sh:property [ sh:path cd:fenceMultiplier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+        sh:property [ sh:path cd:hasChartGroup ; sh:minCount 1 ; sh:class cd:ChartGroup ] ;
+        sh:property [ sh:path cd:showObservations ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+        sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ]
+      ] ) .
+}
