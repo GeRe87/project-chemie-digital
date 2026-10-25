@@ -1,5 +1,5 @@
 import { scaleLinear } from "d3-scale";
-import { regressionStaticFallback, regressionWindowResult, type RegressionChartBlock } from "../../core/src/regression-chart.ts";
+import { cyclicRegressionWindow, regressionStaticFallback, regressionWindowResult, type RegressionChartBlock } from "../../core/src/regression-chart.ts";
 
 /** Linked window membership, paired observations/OLS and held-out errors. */
 export function mountD3RegressionChart(host: HTMLElement, block: RegressionChartBlock, options: {reducedMotion: boolean}) {
@@ -10,10 +10,17 @@ export function mountD3RegressionChart(host: HTMLElement, block: RegressionChart
   const canvas = document.createElementNS(NS, "svg"); canvas.classList.add("d3-chart-svg", "d3-regression-svg");
   canvas.setAttribute("viewBox", "0 0 1280 620"); canvas.setAttribute("role", "img");
   const caption = document.createElement("figcaption"); caption.className = "d3-chart-caption"; caption.textContent = block.description;
+  const controls = document.createElement("span"); controls.className = "d3-regression-cycle-controls"; controls.hidden = true;
+  const toggle = document.createElement("button"); toggle.type = "button";
+  const position = document.createElement("span"); controls.append(toggle, position); caption.append(controls);
   const alternative = document.createElement("pre"); alternative.className = "d3-chart-static-fallback"; alternative.textContent = regressionStaticFallback(block);
   figure.append(canvas, caption, alternative); host.replaceChildren(figure);
   host.dataset.presentationStepCount = String(block.windows.length); host.dataset.presentationStepHost = "chart";
-  const results = block.windows.map(window => regressionWindowResult(block, window));
+  const frames = block.windows.map(window => Array.from({length: window.cycleIntervalMs ? block.data.length : 1}, (_, i) => {
+    const selection = window.cycleIntervalMs ? cyclicRegressionWindow(block, window, i) : window;
+    return {window: selection, result: regressionWindowResult(block, selection)};
+  }));
+  const results = frames.flatMap(f => f.map(frame => frame.result));
   const domain = (values: readonly number[], padding: number): [number, number] => {
     const lo = Math.min(0, ...values), hi = Math.max(0, ...values), pad = (hi - lo || 1) * padding;
     return [lo < 0 ? lo - pad : 0, hi > 0 ? hi + pad : pad];
@@ -28,9 +35,16 @@ export function mountD3RegressionChart(host: HTMLElement, block: RegressionChart
     for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, String(value));
     if (text !== undefined) node.textContent = text; parent.append(node); return node;
   };
-  let step = 0;
+  let step = 0, offset = 0, paused = options.reducedMotion, timer: ReturnType<typeof setInterval> | undefined;
+  const stop = () => { if (timer !== undefined) clearInterval(timer); timer = undefined; };
   const render = () => {
-    const index = Math.max(0, step - 1), window = block.windows[index]!, result = results[index]!;
+    const index = Math.max(0, step - 1), {window, result} = frames[index]![offset % frames[index]!.length]!;
+    controls.hidden = !window.cycleIntervalMs;
+    toggle.textContent = paused ? "Resume FIFO" : "Pause FIFO";
+    const firstIndex = block.data.findIndex(d => d.id === window.datumIds[0]);
+    position.textContent = `Start ${firstIndex + 1} of ${block.data.length}; ${window.datumIds.length} observations`;
+    canvas.dataset.regressionWindowStart = String(firstIndex + 1);
+    canvas.dataset.regressionMemberIds = window.datumIds.join(" ");
     const members = new Set(window.datumIds); canvas.replaceChildren();
     host.dataset.presentationStep = String(step); canvas.dataset.regressionWindowId = window.id;
     canvas.setAttribute("aria-label", `${block.label}. ${window.label}. ${result.points.length} observations. Mean absolute leave-one-out inverse-prediction error: ${result.meanAbsoluteError.toFixed(2)} ${block.xAxis.unit}. Complete data and window membership follow in the text alternative.`);
@@ -72,14 +86,27 @@ export function mountD3RegressionChart(host: HTMLElement, block: RegressionChart
     add(canvas, "text", {class: "d3-regression-heading", x: 1115, y: 550, "text-anchor": "middle"}, `Mean: ${result.meanAbsoluteError.toFixed(1)} ${block.xAxis.unit}`);
     add(canvas, "text", {class: "d3-regression-small", x: 1115, y: 582, "text-anchor": "middle"}, "Held-out errors, not training residuals");
   };
-  const setStep = (value: number) => { step = Math.max(0, Math.min(block.windows.length, Math.trunc(Number.isFinite(value) ? value : 0))); render(); };
+  const start = () => {
+    stop(); const active = step > 0 ? block.windows[step - 1] : undefined;
+    if (!active?.cycleIntervalMs || paused || document.hidden) return;
+    timer = setInterval(() => { offset = (offset + 1) % block.data.length; render(); }, active.cycleIntervalMs);
+  };
+  const setStep = (value: number) => {
+    const next = Math.max(0, Math.min(block.windows.length, Math.trunc(Number.isFinite(value) ? value : 0)));
+    if (next === step) return;
+    stop(); step = next; offset = 0; render(); start();
+  };
+  const onToggle = () => { paused = !paused; render(); start(); };
+  const onVisibility = () => { document.hidden ? stop() : start(); };
   const listener = (event: Event) => setStep((event as CustomEvent<{step: number}>).detail.step);
   const scrollKeys = (event: KeyboardEvent) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault(); event.stopPropagation(); figure.scrollBy({left: event.key === "ArrowRight" ? 120 : -120, behavior: options.reducedMotion ? "instant" : "smooth"});
   };
-  host.addEventListener("pcd-presentation-step", listener); figure.addEventListener("keydown", scrollKeys); render();
+  host.addEventListener("pcd-presentation-step", listener); figure.addEventListener("keydown", scrollKeys);
+  toggle.addEventListener("click", onToggle); document.addEventListener("visibilitychange", onVisibility); render();
   return {stepCount: block.windows.length, setStep, destroy() {
+    stop(); toggle.removeEventListener("click", onToggle); document.removeEventListener("visibilitychange", onVisibility);
     host.removeEventListener("pcd-presentation-step", listener); figure.removeEventListener("keydown", scrollKeys);
     host.removeAttribute("data-presentation-step-count"); host.removeAttribute("data-presentation-step-host"); host.removeAttribute("data-presentation-step"); figure.remove();
   }};

@@ -40,10 +40,16 @@ The generic D3 primitive links three views of that same window:
 
 Scales remain fixed across windows. Colours link observations between views;
 labels, counts, tooltips and full text alternatives do not rely on colour alone.
-The first window appears on entry, with later windows controlled by the existing
-presentation-step runtime. There is no independent timer or slide-specific state
-machine. The heading/chart/takeaways composition, theme and focusable narrow-screen
-horizontal scrolling are shared with the other chart primitives.
+The first window appears on entry, with later stages controlled by the existing
+presentation-step runtime. A window may author `cd:cycleIntervalMs` (at least
+100 ms). This enables the shared FIFO replay: advance by exactly one observation,
+keep the window size fixed, and wrap modulo the dataset length. Initial members
+must be contiguous. All possible frames are checked for valid fits and included
+in the shared axis-domain calculation. There is no slide-specific state machine.
+The timer stops on stage/slide exit, document hiding and teardown. A pause/resume
+control is provided; reduced-motion mode starts paused and requires opt-in replay.
+The heading/chart/takeaways composition, theme and narrow-screen horizontal
+scrolling remain shared with the other chart primitives.
 
 Core, Pitch, static Reveal and self-study retain full data/window alternatives.
 The Python static export lists all paired values and window membership without
@@ -65,11 +71,47 @@ peak-area units remain explicitly unspecified source units.
 
 Display order follows the old talk's five near-equal-size mass strata (9/9/9/9/8), cycling
 through one member per stratum. This is **not acquisition chronology**. Authored
-windows select the first 5, first 15, then positions 6 through 20. The final step
-replaces one full balanced cycle, not a claim about real-time drift correction.
-The raw-peak panels, continuous wraparound loop and fixed-t confidence-band
-shortcut are deliberately not copied. No promise of always decreasing error or
+windows select the first 5, first 15, then replay a 15-member FIFO window over all
+44 standards, one position at a time, including wraparound. The old raw-peak panels
+and fixed-t confidence-band shortcut are not copied. This is a teaching replay,
+not a claim about real-time drift correction. No promise of decreasing error or
 permission to omit blank/quality-control runs is made.
+
+## Sample-evaluation comparison using the existing dot plot
+
+`talks-ted-sample-comparison.trig` authors the supplied Influent/Effluent triplicate
+areas and sample masses, the calibration reference, one-based local window starts
+(16 and 15), window size 15, neighbor radius 5 and normalization factor 1000.
+The latter converts predicted µg SBR per µg sample to µg/mg. No private measurement
+file names or acquisition dates are exported.
+
+Normalized results, means and descriptive error bounds are materialized RDF
+scientific records, not authored JSON. They are reproducible with
+`packages/core/src/calibration-evaluation.ts`. Input changes require recomputing
+and validating these records, not editing generated transport. Each local result
+averages three normalized replicates. Each neighboring result averages eleven
+three-replicate means from the selected overlapping 15-standard windows. This
+is an ensemble of simple fits, not multiple-predictor regression or averaging
+regression coefficients. The source selects balanced-order windows, not verified
+calendar-session matches. No repeated boundary windows are substituted.
+
+There is no new result-specific chart kind or layout. Standard dot groups author
+`cd:revealStep` (positive contiguous stages beginning at 1); the first two local
+groups appear on entry, followed by the two eleven-window groups. The optional
+`cd:showSummaryValues` displays numeric means. `cd:intervalRole cd:DescriptiveError`
+renders whiskers, not a coverage band or a percentage-inside calculation, in both
+interactive and text alternatives. Existing coverage intervals keep their behavior.
+Legend rows are handled by the generic chart composition.
+
+The local descriptive standard error is across three replicates; the ensemble
+standard error is across eleven highly overlapping window means. Those are
+different sampling units. Narrower bars do not establish lower measurement
+uncertainty, better precision, independence or a confidence interval. The chart
+and narration explicitly preserve that limitation.
+
+The existing `cd:yAxisMinimum` option is also available on line charts. It is
+projected with provenance, checked against clipping and preserved after scale
+rounding. The heating-rate study uses 20 as its lower y boundary.
 
 ## Presentation rules
 

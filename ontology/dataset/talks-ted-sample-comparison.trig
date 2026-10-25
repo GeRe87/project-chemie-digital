@@ -1,0 +1,112 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-sample-comparison> {
+  ex:ted-sample-calibration-comparison a cd:Concept ; skos:prefLabel "One calibration or eleven neighboring fits?"@en ;
+    cd:hasDefinition ex:ted-sample-calibration-definition ; cd:hasSource ex:ted-source-workshop-samples ; cd:authoredResource true .
+  ex:ted-sbr-content-result a cd:Concept ; skos:prefLabel "Normalized SBR mass content"@en ;
+    cd:hasDefinition ex:ted-sample-calibration-definition ; cd:authoredResource true .
+  ex:ted-sample-calibration-definition a cd:Definition ;
+    cd:body "For each sample replicate, a linear mass/area calibration predicts SBR mass from its measured marker area. Divide by sample mass and convert to micrograms SBR per milligram sample. The local result is the mean of three normalized replicate results. The neighboring-fit result averages eleven such replicate means from 15-standard windows with start offsets minus five through plus five. This is an ensemble of simple regressions, not multiple-predictor regression or averaging regression coefficients. In the supplied code the neighboring windows refer to the balanced calibrant order, not to independently selected chronological measurement sessions. Local standard error is across three replicates; the ensemble display uses standard error across eleven strongly overlapping window means. These are different sampling units. The latter is descriptive sensitivity to the selected windows, not independent measurement uncertainty, a confidence interval or evidence of better precision, matrix equivalence or drift correction."@en ;
+    cd:hasSource ex:ted-source-workshop-samples ; cd:authoredResource true .
+  ex:ted-sample-comparison-points a cd:Interpretation ; cd:body "Compare the same samples under different calibration evaluations."@en ; cd:hasKeyPoint ex:ted-sample-p1, ex:ted-sample-p2, ex:ted-sample-p3 ; cd:authoredResource true .
+  ex:ted-sample-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Local:** one fit per sample"@en ; cd:authoredResource true .
+  ex:ted-sample-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**±5:** mean across 11 window fits"@en ; cd:authoredResource true .
+  ex:ted-sample-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Overlapping windows are not independent=="@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-sample-comparison> {
+  ex:ted-source-workshop-samples a cd:Source ; dct:title "Renner workshop microplastics: sample robustness comparison" ; dct:creator "Gerrit Renner" ;
+    dct:identifier "renner_workshop_microplastics.html#sample-robustness; sampleRobustnessSamples; evaluateSampleWindow; buildSampleRobustnessSeries; buildSampleRobustnessSummary" ;
+    dct:hasVersion "sha256:29cfc1ceeadcd3a870ad2ca41ef6930ec2ce537dc8297dca5f07407a5c23472f" ;
+    dct:description "Supplied sample triplicates and mass normalizers, and the original middle-window/centerShift selection. Results use all 44 previously transcribed calibrants in balanced order. No calendar-date session matching is inferred. The old claim that neighboring-window standard errors establish more realistic uncertainty is not adopted."@en ;
+    cd:supportsResource ex:ted-sample-calibration-definition, ex:ted-in-input, ex:ted-out-input, ex:ted-in-local-data, ex:ted-out-local-data, ex:ted-in-ensemble-data, ex:ted-out-ensemble-data ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/data/talks-ted-sample-comparison> {
+  # Scientific inputs and a reproducible recipe. Input xValue = sample mass in µg;
+  # numericValue = marker area in the same source units as the calibration pairs.
+  # localWindowStart is one-based. Factor 1000 converts µg/µg to µg/mg.
+  ex:ted-in-input a cd:Dataset ; skos:prefLabel "Influent sample triplicates"@en ; cd:unit "source units" ; cd:sampleMassUnit "µg" ;
+    cd:usesCalibrationDataset ex:ted-calibration-pairs ; cd:localWindowStart 16 ; cd:calibrationWindowSize 15 ; cd:neighborRadius 5 ; cd:normalizationFactor 1000.0 ;
+    cd:hasObservation ex:ted-in-raw1, ex:ted-in-raw2, ex:ted-in-raw3 ; cd:hasSource ex:ted-source-workshop-samples ; cd:authoredResource true .
+  ex:ted-in-raw1 a cd:Observation ; cd:position 1 ; cd:xValue 4074.2 ; cd:numericValue 11827.0 ; cd:authoredResource true .
+  ex:ted-in-raw2 a cd:Observation ; cd:position 2 ; cd:xValue 4087.6 ; cd:numericValue 10695.0 ; cd:authoredResource true .
+  ex:ted-in-raw3 a cd:Observation ; cd:position 3 ; cd:xValue 3992.7 ; cd:numericValue 13545.0 ; cd:authoredResource true .
+  ex:ted-out-input a cd:Dataset ; skos:prefLabel "Effluent sample triplicates"@en ; cd:unit "source units" ; cd:sampleMassUnit "µg" ;
+    cd:usesCalibrationDataset ex:ted-calibration-pairs ; cd:localWindowStart 15 ; cd:calibrationWindowSize 15 ; cd:neighborRadius 5 ; cd:normalizationFactor 1000.0 ;
+    cd:hasObservation ex:ted-out-raw1, ex:ted-out-raw2, ex:ted-out-raw3 ; cd:hasSource ex:ted-source-workshop-samples ; cd:authoredResource true .
+  ex:ted-out-raw1 a cd:Observation ; cd:position 1 ; cd:xValue 3978.2 ; cd:numericValue 9422.0 ; cd:authoredResource true .
+  ex:ted-out-raw2 a cd:Observation ; cd:position 2 ; cd:xValue 4014.1 ; cd:numericValue 10165.0 ; cd:authoredResource true .
+  ex:ted-out-raw3 a cd:Observation ; cd:position 3 ; cd:xValue 4084.1 ; cd:numericValue 10119.0 ; cd:authoredResource true .
+
+  # Materialized derived observations, reproducible from the inputs above.
+  # Local observations are normalized replicates. Ensemble observations are
+  # three-replicate means for offsets -5..+5, not eleven independent samples.
+  ex:ted-in-local-data a cd:Dataset ; skos:prefLabel "Influent local replicate results"@en ; cd:unit "µg/mg" ; cd:evaluationMode "local" ; dct:source ex:ted-in-input ; cd:hasObservation ex:ted-in-l1, ex:ted-in-l2, ex:ted-in-l3 ; cd:authoredResource true .
+  ex:ted-in-l1 a cd:Observation ; cd:position 1 ; cd:numericValue 15.362743320235548 ; cd:authoredResource true .
+  ex:ted-in-l2 a cd:Observation ; cd:position 2 ; cd:numericValue 14.029436768506313 ; cd:authoredResource true .
+  ex:ted-in-l3 a cd:Observation ; cd:position 3 ; cd:numericValue 17.669693827272216 ; cd:authoredResource true .
+  ex:ted-out-local-data a cd:Dataset ; skos:prefLabel "Effluent local replicate results"@en ; cd:unit "µg/mg" ; cd:evaluationMode "local" ; dct:source ex:ted-out-input ; cd:hasObservation ex:ted-out-l1, ex:ted-out-l2, ex:ted-out-l3 ; cd:authoredResource true .
+  ex:ted-out-l1 a cd:Observation ; cd:position 1 ; cd:numericValue 13.30639656141782 ; cd:authoredResource true .
+  ex:ted-out-l2 a cd:Observation ; cd:position 2 ; cd:numericValue 13.964015147183238 ; cd:authoredResource true .
+  ex:ted-out-l3 a cd:Observation ; cd:position 3 ; cd:numericValue 13.677419369083303 ; cd:authoredResource true .
+  ex:ted-in-ensemble-data a cd:Dataset ; skos:prefLabel "Influent neighboring-window means"@en ; cd:unit "µg/mg" ; cd:evaluationMode "neighbor-mean" ; dct:source ex:ted-in-input ;
+    cd:hasObservation ex:ted-in-n1, ex:ted-in-n2, ex:ted-in-n3, ex:ted-in-n4, ex:ted-in-n5, ex:ted-in-n6, ex:ted-in-n7, ex:ted-in-n8, ex:ted-in-n9, ex:ted-in-n10, ex:ted-in-n11 ; cd:authoredResource true .
+  ex:ted-in-n1 a cd:Observation ; cd:position 1 ; cd:numericValue 14.823196806614234 ; cd:authoredResource true .
+  ex:ted-in-n2 a cd:Observation ; cd:position 2 ; cd:numericValue 14.560892490515132 ; cd:authoredResource true .
+  ex:ted-in-n3 a cd:Observation ; cd:position 3 ; cd:numericValue 15.232876911242807 ; cd:authoredResource true .
+  ex:ted-in-n4 a cd:Observation ; cd:position 4 ; cd:numericValue 15.68814619198083 ; cd:authoredResource true .
+  ex:ted-in-n5 a cd:Observation ; cd:position 5 ; cd:numericValue 15.77243901894394 ; cd:authoredResource true .
+  ex:ted-in-n6 a cd:Observation ; cd:position 6 ; cd:numericValue 15.687291305338027 ; cd:authoredResource true .
+  ex:ted-in-n7 a cd:Observation ; cd:position 7 ; cd:numericValue 15.071463837494678 ; cd:authoredResource true .
+  ex:ted-in-n8 a cd:Observation ; cd:position 8 ; cd:numericValue 16.020230264384754 ; cd:authoredResource true .
+  ex:ted-in-n9 a cd:Observation ; cd:position 9 ; cd:numericValue 15.197208869570332 ; cd:authoredResource true .
+  ex:ted-in-n10 a cd:Observation ; cd:position 10 ; cd:numericValue 15.208186360559425 ; cd:authoredResource true .
+  ex:ted-in-n11 a cd:Observation ; cd:position 11 ; cd:numericValue 15.105225620034707 ; cd:authoredResource true .
+  ex:ted-out-ensemble-data a cd:Dataset ; skos:prefLabel "Effluent neighboring-window means"@en ; cd:unit "µg/mg" ; cd:evaluationMode "neighbor-mean" ; dct:source ex:ted-out-input ;
+    cd:hasObservation ex:ted-out-n1, ex:ted-out-n2, ex:ted-out-n3, ex:ted-out-n4, ex:ted-out-n5, ex:ted-out-n6, ex:ted-out-n7, ex:ted-out-n8, ex:ted-out-n9, ex:ted-out-n10, ex:ted-out-n11 ; cd:authoredResource true .
+  ex:ted-out-n1 a cd:Observation ; cd:position 1 ; cd:numericValue 11.926227964046811 ; cd:authoredResource true .
+  ex:ted-out-n2 a cd:Observation ; cd:position 2 ; cd:numericValue 12.604640391831277 ; cd:authoredResource true .
+  ex:ted-out-n3 a cd:Observation ; cd:position 3 ; cd:numericValue 12.316796245282402 ; cd:authoredResource true .
+  ex:ted-out-n4 a cd:Observation ; cd:position 4 ; cd:numericValue 13.041402364365846 ; cd:authoredResource true .
+  ex:ted-out-n5 a cd:Observation ; cd:position 5 ; cd:numericValue 13.502137526553355 ; cd:authoredResource true .
+  ex:ted-out-n6 a cd:Observation ; cd:position 6 ; cd:numericValue 13.649277025894788 ; cd:authoredResource true .
+  ex:ted-out-n7 a cd:Observation ; cd:position 7 ; cd:numericValue 13.331856676304419 ; cd:authoredResource true .
+  ex:ted-out-n8 a cd:Observation ; cd:position 8 ; cd:numericValue 12.658621428846041 ; cd:authoredResource true .
+  ex:ted-out-n9 a cd:Observation ; cd:position 9 ; cd:numericValue 13.684913451702615 ; cd:authoredResource true .
+  ex:ted-out-n10 a cd:Observation ; cd:position 10 ; cd:numericValue 12.83735794835899 ; cd:authoredResource true .
+  ex:ted-out-n11 a cd:Observation ; cd:position 11 ; cd:numericValue 12.71829419708188 ; cd:authoredResource true .
+
+  ex:ted-in-local-mean a cd:StatisticalResult ; cd:numericValue 15.687291305338027 ; cd:unit "µg/mg" ; cd:quantifiesProperty ex:ted-sbr-content-result ; cd:usesDataset ex:ted-in-local-data ; cd:authoredResource true .
+  ex:ted-out-local-mean a cd:StatisticalResult ; cd:numericValue 13.649277025894788 ; cd:unit "µg/mg" ; cd:quantifiesProperty ex:ted-sbr-content-result ; cd:usesDataset ex:ted-out-local-data ; cd:authoredResource true .
+  ex:ted-in-ensemble-mean a cd:StatisticalResult ; cd:numericValue 15.306105243334441 ; cd:unit "µg/mg" ; cd:quantifiesProperty ex:ted-sbr-content-result ; cd:usesDataset ex:ted-in-ensemble-data ; cd:authoredResource true .
+  ex:ted-out-ensemble-mean a cd:StatisticalResult ; cd:numericValue 12.9337750200244 ; cd:unit "µg/mg" ; cd:quantifiesProperty ex:ted-sbr-content-result ; cd:usesDataset ex:ted-out-ensemble-data ; cd:authoredResource true .
+  ex:ted-in-local-error a cd:ObservationInterval ; skos:prefLabel "Descriptive standard error"@en ; cd:unit "µg/mg" ; cd:intervalRole cd:DescriptiveError ; cd:lowerBound 14.62398413594477 ; cd:upperBound 16.750598474731284 ; cd:authoredResource true .
+  ex:ted-out-local-error a cd:ObservationInterval ; skos:prefLabel "Descriptive standard error"@en ; cd:unit "µg/mg" ; cd:intervalRole cd:DescriptiveError ; cd:lowerBound 13.458918115153235 ; cd:upperBound 13.839635936636341 ; cd:authoredResource true .
+  ex:ted-in-ensemble-error a cd:ObservationInterval ; skos:prefLabel "Descriptive standard error"@en ; cd:unit "µg/mg" ; cd:intervalRole cd:DescriptiveError ; cd:lowerBound 15.173664499454974 ; cd:upperBound 15.438545987213908 ; cd:authoredResource true .
+  ex:ted-out-ensemble-error a cd:ObservationInterval ; skos:prefLabel "Descriptive standard error"@en ; cd:unit "µg/mg" ; cd:intervalRole cd:DescriptiveError ; cd:lowerBound 12.763085992029495 ; cd:upperBound 13.104464048019306 ; cd:authoredResource true .
+
+  ex:ted-sample-in-local-group a cd:ChartGroup ; cd:position 1 ; cd:revealStep 1 ; skos:prefLabel "Influent: local fit"@en ; cd:usesDataset ex:ted-in-local-data ; cd:summaryResult ex:ted-in-local-mean ; cd:displayInterval ex:ted-in-local-error ; cd:authoredResource true .
+  ex:ted-sample-out-local-group a cd:ChartGroup ; cd:position 2 ; cd:revealStep 1 ; skos:prefLabel "Effluent: local fit"@en ; cd:usesDataset ex:ted-out-local-data ; cd:summaryResult ex:ted-out-local-mean ; cd:displayInterval ex:ted-out-local-error ; cd:authoredResource true .
+  ex:ted-sample-in-ensemble-group a cd:ChartGroup ; cd:position 3 ; cd:revealStep 2 ; skos:prefLabel "Influent: ±5 windows"@en ; cd:usesDataset ex:ted-in-ensemble-data ; cd:summaryResult ex:ted-in-ensemble-mean ; cd:displayInterval ex:ted-in-ensemble-error ; cd:authoredResource true .
+  ex:ted-sample-out-ensemble-group a cd:ChartGroup ; cd:position 4 ; cd:revealStep 2 ; skos:prefLabel "Effluent: ±5 windows"@en ; cd:usesDataset ex:ted-out-ensemble-data ; cd:summaryResult ex:ted-out-ensemble-mean ; cd:displayInterval ex:ted-out-ensemble-error ; cd:authoredResource true .
+  ex:ted-sample-comparison-chart a cd:ChartDefinition ; skos:prefLabel "Influent and effluent: local fit versus eleven-window mean"@en ;
+    cd:body "Whiskers: descriptive standard errors across 3 replicates or 11 overlapping window means, not confidence intervals. ±5 refers to balanced-order windows, not independent sessions."@en ;
+    cd:chartType cd:DotPlot ; cd:xAxisLabel "Calibration evaluation"@en ; cd:yAxisLabel "SBR mass per sample mass"@en ; cd:yAxisUnit "µg/mg" ; cd:yAxisMinimum 10.0 ;
+    cd:summaryLabel "Mean" ; cd:showSummaryValues true ; cd:markerRadius 4.0 ; cd:summaryRadius 9.0 ;
+    cd:hasChartGroup ex:ted-sample-in-local-group, ex:ted-sample-out-local-group, ex:ted-sample-in-ensemble-group, ex:ted-sample-out-ensemble-group ;
+    cd:hasSource ex:ted-source-workshop-samples ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-sample-calibration-comparison ; cd:hasStep ex:ted-step-sample-comparison .
+  ex:ted-step-sample-comparison a cd:PathStep ; cd:position 12 ; cd:usesResource ex:ted-sample-comparison-chart, ex:ted-sample-comparison-points ; cd:usesScene ex:ted-scene-sample-comparison ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-sample-comparison> {
+  ex:ted-scene-sample-comparison a cd:SceneDefinition ; cd:focusConcept ex:ted-sample-calibration-comparison ; cd:hasSceneItem ex:ted-sample-heading, ex:ted-sample-chart-item, ex:ted-sample-bullets ;
+    cd:narration "First show Influent and Effluent evaluated with one local 15-standard fit each. Next reveal the same sample evaluations averaged across eleven fitted windows at offsets minus five through plus five. For each replicate, inverse-predict SBR mass from marker area, divide by its measured sample mass and convert micrograms per microgram to micrograms per milligram. The local estimates average three replicates. The ensemble averages eleven three-replicate means; it does not fit eleven predictors or average regression coefficients. The supplied code selects middle windows of balanced calibrant order, with one-position center shift for Influent. This is not independently verified matching to calendar measurement sessions. Whiskers are mean plus/minus descriptive standard error: across three replicates locally, versus across eleven strongly overlapping window means for the ensemble. Those are different sampling units, so a smaller ensemble bar is not proof of lower measurement uncertainty or better precision. No statistical significance, matrix equivalence or causal treatment effect is claimed. Source: supplied sample-robustness code, sample triplicates and the same 44 calibrants from the prior slide."@en ; cd:authoredResource true .
+  ex:ted-sample-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-sample-calibration-comparison ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-sample-chart-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-sample-comparison-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-sample-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-sample-comparison-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}

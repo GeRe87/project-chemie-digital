@@ -5,6 +5,7 @@ export interface RegressionObservation {
 }
 export interface RegressionWindow {
   readonly id: string; readonly label: string; readonly datumIds: readonly string[]; readonly source: readonly SourceReference[];
+  readonly cycleIntervalMs?: number;
 }
 export interface RegressionChartBlock {
   readonly id: string;
@@ -61,12 +62,25 @@ export function validateRegressionChart(block: RegressionChartBlock): void {
   for (const window of block.windows) {
     if (!window.id || windows.has(window.id) || !window.label || !window.source.length || new Set(window.datumIds).size !== window.datumIds.length) throw new Error("Regression windows require unique identities and members, labels and provenance");
     windows.add(window.id); regressionWindowResult(block, window);
+    if (window.cycleIntervalMs !== undefined) {
+      if (!Number.isInteger(window.cycleIntervalMs) || window.cycleIntervalMs < 100) throw new Error("Cycle interval must be an integer of at least 100 ms");
+      const start = block.data.findIndex(d => d.id === window.datumIds[0]);
+      if (window.datumIds.length > block.data.length || window.datumIds.some((id, i) => id !== block.data[(start + i) % block.data.length]?.id)) throw new Error("Cyclic windows must begin with a contiguous FIFO selection");
+      for (let i = 0; i < block.data.length; i++) regressionWindowResult(block, cyclicRegressionWindow(block, window, i));
+    }
   }
+}
+
+export function cyclicRegressionWindow(block: RegressionChartBlock, window: RegressionWindow, offset: number): RegressionWindow {
+  const n = block.data.length, first = block.data.findIndex(d => d.id === window.datumIds[0]);
+  if (first < 0 || !Number.isInteger(offset)) throw new Error("Invalid cyclic window start or offset");
+  const start = ((first + offset) % n + n) % n;
+  return {...window, datumIds: window.datumIds.map((_, i) => block.data[(start + i) % n]!.id)};
 }
 
 export function regressionStaticFallback(block: RegressionChartBlock): string {
   return [block.label, block.description,
     ...block.data.map((p, i) => `${i + 1}: ${p.id}; ${p.x} ${block.xAxis.unit}; ${p.y} ${block.yAxis.unit}`),
-    ...block.windows.map(w => `${w.label}; observations: ${w.datumIds.join(", ")}; mean absolute leave-one-out inverse-prediction error: ${regressionWindowResult(block, w).meanAbsoluteError} ${block.xAxis.unit}`),
+    ...block.windows.map(w => `${w.label}; observations: ${w.datumIds.join(", ")}; mean absolute leave-one-out inverse-prediction error: ${regressionWindowResult(block, w).meanAbsoluteError} ${block.xAxis.unit}${w.cycleIntervalMs ? `; FIFO advances one observation every ${w.cycleIntervalMs} ms, wraps to the beginning, pause control available` : ""}`),
   ].join("\n");
 }

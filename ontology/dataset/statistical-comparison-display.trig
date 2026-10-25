@@ -1,0 +1,48 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesAttribute cd:intervalRole, cd:revealStep, cd:showSummaryValues .
+  cd:intervalRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ObservationInterval .
+  cd:DescriptiveError a cdm:ControlledValue ; rdfs:comment "A descriptive mean-error display, not a coverage interval or a confidence claim."@en .
+  cd:revealStep a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartGroup ; rdfs:range xsd:integer .
+  cd:showSummaryValues a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:LearningDomain cdm:definesRelation cd:usesCalibrationDataset ;
+    cdm:definesAttribute cd:localWindowStart, cd:calibrationWindowSize, cd:neighborRadius, cd:normalizationFactor, cd:sampleMassUnit, cd:evaluationMode .
+  cd:usesCalibrationDataset a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Dataset ; rdfs:range cd:Dataset .
+  cd:localWindowStart a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:integer ; rdfs:comment "One-based first calibrant position of the local window."@en .
+  cd:calibrationWindowSize a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:integer .
+  cd:neighborRadius a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:integer .
+  cd:normalizationFactor a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:decimal .
+  cd:sampleMassUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:string .
+  cd:evaluationMode a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Dataset ; rdfs:range xsd:string .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:ComparisonGroupDisplayShape a sh:NodeShape ; sh:targetSubjectsOf cd:revealStep ;
+    sh:class cd:ChartGroup ; sh:property [ sh:path cd:revealStep ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] .
+  cd:DescriptiveIntervalRoleShape a sh:NodeShape ; sh:targetSubjectsOf cd:intervalRole ;
+    sh:class cd:ObservationInterval ; sh:property [ sh:path cd:intervalRole ; sh:maxCount 1 ; sh:in (cd:DescriptiveError) ] .
+  cd:SummaryValueDisplayShape a sh:NodeShape ; sh:targetSubjectsOf cd:showSummaryValues ;
+    sh:class cd:ChartDefinition ; sh:property [ sh:path cd:showSummaryValues ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+  cd:CalibrationSampleRecipeShape a sh:NodeShape ; sh:targetSubjectsOf cd:usesCalibrationDataset ;
+    sh:class cd:Dataset ;
+    sh:property [ sh:path cd:usesCalibrationDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] ;
+    sh:property [ sh:path cd:localWindowStart ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:calibrationWindowSize ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 3 ] ;
+    sh:property [ sh:path cd:neighborRadius ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:normalizationFactor ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:sampleMassUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+  cd:CalibrationSampleMassShape a sh:NodeShape ; sh:targetSubjectsOf cd:usesCalibrationDataset ;
+    sh:property [ sh:path cd:hasObservation ; sh:minCount 2 ; sh:class cd:Observation ] ;
+    sh:property [ sh:path (cd:hasObservation cd:xValue) ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] .
+  cd:MaterializedCalibrationResultShape a sh:NodeShape ; sh:targetSubjectsOf cd:evaluationMode ;
+    sh:class cd:Dataset ;
+    sh:property [ sh:path cd:evaluationMode ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("local" "neighbor-mean") ] ;
+    sh:property [ sh:path dct:source ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] .
+}

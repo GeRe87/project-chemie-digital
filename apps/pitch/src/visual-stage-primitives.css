@@ -336,6 +336,9 @@ body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"
   height: 100%;
   min-height: 0;
 }
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-figure:has(> .d3-dot-legend) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
 body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-svg {
   height: 100%;
   min-height: 0;

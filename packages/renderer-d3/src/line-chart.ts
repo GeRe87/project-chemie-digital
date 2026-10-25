@@ -16,6 +16,7 @@ export interface D3LineChartRenderModel {
   readonly yAxisLabel: string;
   readonly yAxisUnit?: string;
   readonly series: LineChartBlock["series"];
+  readonly yMinimum?: number;
   readonly annotations: readonly LineChartAnnotation[];
   readonly staticFallback: string;
 }
@@ -84,6 +85,7 @@ export function createD3LineChartRenderModel(block: ChartBlock): D3LineChartRend
       yAxisLabel: block.yAxis.label,
       ...(block.yAxis.unit ? { yAxisUnit: block.yAxis.unit } : {}),
       series: block.series,
+      ...(block.yMinimum !== undefined ? {yMinimum: block.yMinimum} : {}),
       annotations: block.annotations ?? [],
       staticFallback: fallback(block),
     },
@@ -188,8 +190,9 @@ export function mountD3LineChart(
     const authoredYDomain = options.yDomain;
     const yDomain = authoredYDomain && Number.isFinite(authoredYDomain[0]) && Number.isFinite(authoredYDomain[1]) && authoredYDomain[1] > authoredYDomain[0]
       ? [authoredYDomain[0], authoredYDomain[1]] as const
-      : [0, maxY * 1.14 || 1] as const;
+       : [model.yMinimum ?? 0, maxY * 1.14 || 1] as const;
     const y = scaleLinear().domain(yDomain).nice(5).range([margin.top + plotHeight, margin.top]);
+    if (!authoredYDomain && model.yMinimum !== undefined) y.domain([model.yMinimum, y.domain()[1]!]);
 
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");

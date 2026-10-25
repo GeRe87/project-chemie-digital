@@ -103,6 +103,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/data/talks-ted-heating-rate> {
   ex:ted-heating-rate-chart a cd:ChartDefinition ; skos:prefLabel "SBR marker response: heating-rate study"@en ;
+    cd:yAxisMinimum 20.0 ;
     cd:body "Approx. digitized from thesis Fig. 11 · response unit not stated in supplied talk."@en ;
     cd:chartType cd:LineChart ; cd:xAxisLabel "TGA heating rate"@en ; cd:xAxisUnit "°C/min" ;
     cd:yAxisLabel "Method standard deviation"@en ; cd:yAxisUnit "source scale" ;

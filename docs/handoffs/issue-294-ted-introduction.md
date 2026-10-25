@@ -156,6 +156,48 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### FIFO replay, heating-axis bound and sample comparison
+
+Supersedes the earlier fixed five-position shift and no-replay implementation.
+The heating-rate line chart now authors `cd:yAxisMinimum 20.0`; this uses the
+generic chart option, not scene-specific geometry or styling. The compiler/core
+reject clipping bounds, and the line renderer preserves the lower bound after
+scale rounding.
+
+Stage three of balanced calibration now replays a 15-standard FIFO window,
+advancing exactly one position every 750 ms and wrapping from record 44 to 1.
+Selected standards, fit and held-out errors update together. All cyclic frames
+are validated and share fixed axes. Replay stops when the stage/slide becomes
+inactive, when the document is hidden, and on teardown. Pause/resume is available;
+reduced-motion users start paused. This is a common RegressionWindow capability,
+not a TED-specific timer.
+
+A new final scene first shows Influent/Effluent under local fits, then reveals
+their eleven-neighbor-window means (offsets minus five through plus five). It
+reuses the ordinary DotPlot and chart/footer composition. Added generic metadata
+controls group reveal stages, numeric mean labels and descriptive error whiskers.
+Coverage intervals remain unchanged; descriptive bars never show a fraction of
+observations inside them or imply a confidence interval.
+
+The supplied sample triplicates and masses are authored in TriG, alongside the
+reproducible evaluation recipe and materialized normalized results. Local means
+are about 15.69 and 13.65 µg/mg; eleven-window means about 15.31 and 12.93 µg/mg.
+The source picks neighboring windows in balanced calibrant order, not proven
+chronological sessions. This is an ensemble of simple regressions, not a
+multi-predictor fit. The source SE calculations across three replicates and eleven
+overlapping means have different sampling units; narrow bars are descriptive,
+not evidence of superior precision or more realistic measurement uncertainty.
+
+Runtime generation and a brief browser inspection confirmed the y minimum 20,
+one-position FIFO advance with 15 members, pause behavior, slide-exit reset and
+the two-to-four result reveal without page errors. Reduced-motion mode was checked
+in a fresh browser context: replay begins paused. A read-only shared-core check
+matched all materialized values, means and SE bounds within 6e-15, checked FIFO
+offsets 1/43/44 for one-step advance and wrap, and found no Unicode U+2014 in the
+selected artifact. Light/dark result plots were inspected. Comprehensive suites remain
+deferred by the owner. Existing scientific provenance, no-em-dash rule and
+workflow/deployment boundaries remain in force.
+
 ### Automatic first visual stage and calibration chapter
 
 The owner requested two lasting rules, now recorded in `AGENTS.md`: do not use

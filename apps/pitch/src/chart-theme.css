@@ -26,6 +26,9 @@
 .d3-regression-small { fill: var(--pcd-chart-text); font: 19px system-ui, sans-serif; }
 .d3-regression-fit { stroke: var(--pcd-chart-series-4); stroke-width: 4; }
 .d3-regression-point { stroke: var(--pcd-chart-text); stroke-width: 1.5; }
+.d3-regression-cycle-controls:not([hidden]) { display: flex; align-items: center; justify-content: center; gap: .6rem; margin-top: .35rem; }
+.d3-regression-cycle-controls button { font: inherit; color: var(--pcd-chart-text); background: var(--pcd-chart-surface); border: 1px solid var(--pcd-chart-axis); border-radius: .25rem; padding: .2rem .5rem; }
+.d3-dot-legend .d3-dot-key-error { width: 1.2em; height: .65em; border-block: 2px solid var(--pcd-chart-axis); background: linear-gradient(var(--pcd-chart-axis),var(--pcd-chart-axis)) center / 2px 100% no-repeat; }
 @media (max-width: 700px) {
   .d3-timeline-svg, .d3-regression-svg { min-width: 1000px; }
 }

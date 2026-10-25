@@ -843,6 +843,11 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         "series": series,
         "annotations": annotations,
     }
+    if one(dataset, chart, iri(CD, "yAxisMinimum"), required=False) is not None:
+        minimum = decimal_number(dataset, chart, iri(CD, "yAxisMinimum"))
+        if not math.isfinite(minimum) or any(d["y"] < minimum for s in series for d in s["data"]):
+            raise ValueError("Line-chart y minimum must be finite and must not clip data")
+        payload["yMinimum"] = minimum
     return payload, label_relation_path
 
 
@@ -934,6 +939,17 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
             lower,upper=[decimal_number(dataset,interval,iri(CD,p)) for p in ("lowerBound","upperBound")]
             if lower>upper:raise ValueError("Interval lower bound exceeds upper bound")
             groups[-1]["interval"]={"id":compact(interval),"label":selected_label_reference(dataset,interval,language)[0],"lower":lower,"upper":upper,"source":[source_reference(dataset,group,"cd:displayInterval"),source_reference(dataset,interval,"cd:lowerBound"),source_reference(dataset,interval,"cd:upperBound"),source_reference(dataset,interval,"cd:unit")]}
+            interval_role = one(dataset, interval, iri(CD, "intervalRole"), required=False)
+            if interval_role is not None and str(interval_role) != CD + "DescriptiveError":
+                raise ValueError("Unknown observation interval role")
+            if interval_role is not None:
+                groups[-1]["interval"]["role"] = "descriptive-error"
+                groups[-1]["interval"]["source"].append(source_reference(dataset, interval, "cd:intervalRole"))
+        if one(dataset, group, iri(CD, "revealStep"), required=False) is not None:
+            step = integer(dataset, group, iri(CD, "revealStep"))
+            if step < 1: raise ValueError("Group reveal step must be positive")
+            groups[-1]["disclosureStep"] = step
+            groups[-1]["source"].append(source_reference(dataset, group, "cd:revealStep"))
         if one(dataset, group, iri(CD, "groupXValue"), required=False) is not None:
             groups[-1]["x"] = decimal_number(dataset, group, iri(CD, "groupXValue"))
             groups[-1]["source"].append(source_reference(dataset, group, "cd:groupXValue"))
@@ -997,6 +1013,11 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
     for predicate in ["observationLabel", "summaryLabel"]:
         value = literal(dataset, chart, iri(CD, predicate))
         if value: options[predicate] = value
+    show_values = one(dataset, chart, iri(CD, "showSummaryValues"), required=False)
+    if show_values is not None:
+        if not isinstance(show_values, Literal) or show_values.datatype != XSD.boolean:
+            raise ValueError("showSummaryValues must be boolean")
+        options["showSummaryValues"] = show_values.toPython()
     numeric = one(dataset, chart, iri(CD, "numericXAxis"), required=False)
     if numeric is not None and str(numeric).lower() == "true":
         if any("x" not in group for group in groups):
@@ -1306,6 +1327,14 @@ def regression_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> 
         label, path = selected_label_reference(dataset, window, language)
         windows.append({"id": compact(window), "label": label, "datumIds": [p["id"] for p in points],
                         "source": [source_reference(dataset, window, p) for p in (path, "cd:position", "cd:hasObservation")]})
+        if one(dataset, window, iri(CD, "cycleIntervalMs"), required=False) is not None:
+            interval = integer(dataset, window, iri(CD, "cycleIntervalMs"))
+            if interval < 100: raise ValueError("Cycle interval must be at least 100 ms")
+            indexes = [i for i, p in enumerate(data) if p["id"] in windows[-1]["datumIds"]]
+            if indexes != list(range(indexes[0], indexes[0] + len(indexes))):
+                raise ValueError("Cycle window must start with a contiguous selection")
+            windows[-1]["cycleIntervalMs"] = interval
+            windows[-1]["source"].append(source_reference(dataset, window, "cd:cycleIntervalMs"))
     label, path = selected_label_reference(dataset, chart, language)
     axes = {}
     for axis in ("x", "y"):
@@ -1751,6 +1780,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if payload["chartType"] in ("histogram","histogram2d"):
                     predicates=("cd:chartType","cd:usesDataset","cd:binEdges","cd:xAxisUnit")+(("cd:yBinEdges","cd:yAxisUnit") if payload["chartType"]=="histogram2d" else ("cd:histogramNormalization",))
                     block_sources.extend(source_reference(dataset,selected,p) for p in predicates)
+                for option in ("yAxisMinimum", "showSummaryValues"):
+                    if one(dataset, selected, iri(CD, option), required=False) is not None:
+                        block_sources.append(source_reference(dataset, selected, "cd:" + option))
                 if payload["chartType"] == "box":
                     block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:chartType", "cd:dependsOn", "cd:fenceMultiplier", "cd:yAxisUnit", "cd:hasChartGroup"))
                 if label_relation_path is not None and label_relation_path != relation_path:
@@ -2496,7 +2528,8 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     for group in block["groups"]:
                         if "interval" in group:
                             interval=group["interval"];count=sum(interval["lower"]<=d["value"]<=interval["upper"] for d in group["data"])
-                            body+=f'<p{fallback_attributes(interval["source"])}>{html.escape(interval["label"])}: [{interval["lower"]}, {interval["upper"]}] {unit}; {count}/{len(group["data"])} = {100*count/len(group["data"])}% in the closed interval.</p>'
+                            note = "descriptive error display, not coverage or a confidence interval" if interval.get("role") == "descriptive-error" else f'{count}/{len(group["data"])} = {100*count/len(group["data"])}% in the closed interval'
+                            body+=f'<p{fallback_attributes(interval["source"])}>{html.escape(interval["label"])}: [{interval["lower"]}, {interval["upper"]}] {unit}; {note}.</p>'
                     if block["chartType"] == "box":
                         import statistics
                         body += '<p>Linear interpolation; whiskers end at observations inside the fences, not at the fences.</p>'

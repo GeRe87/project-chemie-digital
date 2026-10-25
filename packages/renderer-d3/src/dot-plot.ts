@@ -44,6 +44,13 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
   if (!result.model) return result;
   if (!(host instanceof HTMLElement)) return { diagnostics: [{ code: "INVALID_DOT_PLOT_HOST", message: "Dot plot host must be an HTMLElement" }] };
   const model = result.model;
+  const stepCount = Math.max(...model.groups.map(group => group.disclosureStep ?? 1));
+  const progressive = model.groups.some(group => group.disclosureStep !== undefined);
+  let currentStep = progressive ? 0 : 1;
+  if (progressive) {
+    host.setAttribute("data-presentation-step-count", String(stepCount));
+    host.setAttribute("data-presentation-step-host", "chart");
+  }
   host.replaceChildren();
   const figure = document.createElement("figure");
   figure.className = "d3-chart-figure d3-dot-plot-figure";
@@ -66,7 +73,10 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
   if (block.groups.some(group => group.summary)) legendEntry(block.summaryLabel ?? "Group summary", "summary");
    if (block.referenceLine) legendEntry(`${block.referenceLine.label}: ${Number(block.referenceLine.value.toFixed(3))} ${block.yAxis.unit}`, "reference");
   for (const curve of block.curves ?? []) legendEntry(curve.label, "curve");
-  for (const group of block.groups) if(group.interval) legendEntry(`${group.interval.label} ${block.yAxis.unit}`, "reference");
+  const intervalLabels = new Set<string>();
+  for (const group of block.groups) if(group.interval && !intervalLabels.has(`${group.interval.role ?? "coverage"}:${group.interval.label}`)) {
+    intervalLabels.add(`${group.interval.role ?? "coverage"}:${group.interval.label}`); legendEntry(`${group.interval.label} ${block.yAxis.unit}`, group.interval.role === "descriptive-error" ? "error" : "reference");
+  }
   if (block.drawStems) for (const [index, group] of block.groups.entries()) {
     legendEntry(group.label, "observation");
     legend.lastElementChild?.classList.add(`d3-chart-series-${index % 5 + 1}`);
@@ -77,6 +87,7 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
 
   const render = () => {
     canvas.replaceChildren();
+    if (progressive) host.setAttribute("data-presentation-step", String(currentStep));
     const width = Math.max(600, Math.round(host.getBoundingClientRect().width || 900));
     const height = Math.max(370, Math.min(520, width * .48));
     canvas.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -122,6 +133,7 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
     const halos = svg("g");
     const points = svg("g");
     model.groups.forEach((group, index) => {
+      if (currentStep < (group.disclosureStep ?? 1)) return;
       if (!numericX && !model.drawStems){
         const label=text("",x(group.id)!,y.range()[0]+26,"d3-chart-category-label");
         for(const [i,line] of chartLabelLines(group.label,(width-190)/model.groups.length).entries()){
@@ -132,10 +144,16 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
       layer.setAttribute("data-group-id", group.id);
       if(group.interval){
         const interval=group.interval,xx=groupX(group),half=Math.min(40,x.step()*.22),top=y(interval.upper),bottom=y(interval.lower);
-        const band=svg("rect");band.classList.add("d3-dot-interval",`d3-chart-series-${index%5+1}`);band.setAttribute("x",String(xx-half));band.setAttribute("width",String(half*2));band.setAttribute("y",String(top));band.setAttribute("height",String(bottom-top));band.setAttribute("data-interval-id",interval.id);canvas.append(band);
-        for(const value of [interval.lower,interval.upper]){const line=svg("line");line.classList.add("d3-dot-interval-bound");for(const[k,v]of Object.entries({x1:xx-half,x2:xx+half,y1:y(value),y2:y(value)}))line.setAttribute(k,String(v));canvas.append(line);}
-        const count=group.data.filter(d=>d.value>=interval.lower&&d.value<=interval.upper).length;
-        text(`${count}/${group.data.length} = ${Number((100*count/group.data.length).toFixed(1))}%`,xx,62,"d3-chart-tick-label");
+        if (interval.role === "descriptive-error") {
+          const stem=svg("line");stem.classList.add("d3-chart-axis");
+          for(const[k,v]of Object.entries({x1:xx,x2:xx,y1:top,y2:bottom}))stem.setAttribute(k,String(v));
+          stem.setAttribute("data-interval-id",interval.id);canvas.append(stem);
+        } else {
+          const band=svg("rect");band.classList.add("d3-dot-interval",`d3-chart-series-${index%5+1}`);band.setAttribute("x",String(xx-half));band.setAttribute("width",String(half*2));band.setAttribute("y",String(top));band.setAttribute("height",String(bottom-top));band.setAttribute("data-interval-id",interval.id);canvas.append(band);
+          const count=group.data.filter(d=>d.value>=interval.lower&&d.value<=interval.upper).length;
+          text(`${count}/${group.data.length} = ${Number((100*count/group.data.length).toFixed(1))}%`,xx,62,"d3-chart-tick-label");
+        }
+        for(const value of [interval.lower,interval.upper]){const line=svg("line");line.classList.add(interval.role === "descriptive-error" ? "d3-chart-axis" : "d3-dot-interval-bound");for(const[k,v]of Object.entries({x1:xx-half,x2:xx+half,y1:y(value),y2:y(value)}))line.setAttribute(k,String(v));canvas.append(line);}
       }
       group.data.forEach((datum, datumIndex) => {
         // Equal values are stacked horizontally without changing their numeric position.
@@ -176,6 +194,7 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
     // Keep every halo below every point, and all observations above the lines.
     canvas.append(halos, points);
     for (const group of model.groups) {
+      if (currentStep < (group.disclosureStep ?? 1)) continue;
       if (!group.summary) continue;
       const summary = group.summary;
       const marker = svg("path");
@@ -184,10 +203,24 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
       marker.setAttribute("d", dotSummaryDiamond(xx, yy, r));
       const title = svg("title"); title.textContent = `${group.label}, ${summary.label}: ${summary.value} ${model.yAxis.unit}`;
       marker.append(title); canvas.append(marker);
+      if (model.showSummaryValues) {
+        const offset = group.interval ? Math.min(40, x.step() * .22) + 12 : 16;
+        const label = text(new Intl.NumberFormat("en", {maximumSignificantDigits:4}).format(summary.value), xx + offset, yy + 7, "d3-chart-value-label", "start");
+        if (xx + offset + label.getComputedTextLength() > width - 40) {
+          label.setAttribute("x", String(xx - offset)); label.setAttribute("text-anchor", "end");
+        }
+      }
     }
   };
   render();
+  const setStep = (step: number) => { currentStep = Math.max(0, Math.min(stepCount, Math.trunc(Number.isFinite(step) ? step : 0))); render(); };
+  const stepListener = (event: Event) => setStep((event as CustomEvent<{step: number}>).detail.step);
+  if (progressive) host.addEventListener("pcd-presentation-step", stepListener);
   const observer = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(render);
   observer?.observe(host);
-  return { model, staticFallback: model.staticFallback, destroy() { observer?.disconnect(); host.replaceChildren(); } };
+  return { model, staticFallback: model.staticFallback, setStep, destroy() {
+    observer?.disconnect(); host.removeEventListener("pcd-presentation-step", stepListener);
+    if (progressive) { host.removeAttribute("data-presentation-step-count"); host.removeAttribute("data-presentation-step-host"); host.removeAttribute("data-presentation-step"); }
+    host.replaceChildren();
+  } };
 }

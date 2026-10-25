@@ -1,5 +1,6 @@
 """The introductory talk remains RDF-authored, visual-led and scientifically bounded."""
 import json
+import math
 import sys
 import unittest
 import xml.etree.ElementTree as ET
@@ -19,7 +20,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -103,6 +104,7 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual([(p["x"], p["y"]) for p in chart["series"][0]["data"]], [(10, 34.6), (12.5, 27), (15, 25.3), (17.5, 29.2), (20, 34.1)])
         self.assertIn("Rajshree Jeewon", scene["narration"])
         self.assertIn("not stated", chart["description"])
+        self.assertEqual(chart["yMinimum"],20)
 
     def test_calibration_timing_and_windows_are_authored_without_em_dashes(self):
         time_scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-calibration-time--scene")
@@ -113,8 +115,18 @@ class TedIntroductionTests(unittest.TestCase):
         chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
         self.assertEqual(len(chart["data"]), 44)
         self.assertEqual([len(w["datumIds"]) for w in chart["windows"]], [5, 15, 15])
-        self.assertEqual(chart["windows"][2]["datumIds"], [p["id"] for p in chart["data"][5:20]])
+        self.assertEqual(chart["windows"][2]["datumIds"], [p["id"] for p in chart["data"][:15]])
+        self.assertEqual(chart["windows"][2]["cycleIntervalMs"],750)
         self.assertNotIn(chr(0x2014), json.dumps(self.artifact, ensure_ascii=False))
+
+    def test_sample_comparison_reuses_dot_groups_with_explicit_error_semantics(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-sample-comparison--scene")
+        chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
+        self.assertEqual(chart["chartType"],"dot")
+        self.assertEqual([g["disclosureStep"] for g in chart["groups"]],[1,1,2,2])
+        self.assertEqual([len(g["data"]) for g in chart["groups"]],[3,3,11,11])
+        self.assertTrue(all(g["interval"]["role"]=="descriptive-error" for g in chart["groups"]))
+        self.assertIn("not confidence intervals",chart["description"])
 
     def test_sources_and_method_boundaries_survive_public_export_and_static_fallback(self):
         serialized = json.dumps(self.artifact, ensure_ascii=False)
@@ -129,6 +141,40 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("ted-heating.svg", fallback)
         self.assertIn("Schematic TIC", fallback)
         self.assertIn("Gerrit Renner", fallback)
+
+    def test_materialized_sample_results_reproduce_the_authored_recipe(self):
+        dataset = R.assemble_dataset()
+        cd = lambda name: R.iri(R.CD, name)
+        def observations(owner):
+            return sorted(R.objects(dataset, owner, cd("hasObservation")), key=lambda o: R.integer(dataset,o,cd("position")))
+        def summary_at(calibrants, samples, factor, start, size):
+            points = calibrants[start:start+size]
+            xm = sum(x for x,y in points)/len(points); ym = sum(y for x,y in points)/len(points)
+            slope = sum((x-xm)*(y-ym) for x,y in points)/sum((x-xm)**2 for x,y in points)
+            intercept = ym-slope*xm
+            return [(area-intercept)/slope/mass*factor for mass,area in samples]
+        outputs = list(R.quads(dataset,None,cd("evaluationMode")))
+        self.assertEqual(len(outputs),4)
+        for output, _predicate, mode, _graph in outputs:
+            sample = R.one(dataset,output,R.DCTERMS.source)
+            calibration = R.one(dataset,sample,cd("usesCalibrationDataset"))
+            pairs = lambda owner: [(R.decimal_number(dataset,o,cd("xValue")),R.decimal_number(dataset,o,cd("numericValue"))) for o in observations(owner)]
+            calibrants, samples = pairs(calibration), pairs(sample)
+            start = R.integer(dataset,sample,cd("localWindowStart"))-1
+            size = R.integer(dataset,sample,cd("calibrationWindowSize")); radius = R.integer(dataset,sample,cd("neighborRadius"))
+            factor = R.decimal_number(dataset,sample,cd("normalizationFactor"))
+            if str(mode)=="local": expected = summary_at(calibrants,samples,factor,start,size)
+            else: expected = [sum(summary_at(calibrants,samples,factor,start+i,size))/len(samples) for i in range(-radius,radius+1)]
+            actual = [R.decimal_number(dataset,o,cd("numericValue")) for o in observations(output)]
+            self.assertEqual(len(actual),len(expected))
+            for a,b in zip(actual,expected): self.assertAlmostEqual(a,b,places=10)
+            mean = sum(expected)/len(expected)
+            se = math.sqrt(sum((v-mean)**2 for v in expected)/(len(expected)-1)/len(expected))
+            group = next(g for g,_p,_o,_graph in dataset.quads((None,cd("usesDataset"),output,None)) if R.is_resource_type(dataset,g,"ChartGroup"))
+            result = R.one(dataset,group,cd("summaryResult")); interval = R.one(dataset,group,cd("displayInterval"))
+            self.assertAlmostEqual(R.decimal_number(dataset,result,cd("numericValue")),mean,places=10)
+            self.assertAlmostEqual(R.decimal_number(dataset,interval,cd("lowerBound")),mean-se,places=10)
+            self.assertAlmostEqual(R.decimal_number(dataset,interval,cd("upperBound")),mean+se,places=10)
 
 
 if __name__ == "__main__":

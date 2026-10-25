@@ -490,17 +490,19 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly yAxis: ChartAxis;
   readonly series: readonly LineChartSeries[];
   readonly annotations?: readonly LineChartAnnotation[];
+  readonly yMinimum?: number;
   readonly liveUpdate?: LiveChartUpdate;
 }
 
 export interface DotPlotGroup {
   readonly id: string;
   readonly label: string;
+  readonly disclosureStep?: number;
   readonly source: readonly SourceReference[];
   readonly data: readonly { readonly id: string; readonly value: number; readonly label?: string; readonly source: readonly SourceReference[] }[];
   readonly x?: number;
   readonly summary?: ChartReferenceLine;
-  readonly interval?: {readonly id:string;readonly label:string;readonly lower:number;readonly upper:number;readonly source:readonly SourceReference[]};
+  readonly interval?: {readonly id:string;readonly label:string;readonly lower:number;readonly upper:number;readonly role?:"coverage"|"descriptive-error";readonly source:readonly SourceReference[]};
 }
 
 export interface ChartReferenceLine {
@@ -528,6 +530,7 @@ export interface DotPlotBlock extends SceneBlockBase {
   readonly observationLabel?: string;
   readonly summaryLabel?: string;
   readonly curves?: readonly LineChartSeries[];
+  readonly showSummaryValues?: boolean;
   readonly liveUpdate?: never;
 }
 
@@ -576,7 +579,7 @@ export function dotPlotStaticFallback(block: DotPlotBlock): string {
   return [block.label, block.description,
     ...block.groups.flatMap((group) => group.data.map((datum) => `${group.label}${datum.label ? `, ${datum.label}` : ""}: ${datum.value}${unit}${block.drawStems && block.referenceLine ? `; deviation ${datum.value - block.referenceLine.value >= 0 ? "+" : ""}${datum.value - block.referenceLine.value}${unit}` : ""}`)),
     ...block.groups.flatMap(group => group.summary ? [`${group.label}, ${group.summary.label}: ${group.summary.value}${unit}`] : []),
-    ...block.groups.flatMap(g=>g.interval?[`${g.interval.label}: [${g.interval.lower}, ${g.interval.upper}]${unit}; closed interval contains ${g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length}/${g.data.length} observations (${100*g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length/g.data.length}%).`]:[]),
+    ...block.groups.flatMap(g=>g.interval?[`${g.interval.label}: [${g.interval.lower}, ${g.interval.upper}]${unit}; ${g.interval.role === "descriptive-error" ? "descriptive error display, not coverage or a confidence interval" : `closed interval contains ${g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length}/${g.data.length} observations (${100*g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length/g.data.length}%)`}.`]:[]),
     ...(block.curves ?? []).flatMap(curve => curve.data.map(datum => `${curve.label}: x=${datum.x}, y=${datum.y}${unit}`)),
     ...(block.referenceLine ? [`${block.referenceLine.label}: ${block.referenceLine.value}${unit}`] : []),
   ].join("\n");
@@ -954,6 +957,9 @@ function validateChart(block: ChartBlock, label: string): void {
   }
 
   if (block.chartType === "dot") {
+    if (block.showSummaryValues !== undefined && typeof block.showSummaryValues !== "boolean") throw new SceneContractError("showSummaryValues must be boolean");
+    const steps = [...new Set(block.groups.map(g => g.disclosureStep ?? 1))].sort((a,b) => a-b);
+    if (steps.some((step,i) => step !== i+1)) throw new SceneContractError("Dot group reveal stages must be contiguous and start at one");
     if (block.xScale !== undefined && block.xScale !== "linear") throw new SceneContractError(`${label} invalid dot x-scale`);
     for (const size of [block.markerRadius, block.summaryRadius]) {
       if (size !== undefined && (!Number.isFinite(size) || size <= 0 || size > 20)) throw new SceneContractError(`${label} invalid marker radius`);
@@ -969,12 +975,14 @@ function validateChart(block: ChartBlock, label: string): void {
     if (!block.groups.length) throw new SceneContractError(`${label} dot plot requires groups`);
     const groupIds = new Set<string>();
     for (const group of block.groups) {
+      if (group.disclosureStep !== undefined && (!Number.isInteger(group.disclosureStep) || group.disclosureStep < 1)) throw new SceneContractError("Dot group disclosure step must be positive integer");
       requireNonEmpty(group.id, `${label} group id`);
       if (groupIds.has(group.id)) throw new SceneContractError(`${label} duplicate group id`);
       groupIds.add(group.id);
       requireNonEmpty(group.label, `${label} group label`);
       validateSource(group.source, `${label} group source`);
       if(group.interval){
+        if (group.interval.role !== undefined && !["coverage", "descriptive-error"].includes(group.interval.role)) throw new SceneContractError("Unknown interval role");
         const i=group.interval;requireNonEmpty(i.id,`${label} interval id`);requireNonEmpty(i.label,`${label} interval label`);validateSource(i.source,`${label} interval source`);requireVisible(i.lower);requireVisible(i.upper);
         if(i.lower>i.upper||block.xScale||block.drawStems)throw new SceneContractError("Intervals require ordered bounds on categorical groups");
       }
@@ -1020,6 +1028,7 @@ function validateChart(block: ChartBlock, label: string): void {
     return;
   }
   if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar, line or dot`);
+  if (block.yMinimum !== undefined && (!Number.isFinite(block.yMinimum) || block.series.some(s => s.data.some(d => d.y < block.yMinimum!)))) throw new SceneContractError("Line-chart lower bound must be finite and must not clip data");
   if (block.series.length === 0) throw new SceneContractError(`${label} line chart must contain at least one series`);
 
   const seriesIds = new Set<string>();
