@@ -702,6 +702,10 @@ function addSharedEdgeAnnotation(parent: SVGElement, geometry: D3FlowSharedAnnot
 
 
 const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
+  "data-import": ["M10 6h26l12 12v22H10zM36 6v14h12M16 28h18M16 35h12", "M30 48h28M48 38l10 10-10 10M16 46v12h22"],
+  "peak-search": ["M4 54h56M6 48C14 48 13 18 21 18S27 48 32 48S39 29 44 29S49 48 58 48", "M12 10h20v46H12zM35 12h24M51 6l8 6-8 6"],
+  "shared-peak-shape": ["M5 56h54M7 50C23 50 22 8 31 8S39 50 57 50", "M7 50C23 50 22 24 31 24S39 50 57 50", "M7 50C23 50 22 36 31 36S39 50 57 50"],
+  "marker-selection": ["M5 54h54M6 48C14 48 12 32 19 32S23 48 28 48S33 12 40 12S46 48 58 48", "M30 8h20v48H30zM35 26l4 4 8-10"],
   discussion: ["M8 12h32v24H22L12 45v-9H8z", "M30 30h26v18H46l-8 7v-7h-8"],
   "hands-on": ["M14 50l22-22", "M38 10a12 12 0 0 0 15 15L31 47l-14 3 3-14 22-22a12 12 0 0 0-4-4z"],
   statistics: ["M8 54h48M12 50V38h8v12M26 50V28h8v22M40 50V18h8v32", "M10 34c10 0 12-18 22-18s12 18 22 18"],
@@ -737,7 +741,7 @@ function addFlowVisualMotif(
     const path = document.createElementNS(namespace, "path");
     path.setAttribute("d", pathData);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", "currentColor");
+    path.setAttribute("stroke", motif === "shared-peak-shape" ? `var(--pcd-chart-series-${index + 1}, currentColor)` : "currentColor");
     path.setAttribute("stroke-width", index === 1 && ["regression", "design-of-experiments", "multivariate"].includes(motif) ? "7" : "4");
     path.setAttribute("stroke-linecap", "round");
     path.setAttribute("stroke-linejoin", "round");

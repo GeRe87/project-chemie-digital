@@ -702,16 +702,19 @@ function spaceFillingLinearFlowLayout(
 ): SpaceFillingFlowGeometry {
   const side = hilbertSideForNodeCount(linearOrder.length);
   const window = compactHilbertWindow(linearOrder.length, side);
+  // Keep authored connector labels out of adjacent information cards.
+  const columnGap = Math.max(SPACE_FILLING_COLUMN_GAP, ...input.edges.map(edge =>
+    Math.min(EDGE_LABEL_MAX_WIDTH, deterministicFlowTextMeasure(edge.label)) + 32));
   const width = Math.max(
     hostWidth,
     SPACE_FILLING_MARGIN_X * 2
       + window.columns * SPACE_FILLING_CARD_MIN_WIDTH
-      + Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP,
+      + Math.max(0, window.columns - 1) * columnGap,
   );
   const availableCardWidth = (
     width
     - SPACE_FILLING_MARGIN_X * 2
-    - Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP
+    - Math.max(0, window.columns - 1) * columnGap
   ) / window.columns;
   const cardWidth = Math.max(
     SPACE_FILLING_CARD_MIN_WIDTH,
@@ -744,7 +747,7 @@ function spaceFillingLinearFlowLayout(
   });
   const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
   const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
-  const columnPitch = cardWidth + SPACE_FILLING_COLUMN_GAP;
+  const columnPitch = cardWidth + columnGap;
   const height = SPACE_FILLING_MARGIN_Y * 2
     + window.rows * maxCardHeight
     + Math.max(0, window.rows - 1) * SPACE_FILLING_ROW_GAP;

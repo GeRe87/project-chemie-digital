@@ -20,7 +20,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -42,12 +42,23 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [3])
+        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram["states"]:
                 self.assertIn(state["focusNodeId"], nodes)
                 self.assertTrue(state["source"][0]["provenanceIds"])
+
+    def test_processing_overview_has_five_illustrated_steps_without_stages(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-processing--scene")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        self.assertEqual(diagram["states"], [])
+        self.assertEqual(len(diagram["edges"]), 4)
+        self.assertEqual([n["visualMotif"] for n in diagram["nodes"]],
+                         ["data-import", "peak-search", "shared-peak-shape", "marker-selection", "regression"])
+        self.assertTrue(all(n["visualMotifRole"] == "highlight" for n in diagram["nodes"]))
+        self.assertIn("GQD", diagram["nodes"][0]["description"])
+        self.assertFalse(any(b["kind"] == "math" for b in scene["blocks"]))
 
     def test_schematic_chromatogram_has_real_rdf_points_but_no_measurement_claim(self):
         marker_scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-markers--scene")

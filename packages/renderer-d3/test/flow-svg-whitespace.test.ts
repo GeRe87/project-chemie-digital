@@ -376,6 +376,33 @@ test("generic process fixture displays mathematical notation without replacing a
   }
 });
 
+test("processing thumbnails use shared SVG paths without animation states", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const motifs = ["data-import", "peak-search", "shared-peak-shape", "marker-selection", "regression"] as const;
+    const nodes: DiagramBlock["nodes"] = motifs.map((visualMotif, i) => ({
+      id: `step-${i}`, label: `Step ${i}`, description: "Processing result",
+      visualMotif, visualMotifRole: "highlight", source: [{resourceId: `ex:step-${i}`}],
+    }));
+    const edges = nodes.slice(1).map((node, i) => ({
+      id: `edge-${i}`, sourceNodeId: nodes[i]!.id, targetNodeId: node.id,
+      label: "Marker areas", source: [{resourceId: `ex:edge-${i}`}],
+    }));
+    const rendered = createD3FlowRenderModel({...block, nodes, edges, states: []}, {
+      reducedMotion: true, interactionPolicy: "static",
+    });
+    assert.ok(rendered.model);
+    const layout = createD3FlowLayout(rendered.model!, 1190);
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, rendered.model!, layout);
+    assert.deepEqual(host.findByClass("d3-flow-node-motif").map(element => element.getAttribute("data-visual-motif")), [...motifs]);
+    assert.ok(host.findByClass("d3-flow-node-motif").every(element => element.findByTag("path").length >= 2));
+    mounted.destroy();
+  } finally {
+    restoreDom();
+  }
+});
+
 test("hierarchy thumbnails are rendered as native SVG paths for all five authored motifs", () => {
   const restoreDom = installFakeDom();
   try {

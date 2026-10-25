@@ -51,6 +51,10 @@ export const VISUAL_MOTIF_KEYS = [
   "multiple-inputs",
   "neural-network",
   "other-models",
+  "data-import",
+  "peak-search",
+  "shared-peak-shape",
+  "marker-selection",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];

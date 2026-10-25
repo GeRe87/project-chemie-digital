@@ -39,7 +39,8 @@ export function mountD3RegressionChart(host: HTMLElement, block: RegressionChart
   const stop = () => { if (timer !== undefined) clearInterval(timer); timer = undefined; };
   const render = () => {
     const index = Math.max(0, step - 1), {window, result} = frames[index]![offset % frames[index]!.length]!;
-    controls.hidden = !window.cycleIntervalMs;
+    controls.hidden = !block.windows.some(w => w.cycleIntervalMs);
+    controls.style.visibility = window.cycleIntervalMs ? "visible" : "hidden";
     toggle.textContent = paused ? "Resume FIFO" : "Pause FIFO";
     const firstIndex = block.data.findIndex(d => d.id === window.datumIds[0]);
     position.textContent = `Start ${firstIndex + 1} of ${block.data.length}; ${window.datumIds.length} observations`;

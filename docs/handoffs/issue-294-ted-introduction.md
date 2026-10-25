@@ -156,6 +156,35 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Stable FIFO transition and static processing overview
+
+The shared regression renderer reserves the FIFO controls row in every stage
+when any window uses replay. Inactive controls use visibility:hidden, so they
+are neither visible nor keyboard-focusable while retaining identical geometry.
+A brief browser check measured exactly equal SVG x/y/width/height in the 15-member
+static stage and the FIFO stage (1226.856 by 572.080 CSS pixels at 1440 by 900).
+
+`talks-ted-processing.trig` adds the next path step: Import, Find peaks, Form
+components, Select markers and Calibrate. Five shared SVG visual motifs illustrate
+the steps. Four new reusable motifs and their SHACL allowed values were added;
+there is no slide-specific renderer, CSS or animation state. The shared
+space-filling flow layout now reserves label-aware horizontal connector gaps,
+preventing connector labels from being covered by adjacent cards.
+
+The knowledge graph retains the author's qPeaks description: scans at multiple
+window sizes, log-space asymmetric piecewise quadratic fitting, shared shape and
+channel-specific intercepts, and precomputed inverse normal matrices. These
+details are not displayed as formulas in the overview. Components are jointly
+estimated groups of chromatographic features sharing an elution profile, not
+automatically identified substances. GQD is retained as supplied. Seconds-scale
+processing is attributed to the author, not presented as a verified benchmark.
+
+Runtime generation succeeded. The brief dark-theme browser preview showed all
+five motifs and no page errors; the FIFO geometry check passed. Prepared content
+guards were updated for 13 scenes, including the title and a static flow with
+no states. Comprehensive tests remain deferred by the owner. No deployment or
+merge was performed.
+
 ### FIFO replay, heating-axis bound and sample comparison
 
 Supersedes the earlier fixed five-position shift and no-replay implementation.
