@@ -5,6 +5,7 @@ import sys
 import unittest
 import xml.etree.ElementTree as ET
 from rdflib import Dataset, URIRef
+from rdflib.compare import to_isomorphic
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -98,7 +99,7 @@ class TedIntroductionTests(unittest.TestCase):
         fallback = R.static_fallback(self.artifact)
         self.assertIn("Average_values", fallback)
         self.assertIn("Average_binding", fallback)
-        self.assertIn("DataProcessingConceptDomain", fallback)
+        self.assertIn("PortRole", fallback)
 
     def test_ted_pipeline_has_five_processing_steps_and_explicit_compatible_connections(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
@@ -118,11 +119,33 @@ class TedIntroductionTests(unittest.TestCase):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-automatic-execution--scene")
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
         self.assertEqual([n["label"] for n in diagram["nodes"]], ["Event server", "Execution engine", "Pipeline execution"])
-        self.assertEqual([p["label"] for p in diagram["nodes"][0]["parts"]], ["Measurement completed", "File fully saved", "Ready event"])
+        self.assertEqual([n["visualMotif"] for n in diagram["nodes"]], ["event-server", "execution-engine", "workflow-results"])
+        self.assertIn("Measurement ended", diagram["nodes"][0]["description"])
+        self.assertIn("File fully saved", diagram["nodes"][0]["description"])
         self.assertEqual([e["label"] for e in diagram["edges"]], ["trigger", "execute"])
         self.assertIn("file-created event alone must not", scene["narration"])
         self.assertIn("not a live integration", scene["narration"])
         self.assertIn("provenance", scene["narration"])
+
+    def test_port_popups_are_serialized_from_the_exact_authored_named_graphs(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        authored = R.assemble_dataset()
+        for edge, suffix in zip(diagram["edges"], ["eics", "features", "components", "marker-areas"]):
+            detail = edge["codeDetail"]
+            self.assertEqual(detail["language"], "trig")
+            parsed = Dataset()
+            parsed.parse(data=detail["code"], format="trig")
+            graph = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-port-" + suffix)
+            self.assertEqual(to_isomorphic(parsed.graph(graph)), to_isomorphic(authored.graph(graph)))
+            self.assertIn("Input", detail["code"])
+            self.assertIn("Output", detail["code"])
+            self.assertIn("conformsTo", detail["code"])
+            self.assertIn("property", detail["code"])
+            self.assertTrue(detail["source"])
+        fallback = R.static_fallback(self.artifact)
+        self.assertIn("EICs: shared port contract", fallback)
+        self.assertIn("massToCharge", fallback)
 
     def test_system_name_is_omitted_from_all_audience_text_and_speaker_notes(self):
         audience_keys = {"label", "description", "text", "term", "narration", "code", "fallback", "prompt"}

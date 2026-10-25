@@ -133,6 +133,27 @@ export function mountPitchDiagrams(
           throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
         }
         components.push(result);
+        if (block.edges.some(edge => edge.codeDetail) && typeof HTMLElement !== "undefined" && target instanceof HTMLElement) {
+          const modal = createExplanationDialog("pcd-port-dialog", `pcd-port-title-${++dialogCount}`);
+          const activate: EventListener = event => {
+            if (event.type === "keydown" && !["Enter", " "].includes((event as KeyboardEvent).key)) return;
+            const invoker = (event.target as Element | null)?.closest<SVGElement>("[data-diagram-detail-id]");
+            const detail = block.edges.find(edge => edge.id === invoker?.getAttribute("data-diagram-detail-id"))?.codeDetail;
+            if (!detail || !invoker) return;
+            event.preventDefault(); event.stopImmediatePropagation();
+            const content = document.createElement("div"), prose = document.createElement("p"), pre = document.createElement("pre"), code = document.createElement("code");
+            prose.textContent = detail.description; code.textContent = detail.code;
+            pre.className = "pcd-port-trig"; pre.append(code); content.append(prose, pre);
+            modal.open(detail.label, content, invoker);
+          };
+          const dismiss = () => { if (modal.dialog.open) modal.dialog.close(); };
+          target.addEventListener("click", activate); target.addEventListener("keydown", activate);
+          window.addEventListener("hashchange", dismiss);
+          removeAccessibilityListeners.push(() => {
+            target.removeEventListener("click", activate); target.removeEventListener("keydown", activate);
+            window.removeEventListener("hashchange", dismiss); modal.destroy();
+          });
+        }
         removeKeyboardListeners.push(bindKeyboardTraversal(target, result, options));
         removeAccessibilityListeners.push(bindDiagramAccessibility(target, result));
         removePresentationStateListeners.push(bindPresentationState(target, result, (stateId) => updateDiagramAccessibility(target, result, stateId)));

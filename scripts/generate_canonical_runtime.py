@@ -484,6 +484,26 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         visual_role = one(dataset, edge, iri(CD, "visualRole"), required=False)
         if visual_role is not None:
             edge_value["visualRole"] = str(visual_role)
+        contract = one(dataset, edge, iri(CD, "hasPortContract"), required=False)
+        if contract is not None:
+            if not isinstance(contract, URIRef) or not is_resource_type(dataset, contract, "PortContract"):
+                raise ValueError("Edge port contract must be a typed PortContract")
+            contract_graph = one(dataset, contract, iri(CD, "contractGraph"))
+            if not isinstance(contract_graph, URIRef) or not str(contract_graph).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
+                raise ValueError("Port contract must name an authored shape graph")
+            graph = dataset.graph(contract_graph)
+            if not 1 <= len(graph) <= 150 or (contract, RDF.type, iri(CD, "PortContract")) not in graph:
+                raise ValueError("Port contract graph must be bounded and own the contract")
+            transport = Dataset()
+            for prefix, namespace in dataset.namespaces(): transport.bind(prefix, namespace)
+            for triple in graph: transport.graph(contract_graph).add(triple)
+            code = transport.serialize(format="trig")
+            if len(code) > 18000: raise ValueError("Port contract detail exceeds presentation bounds")
+            description = literal(dataset, contract, iri(CD, "body"), language)
+            if not description or not description.strip(): raise ValueError("Port contract requires a human-readable description")
+            edge_value["codeDetail"] = {"label": selected_label_reference(dataset, contract, language)[0],
+                "description": description, "language": "trig", "code": code,
+                "source": [source_reference(dataset, edge, "cd:hasPortContract"), source_reference(dataset, contract, "cd:contractGraph"), source_reference(dataset, contract, "cd:body")]}
         edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
@@ -2656,6 +2676,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))}: '
                     f'{html.escape(edge["label"])} → '
                     f'{html.escape(labels.get(edge["targetNodeId"], edge["targetNodeId"]))}'
+                    f'{"<details><summary>" + html.escape(edge["codeDetail"]["label"]) + "</summary><p>" + html.escape(edge["codeDetail"]["description"]) + "</p><pre><code>" + html.escape(edge["codeDetail"]["code"]) + "</code></pre></details>" if edge.get("codeDetail") else ""}'
                     f'</li>'
                     for edge in block["edges"]
                 )

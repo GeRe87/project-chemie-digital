@@ -4,6 +4,7 @@ import {
   createD3FlowLayout,
   deterministicFlowTextMeasure,
   stackedFlowParts,
+  flowMotifExtent,
   wrapFlowText,
   type D3FlowLayout,
   type D3FlowLayoutEdge,
@@ -50,6 +51,7 @@ export interface D3FlowRenderEdge {
   readonly source: readonly SourceReference[];
   readonly readingIndex: number;
   readonly visualRole?: string;
+  readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
 }
 
 export interface D3FlowRenderModel {
@@ -273,6 +275,7 @@ function flowStaticFallback(block: DiagramBlock): string {
     ] : []),
     ...(block.edges.length > 0 ? [
       "Relations:",
+      ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
       ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ] : []),
     ...(block.states ?? []).flatMap((state) => [
@@ -424,6 +427,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
           source: cloneSources(edge.source),
           readingIndex,
           ...(visualRole ? { visualRole } : {}),
+          ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: cloneSources(edge.codeDetail.source)}} : {}),
         };
       });
       const groups = (block.groups ?? []).map((group): D3FlowRenderGroup => ({
@@ -626,7 +630,7 @@ function addEdgeLabel(
   edge: D3FlowLayoutEdge,
   orientation: D3FlowLayout["orientation"],
   strategy: D3FlowLayout["strategy"],
-): void {
+): SVGGElement {
   const namespace = "http://www.w3.org/2000/svg";
   const lineCount = Math.max(edge.labelLines.length, 1);
   const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
@@ -670,6 +674,7 @@ function addEdgeLabel(
   group.append(panel);
   addTextLines(group, edge.labelLines, edge.labelX, edge.labelY, "d3-flow-edge-label");
   parent.append(group);
+  return group;
 }
 
 function addSharedEdgeAnnotation(parent: SVGElement, geometry: D3FlowSharedAnnotationGeometry): void {
@@ -705,6 +710,12 @@ function addSharedEdgeAnnotation(parent: SVGElement, geometry: D3FlowSharedAnnot
 
 
 const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
+  "semantic-model": ["M4 5h23v16H4zM37 25h23v16H37zM5 43h24v16H5z", "M15 21v22M27 13h20v12M29 51h18V41", "M9 11h12M9 16h8M42 31h12M42 36h8M10 49h12M10 54h8"],
+  "processing-composition": ["M3 7h22v19H3zM39 7h22v19H39zM4 38h56v23H4z", "M25 16h14M31 11l6 5-6 5M14 26v12M50 26v12", "M10 45h10v9H10zM27 45h10v9H27zM44 45h10v9H44zM20 49h7M37 49h7"],
+  "average-operation": ["M5 51V31h9v20M20 51V15h9v36M35 51V24h9v27M3 55h43", "M3 29h43M49 27h12M55 21l6 6-6 6", "M49 45h12M55 40v10"],
+  "event-server": ["M3 9h30v39H3zM7 39h22M9 47v8M27 47v8M7 55h22", "M7 32c4 0 3-15 8-15s4 15 9 15h5M40 9h12l9 9v37H40zM52 9v12h9", "M47 28l-5 12h8l-4 12 12-17h-9l6-7"],
+  "execution-engine": ["M25 5h14l2 8 7 4 8-2 7 12-6 6v8l6 6-7 12-8-2-7 4H25l-2-8-7-4-8 2-7-12 6-6v-8l-6-6 7-12 8 2 7-4z", "M26 22l18 11-18 11z", "M14 33h7M47 33h7"],
+  "workflow-results": ["M4 9h34v43H4zM10 44V25M10 44h23M12 36l7-8 6 4 8-13", "M42 17h18v40H22v-5M46 24h10M46 30h10M29 46l8 7 18-18", "M10 15h22"],
   "data-import": ["M10 6h26l12 12v22H10zM36 6v14h12M16 28h18M16 35h12", "M30 48h28M48 38l10 10-10 10M16 46v12h22"],
   "peak-search": ["M4 54h56M6 48C14 48 13 18 21 18S27 48 32 48S39 29 44 29S49 48 58 48", "M12 10h20v46H12zM35 12h24M51 6l8 6-8 6"],
   "shared-peak-shape": ["M5 56h54M7 50C23 50 22 8 31 8S39 50 57 50", "M7 50C23 50 22 24 31 24S39 50 57 50", "M7 50C23 50 22 36 31 36S39 50 57 50"],
@@ -744,7 +755,7 @@ function addFlowVisualMotif(
     const path = document.createElementNS(namespace, "path");
     path.setAttribute("d", pathData);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", motif === "shared-peak-shape" ? `var(--pcd-chart-series-${index + 1}, currentColor)` : "currentColor");
+    path.setAttribute("stroke", ["shared-peak-shape", "semantic-model", "processing-composition", "average-operation", "event-server", "execution-engine", "workflow-results"].includes(motif) ? `var(--pcd-chart-series-${index + 1}, currentColor)` : "currentColor");
     path.setAttribute("stroke-width", index === 1 && ["regression", "design-of-experiments", "multivariate"].includes(motif) ? "7" : "4");
     path.setAttribute("stroke-linecap", "round");
     path.setAttribute("stroke-linejoin", "round");
@@ -854,7 +865,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       svg.setAttribute("class", "d3-flow-svg");
       // An image makes descendants presentational; keyboard-operated nodes
       // must remain exposed as separate controls to assistive technology.
-      svg.setAttribute("role", model.interactionPolicy === "keyboard" ? "group" : "img");
+      svg.setAttribute("role", model.interactionPolicy === "keyboard" || model.edges.some(edge => edge.codeDetail) ? "group" : "img");
       svg.setAttribute("aria-label", model.label);
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       svg.setAttribute("width", "100%");
@@ -1030,7 +1041,15 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence, edge.visualRole)})`);
           nextEdgeLayer.append(path);
            if (!activeAnnotatedEdgeIds.has(edge.id) && edge.labelLines.length > 0) {
-             addEdgeLabel(nextEdgeLayer, edge, layout.orientation, layout.strategy);
+             const label = addEdgeLabel(nextEdgeLayer, edge, layout.orientation, layout.strategy);
+             const authoredEdge = model.edges.find(candidate => candidate.id === edge.id);
+             if (authoredEdge?.codeDetail) {
+               label.setAttribute("data-diagram-detail-id", edge.id);
+               label.setAttribute("data-presentation-interactive", "true");
+               label.setAttribute("role", "button"); label.setAttribute("tabindex", "0");
+               label.setAttribute("aria-haspopup", "dialog");
+               label.setAttribute("aria-label", `Inspect ${authoredEdge.label} port contract`);
+             }
            }
          }
         for (const annotation of activeState?.sharedEdgeAnnotations ?? []) {
@@ -1193,7 +1212,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               group.style.setProperty("--d3-flow-card-hue", String((205 + modelNode.readingIndex * 58) % 360));
               const top = -layoutNode.height / 2;
               addTextLines(group, layoutNode.labelLines, 0, top + 28 + layoutNode.labelLines.length * 14, "d3-flow-node-title", 28);
-              for (const row of stackedFlowParts(modelNode.parts, layoutNode.width, layoutNode.labelLines.length)) {
+              if (modelNode.visualMotif) addFlowVisualMotif(group, modelNode.visualMotif, 0,
+                top + 44 + layoutNode.labelLines.length * 28 + 66, 112, "highlight");
+              for (const row of stackedFlowParts(modelNode.parts, layoutNode.width, layoutNode.labelLines.length, Boolean(modelNode.visualMotif))) {
                 const part = document.createElementNS(namespace, "g");
                 part.setAttribute("class", "d3-flow-node-part"); part.setAttribute("data-part-id", row.id);
                 const panel = document.createElementNS(namespace, "rect"); panel.setAttribute("class", "d3-flow-node-part-panel");
@@ -1261,7 +1282,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 const top = -layoutNode.height / 2 + 42;
                 titleY = top + titleHeight / 2;
                 dividerY = top + titleHeight + dividerGap / 2;
-                const motifSize = Math.min(88, Math.max(72, layoutNode.width * .24));
+                const extent = flowMotifExtent(modelNode.visualMotif);
+                const motifSize = extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
                 const motifY = dividerY + 20 + motifSize / 2;
                 bodyY = motifY + motifSize / 2 + 20 + bodyHeight / 2;
                 addFlowVisualMotif(group, modelNode.visualMotif!, contentX, motifY, motifSize, "highlight");

@@ -156,6 +156,41 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Visual variety and clickable semantic port contracts
+
+Reworked the model with three reusable colored SVG illustrations and shorter
+subcards. The automatic-execution scene now has three large illustrations with
+concise explanations, rather than another nine-part text grid. Its detailed
+event/engine/run descriptions remain linked in RDF and in speaker notes.
+Six native SVG motifs were added to the shared motif vocabulary and allowed
+SHACL values. Illustrated compound-card measurement is shared with rendering;
+ordinary pipeline thumbnail geometry retains its previous scale.
+
+The four semantic-pipeline connectors now open TriG port-contract dialogs.
+Authored `cd:PortContract` resources link exact bounded named shape graphs.
+Each graph defines the paired Output/Input ports, common carried type and common
+SHACL shape. The compiler generates `DiagramEdge.codeDetail` from that authored
+graph, rather than keeping a second copy of the source in a code literal. These
+are explicit illustrative proposed contracts, not asserted community standards or
+the engine's production schema. Feature/component/marker collections may be empty.
+
+The shared SVG renderer exposes connector labels as named focusable buttons;
+Pitch delegates click/Enter/Space to its existing explanation dialog. Source is
+inserted as text, not HTML. Escape restores SVG focus, hash navigation closes the
+dialog, and teardown removes listeners. Static, Reveal and self-study alternatives
+retain the detail text/TriG and provenance. No scene IDs or connector names drive
+this behavior. The underlying system remains unnamed in audience content.
+
+Generation succeeded. Brief dark-theme browser inspection covered all four
+popups, Escape/focus restoration and keyboard opening without slide navigation,
+with no page errors. A bounded read-only contract audit matched all four projected
+graphs to source, accepted four valid synthetic examples and rejected examples
+missing required fields. These are not comprehensive-suite results; full project
+tests remain deferred by the owner. No deployment or merge was performed.
+The paired role/type/shape metadata also passed a bounded SHACL check. A fresh
+light-theme context confirmed Space activation, in-dialog PageDown scrolling
+and automatic dismissal on hash navigation.
+
 ### Apply ProcessingUnit to TED and explain event-driven execution
 
 Added path positions 19-20. The first new scene presents Import, Find peaks,

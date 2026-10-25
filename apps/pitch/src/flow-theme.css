@@ -162,6 +162,11 @@ body[data-presentation-theme="dark"] .reveal {
 }
 
 .reveal .d3-flow-node-label { stroke-width: 3px; font-size: 23px; }
+.reveal .d3-flow-edge-label-group[data-diagram-detail-id] { cursor: pointer; }
+.reveal .d3-flow-edge-label-group[data-diagram-detail-id] .d3-flow-edge-label { text-decoration: underline; text-underline-offset: 4px; }
+.reveal .d3-flow-edge-label-group[data-diagram-detail-id]:is(:hover, :focus-visible) .d3-flow-edge-label-panel { stroke-width: 4; stroke: var(--pcd-accent); }
+.pcd-port-dialog { width: min(68rem, 94vw); }
+.pcd-port-trig { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: var(--pcd-surface); border: 1px solid var(--pcd-accent); font: 16px/1.45 "Cascadia Code", Consolas, monospace; }
 .reveal .d3-flow-node[data-composite-node="stack"] .d3-flow-node-shape { stroke: hsl(var(--d3-flow-card-hue) 70% 60%); }
 .reveal .d3-flow-node[data-composite-node="stack"] .d3-flow-node-part-panel { fill: color-mix(in srgb, hsl(var(--d3-flow-card-hue) 70% 50%) 10%, var(--pcd-surface-strong)); stroke: hsl(var(--d3-flow-card-hue) 65% 60%); stroke-width: 1.5; }
 .reveal .d3-flow-node[data-composite-node="stack"] .d3-flow-node-part-title { fill: var(--pcd-foreground); font: 800 20px "Cascadia Mono", Consolas, monospace; }

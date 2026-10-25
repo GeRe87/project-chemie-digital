@@ -10,6 +10,7 @@ export interface D3FlowLayoutNodeInput {
   readonly description?: string;
   readonly groupIds?: readonly string[];
   readonly visualMotifRole?: "supporting" | "highlight";
+  readonly visualMotif?: string;
 }
 
 export interface D3FlowLayoutEdgeInput {
@@ -247,8 +248,8 @@ function bodyTextMeasure(value: string): number {
 }
 
 /** Reusable stacked subcards, measured identically by layout and SVG rendering. */
-export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1) {
-  let top = 44 + headingLines * 28;
+export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1, illustration = false) {
+  let top = 44 + headingLines * 28 + (illustration ? 132 : 0);
   return parts.map(part => {
     const labelLines = wrapFlowText(part.label, width - 72, structuredTitleTextMeasure);
     const bodyLines = part.description ? wrapFlowText(part.description, width - 72, bodyTextMeasure) : [];
@@ -260,15 +261,19 @@ export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts
 }
 
 function stackedFlowHeight(node: D3FlowLayoutNodeInput, width: number, headingLines: number): number {
-  const rows = stackedFlowParts(node.parts!, width, headingLines);
+  const rows = stackedFlowParts(node.parts!, width, headingLines, Boolean(node.visualMotif));
   const last = rows[rows.length - 1]!;
   return last.top + last.height + 20;
 }
 
-function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false, highlightMotif = false): number {
+export function flowMotifExtent(motif?: string): number {
+  return ["semantic-model", "processing-composition", "average-operation", "event-server", "execution-engine", "workflow-results"].includes(motif ?? "") ? 144 : 88;
+}
+
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false, highlightMotif = false, motif?: string): number {
   const titleHeight = Math.max(labelLines.length, 1) * 28;
   const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
-  if (highlightMotif) return Math.max(276, 126 + titleHeight + 88 + bodyHeight);
+  if (highlightMotif) return Math.max(276, 126 + titleHeight + flowMotifExtent(motif) + bodyHeight);
   if (notation || headerMotif) return Math.max(186, 60 + titleHeight + 28 + bodyHeight + 32);
   if (bodyLines.length === 0) return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + titleHeight);
   return Math.max(168, 62 + titleHeight + bodyHeight + 18);
@@ -751,7 +756,7 @@ function spaceFillingLinearFlowLayout(
     );
     const titleHeight = Math.max(labelLines.length, 1) * 28;
     const bodyHeight = Math.max(bodyLines.length, 1) * 24;
-    const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
+    const highlightMotifHeight = original.visualMotifRole === "highlight" ? flowMotifExtent(original.visualMotif) + 4 : 0;
     return {
       ...original,
       labelLines,
@@ -857,7 +862,7 @@ function horizontalLayeredLayout(
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: original.parts?.length ? stackedFlowHeight(original, compactNodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
+      height: original.parts?.length ? stackedFlowHeight(original, compactNodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight"), original.visualMotif),
     };
   };
 
@@ -946,7 +951,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: original.parts?.length ? stackedFlowHeight(original, nodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
+        height: original.parts?.length ? stackedFlowHeight(original, nodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight"), original.visualMotif),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1646,7 +1651,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelLines,
       bodyLines,
       width: cardWidth ?? horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard)),
+      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard), node.visualMotif),
     };
   });
   const layers = topologicalLayers(input);

@@ -135,3 +135,40 @@ Generation, a brief dark-theme browser preview and a read-only artifact check
 succeeded: 20 scenes including the title, four matching output/input contracts,
 no system name in audience text or notes, and all execution subcard text inside
 its panels without page errors. Comprehensive suites remain deferred.
+
+## Illustrated models and inspectable ports
+
+The model keeps its three semantic columns but adds reusable colored SVG
+illustrations above shorter subcards. Event-driven execution now uses large
+measurement/file, engine and result illustrations instead of another nine-card
+text panel. The earlier detailed event resources remain linked as semantic parts;
+speaker notes preserve the readiness and provenance requirements. No new scene
+layout or third-party images are introduced.
+
+The four pipeline connectors expose source-linked `codeDetail` content. Their
+labels are underlined, focusable SVG buttons. Click, Enter or Space opens the
+shared explanation dialog; Escape restores focus, and hash navigation closes it.
+The runtime uses edge identities, not label strings or scene identities.
+
+`talks-ted-port-contracts.trig` authors four separate named graphs for EICs,
+features, components and marker areas. Each contains an Input/Output port pair,
+one shared carried type, and a common SHACL data shape. The edge links its
+`cd:PortContract`; `cd:contractGraph` selects the exact bounded authored graph.
+The compiler serializes that graph as TriG, preserving named-graph identity,
+rather than copying a manually maintained code literal. Core checks the detail
+contract; SHACL checks paired roles and shared meaning/shape. Static and self-study
+alternatives retain the descriptions and TriG source.
+
+These schemas are explicitly proposed teaching minima, not published community
+standards or the installed engine's production schemas. EICs retain m/z, time in
+seconds, intensity and intensity units. Feature entries retain their EIC link,
+time, area and units; components retain members and a shared-shape identifier;
+marker areas retain component/assignment identity, area and units. Empty feature,
+component or marker collections are permitted. Structural conformance does not
+establish chemical identification, correct fits or calibration validity.
+
+Bounded checks accepted a valid synthetic payload and rejected a missing required
+field for each of the four shapes. Projected TriG graphs matched their authored
+graphs isomorphically. A brief browser check opened every connector, restored
+focus on Escape, and opened a contract by keyboard without advancing the slide.
+Comprehensive project suites remain deferred.

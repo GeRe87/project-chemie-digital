@@ -112,6 +112,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
+    ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
   ].join("\n");
 }

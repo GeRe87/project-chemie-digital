@@ -191,6 +191,7 @@ export interface RevealDiagramGroupPlan {
 }
 
 export interface RevealDiagramEdgePlan {
+  readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
   readonly id: string;
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
@@ -330,6 +331,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
+    ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
@@ -495,6 +497,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           targetNodeId: edge.targetNodeId,
           label: edge.label,
           source: sourceCopy(edge.source),
+          ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: sourceCopy(edge.codeDetail.source)}} : {}),
           ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),

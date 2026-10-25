@@ -419,6 +419,23 @@ test("three composite flow columns preserve their nine source-linked subcards", 
   } finally { restoreDom(); }
 });
 
+test("source-linked port details expose labelled keyboard controls on SVG connectors", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const edges = block.edges.map(edge => ({...edge, codeDetail: {label: "EIC port", description: "Contract", language: "trig" as const,
+      code: "@prefix ex: <https://example.org/> . ex:g { ex:a ex:b ex:c . }", source: [{resourceId: "ex:contract"}]}}));
+    const result = createD3FlowRenderModel({...block, edges}, {reducedMotion: true, interactionPolicy: "static"});
+    assert.ok(result.model);
+    const host = new FakeHTMLElement("div");
+    const mounted = createSvgD3FlowRuntime().mount(host, result.model, createD3FlowLayout(result.model, 1200));
+    const controls = host.findByClass("d3-flow-edge-label-group");
+    assert.ok(controls.every(control => control.getAttribute("role") === "button" && control.getAttribute("tabindex") === "0"));
+    assert.ok(controls.every(control => !control.getAttribute("aria-label")!.includes("undefined")));
+    assert.equal(host.findByClass("d3-flow-svg")[0]!.getAttribute("role"), "group");
+    mounted.destroy();
+  } finally {restoreDom();}
+});
+
 test("processing thumbnails use shared SVG paths without animation states", () => {
   const restoreDom = installFakeDom();
   try {

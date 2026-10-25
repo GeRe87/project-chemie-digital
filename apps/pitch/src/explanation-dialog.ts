@@ -6,7 +6,7 @@ export function createExplanationDialog(className = "", titleId = "pcd-explanati
   title.id=titleId;close.type="button";close.className="pcd-rule-close";close.textContent="×";close.setAttribute("aria-label","Close explanation");
   const body=document.createElement("div");body.className="pcd-rule-dialog-body";body.tabIndex=0;
   header.append(title,close);dialog.append(header,body);document.body.append(dialog);
-  let invoker:HTMLElement|undefined;
+  let invoker:HTMLElement|SVGElement|undefined;
   const dismiss=()=>{if(dialog.open)dialog.close();};
   const restore=()=>{document.body.classList.toggle("pcd-rule-dialog-open",!!document.querySelector('dialog[data-presentation-modal][open]'));invoker?.focus({preventScroll:true});};
   const cancel=(e:Event)=>{e.preventDefault();dismiss();};
@@ -27,7 +27,7 @@ export function createExplanationDialog(className = "", titleId = "pcd-explanati
   const wheel=(e:Event)=>{if(!dialog.open)return;e.stopImmediatePropagation();if(!(e.target instanceof Node)||!dialog.contains(e.target))e.preventDefault();};
   close.addEventListener("click",dismiss);dialog.addEventListener("cancel",cancel);dialog.addEventListener("close",restore);
   window.addEventListener("keydown",key,true);window.addEventListener("wheel",wheel,{capture:true,passive:false});window.addEventListener("touchmove",wheel,{capture:true,passive:false});window.addEventListener("beforeprint",dismiss);
-  return {body,dialog,open(label:string,content:Node|string,from:HTMLElement){
+  return {body,dialog,open(label:string,content:Node|string,from:HTMLElement|SVGElement){
     for(const other of document.querySelectorAll<HTMLDialogElement>('dialog[data-presentation-modal][open]'))if(other!==dialog)other.close();
     invoker=from;title.textContent=label;if(typeof content==="string")body.innerHTML=content;else body.replaceChildren(content);
     document.body.classList.add("pcd-rule-dialog-open");if(!dialog.open)dialog.showModal();body.scrollTop=0;close.focus({preventScroll:true});

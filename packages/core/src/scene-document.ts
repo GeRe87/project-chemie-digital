@@ -55,6 +55,12 @@ export const VISUAL_MOTIF_KEYS = [
   "peak-search",
   "shared-peak-shape",
   "marker-selection",
+  "semantic-model",
+  "processing-composition",
+  "average-operation",
+  "event-server",
+  "execution-engine",
+  "workflow-results",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];
@@ -349,6 +355,7 @@ export interface DiagramEdge {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly visualRole?: string;
+  readonly codeDetail?: {readonly label: string; readonly description: string; readonly language: "trig"; readonly code: string; readonly source: readonly SourceReference[]};
 }
 
 export interface SharedEdgeAnnotation {
@@ -784,6 +791,13 @@ function validateDiagram(block: DiagramBlock, label: string): void {
 
   const edgeIdSet = new Set<string>();
   for (const edge of block.edges) {
+    if (edge.codeDetail) {
+      requireNonEmpty(edge.codeDetail.label, "Diagram detail label");
+      requireNonEmpty(edge.codeDetail.description, "Diagram detail description");
+      requireNonEmpty(edge.codeDetail.code, "Diagram detail code");
+      if (edge.codeDetail.language !== "trig") throw new SceneContractError("Diagram port detail must be TriG");
+      validateSource(edge.codeDetail.source, "Diagram detail source");
+    }
     requireNonEmpty(edge.id, `${label} diagram edge id`);
     if (edgeIdSet.has(edge.id)) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
     edgeIdSet.add(edge.id);
