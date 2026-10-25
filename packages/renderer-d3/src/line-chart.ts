@@ -145,12 +145,22 @@ export function mountD3LineChart(
 
   const applyStep = (): void => {
     const traceVisible = presentation.traceInitiallyVisible || currentStep >= 1;
+    const focusedSeries = new Set(model.annotations.flatMap(annotation =>
+      annotation.kind === "point" && annotation.focusSeries ? [annotation.seriesId] : []));
+    const activeFocus = model.annotations.reduce<string | undefined>((active, annotation, index) =>
+      annotation.kind === "point" && annotation.focusSeries && currentStep >= index + 2
+        ? annotation.seriesId : active, undefined);
+    const visibleSeries = (id: string): boolean => traceVisible && (!focusedSeries.has(id) || id === activeFocus);
     for (const path of chartSvg.querySelectorAll<SVGPathElement>(".d3-chart-line")) {
+      const id = path.dataset.seriesId!;
       path.style.strokeDashoffset = traceVisible ? "0" : "1";
-      path.style.opacity = traceVisible ? "1" : "0";
+      path.style.opacity = visibleSeries(id) ? "1" : "0";
+      path.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
     for (const point of chartSvg.querySelectorAll<SVGCircleElement>(".d3-chart-line-point")) {
-      point.style.opacity = traceVisible ? "0.9" : "0";
+      const id = point.dataset.seriesId!;
+      point.style.opacity = visibleSeries(id) ? (activeFocus && id !== activeFocus ? "0.25" : "0.9") : "0";
+      point.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
     for (const group of chartSvg.querySelectorAll<SVGGElement>("[data-annotation-step]")) {
       const requiredStep = Number(group.dataset.annotationStep ?? "999");
@@ -220,6 +230,7 @@ export function mountD3LineChart(
       if (pathData) {
         const node = svg("path");
         node.classList.add("d3-chart-line", `d3-chart-series-${(index % 5) + 1}`);
+        node.dataset.seriesId = series.id;
         node.setAttribute("d", pathData);
         node.setAttribute("fill", "none");
         node.setAttribute("pathLength", "1");
@@ -233,10 +244,11 @@ export function mountD3LineChart(
       }
       for (const datum of series.data) {
         const point = svg("circle");
-        point.classList.add("d3-chart-line-point");
+        point.classList.add("d3-chart-line-point", `d3-chart-series-${(index % 5) + 1}`);
+        point.dataset.seriesId = series.id;
         point.setAttribute("cx", String(x(datum.x)));
         point.setAttribute("cy", String(y(datum.y)));
-        point.setAttribute("r", "7");
+        point.setAttribute("r", series.data.length > 50 ? "2.5" : "7");
         point.setAttribute("data-datum-id", datum.id);
         point.style.opacity = presentation.traceInitiallyVisible ? "0.9" : "0";
         point.style.transition = options.reducedMotion || presentation.traceInitiallyVisible

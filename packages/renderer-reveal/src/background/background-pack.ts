@@ -13,6 +13,8 @@ export interface BackgroundLayer {
   readonly blendMode?: BackgroundBlendMode;
   readonly sizing: BackgroundSizing;
   readonly filter?: string;
+  readonly scale?: number;
+  readonly offsetYVh?: number;
 }
 
 export interface BackgroundPack {
@@ -100,6 +102,10 @@ export function validateBackgroundPack(pack: BackgroundPack): void {
       );
     }
     ids.add(layer.id);
+    if ((layer.scale !== undefined && (!Number.isFinite(layer.scale) || layer.scale <= 0))
+      || (layer.offsetYVh !== undefined && !Number.isFinite(layer.offsetYVh))) {
+      throw new BackgroundPackError("INVALID_BACKGROUND_PACK", "Invalid background layer geometry", pack.id, layer.id);
+    }
     assertLocalAsset(layer.asset, pack.id, layer.id);
     if (!Number.isFinite(layer.speed) || layer.speed < 0) {
       throw new BackgroundPackError(

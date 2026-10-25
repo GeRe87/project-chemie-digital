@@ -158,6 +158,8 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   canonicalDatasetSnapshot,
 );
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId, options?.profile);
+// Keep keyboard shortcuts and the floating theme lamp, without a toolbar rail.
+shellRoot.hidden = appearance.profile.showToolbar === false;
 for (const message of appearance.diagnostics) console.warn(message);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
@@ -464,7 +466,8 @@ if (connectedInteractive) {
 }
 
 const unmountCodeOutputZoom=mountCodeOutputZoom(root);
-const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
+const unmountScriptView=appearance.profile.showToolbar === false ? () => undefined
+  : mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
 
 const refreshInteractiveRuntime = (): void => {
   codeRuntime?.refresh();

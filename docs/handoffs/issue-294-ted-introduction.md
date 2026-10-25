@@ -156,6 +156,42 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Visual and chromatogram follow-up
+
+Supersedes the original 33-point single-trace description above:
+
+- Apparatus SVG surfaces and outlines now inherit the presentation's light/dark
+  tokens. Coloured product populations retain their original schematic colours.
+- Talks disables the upper appearance/summary/graph toolbar and script-view
+  button through `showToolbar: false`; the floating theme lamp and Alt+T/Alt+B
+  shortcuts remain. Other presentation profiles keep their existing controls.
+- Background layers have optional validated `scale` and `offsetYVh` configuration.
+  Only the Talks foreground uses 1.12 scale and +14vh displacement. Its source
+  image includes a transparent bottom margin (opaque centre ends near pixel 612
+  of 682); accounting for that margin avoids revealing the back layer below it.
+- The RDF chart contains 81 explicit observations **per series** (162 total),
+  with thirteen TIC peaks and three selected-EIC peaks on a shared arbitrary
+  signal/time scale. EIC signal never exceeds TIC signal. No ion mass or named
+  polymer is invented, and EIC selection does not imply freedom from interference.
+- Stages are TIC → selected EIC with grey TIC context → characteristic marker
+  candidate → area of **that same EIC peak**. The marker is `ted-e36`; the range
+  spans `ted-e33`–`ted-e39`, both zero-signal endpoints surrounding that peak.
+- Minimal additive semantic extension: optional boolean `cd:focusSeries` on a
+  point annotation, declared and SHACL-constrained in `chart-series-focus.trig`.
+  The existing target observation supplies series identity; the compiler projects
+  it as optional `focusSeries` with source provenance. Focus-selectable series
+  stay hidden until selection; context stays neutral. Ordinary charts without
+  this metadata retain their stage sequence. SceneDocument validates the boolean.
+  No scene IDs or TED-specific selection logic were added to the renderer.
+- Existing content assertions were updated for the new point count, TIC/EIC
+  relation and marker/range correspondence, ready for final validation.
+
+Only runtime generation and a brief local visual inspection were performed for
+this follow-up, not the full test suites or browser matrix. The local browser
+showed white/dark SVG surfaces, no upper toolbar, and all four chart stages with
+grey context and a coloured EIC, without page errors. Acceptance and comprehensive
+validation remain deferred by the owner's instruction. No deployment or merge.
+
 ### Owner steering after the first full-suite run
 
 The owner explicitly deferred comprehensive testing until the talk is complete.

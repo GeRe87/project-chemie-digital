@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
-  <rect x="12" y="12" width="776" height="496" rx="36" fill="#101e35"/>
+  <rect x="12" y="12" width="776" height="496" rx="36" fill="var(--pcd-surface-strong)"/>
   <rect x="60" y="55" width="310" height="385" rx="44" fill="#fa8727" fill-opacity=".12" stroke="#ffad50" stroke-width="5"/>
-  <path d="M105 305 L130 385 Q215 415 300 385 L325 305 Z" fill="#536780" stroke="#c4d8ed" stroke-width="5"/>
-  <ellipse cx="215" cy="305" rx="110" ry="31" fill="#18273e" stroke="#c4d8ed" stroke-width="5"/>
+  <path d="M105 305 L130 385 Q215 415 300 385 L325 305 Z" fill="var(--pcd-muted)" stroke="var(--pcd-foreground)" stroke-width="5"/>
+  <ellipse cx="215" cy="305" rx="110" ry="31" fill="var(--pcd-surface)" stroke="var(--pcd-foreground)" stroke-width="5"/>
   <path d="M132 300 L165 278 L198 302 L232 279" fill="none" stroke="#5de3a7" stroke-width="12" stroke-linecap="round"/>
   <circle cx="132" cy="300" r="11" fill="#5de3a7"/><circle cx="165" cy="278" r="11" fill="#5de3a7"/><circle cx="198" cy="302" r="11" fill="#5de3a7"/><circle cx="232" cy="279" r="11" fill="#5de3a7"/>
   <path d="M241 317 L266 298 L292 311" fill="none" stroke="#e784e7" stroke-width="11" stroke-linecap="round"/>

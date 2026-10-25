@@ -440,6 +440,8 @@ export interface LineChartPointAnnotation {
   readonly kind: "point";
   readonly seriesId: string;
   readonly datumId: string;
+  /** Reveal and focus this series at the annotation's presentation stage. */
+  readonly focusSeries?: boolean;
   readonly label: string;
   readonly source: readonly SourceReference[];
 }
@@ -987,6 +989,9 @@ function validateChart(block: ChartBlock, label: string): void {
     const series = datumBySeries.get(annotation.seriesId);
     if (!series) throw new SceneContractError(`${label} annotation ${annotation.id} references an unknown series`);
     if (annotation.kind === "point") {
+      if (annotation.focusSeries !== undefined && typeof annotation.focusSeries !== "boolean") {
+        throw new SceneContractError(`${label} point annotation focusSeries must be boolean`);
+      }
       if (!series.has(annotation.datumId)) {
         throw new SceneContractError(`${label} point annotation ${annotation.id} references an unknown datum`);
       }

@@ -4,59 +4,203 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/project-chemie-digital/graph/data/talks-ted-schematic> {
-  # Hand-authored teaching coordinates, not measured data or a polymer assignment.
-  # No real retention times, ion masses, calibration slopes or detection limits.
+  # Explicit synthetic teaching coordinates: 81 points per trace, no measurements.
+  # EIC is a schematic selected ion channel, not a named compound or polymer.
+  # Its signal stays below the TIC at each time; no independent rescaling.
   ex:ted-marker-chromatogram a cd:ChartDefinition ;
-    skos:prefLabel "Schematic chromatogram — not measured data"@en ;
-    cd:body "Synthetic trace · not measured data · no polymer assignment."@en ;
+    skos:prefLabel "Schematic TIC → EIC — not measured data"@en ;
+    cd:body "Synthetic TIC → selected EIC · no measured sample or polymer assignment."@en ;
     cd:chartType cd:LineChart ; cd:xAxisLabel "Relative retention time"@en ;
     cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;
-    cd:usesDataset ex:ted-schematic-signal ;
-    cd:hasChartAnnotation ex:ted-marker-candidate-a, ex:ted-marker-matrix, ex:ted-marker-area ;
+    cd:usesDataset ex:ted-schematic-signal ; dct:hasPart ex:ted-schematic-eic ;
+    cd:hasChartAnnotation ex:ted-select-eic, ex:ted-marker-candidate-a, ex:ted-marker-area ;
     dct:references ex:ted-polymer-markers ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
-  ex:ted-schematic-signal a cd:Dataset ; skos:prefLabel "Synthetic signal; no measured sample"@en ;
-    dct:description "Illustrative coordinates only; arbitrary relative retention scale and arbitrary relative signal. No polymer identity or physical calibration can be inferred."@en ;
-    cd:hasObservation ex:ted-trace-01, ex:ted-trace-02, ex:ted-trace-03, ex:ted-trace-04, ex:ted-trace-05,
-      ex:ted-trace-06, ex:ted-trace-07, ex:ted-trace-08, ex:ted-trace-09, ex:ted-trace-10,
-      ex:ted-trace-11, ex:ted-trace-12, ex:ted-trace-13, ex:ted-trace-14, ex:ted-trace-15,
-      ex:ted-trace-16, ex:ted-trace-17, ex:ted-trace-18, ex:ted-trace-19, ex:ted-trace-20,
-      ex:ted-trace-21, ex:ted-trace-22, ex:ted-trace-23, ex:ted-trace-24, ex:ted-trace-25,
-      ex:ted-trace-26, ex:ted-trace-27, ex:ted-trace-28, ex:ted-trace-29, ex:ted-trace-30,
-      ex:ted-trace-31, ex:ted-trace-32, ex:ted-trace-33 ; cd:authoredResource true .
-  ex:ted-trace-01 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-02 a cd:Observation ; cd:position 2 ; cd:xValue 0.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-03 a cd:Observation ; cd:position 3 ; cd:xValue 1.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-04 a cd:Observation ; cd:position 4 ; cd:xValue 1.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-05 a cd:Observation ; cd:position 5 ; cd:xValue 1.8 ; cd:numericValue 0.06 ; cd:authoredResource true .
-  ex:ted-trace-06 a cd:Observation ; cd:position 6 ; cd:xValue 2.0 ; cd:numericValue 0.3 ; cd:authoredResource true .
-  ex:ted-trace-07 a cd:Observation ; cd:position 7 ; cd:xValue 2.2 ; cd:numericValue 0.85 ; cd:authoredResource true .
-  ex:ted-trace-08 a cd:Observation ; cd:position 8 ; cd:xValue 2.4 ; cd:numericValue 0.25 ; cd:authoredResource true .
-  ex:ted-trace-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.6 ; cd:numericValue 0.05 ; cd:authoredResource true .
-  ex:ted-trace-10 a cd:Observation ; cd:position 10 ; cd:xValue 3.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-11 a cd:Observation ; cd:position 11 ; cd:xValue 3.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-12 a cd:Observation ; cd:position 12 ; cd:xValue 4.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-13 a cd:Observation ; cd:position 13 ; cd:xValue 4.3 ; cd:numericValue 0.15 ; cd:authoredResource true .
-  ex:ted-trace-14 a cd:Observation ; cd:position 14 ; cd:xValue 4.6 ; cd:numericValue 0.55 ; cd:authoredResource true .
-  ex:ted-trace-15 a cd:Observation ; cd:position 15 ; cd:xValue 4.9 ; cd:numericValue 0.28 ; cd:authoredResource true .
-  ex:ted-trace-16 a cd:Observation ; cd:position 16 ; cd:xValue 5.2 ; cd:numericValue 0.06 ; cd:authoredResource true .
-  ex:ted-trace-17 a cd:Observation ; cd:position 17 ; cd:xValue 5.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-18 a cd:Observation ; cd:position 18 ; cd:xValue 6.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-19 a cd:Observation ; cd:position 19 ; cd:xValue 6.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-20 a cd:Observation ; cd:position 20 ; cd:xValue 6.8 ; cd:numericValue 0.05 ; cd:authoredResource true .
-  ex:ted-trace-21 a cd:Observation ; cd:position 21 ; cd:xValue 7.0 ; cd:numericValue 0.2 ; cd:authoredResource true .
-  ex:ted-trace-22 a cd:Observation ; cd:position 22 ; cd:xValue 7.2 ; cd:numericValue 0.72 ; cd:authoredResource true .
-  ex:ted-trace-23 a cd:Observation ; cd:position 23 ; cd:xValue 7.4 ; cd:numericValue 0.95 ; cd:authoredResource true .
-  ex:ted-trace-24 a cd:Observation ; cd:position 24 ; cd:xValue 7.6 ; cd:numericValue 0.62 ; cd:authoredResource true .
-  ex:ted-trace-25 a cd:Observation ; cd:position 25 ; cd:xValue 7.8 ; cd:numericValue 0.22 ; cd:authoredResource true .
-  ex:ted-trace-26 a cd:Observation ; cd:position 26 ; cd:xValue 8.0 ; cd:numericValue 0.06 ; cd:authoredResource true .
-  ex:ted-trace-27 a cd:Observation ; cd:position 27 ; cd:xValue 8.3 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-28 a cd:Observation ; cd:position 28 ; cd:xValue 8.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-29 a cd:Observation ; cd:position 29 ; cd:xValue 9.0 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-30 a cd:Observation ; cd:position 30 ; cd:xValue 9.5 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-31 a cd:Observation ; cd:position 31 ; cd:xValue 10.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-trace-32 a cd:Observation ; cd:position 32 ; cd:xValue 10.5 ; cd:numericValue 0.03 ; cd:authoredResource true .
-  ex:ted-trace-33 a cd:Observation ; cd:position 33 ; cd:xValue 11.0 ; cd:numericValue 0.02 ; cd:authoredResource true .
-  ex:ted-marker-candidate-a a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Marker candidate"@en ; cd:targetObservation ex:ted-trace-07 ; cd:authoredResource true .
-  ex:ted-marker-matrix a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "Matrix signal"@en ; cd:targetObservation ex:ted-trace-14 ; cd:authoredResource true .
-  ex:ted-marker-area a cd:ChartRangeAnnotation ; cd:position 3 ; cd:body "Area → calibration"@en ; cd:startObservation ex:ted-trace-20 ; cd:endObservation ex:ted-trace-27 ; cd:authoredResource true .
+
+  ex:ted-schematic-signal a cd:Dataset ; skos:prefLabel "Synthetic total-ion chromatogram (TIC)"@en ;
+    dct:description "Arbitrary relative time and ion signal. Thirteen illustrative peaks; no compound identities, real ion masses or physical calibration."@en ;
+    cd:hasObservation ex:ted-t01, ex:ted-t02, ex:ted-t03, ex:ted-t04, ex:ted-t05, ex:ted-t06, ex:ted-t07, ex:ted-t08, ex:ted-t09,
+      ex:ted-t10, ex:ted-t11, ex:ted-t12, ex:ted-t13, ex:ted-t14, ex:ted-t15, ex:ted-t16, ex:ted-t17, ex:ted-t18, ex:ted-t19,
+      ex:ted-t20, ex:ted-t21, ex:ted-t22, ex:ted-t23, ex:ted-t24, ex:ted-t25, ex:ted-t26, ex:ted-t27, ex:ted-t28, ex:ted-t29,
+      ex:ted-t30, ex:ted-t31, ex:ted-t32, ex:ted-t33, ex:ted-t34, ex:ted-t35, ex:ted-t36, ex:ted-t37, ex:ted-t38, ex:ted-t39,
+      ex:ted-t40, ex:ted-t41, ex:ted-t42, ex:ted-t43, ex:ted-t44, ex:ted-t45, ex:ted-t46, ex:ted-t47, ex:ted-t48, ex:ted-t49,
+      ex:ted-t50, ex:ted-t51, ex:ted-t52, ex:ted-t53, ex:ted-t54, ex:ted-t55, ex:ted-t56, ex:ted-t57, ex:ted-t58, ex:ted-t59,
+      ex:ted-t60, ex:ted-t61, ex:ted-t62, ex:ted-t63, ex:ted-t64, ex:ted-t65, ex:ted-t66, ex:ted-t67, ex:ted-t68, ex:ted-t69,
+      ex:ted-t70, ex:ted-t71, ex:ted-t72, ex:ted-t73, ex:ted-t74, ex:ted-t75, ex:ted-t76, ex:ted-t77, ex:ted-t78, ex:ted-t79, ex:ted-t80, ex:ted-t81 ; cd:authoredResource true .
+  ex:ted-t01 a cd:Observation ; cd:position 1 ; cd:xValue 0.000 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t02 a cd:Observation ; cd:position 2 ; cd:xValue 0.125 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t03 a cd:Observation ; cd:position 3 ; cd:xValue 0.250 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t04 a cd:Observation ; cd:position 4 ; cd:xValue 0.375 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t05 a cd:Observation ; cd:position 5 ; cd:xValue 0.500 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:ted-t06 a cd:Observation ; cd:position 6 ; cd:xValue 0.625 ; cd:numericValue 0.30 ; cd:authoredResource true .
+  ex:ted-t07 a cd:Observation ; cd:position 7 ; cd:xValue 0.750 ; cd:numericValue 0.67 ; cd:authoredResource true .
+  ex:ted-t08 a cd:Observation ; cd:position 8 ; cd:xValue 0.875 ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:ted-t09 a cd:Observation ; cd:position 9 ; cd:xValue 1.000 ; cd:numericValue 0.07 ; cd:authoredResource true .
+  ex:ted-t10 a cd:Observation ; cd:position 10 ; cd:xValue 1.125 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t11 a cd:Observation ; cd:position 11 ; cd:xValue 1.250 ; cd:numericValue 0.18 ; cd:authoredResource true .
+  ex:ted-t12 a cd:Observation ; cd:position 12 ; cd:xValue 1.375 ; cd:numericValue 0.47 ; cd:authoredResource true .
+  ex:ted-t13 a cd:Observation ; cd:position 13 ; cd:xValue 1.500 ; cd:numericValue 0.16 ; cd:authoredResource true .
+  ex:ted-t14 a cd:Observation ; cd:position 14 ; cd:xValue 1.625 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t15 a cd:Observation ; cd:position 15 ; cd:xValue 1.750 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t16 a cd:Observation ; cd:position 16 ; cd:xValue 1.875 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:ted-t17 a cd:Observation ; cd:position 17 ; cd:xValue 2.000 ; cd:numericValue 0.38 ; cd:authoredResource true .
+  ex:ted-t18 a cd:Observation ; cd:position 18 ; cd:xValue 2.125 ; cd:numericValue 0.82 ; cd:authoredResource true .
+  ex:ted-t19 a cd:Observation ; cd:position 19 ; cd:xValue 2.250 ; cd:numericValue 0.32 ; cd:authoredResource true .
+  ex:ted-t20 a cd:Observation ; cd:position 20 ; cd:xValue 2.375 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t21 a cd:Observation ; cd:position 21 ; cd:xValue 2.500 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t22 a cd:Observation ; cd:position 22 ; cd:xValue 2.625 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t23 a cd:Observation ; cd:position 23 ; cd:xValue 2.750 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t24 a cd:Observation ; cd:position 24 ; cd:xValue 2.875 ; cd:numericValue 0.24 ; cd:authoredResource true .
+  ex:ted-t25 a cd:Observation ; cd:position 25 ; cd:xValue 3.000 ; cd:numericValue 0.58 ; cd:authoredResource true .
+  ex:ted-t26 a cd:Observation ; cd:position 26 ; cd:xValue 3.125 ; cd:numericValue 0.22 ; cd:authoredResource true .
+  ex:ted-t27 a cd:Observation ; cd:position 27 ; cd:xValue 3.250 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-t28 a cd:Observation ; cd:position 28 ; cd:xValue 3.375 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t29 a cd:Observation ; cd:position 29 ; cd:xValue 3.500 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t30 a cd:Observation ; cd:position 30 ; cd:xValue 3.625 ; cd:numericValue 0.26 ; cd:authoredResource true .
+  ex:ted-t31 a cd:Observation ; cd:position 31 ; cd:xValue 3.750 ; cd:numericValue 0.62 ; cd:authoredResource true .
+  ex:ted-t32 a cd:Observation ; cd:position 32 ; cd:xValue 3.875 ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:ted-t33 a cd:Observation ; cd:position 33 ; cd:xValue 4.000 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t34 a cd:Observation ; cd:position 34 ; cd:xValue 4.125 ; cd:numericValue 0.09 ; cd:authoredResource true .
+  ex:ted-t35 a cd:Observation ; cd:position 35 ; cd:xValue 4.250 ; cd:numericValue 0.44 ; cd:authoredResource true .
+  ex:ted-t36 a cd:Observation ; cd:position 36 ; cd:xValue 4.375 ; cd:numericValue 1.00 ; cd:authoredResource true .
+  ex:ted-t37 a cd:Observation ; cd:position 37 ; cd:xValue 4.500 ; cd:numericValue 0.58 ; cd:authoredResource true .
+  ex:ted-t38 a cd:Observation ; cd:position 38 ; cd:xValue 4.625 ; cd:numericValue 0.18 ; cd:authoredResource true .
+  ex:ted-t39 a cd:Observation ; cd:position 39 ; cd:xValue 4.750 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-t40 a cd:Observation ; cd:position 40 ; cd:xValue 4.875 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-t41 a cd:Observation ; cd:position 41 ; cd:xValue 5.000 ; cd:numericValue 0.18 ; cd:authoredResource true .
+  ex:ted-t42 a cd:Observation ; cd:position 42 ; cd:xValue 5.125 ; cd:numericValue 0.43 ; cd:authoredResource true .
+  ex:ted-t43 a cd:Observation ; cd:position 43 ; cd:xValue 5.250 ; cd:numericValue 0.15 ; cd:authoredResource true .
+  ex:ted-t44 a cd:Observation ; cd:position 44 ; cd:xValue 5.375 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t45 a cd:Observation ; cd:position 45 ; cd:xValue 5.500 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t46 a cd:Observation ; cd:position 46 ; cd:xValue 5.625 ; cd:numericValue 0.07 ; cd:authoredResource true .
+  ex:ted-t47 a cd:Observation ; cd:position 47 ; cd:xValue 5.750 ; cd:numericValue 0.30 ; cd:authoredResource true .
+  ex:ted-t48 a cd:Observation ; cd:position 48 ; cd:xValue 5.875 ; cd:numericValue 0.71 ; cd:authoredResource true .
+  ex:ted-t49 a cd:Observation ; cd:position 49 ; cd:xValue 6.000 ; cd:numericValue 0.28 ; cd:authoredResource true .
+  ex:ted-t50 a cd:Observation ; cd:position 50 ; cd:xValue 6.125 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t51 a cd:Observation ; cd:position 51 ; cd:xValue 6.250 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t52 a cd:Observation ; cd:position 52 ; cd:xValue 6.375 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-t53 a cd:Observation ; cd:position 53 ; cd:xValue 6.500 ; cd:numericValue 0.21 ; cd:authoredResource true .
+  ex:ted-t54 a cd:Observation ; cd:position 54 ; cd:xValue 6.625 ; cd:numericValue 0.52 ; cd:authoredResource true .
+  ex:ted-t55 a cd:Observation ; cd:position 55 ; cd:xValue 6.750 ; cd:numericValue 0.19 ; cd:authoredResource true .
+  ex:ted-t56 a cd:Observation ; cd:position 56 ; cd:xValue 6.875 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t57 a cd:Observation ; cd:position 57 ; cd:xValue 7.000 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t58 a cd:Observation ; cd:position 58 ; cd:xValue 7.125 ; cd:numericValue 0.07 ; cd:authoredResource true .
+  ex:ted-t59 a cd:Observation ; cd:position 59 ; cd:xValue 7.250 ; cd:numericValue 0.32 ; cd:authoredResource true .
+  ex:ted-t60 a cd:Observation ; cd:position 60 ; cd:xValue 7.375 ; cd:numericValue 0.78 ; cd:authoredResource true .
+  ex:ted-t61 a cd:Observation ; cd:position 61 ; cd:xValue 7.500 ; cd:numericValue 0.35 ; cd:authoredResource true .
+  ex:ted-t62 a cd:Observation ; cd:position 62 ; cd:xValue 7.625 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:ted-t63 a cd:Observation ; cd:position 63 ; cd:xValue 7.750 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t64 a cd:Observation ; cd:position 64 ; cd:xValue 7.875 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t65 a cd:Observation ; cd:position 65 ; cd:xValue 8.000 ; cd:numericValue 0.23 ; cd:authoredResource true .
+  ex:ted-t66 a cd:Observation ; cd:position 66 ; cd:xValue 8.125 ; cd:numericValue 0.55 ; cd:authoredResource true .
+  ex:ted-t67 a cd:Observation ; cd:position 67 ; cd:xValue 8.250 ; cd:numericValue 0.22 ; cd:authoredResource true .
+  ex:ted-t68 a cd:Observation ; cd:position 68 ; cd:xValue 8.375 ; cd:numericValue 0.05 ; cd:authoredResource true .
+  ex:ted-t69 a cd:Observation ; cd:position 69 ; cd:xValue 8.500 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t70 a cd:Observation ; cd:position 70 ; cd:xValue 8.625 ; cd:numericValue 0.03 ; cd:authoredResource true .
+  ex:ted-t71 a cd:Observation ; cd:position 71 ; cd:xValue 8.750 ; cd:numericValue 0.06 ; cd:authoredResource true .
+  ex:ted-t72 a cd:Observation ; cd:position 72 ; cd:xValue 8.875 ; cd:numericValue 0.35 ; cd:authoredResource true .
+  ex:ted-t73 a cd:Observation ; cd:position 73 ; cd:xValue 9.000 ; cd:numericValue 0.88 ; cd:authoredResource true .
+  ex:ted-t74 a cd:Observation ; cd:position 74 ; cd:xValue 9.125 ; cd:numericValue 0.39 ; cd:authoredResource true .
+  ex:ted-t75 a cd:Observation ; cd:position 75 ; cd:xValue 9.250 ; cd:numericValue 0.08 ; cd:authoredResource true .
+  ex:ted-t76 a cd:Observation ; cd:position 76 ; cd:xValue 9.375 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t77 a cd:Observation ; cd:position 77 ; cd:xValue 9.500 ; cd:numericValue 0.16 ; cd:authoredResource true .
+  ex:ted-t78 a cd:Observation ; cd:position 78 ; cd:xValue 9.625 ; cd:numericValue 0.40 ; cd:authoredResource true .
+  ex:ted-t79 a cd:Observation ; cd:position 79 ; cd:xValue 9.750 ; cd:numericValue 0.13 ; cd:authoredResource true .
+  ex:ted-t80 a cd:Observation ; cd:position 80 ; cd:xValue 9.875 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-t81 a cd:Observation ; cd:position 81 ; cd:xValue 10.000 ; cd:numericValue 0.03 ; cd:authoredResource true .
+
+  ex:ted-schematic-eic a cd:Dataset ; skos:prefLabel "Synthetic extracted-ion chromatogram (EIC)"@en ;
+    dct:description "One anonymous selected ion channel retains three peaks, not one unique polymer. Shared relative scale with the TIC; selection does not remove possible interference."@en ;
+    cd:hasObservation ex:ted-e01, ex:ted-e02, ex:ted-e03, ex:ted-e04, ex:ted-e05, ex:ted-e06, ex:ted-e07, ex:ted-e08, ex:ted-e09,
+      ex:ted-e10, ex:ted-e11, ex:ted-e12, ex:ted-e13, ex:ted-e14, ex:ted-e15, ex:ted-e16, ex:ted-e17, ex:ted-e18, ex:ted-e19,
+      ex:ted-e20, ex:ted-e21, ex:ted-e22, ex:ted-e23, ex:ted-e24, ex:ted-e25, ex:ted-e26, ex:ted-e27, ex:ted-e28, ex:ted-e29,
+      ex:ted-e30, ex:ted-e31, ex:ted-e32, ex:ted-e33, ex:ted-e34, ex:ted-e35, ex:ted-e36, ex:ted-e37, ex:ted-e38, ex:ted-e39,
+      ex:ted-e40, ex:ted-e41, ex:ted-e42, ex:ted-e43, ex:ted-e44, ex:ted-e45, ex:ted-e46, ex:ted-e47, ex:ted-e48, ex:ted-e49,
+      ex:ted-e50, ex:ted-e51, ex:ted-e52, ex:ted-e53, ex:ted-e54, ex:ted-e55, ex:ted-e56, ex:ted-e57, ex:ted-e58, ex:ted-e59,
+      ex:ted-e60, ex:ted-e61, ex:ted-e62, ex:ted-e63, ex:ted-e64, ex:ted-e65, ex:ted-e66, ex:ted-e67, ex:ted-e68, ex:ted-e69,
+      ex:ted-e70, ex:ted-e71, ex:ted-e72, ex:ted-e73, ex:ted-e74, ex:ted-e75, ex:ted-e76, ex:ted-e77, ex:ted-e78, ex:ted-e79, ex:ted-e80, ex:ted-e81 ; cd:authoredResource true .
+  ex:ted-e01 a cd:Observation ; cd:position 1 ; cd:xValue 0.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e02 a cd:Observation ; cd:position 2 ; cd:xValue 0.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e03 a cd:Observation ; cd:position 3 ; cd:xValue 0.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e04 a cd:Observation ; cd:position 4 ; cd:xValue 0.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e05 a cd:Observation ; cd:position 5 ; cd:xValue 0.500 ; cd:numericValue 0.01 ; cd:authoredResource true .
+  ex:ted-e06 a cd:Observation ; cd:position 6 ; cd:xValue 0.625 ; cd:numericValue 0.10 ; cd:authoredResource true .
+  ex:ted-e07 a cd:Observation ; cd:position 7 ; cd:xValue 0.750 ; cd:numericValue 0.27 ; cd:authoredResource true .
+  ex:ted-e08 a cd:Observation ; cd:position 8 ; cd:xValue 0.875 ; cd:numericValue 0.09 ; cd:authoredResource true .
+  ex:ted-e09 a cd:Observation ; cd:position 9 ; cd:xValue 1.000 ; cd:numericValue 0.01 ; cd:authoredResource true .
+  ex:ted-e10 a cd:Observation ; cd:position 10 ; cd:xValue 1.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e11 a cd:Observation ; cd:position 11 ; cd:xValue 1.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e12 a cd:Observation ; cd:position 12 ; cd:xValue 1.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e13 a cd:Observation ; cd:position 13 ; cd:xValue 1.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e14 a cd:Observation ; cd:position 14 ; cd:xValue 1.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e15 a cd:Observation ; cd:position 15 ; cd:xValue 1.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e16 a cd:Observation ; cd:position 16 ; cd:xValue 1.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e17 a cd:Observation ; cd:position 17 ; cd:xValue 2.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e18 a cd:Observation ; cd:position 18 ; cd:xValue 2.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e19 a cd:Observation ; cd:position 19 ; cd:xValue 2.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e20 a cd:Observation ; cd:position 20 ; cd:xValue 2.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e21 a cd:Observation ; cd:position 21 ; cd:xValue 2.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e22 a cd:Observation ; cd:position 22 ; cd:xValue 2.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e23 a cd:Observation ; cd:position 23 ; cd:xValue 2.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e24 a cd:Observation ; cd:position 24 ; cd:xValue 2.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e25 a cd:Observation ; cd:position 25 ; cd:xValue 3.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e26 a cd:Observation ; cd:position 26 ; cd:xValue 3.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e27 a cd:Observation ; cd:position 27 ; cd:xValue 3.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e28 a cd:Observation ; cd:position 28 ; cd:xValue 3.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e29 a cd:Observation ; cd:position 29 ; cd:xValue 3.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e30 a cd:Observation ; cd:position 30 ; cd:xValue 3.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e31 a cd:Observation ; cd:position 31 ; cd:xValue 3.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e32 a cd:Observation ; cd:position 32 ; cd:xValue 3.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e33 a cd:Observation ; cd:position 33 ; cd:xValue 4.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e34 a cd:Observation ; cd:position 34 ; cd:xValue 4.125 ; cd:numericValue 0.04 ; cd:authoredResource true .
+  ex:ted-e35 a cd:Observation ; cd:position 35 ; cd:xValue 4.250 ; cd:numericValue 0.29 ; cd:authoredResource true .
+  ex:ted-e36 a cd:Observation ; cd:position 36 ; cd:xValue 4.375 ; cd:numericValue 0.79 ; cd:authoredResource true .
+  ex:ted-e37 a cd:Observation ; cd:position 37 ; cd:xValue 4.500 ; cd:numericValue 0.43 ; cd:authoredResource true .
+  ex:ted-e38 a cd:Observation ; cd:position 38 ; cd:xValue 4.625 ; cd:numericValue 0.10 ; cd:authoredResource true .
+  ex:ted-e39 a cd:Observation ; cd:position 39 ; cd:xValue 4.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e40 a cd:Observation ; cd:position 40 ; cd:xValue 4.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e41 a cd:Observation ; cd:position 41 ; cd:xValue 5.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e42 a cd:Observation ; cd:position 42 ; cd:xValue 5.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e43 a cd:Observation ; cd:position 43 ; cd:xValue 5.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e44 a cd:Observation ; cd:position 44 ; cd:xValue 5.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e45 a cd:Observation ; cd:position 45 ; cd:xValue 5.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e46 a cd:Observation ; cd:position 46 ; cd:xValue 5.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e47 a cd:Observation ; cd:position 47 ; cd:xValue 5.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e48 a cd:Observation ; cd:position 48 ; cd:xValue 5.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e49 a cd:Observation ; cd:position 49 ; cd:xValue 6.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e50 a cd:Observation ; cd:position 50 ; cd:xValue 6.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e51 a cd:Observation ; cd:position 51 ; cd:xValue 6.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e52 a cd:Observation ; cd:position 52 ; cd:xValue 6.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e53 a cd:Observation ; cd:position 53 ; cd:xValue 6.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e54 a cd:Observation ; cd:position 54 ; cd:xValue 6.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e55 a cd:Observation ; cd:position 55 ; cd:xValue 6.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e56 a cd:Observation ; cd:position 56 ; cd:xValue 6.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e57 a cd:Observation ; cd:position 57 ; cd:xValue 7.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e58 a cd:Observation ; cd:position 58 ; cd:xValue 7.125 ; cd:numericValue 0.01 ; cd:authoredResource true .
+  ex:ted-e59 a cd:Observation ; cd:position 59 ; cd:xValue 7.250 ; cd:numericValue 0.12 ; cd:authoredResource true .
+  ex:ted-e60 a cd:Observation ; cd:position 60 ; cd:xValue 7.375 ; cd:numericValue 0.34 ; cd:authoredResource true .
+  ex:ted-e61 a cd:Observation ; cd:position 61 ; cd:xValue 7.500 ; cd:numericValue 0.15 ; cd:authoredResource true .
+  ex:ted-e62 a cd:Observation ; cd:position 62 ; cd:xValue 7.625 ; cd:numericValue 0.01 ; cd:authoredResource true .
+  ex:ted-e63 a cd:Observation ; cd:position 63 ; cd:xValue 7.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e64 a cd:Observation ; cd:position 64 ; cd:xValue 7.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e65 a cd:Observation ; cd:position 65 ; cd:xValue 8.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e66 a cd:Observation ; cd:position 66 ; cd:xValue 8.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e67 a cd:Observation ; cd:position 67 ; cd:xValue 8.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e68 a cd:Observation ; cd:position 68 ; cd:xValue 8.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e69 a cd:Observation ; cd:position 69 ; cd:xValue 8.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e70 a cd:Observation ; cd:position 70 ; cd:xValue 8.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e71 a cd:Observation ; cd:position 71 ; cd:xValue 8.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e72 a cd:Observation ; cd:position 72 ; cd:xValue 8.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e73 a cd:Observation ; cd:position 73 ; cd:xValue 9.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e74 a cd:Observation ; cd:position 74 ; cd:xValue 9.125 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e75 a cd:Observation ; cd:position 75 ; cd:xValue 9.250 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e76 a cd:Observation ; cd:position 76 ; cd:xValue 9.375 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e77 a cd:Observation ; cd:position 77 ; cd:xValue 9.500 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e78 a cd:Observation ; cd:position 78 ; cd:xValue 9.625 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e79 a cd:Observation ; cd:position 79 ; cd:xValue 9.750 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e80 a cd:Observation ; cd:position 80 ; cd:xValue 9.875 ; cd:numericValue 0.00 ; cd:authoredResource true .
+  ex:ted-e81 a cd:Observation ; cd:position 81 ; cd:xValue 10.000 ; cd:numericValue 0.00 ; cd:authoredResource true .
+
+  ex:ted-select-eic a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Selected EIC"@en ; cd:targetObservation ex:ted-e60 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:ted-marker-candidate-a a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "Characteristic marker candidate"@en ; cd:targetObservation ex:ted-e36 ; cd:authoredResource true .
+  ex:ted-marker-area a cd:ChartRangeAnnotation ; cd:position 3 ; cd:body "Marker area → calibration"@en ; cd:startObservation ex:ted-e33 ; cd:endObservation ex:ted-e39 ; cd:authoredResource true .
 }

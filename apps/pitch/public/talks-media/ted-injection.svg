@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
-  <rect x="12" y="12" width="776" height="496" rx="36" fill="#101e35"/>
+  <rect x="12" y="12" width="776" height="496" rx="36" fill="var(--pcd-surface-strong)"/>
   <rect x="31" y="57" width="222" height="410" rx="28" fill="#ff8756" fill-opacity=".10" stroke="#ffad50" stroke-width="4"/>
   <rect x="289" y="57" width="222" height="410" rx="28" fill="#73d9ff" fill-opacity=".10" stroke="#73d9ff" stroke-width="4"/>
   <rect x="547" y="57" width="222" height="410" rx="28" fill="#5de3a7" fill-opacity=".10" stroke="#5de3a7" stroke-width="4"/>
-  <rect x="105" y="122" width="75" height="225" rx="28" fill="#8ba6c8" fill-opacity=".1" stroke="#b7cce7" stroke-width="5"/>
+  <rect x="105" y="122" width="75" height="225" rx="28" fill="var(--pcd-muted)" fill-opacity=".1" stroke="var(--pcd-foreground)" stroke-width="5"/>
   <rect x="122" y="185" width="40" height="114" rx="20" fill="#49d4d1" fill-opacity=".35" stroke="#49d4d1" stroke-width="4"/>
   <circle cx="142" cy="160" r="8" fill="#e784e7"/><circle cx="145" cy="135" r="8" fill="#ffc75b"/><circle cx="147" cy="108" r="8" fill="#5de3a7"/>
   <path d="M78 180 Q62 200 78 220 T78 260 M208 180 Q192 200 208 220 T208 260" fill="none" stroke="#ff8756" stroke-width="6" stroke-linecap="round"/>
@@ -11,7 +11,7 @@
   <path d="M213 381 L230 393 L213 405" fill="none" stroke="#ffad50" stroke-width="6" stroke-linecap="round"/>
   <path d="M260 260 L280 260 M268 250 L280 260 L268 270" fill="none" stroke="#e784e7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <rect x="369" y="124" width="62" height="245" rx="26" fill="#73d9ff" fill-opacity=".22" stroke="#73d9ff" stroke-width="5"/>
-  <path d="M400 137 L400 315" stroke="#c4d8ed" stroke-width="6"/>
+  <path d="M400 137 L400 315" stroke="var(--pcd-foreground)" stroke-width="6"/>
   <circle cx="385" cy="313" r="8" fill="#5de3a7"/><circle cx="406" cy="323" r="8" fill="#e784e7"/><circle cx="390" cy="337" r="8" fill="#ffc75b"/><circle cx="411" cy="346" r="8" fill="#5de3a7"/>
   <path d="M317 158 L346 158 M331 143 L331 173 M321 148 L341 168 M321 168 L341 148 M451 315 L480 315 M465 300 L465 330 M455 305 L475 325 M455 325 L475 305" stroke="#73d9ff" stroke-width="4" stroke-linecap="round"/>
   <path d="M400 84 L400 111 M387 98 L400 111 L413 98" fill="none" stroke="#73d9ff" stroke-width="6" stroke-linecap="round"/>

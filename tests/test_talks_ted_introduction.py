@@ -53,9 +53,19 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(chart["chartType"], "line")
         self.assertIn("not measured", chart["label"].lower())
         self.assertIn("synthetic", chart["description"].lower())
-        data = chart["series"][0]["data"]
-        self.assertEqual(len(data), 33)
-        self.assertTrue(all(a["x"] < b["x"] for a, b in zip(data, data[1:])))
+        tic, eic = chart["series"]
+        for series in (tic, eic):
+            data = series["data"]
+            self.assertEqual(len(data), 81)
+            self.assertTrue(all(a["x"] < b["x"] for a, b in zip(data, data[1:])))
+        self.assertTrue(all(a["x"] == b["x"] and a["y"] >= b["y"] for a, b in zip(tic["data"], eic["data"])))
+        select, marker, area = chart["annotations"]
+        self.assertTrue(select["focusSeries"])
+        self.assertEqual(select["seriesId"], eic["id"])
+        self.assertEqual(marker["seriesId"], area["seriesId"])
+        ids = [datum["id"] for datum in eic["data"]]
+        self.assertLess(ids.index(area["startDatumId"]), ids.index(marker["datumId"]))
+        self.assertLess(ids.index(marker["datumId"]), ids.index(area["endDatumId"]))
         self.assertEqual([annotation["kind"] for annotation in chart["annotations"]], ["point", "point", "x-range"])
         self.assertEqual(chart["yAxis"]["unit"], "a.u.")
         notes = self.scenes[-1]["narration"].lower()

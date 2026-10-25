@@ -5,6 +5,7 @@ import {talksPresentationProfile,resolvePresentationAppearance,chemometricsPrese
 
 test("Talks opts into existing readable lecture typography without changing course navigation",()=>{
   assert.equal(talksPresentationProfile.defaultReadability,"lecture");
+  assert.equal(talksPresentationProfile.showToolbar,false);
   assert.equal(resolvePresentationAppearance("",undefined,talksPresentationProfile).view,"deck");
   assert.equal(chemometricsPresentationProfile.defaultView,"scroll");
 });

@@ -15,7 +15,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from rdflib import DCTERMS, RDF, SKOS, Dataset, Literal, URIRef
+from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Literal, URIRef
 
 from course_path_selection import (
     CoursePathReference,
@@ -799,6 +799,12 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         }
         if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
             target = one(dataset, annotation, iri(CD, "targetObservation"))
+            focus = one(dataset, annotation, iri(CD, "focusSeries"), required=False)
+            if focus is not None:
+                if not isinstance(focus, Literal) or focus.datatype != XSD.boolean:
+                    raise ValueError("Point annotation focusSeries must be a boolean")
+                base["focusSeries"] = bool(focus.toPython())
+                base["source"].append(source_reference(dataset, annotation, "cd:focusSeries"))
             if compact(target) not in owners:
                 raise ValueError(f"Point annotation {compact(annotation)} targets an observation outside the chart dataset")
             annotations.append({**base, "seriesId": owners[compact(target)], "kind": "point", "datumId": compact(target)})

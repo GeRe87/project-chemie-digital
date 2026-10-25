@@ -99,6 +99,8 @@ body[data-presentation-theme]:not(.pcd-background-active) .scroll-page { backgro
   color: var(--pcd-foreground);
 }
 
+#view-switch-shell[hidden] { display: none !important; }
+
 /* Classic decks share the viewport with the presentation controls. Reveal's
    default 100vh canvas otherwise starts below the controls and loses its bottom
    edge. Flex sizing keeps the actual available height authoritative, including
