@@ -75,7 +75,9 @@ class AssetReferences(HTMLParser):
 
 
 def validate_transport(file: Path, offering: str) -> dict:
-    completed = subprocess.run(["node", "--experimental-strip-types", str(ROOT / "scripts/validate_course_transport.mts"),
+    artifact = json.loads(file.read_text(encoding="utf-8"))
+    script = "validate_presentation_transport.mts" if "presentationCollection" in artifact else "validate_course_transport.mts"
+    completed = subprocess.run(["node", "--experimental-strip-types", str(ROOT / "scripts" / script),
                                 str(file), offering], cwd=ROOT, text=True, capture_output=True, check=True)
     return json.loads(completed.stdout)
 
@@ -111,7 +113,9 @@ def validate_lazy_transport(directory: Path, artifact: dict, index: Path) -> Non
     manifest_file = directory / "course-runtime/manifest.json"
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
     documents = artifact["sceneDocuments"]
-    if (manifest.get("offering") != artifact["teachingOfferingDocuments"][0]
+    identity_matches = (manifest.get("collection") == artifact["presentationCollection"] if "presentationCollection" in artifact
+                        else manifest.get("offering") == artifact["teachingOfferingDocuments"][0])
+    if (not identity_matches
             or manifest.get("bindings") != artifact["sceneDocumentBindings"]
             or [record.get("id") for record in manifest.get("documents", [])] != [doc["id"] for doc in documents]):
         raise ValueError("Lazy course manifest does not match the validated canonical transport")
@@ -123,8 +127,30 @@ def validate_lazy_transport(directory: Path, artifact: dict, index: Path) -> Non
         payload = json.loads(file.read_text(encoding="utf-8"))
         expected = {**artifact, "sceneDocuments": [document],
                     "sceneDocumentBindings": [b for b in artifact["sceneDocumentBindings"] if b["sceneDocumentId"] == document["id"]]}
+        expected.pop("presentationCollection", None)
         if payload != expected:
             raise ValueError("Lazy level transport does not match its canonical document and snapshot")
+
+
+def public_files(public: Path, artifact: dict):
+    if "presentationCollection" not in artifact:
+        return sorted(path for path in public.rglob("*") if path.is_file())
+    manifest = json.loads((public / "course-runtime/manifest.json").read_text(encoding="utf-8"))
+    paths = [public / "course-runtime/manifest.json", public / "course-runtime/static-course.html"]
+    paths += [public / record["runtime"] for record in manifest["documents"]]
+    for folder in ["vendor", "talks-assets"]:
+        paths += [path for path in (public / folder).rglob("*") if path.is_file()]
+    for document in artifact["sceneDocuments"]:
+        for scene in document["scenes"]:
+            for uri in media_uris(scene["blocks"]):
+                paths.append(public / uri.lstrip("/"))
+            for logo in scene.get("presentationTitle", {}).get("logos", []):
+                if logo.get("uri"):
+                    paths.append(public / logo["uri"].lstrip("/"))
+    for path in paths:
+        if not path.resolve().is_relative_to(public.resolve()) or not path.is_file():
+            raise ValueError("Missing or escaping selected public asset")
+    return sorted(set(paths))
 
 
 def validate_files(directory: Path, offering: str, base: str, public: Path) -> dict:
@@ -152,18 +178,21 @@ def validate_files(directory: Path, offering: str, base: str, public: Path) -> d
         raise ValueError("Development runtime remains in output")
     if "course-runtime/manifest.json" in script or (directory / "course-runtime/manifest.json").exists():
         validate_lazy_transport(directory, artifact, index)
-    for unit in artifact.get("teachingOfferingDocuments", [{}])[0].get("units", []):
+    for unit in next(iter(artifact.get("teachingOfferingDocuments", [])), {}).get("units", []):
         if unit.get("thumbnail"):
             asset_path(directory, unit["thumbnail"]["uri"], index)
     # Every public asset must be copied without mutation: backgrounds, icons,
     # semantic media and the complete pinned vendor/worker/VFS tree.
-    for source in sorted(public.rglob("*")):
+    for source in public_files(public, artifact):
         if source.is_file():
             target = directory / source.relative_to(public)
             if not target.is_file() or digest(source) != digest(target):
                 raise ValueError(f"Missing or changed public asset: {source.relative_to(public)}")
     for document in artifact["sceneDocuments"]:
         for scene in document["scenes"]:
+            for logo in scene.get("presentationTitle", {}).get("logos", []):
+                if logo.get("uri"):
+                    asset_path(directory, logo["uri"], index)
             if scene["id"] not in script:
                 raise ValueError("Selected scene identity missing from application bundle")
             for uri in media_uris(scene["blocks"]):

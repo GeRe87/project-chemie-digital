@@ -1513,7 +1513,8 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     is_resource_type(dataset, selected, "Interpretation")
                     and boolean_literal(dataset, selected, iri(CD, "authoredResource"))
                 )
-                if (selected != focus and not narrative_heading) or heading_language is None:
+                title_heading = selected == one(dataset, scene_id, iri(CD, "presentationTitleOf"), required=False)
+                if (selected != focus and not narrative_heading and not title_heading) or heading_language is None:
                     raise ValueError(f"Invalid heading selection in {compact(item)}")
                 if language is not None and language != heading_language:
                     raise ValueError(f"Heading language does not match selector in {compact(item)}")
@@ -1954,11 +1955,14 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             or first_block.get("prompt")
             or first_block["id"]
         )
+        title_work = one(dataset, scene_id, iri(CD, "presentationTitleOf"), required=False)
+        from presentation_metadata import project_title
         scenes.append({
             "id": f"{scene_compact}--scene",
             "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
             "blocks": blocks,
             "readingOrder": [block["id"] for block in blocks],
+            **({"presentationTitle": project_title(dataset, title_work)} if title_work else {}),
             "accessibility": {"label": accessibility_label},
             **({"narration": literal(dataset, scene_id, iri(CD, "narration"), language or "en"),
                 "source": [source_reference(dataset, scene_id), source_reference(dataset, focus), source_reference(dataset, scene_id, "cd:narration")]}
@@ -2217,6 +2221,10 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
     document = artifact["sceneDocuments"][0]
     articles = []
     for scene in document["scenes"]:
+        if scene.get("presentationTitle") and not _fragment:
+            from presentation_metadata import title_fallback
+            articles.append(f'<article id="{html.escape(scene["id"], quote=True)}">' + title_fallback(scene["presentationTitle"]) + '</article>')
+            continue
         blocks = []
         consumed_function_legend_ids: set[str] = set()
         for block in scene["blocks"]:

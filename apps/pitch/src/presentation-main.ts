@@ -2,6 +2,7 @@ import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "katex/dist/katex.min.css";
 import "./styles.css";
+import "./scientific-title.css";
 import "./code-runtime.css";
 import "./poll-runtime.css";
 import "./presentation-background.css";
@@ -79,13 +80,16 @@ import {
 import type { PresentationThemeMode } from "../../../packages/renderer-reveal/src/background/themed-background.ts";
 import {
   backgroundPackRegistry,
+  availableBackgroundFamilies,
   mountAppearanceControls,
   resolveBackgroundPackId,
   resolveDiagramThemeId,
   resolvePresentationAppearance,
+  type PresentationProfile,
 } from "./presentation-profile.ts";
 
-export async function startPresentation(artifact: CanonicalRuntimeArtifact, courseWorldModel?: PitchCourseWorldModel): Promise<void> {
+export async function startPresentation(artifact: CanonicalRuntimeArtifact, courseWorldModel?: PitchCourseWorldModel,
+  options?: { readonly profile?: PresentationProfile; readonly collectionTitle?: string }): Promise<void> {
 validateCanonicalRuntimeArtifact(artifact);
 const canonicalDatasetSnapshot = artifact.datasetSnapshot;
 const root = document.querySelector<HTMLElement>("#pitch-slides");
@@ -153,7 +157,7 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   documents,
   canonicalDatasetSnapshot,
 );
-const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
+const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId, options?.profile);
 for (const message of appearance.diagnostics) console.warn(message);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
@@ -202,7 +206,8 @@ if (appearance.readability === "lecture") {
   }
 }
 
-const runtimeBackgroundPacks = backgroundPackRegistry.map((pack) => ({
+const allowedPacks = new Set(availableBackgroundFamilies(appearance.profile).flatMap(family => [family.variants.dark.id, family.variants.light.id]));
+const runtimeBackgroundPacks = backgroundPackRegistry.filter(pack => allowedPacks.has(pack.id)).map((pack) => ({
   ...pack,
   layers: pack.layers.map((layer) => ({
     ...layer,
@@ -227,6 +232,7 @@ function applyBackgroundSelection(): void {
 }
 
 const appearanceControls = mountAppearanceControls({
+  families: availableBackgroundFamilies(appearance.profile),
   root: shellRoot,
   currentFamilyId: selectedBackgroundFamilyId,
   backgroundEnabled,
@@ -299,8 +305,8 @@ const returnToWorld = (): void => {
   window.location.assign(url);
 };
 const returnButton = document.createElement("button");
-returnButton.type = "button"; returnButton.className = "pcd-return-world"; returnButton.textContent = "Course Overworld";
-if (courseWorldModel) { document.body.append(returnButton); returnButton.addEventListener("click", returnToWorld); }
+returnButton.type = "button"; returnButton.className = "pcd-return-world"; returnButton.textContent = options?.collectionTitle ?? "Course Overworld";
+if (courseWorldModel || options?.collectionTitle) { document.body.append(returnButton); returnButton.addEventListener("click", returnToWorld); }
 const onCourseEnd = (): void => { if (deck.getCurrentSlide()?.dataset.courseReturnSentinel === "true") returnToWorld(); };
 deck.on("slidechanged", onCourseEnd);
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
@@ -415,14 +421,16 @@ function syncBackgroundProgress(offset:number, enteredPage=false):void {
   const freezeForActiveStage = document.body.classList.contains("pcd-stage-lock-active");
   if (appearance.view === "scroll" && !enteredPage && (freezeForLayout || freezeForActiveStage)) return;
   const pageIndex=deck.getSlides().indexOf(currentSlide!);
-  backgroundRuntime.setProgress(appearance.view === "scroll" ? presentationBackgroundProgress(pageIndex) : offset,{animate:appearance.view === "scroll"});
+  const horizontal = appearance.profile.backgroundProgressAxis === "horizontal";
+  backgroundRuntime.setProgress(horizontal ? (pageIndex + 1) * window.innerWidth : appearance.view === "scroll" ? presentationBackgroundProgress(pageIndex) : offset,{animate:horizontal || appearance.view === "scroll"});
 }
 // A page-entry event is authoritative even when its new scene already holds a
 // stage lock. Fragment-only moves retain the same page/background position.
 const syncBackgroundPage=()=>syncBackgroundProgress(revealScrollOffset(),true);
-backgroundRuntime.setProgress(appearance.view === "scroll"
+if (appearance.profile.backgroundProgressAxis === "horizontal") window.addEventListener("resize", syncBackgroundPage);
+backgroundRuntime.setProgress(appearance.profile.backgroundProgressAxis === "horizontal" ? window.innerWidth : appearance.view === "scroll"
   ? presentationBackgroundProgress(deck.getSlides().indexOf(deck.getCurrentSlide()!))
-  : deck.getSlidePastCount());
+   : deck.getSlidePastCount(), { animate: appearance.profile.backgroundProgressAxis === "horizontal" });
 deck.on("slidechanged",syncBackgroundPage);
 const stopBackgroundProgress = progressSource.start((offset) => syncBackgroundProgress(offset));
 
@@ -471,6 +479,7 @@ const unmountShell = mountGraphSummaryShell({
 
 window.addEventListener("pagehide", () => {
   window.removeEventListener("resize", syncNativeViewport);
+  window.removeEventListener("resize", syncBackgroundPage);
   deck.off("slidechanged",syncBackgroundPage);
   unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
   deck.off("slidechanged", refreshInteractiveRuntime);

@@ -1,4 +1,5 @@
 import katex from "katex";
+import { renderScientificTitle } from "../../../packages/renderer-reveal/src/scientific-title.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
@@ -528,6 +529,18 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
   for (const document of documents) for (const scene of document.scenes) {
     const heading = scene.blocks.find((block) => block.kind === "prose" && block.intent?.kind === "introduce");
     if (!heading) throw new Error(`Scene ${scene.id} has no graph-backed heading`);
+    if (scene.presentationTitle) {
+      const section = dom.createElement("section");
+      section.setAttribute("id", scene.id);
+      section.setAttribute("data-scene-document-id", document.id);
+      section.setAttribute("data-source-path-id", document.sourcePathId);
+      section.setAttribute("data-scientific-title", "true");
+      section.setAttribute("aria-label", scene.presentationTitle.title);
+      sourceAttributes(section, scene.source);
+      section.innerHTML = renderScientificTitle(scene.presentationTitle, resolvePublicAssetUrl);
+      dom.root.appendChild(section);
+      continue;
+    }
     const composition = inferRevealCompositionPlan(scene);
     const compositionFit = inferRevealCompositionFit(scene, composition);
     const compositionByBlockId = new Map(

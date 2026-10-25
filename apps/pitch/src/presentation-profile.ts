@@ -31,6 +31,9 @@ export interface PresentationProfile {
   readonly projectionCapabilities?: PresentationProjectionCapabilities;
   readonly viewportPolicy?: PresentationViewportPolicy;
   readonly defaultReadability?: PresentationReadabilityMode;
+  readonly backgroundProgressAxis?: "horizontal" | "vertical";
+  readonly supportedViews?: readonly PresentationView[];
+  readonly backgroundFamilyIds?: readonly string[];
 }
 
 export interface ResolvedPresentationAppearance {
@@ -85,8 +88,40 @@ export const chemometricsCityFamily: ThemedBackgroundPackFamily = Object.freeze(
   }),
 });
 
+function laboratoryPack(theme: PresentationThemeMode): BackgroundPack {
+  return {
+    version: "1.0", id: `talks-laboratory-${theme}`, label: `Laboratory: ${theme}`,
+    baseColor: theme === "dark" ? "#09213c" : "#e7f4fc",
+    layers: ["back", "middle", "front"].map((id, index) => ({
+      id, asset: `/talks-assets/${id}_layer_${theme}.webp`, speed: [0.12, 0.33, 0.61][index]!,
+      anchor: "center" as const, repeat: "x" as const, opacity: 1, sizing: "cover-height" as const,
+    })),
+  };
+}
+
+export const talksLaboratoryFamily: ThemedBackgroundPackFamily = {
+  id: "talks-laboratory", label: "Laboratory",
+  variants: { dark: laboratoryPack("dark"), light: laboratoryPack("light") },
+};
+
+export const talksPresentationProfile: PresentationProfile = {
+  id: "scientific-talks", label: "Scientific presentations", defaultView: "deck", defaultTheme: "dark",
+  defaultBackgroundFamilyId: talksLaboratoryFamily.id, viewportPolicy: "native-portrait",
+  backgroundProgressAxis: "horizontal",
+  supportedViews: ["deck"],
+  backgroundFamilyIds: [talksLaboratoryFamily.id],
+  presenterCapabilities: { clock: true, laserPointer: true },
+};
+
 export const backgroundFamilyRegistry: readonly ThemedBackgroundPackFamily[] = Object.freeze([chemometricsCityFamily]);
-export const backgroundPackRegistry: readonly BackgroundPack[] = flattenThemedBackgroundPacks(backgroundFamilyRegistry);
+const allBackgroundFamilies = [...backgroundFamilyRegistry, talksLaboratoryFamily];
+export const backgroundPackRegistry: readonly BackgroundPack[] = flattenThemedBackgroundPacks(allBackgroundFamilies);
+
+export function availableBackgroundFamilies(profile: PresentationProfile): readonly ThemedBackgroundPackFamily[] {
+  return profile.backgroundFamilyIds
+    ? allBackgroundFamilies.filter(family => profile.backgroundFamilyIds!.includes(family.id))
+    : backgroundFamilyRegistry;
+}
 
 export const chemometricsPresentationProfile: PresentationProfile = Object.freeze({
   id: "chemometrics",
@@ -116,7 +151,7 @@ export const cogniflowPresentationProfile: PresentationProfile = Object.freeze({
 
 export function findBackgroundFamily(familyId: string | undefined): ThemedBackgroundPackFamily | undefined {
   if (!familyId) return undefined;
-  return backgroundFamilyRegistry.find((family) => family.id === familyId);
+  return allBackgroundFamilies.find((family) => family.id === familyId);
 }
 
 export function resolveBackgroundPackId(
@@ -142,13 +177,14 @@ function resolveProfile(sourcePathId?: string): PresentationProfile {
     : chemometricsPresentationProfile;
 }
 
-export function resolvePresentationAppearance(search: string, sourcePathId?: string): ResolvedPresentationAppearance {
+export function resolvePresentationAppearance(search: string, sourcePathId?: string, configuredProfile?: PresentationProfile): ResolvedPresentationAppearance {
   const params = new URLSearchParams(search);
   const diagnostics: string[] = [];
-  const profile = resolveProfile(sourcePathId);
+  const profile = configuredProfile ?? resolveProfile(sourcePathId);
 
   const requestedView = params.get("view");
-  const view: PresentationView = requestedView === "deck" || requestedView === "scroll" ? requestedView : profile.defaultView;
+  const candidateView: PresentationView = requestedView === "deck" || requestedView === "scroll" ? requestedView : profile.defaultView;
+  const view = profile.supportedViews && !profile.supportedViews.includes(candidateView) ? profile.defaultView : candidateView;
   if (requestedView && requestedView !== "deck" && requestedView !== "scroll") {
     diagnostics.push(`Unsupported view '${requestedView}', using '${view}'.`);
   }
@@ -178,10 +214,10 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
     backgroundEnabled = false;
   } else if (requestedBackground) {
     const requestedFamily = findBackgroundFamily(requestedBackground);
-    if (requestedFamily) {
+    if (requestedFamily && availableBackgroundFamilies(profile).some(f => f.id === requestedFamily.id)) {
       backgroundFamilyId = requestedFamily.id;
       backgroundEnabled = true;
-    } else if (requestedBackground === "chemometrics-neon-city") {
+    } else if (requestedBackground === "chemometrics-neon-city" && availableBackgroundFamilies(profile).some(f => f.id === chemometricsCityFamily.id)) {
       // Preserve old shared links while exposing only the family id going forward.
       backgroundFamilyId = chemometricsCityFamily.id;
       backgroundEnabled = true;
@@ -214,6 +250,7 @@ export function mountAppearanceControls(options: {
   readonly theme: PresentationThemeMode;
   readonly onBackgroundChange: (familyId: string | undefined) => void;
   readonly onThemeChange: (theme: PresentationThemeMode) => void;
+  readonly families?: readonly ThemedBackgroundPackFamily[];
 }): AppearanceControlHandle {
   const wrapper = document.createElement("div");
   wrapper.className = "appearance-controls";
@@ -228,14 +265,15 @@ export function mountAppearanceControls(options: {
   none.value = "none";
   none.textContent = "None";
   backgroundSelect.append(none);
-  for (const family of backgroundFamilyRegistry) {
+  const families = options.families ?? backgroundFamilyRegistry;
+  for (const family of families) {
     const option = document.createElement("option");
     option.value = family.id;
     option.textContent = family.label;
     backgroundSelect.append(option);
   }
 
-  let lastFamilyId = options.currentFamilyId ?? backgroundFamilyRegistry[0]?.id;
+  let lastFamilyId = options.currentFamilyId ?? families[0]?.id;
   backgroundSelect.value = options.backgroundEnabled && options.currentFamilyId ? options.currentFamilyId : "none";
 
   const themeLabel = document.createElement("label");
@@ -273,7 +311,7 @@ export function mountAppearanceControls(options: {
 
   const toggleBackground = () => {
     if (backgroundSelect.value === "none") {
-      const nextFamilyId = lastFamilyId ?? backgroundFamilyRegistry[0]?.id;
+      const nextFamilyId = lastFamilyId ?? families[0]?.id;
       if (!nextFamilyId) return;
       backgroundSelect.value = nextFamilyId;
       lastFamilyId = nextFamilyId;

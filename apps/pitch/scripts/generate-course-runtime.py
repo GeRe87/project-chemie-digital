@@ -22,8 +22,10 @@ CHEMOMETRICS_OFFERING = (
 )
 
 
-def generate_course(offering_id: str, *, language: str = "en") -> dict:
-    base_artifact = RUNTIME.build_offering_artifact(
+def generate_course(offering_id: str, *, language: str = "en", collection: bool = False) -> dict:
+    from presentation_collection import build_collection_artifact
+    builder = build_collection_artifact if collection else RUNTIME.build_offering_artifact
+    base_artifact = builder(
         offering_id,
         snapshot_language=language,
     )
@@ -44,13 +46,15 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     for document in artifact["sceneDocuments"]:
         key = hashlib.sha256(document["id"].encode()).hexdigest()[:16]
         single = {**artifact, "sceneDocuments": [document], "sceneDocumentBindings": [b for b in artifact["sceneDocumentBindings"] if b["sceneDocumentId"] == document["id"]]}
+        # Collection discovery is in the world manifest, not the lazy deck payload.
+        single.pop("presentationCollection", None)
         (public / f"{key}.json").write_text(RUNTIME.canonical_json(single), encoding="utf-8", newline="\n")
         documents.append({"id": document["id"], "pathId": document["sourcePathId"], "sceneIds": [s["id"] for s in document["scenes"]], "runtime": f"course-runtime/{key}.json"})
-    manifest = {"offering": artifact["teachingOfferingDocuments"][0], "documents": documents, "bindings": artifact["sceneDocumentBindings"]}
+    manifest = {("collection" if collection else "offering"): artifact["presentationCollection"] if collection else artifact["teachingOfferingDocuments"][0], "documents": documents, "bindings": artifact["sceneDocumentBindings"]}
     (OUTPUT.parent / "course-manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
     (public / "manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
-    offering = artifact["teachingOfferingDocuments"][0]["offering"]
-    labels = offering["labels"]
+    offering = artifact["presentationCollection"] if collection else artifact["teachingOfferingDocuments"][0]["offering"]
+    labels = [{"value": offering["title"], "language": language}] if collection else offering["labels"]
     label = next((item["value"] for item in labels if item.get("language") == language),
                  labels[0]["value"] if labels else offering["id"])
     title = html.escape(label)
@@ -58,6 +62,9 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     # rendered_index reuses the current HTML shell. Keep repeated dev/build
     # preparation idempotent instead of accumulating identical world markers.
     shell = re.sub(r'\s*<meta name="pitch-course-world" content="enabled"\s*/>', '', shell)
+    shell = re.sub(r'\s*<link data-pcd-collection-icon="true"[^>]*>', '', shell)
+    if collection:
+        shell = shell.replace('</head>', '<link data-pcd-collection-icon="true" rel="icon" href="data:," />\n</head>')
     shell = shell.replace('</head>', '<meta name="pitch-course-world" content="enabled" />\n  </head>')
     shell = re.sub(r"<html lang=\"[^\"]*\">", f'<html lang="{html.escape(language, quote=True)}">', shell)
     shell = re.sub(r"<title>.*?</title>", lambda _: f"<title>{title}</title>", shell)
@@ -73,6 +80,9 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     (public / "static-course.html").write_text(static, encoding="utf-8", newline="\n")
     shell = re.sub(r"(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)",
                    lambda match: match[1] + '\n<p><a href="./course-runtime/static-course.html">Open static course content</a></p>\n' + match[2], shell, flags=re.DOTALL)
+    if collection:
+        shell = shell.replace("Open static course content", "Open static presentation content")
+        shell = shell.replace("Zur Präsentation springen", "Skip to presentation")
     RUNTIME.PITCH_INDEX.write_text(shell, encoding="utf-8", newline="\n")
     return artifact
 
@@ -81,8 +91,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate a semantically selected offering using the existing course pipeline.")
     parser.add_argument("--offering-id", default=CHEMOMETRICS_OFFERING)
     parser.add_argument("--language", default="en")
+    parser.add_argument("--collection", action="store_true")
     args = parser.parse_args()
-    generate_course(args.offering_id, language=args.language)
+    generate_course(args.offering_id, language=args.language, collection=args.collection)
     return 0
 
 
