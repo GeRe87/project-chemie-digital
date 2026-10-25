@@ -67,11 +67,13 @@ deferred while the talk is being authored; no full-suite success is claimed.
 2. Specialized steps compose when an output meets the following input contract.
    The TED excerpt covers peak detection, component formation and marker selection;
    it is not a replacement for the earlier complete pipeline overview.
-3. A `ProcessingUnit` exposes standardized ports. Describe input/output meaning,
-   data types, structure, units and relevant constraints first, then the algorithm,
-   parameters, software version and execution provenance. Matching filenames alone
-   does not establish compatibility, and standardized ports alone do not establish
-   FAIR compliance.
+3. Three semantic columns, inspired by the workshop: the shared ProcessingUnit,
+   Port and PortRole model; atomic/composite specializations and PipelineNode;
+   then qalg:Average with concrete input/output ports and a service binding.
+   The arrows summarize specialization and specification, not data flow or the
+   direction of subClassOf assertions. Input/output meaning, types, structure,
+   units and constraints still precede implementation details in the explanation.
+   Matching filenames or standardized ports alone do not establish FAIR compliance.
 
 The source is the supplied `cogniflow_workshop.html`, section
 `cf-concept-domain-diagram`, pinned by SHA-256 in the RDF Source. Its `ProcessingUnit`,
@@ -91,3 +93,12 @@ Brief browser measurements put all four affiliation labels at zero vertical
 offset from their node centres (horizontal offsets at most 0.17 SVG units).
 All three new diagrams kept title/body text inside their cards without page
 errors. Full-suite validation remains deferred.
+
+The corrected workshop-style ProcessingUnit view uses three ordinary flow nodes,
+each with three authored `DiagramNodePart` resources. The shared renderer lays
+these out as stacked subcards, using the same measurement function for layout and
+rendering. It does not add a scene-specific layout or a new semantic primitive.
+The existing process-system view retains its horizontal node-part treatment.
+Static HTML now preserves part labels, descriptions and provenance too. A brief
+light-theme preview confirmed three columns, nine subcards, in-bounds subcard
+text and no page errors; the dark view was also inspected.

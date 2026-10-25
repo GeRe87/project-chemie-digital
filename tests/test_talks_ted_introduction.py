@@ -89,6 +89,16 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("Input, Output and Parameter", unit["narration"])
         self.assertIn("ProcessingStep is atomic", unit["narration"])
         self.assertIn("not a ranking", unit["narration"])
+        model = diagrams[2]
+        self.assertEqual([n["label"] for n in model["nodes"]], ["Shared vocabulary", "Specializations", "Concrete operation"])
+        self.assertEqual([len(n["parts"]) for n in model["nodes"]], [3, 3, 3])
+        self.assertEqual(model["nodes"][2]["parts"][0]["label"], "qalg:Average")
+        self.assertIn("Average_binding", model["nodes"][2]["parts"][2]["description"])
+        self.assertIn("not data flow", model["description"])
+        fallback = R.static_fallback(self.artifact)
+        self.assertIn("Average_values", fallback)
+        self.assertIn("Average_binding", fallback)
+        self.assertIn("DataProcessingConceptDomain", fallback)
 
     def test_semantic_example_code_and_graph_preserve_the_same_assertions(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantics--scene")

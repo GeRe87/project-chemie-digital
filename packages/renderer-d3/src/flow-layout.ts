@@ -246,6 +246,25 @@ function bodyTextMeasure(value: string): number {
   return deterministicFlowTextMeasure(value) * 0.94;
 }
 
+/** Reusable stacked subcards, measured identically by layout and SVG rendering. */
+export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1) {
+  let top = 44 + headingLines * 28;
+  return parts.map(part => {
+    const labelLines = wrapFlowText(part.label, width - 72, structuredTitleTextMeasure);
+    const bodyLines = part.description ? wrapFlowText(part.description, width - 72, bodyTextMeasure) : [];
+    const height = 32 + labelLines.length * 24 + (bodyLines.length ? 10 + bodyLines.length * 21 : 0);
+    const row = {id: part.id, top, height, labelLines, bodyLines};
+    top += height + 12;
+    return row;
+  });
+}
+
+function stackedFlowHeight(node: D3FlowLayoutNodeInput, width: number, headingLines: number): number {
+  const rows = stackedFlowParts(node.parts!, width, headingLines);
+  const last = rows[rows.length - 1]!;
+  return last.top + last.height + 20;
+}
+
 function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false, highlightMotif = false): number {
   const titleHeight = Math.max(labelLines.length, 1) * 28;
   const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
@@ -838,7 +857,7 @@ function horizontalLayeredLayout(
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
+      height: original.parts?.length ? stackedFlowHeight(original, compactNodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
     };
   };
 
@@ -927,7 +946,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
+        height: original.parts?.length ? stackedFlowHeight(original, nodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight")),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1604,8 +1623,14 @@ function hierarchyFanoutLayout(
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
   const linearOrder = strictLinearFlowOrder(input);
   const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
+  const systemSelection = processSystemNodes(input);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
+    if (!systemSelection && input.diagramType === "flow" && node.parts?.length) {
+      const width = 380;
+      const labelLines = wrapFlowText(node.label, width - 44, structuredTitleTextMeasure);
+      return {...node, inputIndex, width, labelLines, bodyLines: [], height: stackedFlowHeight(node, width, labelLines.length)};
+    }
     const highlightedCard = input.diagramType === "flow" && node.visualMotif && node.visualMotifRole === "highlight";
     const cardWidth = highlightedCard ? Math.max(272, Math.min(352,
       Math.max(structuredTitleTextMeasure(node.label), ...(description ?? "").split(/\r?\n/u).map(bodyTextMeasure)) + 44)) : undefined;
@@ -1625,7 +1650,6 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
     };
   });
   const layers = topologicalLayers(input);
-  const systemSelection = processSystemNodes(input);
   const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
   const hierarchySelection = hierarchyFanoutSelection(input);
   const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection, hostWidth) : undefined;

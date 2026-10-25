@@ -156,6 +156,33 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Corrected workshop-style three-column ProcessingUnit model
+
+The owner clarified the intended reference with the workshop screenshot. Replaced
+only the final ProcessingUnit diagram, not the preceding input/process/output
+and pipeline-transfer scenes. The corrected columns show:
+
+1. Shared vocabulary: ProcessingUnit, Port and PortRole.
+2. Specializations: ProcessingStep, ProcessingPipeline, PipelineNode/RunTarget.
+3. Concrete operation: qalg:Average, its input/output ports and service binding.
+
+The arrows summarize specialization and specification, not data flow, execution
+order or the direction of subClassOf triples. Narration and definition were
+updated accordingly. Existing interface-first FAIR limitations remain explicit.
+The workshop's historical core hasAttribute syntax is not reintroduced.
+
+Reused ordinary DiagramNodes with three source-linked DiagramNodeParts each.
+Added generic stacked subcard rendering and shared measurement for these compound
+flow cards, retaining the separate horizontal-parts process-system behavior.
+Python static diagram exports now retain node descriptions and complete part
+labels/descriptions/provenance instead of only their parent labels.
+
+Runtime generation succeeded. Brief dark/light browser previews showed three
+columns and nine subcards. Measured all subcard text inside its panel with no page
+errors. Prepared guards cover the column labels, Average/binding example and nine
+rendered subcards. The deck still has 18 scenes including its title. Full suites
+remain deferred by the owner. No deployment or merge was performed.
+
 ### Centered graph labels and transfer to ProcessingUnit interfaces
 
 The shared SVG text helper now uses a central dominant baseline. This fixes

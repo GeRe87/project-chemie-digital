@@ -2638,10 +2638,19 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     )
                     continue
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
-                nodes = "".join(
-                    f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}</li>'
-                    for node in block["nodes"]
-                )
+                node_fragments = []
+                for node in block["nodes"]:
+                    parts = "".join(
+                        f'<li{fallback_attributes(part["source"])}><strong>{html.escape(part["label"])}</strong>'
+                        f'{": " + html.escape(part["description"]) if part.get("description") else ""}</li>'
+                        for part in node.get("parts", [])
+                    )
+                    node_fragments.append(
+                        f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}'
+                        f'{": " + html.escape(node["description"]) if node.get("description") else ""}'
+                        f'{"<ul>" + parts + "</ul>" if parts else ""}</li>'
+                    )
+                nodes = "".join(node_fragments)
                 edges = "".join(
                     f'<li data-diagram-edge-id="{html.escape(edge["id"], quote=True)}"{fallback_attributes(edge["source"])}>'
                     f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))}: '

@@ -3,6 +3,7 @@ import type { D3KnowledgeNetworkOptions } from "./index.ts";
 import {
   createD3FlowLayout,
   deterministicFlowTextMeasure,
+  stackedFlowParts,
   wrapFlowText,
   type D3FlowLayout,
   type D3FlowLayoutEdge,
@@ -1186,6 +1187,25 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                   addTextLines(partGroup, descriptionLines, centerX, dividerY + 75, "d3-flow-node-part-body", 16);
                 }
                 group.append(partGroup);
+              }
+            } else if (informationCard && modelNode.parts?.length) {
+              group.setAttribute("data-composite-node", "stack");
+              group.style.setProperty("--d3-flow-card-hue", String((205 + modelNode.readingIndex * 58) % 360));
+              const top = -layoutNode.height / 2;
+              addTextLines(group, layoutNode.labelLines, 0, top + 28 + layoutNode.labelLines.length * 14, "d3-flow-node-title", 28);
+              for (const row of stackedFlowParts(modelNode.parts, layoutNode.width, layoutNode.labelLines.length)) {
+                const part = document.createElementNS(namespace, "g");
+                part.setAttribute("class", "d3-flow-node-part"); part.setAttribute("data-part-id", row.id);
+                const panel = document.createElementNS(namespace, "rect"); panel.setAttribute("class", "d3-flow-node-part-panel");
+                panel.setAttribute("x", String(-layoutNode.width / 2 + 16)); panel.setAttribute("y", String(top + row.top));
+                panel.setAttribute("width", String(layoutNode.width - 32)); panel.setAttribute("height", String(row.height)); panel.setAttribute("rx", "4");
+                part.append(panel);
+                const titleY = top + row.top + 16 + row.labelLines.length * 12;
+                addTextLines(part, row.labelLines, 0, titleY, "d3-flow-node-part-title", 24);
+                if (row.bodyLines.length) addTextLines(part, row.bodyLines, 0,
+                  top + row.top + 26 + row.labelLines.length * 24 + row.bodyLines.length * 10.5,
+                  "d3-flow-node-part-body", 21);
+                group.append(part);
               }
             } else if (informationCard && (modelNode.notation
               || (modelNode.visualMotif && modelNode.visualMotifRole !== "highlight"))) {
