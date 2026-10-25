@@ -1215,8 +1215,72 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
     return payload,label_path
 
 
+def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    """Expand authored periodic lane schedules; no TED identities or hidden timings."""
+    def ordered(values, expected_type):
+        if any(not isinstance(v, URIRef) or not is_resource_type(dataset, v, expected_type) for v in values):
+            raise ValueError(f"Timeline requires {expected_type} IRIs")
+        records = sorted([(v, integer(dataset, v, iri(CD, "position"))) for v in values], key=lambda r: (r[1], str(r[0])))
+        if not records or [p for _, p in records] != list(range(1, len(records) + 1)):
+            raise ValueError("Timeline positions must be nonempty, unique and contiguous")
+        return [v for v, _ in records]
+
+    def identity(resource):
+        label, label_path = selected_label_reference(dataset, resource, language)
+        return {"id": compact(resource), "label": label, "source": [source_reference(dataset, resource, label_path), source_reference(dataset, resource, "cd:position")]}
+
+    def number(resource, predicate, positive=False):
+        value = decimal_number(dataset, resource, iri(CD, predicate))
+        if not math.isfinite(value) or value < 0 or (positive and value == 0):
+            raise ValueError(f"Invalid timeline {predicate}")
+        return value
+
+    categories = ordered(objects(dataset, chart, iri(CD, "hasTimelineCategory")), "TimelineCategory")
+    runs = ordered(objects(dataset, chart, iri(CD, "hasTimelineRun")), "TimelineRun")
+    primary = one(dataset, chart, iri(CD, "usesDataset"))
+    schedules = ordered([primary, *objects(dataset, chart, DCTERMS.hasPart)], "TimelineSchedule")
+    scenarios = []
+    for schedule in schedules:
+        lanes = []
+        for lane in ordered(objects(dataset, schedule, iri(CD, "hasTimelineLane")), "TimelineLane"):
+            offset, period = number(lane, "startOffset"), number(lane, "repeatEvery", True)
+            intervals = []
+            phases = ordered(objects(dataset, lane, iri(CD, "hasTimelineInterval")), "TimelineInterval")
+            for run_index, run in enumerate(runs):
+                previous_end = -1
+                for phase in phases:
+                    start, duration = number(phase, "startOffset"), number(phase, "duration", True)
+                    category = one(dataset, phase, iri(CD, "intervalCategory"))
+                    if category not in categories or start < previous_end or start + duration > period:
+                        raise ValueError("Timeline phases must use chart categories, be ordered, non-overlapping and fit their repeat period")
+                    previous_end = start + duration
+                    interval = {"id": f"{compact(lane)}--{compact(run)}--{compact(phase)}",
+                                "label": identity(run)["label"], "start": offset + run_index * period + start,
+                                "end": offset + run_index * period + start + duration, "categoryId": compact(category),
+                                "source": [source_reference(dataset, resource, relation) for resource, relation in
+                                           ((lane, "cd:startOffset"), (lane, "cd:repeatEvery"), (lane, "cd:hasTimelineInterval"),
+                                            (phase, "cd:startOffset"), (phase, "cd:duration"), (phase, "cd:intervalCategory"),
+                                            (run, "cd:position"), (run, "skos:prefLabel@" + language))]}
+                    intervals.append(interval)
+            lanes.append({**identity(lane), "intervals": intervals})
+        scenario = {**identity(schedule), "lanes": lanes}
+        scenario["source"].append(source_reference(dataset, schedule, "cd:hasTimelineLane"))
+        scenarios.append(scenario)
+    label, label_path = selected_label_reference(dataset, chart, language)
+    unit = literal(dataset, chart, iri(CD, "xAxisUnit"))
+    if not unit:
+        raise ValueError("Timeline requires a time-axis unit")
+    return {"chartType": "timeline", "label": label,
+            "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+            "xAxis": {"label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language), "unit": unit},
+            "yAxis": {"label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language)},
+            "categories": [identity(c) for c in categories], "scenarios": scenarios}, label_path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "TimelineChart"):
+        return timeline_chart_payload(dataset, chart, language)
     if chart_type == iri(CD, "ObservationExplorer"):
         return observation_explorer_payload(dataset, chart, language)
     if chart_type == iri(CD, "DotPlot"):
@@ -1289,7 +1353,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13}
     return required if versions[required] > versions[current] else current
 
 
@@ -1663,6 +1727,11 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if payload.get("binAdjustment") or "compact" in payload or (payload["chartType"]=="observations" and payload["view"]=="ecdf" and len(payload["series"])>1) or any(g.get("interval") for g in payload.get("groups",[])):
                     document_version=promote_document_version(document_version,"1.11")
                 if payload.get("view")=="moments":document_version=promote_document_version(document_version,"1.12")
+                if payload["chartType"] == "timeline":
+                    document_version = promote_document_version(document_version, "1.13")
+                    block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:usesDataset", "cd:hasTimelineCategory", "cd:hasTimelineRun"))
+                    if objects(dataset, selected, DCTERMS.hasPart):
+                        block_sources.append(source_reference(dataset, selected, "dct:hasPart"))
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -2395,6 +2464,13 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                             inside = [v for v in values if lower <= v <= upper]
                             outliers = [v for v in values if v < lower or v > upper]
                             body += f'<p>{html.escape(group["label"])}: Q1={q1}; median={median}; Q3={q3}; IQR={iqr}; fences=[{lower}, {upper}]; whiskers=[{min(inside)}, {max(inside)}]; flagged={outliers}</p>'
+                elif block["chartType"] == "timeline":
+                    body = '<ul class="chart-data">' + ''.join(
+                        f'<li{fallback_attributes(interval["source"])}>{html.escape(scenario["label"])}; {html.escape(lane["label"])}; '
+                        f'{html.escape(interval["label"])}; {html.escape(next(c["label"] for c in block["categories"] if c["id"] == interval["categoryId"]))}: '
+                        f'{interval["start"]}–{interval["end"]} {html.escape(block["xAxis"]["unit"])}</li>'
+                        for scenario in block["scenarios"] for lane in scenario["lanes"] for interval in lane["intervals"]
+                    ) + '</ul>'
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-series-id="{html.escape(series["id"], quote=True)}"{fallback_attributes(series["source"])}>'

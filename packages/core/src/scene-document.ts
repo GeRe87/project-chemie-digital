@@ -5,6 +5,7 @@ import { validateHistogram, type HistogramBlock, type Histogram2DBlock } from ".
 export const SCENE_DOCUMENT_HISTOGRAM_VERSION = "1.10" as const;
 export const SCENE_DOCUMENT_EXPLORATION_VERSION = "1.11" as const;
 export const SCENE_DOCUMENT_MOMENT_VERSION = "1.12" as const;
+export const SCENE_DOCUMENT_TIMELINE_VERSION = "1.13" as const;
 export const SCENE_DOCUMENT_BOX_PLOT_VERSION = "1.9" as const;
 export const SCENE_DOCUMENT_OBSERVATION_VERSION = "1.8" as const;
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
@@ -29,7 +30,8 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_BOX_PLOT_VERSION
   | typeof SCENE_DOCUMENT_HISTOGRAM_VERSION
   | typeof SCENE_DOCUMENT_EXPLORATION_VERSION
-  | typeof SCENE_DOCUMENT_MOMENT_VERSION;
+  | typeof SCENE_DOCUMENT_MOMENT_VERSION
+  | typeof SCENE_DOCUMENT_TIMELINE_VERSION;
 
 export const VISUAL_MOTIF_KEYS = [
   "discussion",
@@ -526,7 +528,45 @@ export interface DotPlotBlock extends SceneBlockBase {
   readonly liveUpdate?: never;
 }
 
-export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
+export interface TimelineInterval {
+  readonly id: string;
+  readonly label: string;
+  readonly start: number;
+  readonly end: number;
+  readonly categoryId: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface TimelineChartBlock extends SceneBlockBase {
+  readonly kind: "chart";
+  readonly chartType: "timeline";
+  readonly label: string;
+  readonly description: string;
+  readonly xAxis: ChartAxis;
+  readonly yAxis: ChartAxis;
+  readonly categories: readonly { readonly id: string; readonly label: string; readonly source: readonly SourceReference[] }[];
+  readonly scenarios: readonly {
+    readonly id: string;
+    readonly label: string;
+    readonly source: readonly SourceReference[];
+    readonly lanes: readonly {
+      readonly id: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+      readonly intervals: readonly TimelineInterval[];
+    }[];
+  }[];
+  readonly liveUpdate?: never;
+}
+
+export function timelineStaticFallback(block: TimelineChartBlock): string {
+  const unit = block.xAxis.unit ?? "";
+  return [block.label, block.description, ...block.scenarios.flatMap(scenario =>
+    scenario.lanes.flatMap(lane => lane.intervals.map(interval =>
+      `${scenario.label}; ${lane.label}; ${interval.label}: ${interval.start}–${interval.end} ${unit}; ${block.categories.find(c => c.id === interval.categoryId)?.label ?? interval.categoryId}`)))].join("\n");
+}
+
+export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | TimelineChartBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
 
 export function dotPlotStaticFallback(block: DotPlotBlock): string {
   const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
@@ -819,6 +859,32 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if (block.chartType === "timeline") {
+    if (!block.xAxis.unit || !block.categories.length || !block.scenarios.length || block.liveUpdate !== undefined) throw new SceneContractError("Timeline requires units, categories and scenarios, without live jitter");
+    const ids = new Set<string>();
+    const identity = (item: {id: string; label: string; source: readonly SourceReference[]}) => {
+      requireNonEmpty(item.id, "Timeline id"); requireNonEmpty(item.label, "Timeline label"); validateSource(item.source, "Timeline source");
+      if (ids.has(item.id)) throw new SceneContractError("Duplicate timeline identity"); ids.add(item.id);
+    };
+    block.categories.forEach(identity);
+    const categories = new Set(block.categories.map(c => c.id));
+    for (const scenario of block.scenarios) {
+      identity(scenario);
+      if (!scenario.lanes.length) throw new SceneContractError("Timeline scenario requires lanes");
+      for (const lane of scenario.lanes) {
+        identity(lane);
+        if (!lane.intervals.length) throw new SceneContractError("Timeline lane requires intervals");
+        let previousEnd = -Infinity;
+        for (const interval of lane.intervals) {
+          identity(interval);
+          if (!categories.has(interval.categoryId) || !Number.isFinite(interval.start) || !Number.isFinite(interval.end)
+            || interval.start < 0 || interval.end <= interval.start || interval.start < previousEnd) throw new SceneContractError("Timeline intervals require known categories, ordered finite bounds and no lane overlap");
+          previousEnd = interval.end;
+        }
+      }
+    }
+    return;
+  }
   if(block.chartType==="histogram"||block.chartType==="histogram2d"){
     try{validateHistogram(block);}catch(error){throw new SceneContractError(String(error));}return;
   }
@@ -1010,7 +1076,7 @@ function validateChart(block: ChartBlock, label: string): void {
 
 function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
   // 1.8 is additive to 1.7; retain the declared version through nested groups.
-  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
+  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION || declaredVersion===SCENE_DOCUMENT_TIMELINE_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
   validateDisclosureOrders(blocks, label);
@@ -1120,8 +1186,9 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION;
-      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
+      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION||declaredVersion===SCENE_DOCUMENT_TIMELINE_VERSION;
+      if(block.chartType==="timeline"&&declaredVersion!==SCENE_DOCUMENT_TIMELINE_VERSION)throw new SceneContractError("Timelines require SceneDocument 1.13");
+      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION&&declaredVersion!==SCENE_DOCUMENT_TIMELINE_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
       if(!exploration&&((block.chartType==="histogram"&&block.binAdjustment)||(block.chartType==="dot"&&block.groups.some(g=>g.interval))||(block.chartType==="observations"&&(block.compact!==undefined||block.interactive!==undefined||block.view==="ecdf"&&block.series.length>1))))throw new SceneContractError("Exploration options require SceneDocument 1.11");
       if ((block.chartType==="histogram"||block.chartType==="histogram2d")&&declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration)throw new SceneContractError("Histograms require SceneDocument 1.10");
       if (block.chartType === "box" && declaredVersion !== SCENE_DOCUMENT_BOX_PLOT_VERSION && declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration) throw new SceneContractError("Box plots require SceneDocument 1.9");
@@ -1152,6 +1219,7 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_HISTOGRAM_VERSION
     && document.version !== SCENE_DOCUMENT_EXPLORATION_VERSION
     && document.version !== SCENE_DOCUMENT_MOMENT_VERSION
+    && document.version !== SCENE_DOCUMENT_TIMELINE_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }

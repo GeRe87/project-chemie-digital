@@ -16,10 +16,10 @@ class TedIntroductionTests(unittest.TestCase):
         cls.artifact = build_collection_artifact(R.EX + "talks")
         cls.scenes = cls.artifact["sceneDocuments"][0]["scenes"]
 
-    def test_title_and_six_content_scenes_in_authored_order(self):
+    def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -41,7 +41,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [5, 3])
+        self.assertEqual([len(d["states"]) for d in diagrams], [3])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram["states"]:
@@ -49,7 +49,8 @@ class TedIntroductionTests(unittest.TestCase):
                 self.assertTrue(state["source"][0]["provenanceIds"])
 
     def test_schematic_chromatogram_has_real_rdf_points_but_no_measurement_claim(self):
-        chart = next(b for b in self.scenes[-1]["blocks"] if b["kind"] == "chart")
+        marker_scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-markers--scene")
+        chart = next(b for b in marker_scene["blocks"] if b["kind"] == "chart")
         self.assertEqual(chart["chartType"], "line")
         self.assertIn("not measured", chart["label"].lower())
         self.assertIn("synthetic", chart["description"].lower())
@@ -68,7 +69,7 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertLess(ids.index(marker["datumId"]), ids.index(area["endDatumId"]))
         self.assertEqual([annotation["kind"] for annotation in chart["annotations"]], ["point", "point", "x-range"])
         self.assertEqual(chart["yAxis"]["unit"], "a.u.")
-        notes = self.scenes[-1]["narration"].lower()
+        notes = marker_scene["narration"].lower()
         for required in ["matrix", "calibration", "blanks", "not particle count", "no named polymer"]:
             self.assertIn(required, notes)
 
@@ -84,17 +85,37 @@ class TedIntroductionTests(unittest.TestCase):
                 self.assertIn(element.tag.split("}")[-1], {"svg", "rect", "path", "ellipse", "circle"})
                 self.assertFalse(any(name.startswith("on") or name in {"href", "style"} for name in element.attrib))
 
+    def test_schedule_models_preserve_source_totals_and_six_runs(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-nesting--scene")
+        chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
+        self.assertEqual(chart["chartType"], "timeline")
+        self.assertEqual(self.artifact["sceneDocuments"][0]["version"], "1.13")
+        totals = [max(i["end"] for lane in s["lanes"] for i in lane["intervals"]) for s in chart["scenarios"]]
+        self.assertEqual(totals, [630, 423, 338])
+        for scenario in chart["scenarios"]:
+            self.assertEqual([len(l["intervals"]) for l in scenario["lanes"]], [12, 18])
+            self.assertTrue(all(i["source"] for l in scenario["lanes"] for i in l["intervals"]))
+
+    def test_heating_study_retains_digitized_values_and_credit_without_fabricated_fit(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-heating-rate--scene")
+        chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
+        self.assertEqual(len(chart["series"]), 1)
+        self.assertEqual([(p["x"], p["y"]) for p in chart["series"][0]["data"]], [(10, 34.6), (12.5, 27), (15, 25.3), (17.5, 29.2), (20, 34.1)])
+        self.assertIn("Rajshree Jeewon", scene["narration"])
+        self.assertIn("not stated", chart["description"])
+
     def test_sources_and_method_boundaries_survive_public_export_and_static_fallback(self):
         serialized = json.dumps(self.artifact, ensure_ascii=False)
         self.assertNotIn("cogniflow", serialized.lower())
         self.assertIn("2021.100117", serialized)
         notes = " ".join(scene.get("narration", "") for scene in self.scenes)
-        self.assertIn("ions form", self.scenes[5]["blocks"][1]["states"][1]["label"].lower())
+        detection = next(s for s in self.scenes if s["id"] == "ex:ted-scene-detection--scene")
+        self.assertIn("ions form", detection["blocks"][1]["states"][1]["label"].lower())
         self.assertIn("sorbent", notes.lower())
-        self.assertIn("liquid", self.scenes[3]["narration"])
+        self.assertIn("liquid", self.scenes[2]["narration"])
         fallback = R.static_fallback(self.artifact)
         self.assertIn("ted-heating.svg", fallback)
-        self.assertIn("Schematic chromatogram", fallback)
+        self.assertIn("Schematic TIC", fallback)
         self.assertIn("Gerrit Renner", fallback)
 
 

@@ -1,0 +1,120 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-throughput> {
+  ex:ted-measurement-bottleneck a cd:Concept ; skos:prefLabel "Measurement time is the bottleneck"@en ;
+    cd:hasDefinition ex:ted-bottleneck-definition ; cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-bottleneck-definition a cd:Definition ;
+    cd:body "The author-supplied workshop models six runs, alternating three samples and three blanks. In its serial scenario, TGA extraction takes 30 minutes, TGA cleaning 22 minutes, thermal desorption/focusing 6 minutes, GC-MS 42 minutes and post-run 5 minutes. One serial cycle takes 105 minutes and six take 630 minutes. These are schedule-model values from the earlier talk, not newly measured throughput, and are not a universal TED method."@en ;
+    cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-nested-measurement a cd:Concept ; skos:prefLabel "Nest the instrument cycles"@en ;
+    cd:hasDefinition ex:ted-nesting-definition ; cd:dependsOn ex:ted-measurement-bottleneck ; cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-nesting-definition a cd:Definition ;
+    cd:body "In the workshop's nested baseline, TGA extraction takes 30 minutes and cleaning/reset 38 minutes; TGA runs start every 68 minutes. GC-MS begins after extraction, while TGA cleaning continues, and its 53-minute sequence leaves 15-minute gaps. The last of six runs ends at 423 minutes. With the optimized TGA program, extraction takes 20 minutes and reset 30 minutes; TGA starts every 50 minutes and GC-MS every 53 minutes from minute 20. The batch ends at 338 minutes, 85 minutes earlier than the nested baseline and 292 minutes earlier than serial execution. The serial and nested scenarios have different TGA cleaning durations in the supplied model, so the first reduction must not be attributed to overlap alone. Physical transfer, sorbent availability and buffering are assumptions of the supplied schedule; this comparison is not a validated scheduler or a general throughput guarantee."@en ;
+    cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-heating-rate-study a cd:Concept ; skos:prefLabel "Optimize heating — preserve reproducibility"@en ;
+    cd:hasDefinition ex:ted-heating-rate-definition ; cd:hasSource ex:ted-source-workshop-heating ; cd:authoredResource true .
+  ex:ted-heating-rate-definition a cd:Definition ;
+    cd:body "The supplied workshop credits Rajshree Jeewon's 2026 Master Thesis, Environmental Toxicology, University of Duisburg-Essen, IAC. Its code describes five values as approximately digitized from Figure 11: heating rates 10, 12.5, 15, 17.5 and 20 degrees Celsius per minute correspond to method-standard-deviation values 34.6, 27.0, 25.3, 29.2 and 34.1. The lowest sampled value occurs at 15 degrees Celsius per minute for the SBR marker response. The underlying thesis and raw replicate data were not supplied, and the source talk does not state a physical unit for the response axis. This chart preserves that source scale and does not infer uncertainty, statistical significance, a universal optimum or a numerical link to the extraction/reset durations. The old talk's fitted quadratic and its 14.9 optimum are not reproduced as independently established evidence."@en ;
+    cd:hasSource ex:ted-source-workshop-heating ; cd:authoredResource true .
+
+  ex:ted-bottleneck-points a cd:Interpretation ; cd:body "Six serial runs consume the instrument day."@en ;
+    cd:hasKeyPoint ex:ted-bottleneck-p1, ex:ted-bottleneck-p2, ex:ted-bottleneck-p3 ; cd:authoredResource true .
+  ex:ted-bottleneck-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**6 runs:** 3 samples + 3 blanks"@en ; cd:authoredResource true .
+  ex:ted-bottleneck-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**S** = sample · **B** = blank"@en ; cd:authoredResource true .
+  ex:ted-bottleneck-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Serial total: 630 min (10.5 h)=="@en ; cd:authoredResource true .
+  ex:ted-nesting-points a cd:Interpretation ; cd:body "Overlap work and reduce the thermal-program bottleneck."@en ;
+    cd:hasKeyPoint ex:ted-nesting-p1, ex:ted-nesting-p2, ex:ted-nesting-p3 ; cd:authoredResource true .
+  ex:ted-nesting-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Overlap** TGA reset and GC-MS"@en ; cd:authoredResource true .
+  ex:ted-nesting-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Earlier transfer:** 30 → 20 min"@en ; cd:authoredResource true .
+  ex:ted-nesting-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Batch: 630 → 423 → 338 min=="@en ; cd:authoredResource true .
+  ex:ted-heating-rate-points a cd:Interpretation ; cd:body "Balance heating speed and marker-response reproducibility."@en ;
+    cd:hasKeyPoint ex:ted-rate-p1, ex:ted-rate-p2, ex:ted-rate-p3 ; cd:authoredResource true .
+  ex:ted-rate-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**SBR marker:** response reproducibility matters"@en ; cd:authoredResource true .
+  ex:ted-rate-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "==Lowest sampled value: 15 °C/min=="@en ; cd:authoredResource true .
+  ex:ted-rate-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "**Credit:** Rajshree Jeewon · Master Thesis, 2026"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-throughput> {
+  ex:ted-source-workshop-schedule a cd:Source ; dct:title "Renner workshop microplastics — measurement-time schedule model" ;
+    dct:hasVersion "sha256:29cfc1ceeadcd3a870ad2ca41ef6930ec2ce537dc8297dca5f07407a5c23472f" ;
+    dct:creator "Gerrit Renner" ; dct:identifier "renner_workshop_microplastics.html#measurement-time-focus; timeGanttModel" ;
+    dct:description "Author-supplied earlier HTML talk, inspected locally. Serial, baseline and optimized schedule constants and six-run sequence are transcribed into RDF; its CSS, SVG coordinates and JavaScript renderer are not imported. Schedule estimates, not raw measurements. Original serial and nested TGA cleaning durations differ."@en ;
+    cd:supportsResource ex:ted-bottleneck-definition, ex:ted-nesting-definition, ex:ted-schedule-serial, ex:ted-schedule-nested, ex:ted-schedule-optimized ; cd:authoredResource true .
+  ex:ted-source-workshop-heating a cd:Source ; dct:title "Renner workshop microplastics — TGA heating-rate reproducibility study" ;
+    dct:hasVersion "sha256:29cfc1ceeadcd3a870ad2ca41ef6930ec2ce537dc8297dca5f07407a5c23472f" ;
+    dct:creator "Gerrit Renner" ; dct:identifier "renner_workshop_microplastics.html#tga-heating-rate-optimization; renderHeatingRateOptimumChart" ;
+    dct:description "Secondary source supplied by the author. Credits Rajshree Jeewon, Master Thesis, Environmental Toxicology, University of Duisburg-Essen, IAC, 2026, Figure 11. Five approximate digitized values are retained; the underlying thesis and raw data were not available. Response-axis unit is not specified in this HTML. No copied quadratic fit or inferred uncertainty."@en ;
+    cd:supportsResource ex:ted-heating-rate-definition, ex:ted-heating-rate-data ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/talks-ted-schedules> {
+  # Repeated phases are semantic time intervals, not drawing coordinates.
+  ex:ted-cat-extraction a cd:TimelineCategory ; cd:position 1 ; skos:prefLabel "TGA extraction"@en ; cd:authoredResource true .
+  ex:ted-cat-reset a cd:TimelineCategory ; cd:position 2 ; skos:prefLabel "TGA reset"@en ; cd:authoredResource true .
+  ex:ted-cat-desorb a cd:TimelineCategory ; cd:position 3 ; skos:prefLabel "TDU / focus"@en ; cd:authoredResource true .
+  ex:ted-cat-gc a cd:TimelineCategory ; cd:position 4 ; skos:prefLabel "GC-MS"@en ; cd:authoredResource true .
+  ex:ted-cat-post a cd:TimelineCategory ; cd:position 5 ; skos:prefLabel "Post-run"@en ; cd:authoredResource true .
+  ex:ted-run-s1 a cd:TimelineRun ; cd:position 1 ; skos:prefLabel "S1"@en ; cd:authoredResource true .
+  ex:ted-run-b1 a cd:TimelineRun ; cd:position 2 ; skos:prefLabel "B1"@en ; cd:authoredResource true .
+  ex:ted-run-s2 a cd:TimelineRun ; cd:position 3 ; skos:prefLabel "S2"@en ; cd:authoredResource true .
+  ex:ted-run-b2 a cd:TimelineRun ; cd:position 4 ; skos:prefLabel "B2"@en ; cd:authoredResource true .
+  ex:ted-run-s3 a cd:TimelineRun ; cd:position 5 ; skos:prefLabel "S3"@en ; cd:authoredResource true .
+  ex:ted-run-b3 a cd:TimelineRun ; cd:position 6 ; skos:prefLabel "B3"@en ; cd:authoredResource true .
+
+  ex:ted-phase-extract-30 a cd:TimelineInterval ; cd:position 1 ; cd:startOffset 0.0 ; cd:duration 30.0 ; cd:intervalCategory ex:ted-cat-extraction ; cd:authoredResource true .
+  ex:ted-phase-clean-22 a cd:TimelineInterval ; cd:position 2 ; cd:startOffset 30.0 ; cd:duration 22.0 ; cd:intervalCategory ex:ted-cat-reset ; cd:authoredResource true .
+  ex:ted-phase-clean-38 a cd:TimelineInterval ; cd:position 2 ; cd:startOffset 30.0 ; cd:duration 38.0 ; cd:intervalCategory ex:ted-cat-reset ; cd:authoredResource true .
+  ex:ted-phase-extract-20 a cd:TimelineInterval ; cd:position 1 ; cd:startOffset 0.0 ; cd:duration 20.0 ; cd:intervalCategory ex:ted-cat-extraction ; cd:authoredResource true .
+  ex:ted-phase-clean-30 a cd:TimelineInterval ; cd:position 2 ; cd:startOffset 20.0 ; cd:duration 30.0 ; cd:intervalCategory ex:ted-cat-reset ; cd:authoredResource true .
+  ex:ted-phase-desorb a cd:TimelineInterval ; cd:position 1 ; cd:startOffset 0.0 ; cd:duration 6.0 ; cd:intervalCategory ex:ted-cat-desorb ; cd:authoredResource true .
+  ex:ted-phase-gc a cd:TimelineInterval ; cd:position 2 ; cd:startOffset 6.0 ; cd:duration 42.0 ; cd:intervalCategory ex:ted-cat-gc ; cd:authoredResource true .
+  ex:ted-phase-post a cd:TimelineInterval ; cd:position 3 ; cd:startOffset 48.0 ; cd:duration 5.0 ; cd:intervalCategory ex:ted-cat-post ; cd:authoredResource true .
+
+  ex:ted-schedule-serial a cd:Dataset, cd:TimelineSchedule ; cd:position 1 ; skos:prefLabel "Serial workflow"@en ;
+    cd:hasTimelineLane ex:ted-serial-tga, ex:ted-serial-gc ; cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-serial-tga a cd:TimelineLane ; cd:position 1 ; skos:prefLabel "TGA"@en ; cd:startOffset 0.0 ; cd:repeatEvery 105.0 ; cd:hasTimelineInterval ex:ted-phase-extract-30, ex:ted-phase-clean-22 ; cd:authoredResource true .
+  ex:ted-serial-gc a cd:TimelineLane ; cd:position 2 ; skos:prefLabel "GC-MS"@en ; cd:startOffset 52.0 ; cd:repeatEvery 105.0 ; cd:hasTimelineInterval ex:ted-phase-desorb, ex:ted-phase-gc, ex:ted-phase-post ; cd:authoredResource true .
+  ex:ted-schedule-nested a cd:Dataset, cd:TimelineSchedule ; cd:position 2 ; skos:prefLabel "Nested devices"@en ;
+    cd:hasTimelineLane ex:ted-nested-tga, ex:ted-nested-gc ; cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-nested-tga a cd:TimelineLane ; cd:position 1 ; skos:prefLabel "TGA"@en ; cd:startOffset 0.0 ; cd:repeatEvery 68.0 ; cd:hasTimelineInterval ex:ted-phase-extract-30, ex:ted-phase-clean-38 ; cd:authoredResource true .
+  ex:ted-nested-gc a cd:TimelineLane ; cd:position 2 ; skos:prefLabel "GC-MS"@en ; cd:startOffset 30.0 ; cd:repeatEvery 68.0 ; cd:hasTimelineInterval ex:ted-phase-desorb, ex:ted-phase-gc, ex:ted-phase-post ; cd:authoredResource true .
+  ex:ted-schedule-optimized a cd:Dataset, cd:TimelineSchedule ; cd:position 3 ; skos:prefLabel "Optimized TGA program"@en ;
+    cd:hasTimelineLane ex:ted-optimized-tga, ex:ted-optimized-gc ; cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-optimized-tga a cd:TimelineLane ; cd:position 1 ; skos:prefLabel "TGA"@en ; cd:startOffset 0.0 ; cd:repeatEvery 50.0 ; cd:hasTimelineInterval ex:ted-phase-extract-20, ex:ted-phase-clean-30 ; cd:authoredResource true .
+  ex:ted-optimized-gc a cd:TimelineLane ; cd:position 2 ; skos:prefLabel "GC-MS"@en ; cd:startOffset 20.0 ; cd:repeatEvery 53.0 ; cd:hasTimelineInterval ex:ted-phase-desorb, ex:ted-phase-gc, ex:ted-phase-post ; cd:authoredResource true .
+
+  ex:ted-time-serial-chart a cd:ChartDefinition ; skos:prefLabel "Six runs, two instruments, long idle periods"@en ;
+    cd:body "Workshop schedule model · 3 samples + 3 blanks · S = sample, B = blank."@en ;
+    cd:chartType cd:TimelineChart ; cd:xAxisLabel "Elapsed time"@en ; cd:xAxisUnit "min" ; cd:yAxisLabel "Instrument"@en ;
+    cd:usesDataset ex:ted-schedule-serial ; cd:hasTimelineRun ex:ted-run-s1, ex:ted-run-b1, ex:ted-run-s2, ex:ted-run-b2, ex:ted-run-s3, ex:ted-run-b3 ;
+    cd:hasTimelineCategory ex:ted-cat-extraction, ex:ted-cat-reset, ex:ted-cat-desorb, ex:ted-cat-gc, ex:ted-cat-post ;
+    cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+  ex:ted-time-comparison-chart a cd:ChartDefinition ; skos:prefLabel "Compare schedules on the same time scale"@en ;
+    cd:body "Workshop models · S = sample, B = blank · cleaning durations also differ between scenarios."@en ;
+    cd:chartType cd:TimelineChart ; cd:xAxisLabel "Elapsed time"@en ; cd:xAxisUnit "min" ; cd:yAxisLabel "Instrument"@en ;
+    cd:usesDataset ex:ted-schedule-serial ; dct:hasPart ex:ted-schedule-nested, ex:ted-schedule-optimized ;
+    cd:hasTimelineRun ex:ted-run-s1, ex:ted-run-b1, ex:ted-run-s2, ex:ted-run-b2, ex:ted-run-s3, ex:ted-run-b3 ;
+    cd:hasTimelineCategory ex:ted-cat-extraction, ex:ted-cat-reset, ex:ted-cat-desorb, ex:ted-cat-gc, ex:ted-cat-post ;
+    cd:hasSource ex:ted-source-workshop-schedule ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/talks-ted-heating-rate> {
+  ex:ted-heating-rate-chart a cd:ChartDefinition ; skos:prefLabel "SBR marker response: heating-rate study"@en ;
+    cd:body "Approx. digitized from thesis Fig. 11 · response unit not stated in supplied talk."@en ;
+    cd:chartType cd:LineChart ; cd:xAxisLabel "TGA heating rate"@en ; cd:xAxisUnit "°C/min" ;
+    cd:yAxisLabel "Method standard deviation"@en ; cd:yAxisUnit "source scale" ;
+    cd:usesDataset ex:ted-heating-rate-data ; cd:hasChartAnnotation ex:ted-heating-rate-minimum ;
+    cd:hasSource ex:ted-source-workshop-heating ; cd:authoredResource true .
+  ex:ted-heating-rate-data a cd:Dataset ; skos:prefLabel "Approximate values digitized in the supplied workshop"@en ;
+    cd:hasObservation ex:ted-rate-10, ex:ted-rate-12-5, ex:ted-rate-15, ex:ted-rate-17-5, ex:ted-rate-20 ;
+    dct:description "Secondary transcription, not raw measurements; credit Rajshree Jeewon, Master Thesis 2026, Fig. 11. Axis unit was absent from the supplied HTML."@en ; cd:hasSource ex:ted-source-workshop-heating ; cd:authoredResource true .
+  ex:ted-rate-10 a cd:Observation ; cd:position 1 ; cd:xValue 10.0 ; cd:numericValue 34.6 ; cd:authoredResource true .
+  ex:ted-rate-12-5 a cd:Observation ; cd:position 2 ; cd:xValue 12.5 ; cd:numericValue 27.0 ; cd:authoredResource true .
+  ex:ted-rate-15 a cd:Observation ; cd:position 3 ; cd:xValue 15.0 ; cd:numericValue 25.3 ; cd:authoredResource true .
+  ex:ted-rate-17-5 a cd:Observation ; cd:position 4 ; cd:xValue 17.5 ; cd:numericValue 29.2 ; cd:authoredResource true .
+  ex:ted-rate-20 a cd:Observation ; cd:position 5 ; cd:xValue 20.0 ; cd:numericValue 34.1 ; cd:authoredResource true .
+  ex:ted-heating-rate-minimum a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Lowest sampled: 15 °C/min"@en ; cd:targetObservation ex:ted-rate-15 ; cd:authoredResource true .
+}

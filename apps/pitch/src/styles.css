@@ -101,6 +101,11 @@ body[data-presentation-theme]:not(.pcd-background-active) .scroll-page { backgro
 
 #view-switch-shell[hidden] { display: none !important; }
 
+/* Deck scenes use the available canvas instead of content-height panels. */
+body[data-presentation-view="deck"] .reveal .slides section { height: 100%; }
+body .reveal .progress { color: #25d9f2; height: 4px; }
+body .reveal .progress > span { background: #25d9f2; box-shadow: 0 0 7px #25d9f2, 0 0 14px #25d9f288; }
+
 /* Classic decks share the viewport with the presentation controls. Reveal's
    default 100vh canvas otherwise starts below the controls and loses its bottom
    edge. Flex sizing keeps the actual available height authoritative, including

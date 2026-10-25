@@ -5,14 +5,13 @@
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-gc-ms, ex:ted-thermal-decomposition,
     ex:ted-sorptive-capture, ex:ted-cryofocusing, ex:ted-gc-ms-detection, ex:ted-polymer-markers ;
-    cd:hasStep ex:ted-step-overview, ex:ted-step-heating, ex:ted-step-capture,
+    cd:hasStep ex:ted-step-heating, ex:ted-step-capture,
       ex:ted-step-injection, ex:ted-step-detection, ex:ted-step-markers .
-  ex:ted-step-overview a cd:PathStep ; cd:position 2 ; cd:usesResource ex:ted-sample-journey ; cd:usesScene ex:ted-scene-overview ; cd:authoredResource true .
-  ex:ted-step-heating a cd:PathStep ; cd:position 3 ; cd:usesResource ex:ted-heating-points, ex:ted-heating-illustration ; cd:usesScene ex:ted-scene-heating ; cd:authoredResource true .
-  ex:ted-step-capture a cd:PathStep ; cd:position 4 ; cd:usesResource ex:ted-capture-points, ex:ted-capture-illustration ; cd:usesScene ex:ted-scene-capture ; cd:authoredResource true .
-  ex:ted-step-injection a cd:PathStep ; cd:position 5 ; cd:usesResource ex:ted-injection-points, ex:ted-injection-illustration ; cd:usesScene ex:ted-scene-injection ; cd:authoredResource true .
-  ex:ted-step-detection a cd:PathStep ; cd:position 6 ; cd:usesResource ex:ted-gc-ms-signal-flow ; cd:usesScene ex:ted-scene-detection ; cd:authoredResource true .
-  ex:ted-step-markers a cd:PathStep ; cd:position 7 ; cd:usesResource ex:ted-marker-chromatogram, ex:ted-marker-points ; cd:usesScene ex:ted-scene-markers ; cd:authoredResource true .
+  ex:ted-step-heating a cd:PathStep ; cd:position 2 ; cd:usesResource ex:ted-heating-points, ex:ted-heating-illustration ; cd:usesScene ex:ted-scene-heating ; cd:authoredResource true .
+  ex:ted-step-capture a cd:PathStep ; cd:position 3 ; cd:usesResource ex:ted-capture-points, ex:ted-capture-illustration ; cd:usesScene ex:ted-scene-capture ; cd:authoredResource true .
+  ex:ted-step-injection a cd:PathStep ; cd:position 4 ; cd:usesResource ex:ted-injection-points, ex:ted-injection-illustration ; cd:usesScene ex:ted-scene-injection ; cd:authoredResource true .
+  ex:ted-step-detection a cd:PathStep ; cd:position 5 ; cd:usesResource ex:ted-gc-ms-signal-flow ; cd:usesScene ex:ted-scene-detection ; cd:authoredResource true .
+  ex:ted-step-markers a cd:PathStep ; cd:position 6 ; cd:usesResource ex:ted-marker-chromatogram, ex:ted-marker-points ; cd:usesScene ex:ted-scene-markers ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-gc-ms> {

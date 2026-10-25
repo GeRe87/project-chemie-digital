@@ -1,0 +1,33 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-measurement-bottleneck, ex:ted-nested-measurement, ex:ted-heating-rate-study ;
+    cd:hasStep ex:ted-step-bottleneck, ex:ted-step-nesting, ex:ted-step-heating-rate .
+  ex:ted-step-bottleneck a cd:PathStep ; cd:position 7 ; cd:usesResource ex:ted-time-serial-chart, ex:ted-bottleneck-points ; cd:usesScene ex:ted-scene-bottleneck ; cd:authoredResource true .
+  ex:ted-step-nesting a cd:PathStep ; cd:position 8 ; cd:usesResource ex:ted-time-comparison-chart, ex:ted-nesting-points ; cd:usesScene ex:ted-scene-nesting ; cd:authoredResource true .
+  ex:ted-step-heating-rate a cd:PathStep ; cd:position 9 ; cd:usesResource ex:ted-heating-rate-chart, ex:ted-heating-rate-points ; cd:usesScene ex:ted-scene-heating-rate ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-throughput> {
+  ex:ted-scene-bottleneck a cd:SceneDefinition ; cd:focusConcept ex:ted-measurement-bottleneck ;
+    cd:hasSceneItem ex:ted-bottleneck-heading, ex:ted-bottleneck-chart-item, ex:ted-bottleneck-bullets ;
+    cd:narration "The earlier workshop's schedule model alternates three samples and three blanks. S means sample, B means blank. Extraction and TGA cleaning take 52 minutes before the 53-minute TDU/focusing, GC-MS and post-run sequence. Serial execution leaves each instrument waiting for the other: 105 minutes per run and 630 minutes, or 10.5 hours, for this six-run model. These timings are transcribed from the author-supplied timeGanttModel, not new instrument measurements and not a universal TED protocol. The following comparison changes both overlap and the TGA program."@en ; cd:authoredResource true .
+  ex:ted-bottleneck-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-measurement-bottleneck ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-bottleneck-chart-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-time-serial-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-bottleneck-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-bottleneck-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-nesting a cd:SceneDefinition ; cd:focusConcept ex:ted-nested-measurement ;
+    cd:hasSceneItem ex:ted-nesting-heading, ex:ted-nesting-chart-item, ex:ted-nesting-bullets ;
+    cd:narration "Reveal the three authored schedule scenarios in order on one shared time axis. First serial execution: 630 minutes. Then the nested-device baseline: GC-MS starts after 30-minute extraction while TGA resets; GC-MS has 15-minute gaps and the six runs end at 423 minutes. Finally the optimized program: 20-minute extraction and 30-minute TGA reset, with GC-MS starting every 53 minutes and finishing at minute 338. That is 85 minutes less than the nested baseline, 292 less than serial. Importantly the supplied serial and nested models also use different TGA cleaning durations, 22 versus 38 minutes; do not attribute all of the first reduction solely to overlap. The schedules assume feasible sorbent transfer and buffering. They do not prove recovery, analytical equivalence or a general speedup for other instruments. Source: Gerrit Renner's supplied workshop timeGanttModel."@en ; cd:authoredResource true .
+  ex:ted-nesting-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-nested-measurement ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-nesting-chart-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-time-comparison-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-nesting-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-nesting-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-heating-rate a cd:SceneDefinition ; cd:focusConcept ex:ted-heating-rate-study ;
+    cd:hasSceneItem ex:ted-heating-rate-heading, ex:ted-heating-rate-chart-item, ex:ted-heating-rate-bullets ;
+    cd:narration "Faster is not the only criterion. The earlier workshop credits Rajshree Jeewon, Master Thesis, Environmental Toxicology, University of Duisburg-Essen, IAC, 2026. The five displayed values are described there as approximately digitized from Figure 11, not raw replicate data. For the SBR marker, the lowest sampled method standard deviation is at 15 degrees Celsius per minute. Connecting segments are visual guides, not a fitted model. The physical unit of the response axis is not stated in the supplied HTML; source scale is preserved and this limitation is visible. The original thesis was not available for independent checking. We do not import the old fitted quadratic or assert a precise 14.9-degree optimum, statistical significance, universal optimality or a verified quantitative connection to the preceding timing model. Source record: supplied renderHeatingRateOptimumChart and its credit panel."@en ; cd:authoredResource true .
+  ex:ted-heating-rate-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-heating-rate-study ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-heating-rate-chart-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-heating-rate-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-heating-rate-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-heating-rate-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}

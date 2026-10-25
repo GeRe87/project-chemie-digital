@@ -5,14 +5,14 @@ interface LiveChartComponent {
   destroy(): void;
 }
 
-type LiveSupportedChart = Exclude<ChartBlock, { readonly chartType: "dot" | "observations" }>;
+type LiveSupportedChart = Extract<ChartBlock, { readonly chartType: "bar" | "line" }>;
 
 function liveChartBlocks(documents: readonly SceneDocument[]): Map<string, LiveSupportedChart> {
   const result = new Map<string, LiveSupportedChart>();
   for (const document of documents) {
     for (const scene of document.scenes) {
       for (const block of scene.blocks) {
-        if (block.kind === "chart" && block.chartType !== "dot" && block.chartType !== "observations" && block.liveUpdate) result.set(block.id, block);
+        if (block.kind === "chart" && (block.chartType === "bar" || block.chartType === "line") && block.liveUpdate) result.set(block.id, block);
       }
     }
   }

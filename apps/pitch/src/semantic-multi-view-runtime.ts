@@ -51,6 +51,15 @@ export function semanticMultiViewStage(step: number): SemanticMultiViewStage {
 }
 
 export function semanticTableModel(block: ChartBlock): SemanticTableModel {
+  if (block.chartType === "timeline") return {
+    label: block.label,
+    columns: ["Scenario", block.yAxis.label, "Run", "Phase", axisLabel("Start", block.xAxis.unit), axisLabel("End", block.xAxis.unit)],
+    rows: block.scenarios.flatMap(scenario => scenario.lanes.flatMap(lane => lane.intervals.map(interval => ({
+      id: interval.id,
+      cells: [scenario.label, lane.label, interval.label, block.categories.find(c => c.id === interval.categoryId)!.label, String(interval.start), String(interval.end)],
+      source: uniqueSources([...scenario.source, ...lane.source, ...interval.source]),
+    })))),
+  };
   if (block.chartType === "observations") return {
     label: block.label,
     columns: ["Series", "Observation", axisLabel(block.xAxis.label, block.xAxis.unit)],

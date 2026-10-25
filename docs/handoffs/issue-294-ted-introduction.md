@@ -156,6 +156,52 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Throughput chapter and shared timeline standard
+
+The owner requested more vertical slide space, removal of the opening overview,
+a cyan glowing progress indicator, a thin grey TIC context and a thick solid EIC.
+Deck panels now fill the available canvas. The overview is **not selected** by
+the path (its reusable knowledge/scene resources are retained); heating follows
+the title directly. Existing later steps were renumbered contiguously.
+
+Three new chart-led scenes follow the marker introduction: measurement-time
+bottleneck, nested/optimized schedules, and the heating-rate reproducibility study.
+All content, timings, source credit and narration are authored in new TriG files.
+The earlier author-supplied workshop HTML remains external and unchanged. No
+HTML/CSS/JS chart code or personal filesystem paths were copied into public data.
+
+The shared additive `TimelineChart` standard and SceneDocument 1.13 are documented
+in `docs/timeline-charts.md`. It supports ordered scenarios, lanes, categories,
+repeated interval templates and labelled runs; the compiler expands authored
+timing rules with provenance. The shared D3 renderer compares schedules on one
+time axis and reuses the ordinary stage runtime, chart theme, chart/footer
+composition and accessible/static alternatives. There is no TED/slide-ID branch
+or scene-specific layout/CSS. Core, Reveal and self-study accept the additive
+version; prior versions and the separate Chemometrics content remain unchanged.
+
+Scientific evidence boundaries:
+
+- Schedule models end at 630, 423 and 338 min for 3 samples + 3 blanks, matching
+  the supplied code. The initial serial/nested comparison changes TGA cleanup
+  duration as well as overlap; this caveat is visible in the comparison caption.
+- Five heating-study values are approximate digitizations credited by the old
+  talk to Rajshree Jeewon's 2026 Master Thesis, Figure 11. The raw thesis/data were
+  not available and the HTML does not supply the response unit. This is stated
+  visibly; no physical unit is guessed. The line segments are guides, not a fit.
+- The selected 15 °C/min rate is the lowest sampled value, not an independently
+  validated 14.9 optimum or proof of equivalent recovery/throughput in every matrix.
+- Both new Source records include the inspected HTML's SHA-256 and exact section/
+  code identifiers, and explicit `cd:supportsResource` links. Scientific credit
+  remains visible; no release or publication authorization is inferred.
+
+Runtime generation succeeded. Brief light/dark desktop and narrow-screen previews
+checked taller panels, new charts/stages, horizontally scrollable timelines and
+absence of browser page errors or body-width overflow. Computed styles confirmed
+the cyan progress fill/glow and thin-context/solid-EIC strokes. Extensive suites
+were not run. Prepared regression cases cover new path order, source timings, trace
+data/credit and rejection of invalid timeline contracts for the final review.
+No workflow state, deployment, automatic merge or Chemometrics RDF was changed.
+
 ### Visual and chromatogram follow-up
 
 Supersedes the original 33-point single-trace description above:

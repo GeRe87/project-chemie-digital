@@ -235,6 +235,10 @@ export function mountD3LineChart(
         node.setAttribute("fill", "none");
         node.setAttribute("pathLength", "1");
         node.setAttribute("stroke-dasharray", "1");
+        // Selected series stay solid; path dashes are only a reveal mechanism.
+        if (model.annotations.some(annotation => annotation.kind === "point" && annotation.focusSeries && annotation.seriesId === series.id)) {
+          node.style.strokeDasharray = "none";
+        }
         node.style.strokeDashoffset = presentation.traceInitiallyVisible ? "0" : "1";
         node.style.opacity = presentation.traceInitiallyVisible ? "1" : "0";
         node.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
