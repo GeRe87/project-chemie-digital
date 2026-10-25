@@ -139,6 +139,14 @@ test("prose and read-only code keep an on-demand diagram in the footer", () => {
   ]);
 });
 
+test("an inline diagram and concise takeaways share the visual-stage composition", () => {
+  const blocks = [prose("heading", "introduce"), flowDiagram("input-process-output"), unorderedList("takeaways")];
+  const plan = inferRevealCompositionPlan({id: "opaque-process", blocks, source: [], readingOrder: blocks.map(block => block.id)});
+  assert.equal(plan.kind, "visual-stage");
+  assert.equal(plan.placements.find(p => p.blockId === "input-process-output")?.region, "main");
+  assert.equal(plan.placements.find(p => p.blockId === "takeaways")?.region, "footer");
+});
+
 test("scenario and evidence layouts depend only on ordered block kinds", () => {
   const railBlocks=[prose("heading","introduce"),definitions("scenario"),dataTable("observations"),unorderedList("conclusion"),barChart("stems")];
   const rail=inferRevealCompositionPlan({id:"opaque-rail",blocks:railBlocks,source:[],readingOrder:railBlocks.map(b=>b.id)});

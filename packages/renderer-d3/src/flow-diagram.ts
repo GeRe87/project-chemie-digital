@@ -510,6 +510,8 @@ function addTextLines(
   text.setAttribute("x", String(x));
   text.setAttribute("y", String(y - ((Math.max(lines.length, 1) - 1) * lineHeight / 2)));
   text.setAttribute("text-anchor", "middle");
+  // y denotes the centre of the line group, not its first alphabetic baseline.
+  text.setAttribute("dominant-baseline", "central");
   text.setAttribute("fill", "currentColor");
   text.setAttributeNS(xmlNamespace, "xml:space", "preserve");
   lines.forEach((line, index) => {

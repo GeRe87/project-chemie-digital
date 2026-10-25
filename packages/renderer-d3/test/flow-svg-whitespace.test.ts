@@ -149,6 +149,9 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
     assert.ok(edgeText);
     assert.equal(nodeText.getAttribute("xml:space"), "preserve");
     assert.equal(edgeText.getAttribute("xml:space"), "preserve");
+    assert.equal(nodeText.getAttribute("text-anchor"), "middle");
+    assert.equal(nodeText.getAttribute("dominant-baseline"), "central");
+    assert.equal(edgeText.getAttribute("dominant-baseline"), "central");
     assert.equal(nodeText.children.map((child) => child.textContent ?? "").join(""), block.nodes[0]!.label);
     assert.equal(edgeText.children.map((child) => child.textContent ?? "").join(""), block.edges[0]!.label);
 
@@ -374,6 +377,23 @@ test("generic process fixture displays mathematical notation without replacing a
   } finally {
     restoreDom();
   }
+});
+
+test("highlighted three-step cards reserve room for titles, thumbnails and descriptions", () => {
+  const nodes: DiagramBlock["nodes"] = ["Input port", "ProcessingUnit", "Output port"].map((label, i) => ({
+    id: `part-${i}`, label, description: "Required meaning\nType and structure\nUnits",
+    visualMotif: "hands-on", visualMotifRole: "highlight", source: [{resourceId: `ex:part-${i}`}],
+  }));
+  const edges = nodes.slice(1).map((node, i) => ({id: `connection-${i}`, sourceNodeId: nodes[i]!.id,
+    targetNodeId: node.id, label: "data", source: [{resourceId: `ex:connection-${i}`}]}));
+  const result = createD3FlowRenderModel({...block, diagramType: "flow", nodes, edges, states: []}, {reducedMotion: true, interactionPolicy: "static"});
+  assert.ok(result.model);
+  for (const width of [700, 1200]) {
+    const layout = createD3FlowLayout(result.model, width);
+    assert.ok(layout.nodes.every(node => node.height >= 276));
+    assert.equal(layout.nodes.length, 3);
+  }
+  assert.deepEqual(createD3FlowLayout(result.model, 1200).nodes[1]!.labelLines, ["ProcessingUnit"]);
 });
 
 test("processing thumbnails use shared SVG paths without animation states", () => {

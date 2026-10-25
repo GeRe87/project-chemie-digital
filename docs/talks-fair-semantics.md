@@ -58,3 +58,36 @@ four nodes, closed on Escape with focus restored, and reopened without duplicate
 nodes or page errors. A read-only RDF check matched all nine displayed statements
 and all four graph edges to their authored assertions. Comprehensive tests remain
 deferred while the talk is being authored; no full-suite success is claimed.
+
+## Transfer to processing interfaces
+
+`talks-ted-processing-units.trig` adds three consecutive static scenes:
+
+1. A step receives input, performs a defined task and produces output.
+2. Specialized steps compose when an output meets the following input contract.
+   The TED excerpt covers peak detection, component formation and marker selection;
+   it is not a replacement for the earlier complete pipeline overview.
+3. A `ProcessingUnit` exposes standardized ports. Describe input/output meaning,
+   data types, structure, units and relevant constraints first, then the algorithm,
+   parameters, software version and execution provenance. Matching filenames alone
+   does not establish compatibility, and standardized ports alone do not establish
+   FAIR compliance.
+
+The source is the supplied `cogniflow_workshop.html`, section
+`cf-concept-domain-diagram`, pinned by SHA-256 in the RDF Source. Its `ProcessingUnit`,
+`Port`, and `PortRole` concepts distinguish Input, Output and Parameter roles.
+An atomic `ProcessingStep` and composite `ProcessingPipeline` share the same
+interface pattern. The adaptation aligns with the existing canonical CogniFlow
+teaching definitions and does not import the workshop's historical meta-model
+syntax as a new ontology contract.
+
+The shared composition now supports an inline diagram plus takeaway list. Generic
+highlighted-card sizing reserves space for the thumbnail and description in
+horizontal and compact layouts. Shared SVG line groups use a central baseline,
+so their centre coordinate denotes the visual centre rather than an alphabetic
+baseline. Authored whitespace remains preserved.
+
+Brief browser measurements put all four affiliation labels at zero vertical
+offset from their node centres (horizontal offsets at most 0.17 SVG units).
+All three new diagrams kept title/body text inside their cards without page
+errors. Full-suite validation remains deferred.

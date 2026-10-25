@@ -156,6 +156,39 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Centered graph labels and transfer to ProcessingUnit interfaces
+
+The shared SVG text helper now uses a central dominant baseline. This fixes
+the affiliation graph's upward-shifted labels without scene-specific offsets,
+text rewriting or loss of authored whitespace. Browser getBBox measurements
+showed zero vertical centre error for all four nodes and at most 0.17 SVG units
+of horizontal error.
+
+Added three static, TriG-authored scenes at path positions 16-18:
+input/task/output; specialized steps connected by their results; and standardized
+ProcessingUnit interfaces. The TED excerpt explicitly connects features and
+components between matching output/input descriptions. Compatibility concerns
+meaning, type, structure, units and constraints, not just a filename or label.
+Interface-first is an explanatory order; algorithm, parameter, version and
+execution provenance remain relevant to FAIR reuse.
+
+Inspected the supplied `cogniflow_workshop.html#cf-concept-domain-diagram` and
+recorded its SHA-256 in a Source. Reused its ProcessingUnit/Port/PortRole model:
+Input, Output, Parameter; atomic ProcessingStep and composite ProcessingPipeline.
+Aligned the teaching adaptation with existing canonical CogniFlow resources,
+without changing those resources or importing historical core ontology syntax.
+
+The shared visual-stage composition now accepts an inline diagram plus concise
+takeaways. Highlighted flow-card sizing now reserves the thumbnail and body space
+outside the five-node space-filling layout too. This prevents descriptions from
+falling below short cards and avoids unnecessary splitting of ProcessingUnit.
+
+Runtime generation succeeded. A brief browser preview verified the centred
+affiliation labels, all three new static diagrams and in-bounds title/body text,
+with no page errors. Prepared guards now expect 18 scenes including the title;
+baseline, highlighted-card and composition guards were added. Comprehensive
+tests remain deferred by the owner. No deployment or merge was performed.
+
 ### FAIR principles and an everyday semantic-description example
 
 Added two scenes after processing, at path positions 14 and 15. The first

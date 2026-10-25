@@ -21,7 +21,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -43,7 +43,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0])
+        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0, 0, 0, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram["states"]:
@@ -68,6 +68,27 @@ class TedIntroductionTests(unittest.TestCase):
                          ["F: Findable", "A: Accessible", "I: Interoperable", "R: Reusable"])
         self.assertIn("not a substitute", scene["narration"])
         self.assertIn("controlled access", scene["narration"])
+
+    def test_processing_unit_transfer_is_static_and_preserves_compatible_interfaces(self):
+        diagrams = []
+        for name in ("processing-step", "composable-steps", "processing-unit"):
+            scene = next(s for s in self.scenes if s["id"] == f"ex:ted-scene-{name}--scene")
+            diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+            self.assertEqual(diagram["states"], [])
+            self.assertEqual(len(diagram["nodes"]), 3)
+            self.assertEqual(len(diagram["edges"]), 2)
+            self.assertEqual(diagram["diagramType"], "flow")
+            diagrams.append(diagram)
+        self.assertEqual([n["label"] for n in diagrams[0]["nodes"]], ["Input", "Process", "Output"])
+        chain = diagrams[1]["nodes"]
+        for left, right in zip(chain, chain[1:]):
+            output = left["description"].split("OUT: ")[1]
+            input_value = right["description"].split("IN: ")[1].splitlines()[0]
+            self.assertEqual(output, input_value)
+        unit = next(s for s in self.scenes if s["id"] == "ex:ted-scene-processing-unit--scene")
+        self.assertIn("Input, Output and Parameter", unit["narration"])
+        self.assertIn("ProcessingStep is atomic", unit["narration"])
+        self.assertIn("not a ranking", unit["narration"])
 
     def test_semantic_example_code_and_graph_preserve_the_same_assertions(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantics--scene")
