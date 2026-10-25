@@ -6,6 +6,11 @@
       "sceneDocumentId": "ex:path-chemometrics-introduction--scene-document"
     },
     {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-level4-distribution-shape-lecture",
+      "sceneDocumentId": "ex:path-chemometrics-level4-distribution-shape-lecture--scene-document"
+    },
+    {
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture",
       "sceneDocumentId": "ex:path-chemometrics-mean-values-lecture--scene-document"
@@ -151,10 +156,82 @@
         "ex:scene-se-example--scene",
         "ex:scene-vr39--scene"
       ]
+    },
+    {
+      "id": "ex:path-chemometrics-level4-distribution-shape-lecture--scene-document",
+      "pathId": "ex:path-chemometrics-level4-distribution-shape-lecture",
+      "runtime": "course-runtime/987642a9408b2b05.json",
+      "sceneIds": [
+        "ex:l4-scene-summary-gap--scene",
+        "ex:l4-scene-data-concept--scene",
+        "ex:l4-scene-order-notation-concept--scene",
+        "ex:l4-scene-range-concept--scene",
+        "ex:l4-scene-range-applications--scene",
+        "ex:l4-scene-range-limits--scene",
+        "ex:l4-scene-quartiles-concept--scene",
+        "ex:l4-scene-quartiles-applications--scene",
+        "ex:l4-scene-quartiles-limits--scene",
+        "ex:l4-scene-quantiles-concept--scene",
+        "ex:l4-scene-quantiles-applications--scene",
+        "ex:l4-scene-quantiles-limits--scene",
+        "ex:l4-scene-iqr-concept--scene",
+        "ex:l4-scene-iqr-applications--scene",
+        "ex:l4-scene-iqr-limits--scene",
+        "ex:l4-scene-mad-concept--scene",
+        "ex:l4-scene-mad-applications--scene",
+        "ex:l4-scene-mad-limits--scene",
+        "ex:l4-scene-spread-normal--scene",
+        "ex:l4-scene-spread-skewed--scene",
+        "ex:l4-scene-box-construction--scene",
+        "ex:l4-scene-box-applications--scene",
+        "ex:l4-scene-box-limits--scene",
+        "ex:l4-scene-box-extremes--scene",
+        "ex:l4-scene-box-symmetric--scene",
+        "ex:l4-scene-box-skewed--scene",
+        "ex:l4-scene-box-bimodal--scene",
+        "ex:l4-scene-box-uniform--scene",
+        "ex:l4-scene-box-lab--scene",
+        "ex:l4-scene-histogram-intro--scene",
+        "ex:l4-scene-histogram-reading--scene",
+        "ex:l4-scene-histogram-skewed--scene",
+        "ex:l4-scene-histogram-bimodal--scene",
+        "ex:l4-scene-histogram-2d-intro--scene",
+        "ex:l4-scene-histogram-2d-reading--scene",
+        "ex:l4-scene-histogram-too-coarse--scene",
+        "ex:l4-scene-histogram-too-fine--scene",
+        "ex:l4-scene-histogram-sensible-width--scene",
+        "ex:l4-scene-histogram-origin--scene",
+        "ex:l4-scene-histogram-rules--scene",
+        "ex:l4-scene-histogram-rule-example--scene",
+        "ex:l4-scene-histogram-variable-width--scene",
+        "ex:l4-scene-unequal-sort--scene",
+        "ex:l4-scene-unequal-interpolate--scene",
+        "ex:l4-scene-unequal-density--scene",
+        "ex:l4-scene-histogram-variable-construction--scene",
+        "ex:l4-scene-histogram-variable-use--scene",
+        "ex:l4-scene-histogram-lab--scene",
+        "ex:l4-scene-ecdf-question--scene",
+        "ex:l4-scene-ecdf-concept--scene",
+        "ex:l4-scene-ecdf-worked--scene",
+        "ex:l4-scene-ecdf-river--scene",
+        "ex:l4-scene-ecdf-shapes--scene",
+        "ex:l4-scene-ecdf-crossing--scene",
+        "ex:l4-scene-ecdf-inverse--scene",
+        "ex:l4-scene-applied-mean--scene",
+        "ex:l4-scene-mean-matrix--scene",
+        "ex:l4-scene-applied-variance--scene",
+        "ex:l4-scene-variance-matrix--scene",
+        "ex:l4-scene-applied-skewness--scene",
+        "ex:l4-scene-skewness-matrix--scene",
+        "ex:l4-scene-applied-kurtosis--scene",
+        "ex:l4-scene-kurtosis-matrix--scene",
+        "ex:l4-scene-skew-zero--scene",
+        "ex:l4-scene-moment-lab--scene"
+      ]
     }
   ],
   "offering": {
-    "datasetFingerprint": "sha256:0f350478d2666ab9171272ab7f140d606463ff9f4c90a0264d44a0e937162794",
+    "datasetFingerprint": "sha256:405a3ddf748fea637dd540a1700752c7e33d5c655a49e19d13508749aa8392cf",
     "offering": {
       "descriptions": [],
       "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
@@ -186,6 +263,11 @@
         "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-variance-dispersion",
         "position": 40,
         "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-variance-dispersion"
+      },
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-quantiles-moments-shape",
+        "position": 50,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-quantiles-moments-shape"
       }
     ],
     "sections": [
@@ -225,7 +307,8 @@
         "placementIds": [
           "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-random-variables",
           "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-mean-values",
-          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-variance-dispersion"
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-variance-dispersion",
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-quantiles-moments-shape"
         ],
         "position": 20
       },
@@ -382,6 +465,40 @@
           "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
           "id": "https://w3id.org/project-chemie-digital/resource/world-mean-art",
           "uri": "/course-world/mean-values.svg"
+        }
+      },
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-quantiles-moments-shape",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Quantiles, Moments & Distribution Shape"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-level4-distribution-shape-lecture",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Quantiles & Statistical Moments"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated floating island with a histogram, a quartile box and a stepped cumulative curve, suggesting quantiles and distribution shape. Decorative, not measurement data."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-quantiles-moments-art",
+          "uri": "/course-world/quantiles-moments.svg"
         }
       },
       {
