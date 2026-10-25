@@ -156,6 +156,38 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Apply ProcessingUnit to TED and explain event-driven execution
+
+Added path positions 19-20. The first new scene presents Import, Find peaks,
+Form components, Select markers and Calibrate as ProcessingSteps, hence atomic
+ProcessingUnits. Four explicit compatible output/input connections describe the
+main data path. Notes retain parameter, calibration-model and sample-mass metadata
+requirements and distinguish a declarative workflow from its implementation
+bindings. The scene is a teaching description, not an executable deployment.
+
+The second scene separates Event server, Execution engine and Pipeline execution.
+It uses the shared three-column compound-card primitive. A measurement-completed
+signal plus a fully saved/available file leads to a ready event. The engine reads
+the standardized pipeline, checks/resolves its configured steps and starts the
+run, producing identified outputs with provenance. A file-created event alone is
+not treated as readiness. Duplicate events, permissions, retries and failures are
+deployment requirements, not silently guaranteed capabilities. The engine
+capability is the speaker's supplied claim, not a live integration demonstrated
+by these slides. Event control flow remains distinct from data-port dependencies.
+
+Per the owner, no underlying system name appears in audience text or notes.
+Neutralized the earlier ProcessingUnit definition, workshop citation and notes
+as well; stable internal resource IDs and source hash remain unchanged. No other
+canonical presentation's resources were modified. No new renderer was needed.
+
+Generation and brief dark-theme browser inspection passed without page errors.
+All nine execution subcard texts were measured inside their panels. A read-only
+artifact audit confirmed 20 scenes including the title, matching contracts across
+all four pipeline connections, no system name in audience text/notes and no
+Unicode U+2014 in the new prose. Prepared content guards and scene counts were
+updated. Full suites remain deferred by the owner. No engine/event server was
+started, no deployment changed, and no merge performed.
+
 ### Corrected workshop-style three-column ProcessingUnit model
 
 The owner clarified the intended reference with the workshop screenshot. Replaced

@@ -21,7 +21,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -43,7 +43,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0, 0, 0, 0])
+        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0, 0, 0, 0, 0, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram["states"]:
@@ -99,6 +99,42 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("Average_values", fallback)
         self.assertIn("Average_binding", fallback)
         self.assertIn("DataProcessingConceptDomain", fallback)
+
+    def test_ted_pipeline_has_five_processing_steps_and_explicit_compatible_connections(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        self.assertEqual(len(diagram["nodes"]), 5)
+        self.assertEqual(len(diagram["edges"]), 4)
+        self.assertTrue(all(n["description"].startswith("ProcessingStep\n") for n in diagram["nodes"]))
+        for index, edge in enumerate(diagram["edges"]):
+            left, right = diagram["nodes"][index:index+2]
+            self.assertEqual(edge["sourceNodeId"], left["id"])
+            self.assertEqual(edge["targetNodeId"], right["id"])
+            self.assertEqual(left["description"].split("OUT: ")[1], right["description"].split("IN: ")[1].splitlines()[0])
+        self.assertIn("calibration data/model", scene["narration"])
+        self.assertIn("Bind the actual implementations separately", scene["narration"])
+
+    def test_ready_measurement_event_is_separate_from_pipeline_execution(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-automatic-execution--scene")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        self.assertEqual([n["label"] for n in diagram["nodes"]], ["Event server", "Execution engine", "Pipeline execution"])
+        self.assertEqual([p["label"] for p in diagram["nodes"][0]["parts"]], ["Measurement completed", "File fully saved", "Ready event"])
+        self.assertEqual([e["label"] for e in diagram["edges"]], ["trigger", "execute"])
+        self.assertIn("file-created event alone must not", scene["narration"])
+        self.assertIn("not a live integration", scene["narration"])
+        self.assertIn("provenance", scene["narration"])
+
+    def test_system_name_is_omitted_from_all_audience_text_and_speaker_notes(self):
+        audience_keys = {"label", "description", "text", "term", "narration", "code", "fallback", "prompt"}
+        def inspect(value):
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    if key in audience_keys and isinstance(child, str):
+                        self.assertNotIn("cogniflow", child.lower())
+                    inspect(child)
+            elif isinstance(value, list):
+                for child in value: inspect(child)
+        inspect(self.scenes)
 
     def test_semantic_example_code_and_graph_preserve_the_same_assertions(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantics--scene")

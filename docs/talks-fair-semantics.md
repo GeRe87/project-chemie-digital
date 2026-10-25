@@ -102,3 +102,36 @@ The existing process-system view retains its horizontal node-part treatment.
 Static HTML now preserves part labels, descriptions and provenance too. A brief
 light-theme preview confirmed three columns, nine subcards, in-bounds subcard
 text and no page errors; the dark view was also inspected.
+
+## Apply the model and start it from a measurement event
+
+`talks-ted-semantic-execution.trig` adds two static scenes after the model:
+
+- The full TED workflow as five specialized ProcessingSteps, with explicit main
+  input/output contracts. Four connections pass EICs, features, components and
+  marker areas. Parameter configuration and additional calibration/sample-mass
+  requirements are retained in the definitions and narration. Implementation
+  bindings are separate from the workflow description.
+- Event server, execution engine and pipeline execution as three compound cards.
+  Acquisition must have ended and the file must be completely saved/available
+  before a ready event triggers the engine. The engine loads the selected pipeline,
+  checks its declared interfaces, resolves configured implementations and starts
+  the run. Outputs retain their execution provenance.
+
+The engine capability is attributed to the speaker. This authoring increment does
+not configure or deploy an engine, watcher or executable processing workflow.
+Readiness, permissions, duplicate-event handling, retries and failure reporting
+remain real deployment requirements; no exactly-once guarantee is claimed. Event
+arrows are control flow, distinct from the pipeline's output/input dependencies.
+
+The presentation deliberately omits the underlying system's name. Audience text,
+speaker notes and the workshop Source's public title/description/identifier are
+neutral. Existing internal resource identities and the source hash are retained;
+the original source-file mapping remains in this internal documentation history.
+Prepared guards check the audience-text boundary, compatible connections and
+the completed-measurement/fully-saved-file readiness order.
+
+Generation, a brief dark-theme browser preview and a read-only artifact check
+succeeded: 20 scenes including the title, four matching output/input contracts,
+no system name in audience text or notes, and all execution subcard text inside
+its panels without page errors. Comprehensive suites remain deferred.
