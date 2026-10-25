@@ -156,6 +156,19 @@ node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 <playwright/index.
 
 ## Remaining review and next content
 
+### Owner steering after the first full-suite run
+
+The owner explicitly deferred comprehensive testing until the talk is complete.
+Do not keep running full validation suites during ongoing content authoring.
+The first frozen-head production build completed successfully (254 files). The
+full npm run at `fe357512428bdd15fde98a094424a51483dcbe06` reached 571 Python tests:
+570 passed and one failed because the new Source records lacked the project's
+explicit `cd:supportsResource` links. Those provenance links were then authored;
+no test expectations were weakened. No subsequent full-suite success is claimed.
+Production-browser acceptance, the full-suite rerun and PR acceptance remain
+deferred until the owner requests the end-of-talk review. The 56-case development
+browser checks described above were completed before this steering instruction.
+
 Owner/scientific review should confirm the actual Twister coupling and laboratory
 method before adding numerical instrument parameters or specific marker identities.
 Measured chromatograms, SBR-specific markers, heating-rate/throughput comparisons,

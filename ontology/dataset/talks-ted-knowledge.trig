@@ -83,14 +83,18 @@
 
 <https://w3id.org/project-chemie-digital/graph/sources/talks-ted-gc-ms> {
   ex:ted-source-method a cd:Source ;
+    cd:supportsResource ex:ted-definition, ex:ted-decomposition-definition, ex:ted-capture-definition,
+      ex:ted-cryofocusing-definition, ex:ted-detection-definition, ex:ted-markers-definition ;
     dct:title "Determination of Microplastic Mass Content by Thermal Extraction Desorption Gas Chromatography–Mass Spectrometry" ;
     dct:creator "Yosri Wiesner; Korinna Altmann; Ulrike Braun" ; dct:issued "2021-03-01"^^xsd:date ;
     dct:source <https://www.chromatographyonline.com/view/microplastic-mass-content-by-thermal-extraction-desorption-gas-chromatography-mass-spectrometry> ;
     dct:description "Method description including TGA, PDMS collection, physical transfer, thermal desorption, CIS cryofocusing, GC-MS and marker calibration; also describes matrix interferences. Its PDMS device is not a Twister; no device equivalence is asserted."@en ; cd:authoredResource true .
   ex:ted-source-twister a cd:Source ; dct:title "Overview Micro extraction techniques — Stir Bar Sorptive Extraction" ;
+    cd:supportsResource ex:ted-capture-definition ;
     dct:creator "GERSTEL" ; dct:source <https://www.gerstel.com/en/products/sample-preparation/extraction/microextraction> ;
     dct:description "Manufacturer description of the PDMS-coated Twister, sorptive enrichment and thermal desorption. Its liquid-extraction example is not presented as the TED gas-stream configuration."@en ; cd:authoredResource true .
   ex:ted-source-review a cd:Source ; dct:title "Thermogravimetric analysis of microplastics: A mini review" ;
+    cd:supportsResource ex:ted-markers-definition ;
     dct:creator "Rola Mansa; Shan Zou" ; dct:source <https://doi.org/10.1016/j.envadv.2021.100117> ;
     dct:description "Review of TGA-based methods, limitations of marker specificity and the need for validation in the examined matrices."@en ; cd:authoredResource true .
 }
