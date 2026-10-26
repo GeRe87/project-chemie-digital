@@ -38,7 +38,7 @@ function assertPublicPresentationPolicy(value: unknown): void {
         ? node.replaceAll(SOURCE_IDENTITIES_IN_CODE, "")
         : node.replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, "");
       if (FORBIDDEN_BRAND.test(unbranded)) {
-        throw new Error(`Unrelated internal branding in public presentation transport at ${path}`);
+        throw new Error(`Unrelated internal branding in public presentation transport at ${path}${path === "artifact.datasetSnapshot.entities[0].id" ? ` (RDF identifier: ${node})` : ""}`);
       }
       return;
     }
