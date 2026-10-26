@@ -13,6 +13,10 @@ resolvePresentationCollection(collection, artifact.sceneDocuments.map((d: {id: s
 // namespace, including when shown as authored TriG. Its *IRI* is not permission
 // to insert the internal system's brand into slide copy or speaker notes.
 const CANONICAL_ONTOLOGY_NAMESPACE = "https://cogniflow.odea-project.org/cf#";
+// Canonical source resources may use additional paths on the same authoritative
+// ontology host. A complete source IRI is identity metadata, not user-facing copy.
+const SOURCE_IDENTITY = /^https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+$/;
+const SOURCE_IDENTITIES_IN_CODE = /https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+/g;
 const FORBIDDEN_BRAND = /cogniflow/i;
 const VISIBLE_TEXT_FIELDS = new Set([
   "title", "subtitle", "name", "label", "description", "text", "term",
@@ -26,9 +30,14 @@ function assertPublicPresentationPolicy(value: unknown): void {
       if (key && VISIBLE_TEXT_FIELDS.has(key) && FORBIDDEN_BRAND.test(node)) {
         throw new Error(`Internal branding in presentation text at ${path}`);
       }
-      // The only deliberate exception is the exact canonical vocabulary IRI
-      // needed to preserve source graph identity in inspectable TriG.
-      if (FORBIDDEN_BRAND.test(node.replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, ""))) {
+      // Fully qualified canonical RDF resource identifiers are preserved.
+      // Inside source-derived TriG, canonical namespace IRIs are also preserved;
+      // ordinary copy, prose and unrelated products remain prohibited.
+      if (SOURCE_IDENTITY.test(node)) return;
+      const unbranded = key === "code"
+        ? node.replaceAll(SOURCE_IDENTITIES_IN_CODE, "")
+        : node.replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, "");
+      if (FORBIDDEN_BRAND.test(unbranded)) {
         throw new Error(`Unrelated internal branding in public presentation transport at ${path}`);
       }
       return;
