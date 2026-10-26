@@ -191,6 +191,66 @@ class TedIntroductionTests(unittest.TestCase):
                 for child in value: inspect(child)
         inspect(self.scenes)
 
+    def test_real_public_transport_gate_accepts_source_iri_not_product_brand(self):
+        # Exercise the production validator, not a duplicate Python regular expression.
+        import copy
+        import subprocess
+        import tempfile
+
+        pipeline = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
+        diagram = next(b for b in pipeline["blocks"] if b["kind"] == "diagram")
+        contracts = [edge["codeDetail"]["code"] for edge in diagram["edges"]]
+        self.assertEqual(len(contracts), 4)
+        self.assertTrue(all("https://cogniflow.odea-project.org/cf#" in code for code in contracts))
+
+        script = R.ROOT / "scripts/validate_presentation_transport.mts"
+        collection_id = self.artifact["presentationCollection"]["id"]
+
+        def validate(candidate):
+            with tempfile.TemporaryDirectory() as temporary:
+                path = Path(temporary) / "talk-public-transport.json"
+                path.write_text(json.dumps(candidate, ensure_ascii=False), encoding="utf-8")
+                return subprocess.run(
+                    ["node", "--experimental-strip-types", str(script), str(path), collection_id],
+                    cwd=R.ROOT, text=True, capture_output=True, check=False,
+                )
+
+        accepted = validate(self.artifact)
+        self.assertEqual(accepted.returncode, 0, accepted.stdout + "\\n" + accepted.stderr)
+        self.assertEqual(json.loads(accepted.stdout)["title"], "Talks Overworld")
+
+        # Ordinary slide copy and speaker notes must not advertise the system.
+        branded = copy.deepcopy(self.artifact)
+        branded["sceneDocuments"][0]["scenes"][-1]["narration"] = "Cogniflow executes this workflow."
+        rejected = validate(branded)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("Internal branding in presentation text", rejected.stderr)
+
+        # The canonical IRI is allowed only as source identity, not as an
+        # author-controlled label or description.
+        branded = copy.deepcopy(self.artifact)
+        branded_edge = next(
+            b for b in branded["sceneDocuments"][0]["scenes"]
+            if b["id"] == "ex:ted-scene-semantic-pipeline--scene"
+        )
+        detail = next(b for b in branded_edge["blocks"] if b["kind"] == "diagram")["edges"][0]["codeDetail"]
+        detail["description"] = "https://cogniflow.odea-project.org/cf#"
+        rejected = validate(branded)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("Internal branding in presentation text", rejected.stderr)
+
+        # A second, noncanonical namespace cannot evade the publication gate.
+        branded = copy.deepcopy(self.artifact)
+        branded_edge = next(
+            b for b in branded["sceneDocuments"][0]["scenes"]
+            if b["id"] == "ex:ted-scene-semantic-pipeline--scene"
+        )
+        detail = next(b for b in branded_edge["blocks"] if b["kind"] == "diagram")["edges"][0]["codeDetail"]
+        detail["code"] += "\\n# Cogniflow promotional text"
+        rejected = validate(branded)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("Unrelated internal branding", rejected.stderr)
+
     def test_interface_excerpt_shapes_require_documented_ports(self):
         from pyshacl import validate
         dataset = R.assemble_dataset()
