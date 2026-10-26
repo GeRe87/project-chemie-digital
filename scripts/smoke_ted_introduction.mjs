@@ -11,8 +11,10 @@ assert.equal(manifest.documents.length,1);
 const entry=manifest.documents[0];
 const artifact=await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes=artifact.sceneDocuments[0].scenes;
-assert.equal(scenes.length,20,"Expected title + nineteen content scenes");
-assert.ok(!/cogniflow/i.test(JSON.stringify(artifact)));
+assert.equal(scenes.length,24,"Expected title + 23 authored content scenes");
+// Canonical RDF vocabulary IRIs may occur in inspectable source-derived TriG.
+// Product branding and unrelated references must remain absent.
+assert.ok(!/cogniflow/i.test(JSON.stringify(artifact).replaceAll("https://cogniflow.odea-project.org/cf#", "")));
 const axe=axePath ? await fs.readFile(axePath,"utf8") : undefined;
 const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{})});
 const results=[];
@@ -33,9 +35,8 @@ try {
           await page.waitForFunction(id=>document.querySelector(".reveal .slides > section.present")?.id===id,scene.id);
           const current=page.locator(".reveal .slides > section.present");
           if(scene.blocks.some(b=>b.kind==="media-reference")) {
-            await current.locator("svg.teaching-svg").waitFor();
-            assert.ok(await current.locator("strong").count()>=2);
-            assert.equal(await current.locator(".pcd-marker-highlight").count(),1);
+            await current.locator(".media-reference img,.media-reference video").first().waitFor();
+            assert.ok(await current.locator(".media-reference").count()>=1,"authored media is not rendered");
           }
           const stage=current.locator("[data-presentation-step-count]");
           const steps=await stage.count() ? Number(await stage.first().getAttribute("data-presentation-step-count")):0;
@@ -53,7 +54,7 @@ try {
           }
           const geometry=await current.evaluate(section=>{
             const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
-            const visual=section.querySelector(".teaching-svg,.d3-flow-svg,.d3-chart-svg,svg");
+            const visual=section.querySelector(".teaching-svg,.d3-flow-svg,.d3-chart-svg,.media-reference img,.media-reference video,.definition-list,svg");
             const nodes=[...section.querySelectorAll("h1,h2,.keypoint-list li,.teaching-svg")];
             const returnControl=document.querySelector(".pcd-return-world");
             return {section:rect(section),visual:visual?rect(visual):null,returnControl:returnControl?rect(returnControl):null,
