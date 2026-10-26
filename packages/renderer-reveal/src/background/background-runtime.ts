@@ -173,7 +173,7 @@ function createStage(
     const reportError = () => onAssetError(pack.id, layer.id, assetUrl);
     const primaryTile = createTile(assetUrl, layer, onAssetLoad, reportError);
     strip.appendChild(primaryTile);
-    if (layer.repeat === "y") {
+    if (layer.repeat === "y" || layer.repeat === "x") {
       strip.appendChild(createTile(assetUrl, layer, onAssetLoad, reportError));
     }
     node.appendChild(strip);
@@ -266,7 +266,9 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
       const translatedY = binding.layer.repeat === "y"
         ? tiledLayerTranslation(y, binding.tileHeight)
         : y;
-      const transform = `translate3d(0, ${translatedY.toFixed(3)}px, 0)`;
+      const transform = binding.layer.repeat === "x"
+        ? `translate3d(${tiledLayerTranslation(y, binding.tileHeight).toFixed(3)}px, 0, 0)`
+        : `translate3d(0, ${translatedY.toFixed(3)}px, 0)`;
       if (transform !== binding.lastTransform) {
         binding.strip.style.transform = transform;
         binding.lastTransform = transform;
@@ -283,7 +285,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     pendingMeasurementFrame = undefined;
     if (destroyed || !currentStage) return;
     for (const binding of currentStage.bindings) {
-      const height = binding.tile.offsetHeight;
+      const height = binding.layer.repeat === "x" ? binding.tile.offsetWidth : binding.tile.offsetHeight;
       if (height > 0) binding.tileHeight = height;
     }
     requestRender();
@@ -333,6 +335,7 @@ export function mountBackgroundRuntime(options: BackgroundRuntimeOptions): Backg
     }
 
     const pack = packs.get(packId);
+    if (packId === activePackId && currentStage) return [...diagnostics];
     if (!pack) {
       diagnostics.push({
         code: "INVALID_BACKGROUND_PACK",

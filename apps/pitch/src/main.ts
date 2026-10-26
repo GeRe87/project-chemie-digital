@@ -1,5 +1,10 @@
 import "./styles.css";
 import "./course-world.css";
+import "./talks-world.css";
+import "./presentation-background.css";
+import { renderTalksWorld, resolveTalks, type PresentationCollection } from "./talks-world.ts";
+import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
+import { backgroundPackRegistry, talksPresentationProfile } from "./presentation-profile.ts";
 import { createPitchCourseWorldModel, renderPitchCourseWorldHtml } from "./course-world.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { mountCourseWorldMap } from "./course-world-map.ts";
@@ -16,14 +21,20 @@ const manifestResponse = await fetch(resolvePublicAssetUrl("course-runtime/manif
 if (!manifestResponse.ok) throw new Error(`Could not load course manifest (${manifestResponse.status})`);
 const manifest = await manifestResponse.json() as {
   offering: TeachingOfferingRuntimeDocument;
+  collection?: PresentationCollection;
   bindings: CanonicalRuntimeSceneDocumentBinding[];
   documents: { id: string; pathId: string; sceneIds: string[]; runtime: string }[];
 };
 
 // Only metadata is imported here. Reveal, charts, KaTeX and semantic snapshots
 // are loaded after selecting a level, not while browsing the course world.
-const model = createPitchCourseWorldModel(manifest.offering,
+const talks = manifest.collection ? resolveTalks(manifest.collection, manifest.documents, manifest.bindings) : undefined;
+const model = manifest.collection ? undefined : createPitchCourseWorldModel(manifest.offering,
   manifest.documents, manifest.bindings);
+if (manifest.collection) {
+  document.body.classList.add("pcd-talks");
+  document.querySelector(".reveal")?.setAttribute("role", "main");
+}
 const url = new URL(window.location.href);
 const requested = url.searchParams.get("level");
 let directScene = decodeURIComponent(url.hash.replace(/^#\/?/, ""));
@@ -55,17 +66,33 @@ if (selected) {
   const artifact = await response.json();
   if (artifact.sceneDocuments.length !== 1 || artifact.sceneDocuments[0].id !== selected.id) throw new Error("Selected runtime identity mismatch");
   const { startPresentation } = await import("./presentation-main.ts");
-  await startPresentation(artifact, model);
+  await startPresentation(artifact, model, manifest.collection ? { profile: talksPresentationProfile, collectionTitle: manifest.collection.title } : undefined);
   performance.measure("pcd-level-initialization", "pcd-level-load-start");
 } else {
   const presentation = document.querySelector<HTMLElement>(".reveal")!;
   presentation.hidden = true;
-  const shell = document.createElement("section"); shell.className = "pitch-course-world-shell";
-  shell.innerHTML = renderPitchCourseWorldHtml(model);
+  const shell = document.createElement(manifest.collection ? "main" : "section"); shell.className = "pitch-course-world-shell";
+  shell.innerHTML = manifest.collection ? renderTalksWorld(manifest.collection, talks!) : renderPitchCourseWorldHtml(model!);
   presentation.before(shell); document.body.classList.add("pcd-course-world-active");
   const skipLink=document.querySelector<HTMLAnchorElement>(".skip-link");
-  if(skipLink){skipLink.href="#pitch-course-world-title";skipLink.textContent="Skip to course map";}
-  const unmountMap=mountCourseWorldMap(shell);window.addEventListener("pagehide",unmountMap,{once:true});
+  if(skipLink){skipLink.href="#pitch-course-world-title";skipLink.textContent=manifest.collection ? "Skip to talks" : "Skip to course map";}
+  if (manifest.collection) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const backgrounds = mountBackgroundRuntime({ host: document.body, packs: backgroundPackRegistry,
+      initialPackId: `talks-laboratory-${document.body.dataset.presentationTheme}`, reducedMotion });
+    const themeButton = document.createElement("button"); themeButton.type = "button";
+    themeButton.className = "talks-theme";
+    const labelTheme = () => { themeButton.textContent = document.body.dataset.presentationTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"; };
+    labelTheme(); document.body.append(themeButton);
+    themeButton.addEventListener("click", () => {
+      const theme = document.body.dataset.presentationTheme === "dark" ? "light" : "dark";
+      document.body.dataset.presentationTheme = theme; backgrounds.setPack(`talks-laboratory-${theme}`); labelTheme();
+      const next = new URL(window.location.href); next.searchParams.set("theme", theme); window.history.replaceState({}, "", next);
+    });
+    window.addEventListener("pagehide", () => backgrounds.destroy(), { once: true });
+  } else {
+    const unmountMap=mountCourseWorldMap(shell);window.addEventListener("pagehide",unmountMap,{once:true});
+  }
   performance.measure("pcd-world-bootstrap", "pcd-world-bootstrap-start");
   shell.addEventListener("click", event => {
     const button = (event.target as Element).closest<HTMLButtonElement>("button[data-scene-document-id]");

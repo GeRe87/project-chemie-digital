@@ -5,6 +5,7 @@ import argparse
 import importlib.util
 import importlib.metadata
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -12,7 +13,7 @@ import tempfile
 from pathlib import Path
 
 import prepare_interactive_runtime as VENDOR
-from static_course_artifact import MARKER, ROOT, inventory, validate_base, validate_files
+from static_course_artifact import MARKER, ROOT, inventory, public_files, validate_base, validate_files
 
 
 def output_path(value: str) -> Path:
@@ -26,8 +27,8 @@ def output_path(value: str) -> Path:
     return output
 
 
-def run(command: list[str], cwd: Path = ROOT):
-    subprocess.run(command, cwd=cwd, check=True)
+def run(command: list[str], cwd: Path = ROOT, *, env=None):
+    subprocess.run(command, cwd=cwd, check=True, env=env)
 
 
 def check_python_dependencies():
@@ -45,7 +46,7 @@ def check_python_dependencies():
             raise ValueError(f"Production dependency mismatch: {name}=={expected} required; install scripts/requirements-static-build.txt in an isolated Python environment")
 
 
-def build(offering: str, output: Path, base: str, offline: bool = False) -> dict:
+def build(offering: str, output: Path, base: str, offline: bool = False, *, collection: bool = False) -> dict:
     # Never let old successful evidence authorize a failed new attempt.
     if output.exists() and any(output.iterdir()):
         marker = output / MARKER
@@ -75,14 +76,23 @@ def build(offering: str, output: Path, base: str, offline: bool = False) -> dict
     spec = importlib.util.spec_from_file_location("offering_generator", generator_path)
     generator = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(generator)
-    generator.generate_course(offering)
+    artifact = generator.generate_course(offering, **({"collection": True} if collection else {}))
     output.parent.mkdir(parents=True, exist_ok=True)
     # Only this helper's temporary build is emptied by Vite. Existing Pitch dist
     # and output from other offerings remain untouched.
     with tempfile.TemporaryDirectory(prefix="course-build-", dir=output.parent) as temporary:
-        stage = Path(temporary)
+        stage = Path(temporary) / "output"
+        env = os.environ.copy()
+        if collection:
+            public = ROOT / "apps/pitch/public"
+            selected_public = Path(temporary) / "public"
+            for source in public_files(public, artifact):
+                target = selected_public / source.relative_to(public)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, target)
+            env["PCD_STATIC_PUBLIC_DIR"] = str(selected_public)
         vite = ROOT / "node_modules/vite/bin/vite.js"
-        run(["node", str(vite), "build", "--base", base, "--outDir", str(stage), "--emptyOutDir"], ROOT / "apps/pitch")
+        run(["node", str(vite), "build", "--base", base, "--outDir", str(stage), "--emptyOutDir"], ROOT / "apps/pitch", env=env)
         shutil.copyfile(generator.OUTPUT, stage / "course-runtime.json")
         evidence = validate_files(stage, offering, base, ROOT / "apps/pitch/public")
         (stage / MARKER).write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
@@ -99,9 +109,10 @@ def main():
     parser.add_argument("--out-dir", default="dist/chemometrics")
     parser.add_argument("--base", default="/")
     parser.add_argument("--offline", action="store_true", help="Require an already prepared, integrity-verified vendor tree; no downloads")
+    parser.add_argument("--collection", action="store_true", help="Select a scientific presentation collection instead of a teaching offering")
     args = parser.parse_args()
     try:
-        build(args.offering_id, output_path(args.out_dir), args.base, args.offline)
+        build(args.offering_id, output_path(args.out_dir), args.base, args.offline, collection=args.collection)
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as error:
         print(f"Static course build failed: {error}", file=sys.stderr)

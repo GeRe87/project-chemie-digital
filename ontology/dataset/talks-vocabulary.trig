@@ -1,0 +1,12 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix schema: <https://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/vocabulary/presentations> {
+  cd:ScientificTalk a rdfs:Class ; rdfs:subClassOf schema:CreativeWork ;
+    rdfs:comment "An independent scientific presentation, not a teaching offering or learning unit."@en .
+  cd:presentationPath a rdf:Property ; rdfs:domain cd:ScientificTalk ; rdfs:range cd:LearningPath .
+  cd:presentationTitleOf a rdf:Property ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:ScientificTalk ;
+    rdfs:comment "Resolve this work's metadata into the reusable scientific title layout; no visual coordinates are authored."@en .
+}

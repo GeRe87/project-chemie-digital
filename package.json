@@ -45,7 +45,11 @@
     "test": "npm run check:json && npm run test:json-discovery && npm run test:semantics && npm run test:core && npm run test:semantic-client && npm run test:learner-state && npm run test:renderer-reveal && npm run test:renderer-d3 && npm run test:renderer-self-study && npm run generate:runtime && npm run check:runtime && npm run test:pitch && npm run test:self-study",
     "pitch:intro": "npm --workspace @project-chemie-digital/pitch run dev:introduction",
     "build:chemometrics": "python scripts/build_static_course.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics",
-    "check:chemometrics-build": "python scripts/static_course_artifact.py dist/chemometrics"
+    "check:chemometrics-build": "python scripts/static_course_artifact.py dist/chemometrics",
+    "build:talks": "python scripts/build_static_course.py --collection --offering-id https://w3id.org/project-chemie-digital/resource/talks --out-dir dist/talks",
+    "generate:talks": "python apps/pitch/scripts/generate-course-runtime.py --collection --offering-id https://w3id.org/project-chemie-digital/resource/talks",
+    "talks:dev": "npm run generate:talks && npm --workspace @project-chemie-digital/pitch exec -- vite --host 127.0.0.1 --port 5186 --strictPort",
+    "check:talks-build": "python scripts/static_course_artifact.py dist/talks"
   },
   "engines": {
     "node": ">=22"

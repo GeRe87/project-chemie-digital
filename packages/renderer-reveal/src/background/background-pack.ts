@@ -1,7 +1,7 @@
 export type BackgroundAnchor = "left" | "center" | "right";
-export type BackgroundRepeat = "none" | "y";
+export type BackgroundRepeat = "none" | "y" | "x";
 export type BackgroundBlendMode = "normal" | "screen";
-export type BackgroundSizing = "cover-width" | "cover" | "contain";
+export type BackgroundSizing = "cover-width" | "cover-height" | "cover" | "contain";
 
 export interface BackgroundLayer {
   readonly id: string;
@@ -56,9 +56,9 @@ export class BackgroundPackError extends Error {
 }
 
 const ANCHORS = new Set<BackgroundAnchor>(["left", "center", "right"]);
-const REPEATS = new Set<BackgroundRepeat>(["none", "y"]);
+const REPEATS = new Set<BackgroundRepeat>(["none", "y", "x"]);
 const BLENDS = new Set<BackgroundBlendMode>(["normal", "screen"]);
-const SIZINGS = new Set<BackgroundSizing>(["cover-width", "cover", "contain"]);
+const SIZINGS = new Set<BackgroundSizing>(["cover-width", "cover-height", "cover", "contain"]);
 
 function assertLocalAsset(asset: string, packId: string, layerId: string): void {
   const normalized = asset.trim();

@@ -1,0 +1,46 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/shapes/presentations> {
+  cd:PresentationCollectionShape a sh:NodeShape ; sh:targetClass schema:Collection ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path schema:hasPart ; sh:minCount 1 ; sh:class cd:ScientificTalk ; sh:nodeKind sh:IRI ] .
+  cd:ScientificTalkShape a sh:NodeShape ; sh:targetClass cd:ScientificTalk ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:presentationPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:LearningPath ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path schema:author ; sh:minCount 1 ; sh:node cd:PresentationAuthorRoleShape ] ;
+    sh:property [ sh:path schema:recordedAt ; sh:maxCount 1 ; sh:node cd:PresentationEventShape ] ;
+    sh:property [ sh:path schema:logo ; sh:node cd:PresentationLogoShape ] ;
+    sh:sparql [ sh:message "Author positions must be unique within a talk." ; sh:select """
+      PREFIX schema: <https://schema.org/>
+      SELECT $this WHERE { $this schema:author ?a, ?b . ?a schema:position ?p . ?b schema:position ?p . FILTER (?a != ?b) }
+    """ ] ;
+    sh:sparql [ sh:message "Logo positions must be unique within a talk." ; sh:select """
+      PREFIX schema: <https://schema.org/>
+      SELECT $this WHERE { $this schema:logo ?a, ?b . ?a schema:position ?p . ?b schema:position ?p . FILTER (?a != ?b) }
+    """ ] .
+  cd:PresentationAuthorRoleShape a sh:NodeShape ; sh:class schema:Role ; sh:nodeKind sh:IRI ;
+    sh:property [ sh:path schema:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path schema:author ; sh:minCount 1 ; sh:maxCount 1 ; sh:class schema:Person ; sh:node cd:PresentationPersonShape ] .
+  cd:PresentationPersonShape a sh:NodeShape ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path schema:affiliation ; sh:class schema:Organization ; sh:node cd:PresentationOrganizationShape ] .
+  cd:PresentationOrganizationShape a sh:NodeShape ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path schema:parentOrganization ; sh:maxCount 1 ; sh:class schema:Organization ] .
+  cd:PresentationEventShape a sh:NodeShape ; sh:class schema:Event ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path schema:startDate ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path schema:location ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+  cd:PresentationLogoShape a sh:NodeShape ; sh:class schema:ImageObject ;
+    sh:property [ sh:path schema:name ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path schema:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path schema:contentUrl ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^/?[A-Za-z0-9_-]+(/[A-Za-z0-9_.-]+)+$" ] .
+  cd:PresentationTitleSceneShape a sh:NodeShape ; sh:targetSubjectsOf cd:presentationTitleOf ;
+    sh:class cd:SceneDefinition ;
+    sh:property [ sh:path cd:presentationTitleOf ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:ScientificTalk ; sh:nodeKind sh:IRI ] .
+}

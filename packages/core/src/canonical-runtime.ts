@@ -1,4 +1,5 @@
 import { validateSceneDocument, type SceneDocument } from "./scene-document.ts";
+import { resolvePresentationCollection, type PresentationCollection } from "./presentation-collection.ts";
 
 export const CANONICAL_RUNTIME_ARTIFACT_VERSION = "1.0" as const;
 export const TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION = "1.0" as const;
@@ -81,6 +82,7 @@ export interface CanonicalRuntimeArtifact {
   readonly teachingOfferingDocuments: readonly TeachingOfferingRuntimeDocument[];
   readonly sceneDocuments: readonly SceneDocument[];
   readonly sceneDocumentBindings?: readonly CanonicalRuntimeSceneDocumentBinding[];
+  readonly presentationCollection?: PresentationCollection;
 }
 
 export class CanonicalRuntimeContractError extends Error {
@@ -441,5 +443,13 @@ export function validateCanonicalRuntimeArtifact(value: unknown): CanonicalRunti
     }
   }
 
+  if (root.presentationCollection !== undefined) {
+    try {
+      resolvePresentationCollection(root.presentationCollection as PresentationCollection,
+        sceneDocuments as SceneDocument[], (root.sceneDocumentBindings ?? []) as CanonicalRuntimeSceneDocumentBinding[]);
+    } catch (error) {
+      fail(`Invalid presentation collection: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
   return value as CanonicalRuntimeArtifact;
 }

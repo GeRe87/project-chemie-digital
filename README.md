@@ -152,6 +152,23 @@ npm run test:semantics
 
 Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasStep` is an unordered RDF relation and does not create an RDF list node.
 
+## Talks presentation family
+
+Talks reuses Pitch's semantic path compiler, Reveal renderer and themed background
+engine for independent scientific presentations. Author the collection and title
+metadata in `ontology/dataset/talks.trig`, not in HTML or JSON.
+
+```bash
+npm run talks:dev
+npm run build:talks
+npm run check:talks-build
+```
+
+The production artifact is `dist/talks`, separate from `dist/chemometrics`.
+See [Talks build and Cloudflare Pages preparation](docs/talks-deployment.md) and
+[ADR-0020](docs/adr/0020-scientific-presentation-collections.md). Hosting configuration
+is an owner action; these commands do not deploy either site.
+
 ## Repository principles
 
 - `main` remains reviewable and stable.

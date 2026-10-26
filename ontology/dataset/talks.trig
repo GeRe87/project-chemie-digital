@@ -1,0 +1,50 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/presentations/talks> {
+  ex:talks a schema:Collection ; skos:prefLabel "Talks Overworld"@en ;
+    dct:description "Independent scientific presentations. Select a talk to open its presentation."@en ;
+    schema:hasPart ex:talk-microplastics-ted-gc-ms .
+  ex:talk-microplastics-ted-gc-ms a cd:ScientificTalk ;
+    cd:authoredResource true ;
+    skos:prefLabel "Automated and FAIR microplastics analysis using TED-GC-MS"@en ;
+    cd:presentationPath ex:path-talk-microplastics-ted-gc-ms ;
+    schema:about ex:microplastics-analysis ;
+    schema:author ex:talk-microplastics-author-1 ;
+    schema:recordedAt ex:event-gerstel-microplastics ;
+    schema:logo ex:ude-logo-placeholder .
+  ex:talk-microplastics-author-1 a schema:Role ; schema:position 1 ; schema:author ex:gerrit-renner .
+  ex:gerrit-renner a schema:Person ; schema:name "Gerrit Renner" ; schema:affiliation ex:ude-iac .
+  ex:ude-iac a schema:Organization ;
+    schema:name "Instrumental Analytical Chemistry" ; schema:parentOrganization ex:ude-chemistry .
+  ex:ude-chemistry a schema:Organization ;
+    schema:name "Faculty of Chemistry" ; schema:parentOrganization ex:ude .
+  ex:ude a schema:Organization ; schema:name "University of Duisburg-Essen" .
+  ex:event-gerstel-microplastics a schema:Event ; schema:name "GERSTEL Microplastics Expert Meeting" .
+  # No approved institutional image is available. Absence of contentUrl is an explicit placeholder.
+  ex:ude-logo-placeholder a schema:ImageObject ; schema:name "University of Duisburg-Essen — logo placeholder" ; schema:position 1 .
+  ex:microplastics-analysis a cd:Concept ; skos:prefLabel "Microplastics analysis"@en ;
+    cd:hasDefinition ex:def-microplastics-analysis .
+  ex:def-microplastics-analysis a cd:Definition, cd:LearningResource ;
+    cd:body "Scientific analysis of microplastics using thermal extraction and gas chromatography–mass spectrometry."@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms a cd:LearningPath ;
+    skos:prefLabel "Microplastics scientific presentation"@en ;
+    cd:forTopic ex:microplastics-analysis ; cd:hasStep ex:step-talk-microplastics-title ; cd:authoredResource true .
+  ex:step-talk-microplastics-title a cd:PathStep ; cd:position 1 ;
+    cd:usesResource ex:talk-microplastics-ted-gc-ms ; cd:usesScene ex:scene-talk-microplastics-title ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/talk-microplastics-ted-gc-ms> {
+  ex:scene-talk-microplastics-title a cd:SceneDefinition ; cd:focusConcept ex:microplastics-analysis ;
+    cd:presentationTitleOf ex:talk-microplastics-ted-gc-ms ;
+    cd:hasSceneItem ex:item-talk-microplastics-title ; cd:authoredResource true .
+  ex:item-talk-microplastics-title a cd:SceneItem ; cd:position 1 ;
+    cd:selectsResource ex:talk-microplastics-ted-gc-ms ; cd:communicativeRole cd:HeadingRole ;
+    cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+}

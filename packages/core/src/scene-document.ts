@@ -1,3 +1,4 @@
+import { validatePresentationTitle, type PresentationTitleMetadata } from "./presentation-metadata.ts";
 import { validateObservationExplorer, type ObservationExplorerBlock } from "./observation-explorer.ts";
 import { boxPlotSummary, type BoxPlotBlock } from "./box-plot.ts";
 import { validateHistogram, type HistogramBlock, type Histogram2DBlock } from "./histogram.ts";
@@ -550,6 +551,7 @@ export type SceneBlock =
   | ChartBlock;
 
 export interface Scene {
+  readonly presentationTitle?: PresentationTitleMetadata;
   readonly id: string;
   readonly source: readonly SourceReference[];
   readonly blocks: readonly SceneBlock[];
@@ -1155,6 +1157,7 @@ export function validateSceneDocument(document: SceneDocument): void {
   if (new Set(sceneIds).size !== sceneIds.length) throw new SceneContractError("SceneDocument contains duplicate scene ids");
 
   for (const scene of document.scenes) {
+    if (scene.presentationTitle !== undefined) validatePresentationTitle(scene.presentationTitle);
     if (scene.narration !== undefined && (typeof scene.narration !== "string" || !scene.narration.trim())) throw new SceneContractError("Scene narration must be non-empty authored text");
     requireNonEmpty(scene.id, "Scene id");
     validateSource(scene.source, `Scene ${scene.id} source`);
