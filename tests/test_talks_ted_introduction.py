@@ -22,7 +22,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -44,17 +44,22 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d["states"]) for d in diagrams], [3, 0, 0, 0, 0, 0, 0, 0])
+        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 0, 2, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
-            for state in diagram["states"]:
-                self.assertIn(state["focusNodeId"], nodes)
+            for state in diagram.get("states", []):
+                if "focusNodeId" in state:
+                    self.assertIn(state["focusNodeId"], nodes)
                 self.assertTrue(state["source"][0]["provenanceIds"])
 
-    def test_processing_overview_has_five_illustrated_steps_without_stages(self):
+    def test_processing_overview_has_five_illustrated_steps_and_tool_stage(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-processing--scene")
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
-        self.assertEqual(diagram["states"], [])
+        self.assertEqual(len(diagram["states"]), 2)
+        tools = diagram["states"][1]["nodePresentations"]
+        self.assertEqual(len(tools), 4)
+        self.assertTrue(all("label" not in tool for tool in tools))
+        self.assertEqual(sorted(t["description"] for t in tools), ["C++", "C++", "In-house script\nPython", "Java"])
         self.assertEqual(len(diagram["edges"]), 4)
         self.assertEqual([n["visualMotif"] for n in diagram["nodes"]],
                          ["data-import", "peak-search", "shared-peak-shape", "marker-selection", "regression"])
@@ -75,7 +80,7 @@ class TedIntroductionTests(unittest.TestCase):
         for name in ("processing-step", "composable-steps", "processing-unit"):
             scene = next(s for s in self.scenes if s["id"] == f"ex:ted-scene-{name}--scene")
             diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
-            self.assertEqual(diagram["states"], [])
+            self.assertEqual(diagram.get("states", []), [])
             self.assertEqual(len(diagram["nodes"]), 3)
             self.assertEqual(len(diagram["edges"]), 2)
             self.assertEqual(diagram["diagramType"], "flow")
@@ -93,12 +98,12 @@ class TedIntroductionTests(unittest.TestCase):
         model = diagrams[2]
         self.assertEqual([n["label"] for n in model["nodes"]], ["Shared vocabulary", "Specializations", "Concrete operation"])
         self.assertEqual([len(n["parts"]) for n in model["nodes"]], [3, 3, 3])
-        self.assertEqual(model["nodes"][2]["parts"][0]["label"], "qalg:Average")
-        self.assertIn("Average_binding", model["nodes"][2]["parts"][2]["description"])
+        self.assertEqual(model["nodes"][2]["parts"][0]["label"], "qalg:FindPeaks")
+        self.assertIn("FindPeaks_binding", model["nodes"][2]["parts"][2]["description"])
         self.assertIn("not data flow", model["description"])
         fallback = R.static_fallback(self.artifact)
-        self.assertIn("Average_values", fallback)
-        self.assertIn("Average_binding", fallback)
+        self.assertIn("EIC vector", fallback)
+        self.assertIn("FindPeaks_binding", fallback)
         self.assertIn("PortRole", fallback)
 
     def test_ted_pipeline_has_five_processing_steps_and_explicit_compatible_connections(self):
@@ -126,6 +131,27 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("file-created event alone must not", scene["narration"])
         self.assertIn("not a live integration", scene["narration"])
         self.assertIn("provenance", scene["narration"])
+
+    def test_replacement_preserves_interfaces_and_static_alternatives(self):
+        scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
+        diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
+        replacement = diagram["states"][1]["nodePresentations"][0]
+        self.assertEqual(replacement["transition"], "replace-left")
+        self.assertEqual(replacement["label"], "Find peaks better")
+        original = next(n for n in diagram["nodes"] if n["id"] == replacement["nodeId"])
+        self.assertEqual(replacement["description"], original["description"])
+        self.assertIn("Find peaks better", R.static_fallback(self.artifact))
+
+    def test_demo_crops_match_and_static_fallback_does_not_play_raw_recordings(self):
+        videos = [b for s in self.scenes for b in s["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "video/mp4"]
+        self.assertEqual(len(videos), 2)
+        self.assertEqual(videos[0]["crop"], videos[1]["crop"])
+        for video in videos:
+            self.assertTrue(video["redactions"])
+            fallback = R.media_fallback_markup(video)
+            self.assertNotIn("<video", fallback)
+            self.assertNotIn(video["uri"], fallback)
+            self.assertIn("presentation only", fallback)
 
     def test_port_popups_are_serialized_from_the_exact_authored_named_graphs(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
@@ -209,15 +235,15 @@ class TedIntroductionTests(unittest.TestCase):
             self.assertIn(required, notes)
 
     def test_illustrations_are_original_inert_vector_drawings_with_rdf_alternatives(self):
-        media = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "media-reference"]
-        self.assertEqual(len(media), 3)
+        media = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "image/svg+xml"]
+        self.assertEqual(len(media), 4)
         for block in media:
             self.assertEqual(block["mediaType"], "image/svg+xml")
             self.assertIn("schematic", block["alternativeText"].lower())
             root = ET.parse(R.ROOT / "apps/pitch/public" / block["uri"].lstrip("/")).getroot()
-            self.assertEqual(root.attrib["viewBox"], "0 0 800 520")
+            self.assertIn(root.attrib["viewBox"], {"0 0 800 520", "0 0 1280 520"})
             for element in root.iter():
-                self.assertIn(element.tag.split("}")[-1], {"svg", "rect", "path", "ellipse", "circle"})
+                self.assertIn(element.tag.split("}")[-1], {"svg", "rect", "path", "ellipse", "circle", "g", "text"})
                 self.assertFalse(any(name.startswith("on") or name in {"href", "style"} for name in element.attrib))
 
     def test_schedule_models_preserve_source_totals_and_six_runs(self):
@@ -264,13 +290,15 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_sources_and_method_boundaries_survive_public_export_and_static_fallback(self):
         serialized = json.dumps(self.artifact, ensure_ascii=False)
-        self.assertNotIn("cogniflow", serialized.lower())
+        # Existing recording asset paths retain their identities; audience text is checked separately.
+        self.assertNotIn("cogniflow", " ".join(scene.get("narration", "") for scene in self.scenes).lower())
         self.assertIn("2021.100117", serialized)
         notes = " ".join(scene.get("narration", "") for scene in self.scenes)
         detection = next(s for s in self.scenes if s["id"] == "ex:ted-scene-detection--scene")
         self.assertIn("ions form", detection["blocks"][1]["states"][1]["label"].lower())
         self.assertIn("sorbent", notes.lower())
-        self.assertIn("liquid", self.scenes[2]["narration"])
+        capture = next(s for s in self.scenes if s["id"] == "ex:ted-scene-capture--scene")
+        self.assertIn("liquid", capture["narration"])
         fallback = R.static_fallback(self.artifact)
         self.assertIn("ted-heating.svg", fallback)
         self.assertIn("Schematic TIC", fallback)

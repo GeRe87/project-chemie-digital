@@ -429,6 +429,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
+      ...(state.nodePresentations ?? []).map(p => `- ${p.label ?? labels.get(p.nodeId) ?? p.nodeId}: ${p.description ?? ""}${p.thumbnail ? ` (${p.thumbnail.alternativeText})` : ""}`),
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
       ...(state.activeEdgeIds ? [`- Active relations: ${state.activeEdgeIds.join(", ")}`] : []),
       ...(state.activeGroupIds ? [`- Active groups: ${state.activeGroupIds.join(", ")}`] : []),
@@ -498,6 +499,10 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "media-reference":
+      if (block.redactions?.length) {
+        const text = `${block.alternativeText}. Masked video playback is available in the presentation only.`;
+        return {...baseFor(block, position, text), kind: "prose", text, format: "plain"};
+      }
       return {
         ...baseFor(block, position, `${block.alternativeText} (${block.uri})`),
         kind: "media-reference",

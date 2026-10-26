@@ -52,6 +52,7 @@ import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-poll-runtime.ts";
 import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountCroppedVideos } from "./video-crop-runtime.ts";
 import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -368,6 +369,7 @@ function syncPresentationVideos(): void {
       continue;
     }
     if (video.dataset.pcdPresentationStarted === "true") continue;
+    if (reducedMotion) continue;
     video.dataset.pcdPresentationStarted = "true";
     video.currentTime = 0;
     void video.play().catch(() => {
@@ -375,6 +377,7 @@ function syncPresentationVideos(): void {
     });
   }
 }
+const unmountCroppedVideos = mountCroppedVideos(root);
 deck.on("slidechanged", syncPresentationVideos);
 deck.on("slidechanged", syncFullMediaMode);
 deck.on("slidechanged", syncNavigationMode);
@@ -502,6 +505,7 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
+  unmountCroppedVideos();
   deck.off("slidechanged", onCourseEnd);
   returnButton.removeEventListener("click", returnToWorld);
   returnButton.remove();

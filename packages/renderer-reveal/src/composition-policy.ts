@@ -177,6 +177,7 @@ function isIllustratedPrompt(block: SceneBlock): boolean {
 }
 
 function isFullViewportMediaGroup(block: SceneBlock): boolean {
+  if (block.kind === "media-reference" && block.mediaType?.startsWith("video/") && block.crop) return true;
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter((child) => child.kind === "prose");
   const media = block.children.filter((child) => child.kind === "media-reference");
@@ -689,11 +690,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   const body = heading ? blocks.slice(1) : blocks;
   // A human explanation and its machine-readable serialization share the stage;
   // an optional diagram is a compact launcher, not a third competing panel.
-  if (body.length === 3 && body[0]?.kind === "prose" && body[1]?.kind === "code"
-      && body[2]?.kind === "diagram" && body[2].presentation === "dialog") {
+  const sourcePanel = body[body.length - 2], optionalDiagram = body[body.length - 1];
+  if (body.length >= 3 && body.slice(0, -2).every(block => block.kind === "prose") && sourcePanel?.kind === "code"
+      && optionalDiagram?.kind === "diagram" && optionalDiagram.presentation === "dialog") {
     return {kind: "learning-stage", profile: "info-visual", mainCount: 2,
-      placements: [...placementsWithHeading(heading), placement(body[0], "primary", 0),
-        placement(body[1], "secondary", 0), placement(body[2], "footer", 0)]};
+      placements: [...placementsWithHeading(heading), ...body.slice(0, -2).map((block, i) => placement(block, "primary", i)),
+        placement(sourcePanel, "secondary", 0), placement(optionalDiagram, "footer", 0)]};
   }
   if(body.length===1&&body[0]?.kind==="chart"&&body[0].chartType==="observations"&&body[0].view==="moments")return {kind:"visual-stage",profile:"diagram",mainCount:1,placements:[...placementsWithHeading(heading),placement(body[0],"main",0)]};
   if (body.length === 4 && body[0]?.kind === "definition-list" && body[1]?.kind === "table" && body[2]?.kind === "list" && body[3]?.kind === "chart") {

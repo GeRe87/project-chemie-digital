@@ -5,7 +5,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-gc-ms> {
-  ex:ted-gc-ms a cd:Concept ; skos:prefLabel "TED-GC-MS: the sample journey"@en ;
+  ex:ted-gc-ms a cd:Concept ; skos:prefLabel "TED-GC-MS: the complete setup"@en ;
     cd:hasDefinition ex:ted-definition ; cd:hasSource ex:ted-source-method ;
     skos:related ex:ted-thermal-decomposition, ex:ted-sorptive-capture, ex:ted-cryofocusing,
       ex:ted-gc-ms-detection, ex:ted-polymer-markers ; cd:authoredResource true .
@@ -36,7 +36,7 @@
     cd:hasMedia ex:ted-capture-illustration ; cd:authoredResource true .
   ex:ted-capture-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**PDMS sorbent**: the Twister setup"@en ; cd:authoredResource true .
   ex:ted-capture-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Transfer** the loaded sorbent"@en ; cd:authoredResource true .
-  ex:ted-capture-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Products travel, not intact particles=="@en ; cd:authoredResource true .
+  ex:ted-capture-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==The loaded Twister carries the collected compounds=="@en ; cd:authoredResource true .
 
   ex:ted-cryofocusing a cd:Concept ; skos:prefLabel "Cryofocusing and injection"@en ;
     cd:hasDefinition ex:ted-cryofocusing-definition ; cd:hasInterpretation ex:ted-injection-points ;

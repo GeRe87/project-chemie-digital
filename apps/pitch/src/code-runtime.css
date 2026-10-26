@@ -64,6 +64,8 @@
   line-height: 1.5;
   tab-size: 2;
 }
+.trig-local-name { color: hsl(var(--trig-token-hue) 75% 36%); font-weight: 900; }
+body[data-presentation-theme="dark"] .trig-local-name { color: hsl(var(--trig-token-hue) 90% 76%); }
 
 /* Read-only source beside prose should show a compact example without a hidden
    lower half. Longer examples remain scrollable at the panel boundary. */

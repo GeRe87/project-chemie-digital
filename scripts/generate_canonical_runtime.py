@@ -602,6 +602,25 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             state_value["focusNodeId"] = compact(focus_nodes[0])
         if focus_groups:
             state_value["focusGroupId"] = compact(focus_groups[0])
+        presentations = []
+        for presentation in sorted(objects(dataset, state, iri(CD, "hasNodePresentation")), key=str):
+            node = one(dataset, presentation, iri(CD, "forDiagramNode"))
+            if node not in node_ids: raise ValueError("Node presentation must reference a node in this diagram")
+            item = {"nodeId": compact(node), "source": [source_reference(dataset, presentation, "cd:forDiagramNode")]}
+            for predicate, key in [(str(SKOS.prefLabel), "label"), (CD + "body", "description"), (CD + "visualMotif", "visualMotif"), (CD + "nodeTransition", "transition")]:
+                value = literal(dataset, presentation, URIRef(predicate), language if key in ("label", "description") else None)
+                if value is not None: item[key] = value
+            thumbnail = one(dataset, presentation, iri(CD, "usesThumbnail"), required=False)
+            if thumbnail is not None:
+                media = media_asset_payload(dataset, thumbnail, language)
+                if not media["mediaType"].startswith("image/") or not re.fullmatch(r"/[A-Za-z0-9_./-]+", media["uri"]) or ".." in media["uri"]:
+                    raise ValueError("Diagram thumbnails must be local image assets")
+                item["thumbnail"] = {key: media[key] for key in ("uri", "alternativeText")}
+            if item.get("transition") not in (None, "replace-left"): raise ValueError("Unsupported node transition")
+            presentations.append(item)
+        if presentations:
+            if len({p["nodeId"] for p in presentations}) != len(presentations): raise ValueError("Duplicate node presentation in a state")
+            state_value["nodePresentations"] = presentations
         states.append(state_value)
     if states:
         payload["states"] = states
@@ -911,7 +930,21 @@ def media_asset_payload(dataset: Dataset, media: URIRef, language: str | None) -
     alternative = deterministic_authored_literal(dataset, media, iri(CD, "alternativeText"), language)
     if uri_value is None or media_type is None or alternative is None:
         raise ValueError(f"Incomplete MediaAsset {compact(media)}")
-    return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+    payload = {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+    if one(dataset, media, iri(CD, "cropWidth"), required=False) is not None:
+        crop = {key: decimal_number(dataset, media, iri(CD, "crop" + key.title())) for key in ("x", "y", "width", "height")}
+        if min(crop.values()) < 0 or min(crop["width"], crop["height"]) <= 0 or crop["x"] + crop["width"] > 1 or crop["y"] + crop["height"] > 1:
+            raise ValueError("Media crop must be a positive normalized rectangle")
+        payload["crop"] = crop
+    redactions = []
+    for region in objects(dataset, media, iri(CD, "hasMediaRedaction")):
+        item = {key: decimal_number(dataset, region, iri(CD, key)) for key in ("x", "y", "width", "height", "start", "end")}
+        item["label"] = literal(dataset, region, iri(CD, "body"), language)
+        if not item["label"] or min(item[key] for key in ("x", "y", "width", "height", "start")) < 0 or item["x"] + item["width"] > 1 or item["y"] + item["height"] > 1 or item["end"] <= item["start"]:
+            raise ValueError("Media redaction must have valid bounds, time range and label")
+        redactions.append(item)
+    if redactions: payload["redactions"] = redactions
+    return payload
 
 def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     """Project ordered dataset references; never manufacture observations or statistics."""
@@ -2359,7 +2392,9 @@ def media_fallback_markup(block: dict[str, Any]) -> str:
     uri = html.escape(block["uri"], quote=True)
     alternative = html.escape(block["alternativeText"], quote=True)
     media_type = block.get("mediaType")
-    if isinstance(media_type, str) and media_type.startswith("video/"):
+    if block.get("redactions"):
+        content = f'<p>{alternative}. Masked video playback is available in the presentation only.</p>'
+    elif isinstance(media_type, str) and media_type.startswith("video/"):
         content = f'<video src="{uri}" controls preload="metadata" playsinline aria-label="{alternative}"></video>'
     elif media_type is None or media_type.startswith("image/"):
         content = f'<img src="{uri}" alt="{alternative}" />'
@@ -2688,6 +2723,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 states = "".join(
                     f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"{fallback_attributes(state["source"])}>'
                     f'<strong>{html.escape(state["label"])}</strong>'
+                    + "".join(f'<p{fallback_attributes(p["source"])}>{html.escape(p.get("label", next(n["label"] for n in block["nodes"] if n["id"] == p["nodeId"])))}: {html.escape(p.get("description", ""))} {html.escape(p.get("thumbnail", {}).get("alternativeText", ""))}</p>' for p in state.get("nodePresentations", []))
                     + "".join(
                         f'<p data-shared-edge-annotation-id="{html.escape(annotation["id"], quote=True)}" '
                         f'data-edge-ids="{html.escape(" ".join(annotation["edgeIds"]), quote=True)}"{fallback_attributes(annotation["source"])}>'

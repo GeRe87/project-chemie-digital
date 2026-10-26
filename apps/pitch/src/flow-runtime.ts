@@ -2,6 +2,7 @@ import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/sce
 import { mountD3Diagram, type D3DiagramComponent, type D3DiagramMountResult } from "../../../packages/renderer-d3/src/diagram.ts";
 import type { D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
 import { createExplanationDialog } from "./explanation-dialog.ts";
+import { trigMarkup } from "./trig-markup.ts";
 
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
@@ -143,6 +144,7 @@ export function mountPitchDiagrams(
             event.preventDefault(); event.stopImmediatePropagation();
             const content = document.createElement("div"), prose = document.createElement("p"), pre = document.createElement("pre"), code = document.createElement("code");
             prose.textContent = detail.description; code.textContent = detail.code;
+            code.innerHTML = trigMarkup(detail.code);
             pre.className = "pcd-port-trig"; pre.append(code); content.append(prose, pre);
             modal.open(detail.label, content, invoker);
           };

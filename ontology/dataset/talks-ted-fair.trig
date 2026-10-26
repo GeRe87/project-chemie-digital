@@ -21,7 +21,7 @@
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-fair-processing ; cd:hasStep ex:ted-step-fair .
-  ex:ted-step-fair a cd:PathStep ; cd:position 14 ; cd:usesResource ex:ted-fair-cards, ex:ted-fair-points ; cd:usesScene ex:ted-scene-fair ; cd:authoredResource true .
+  ex:ted-step-fair a cd:PathStep ; cd:position 15 ; cd:usesResource ex:ted-fair-cards, ex:ted-fair-points ; cd:usesScene ex:ted-scene-fair ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-fair> {
   ex:ted-scene-fair a cd:SceneDefinition ; cd:focusConcept ex:ted-fair-processing ; cd:hasSceneItem ex:ted-fair-heading, ex:ted-fair-card-item, ex:ted-fair-bullets ;

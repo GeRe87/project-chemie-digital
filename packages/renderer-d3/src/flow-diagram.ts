@@ -119,6 +119,7 @@ function requireNonEmpty(value: unknown, label: string): asserts value is string
 }
 
 export interface D3FlowRenderState {
+  readonly nodePresentations?: import("../../core/src/scene-document.ts").DiagramState["nodePresentations"];
   readonly id: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
@@ -451,6 +452,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
         ...(state.focusNodeId ? { focusNodeId: state.focusNodeId } : {}),
         ...(state.focusGroupId ? { focusGroupId: state.focusGroupId } : {}),
         ...(state.contextGroupIds ? { contextGroupIds: [...state.contextGroupIds] } : {}),
+        ...(state.nodePresentations ? {nodePresentations: state.nodePresentations} : {}),
       }));
     return {
       model: {
@@ -884,10 +886,14 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
       let groupAnnotationLayer: SVGGElement | undefined;
       let descriptionElement: SVGElement | undefined;
       let definitionsElement: SVGElement | undefined;
+      const animations = new Set<Animation>();
 
       const render = (layout: D3FlowLayout, requestedActiveNodeId?: string, requestedActiveStateId?: string): void => {
         if (destroyed) return;
         const previouslyFocusedId = (document.activeElement as Element | null)?.getAttribute("data-node-id") ?? undefined;
+        const previousState = model.states.find(state => state.id === activeStateId);
+        const stateChanged = requestedActiveStateId !== activeStateId;
+        if (stateChanged) for (const animation of [...animations]) animation.cancel();
         activeNodeId = requestedActiveNodeId;
         activeStateId = requestedActiveStateId;
         svg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
@@ -1065,8 +1071,13 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         const nextNodeLayer = document.createElementNS(namespace, "g");
         nextNodeLayer.setAttribute("class", "d3-flow-node-layer");
         const nextNodeElements = new Map<string, SVGGElement>();
-        for (const layoutNode of layout.nodes) {
-          const modelNode = modelNodeById.get(layoutNode.id)!;
+        for (const baseLayoutNode of layout.nodes) {
+          const presentation = model.states.find(state => state.id === activeStateId)?.nodePresentations?.find(item => item.nodeId === baseLayoutNode.id);
+          const originalNode = modelNodeById.get(baseLayoutNode.id)!;
+          const modelNode = {...originalNode, ...presentation, id: originalNode.id};
+          const layoutNode = presentation ? {...baseLayoutNode,
+            labelLines: wrapFlowText(modelNode.label, baseLayoutNode.width - 44),
+            bodyLines: wrapFlowText(modelNode.description ?? "", baseLayoutNode.width - 44)} : baseLayoutNode;
           if (!resolvedState.visibleNodeIds.has(modelNode.id)) continue;
           const group = document.createElementNS(namespace, "g");
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
@@ -1286,7 +1297,14 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 const motifSize = extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
                 const motifY = dividerY + 20 + motifSize / 2;
                 bodyY = motifY + motifSize / 2 + 20 + bodyHeight / 2;
-                addFlowVisualMotif(group, modelNode.visualMotif!, contentX, motifY, motifSize, "highlight");
+                if (modelNode.thumbnail) {
+                  const image = document.createElementNS(namespace, "image");
+                  const imageWidth = layoutNode.width - 44;
+                  const thumbnailUri = document.baseURI ? new URL(modelNode.thumbnail.uri.slice(1), document.baseURI).toString() : modelNode.thumbnail.uri;
+                  image.setAttribute("href", thumbnailUri); image.setAttribute("x", String(contentX - imageWidth / 2));
+                  image.setAttribute("y", String(motifY - motifSize / 2)); image.setAttribute("width", String(imageWidth)); image.setAttribute("height", String(motifSize));
+                  image.setAttribute("preserveAspectRatio", "xMidYMid meet"); image.setAttribute("aria-label", modelNode.thumbnail.alternativeText); group.append(image);
+                } else addFlowVisualMotif(group, modelNode.visualMotif!, contentX, motifY, motifSize, "highlight");
               } else {
                 const totalHeight = titleHeight + dividerGap + bodyHeight;
                 const top = -totalHeight / 2;
@@ -1336,6 +1354,14 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nextNodeLayer.append(group);
           nextNodeElements.set(modelNode.id, group);
         }
+        const replacements = stateChanged && requestedActiveStateId !== undefined && !model.reducedMotion ? [
+          ...(previousState?.nodePresentations ?? []), ...(model.states.find(state => state.id === activeStateId)?.nodePresentations ?? []),
+        ].filter(item => item.transition === "replace-left") : [];
+        const ghosts = new Map<string, SVGGElement>();
+        for (const item of replacements) {
+          const old = nodeElements.get(item.nodeId);
+          if (old && typeof old.animate === "function" && !ghosts.has(item.nodeId)) ghosts.set(item.nodeId, old.cloneNode(true) as SVGGElement);
+        }
         if (!nodeLayer) {
           nodeLayer = nextNodeLayer;
           svg.append(nodeLayer);
@@ -1354,7 +1380,18 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           groupAnnotationLayer = undefined;
         }
 
-        nodeElements = nextNodeElements;
+        nodeElements = new Map(Array.from(nodeLayer.children).map(child => [child.getAttribute("data-node-id")!, child as SVGGElement]));
+        for (const [id, ghost] of ghosts) {
+          const current = nodeElements.get(id), box = layout.nodes.find(node => node.id === id);
+          if (!current || !box) continue;
+          ghost.setAttribute("aria-hidden", "true"); ghost.removeAttribute("tabindex"); ghost.style.pointerEvents = "none"; svg.append(ghost);
+          svg.style.overflow = "hidden";
+          const oldAnimation = ghost.animate([{transform: `translate(${box.x}px, ${box.y}px)`}, {transform: `translate(${box.x - layout.width}px, ${box.y}px)`}], {duration: 450, easing: "ease-in", fill: "forwards"});
+          const newAnimation = current.animate([{transform: `translate(${box.x - layout.width}px, ${box.y}px)`, opacity: 0}, {transform: `translate(${box.x}px, ${box.y}px)`, opacity: 1}], {duration: 450, delay: 120, easing: "ease-out", fill: "backwards"});
+          animations.add(oldAnimation); animations.add(newAnimation);
+          oldAnimation.onfinish = oldAnimation.oncancel = () => {ghost.remove(); animations.delete(oldAnimation);};
+          newAnimation.onfinish = newAnimation.oncancel = () => {animations.delete(newAnimation); if (!animations.size) svg.style.overflow = "";};
+        }
         if (model.interactionPolicy === "keyboard" && previouslyFocusedId && previouslyFocusedId === activeNodeId) {
           nodeElements.get(previouslyFocusedId)?.focus();
         }
@@ -1375,6 +1412,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         destroy() {
           if (destroyed) return;
           destroyed = true;
+          for (const animation of animations) animation.cancel(); animations.clear();
           wrapper.remove();
           nodeElements.clear();
         },

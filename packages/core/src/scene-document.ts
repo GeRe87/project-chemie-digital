@@ -247,6 +247,8 @@ export interface MediaReferenceBlock extends SceneBlockBase {
   readonly version?: string;
   readonly integrity?: string;
   readonly alternativeText: string;
+  readonly crop?: {readonly x: number; readonly y: number; readonly width: number; readonly height: number};
+  readonly redactions?: readonly {readonly x: number; readonly y: number; readonly width: number; readonly height: number; readonly start: number; readonly end: number; readonly label: string}[];
 }
 
 export interface ListItem {
@@ -378,6 +380,11 @@ export interface DiagramState {
   readonly contextGroupIds?: readonly string[];
   readonly activeMessageIds?: readonly string[];
   readonly participantBindings?: readonly ParticipantBinding[];
+  readonly nodePresentations?: readonly {
+    readonly nodeId: string; readonly label?: string; readonly description?: string;
+    readonly visualMotif?: VisualMotifKey; readonly thumbnail?: {readonly uri: string; readonly alternativeText: string};
+    readonly transition?: "replace-left"; readonly source: readonly SourceReference[];
+  }[];
 }
 
 export interface ParticipantRole {
@@ -828,6 +835,16 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   }
   const annotationIds = new Set<string>();
   for (const state of block.states ?? []) {
+    const presented = new Set<string>();
+    for (const presentation of state.nodePresentations ?? []) {
+      if (!block.nodes.some(node => node.id === presentation.nodeId) || presented.has(presentation.nodeId)) throw new SceneContractError("Node presentation must reference a unique diagram node");
+      presented.add(presentation.nodeId); validateSource(presentation.source, "Node presentation source");
+      if (presentation.label !== undefined) requireNonEmpty(presentation.label, "Node presentation label");
+      if (presentation.description !== undefined) requireNonEmpty(presentation.description, "Node presentation description");
+      validateVisualMotif(presentation.visualMotif, "Node presentation motif");
+      if (presentation.transition !== undefined && presentation.transition !== "replace-left") throw new SceneContractError("Unsupported node transition");
+      if (presentation.thumbnail && (!/^\/[A-Za-z0-9_./-]+$/.test(presentation.thumbnail.uri) || presentation.thumbnail.uri.includes(".."))) throw new SceneContractError("Thumbnail must be a local asset");
+    }
     requireNonEmpty(state.id, `${label} diagram state id`);
     if (stateIds.has(state.id)) throw new SceneContractError(`${label} diagram contains duplicate state ids`);
     stateIds.add(state.id);
@@ -1178,7 +1195,17 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       requireNonEmpty(block.code, `${label} code ${block.id} code`);
       requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
     }
-    if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+    if (block.kind === "media-reference") {
+      requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+      const rectangle = (r: {x: number; y: number; width: number; height: number}) =>
+        [r.x, r.y, r.width, r.height].every(Number.isFinite) && r.x >= 0 && r.y >= 0 && r.width > 0 && r.height > 0 && r.x + r.width <= 1 && r.y + r.height <= 1;
+      if (block.crop && !rectangle(block.crop)) throw new SceneContractError("Invalid normalized media crop");
+      if (block.redactions?.length && (!block.crop || !block.mediaType?.startsWith("video/"))) throw new SceneContractError("Redactions require cropped video");
+      for (const region of block.redactions ?? []) {
+        if (!rectangle(region) || !Number.isFinite(region.start) || !Number.isFinite(region.end) || region.start < 0 || region.end <= region.start) throw new SceneContractError("Invalid media redaction");
+        requireNonEmpty(region.label, "Media redaction label");
+      }
+    }
     if (block.kind === "prompt") {
       requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
       if (block.options !== undefined) {

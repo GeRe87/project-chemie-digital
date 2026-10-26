@@ -1,5 +1,10 @@
 /* Generic full-viewport media stage.
    Structural trigger: heading + one prose/media group. */
+.media-reference:has(.pcd-cropped-video) { display:grid !important; place-items:center; }
+.pcd-cropped-video { position:relative; width:100%; overflow:hidden; background:#101b2b; }
+.pcd-video-redaction { position:absolute; display:grid; place-items:center; color:#d7edf4; background:#14252e; font:600 clamp(12px,1.2vw,18px) sans-serif; padding:.25rem; box-sizing:border-box; z-index:2; }
+.pcd-video-redaction[hidden] { display:none; }
+.pcd-video-toggle { position:absolute; right:1rem; bottom:1rem; z-index:3; padding:.4rem .75rem; color:#fff; background:#14252e; border:1px solid #73d9ff; font:inherit; cursor:pointer; }
 
 .reveal .slides section[data-composition="media-stage"][data-composition-profile="full-viewport"] {
   position: relative;
@@ -159,7 +164,7 @@ body.pcd-full-media-active .reveal .slides
 body.pcd-full-media-active .reveal .slides
   section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference img,
 body.pcd-full-media-active .reveal .slides
-  section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference video {
+  section[data-composition="media-stage"][data-composition-profile="full-viewport"] .media-reference video:not(.pcd-cropped-video video) {
   width: 100vw !important;
   height: 100svh !important;
   max-width: none !important;

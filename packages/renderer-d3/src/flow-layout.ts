@@ -27,7 +27,7 @@ export interface D3FlowLayoutInput {
   readonly diagramType?: "flow" | "network";
   readonly groups?: readonly { readonly id: string; readonly label?: string }[];
   readonly focusNodeId?: string;
-  readonly states?: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
+  readonly states?: readonly { readonly id: string; readonly nodePresentations?: readonly {readonly nodeId: string}[]; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
 
 export interface D3FlowLayoutNode {
@@ -770,7 +770,7 @@ function spaceFillingLinearFlowLayout(
       ),
     };
   });
-  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
+  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height)) + (input.states?.some(state => state.nodePresentations?.length) ? 48 : 0);
   const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
   const columnPitch = cardWidth + columnGap;
   const height = SPACE_FILLING_MARGIN_Y * 2
@@ -796,7 +796,7 @@ function spaceFillingLinearFlowLayout(
       x: point.x,
       y: point.y,
       width: node.width,
-      height: node.height,
+      height: input.states?.some(state => state.nodePresentations?.some(presentation => presentation.nodeId === id)) ? maxCardHeight : node.height,
       labelLines: node.labelLines,
       bodyLines: node.bodyLines,
     });

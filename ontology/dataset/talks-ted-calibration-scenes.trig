@@ -3,8 +3,8 @@
 
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-calibration-time, ex:ted-running-calibration ; cd:hasStep ex:ted-step-calibration-time, ex:ted-step-running-calibration .
-  ex:ted-step-calibration-time a cd:PathStep ; cd:position 10 ; cd:usesResource ex:ted-calibration-time-chart, ex:ted-calibration-time-points ; cd:usesScene ex:ted-scene-calibration-time ; cd:authoredResource true .
-  ex:ted-step-running-calibration a cd:PathStep ; cd:position 11 ; cd:usesResource ex:ted-running-regression-chart, ex:ted-running-points ; cd:usesScene ex:ted-scene-running-calibration ; cd:authoredResource true .
+  ex:ted-step-calibration-time a cd:PathStep ; cd:position 11 ; cd:usesResource ex:ted-calibration-time-chart, ex:ted-calibration-time-points ; cd:usesScene ex:ted-scene-calibration-time ; cd:authoredResource true .
+  ex:ted-step-running-calibration a cd:PathStep ; cd:position 12 ; cd:usesResource ex:ted-running-regression-chart, ex:ted-running-points ; cd:usesScene ex:ted-scene-running-calibration ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-calibration> {
   ex:ted-scene-calibration-time a cd:SceneDefinition ; cd:focusConcept ex:ted-calibration-time ; cd:hasSceneItem ex:ted-cal-time-heading, ex:ted-cal-time-chart-item, ex:ted-cal-time-bullets ;

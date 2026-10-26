@@ -101,7 +101,7 @@
 
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-sample-calibration-comparison ; cd:hasStep ex:ted-step-sample-comparison .
-  ex:ted-step-sample-comparison a cd:PathStep ; cd:position 12 ; cd:usesResource ex:ted-sample-comparison-chart, ex:ted-sample-comparison-points ; cd:usesScene ex:ted-scene-sample-comparison ; cd:authoredResource true .
+  ex:ted-step-sample-comparison a cd:PathStep ; cd:position 13 ; cd:usesResource ex:ted-sample-comparison-chart, ex:ted-sample-comparison-points ; cd:usesScene ex:ted-scene-sample-comparison ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-sample-comparison> {
   ex:ted-scene-sample-comparison a cd:SceneDefinition ; cd:focusConcept ex:ted-sample-calibration-comparison ; cd:hasSceneItem ex:ted-sample-heading, ex:ted-sample-chart-item, ex:ted-sample-bullets ;

@@ -1,4 +1,5 @@
 import katex from "katex";
+import { trigMarkup } from "./trig-markup.ts";
 import { renderScientificTitle } from "../../../packages/renderer-reveal/src/scientific-title.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
@@ -177,6 +178,7 @@ function appendBlock(
     pre.className = "code-static-fallback";
     const code = dom.createElement("code");
     code.textContent = block.fallback;
+    if (block.language === "trig") code.innerHTML = trigMarkup(block.fallback);
     pre.appendChild(code);
     shell.appendChild(pre);
     parent.appendChild(shell);
@@ -201,12 +203,27 @@ function appendBlock(
     } else if (block.mediaType.startsWith("video/")) {
       const video = dom.createElement("video");
       video.setAttribute("src", resolvePublicAssetUrl(block.uri));
-      video.setAttribute("controls", "");
+      if (!block.crop) video.setAttribute("controls", "");
       video.setAttribute("preload", "metadata");
       video.setAttribute("playsinline", "");
       video.setAttribute("aria-label", block.alternativeText);
       video.setAttribute("data-presentation-video", "true");
-      figure.appendChild(video);
+      if (block.crop) {
+        const crop = block.crop, viewport = dom.createElement("div"); viewport.className = "pcd-cropped-video";
+        viewport.setAttribute("style", `aspect-ratio:${16 * crop.width}/${9 * crop.height}`);
+        viewport.setAttribute("data-crop-width", String(crop.width)); viewport.setAttribute("data-crop-height", String(crop.height));
+        video.setAttribute("style", `position:absolute;width:${100 / crop.width}%;height:${100 / crop.height}%;max-width:none;max-height:none;left:${-100 * crop.x / crop.width}%;top:${-100 * crop.y / crop.height}%;object-fit:fill`);
+        viewport.appendChild(video);
+        for (const region of block.redactions ?? []) {
+          const mask = dom.createElement("div"); mask.className = "pcd-video-redaction";
+          mask.setAttribute("data-redaction-start", String(region.start)); mask.setAttribute("data-redaction-end", String(region.end));
+          mask.setAttribute("style", `left:${region.x * 100}%;top:${region.y * 100}%;width:${region.width * 100}%;height:${region.height * 100}%`);
+          mask.textContent = region.label; viewport.appendChild(mask);
+        }
+        figure.appendChild(viewport);
+        const control = dom.createElement("button"); control.className = "pcd-video-toggle"; control.setAttribute("type", "button");
+        control.setAttribute("data-video-toggle", "true"); control.textContent = "Play / pause video"; figure.appendChild(control);
+      } else figure.appendChild(video);
     } else {
       const fallback = dom.createElement("span");
       fallback.className = "media-reference-fallback";

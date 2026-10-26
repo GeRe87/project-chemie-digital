@@ -69,7 +69,8 @@ deferred while the talk is being authored; no full-suite success is claimed.
    it is not a replacement for the earlier complete pipeline overview.
 3. Three semantic columns, inspired by the workshop: the shared ProcessingUnit,
    Port and PortRole model; atomic/composite specializations and PipelineNode;
-   then qalg:Average with concrete input/output ports and a service binding.
+    then the illustrative qalg:FindPeaks with an EIC vector input, Peak list output
+    and FindPeaks_binding. This adapts the example, not a production-service claim.
    The arrows summarize specialization and specification, not data flow or the
    direction of subClassOf assertions. Input/output meaning, types, structure,
    units and constraints still precede implementation details in the explanation.

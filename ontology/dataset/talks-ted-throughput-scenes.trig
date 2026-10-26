@@ -4,9 +4,9 @@
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-measurement-bottleneck, ex:ted-nested-measurement, ex:ted-heating-rate-study ;
     cd:hasStep ex:ted-step-bottleneck, ex:ted-step-nesting, ex:ted-step-heating-rate .
-  ex:ted-step-bottleneck a cd:PathStep ; cd:position 7 ; cd:usesResource ex:ted-time-serial-chart, ex:ted-bottleneck-points ; cd:usesScene ex:ted-scene-bottleneck ; cd:authoredResource true .
-  ex:ted-step-nesting a cd:PathStep ; cd:position 8 ; cd:usesResource ex:ted-time-comparison-chart, ex:ted-nesting-points ; cd:usesScene ex:ted-scene-nesting ; cd:authoredResource true .
-  ex:ted-step-heating-rate a cd:PathStep ; cd:position 9 ; cd:usesResource ex:ted-heating-rate-chart, ex:ted-heating-rate-points ; cd:usesScene ex:ted-scene-heating-rate ; cd:authoredResource true .
+  ex:ted-step-bottleneck a cd:PathStep ; cd:position 8 ; cd:usesResource ex:ted-time-serial-chart, ex:ted-bottleneck-points ; cd:usesScene ex:ted-scene-bottleneck ; cd:authoredResource true .
+  ex:ted-step-nesting a cd:PathStep ; cd:position 9 ; cd:usesResource ex:ted-time-comparison-chart, ex:ted-nesting-points ; cd:usesScene ex:ted-scene-nesting ; cd:authoredResource true .
+  ex:ted-step-heating-rate a cd:PathStep ; cd:position 10 ; cd:usesResource ex:ted-heating-rate-chart, ex:ted-heating-rate-points ; cd:usesScene ex:ted-scene-heating-rate ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-throughput> {
