@@ -22,7 +22,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two", "ai"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two", "ai", "thanks"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -263,8 +263,20 @@ class TedIntroductionTests(unittest.TestCase):
             altered.remove((port, R.SKOS.definition, None))
             self.assertFalse(validate(altered, shacl_graph=graph)[0])
 
-    def test_ai_finale_and_interface_takeaway_keep_their_claim_boundaries(self):
+    def test_closing_slide_has_a_local_qr_and_a_readable_website_address(self):
         scene = self.scenes[-1]
+        self.assertEqual(scene["id"], "ex:ted-scene-thanks--scene")
+        self.assertEqual(scene["blocks"][0]["text"], "Thank you for your attention")
+        self.assertEqual(scene["blocks"][-1]["text"], "talks.odea-project.org")
+        media = next(b for b in scene["blocks"] if b["kind"] == "media-reference")
+        self.assertEqual(media["uri"], "/talks-media/talks-website-qr.svg")
+        self.assertIn("https://talks.odea-project.org", media["alternativeText"])
+        root = ET.parse(R.ROOT / "apps/pitch/public" / media["uri"].lstrip("/")).getroot()
+        self.assertTrue(any(element.attrib.get("fill") == "#ffffff" for element in root))
+        self.assertTrue(any(element.attrib.get("fill") == "#000000" for element in root))
+
+    def test_ai_finale_and_interface_takeaway_keep_their_claim_boundaries(self):
+        scene = self.scenes[-2]
         self.assertEqual(scene["id"], "ex:ted-scene-ai--scene")
         self.assertIn("Model Context Protocol", scene["narration"])
         self.assertIn("do not eliminate hallucinations", scene["narration"])
@@ -322,7 +334,7 @@ class TedIntroductionTests(unittest.TestCase):
             self.assertIn(required, notes)
 
     def test_illustrations_are_original_inert_vector_drawings_with_rdf_alternatives(self):
-        media = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "image/svg+xml"]
+        media = [b for scene in self.scenes if scene["id"] != "ex:ted-scene-thanks--scene" for b in scene["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "image/svg+xml"]
         self.assertEqual(len(media), 4)
         for block in media:
             self.assertEqual(block["mediaType"], "image/svg+xml")

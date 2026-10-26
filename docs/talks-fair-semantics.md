@@ -1,6 +1,6 @@
 # FAIR processing and the semantic-description example
 
-Current revision: see `talks-visual-revision.md`. The talk now has 24 scenes.
+Current revision: see `talks-visual-revision.md`. The talk now has 25 scenes.
 Port dialogs use shorter source-aligned ProcessingStep/Port documentation
 excerpts with SKOS names/definitions and small descriptor shapes. Their actual
 source vocabulary IRIs and video metadata are intentionally visible with the

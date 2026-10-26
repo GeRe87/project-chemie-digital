@@ -872,6 +872,10 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     return {kind: "media-stage", profile: "framed-media", mainCount: 1,
       placements: [...placementsWithHeading(heading), placement(body[0], "main", 0)]};
   }
+  if (body.length === 2 && body[0]?.kind === "media-reference" && body[0].mediaType?.startsWith("image/") && body[1]?.kind === "prose") {
+    return {kind: "media-stage", profile: "framed-media", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "main", 0), placement(body[1], "footer", 0)]};
+  }
 
   if (
     body.length === 1

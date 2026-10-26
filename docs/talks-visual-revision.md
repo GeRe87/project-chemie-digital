@@ -1,7 +1,8 @@
 # TED talk visual revision
 
-The talk now has 24 authored scenes, including the complete apparatus overview
-before thermal decomposition, two demonstration recordings and an AI/MCP finale.
+The talk now has 25 authored scenes, including the complete apparatus overview
+before thermal decomposition, two demonstration recordings, an AI/MCP finale
+and a closing thank-you slide.
 
 ## Assets and provenance
 
@@ -44,6 +45,13 @@ media remains available, but these two videos no longer request redactions.
 
 ## Interfaces, local calibration and AI
 
+The closing slide displays “Thank you for your attention”, a local QR code and
+the readable address `talks.odea-project.org`. Its direct HTTPS target is authored
+in `talks-ted-thanks.trig`. `scripts/prepare_ted_website_qr.py` regenerates the
+asset from that RDF target using optional build dependency `segno==1.6.6`.
+Black modules, a white background and a four-module quiet zone preserve scanning
+contrast in either theme. No QR-service request, redirect or tracking is added.
+
 The sample-result slide now selects only the two local-fit groups. Historical
 neighboring-window calculations remain as unselected source evidence, not visible
 series. A prominent processing-step takeaway explains why input/output meaning,
@@ -67,12 +75,14 @@ every operation. Reproducible execution needs fixed inputs, parameters, versions
 and suitable implementations; structural checks do not guarantee hallucination-free
 planning or scientific correctness. The slide makes this distinction explicit.
 
-Focused verification passed: 23 talk-content checks and 71 TypeScript checks for
+Focused verification passed: 24 talk-content checks and 72 TypeScript checks for
 highlighting, composition and flow state behavior. The content checks include
 descriptor SHACL validation and rejected missing definitions.
 Browser previews cover overview sizing, the five tool images, the local-only
 chart, the interface callout, changed-card color, visible video metadata and the
 AI finale. Both UDE originals remain unchanged.
+The closing QR code was decoded successfully from the actual rendered slide in
+both light and dark themes, resolving to `https://talks.odea-project.org`.
 
 Comprehensive validation remains deferred during authoring. Short browser
 previews and focused content/regression checks are not full-suite acceptance,

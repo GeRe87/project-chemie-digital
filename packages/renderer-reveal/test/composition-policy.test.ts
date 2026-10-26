@@ -1712,3 +1712,13 @@ test("single images and cropped videos keep the shared framed-media presentation
     assert.equal(plan.mainCount, 1);
   }
 });
+
+test("a framed image keeps its readable caption in the footer", () => {
+  const media: SceneBlock = {id: "image", kind: "media-reference", uri: "/assets/image.svg",
+    mediaType: "image/svg+xml", alternativeText: "An illustration", source: [{resourceId: "resource:image"}]};
+  const scene: Scene = {id: "opaque:caption", source: [{resourceId: "resource:caption"}],
+    blocks: [prose("heading", "introduce"), media, prose("caption")], readingOrder: ["heading", "image", "caption"]};
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "framed-media");
+  assert.deepEqual(plan.placements.at(-1), {blockId: "caption", region: "footer", index: 0});
+});
