@@ -15,6 +15,7 @@
   ex:ted-step-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Input:** the data a step receives"@en ; cd:authoredResource true .
   ex:ted-step-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Process:** one defined task transforms the data"@en ; cd:authoredResource true .
   ex:ted-step-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "**Output:** the result the step produces"@en ; cd:authoredResource true .
+  ex:ted-interface-takeaway a cd:Interpretation ; cd:body "**Document more than the algorithm.** Make the interfaces explicit: what goes in, what comes out, what the data mean, and which structure and constraints apply."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
   ex:ted-chain-points a cd:Interpretation ; cd:body "Specialized steps compose through compatible interfaces."@en ; cd:hasKeyPoint ex:ted-chain-p1, ex:ted-chain-p2, ex:ted-chain-p3 ; cd:authoredResource true .
   ex:ted-chain-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Each step:** one defined task"@en ; cd:authoredResource true .
   ex:ted-chain-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Connect:** an output supplies a following input"@en ; cd:authoredResource true .
@@ -60,7 +61,7 @@
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-processing-step, ex:ted-composable-steps, ex:ted-processing-unit ; cd:hasStep ex:ted-step-processing-step, ex:ted-step-composable-steps, ex:ted-step-processing-unit .
-  ex:ted-step-processing-step a cd:PathStep ; cd:position 17 ; cd:usesResource ex:ted-step-flow, ex:ted-step-points ; cd:usesScene ex:ted-scene-processing-step ; cd:authoredResource true .
+  ex:ted-step-processing-step a cd:PathStep ; cd:position 17 ; cd:usesResource ex:ted-step-flow, ex:ted-interface-takeaway ; cd:usesScene ex:ted-scene-processing-step ; cd:authoredResource true .
   ex:ted-step-composable-steps a cd:PathStep ; cd:position 18 ; cd:usesResource ex:ted-chain-flow, ex:ted-chain-points ; cd:usesScene ex:ted-scene-composable-steps ; cd:authoredResource true .
   ex:ted-step-processing-unit a cd:PathStep ; cd:position 19 ; cd:usesResource ex:ted-unit-flow, ex:ted-unit-points ; cd:usesScene ex:ted-scene-processing-unit ; cd:authoredResource true .
 }
@@ -68,7 +69,7 @@
   ex:ted-scene-processing-step a cd:SceneDefinition ; cd:focusConcept ex:ted-processing-step ; cd:hasSceneItem ex:ted-step-heading, ex:ted-step-diagram, ex:ted-step-bullets ; cd:narration "Transfer the semantic-description idea to data processing. A step receives input data, performs a defined transformation and produces output data. Parameters configure what happens inside. We first describe this boundary without opening the algorithm. The schematic shows one input and output for clarity, not a restriction to one port. A semantic description must say what the data mean, not just where a file is stored."@en ; cd:authoredResource true .
   ex:ted-step-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-processing-step ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:ted-step-diagram a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-step-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
-  ex:ted-step-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-step-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-step-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-interface-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 
   ex:ted-scene-composable-steps a cd:SceneDefinition ; cd:focusConcept ex:ted-composable-steps ; cd:hasSceneItem ex:ted-chain-heading, ex:ted-chain-diagram, ex:ted-chain-bullets ; cd:narration "A pipeline repeats the same input-task-output pattern with specialized tasks. In this TED excerpt, qPeaks receives EICs and produces features. Joint fitting receives those features and produces components. Marker selection receives components and returns selected marker components. Each result can supply the next step only when meaning, type, structure, units and constraints are compatible. A matching filename, extension or port label does not establish compatibility. An explicit conversion may be required. Import and external calibration still belong to the full pipeline shown earlier; this excerpt explains composition rather than adding a new analytical method."@en ; cd:authoredResource true .
   ex:ted-chain-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-composable-steps ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .

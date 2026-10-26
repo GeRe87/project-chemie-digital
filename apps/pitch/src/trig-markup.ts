@@ -9,6 +9,8 @@ export function trigMarkup(source: string): string {
       const colon = token.indexOf(":"), local = token.slice(colon + 1);
       const hue = [...local].reduce((sum, char) => (sum * 31 + char.charCodeAt(0)) % 360, 0);
       out += `${escape(token.slice(0, colon + 1))}<strong class="trig-local-name" style="--trig-token-hue:${hue}">${escape(local)}</strong>`;
+    } else if (/^["']/u.test(token)) {
+      out += `<strong class="trig-local-name trig-literal" style="--trig-token-hue:32">${escape(token)}</strong>`;
     } else out += escape(token);
     last = start + token.length;
   }

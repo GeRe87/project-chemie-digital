@@ -27,7 +27,7 @@ export interface D3FlowLayoutInput {
   readonly diagramType?: "flow" | "network";
   readonly groups?: readonly { readonly id: string; readonly label?: string }[];
   readonly focusNodeId?: string;
-  readonly states?: readonly { readonly id: string; readonly nodePresentations?: readonly {readonly nodeId: string}[]; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
+  readonly states?: readonly { readonly id: string; readonly nodePresentations?: readonly {readonly nodeId: string; readonly thumbnail?: {readonly uri: string}}[]; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
 }
 
 export interface D3FlowLayoutNode {
@@ -770,7 +770,9 @@ function spaceFillingLinearFlowLayout(
       ),
     };
   });
-  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height)) + (input.states?.some(state => state.nodePresentations?.length) ? 48 : 0);
+  const variantSpace = input.states?.some(state => state.nodePresentations?.some(p => p.thumbnail)) ? cardWidth - 80
+    : input.states?.some(state => state.nodePresentations?.length) ? 48 : 0;
+  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height)) + variantSpace;
   const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
   const columnPitch = cardWidth + columnGap;
   const height = SPACE_FILLING_MARGIN_Y * 2
@@ -1651,7 +1653,10 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       labelLines,
       bodyLines,
       width: cardWidth ?? horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard), node.visualMotif),
+      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard), node.visualMotif)
+        + (input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id && p.thumbnail))
+          ? Math.max(0, (cardWidth ?? 272) - 116)
+          : input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id)) ? 48 : 0),
     };
   });
   const layers = topologicalLayers(input);

@@ -1698,3 +1698,17 @@ test("diagram with explanatory takeaway keeps reusable visual-stage diagram/foot
     ],
   });
 });
+
+test("single images and cropped videos keep the shared framed-media presentation", () => {
+  for (const mediaType of ["image/svg+xml", "video/mp4"]) {
+    const media: SceneBlock = {id: "media", kind: "media-reference", uri: "/assets/example",
+      mediaType, alternativeText: "An authored demonstration", source: [{resourceId: "resource:media"}],
+      ...(mediaType.startsWith("video/") ? {crop: {x: 0, y: .1, width: 1, height: .9}} : {})};
+    const scene: Scene = {id: "opaque:framed", source: [{resourceId: "resource:framed"}],
+      blocks: [prose("heading", "introduce"), media], readingOrder: ["heading", "media"]};
+    const plan = inferRevealCompositionPlan(scene);
+    assert.equal(plan.kind, "media-stage");
+    assert.equal(plan.profile, "framed-media");
+    assert.equal(plan.mainCount, 1);
+  }
+});

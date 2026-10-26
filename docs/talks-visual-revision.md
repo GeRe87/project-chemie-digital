@@ -1,7 +1,7 @@
 # TED talk visual revision
 
-The talk now has 23 authored scenes, including the complete apparatus overview
-before thermal decomposition and two final demonstration recordings.
+The talk now has 24 authored scenes, including the complete apparatus overview
+before thermal decomposition, two demonstration recordings and an AI/MCP finale.
 
 ## Assets and provenance
 
@@ -12,36 +12,67 @@ before thermal decomposition and two final demonstration recordings.
 - OpenChrom: upstream artwork from
   `https://raw.githubusercontent.com/OpenChrom/openchrom/develop/openchrom/plugins/net.openchrom.rcp.compilation.community.ui/icons/logo.svg`.
   The original artwork is retained. Logo use does not imply endorsement.
-- qAlgorithms: user-approved temporary text wordmark, not a replacement logo.
+- qAlgorithms: speaker-supplied `qalgorithms_logo.webp`, copied unchanged from
+  the supplied Desktop file. The earlier temporary wordmark is no longer selected.
 - Apparatus, upright Twister and in-house script: original schematic SVGs.
 
 ## Shared stages
 
 `cd:NodePresentation` overrides a stable diagram node within one authored state.
-The processing overview changes bodies and thumbnails only; marker selection
-is unchanged. The alternative peak-finding stage preserves the original ports
+The processing overview changes bodies and thumbnails only; both marker selection
+and calibration show the in-house script with Python. Square image viewports
+preserve logo proportions and reserve enough vertical space. The alternative peak-finding stage preserves the original ports
 and edges. Its label is illustrative, not evidence of improved performance.
+Its orange card distinguishes the replacement by color as well as label.
 Reduced-motion mode applies replacements without animation. Static alternatives
 describe the variants as text.
 
-TriG coloring escapes the source and highlights local prefixed names without
+TriG coloring escapes the source and highlights local prefixed names and quoted literals without
 changing the displayed serialization. The left panel contains three prose cards.
 
 ## Video boundary
 
-Both supplied recordings use the same normalized work-area crop with preserved
-aspect ratio. Timed opaque overlays hide metadata, logs and file-selection names.
-Mask coordinates are relative to the cropped viewport; times are seconds.
+Both supplied recordings use the same normalized crop with preserved aspect
+ratio. The speaker's revised approval permits metadata and names in the videos:
+the semantic documentation sidebar and logs are visible, without masking.
+Only browser chrome is cropped away. The shared framed-media composition keeps
+the ordinary laboratory background visible around both recordings and enlarges
+the apparatus overview. The GC column coil is centered within its enclosure.
 Playback pauses and resets on slide exit. Reduced-motion mode requires manual
-playback. Static/self-study alternatives omit raw playback of masked videos.
-Original recording assets remain unchanged and are not sanitized downloads.
+playback. Original recording assets remain unchanged. Generic support for masked
+media remains available, but these two videos no longer request redactions.
 
-Focused verification: 21 TED content checks, one TriG-highlighting test and
-12 existing flow-renderer/state checks passed. The new NodePresentation and
-MediaRedaction SHACL shapes conform against the assembled dataset. Browser
-checks covered forward/reverse tool stages, normal/reduced-motion replacement
-and video play/pause/reset. Both UDE copies are byte-identical to the supplied
-originals.
+## Interfaces, local calibration and AI
+
+The sample-result slide now selects only the two local-fit groups. Historical
+neighboring-window calculations remain as unselected source evidence, not visible
+series. A prominent processing-step takeaway explains why input/output meaning,
+structure and constraints must be documented in addition to the algorithm.
+
+The four port dialogs now use `talks-ted-interface-excerpts.trig`: names and
+definitions in SKOS, ProcessingStep/Port/hasPort/portKey/hasPortRole from the
+speaker-specified `stonecastle/cf_concept_processing`, and small SHACL shapes
+for port documentation. Source digests are recorded in RDF. `cf_ontology` is not
+redefined. Older processing meta-properties absent from the inspected core are
+not copied. `dct:conformsTo` links a descriptor to its teaching shape; it is not
+presented as an upstream-specific payload contract. These are partial excerpts,
+not claims of full upstream or production conformance. Older detailed proposed
+payload schemas remain unselected evidence. Generated TriG preserves the exact
+selected named graphs, with anonymous property constraints rendered inline.
+
+The final AI diagram separates proposing an explicit workflow, discovering and
+calling registered operations through MCP, and validated execution. The inspected
+MCP README describes a service-call gateway, not a separate MCP tool name for
+every operation. Reproducible execution needs fixed inputs, parameters, versions
+and suitable implementations; structural checks do not guarantee hallucination-free
+planning or scientific correctness. The slide makes this distinction explicit.
+
+Focused verification passed: 23 talk-content checks and 71 TypeScript checks for
+highlighting, composition and flow state behavior. The content checks include
+descriptor SHACL validation and rejected missing definitions.
+Browser previews cover overview sizing, the five tool images, the local-only
+chart, the interface callout, changed-card color, visible video metadata and the
+AI finale. Both UDE originals remain unchanged.
 
 Comprehensive validation remains deferred during authoring. Short browser
 previews and focused content/regression checks are not full-suite acceptance,

@@ -91,6 +91,7 @@ export type RevealVisualStageProfile =
 
 export type RevealMediaProfile =
   | "full-viewport"
+  | "framed-media"
   | "hero-attributions";
 
 export type RevealSemanticStageProfile =
@@ -730,10 +731,13 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   // One statistical visual owns the stage; concise conclusions do not compete
   // with its plot area. This signature is independent of chart/subject identity.
-  if (body.length === 2 && body.some(block => block.kind === "chart" || (block.kind === "diagram" && block.presentation !== "dialog")) && body.some(block => block.kind === "list")) {
+  if (body.length === 2 && (
+    (body.some(block => block.kind === "chart" || (block.kind === "diagram" && block.presentation !== "dialog")) && body.some(block => block.kind === "list"))
+    || (body[0]?.kind === "diagram" && body[0].presentation !== "dialog" && body[1]?.kind === "prose")
+  )) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body.find(block => block.kind === "chart" || block.kind === "diagram")!, "main", 0));
-    placements.push(placement(body.find(block => block.kind === "list")!, "footer", 0));
+    placements.push(placement(body.find(block => block.kind === "list" || block.kind === "prose")!, "footer", 0));
     return { kind: "visual-stage", profile: "diagram", mainCount: 1, placements };
   }
   if (body.length === 2 && body[0]?.kind === "definition-list" && body[1]?.kind === "list") {
@@ -861,6 +865,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       mainCount: 3,
       profile: "hero-attributions",
     };
+  }
+
+  if (body.length === 1 && body[0]?.kind === "media-reference"
+      && (body[0].crop || body[0].mediaType?.startsWith("image/"))) {
+    return {kind: "media-stage", profile: "framed-media", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "main", 0)]};
   }
 
   if (

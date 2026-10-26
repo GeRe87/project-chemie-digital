@@ -1083,6 +1083,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           group.setAttribute("class", `d3-flow-node${modelNode.emphasis ? ` d3-flow-node-${modelNode.emphasis}` : ""}`);
           group.setAttribute("data-key", `node:${modelNode.id}`);
           group.setAttribute("data-node-id", modelNode.id);
+          if (presentation?.transition === "replace-left") group.setAttribute("data-implementation-replacement", "true");
            if (modelNode.visualRole) group.setAttribute("data-visual-role", modelNode.visualRole);
           if (modelNode.groupIds?.length) group.setAttribute("data-group-ids", modelNode.groupIds.join(" "));
           const ringIndex = modelNode.groupIds
@@ -1294,7 +1295,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 titleY = top + titleHeight / 2;
                 dividerY = top + titleHeight + dividerGap / 2;
                 const extent = flowMotifExtent(modelNode.visualMotif);
-                const motifSize = extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
+                const motifSize = modelNode.thumbnail ? layoutNode.width - 44
+                  : extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
                 const motifY = dividerY + 20 + motifSize / 2;
                 bodyY = motifY + motifSize / 2 + 20 + bodyHeight / 2;
                 if (modelNode.thumbnail) {

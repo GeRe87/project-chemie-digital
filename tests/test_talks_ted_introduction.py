@@ -22,7 +22,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two", "ai"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -44,7 +44,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 0, 2, 0])
+        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 0, 2, 0, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram.get("states", []):
@@ -57,9 +57,10 @@ class TedIntroductionTests(unittest.TestCase):
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
         self.assertEqual(len(diagram["states"]), 2)
         tools = diagram["states"][1]["nodePresentations"]
-        self.assertEqual(len(tools), 4)
+        self.assertEqual(len(tools), 5)
         self.assertTrue(all("label" not in tool for tool in tools))
-        self.assertEqual(sorted(t["description"] for t in tools), ["C++", "C++", "In-house script\nPython", "Java"])
+        self.assertEqual(sorted(t["description"] for t in tools), ["C++", "C++", "In-house script\nPython", "In-house script\nPython", "Java"])
+        self.assertEqual(sum(t["thumbnail"]["uri"].endswith("qalgorithms-logo.webp") for t in tools), 2)
         self.assertEqual(len(diagram["edges"]), 4)
         self.assertEqual([n["visualMotif"] for n in diagram["nodes"]],
                          ["data-import", "peak-search", "shared-peak-shape", "marker-selection", "regression"])
@@ -142,16 +143,17 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(replacement["description"], original["description"])
         self.assertIn("Find peaks better", R.static_fallback(self.artifact))
 
-    def test_demo_crops_match_and_static_fallback_does_not_play_raw_recordings(self):
+    def test_demo_crops_match_and_keep_semantic_documentation_visible(self):
         videos = [b for s in self.scenes for b in s["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "video/mp4"]
         self.assertEqual(len(videos), 2)
         self.assertEqual(videos[0]["crop"], videos[1]["crop"])
         for video in videos:
-            self.assertTrue(video["redactions"])
+            self.assertFalse(video.get("redactions"))
+            self.assertEqual(video["crop"]["x"], 0)
+            self.assertEqual(video["crop"]["width"], 1)
             fallback = R.media_fallback_markup(video)
-            self.assertNotIn("<video", fallback)
-            self.assertNotIn(video["uri"], fallback)
-            self.assertIn("presentation only", fallback)
+            self.assertIn("<video", fallback)
+            self.assertIn(video["uri"], fallback)
 
     def test_port_popups_are_serialized_from_the_exact_authored_named_graphs(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantic-pipeline--scene")
@@ -162,16 +164,19 @@ class TedIntroductionTests(unittest.TestCase):
             self.assertEqual(detail["language"], "trig")
             parsed = Dataset()
             parsed.parse(data=detail["code"], format="trig")
-            graph = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-port-" + suffix)
+            graph = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-" + suffix)
             self.assertEqual(to_isomorphic(parsed.graph(graph)), to_isomorphic(authored.graph(graph)))
             self.assertIn("Input", detail["code"])
             self.assertIn("Output", detail["code"])
             self.assertIn("conformsTo", detail["code"])
+            self.assertIn("hasPortRole", detail["code"])
+            self.assertIn("skos:definition", detail["code"])
+            self.assertNotIn("cd:PortDescription", detail["code"])
             self.assertIn("property", detail["code"])
             self.assertTrue(detail["source"])
         fallback = R.static_fallback(self.artifact)
-        self.assertIn("EICs: shared port contract", fallback)
-        self.assertIn("massToCharge", fallback)
+        self.assertIn("EICs: documented ports", fallback)
+        self.assertIn("portKey", fallback)
 
     def test_system_name_is_omitted_from_all_audience_text_and_speaker_notes(self):
         audience_keys = {"label", "description", "text", "term", "narration", "code", "fallback", "prompt"}
@@ -179,11 +184,33 @@ class TedIntroductionTests(unittest.TestCase):
             if isinstance(value, dict):
                 for key, child in value.items():
                     if key in audience_keys and isinstance(child, str):
-                        self.assertNotIn("cogniflow", child.lower())
+                        # Exact source vocabulary IRIs in code are now intentionally visible.
+                        self.assertNotIn("cogniflow", child.lower().replace("https://cogniflow.odea-project.org/cf#", ""))
                     inspect(child)
             elif isinstance(value, list):
                 for child in value: inspect(child)
         inspect(self.scenes)
+
+    def test_interface_excerpt_shapes_require_documented_ports(self):
+        from pyshacl import validate
+        dataset = R.assemble_dataset()
+        for suffix in ("eics", "features", "components", "marker-areas"):
+            graph = dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-" + suffix))
+            self.assertTrue(validate(graph, shacl_graph=graph)[0])
+            altered = graph.__class__()
+            for triple in graph: altered.add(triple)
+            port = next(graph.subjects(R.RDF.type, URIRef("https://cogniflow.odea-project.org/cf#Port")))
+            altered.remove((port, R.SKOS.definition, None))
+            self.assertFalse(validate(altered, shacl_graph=graph)[0])
+
+    def test_ai_finale_and_interface_takeaway_keep_their_claim_boundaries(self):
+        scene = self.scenes[-1]
+        self.assertEqual(scene["id"], "ex:ted-scene-ai--scene")
+        self.assertIn("Model Context Protocol", scene["narration"])
+        self.assertIn("do not eliminate hallucinations", scene["narration"])
+        self.assertIn("fixed data, parameters", scene["narration"])
+        step = next(s for s in self.scenes if s["id"] == "ex:ted-scene-processing-step--scene")
+        self.assertTrue(any(b["kind"] == "prose" and "Document more than the algorithm" in b["text"] for b in step["blocks"]))
 
     def test_semantic_example_code_and_graph_preserve_the_same_assertions(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-semantics--scene")
@@ -283,8 +310,8 @@ class TedIntroductionTests(unittest.TestCase):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-sample-comparison--scene")
         chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
         self.assertEqual(chart["chartType"],"dot")
-        self.assertEqual([g["disclosureStep"] for g in chart["groups"]],[1,1,2,2])
-        self.assertEqual([len(g["data"]) for g in chart["groups"]],[3,3,11,11])
+        self.assertEqual([g["disclosureStep"] for g in chart["groups"]],[1,1])
+        self.assertEqual([len(g["data"]) for g in chart["groups"]],[3,3])
         self.assertTrue(all(g["interval"]["role"]=="descriptive-error" for g in chart["groups"]))
         self.assertIn("not confidence intervals",chart["description"])
 

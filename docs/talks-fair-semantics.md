@@ -1,5 +1,12 @@
 # FAIR processing and the semantic-description example
 
+Current revision: see `talks-visual-revision.md`. The talk now has 24 scenes.
+Port dialogs use shorter source-aligned ProcessingStep/Port documentation
+excerpts with SKOS names/definitions and small descriptor shapes. Their actual
+source vocabulary IRIs and video metadata are intentionally visible with the
+speaker's approval. Earlier detailed payload examples and masking decisions
+below document the prior authoring increments, not the current audience view.
+
 The TED talk continues with two TriG-authored scenes:
 
 1. `talks-ted-fair.trig`: the four FAIR principles, applied to a multi-step,

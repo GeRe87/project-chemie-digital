@@ -11,11 +11,14 @@ import html
 import json
 import math
 import re
+from io import BytesIO
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Literal, URIRef
+from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Graph, Literal, URIRef
+from rdflib.compare import to_canonical_graph
+from rdflib.plugins.serializers.turtle import TurtleSerializer
 
 from course_path_selection import (
     CoursePathReference,
@@ -36,6 +39,15 @@ SCHEMA = "https://schema.org/"
 DEFAULT_OFFERING_ID = f"{EX}teaching-offering-digital-chemistry"
 DEFAULT_PLACEMENT_ID = f"{EX}unit-placement-standard-deviation"
 DEFAULT_UNIT_ID = f"{EX}learning-unit-standard-deviation"
+
+
+class PresentationGraphSerializer(TurtleSerializer):
+    """Read names before definitions, and descriptors before their shape details."""
+    predicateOrder = [RDF.type, SKOS.prefLabel, SKOS.definition]
+
+    def orderSubjects(self):
+        node_shape = URIRef("http://www.w3.org/ns/shacl#NodeShape")
+        return sorted(super().orderSubjects(), key=lambda subject: (subject, RDF.type, node_shape) in self.store)
 
 
 def iri(namespace: str, local: str) -> URIRef:
@@ -492,12 +504,17 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             if not isinstance(contract_graph, URIRef) or not str(contract_graph).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
                 raise ValueError("Port contract must name an authored shape graph")
             graph = dataset.graph(contract_graph)
-            if not 1 <= len(graph) <= 150 or (contract, RDF.type, iri(CD, "PortContract")) not in graph:
-                raise ValueError("Port contract graph must be bounded and own the contract")
-            transport = Dataset()
+            if not 1 <= len(graph) <= 150:
+                raise ValueError("Port contract graph must be bounded and nonempty")
+            transport = Graph()
             for prefix, namespace in dataset.namespaces(): transport.bind(prefix, namespace)
-            for triple in graph: transport.graph(contract_graph).add(triple)
-            code = transport.serialize(format="trig")
+            for triple in to_canonical_graph(graph): transport.add(triple)
+            stream = BytesIO()
+            PresentationGraphSerializer(transport).serialize(stream, encoding="utf-8")
+            directives, body = stream.getvalue().decode("utf-8").split("\n\n", 1)
+            directives = "\n".join(line for line in directives.splitlines()
+                if not line.startswith("@prefix ") or re.search(r"(?<![\w-])" + re.escape(line.split()[1]) , body))
+            code = directives + "\n\n<" + str(contract_graph) + "> {\n" + body.strip() + "\n}\n"
             if len(code) > 18000: raise ValueError("Port contract detail exceeds presentation bounds")
             description = literal(dataset, contract, iri(CD, "body"), language)
             if not description or not description.strip(): raise ValueError("Port contract requires a human-readable description")
