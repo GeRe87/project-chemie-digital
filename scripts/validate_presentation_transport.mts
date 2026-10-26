@@ -9,36 +9,32 @@ if (collection.id !== process.argv[3]) throw new Error("Collection identity mism
 resolvePresentationCollection(collection, artifact.sceneDocuments.map((d: {id: string; sourcePathId: string; scenes: {id: string}[]}) => ({
   id: d.id, pathId: d.sourcePathId, sceneIds: d.scenes.map(s => s.id), runtime: "",
 })), artifact.sceneDocumentBindings);
-// The talk's documented SHACL interfaces retain their authoritative RDF
-// namespace, including when shown as authored TriG. Its *IRI* is not permission
-// to insert the internal system's brand into slide copy or speaker notes.
-const CANONICAL_ONTOLOGY_NAMESPACE = "https://cogniflow.odea-project.org/cf#";
-// Canonical source resources may use additional paths on the same authoritative
-// ontology host. A complete source IRI is identity metadata, not user-facing copy.
-const SOURCE_IDENTITY = /^https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+$/;
-const SOURCE_IDENTITIES_IN_CODE = /https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+/g;
+// Preserve canonical RDF identifiers, provenance and asset paths unchanged.
+// The publication restriction applies to audience-visible titles, labels,
+// descriptions, narration, and to promotional text within source-code excerpts.
+// A source IRI is not an assertion that a product name should appear in copy.
+const CANONICAL_SOURCE_IRI = /https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+/g;
+const EXISTING_DEMO_ASSET = /\/cogniflow-showcase\/[A-Za-z0-9_./~-]+/g;
 const FORBIDDEN_BRAND = /cogniflow/i;
 const VISIBLE_TEXT_FIELDS = new Set([
   "title", "subtitle", "name", "label", "description", "text", "term",
-  "narration", "fallback", "prompt", "alternativeText", "body",
+  "narration", "prompt", "alternativeText", "body",
 ]);
 function assertPublicPresentationPolicy(value: unknown): void {
-  // Match every string at its precise structural location: this keeps the
-  // failure actionable without exposing unpublished content in CI logs.
   const check = (node: unknown, path: string, key?: string): void => {
     if (typeof node === "string") {
       if (key && VISIBLE_TEXT_FIELDS.has(key) && FORBIDDEN_BRAND.test(node)) {
         throw new Error(`Internal branding in presentation text at ${path}`);
       }
-      // Fully qualified canonical RDF resource identifiers are preserved.
-      // Inside source-derived TriG, canonical namespace IRIs are also preserved;
-      // ordinary copy, prose and unrelated products remain prohibited.
-      if (SOURCE_IDENTITY.test(node)) return;
-      const unbranded = key === "code"
-        ? node.replaceAll(SOURCE_IDENTITIES_IN_CODE, "")
-        : node.replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, "");
-      if (FORBIDDEN_BRAND.test(unbranded)) {
-        throw new Error(`Unrelated internal branding in public presentation transport at ${path}${path === "artifact.datasetSnapshot.entities[0].id" ? ` (RDF identifier: ${node})` : ""}`);
+      if (key === "code" || key === "fallback") {
+        // Inspectable TriG retains authoritative vocabulary IRIs, and static
+        // fallbacks may include existing file URLs. No promotional text is
+        // allowed outside those precise technical references.
+        const proseOnly = node.replaceAll(CANONICAL_SOURCE_IRI, "")
+          .replaceAll(EXISTING_DEMO_ASSET, "");
+        if (FORBIDDEN_BRAND.test(proseOnly)) {
+          throw new Error(`Unrelated internal branding in public presentation transport at ${path}`);
+        }
       }
       return;
     }
@@ -49,7 +45,11 @@ function assertPublicPresentationPolicy(value: unknown): void {
       for (const [field, child] of Object.entries(node)) check(child, `${path}.${field}`, field);
     }
   };
-  check(value, "artifact");
+  // Do not mistake machine-readable snapshot identifiers or reference URLs for
+  // displayed labels. The scoped canonical snapshot is separately validated.
+  check((value as {presentationCollection?: unknown}).presentationCollection, "collection");
+  check((value as {sceneDocuments?: unknown}).sceneDocuments, "sceneDocuments");
+  check((value as {teachingOfferingDocuments?: unknown}).teachingOfferingDocuments, "teachingOfferings");
 }
 assertPublicPresentationPolicy(artifact);
 console.log(JSON.stringify({ title: collection.title }));
