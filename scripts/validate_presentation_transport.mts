@@ -19,28 +19,28 @@ const VISIBLE_TEXT_FIELDS = new Set([
   "narration", "fallback", "prompt", "alternativeText", "body",
 ]);
 function assertPublicPresentationPolicy(value: unknown): void {
-  // Permit only this exact, immutable RDF vocabulary IRI. Other references
-  // to the product name anywhere in the transport remain prohibited.
-  const nonVocabulary = JSON.stringify(value).replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, "");
-  if (FORBIDDEN_BRAND.test(nonVocabulary)) {
-    throw new Error("Unrelated internal branding in public presentation transport");
-  }
-  // An exact RDF namespace may appear inside inspectable TriG code, but must
-  // never be smuggled into a slide label, description, alt text, or narration.
-  const checkVisibleText = (node: unknown, path: string): void => {
-    if (!node || typeof node !== "object") return;
-    if (Array.isArray(node)) {
-      node.forEach((item, index) => checkVisibleText(item, `${path}[${index}]`));
+  // Match every string at its precise structural location: this keeps the
+  // failure actionable without exposing unpublished content in CI logs.
+  const check = (node: unknown, path: string, key?: string): void => {
+    if (typeof node === "string") {
+      if (key && VISIBLE_TEXT_FIELDS.has(key) && FORBIDDEN_BRAND.test(node)) {
+        throw new Error(`Internal branding in presentation text at ${path}`);
+      }
+      // The only deliberate exception is the exact canonical vocabulary IRI
+      // needed to preserve source graph identity in inspectable TriG.
+      if (FORBIDDEN_BRAND.test(node.replaceAll(CANONICAL_ONTOLOGY_NAMESPACE, ""))) {
+        throw new Error(`Unrelated internal branding in public presentation transport at ${path}`);
+      }
       return;
     }
-    for (const [key, child] of Object.entries(node)) {
-      if (typeof child === "string" && VISIBLE_TEXT_FIELDS.has(key) && FORBIDDEN_BRAND.test(child)) {
-        throw new Error(`Internal branding in presentation text at ${path}.${key}`);
-      }
-      if (child && typeof child === "object") checkVisibleText(child, `${path}.${key}`);
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      node.forEach((item, index) => check(item, `${path}[${index}]`));
+    } else {
+      for (const [field, child] of Object.entries(node)) check(child, `${path}.${field}`, field);
     }
   };
-  checkVisibleText(value, "artifact");
+  check(value, "artifact");
 }
 assertPublicPresentationPolicy(artifact);
 console.log(JSON.stringify({ title: collection.title }));
