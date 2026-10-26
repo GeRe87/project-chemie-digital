@@ -326,6 +326,8 @@ export interface DiagramNodePart {
   readonly id: string;
   readonly label: string;
   readonly description?: string;
+  readonly parentPartId?: string;
+  readonly referencePartId?: string;
   readonly source: readonly SourceReference[];
 }
 
@@ -750,6 +752,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   if (block.diagramType === "sequence" && (block.participantRoles?.length ?? 0) < 2) throw new SceneContractError(`${label} sequence must contain at least two participant roles`);
   if (block.diagramType === "sequence" && (block.messages?.length ?? 0) < 1) throw new SceneContractError(`${label} sequence must contain at least one message`);
 
+  const allPartIds = new Set(block.nodes.flatMap(node => (node.parts ?? []).map(part => part.id)));
   const nodeIdSet = new Set<string>();
   for (const node of block.nodes) {
     requireNonEmpty(node.id, `${label} diagram node id`);
@@ -773,6 +776,16 @@ function validateDiagram(block: DiagramBlock, label: string): void {
         requireNonEmpty(part.label, `${label} diagram node ${node.id} part ${part.id} label`);
         if (part.description !== undefined) requireNonEmpty(part.description, `${label} diagram node ${node.id} part ${part.id} description`);
         validateSource(part.source, `${label} diagram node ${node.id} part ${part.id} source`);
+        if (part.referencePartId && !allPartIds.has(part.referencePartId)) throw new SceneContractError("Part reference must target a diagram part");
+        const seen = new Set<string>([part.id]);
+        let parent = part.parentPartId;
+        while (parent) {
+          if (seen.has(parent)) throw new SceneContractError("Part parent relations must be acyclic");
+          seen.add(parent);
+          const owner = node.parts.find(candidate => candidate.id === parent);
+          if (!owner) throw new SceneContractError("Part parent must belong to the same node");
+          parent = owner.parentPartId;
+        }
       }
     }
     validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);

@@ -257,6 +257,8 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
 }
 
 export interface SelfStudyDiagramNodePlan {
+  readonly description?: string;
+  readonly parts?: readonly import("../../core/src/scene-document.ts").DiagramNodePart[];
   readonly id: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
@@ -423,7 +425,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.label,
     block.description,
     "Nodes:",
-    ...block.nodes.map((node) => `- ${node.label}`),
+    ...block.nodes.flatMap((node) => [`- ${node.label}`, ...(node.parts ?? []).map(part => `  - ${part.label}${part.description ? `: ${part.description}` : ""}${part.parentPartId ? ` (under ${part.parentPartId})` : ""}${part.referencePartId ? ` (references ${part.referencePartId})` : ""}`)]),
     "Relations:",
     ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
@@ -669,6 +671,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         nodes: block.nodes.map((node) => ({
           id: node.id,
           label: node.label,
+          ...(node.description ? {description: node.description} : {}),
+          ...(node.parts ? {parts: node.parts.map(part => ({...part, source: sourceCopy(part.source)}))} : {}),
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
@@ -796,7 +800,8 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
   const roleLabels = new Map((node.participantRoles ?? []).map((role) => [role.id, role.label]));
   const messageLabels = new Map((node.messages ?? []).map((message) => [message.id, message.label]));
-  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
+  const partLabels = new Map(node.nodes.flatMap(item => (item.parts ?? []).map(part => [part.id, part.label] as const)));
+  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}${item.description ? `: ${escapeHtml(item.description)}` : ""}${item.parts ? `<ul>${item.parts.map(part => `<li${sourceAttributes(part.source)}>${escapeHtml(part.label)}${part.description ? `: ${escapeHtml(part.description)}` : ""}${part.parentPartId ? ` (under ${escapeHtml(partLabels.get(part.parentPartId) ?? part.parentPartId)})` : ""}${part.referencePartId ? ` (references ${escapeHtml(partLabels.get(part.referencePartId) ?? part.referencePartId)})` : ""}</li>`).join("")}</ul>` : ""}</li>`).join("");
   const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)}: ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}${edge.codeDetail ? `<details${sourceAttributes(edge.codeDetail.source)}><summary>${escapeHtml(edge.codeDetail.label)}</summary><p>${escapeHtml(edge.codeDetail.description)}</p><pre><code>${escapeHtml(edge.codeDetail.code)}</code></pre></details>` : ""}</li>`).join("");
   const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${state.activeNodeIds ? ` data-active-node-ids="${escapeHtml(state.activeNodeIds.join(" "))}"` : ""}${state.activeEdgeIds ? ` data-active-edge-ids="${escapeHtml(state.activeEdgeIds.join(" "))}"` : ""}${state.activeGroupIds ? ` data-active-group-ids="${escapeHtml(state.activeGroupIds.join(" "))}"` : ""}${state.focusNodeId ? ` data-focus-node-id="${escapeHtml(state.focusNodeId)}"` : ""}${state.focusGroupId ? ` data-focus-group-id="${escapeHtml(state.focusGroupId)}"` : ""}${state.contextGroupIds ? ` data-context-group-ids="${escapeHtml(state.contextGroupIds.join(" "))}"` : ""}${state.activeMessageIds ? ` data-active-message-ids="${escapeHtml(state.activeMessageIds.join(" "))}"` : ""}${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.activeMessageIds ? `<p class="self-study-sequence-active-messages">Active messages: ${escapeHtml(state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", "))}</p>` : ""}${state.participantBindings?.length ? `<ul class="self-study-sequence-participant-bindings">${state.participantBindings.map((binding) => `<li data-participant-binding-role-id="${escapeHtml(binding.roleId)}" data-participant-id="${escapeHtml(binding.participantId)}"${sourceAttributes(binding.source)}>${escapeHtml(roleLabels.get(binding.roleId) ?? binding.roleId)}: ${escapeHtml(binding.label)}</li>`).join("")}</ul>` : ""}${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
   const participants = (node.participantRoles ?? []).map((role) => `<li data-participant-role-id="${escapeHtml(role.id)}"${sourceAttributes(role.source)}>${escapeHtml(role.label)}</li>`).join("");

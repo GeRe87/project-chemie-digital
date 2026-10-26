@@ -29,6 +29,22 @@ const block: DiagramBlock = {
 
 const keyboardOptions = { reducedMotion: true, interactionPolicy: "keyboard" as const };
 
+test("tree part relations and joined-column presentation survive renderer projection", () => {
+  const semanticNodes = block.nodes.map((node, index) => ({...node, groupIds: ["unit"], visualRole: ["input", "process", "output"][index]}));
+  const example: DiagramBlock = {...block, groups: [{id: "unit", label: "One unit", source: block.source}], nodes: semanticNodes.map((node, i) => i ? node : {
+    ...node, parts: [
+      {id: "root", label: "Unit", source: node.source},
+      {id: "child", label: "Port", parentPartId: "root", referencePartId: "root", source: node.source},
+    ],
+  })};
+  const result = createD3FlowRenderModel(example, keyboardOptions);
+  assert.deepEqual(result.diagnostics, []);
+  assert.equal(result.model!.nodeArrangement, "joined-columns");
+  assert.equal(result.model!.nodes[0]!.partLayout, "tree");
+  assert.equal(result.model!.nodes[0]!.parts![1]!.parentPartId, "root");
+  assert.match(result.model!.staticFallback, /references root/);
+});
+
 test("maps a canonical DiagramBlock deterministically without mutating it", () => {
   const before = JSON.stringify(block);
   const first = createD3FlowRenderModel(block, keyboardOptions);

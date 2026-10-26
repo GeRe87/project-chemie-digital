@@ -44,7 +44,7 @@ class TedIntroductionTests(unittest.TestCase):
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 0, 2, 0, 0])
+        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 3, 2, 0, 0])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram.get("states", []):
@@ -76,17 +76,21 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("not a substitute", scene["narration"])
         self.assertIn("controlled access", scene["narration"])
 
-    def test_processing_unit_transfer_is_static_and_preserves_compatible_interfaces(self):
+    def test_processing_unit_transfer_preserves_interfaces_and_staged_hierarchies(self):
         diagrams = []
         for name in ("processing-step", "composable-steps", "processing-unit"):
             scene = next(s for s in self.scenes if s["id"] == f"ex:ted-scene-{name}--scene")
             diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
-            self.assertEqual(diagram.get("states", []), [])
+            self.assertEqual(len(diagram.get("states", [])), 3 if name == "processing-unit" else 0)
             self.assertEqual(len(diagram["nodes"]), 3)
             self.assertEqual(len(diagram["edges"]), 2)
             self.assertEqual(diagram["diagramType"], "flow")
             diagrams.append(diagram)
         self.assertEqual([n["label"] for n in diagrams[0]["nodes"]], ["Input", "Process", "Output"])
+        self.assertEqual(len(diagrams[0]["groups"]), 1)
+        self.assertEqual([n["visualRole"] for n in diagrams[0]["nodes"]], ["input", "process", "output"])
+        self.assertNotIn("nodeArrangement", diagrams[0])
+        self.assertEqual(len({n["visualRole"] for n in diagrams[1]["nodes"]}), 3)
         chain = diagrams[1]["nodes"]
         for left, right in zip(chain, chain[1:]):
             output = left["description"].split("OUT: ")[1]
@@ -101,7 +105,17 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual([len(n["parts"]) for n in model["nodes"]], [3, 3, 3])
         self.assertEqual(model["nodes"][2]["parts"][0]["label"], "qalg:FindPeaks")
         self.assertIn("FindPeaks_binding", model["nodes"][2]["parts"][2]["description"])
-        self.assertIn("not data flow", model["description"])
+        self.assertIn("not a processing loop", model["description"])
+        self.assertEqual([len(s["activeNodeIds"]) for s in model["states"]], [1, 2, 3])
+        self.assertTrue(all("partLayout" not in n for n in model["nodes"]))
+        shared, specs, operation = [n["parts"] for n in model["nodes"]]
+        self.assertEqual(shared[1]["parentPartId"], shared[0]["id"])
+        self.assertEqual(shared[2]["parentPartId"], shared[1]["id"])
+        self.assertNotIn("parentPartId", specs[0])
+        self.assertNotIn("parentPartId", specs[1])
+        self.assertEqual(specs[2]["parentPartId"], specs[1]["id"])
+        self.assertEqual(specs[2]["referencePartId"], shared[0]["id"])
+        self.assertEqual([p["parentPartId"] for p in operation[1:]], [operation[0]["id"]] * 2)
         fallback = R.static_fallback(self.artifact)
         self.assertIn("EIC vector", fallback)
         self.assertIn("FindPeaks_binding", fallback)
@@ -124,11 +138,14 @@ class TedIntroductionTests(unittest.TestCase):
     def test_ready_measurement_event_is_separate_from_pipeline_execution(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-automatic-execution--scene")
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
-        self.assertEqual([n["label"] for n in diagram["nodes"]], ["Event server", "Execution engine", "Pipeline execution"])
-        self.assertEqual([n["visualMotif"] for n in diagram["nodes"]], ["event-server", "execution-engine", "workflow-results"])
+        self.assertEqual(diagram["diagramType"], "network")
+        self.assertEqual(len(diagram["nodes"]), 5)
+        self.assertEqual(sum("IMPLEMENTED" in n["label"] for n in diagram["nodes"]), 2)
+        self.assertIn("IN DEVELOPMENT", diagram["nodes"][0]["label"])
         self.assertIn("Measurement ended", diagram["nodes"][0]["description"])
         self.assertIn("File fully saved", diagram["nodes"][0]["description"])
-        self.assertEqual([e["label"] for e in diagram["edges"]], ["trigger", "execute"])
+        self.assertEqual([e["label"] for e in diagram["edges"]], ["trigger", "execute", "confirm readiness", "configure", "status / failures"])
+        self.assertIn("not yet available", scene["narration"])
         self.assertIn("file-created event alone must not", scene["narration"])
         self.assertIn("not a live integration", scene["narration"])
         self.assertIn("provenance", scene["narration"])

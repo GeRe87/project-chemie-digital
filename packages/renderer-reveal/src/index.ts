@@ -328,7 +328,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     "Nodes:",
     ...block.nodes.flatMap((node) => [
       `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? `: ${node.description}` : ""}`,
-      ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
+      ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}${part.parentPartId ? ` (under ${part.parentPartId})` : ""}${part.referencePartId ? ` (references ${part.referencePartId})` : ""}`),
     ]),
     "Relations:",
     ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),

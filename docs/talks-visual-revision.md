@@ -68,16 +68,50 @@ not claims of full upstream or production conformance. Older detailed proposed
 payload schemas remain unselected evidence. Generated TriG preserves the exact
 selected named graphs, with anonymous property constraints rendered inline.
 
-The final AI diagram separates proposing an explicit workflow, discovering and
+The AI diagram separates proposing an explicit workflow, discovering and
 calling registered operations through MCP, and validated execution. The inspected
 MCP README describes a service-call gateway, not a separate MCP tool name for
 every operation. Reproducible execution needs fixed inputs, parameters, versions
 and suitable implementations; structural checks do not guarantee hallucination-free
 planning or scientific correctness. The slide makes this distinction explicit.
 
-Focused verification passed: 25 talk-content checks and 72 TypeScript checks for
-highlighting, composition and flow state behavior. The content checks include
-descriptor SHACL validation and rejected missing definitions.
+## Hierarchy and development-status clarification
+
+The processing-step view is now one joined panel with three colored columns.
+It is inferred from one authored group containing semantic input/process/output
+roles. There are no column, tree, coordinate or layout-choice flags in RDF or
+the core scene contract: visual arrangement remains renderer-owned (ADR-0012
+and ADR-0013). Explicit part-parent relations provide semantic hierarchy evidence
+from which the renderer infers trees.
+The composition view retains three separated, differently colored cards. Both
+reuse authored visual roles; color is supplemented by labels and structure.
+
+The shared-model view reveals three trees in three stages. Explicit
+`parentDiagramPart` relations distinguish ProcessingUnit → Port → PortRole,
+peer ProcessingStep/ProcessingPipeline specializations and PipelineNode beneath
+the pipeline, and peer ports/binding below FindPeaks. `referencesDiagramPart`
+provides the dashed return link from PipelineNode to the shared ProcessingUnit.
+That reference is not a data-processing feedback dependency. Shared tree layout
+measures the same geometry for sizing and rendering, rejects cyclic parents,
+and preserves relations in static and self-study alternatives. The first tree
+appears automatically on entry; forward/back navigation controls the next two.
+
+The automation slide is now a system network, not a linear processing pipeline.
+It explicitly distinguishes the implemented engine and described pipelines from
+the not-yet-available complete automation integration. The AI slide also states
+that work is in progress. Its successful first tests are attributed to the latest
+speaker report: agents build pipelines and pass all configured structural and
+semantic validation checks. No logs, success rate or independent scientific
+validation were supplied. These statuses are recorded as a new RDF source rather
+than inferred from tool availability or portrayed as a finished release.
+
+Current focused verification: 25 talk-content checks passed. The diagram/layout
+selection passed 35 tests and has one pre-existing failure: the long Hilbert-flow
+test requires card widths of at least 300, but both the unchanged HEAD and this
+revision produce widths of 290 for that fixture. This unrelated guard was not
+weakened and no speculative layout fix was made. Ten Reveal/self-study diagram
+checks passed. The new hierarchy SHACL shape conforms, and a cyclic
+parent counterexample is rejected. Comprehensive validation remains deferred.
 Browser previews cover overview sizing, the five tool images, the local-only
 chart, the interface callout, changed-card color, visible video metadata and the
 AI finale. Both UDE originals remain unchanged.

@@ -1,0 +1,17 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+graph:concepts {
+ cd:LearningDomain cdm:definesRelation cd:parentDiagramPart, cd:referencesDiagramPart .
+ cd:parentDiagramPart a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNodePart ; rdfs:range cd:DiagramNodePart .
+ cd:referencesDiagramPart a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramNodePart ; rdfs:range cd:DiagramNodePart ; rdfs:comment "A cross-reference, not a data-processing feedback dependency."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+ cd:DiagramPartHierarchyShape a sh:NodeShape ; sh:targetClass cd:DiagramNodePart ;
+  sh:property [ sh:path cd:parentDiagramPart ; sh:maxCount 1 ; sh:class cd:DiagramNodePart ] ;
+  sh:property [ sh:path cd:referencesDiagramPart ; sh:maxCount 1 ; sh:class cd:DiagramNodePart ] ;
+  sh:sparql [ sh:message "Diagram part parent relations must be acyclic." ; sh:select "PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/> SELECT $this WHERE { $this cd:parentDiagramPart+ $this . }" ] .
+}

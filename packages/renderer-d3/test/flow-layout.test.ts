@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   createD3FlowLayout,
+  treeFlowParts,
   flowOrientationForWidth,
   wrapFlowText,
 } from "../src/flow-layout.ts";
@@ -17,6 +18,32 @@ const input = {
     { id: "edge:reuse", sourceNodeId: "node:metadata", targetNodeId: "node:reuse", label: "enables reuse" },
   ],
 } as const;
+
+test("joined columns share boundaries and retain their semantic edges outside the visual layout", () => {
+  const layout = createD3FlowLayout({...input, diagramType: "flow", groups: [{id: "unit"}],
+    nodes: input.nodes.map((node, index) => ({...node, groupIds: ["unit"], visualRole: ["input", "process", "output"][index]}))}, 1200);
+  assert.equal(layout.edges.length, 0);
+  assert.equal(input.edges.length, 2);
+  for (let i = 1; i < layout.nodes.length; i++) {
+    const left = layout.nodes[i - 1]!, right = layout.nodes[i]!;
+    assert.equal(left.x + left.width / 2, right.x - right.width / 2);
+    assert.equal(left.y, right.y);
+    assert.equal(left.height, right.height);
+  }
+});
+
+test("part trees keep siblings at the same level and children under their parent", () => {
+  const rows = treeFlowParts([
+    {id: "step", label: "ProcessingStep"},
+    {id: "pipeline", label: "ProcessingPipeline"},
+    {id: "node", label: "PipelineNode", parentPartId: "pipeline", referencePartId: "unit"},
+  ], 560);
+  assert.equal(rows[0]!.top, rows[1]!.top);
+  assert.equal(rows[2]!.x, rows[1]!.x);
+  assert.ok(rows[2]!.top > rows[1]!.top);
+  assert.equal(rows[2]!.referencePartId, "unit");
+  assert.throws(() => treeFlowParts([{id: "a", label: "a", parentPartId: "b"}, {id: "b", label: "b", parentPartId: "a"}], 560), /acyclic/);
+});
 
 const branchedInput = {
   nodes: [

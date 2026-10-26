@@ -6,7 +6,7 @@ export interface D3FlowLayoutNodeInput {
   readonly label: string;
   readonly notation?: string;
   readonly visualRole?: string;
-  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
+  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string; readonly parentPartId?: string; readonly referencePartId?: string }[];
   readonly description?: string;
   readonly groupIds?: readonly string[];
   readonly visualMotifRole?: "supporting" | "highlight";
@@ -28,6 +28,16 @@ export interface D3FlowLayoutInput {
   readonly groups?: readonly { readonly id: string; readonly label?: string }[];
   readonly focusNodeId?: string;
   readonly states?: readonly { readonly id: string; readonly nodePresentations?: readonly {readonly nodeId: string; readonly thumbnail?: {readonly uri: string}}[]; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
+}
+
+export function isSingleUnitFlow(input: Pick<D3FlowLayoutInput, "nodes" | "groups"> & {readonly diagramType?: string}): boolean {
+  return input.diagramType === "flow" && input.nodes.length === 3
+    && ["input", "process", "output"].every(role => input.nodes.filter(node => node.visualRole === role).length === 1)
+    && Boolean(input.groups?.some(group => input.nodes.every(node => node.groupIds?.includes(group.id))));
+}
+
+export function hasPartHierarchy(node: Pick<D3FlowLayoutNodeInput, "parts">): boolean {
+  return Boolean(node.parts?.some(part => part.parentPartId || part.referencePartId));
 }
 
 export interface D3FlowLayoutNode {
@@ -260,7 +270,35 @@ export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts
   });
 }
 
+export function treeFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1) {
+  if (new Set(parts.map(part => part.id)).size !== parts.length) throw new Error("Tree part ids must be unique");
+  const positioned: Array<{part: typeof parts[number]; x: number; width: number; depth: number}> = [];
+  const visit = (parent: string | undefined, left: number, available: number, depth: number) => {
+    const children = parts.filter(part => part.parentPartId === parent);
+    children.forEach((part, index) => {
+      const lane = available / children.length;
+      positioned.push({part, x: left + lane * (index + .5), width: lane - 16, depth});
+      visit(part.id, left + lane * index, lane, depth + 1);
+    });
+  };
+  visit(undefined, -width / 2 + 24, width - 48, 0);
+  if (positioned.length !== parts.length) throw new Error("Part hierarchy must be rooted and acyclic");
+  const rows = positioned.map(({part, x, width, depth}) => {
+    const labelLines = wrapFlowText(part.label, width - 24, value => structuredTitleTextMeasure(value) * .8);
+    const bodyLines = part.description ? wrapFlowText(part.description, width - 24, bodyTextMeasure) : [];
+    return {...part, x, width, depth, top: 0, labelLines, bodyLines, height: 28 + labelLines.length * 24 + bodyLines.length * 21};
+  });
+  let top = 64 + headingLines * 28;
+  for (let depth = 0; depth <= Math.max(0, ...rows.map(row => row.depth)); depth++) {
+    const height = Math.max(0, ...rows.filter(row => row.depth === depth).map(row => row.height));
+    for (const row of rows.filter(row => row.depth === depth)) row.top = top;
+    top += height + 38;
+  }
+  return rows;
+}
+
 function stackedFlowHeight(node: D3FlowLayoutNodeInput, width: number, headingLines: number): number {
+  if (hasPartHierarchy(node)) return Math.max(...treeFlowParts(node.parts!, width, headingLines).map(row => row.top + row.height)) + 24;
   const rows = stackedFlowParts(node.parts!, width, headingLines, Boolean(node.visualMotif));
   const last = rows[rows.length - 1]!;
   return last.top + last.height + 20;
@@ -1628,13 +1666,20 @@ function hierarchyFanoutLayout(
 
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
+  if (isSingleUnitFlow(input)) {
+    const base = createD3FlowLayout({...input, groups: []}, hostWidth);
+    const columnWidth = Math.max(280, ...base.nodes.map(node => node.width));
+    const height = Math.max(...base.nodes.map(node => node.height));
+    return {...base, strategy: "layered-flow", orientation: "horizontal", width: columnWidth * base.nodes.length + 48, height: height + 48,
+      nodes: base.nodes.map((node, index) => ({...node, width: columnWidth, height, x: 24 + columnWidth * (index + .5), y: 24 + height / 2})), edges: [], groups: []};
+  }
   const linearOrder = strictLinearFlowOrder(input);
   const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
   const systemSelection = processSystemNodes(input);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
     if (!systemSelection && input.diagramType === "flow" && node.parts?.length) {
-      const width = 380;
+      const width = hasPartHierarchy(node) ? 560 : 380;
       const labelLines = wrapFlowText(node.label, width - 44, structuredTitleTextMeasure);
       return {...node, inputIndex, width, labelLines, bodyLines: [], height: stackedFlowHeight(node, width, labelLines.length)};
     }

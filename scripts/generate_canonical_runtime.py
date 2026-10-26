@@ -469,6 +469,8 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
                 node_parts.append({
                     "id": compact(part), "label": part_label,
                     **({"description": part_description} if part_description is not None else {}),
+                    **{key: compact(value) for predicate, key in [("parentDiagramPart", "parentPartId"), ("referencesDiagramPart", "referencePartId")]
+                       if (value := one(dataset, part, iri(CD, predicate), required=False)) is not None},
                     "source": [source_reference(dataset, part, part_path)],
                 })
             node_value["parts"] = node_parts
@@ -2710,11 +2712,14 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     )
                     continue
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
+                part_labels = {part["id"]: part["label"] for node in block["nodes"] for part in node.get("parts", [])}
                 node_fragments = []
                 for node in block["nodes"]:
                     parts = "".join(
                         f'<li{fallback_attributes(part["source"])}><strong>{html.escape(part["label"])}</strong>'
-                        f'{": " + html.escape(part["description"]) if part.get("description") else ""}</li>'
+                        f'{": " + html.escape(part["description"]) if part.get("description") else ""}'
+                        f'{" (under " + html.escape(part_labels[part["parentPartId"]]) + ")" if part.get("parentPartId") else ""}'
+                        f'{" (references " + html.escape(part_labels[part["referencePartId"]]) + ")" if part.get("referencePartId") else ""}</li>'
                         for part in node.get("parts", [])
                     )
                     node_fragments.append(
