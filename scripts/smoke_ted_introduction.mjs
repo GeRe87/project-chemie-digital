@@ -11,7 +11,7 @@ assert.equal(manifest.documents.length,1);
 const entry=manifest.documents[0];
 const artifact=await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes=artifact.sceneDocuments[0].scenes;
-assert.equal(scenes.length,24,"Expected title + 23 authored content scenes");
+assert.equal(scenes.length,25,"Expected title + 24 authored content scenes");
 // Canonical RDF vocabulary IRIs may occur in inspectable source-derived TriG.
 // Product branding and unrelated references must remain absent.
 assert.ok(!/cogniflow/i.test(JSON.stringify(artifact).replaceAll("https://cogniflow.odea-project.org/cf#", "")));

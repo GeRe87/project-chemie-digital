@@ -75,7 +75,7 @@ every operation. Reproducible execution needs fixed inputs, parameters, versions
 and suitable implementations; structural checks do not guarantee hallucination-free
 planning or scientific correctness. The slide makes this distinction explicit.
 
-Focused verification passed: 24 talk-content checks and 72 TypeScript checks for
+Focused verification passed: 25 talk-content checks and 72 TypeScript checks for
 highlighting, composition and flow state behavior. The content checks include
 descriptor SHACL validation and rejected missing definitions.
 Browser previews cover overview sizing, the five tool images, the local-only
