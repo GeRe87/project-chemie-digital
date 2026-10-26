@@ -2,6 +2,13 @@
 
 ## Scope and branch basis
 
+Latest owner-requested automation revision: six illustrated system nodes with
+separate schema and report-storage relations, no node-status suffixes and a
+non-overlapping shared renderer layout. See `docs/talks-visual-revision.md` for
+bounded verification. PR #295 already targets `talks`; platform PR #293 is merged
+there at `026b489add20234b4084dc7a58fe8b8a678ffdc7`. Final exact-head validation
+and independent acceptance remain outstanding. Cloudflare is a later task.
+
 Owner-requested Talks follow-up on platform commit
 `380025955862812407178199e1b8fddd0178965e` (draft PR #293).
 Branch: `agent/294-ted-gc-ms-introduction`. Review target: `talks`; #293 remains

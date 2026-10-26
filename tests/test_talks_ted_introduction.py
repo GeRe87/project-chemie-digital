@@ -139,12 +139,17 @@ class TedIntroductionTests(unittest.TestCase):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-automatic-execution--scene")
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
         self.assertEqual(diagram["diagramType"], "network")
-        self.assertEqual(len(diagram["nodes"]), 5)
-        self.assertEqual(sum("IMPLEMENTED" in n["label"] for n in diagram["nodes"]), 2)
-        self.assertIn("IN DEVELOPMENT", diagram["nodes"][0]["label"])
-        self.assertIn("Measurement ended", diagram["nodes"][0]["description"])
-        self.assertIn("File fully saved", diagram["nodes"][0]["description"])
-        self.assertEqual([e["label"] for e in diagram["edges"]], ["trigger", "execute", "confirm readiness", "configure", "status / failures"])
+        self.assertEqual(len(diagram["nodes"]), 6)
+        nodes = {n["visualRole"]: n for n in diagram["nodes"]}
+        self.assertEqual(len({n["visualMotif"] for n in diagram["nodes"]}), 6)
+        self.assertTrue(all("IMPLEMENTED" not in n["label"] and "IN DEVELOPMENT" not in n["label"] for n in diagram["nodes"]))
+        self.assertEqual(nodes["input"]["description"], "Measurement done\nFile saved")
+        edges = {e["label"]: e for e in diagram["edges"]}
+        for label, source, target in [("schema", "specification", "process"), ("report ready", "output", "control"), ("store report", "control", "storage")]:
+            self.assertEqual(edges[label]["sourceNodeId"], nodes[source]["id"])
+            self.assertEqual(edges[label]["targetNodeId"], nodes[target]["id"])
+        self.assertEqual(edges["schema"]["visualRole"], "reference")
+        self.assertIn("only after registering", scene["narration"])
         self.assertIn("not yet available", scene["narration"])
         self.assertIn("file-created event alone must not", scene["narration"])
         self.assertIn("not a live integration", scene["narration"])

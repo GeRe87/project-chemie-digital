@@ -1005,3 +1005,21 @@ body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="
 .reveal .d3-flow-node[data-composite-node="tree"] .d3-flow-node-part-body { fill:var(--pcd-foreground); stroke:none; font-size:18px; }
 .reveal .d3-flow-part-tree-edge { fill:none; stroke:var(--pcd-foreground); stroke-width:2; }
 .reveal .d3-flow-part-reference { fill:none; stroke:#e88b24; stroke-width:3; stroke-dasharray:9 5; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="input"] { --d3-flow-card-hue:205; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="control"] { --d3-flow-card-hue:265; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="process"] { --d3-flow-card-hue:155; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="output"] { --d3-flow-card-hue:100; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="specification"] { --d3-flow-card-hue:205; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node[data-visual-role="storage"] { --d3-flow-card-hue:35; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node-shape {
+  fill:color-mix(in srgb,hsl(var(--d3-flow-card-hue) 70% 55%) 16%,var(--pcd-surface-strong));
+  stroke:hsl(var(--d3-flow-card-hue) 65% 55%); stroke-width:2; filter:none;
+}
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] :is(.d3-flow-node-title,.d3-flow-node-body) { fill:var(--pcd-foreground); stroke:none !important; stroke-width:0; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node-title { font-size:23px; font-weight:800; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-node-body { font-size:18px; font-weight:600; }
+.reveal .d3-flow-svg[data-layout-strategy="orchestration-system"] .d3-flow-edge[data-visual-role="reference"] { stroke-dasharray:8 5; }
+.reveal .slides section:has([data-layout-strategy="orchestration-system"]) { grid-template-rows:auto minmax(0,1fr) auto; }
+.reveal .slides section:has([data-layout-strategy="orchestration-system"]) .d3-flow-host { min-height:0; height:100%; margin:0 auto; padding:0; }
+.reveal .slides section:has([data-layout-strategy="orchestration-system"]) :is(.d3-flow-runtime,.d3-flow-figure) { height:100%; }
+.reveal .d3-flow-host .d3-flow-svg[data-layout-strategy="orchestration-system"] { height:100%; min-height:0; }

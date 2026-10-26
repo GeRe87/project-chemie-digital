@@ -45,6 +45,36 @@ test("part trees keep siblings at the same level and children under their parent
   assert.throws(() => treeFlowParts([{id: "a", label: "a", parentPartId: "b"}, {id: "b", label: "b", parentPartId: "a"}], 560), /acyclic/);
 });
 
+const orchestrationInput = {
+  diagramType: "network" as const,
+  nodes: ["input", "control", "process", "output", "specification", "storage"].map(role => ({id: role, visualRole: role, label: role, description: "Two lines\nof context", visualMotif: "data-server"})),
+  edges: [["input", "control"], ["control", "process"], ["process", "output"], ["specification", "process"], ["output", "control"], ["control", "storage"]].map(([source, target], i) => ({id: String(i), sourceNodeId: source!, targetNodeId: target!, label: "relation"})),
+};
+
+test("orchestration topology yields disjoint cards and bounded orthogonal routes independent of ids", () => {
+  const layout = createD3FlowLayout(orchestrationInput, 1200);
+  assert.equal(layout.strategy, "orchestration-system");
+  const renamed = createD3FlowLayout({...orchestrationInput,
+    nodes: orchestrationInput.nodes.map(n => ({...n, id: `renamed:${n.id}`, label: "Different title"})),
+    edges: orchestrationInput.edges.map(e => ({...e, sourceNodeId: `renamed:${e.sourceNodeId}`, targetNodeId: `renamed:${e.targetNodeId}`})),
+  }, 900);
+  assert.equal(renamed.strategy, layout.strategy);
+  assert.deepEqual(renamed.nodes.map(n => [n.x,n.y]), layout.nodes.map(n => [n.x,n.y]));
+  for (const a of layout.nodes) for (const b of layout.nodes) if (a !== b) {
+    assert.ok(Math.abs(a.x-b.x) >= (a.width+b.width)/2 || Math.abs(a.y-b.y) >= (a.height+b.height)/2);
+  }
+  for (const edge of layout.edges) {
+    for (const [i, p] of edge.routePoints!.entries()) {
+      assert.ok(p.x >= 0 && p.x <= layout.width && p.y >= 0 && p.y <= layout.height);
+      if (i) { const previous = edge.routePoints![i-1]!; assert.ok(previous.x === p.x || previous.y === p.y); }
+    }
+    for (const n of layout.nodes) assert.ok(Math.abs(edge.labelX-n.x) >= n.width/2 + 20 || Math.abs(edge.labelY-n.y) >= n.height/2 + 20);
+  }
+  const feedback = layout.edges.find(e => e.sourceNodeId === "output" && e.targetNodeId === "control")!;
+  assert.ok(feedback.labelY > Math.max(...layout.nodes.map(n => n.y+n.height/2)));
+  assert.notEqual(createD3FlowLayout({...orchestrationInput, edges: orchestrationInput.edges.slice(1)}, 1200).strategy, "orchestration-system");
+});
+
 const branchedInput = {
   nodes: [
     { id: "raw", label: "RAW DATA" },

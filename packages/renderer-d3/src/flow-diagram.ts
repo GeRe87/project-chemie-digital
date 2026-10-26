@@ -557,7 +557,7 @@ export function d3FlowEdgePath(
   orientation: D3FlowLayout["orientation"],
   strategy: D3FlowLayout["strategy"],
 ): string {
-  if ((strategy === "space-filling-flow" || strategy === "hierarchy-fanout")
+  if ((strategy === "space-filling-flow" || strategy === "hierarchy-fanout" || strategy === "orchestration-system")
       && edge.routePoints && edge.routePoints.length >= 2) {
     const [first, ...rest] = edge.routePoints;
     return `M ${first!.x} ${first!.y} ${rest.map((point) => `L ${point.x} ${point.y}`).join(" ")}`;
@@ -672,7 +672,7 @@ function addEdgeLabel(
   const edgeMidX = routeMid.x;
   const edgeMidY = routeMid.y;
   const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
-  if (strategy === "layered-flow" || displaced) {
+  if (strategy !== "orchestration-system" && (strategy === "layered-flow" || displaced)) {
     const stem = document.createElementNS(namespace, "line");
     stem.setAttribute("class", "d3-flow-edge-label-stem");
     stem.setAttribute("x1", String(edge.labelX));
@@ -729,6 +729,9 @@ const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
   "event-server": ["M3 9h30v39H3zM7 39h22M9 47v8M27 47v8M7 55h22", "M7 32c4 0 3-15 8-15s4 15 9 15h5M40 9h12l9 9v37H40zM52 9v12h9", "M47 28l-5 12h8l-4 12 12-17h-9l6-7"],
   "execution-engine": ["M25 5h14l2 8 7 4 8-2 7 12-6 6v8l6 6-7 12-8-2-7 4H25l-2-8-7-4-8 2-7-12 6-6v-8l-6-6 7-12 8 2 7-4z", "M26 22l18 11-18 11z", "M14 33h7M47 33h7"],
   "workflow-results": ["M4 9h34v43H4zM10 44V25M10 44h23M12 36l7-8 6 4 8-13", "M42 17h18v40H22v-5M46 24h10M46 30h10M29 46l8 7 18-18", "M10 15h22"],
+  "measurement-ready": ["M3 10h28v34H3zM7 35c4 0 4-16 9-16s4 16 10 16M10 44v9M24 44v9M7 53h20", "M37 7h14l9 10v37H37zM51 7v12h9M42 27h11M42 33h8", "M41 45l7 7 13-17"],
+  "event-handler": ["M5 33V21a12 12 0 0 1 24 0v12l5 7H1zM12 46h10", "M35 17h25v13H35zM35 37h25v13H35zM40 23h1M40 43h1M45 23h10M45 43h10", "M18 5v5M29 53h14M37 47l6 6-6 6"],
+  "data-server": ["M7 15a25 10 0 1 0 50 0a25 10 0 1 0-50 0M7 15v34c0 13 50 13 50 0V15", "M7 31c0 13 50 13 50 0M7 43c0 13 50 13 50 0", "M17 30h1M17 42h1M17 53h1"],
   "data-import": ["M10 6h26l12 12v22H10zM36 6v14h12M16 28h18M16 35h12", "M30 48h28M48 38l10 10-10 10M16 46v12h22"],
   "peak-search": ["M4 54h56M6 48C14 48 13 18 21 18S27 48 32 48S39 29 44 29S49 48 58 48", "M12 10h20v46H12zM35 12h24M51 6l8 6-8 6"],
   "shared-peak-shape": ["M5 56h54M7 50C23 50 22 8 31 8S39 50 57 50", "M7 50C23 50 22 24 31 24S39 50 57 50", "M7 50C23 50 22 36 31 36S39 50 57 50"],
@@ -768,7 +771,8 @@ function addFlowVisualMotif(
     const path = document.createElementNS(namespace, "path");
     path.setAttribute("d", pathData);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", ["shared-peak-shape", "semantic-model", "processing-composition", "average-operation", "event-server", "execution-engine", "workflow-results"].includes(motif) ? `var(--pcd-chart-series-${index + 1}, currentColor)` : "currentColor");
+    const readyCheck = (motif === "measurement-ready" && index === 2) || (motif === "workflow-results" && index === 1);
+    path.setAttribute("stroke", readyCheck ? "#22b573" : ["shared-peak-shape", "semantic-model", "processing-composition", "average-operation", "event-server", "execution-engine", "workflow-results", "measurement-ready", "event-handler", "data-server"].includes(motif) ? `var(--pcd-chart-series-${index + 1}, currentColor)` : "currentColor");
     path.setAttribute("stroke-width", index === 1 && ["regression", "design-of-experiments", "multivariate"].includes(motif) ? "7" : "4");
     path.setAttribute("stroke-linecap", "round");
     path.setAttribute("stroke-linejoin", "round");
@@ -1176,7 +1180,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (layout.strategy === "concentric-network" || layout.strategy === "radial-network" || layout.strategy === "triadic-network") {
             addTextLines(group, layoutNode.labelLines, 0, 0, "d3-flow-node-label");
           } else {
-            const informationCard = model.diagramType === "flow";
+            const informationCard = model.diagramType === "flow" || layout.strategy === "orchestration-system";
             if (informationCard) {
               group.setAttribute("data-node-presentation", "information-card");
               if (layout.strategy === "space-filling-flow") {
@@ -1331,14 +1335,15 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               let bodyY: number;
 
               if (highlightMotif) {
-                const top = -layoutNode.height / 2 + 42;
+                const compactSystem = layout.strategy === "orchestration-system";
+                const top = -layoutNode.height / 2 + (compactSystem ? 20 : 42);
                 titleY = top + titleHeight / 2;
                 dividerY = top + titleHeight + dividerGap / 2;
                 const extent = flowMotifExtent(modelNode.visualMotif);
-                const motifSize = modelNode.thumbnail ? layoutNode.width - 44
+                const motifSize = compactSystem ? 80 : modelNode.thumbnail ? layoutNode.width - 44
                   : extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
-                const motifY = dividerY + 20 + motifSize / 2;
-                bodyY = motifY + motifSize / 2 + 20 + bodyHeight / 2;
+                const motifY = dividerY + (compactSystem ? 14 : 20) + motifSize / 2;
+                bodyY = motifY + motifSize / 2 + (compactSystem ? 14 : 20) + bodyHeight / 2;
                 if (modelNode.thumbnail) {
                   const image = document.createElementNS(namespace, "image");
                   const imageWidth = layoutNode.width - 44;

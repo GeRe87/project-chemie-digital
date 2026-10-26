@@ -77,6 +77,29 @@ planning or scientific correctness. The slide makes this distinction explicit.
 
 ## Hierarchy and development-status clarification
 
+### Automation network cleanup
+
+The automation view now has six illustrated cards: measurement data, event
+handler, engine, reports, pipeline schema and data server. Node titles have no
+implementation-status suffixes. The footer retains the distinction between the
+existing engine/pipelines and the complete system still under development.
+Measurement/file completion and completed reports have green checks.
+
+The pipeline supplies the engine's execution schema through a dashed reference.
+Report completion returns to the handler on a separate lower lane. The handler
+registers that event before initiating storage in the data server. These are
+control and reference relations, not scientific processing steps. Speaker-source
+provenance records the clarified ordering without claiming deployed integration.
+
+The shared renderer infers `orchestration-system` only from the exact six-role,
+six-edge topology. It reserves label gutters, two rows and a bottom return lane;
+it does not inspect scene ids or labels. Scoped sizing keeps the diagram above
+the footer. All six thumbnails and card text fit in both desktop themes, with
+no card/card, label/card or diagram/footer intersections in browser checks.
+Focused verification passed: 25 content checks, 23 renderer/adapter checks and
+three selected layout checks. Full validation remains deferred, including the
+previously documented unrelated Hilbert-width failure.
+
 The processing-step view is now one joined panel with three colored columns.
 It is inferred from one authored group containing semantic input/process/output
 roles. There are no column, tree, coordinate or layout-choice flags in RDF or

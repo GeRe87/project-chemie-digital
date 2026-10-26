@@ -61,6 +61,9 @@ export const VISUAL_MOTIF_KEYS = [
   "event-server",
   "execution-engine",
   "workflow-results",
+  "measurement-ready",
+  "event-handler",
+  "data-server",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];

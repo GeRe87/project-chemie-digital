@@ -1,5 +1,5 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "orchestration-system" | "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
@@ -1664,8 +1664,57 @@ function hierarchyFanoutLayout(
   };
 }
 
+/** Recognize a controller-mediated execution/archive system by roles and edges, never identities or labels. */
+function orchestrationSystemLayout(input: D3FlowLayoutInput): D3FlowLayout | undefined {
+  const roles = ["input", "control", "process", "output", "specification", "storage"] as const;
+  if (input.diagramType !== "network" || input.nodes.length !== roles.length || input.edges.length !== 6) return undefined;
+  const byRole = new Map(roles.map(role => [role, input.nodes.filter(node => node.visualRole === role)]));
+  if ([...byRole.values()].some(nodes => nodes.length !== 1)) return undefined;
+  const id = (role: typeof roles[number]) => byRole.get(role)![0]!.id;
+  const pairs = [["input", "control"], ["control", "process"], ["process", "output"], ["specification", "process"], ["output", "control"], ["control", "storage"]] as const;
+  if (!pairs.every(([source, target]) => input.edges.some(edge => edge.sourceNodeId === id(source) && edge.targetNodeId === id(target)))) return undefined;
+  const cardWidth = 280, gap = 120, margin = 32, rowGap = 108;
+  const measured = input.nodes.map(node => ({...node,
+    labelLines: wrapFlowText(node.label, cardWidth - 40, structuredTitleTextMeasure),
+    bodyLines: wrapFlowText(node.description ?? "", cardWidth - 40, bodyTextMeasure)}));
+  const cardHeight = Math.max(244, ...measured.map(node => 164 + node.labelLines.length * 28 + node.bodyLines.length * 23));
+  const slots: Readonly<Record<string, readonly [number, number]>> = {input: [0, 1], control: [1, 1], process: [2, 1], output: [3, 1], specification: [2, 0], storage: [1, 0]};
+  const nodes = measured.map(node => {
+    const [column, row] = slots[node.visualRole!]!;
+    return {id: node.id, width: cardWidth, height: cardHeight, labelLines: node.labelLines, bodyLines: node.bodyLines,
+      x: margin + cardWidth / 2 + column * (cardWidth + gap), y: margin + cardHeight / 2 + row * (cardHeight + rowGap)};
+  });
+  const nodeById = new Map(nodes.map(node => [node.id, node]));
+  const roleById = new Map(input.nodes.map(node => [node.id, node.visualRole]));
+  const returnY = margin + cardHeight * 2 + rowGap + 72;
+  const edges = input.edges.map(edge => {
+    const source = nodeById.get(edge.sourceNodeId)!, target = nodeById.get(edge.targetNodeId)!;
+    const from = roleById.get(source.id), to = roleById.get(target.id);
+    let points: D3FlowLayoutPoint[], labelX: number, labelY: number;
+    if (from === "output" && to === "control") {
+      points = [{x: source.x, y: source.y + cardHeight / 2}, {x: source.x, y: returnY}, {x: target.x, y: returnY}, {x: target.x, y: target.y + cardHeight / 2}];
+      labelX = (source.x + target.x) / 2; labelY = returnY;
+    } else if (from === "specification" || to === "storage") {
+      const down = target.y > source.y;
+      points = [{x: source.x, y: source.y + (down ? cardHeight / 2 : -cardHeight / 2)}, {x: target.x, y: target.y + (down ? -cardHeight / 2 : cardHeight / 2)}];
+      labelX = source.x; labelY = (points[0]!.y + points[1]!.y) / 2;
+    } else {
+      points = [{x: source.x + cardWidth / 2, y: source.y}, {x: target.x - cardWidth / 2, y: target.y}];
+      labelX = (points[0]!.x + points[1]!.x) / 2; labelY = source.y;
+    }
+    return {id: edge.id, sourceNodeId: source.id, targetNodeId: target.id,
+      x1: points[0]!.x, y1: points[0]!.y, x2: points.at(-1)!.x, y2: points.at(-1)!.y,
+      routePoints: points, labelX, labelY, labelLines: wrapFlowText(edge.label, from === "output" || from === "specification" || to === "storage" ? 200 : gap - 46),
+      ...(edge.visualRole ? {visualRole: edge.visualRole} : {})};
+  });
+  return {orientation: "horizontal", strategy: "orchestration-system", width: margin * 2 + cardWidth * 4 + gap * 3,
+    height: returnY + margin, nodes, edges, groups: [], states: (input.states ?? []).map(state => ({id: state.id, sharedEdgeAnnotations: state.sharedEdgeAnnotations}))};
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
+  const orchestration = orchestrationSystemLayout(input);
+  if (orchestration) return orchestration;
   if (isSingleUnitFlow(input)) {
     const base = createD3FlowLayout({...input, groups: []}, hostWidth);
     const columnWidth = Math.max(280, ...base.nodes.map(node => node.width));
