@@ -1,0 +1,107 @@
+name: Validate Talks PR 295
+
+on:
+  pull_request:
+    branches:
+      - talks
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+
+concurrency:
+  group: talks-pr295-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  exact-head-talks:
+    if: github.event.pull_request.number == 295
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out exact PR HEAD
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Verify source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+          echo "TALKS_SOURCE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          git status --porcelain
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install pinned build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r scripts/requirements-static-build.txt
+          npm ci --ignore-scripts
+
+      - name: Focused TED publication contract
+        run: python -m unittest discover -s tests -p test_talks_ted_introduction.py -v
+
+      - name: Full repository test suite (read-only publish scope)
+        run: npm test
+
+      - name: Talks production build
+        run: npm run build:talks
+
+      - name: Talks artifact validation
+        run: |
+          npm run check:talks-build
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("dist/talks/validated-build.json").read_text())
+          print(json.dumps({"sourceSha": "${{ github.event.pull_request.head.sha }}", "artifact": {key: value for key, value in manifest.items() if key != "files"}, "fileCount": len(manifest["files"])}, indent=2))
+          PY
+
+      - name: Install isolated browser verification tools
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/talks-browser-tools" --no-package-lock --no-save playwright@1.58.2 axe-core@4.11.1
+          "$RUNNER_TEMP/talks-browser-tools/node_modules/.bin/playwright" install --with-deps chromium
+
+      - name: Smoke-test production Talks site and TED-GC-MS talk
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m http.server 4186 --bind 127.0.0.1 --directory dist/talks > "$RUNNER_TEMP/talks-server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4186/ > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail http://127.0.0.1:4186/course-runtime/manifest.json > /dev/null
+          pw="$RUNNER_TEMP/talks-browser-tools/node_modules/playwright/index.mjs"
+          axe="$RUNNER_TEMP/talks-browser-tools/node_modules/axe-core/axe.min.js"
+          node scripts/smoke_talks.mjs http://127.0.0.1:4186 "$pw" "" "" "$axe"
+          node scripts/smoke_ted_introduction.mjs http://127.0.0.1:4186 "$pw" "" "" "$axe"
+
+      - name: Retain validated evidence without publishing
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: talks-pr295-${{ github.event.pull_request.head.sha }}
+          path: |
+            dist/talks/validated-build.json
+            ${{ runner.temp }}/talks-server.log
+          if-no-files-found: ignore
+          retention-days: 7
