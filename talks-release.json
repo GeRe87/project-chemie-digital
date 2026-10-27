@@ -1,6 +1,6 @@
 {
-  "sourceSha": "e62f35cca32923176d87a1a5103e304db90fcca5",
-  "datasetFingerprint": "sha256:18d04ce662ec82ff8fbfd9b1bcfd1d9bb46d3ae8323fdf17a0bfc0a969d2e8dc",
-  "buildManifestSha256": "587bc3402dfa9a82bf2483d6f97bc9b21496eedbbc98a645b182d98b494537b4",
+  "sourceSha": "174a85c6fe3b46d412f48f5b267ed08243826cdb",
+  "datasetFingerprint": "sha256:03c1809977383a3bb89ad84aec94858d1c2882d803f91a52fb78340823013c82",
+  "buildManifestSha256": "87c060f23ea5833e8c89d0f4799f24258e0537c36c3cf91ecd6c1c1da3fd6f88",
   "destinationBranch": "gh-pages-talks"
 }
