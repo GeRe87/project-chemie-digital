@@ -24,6 +24,7 @@ class TalksPublicationTests(unittest.TestCase):
         self.receipt = {"success": True, "fullSuite": True, "sourceStable": True, "dirtyAtStart": False,
                         "buildRequested": True, "sourceSha": "abc", "buildManifestSha256": hashlib.sha256(self.marker.read_bytes()).hexdigest(),
                         "steps": [{"name": n, "exitCode": 0} for n in ("full-suite", "build-talks", "verify-talks-build")]}
+        self.receipt["generatedShells"] = {file: {"before": None, "after": None} for file in publication.GENERATED_SHELLS}
         self.receipt_file = self.root / "dist/talks-checks/checks.json"
         self.receipt_file.parent.mkdir()
         self.write_receipt()
@@ -64,6 +65,12 @@ class TalksPublicationTests(unittest.TestCase):
         self.artifact["offeringId"] = publication.TALKS
         (self.output / "CNAME").write_text("do-not-touch.example", encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "Hosting configuration"): self.validate()
+
+    def test_generated_shell_edits_after_validation_are_rejected(self):
+        shell = self.root / publication.GENERATED_SHELLS[0]
+        shell.parent.mkdir(parents=True)
+        shell.write_text("unexpected post-validation edit", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "shell changed"): self.validate()
 
     def test_dry_run_never_writes_and_staging_never_overwrites_existing_files(self):
         with patch.object(publication, "ROOT", self.root), patch.object(publication, "validate_release", return_value={"destinationBranch": "gh-pages-talks"}):

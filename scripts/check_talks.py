@@ -12,6 +12,11 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+GENERATED_SHELLS = ("apps/pitch/index.html", "apps/self-study/index.html")
+
+
+def file_hash(path: Path) -> str | None:
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
 
 
 def commands(full: bool, build: bool) -> list[tuple[str, list[str]]]:
@@ -39,7 +44,8 @@ def run_checks(full: bool, build: bool, output: Path) -> int:
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     dirty = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal"], cwd=ROOT, text=True)
     report = {"sourceSha": head, "dirtyAtStart": bool(dirty.strip()), "fullSuite": full,
-              "buildRequested": build, "success": False, "steps": []}
+              "buildRequested": build, "success": False, "steps": [],
+              "generatedShells": {file: {"before": file_hash(ROOT / file)} for file in GENERATED_SHELLS}}
     for index, (name, command) in enumerate(commands(full, build)):
         log = output / f"{index + 1:02}-{name}.log"
         print(f"{name}: starting (log: {log})", flush=True)
@@ -59,7 +65,10 @@ def run_checks(full: bool, build: bool, output: Path) -> int:
         if code:
             return code
     final_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    source_changes = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal", "--", ".", ":(exclude)apps/pitch/index.html"], cwd=ROOT, text=True)
+    source_changes = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal", "--", ".",
+                                            *[f":(exclude){file}" for file in GENERATED_SHELLS]], cwd=ROOT, text=True)
+    for file in GENERATED_SHELLS:
+        report["generatedShells"][file]["after"] = file_hash(ROOT / file)
     report["sourceStable"] = final_head == head and not source_changes.strip()
     if build:
         marker = ROOT / "dist/talks/validated-build.json"

@@ -61,8 +61,10 @@ artifact verification. These are fast feedback, not substitutes for acceptance.
 build/check. It stops on failure. Logs, exit codes, elapsed seconds, source SHA
 and dirty-source information are written to ignored `dist/talks-checks/`.
 A successful release receipt additionally binds the build-manifest hash and
-requires clean, unchanged source (the generated Pitch HTML shell is the only
-end-of-run tracked-file exception). Browser acceptance and independent review
+requires clean, unchanged source. The generator-owned Pitch and self-study HTML
+shells are the only end-of-run tracked-file exceptions; their before/after hashes
+are recorded explicitly. Validation runs in an isolated checkout, never a course
+publication checkout. Browser acceptance and independent review
 remain separate gates. No existing test or Chemometrics command is removed.
 
 The observed GitHub run at `7cefac37` failed after 590 Python tests in 3069.972

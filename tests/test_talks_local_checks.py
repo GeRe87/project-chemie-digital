@@ -29,6 +29,9 @@ class TalksLocalChecksTests(unittest.TestCase):
         self.assertEqual(commands[1][1][1:], ["run", "build:talks"])
         self.assertEqual(commands[2][1][1:], ["run", "check:talks-build"])
 
+    def test_only_the_two_generator_owned_html_shells_are_exempted(self):
+        self.assertEqual(checks.GENERATED_SHELLS, ("apps/pitch/index.html", "apps/self-study/index.html"))
+
     def test_failure_invalidates_old_success_and_does_not_build(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory)
@@ -53,4 +56,6 @@ class TalksLocalChecksTests(unittest.TestCase):
             self.assertTrue(receipt["success"])
             self.assertTrue(receipt["dirtyAtStart"])
             self.assertFalse(receipt["fullSuite"])
+            self.assertEqual(set(receipt["generatedShells"]), set(checks.GENERATED_SHELLS))
+            self.assertTrue(all("before" in item and "after" in item for item in receipt["generatedShells"].values()))
             self.assertGreaterEqual(receipt["steps"][0]["seconds"], 0)

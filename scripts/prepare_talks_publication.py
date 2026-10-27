@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 
 from static_course_artifact import MARKER, ROOT, verify_existing
+from check_talks import GENERATED_SHELLS, file_hash
 
 TALKS = "https://w3id.org/project-chemie-digital/resource/talks"
 DESTINATION_BRANCH = "gh-pages-talks"
@@ -26,9 +27,16 @@ def validate_release() -> dict:
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     if receipt.get("sourceSha") != head:
         raise ValueError("Release check is for a different source commit")
-    dirty = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal", "--", ".", ":(exclude)apps/pitch/index.html"], cwd=ROOT, text=True)
+    dirty = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal", "--", ".",
+                                     *[f":(exclude){file}" for file in GENERATED_SHELLS]], cwd=ROOT, text=True)
     if dirty.strip():
         raise ValueError("Source changed after the release check")
+    shells = receipt.get("generatedShells", {})
+    if set(shells) != set(GENERATED_SHELLS):
+        raise ValueError("Release receipt lacks generated-shell evidence")
+    for file in GENERATED_SHELLS:
+        if "after" not in shells[file] or shells[file]["after"] != file_hash(ROOT / file):
+            raise ValueError("Generated HTML shell changed after the release check")
     marker_hash = hashlib.sha256((output / MARKER).read_bytes()).hexdigest()
     if receipt.get("buildManifestSha256") != marker_hash:
         raise ValueError("Build manifest does not match the checked release")
