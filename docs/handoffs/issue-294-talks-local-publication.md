@@ -27,6 +27,15 @@ Owner-directed build/validation follow-up to #294 and draft PR #295, targeting
   production transport policy, exact serialized RDF graphs and missing-definition
   counterexamples, local-check failure behavior and publication safety tests.
 - [ ] Complete final exact-head `npm test`: required, not yet claimed green.
+  The diagnostic run on `257e0f9f` completed in 2568.602 seconds. All 600 Python
+  tests passed; the renderer selection passed 96/98. One failure was the known
+  Hilbert-width guard. The other was a stale source assertion expecting radius 7
+  for all line traces despite Talks commit `79b61a45e` introducing radius 2.5 for
+  dense chromatograms. The assertion now requires both dense/sparse branches
+  and the explicit focused-series/context visibility branches. A fresh full
+  renderer selection passes 97/98, leaving only the unchanged Hilbert guard;
+  no runtime chart behavior or course geometry is changed. Later npm-test phases
+  were not reached by that run, and it is not current-head acceptance evidence.
 - [x] Complete canonical SHACL passed on source `257e0f9f`; dataset fingerprint
   `sha256:18d04ce662ec82ff8fbfd9b1bcfd1d9bb46d3ae8323fdf17a0bfc0a969d2e8dc`.
 - [x] Production build and artifact verification passed on `257e0f9f`: 265 files,
@@ -35,7 +44,15 @@ Owner-directed build/validation follow-up to #294 and draft PR #295, targeting
 - [x] Talks world/title browser acceptance passed all eight desktop/mobile,
   light/dark and normal/reduced-motion combinations, including axe WCAG checks,
   keyboard theme/background controls and script-disabled static fallback.
-- [ ] Production-browser and accessibility acceptance in both themes/viewports.
+- [x] Production-browser and automated accessibility acceptance on application
+  source `fa618d3e`: all 200 scene/configuration cases (25 scenes, desktop/mobile,
+  light/dark, normal/reduced motion) and all eight world/title cases pass with
+  axe WCAG checks. Stage navigation, graph-dialog keyboard entry/close/focus,
+  media, clipping, return controls, missing assets and static fallback are checked.
+  The rebuilt 265-file artifact also passes `check:talks-build`; manifest SHA-256
+  `b4d04ac2623a9af604666183662d4599d91b1fbc432167d82d809b825f6edc2b`.
+  Subsequent source edits in this increment are test/runner/handoff-only, not
+  application code or authored RDF. Independent review remains outstanding.
 - [x] Documentation updated.
 
 ## Boundary and decisions
@@ -52,6 +69,10 @@ invalid dataset. Fixes belong in Talks source, not weaker global assertions.
 The pre-existing Hilbert-width renderer failure remains out of this Talks-only
 increment. The locked dependency installation also reports npm advisories;
 no dependency upgrade or automatic audit fix is included.
+An explicit comparison against `7cefac37` confirms no changed Chemometrics RDF
+files and unchanged `npm test`, `build:chemometrics` and
+`check:chemometrics-build` commands. No publication branch or hosting setting
+was touched. Release staging must remain blocked by the failing full-suite gate.
 
 The production build was performed in a separate isolated checkout while the
 complete suite ran, so family generators could not overwrite each other's
