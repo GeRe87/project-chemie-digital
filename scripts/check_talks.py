@@ -20,7 +20,7 @@ def commands(full: bool, build: bool) -> list[tuple[str, list[str]]]:
         checks = [("full-suite", [npm, "test"])]
     else:
         checks = [("talks-python", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", pattern, "-v"])
-                  for pattern in ("test_presentation_collection.py", "test_talks_ted_introduction.py", "test_talks_local_checks.py")]
+                  for pattern in ("test_presentation_collection.py", "test_talks_ted_introduction.py", "test_talks_local_checks.py", "test_talks_publication.py")]
         files = ["apps/pitch/test/talks-world.test.ts", "packages/core/test/presentation-metadata.test.ts"]
         checks += [("talks-typescript", ["node", "--experimental-strip-types", "--test", *files])]
     if build:

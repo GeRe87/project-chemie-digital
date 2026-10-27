@@ -52,7 +52,8 @@
     "check:talks-build": "python scripts/static_course_artifact.py dist/talks",
     "test:talks": "python scripts/check_talks.py",
     "check:talks-local": "python scripts/check_talks.py --build",
-    "check:talks-release": "python scripts/check_talks.py --full --build"
+    "check:talks-release": "python scripts/check_talks.py --full --build",
+    "prepare:talks-publication": "python scripts/prepare_talks_publication.py"
   },
   "engines": {
     "node": ">=22"

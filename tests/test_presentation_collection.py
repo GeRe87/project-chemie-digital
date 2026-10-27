@@ -124,7 +124,15 @@ class PresentationCollectionTest(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("fixture", encoding="utf-8")
             (public / "course-runtime/manifest.json").write_text('{"documents":[{"runtime":"course-runtime/selected.json"}]}', encoding="utf-8")
-            selected = {path.relative_to(public).as_posix() for path in public_files(public, self.build())}
+            artifact = self.build()
+            for scene in artifact["sceneDocuments"][0]["scenes"]:
+                for logo in scene.get("presentationTitle", {}).get("logos", []):
+                    for key in ("uri", "darkUri"):
+                        if logo.get(key):
+                            asset = public / logo[key].lstrip("/")
+                            asset.parent.mkdir(parents=True, exist_ok=True)
+                            asset.write_text("selected logo fixture", encoding="utf-8")
+            selected = {path.relative_to(public).as_posix() for path in public_files(public, artifact)}
             self.assertIn("course-runtime/selected.json", selected)
             self.assertNotIn("course-runtime/unrelated.json", selected)
             self.assertNotIn("private-presentation/image.svg", selected)

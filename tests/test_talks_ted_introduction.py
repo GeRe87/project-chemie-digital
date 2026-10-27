@@ -188,6 +188,9 @@ class TedIntroductionTests(unittest.TestCase):
             parsed.parse(data=detail["code"], format="trig")
             graph = URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-" + suffix)
             self.assertEqual(to_isomorphic(parsed.graph(graph)), to_isomorphic(authored.graph(graph)))
+            data_graph = URIRef("https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces")
+            self.assertEqual(to_isomorphic(parsed.graph(data_graph)), to_isomorphic(authored.graph(data_graph)))
+            self.assertGreater(len(parsed.graph(data_graph)), 0)
             self.assertIn("Input", detail["code"])
             self.assertIn("Output", detail["code"])
             self.assertIn("conformsTo", detail["code"])
@@ -278,10 +281,11 @@ class TedIntroductionTests(unittest.TestCase):
         dataset = R.assemble_dataset()
         for suffix in ("eics", "features", "components", "marker-areas"):
             graph = dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-" + suffix))
-            self.assertTrue(validate(graph, shacl_graph=graph)[0])
+            data = dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces"))
+            self.assertTrue(validate(data, shacl_graph=graph)[0])
             altered = graph.__class__()
-            for triple in graph: altered.add(triple)
-            port = next(graph.subjects(R.RDF.type, URIRef("https://cogniflow.odea-project.org/cf#Port")))
+            for triple in data: altered.add(triple)
+            port = next(graph.objects(None, URIRef("http://www.w3.org/ns/shacl#targetNode")))
             altered.remove((port, R.SKOS.definition, None))
             self.assertFalse(validate(altered, shacl_graph=graph)[0])
 
@@ -336,7 +340,9 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(chart["chartType"], "line")
         self.assertIn("not measured", chart["label"].lower())
         self.assertIn("synthetic", chart["description"].lower())
-        tic, eic = chart["series"]
+        self.assertEqual(len(chart["series"]), 2)
+        tic = next(series for series in chart["series"] if series["id"] == "ex:ted-schematic-signal")
+        eic = next(series for series in chart["series"] if series["id"] == "ex:ted-schematic-eic")
         for series in (tic, eic):
             data = series["data"]
             self.assertEqual(len(data), 81)

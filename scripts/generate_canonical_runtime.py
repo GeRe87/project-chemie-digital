@@ -505,24 +505,34 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             contract_graph = one(dataset, contract, iri(CD, "contractGraph"))
             if not isinstance(contract_graph, URIRef) or not str(contract_graph).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
                 raise ValueError("Port contract must name an authored shape graph")
-            graph = dataset.graph(contract_graph)
-            if not 1 <= len(graph) <= 150:
-                raise ValueError("Port contract graph must be bounded and nonempty")
-            transport = Graph()
-            for prefix, namespace in dataset.namespaces(): transport.bind(prefix, namespace)
-            for triple in to_canonical_graph(graph): transport.add(triple)
-            stream = BytesIO()
-            PresentationGraphSerializer(transport).serialize(stream, encoding="utf-8")
-            directives, body = stream.getvalue().decode("utf-8").split("\n\n", 1)
-            directives = "\n".join(line for line in directives.splitlines()
-                if not line.startswith("@prefix ") or re.search(r"(?<![\w-])" + re.escape(line.split()[1]) , body))
-            code = directives + "\n\n<" + str(contract_graph) + "> {\n" + body.strip() + "\n}\n"
+            data_graph = one(dataset, contract, iri(CD, "contractDataGraph"), required=False)
+            if data_graph is not None and (not isinstance(data_graph, URIRef) or not str(data_graph).startswith("https://w3id.org/project-chemie-digital/graph/knowledge/")):
+                raise ValueError("Port contract data must name an authored knowledge graph")
+            graph_ids = ([data_graph] if data_graph is not None else []) + [contract_graph]
+            directives_by_line: dict[str, None] = {}
+            graph_bodies = []
+            for graph_id in graph_ids:
+                graph = dataset.graph(graph_id)
+                if not 1 <= len(graph) <= 150:
+                    raise ValueError("Port contract graph must be bounded and nonempty")
+                transport = Graph()
+                for prefix, namespace in dataset.namespaces(): transport.bind(prefix, namespace)
+                for triple in to_canonical_graph(graph): transport.add(triple)
+                stream = BytesIO()
+                PresentationGraphSerializer(transport).serialize(stream, encoding="utf-8")
+                directives, body = stream.getvalue().decode("utf-8").split("\n\n", 1)
+                for line in directives.splitlines():
+                    if not line.startswith("@prefix ") or re.search(r"(?<![\w-])" + re.escape(line.split()[1]), body):
+                        directives_by_line[line] = None
+                graph_bodies.append("<" + str(graph_id) + "> {\n" + body.strip() + "\n}\n")
+            code = "\n".join(directives_by_line) + "\n\n" + "\n".join(graph_bodies)
             if len(code) > 18000: raise ValueError("Port contract detail exceeds presentation bounds")
             description = literal(dataset, contract, iri(CD, "body"), language)
             if not description or not description.strip(): raise ValueError("Port contract requires a human-readable description")
             edge_value["codeDetail"] = {"label": selected_label_reference(dataset, contract, language)[0],
                 "description": description, "language": "trig", "code": code,
-                "source": [source_reference(dataset, edge, "cd:hasPortContract"), source_reference(dataset, contract, "cd:contractGraph"), source_reference(dataset, contract, "cd:body")]}
+                "source": [source_reference(dataset, edge, "cd:hasPortContract"), source_reference(dataset, contract, "cd:contractGraph"), source_reference(dataset, contract, "cd:body")]
+                    + ([source_reference(dataset, contract, "cd:contractDataGraph")] if data_graph is not None else [])}
         edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)

@@ -71,6 +71,34 @@ reports of one invalid canonical dataset must be fixed at their Talks source,
 not hidden by excluding the failing tests. GitHub Actions are not the prescribed
 validation provider and are neither added nor invoked by the local commands.
 
+`npm run prepare:talks-publication` is a fail-closed dry run. It requires the
+successful clean exact-head full release receipt, all three exit codes and the
+matching build-manifest hash. It revalidates the artifact, rejects teaching
+offerings, CNAME and Git/hosting metadata, and reports only `gh-pages-talks` as
+the destination. `npm run prepare:talks-publication -- --stage` copies the files
+into a new `dist/talks-publication` directory. Existing staging is never erased.
+Neither mode writes Git refs, pushes branches, merges PRs or changes hosting.
+Do not publish that local staging until browser/independent acceptance and
+integration into `talks` are complete.
+
+### Talks source fixes required by the local gate
+
+Talks port examples previously mixed descriptor data and SHACL inside shapes
+graphs. The global validator correctly excludes shapes graphs from its data
+union, so those examples appeared to lack metadata and port values. The fix
+separates descriptor data into one owned knowledge graph and keeps SHACL in its
+original shapes graphs. Optional `contractDataGraph`, used only by the new port
+contract projection, includes both exact named graphs in each inspectable TriG
+popup. No global validation rule or Chemometrics content/build is changed.
+Focused tests still reject missing port definitions, and compare both serialized
+graphs isomorphically against the authored RDF.
+
+FAIR card literals retain their `@en` tags without misusing the SceneItem-only
+`cd:language` property. The EIC, which owns the annotations, is now the primary
+chart dataset with the TIC retained as the contextual series; staged visibility
+still starts with the TIC. Missing source support links and an incomplete
+logo-staging fixture are corrected in Talks-only files/tests.
+
 ## Cloudflare Pages configuration (owner action; not deployed by this task)
 
 Create a **Pages** project using Cloudflare's Git integration:

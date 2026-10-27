@@ -12,7 +12,8 @@
     cd:body "Synthetic TIC → selected EIC · no measured sample or polymer assignment."@en ;
     cd:chartType cd:LineChart ; cd:xAxisLabel "Relative retention time"@en ;
     cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;
-    cd:usesDataset ex:ted-schematic-signal ; dct:hasPart ex:ted-schematic-eic ;
+    # The annotations describe the selected EIC; the TIC is its contextual series.
+    cd:usesDataset ex:ted-schematic-eic ; dct:hasPart ex:ted-schematic-signal ;
     cd:hasChartAnnotation ex:ted-select-eic, ex:ted-marker-candidate-a, ex:ted-marker-area ;
     dct:references ex:ted-polymer-markers ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
 
