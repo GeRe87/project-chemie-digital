@@ -10,6 +10,11 @@ Owner-directed Talks content and presentation follow-up, outside dispatcher lane
 
 ## Completed
 
+- Final owner review: marker-candidate annotation now stays left of the peak and
+  wraps there instead of colliding with the spectrum/reference annotation. The
+  detection diagram authors `Chromato-` / `gram` as a readable title break.
+  Regression coverage checks the actual marker-label bounds and authored title.
+
 - Owner review a1–a9: solid/thinner TIC and inset inside the plot, theme-aware
   variance/FAIR illustrations and paired spectrum assets, 15 K/min comparison,
   visible interface emphasis, below-box reference route, red/green validation

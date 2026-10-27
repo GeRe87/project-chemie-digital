@@ -11,7 +11,7 @@ const entry = manifest.documents[0];
 const artifact = await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes = artifact.sceneDocuments[0].scenes;
 assert.equal(scenes.length, 29);
-const names = ["overview","heating","capture","markers","process-variance","nesting","temperature-program","calibration-time","fifo-design","processing","fair","semantics","processing-unit","validation","ai","thanks"];
+const names = ["overview","heating","capture","detection","markers","process-variance","nesting","temperature-program","calibration-time","fifo-design","processing","fair","semantics","processing-unit","validation","ai","thanks"];
 const axe = axePath ? await fs.readFile(axePath,"utf8") : undefined;
 const browser = await chromium.launch({headless:true, ...(executablePath ? {executablePath} : {})});
 let cases=0, stages=0;
@@ -46,6 +46,11 @@ try {
             const inset=current.locator(".d3-chart-annotation-media");
             assert.equal(await inset.count(),1);
             assert.equal(await inset.evaluate(el=>getComputedStyle(el.parentElement).opacity),step>=4?"1":"0");
+            if(step>=4) {
+              const candidate=await current.locator('[data-annotation-id="ex:ted-marker-candidate-a"] text').boundingBox();
+              const evidence=await current.locator('[data-annotation-id="ex:ted-marker-spectrum"] text').boundingBox();
+              assert.ok(candidate.x+candidate.width<evidence.x || candidate.y+candidate.height<evidence.y || evidence.y+evidence.height<candidate.y,'marker and spectrum annotations overlap');
+            }
             for(const dash of await current.locator('.d3-chart-line').evaluateAll(es=>es.map(e=>getComputedStyle(e).strokeDasharray))) assert.equal(dash,"none");
             if(step===4) {
               const geometry=await inset.evaluate(el=>{const peak=el.parentElement.querySelector('circle');return {x:+el.getAttribute('x'),y:+el.getAttribute('y'),w:+el.getAttribute('width'),px:+peak.getAttribute('cx'),py:+peak.getAttribute('cy')};});
@@ -83,6 +88,11 @@ try {
           }
           if(name==="validation") assert.ok((await current.locator(".d3-flow-svg").textContent()).includes(step===1?"SHACL: failed":"SHACL: passed"));
           if(name==="heating") assert.equal(await current.locator(".pcd-list-item-details li").count(),1);
+          if(name==='detection' && step===3) {
+            const text=await current.locator('[data-node-id="ex:ted-signal-node-trace"]').textContent();
+            assert.ok(text.includes('Chromato-\ngram'),'authored chromatogram break was lost');
+            assert.ok(!text.includes('Chromatogr\nam'),'unreadable automatic word split');
+          }
           if(name==="nesting" || name==="calibration-time") {
             const chart=scene.blocks.find(block=>block.kind==="chart");
             const expected=new Set(chart.scenarios.flatMap(s=>s.lanes.flatMap(l=>l.intervals.filter(i=>i.showRunLabel).map(i=>i.id))));

@@ -19,6 +19,13 @@
 
 Earlier green full-suite evidence at `f9662fd4` does not validate these corrections.
 
+## Final annotation and title review
+
+The marker candidate stays left of its peak, wrapping on that side when needed,
+instead of flipping onto the spectrum/reference label. The browser regression
+checks the two actual text bounds for overlap. The detection diagram authors the
+readable break `Chromato-` / `gram`, avoiding the automatic `Chromatogr` / `am`.
+
 ## Boundary
 
 Owner-requested follow-up to accepted PR #295, based on `talks`. The result is
@@ -136,7 +143,7 @@ node scripts/smoke_ted_introduction.mjs <base> <playwright-index.mjs> <browser-e
 node scripts/smoke_ted_revisions.mjs <base> <playwright-index.mjs> <browser-exe> <screenshots> <axe.min.js>
 ```
 
-The revision-specific check traverses every stage of 16 affected scenes at two
+The revision-specific check traverses every stage of 17 affected scenes at two
 viewports, both themes and motion modes, checks inset timing, endpoint arrows,
 highlighted interfaces, nested bullets, selected interval labels, visible legends,
 clipping, assets and WCAG rules. Each direct-entry test gets an isolated browser

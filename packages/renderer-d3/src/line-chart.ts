@@ -1,5 +1,6 @@
 import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
+import { wrapFlowText } from "./flow-layout.ts";
 import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } from "../../core/src/scene-document.ts";
 
 export interface D3LineChartOptions {
@@ -374,17 +375,26 @@ export function mountD3LineChart(
           const px = x(datum.x), py = y(datum.y);
           const measured = label.getComputedTextLength?.() ?? 0;
           const textWidth = measured > 0 ? measured : annotation.label.length * 14;
-          const rightSpace = margin.left + plotWidth - px - 72;
-          const leftSpace = px - margin.left - 72;
+          const gap = 24;
+          const rightSpace = margin.left + plotWidth - px - gap - 12;
+          const leftSpace = px - margin.left - gap - 12;
           const preferRight = label.getAttribute("text-anchor") === "start";
-          const useRight = preferRight ? rightSpace >= textWidth || rightSpace >= leftSpace
-            : !(leftSpace >= textWidth || leftSpace > rightSpace);
-          const desiredX = useRight ? px + 72 : px - 72 - textWidth;
-          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - textWidth - 12));
+          // Preserve alternating sides when there is room for a readable label.
+          // Wrap instead of flipping two annotations of the same datum together.
+          const useRight = preferRight ? rightSpace >= Math.min(textWidth, 160) || rightSpace >= leftSpace
+            : !(leftSpace >= Math.min(textWidth, 80) || leftSpace > rightSpace);
+          const available = Math.max(80, useRight ? rightSpace : leftSpace);
+          const measure = (text: string) => {label.textContent = text; return label.getComputedTextLength?.() || text.length * 14;};
+          const lines = wrapFlowText(annotation.label, available, measure);
+          const labelWidth = Math.max(...lines.map(measure));
+          const desiredX = useRight ? px + gap : px - gap - labelWidth;
+          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - labelWidth - 12));
           const labelY = Math.max(margin.top + 24, Math.min(annotation.media ? py + 64 : Number(label.getAttribute("y")), margin.top + plotHeight - 20));
           label.setAttribute("text-anchor", "start");
           label.setAttribute("x", String(labelX)); label.setAttribute("y", String(labelY));
-          const endX = useRight ? labelX : labelX + textWidth;
+          label.textContent = "";
+          lines.forEach((text, index) => {const span = svg("tspan"); span.setAttribute("x", String(labelX)); span.setAttribute("dy", index ? "28" : "0"); span.textContent = text; label.append(span);});
+          const endX = useRight ? labelX : labelX + labelWidth;
           connector.setAttribute("d", `M ${px} ${py} L ${(px + endX) / 2} ${(py + labelY) / 2} L ${endX} ${labelY - 6}`);
         }
       }

@@ -150,6 +150,10 @@ class TedRevisionTests(unittest.TestCase):
             self.assertIn(value, text)
         self.assertEqual(self.block("thanks", "media-reference")["uri"], "/talks-media/talks-website-qr.svg")
 
+    def test_chromatogram_title_uses_an_explicit_readable_word_break(self):
+        trace = next(n for n in self.block("detection", "diagram")["nodes"] if n["id"] == "ex:ted-signal-node-trace")
+        self.assertEqual(trace["label"], "Chromato-\ngram")
+
     def test_ai_finale_is_a_semantic_tool_architecture_not_an_unqualified_success_claim(self):
         diagram = self.block("ai", "diagram")
         self.assertEqual(diagram["diagramType"], "network")
