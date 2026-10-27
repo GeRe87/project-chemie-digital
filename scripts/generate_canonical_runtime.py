@@ -11,11 +11,14 @@ import html
 import json
 import math
 import re
+from io import BytesIO
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from rdflib import DCTERMS, RDF, SKOS, Dataset, Literal, URIRef
+from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Graph, Literal, URIRef
+from rdflib.compare import to_canonical_graph
+from rdflib.plugins.serializers.turtle import TurtleSerializer
 
 from course_path_selection import (
     CoursePathReference,
@@ -36,6 +39,15 @@ SCHEMA = "https://schema.org/"
 DEFAULT_OFFERING_ID = f"{EX}teaching-offering-digital-chemistry"
 DEFAULT_PLACEMENT_ID = f"{EX}unit-placement-standard-deviation"
 DEFAULT_UNIT_ID = f"{EX}learning-unit-standard-deviation"
+
+
+class PresentationGraphSerializer(TurtleSerializer):
+    """Read names before definitions, and descriptors before their shape details."""
+    predicateOrder = [RDF.type, SKOS.prefLabel, SKOS.definition]
+
+    def orderSubjects(self):
+        node_shape = URIRef("http://www.w3.org/ns/shacl#NodeShape")
+        return sorted(super().orderSubjects(), key=lambda subject: (subject, RDF.type, node_shape) in self.store)
 
 
 def iri(namespace: str, local: str) -> URIRef:
@@ -457,6 +469,8 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
                 node_parts.append({
                     "id": compact(part), "label": part_label,
                     **({"description": part_description} if part_description is not None else {}),
+                    **{key: compact(value) for predicate, key in [("parentDiagramPart", "parentPartId"), ("referencesDiagramPart", "referencePartId")]
+                       if (value := one(dataset, part, iri(CD, predicate), required=False)) is not None},
                     "source": [source_reference(dataset, part, part_path)],
                 })
             node_value["parts"] = node_parts
@@ -484,6 +498,41 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         visual_role = one(dataset, edge, iri(CD, "visualRole"), required=False)
         if visual_role is not None:
             edge_value["visualRole"] = str(visual_role)
+        contract = one(dataset, edge, iri(CD, "hasPortContract"), required=False)
+        if contract is not None:
+            if not isinstance(contract, URIRef) or not is_resource_type(dataset, contract, "PortContract"):
+                raise ValueError("Edge port contract must be a typed PortContract")
+            contract_graph = one(dataset, contract, iri(CD, "contractGraph"))
+            if not isinstance(contract_graph, URIRef) or not str(contract_graph).startswith("https://w3id.org/project-chemie-digital/graph/shapes/"):
+                raise ValueError("Port contract must name an authored shape graph")
+            data_graph = one(dataset, contract, iri(CD, "contractDataGraph"), required=False)
+            if data_graph is not None and (not isinstance(data_graph, URIRef) or not str(data_graph).startswith("https://w3id.org/project-chemie-digital/graph/knowledge/")):
+                raise ValueError("Port contract data must name an authored knowledge graph")
+            graph_ids = ([data_graph] if data_graph is not None else []) + [contract_graph]
+            directives_by_line: dict[str, None] = {}
+            graph_bodies = []
+            for graph_id in graph_ids:
+                graph = dataset.graph(graph_id)
+                if not 1 <= len(graph) <= 150:
+                    raise ValueError("Port contract graph must be bounded and nonempty")
+                transport = Graph()
+                for prefix, namespace in dataset.namespaces(): transport.bind(prefix, namespace)
+                for triple in to_canonical_graph(graph): transport.add(triple)
+                stream = BytesIO()
+                PresentationGraphSerializer(transport).serialize(stream, encoding="utf-8")
+                directives, body = stream.getvalue().decode("utf-8").split("\n\n", 1)
+                for line in directives.splitlines():
+                    if not line.startswith("@prefix ") or re.search(r"(?<![\w-])" + re.escape(line.split()[1]), body):
+                        directives_by_line[line] = None
+                graph_bodies.append("<" + str(graph_id) + "> {\n" + body.strip() + "\n}\n")
+            code = "\n".join(directives_by_line) + "\n\n" + "\n".join(graph_bodies)
+            if len(code) > 18000: raise ValueError("Port contract detail exceeds presentation bounds")
+            description = literal(dataset, contract, iri(CD, "body"), language)
+            if not description or not description.strip(): raise ValueError("Port contract requires a human-readable description")
+            edge_value["codeDetail"] = {"label": selected_label_reference(dataset, contract, language)[0],
+                "description": description, "language": "trig", "code": code,
+                "source": [source_reference(dataset, edge, "cd:hasPortContract"), source_reference(dataset, contract, "cd:contractGraph"), source_reference(dataset, contract, "cd:body")]
+                    + ([source_reference(dataset, contract, "cd:contractDataGraph")] if data_graph is not None else [])}
         edges.append(edge_value)
 
     label, label_relation_path = selected_label_reference(dataset, diagram, language)
@@ -582,6 +631,25 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             state_value["focusNodeId"] = compact(focus_nodes[0])
         if focus_groups:
             state_value["focusGroupId"] = compact(focus_groups[0])
+        presentations = []
+        for presentation in sorted(objects(dataset, state, iri(CD, "hasNodePresentation")), key=str):
+            node = one(dataset, presentation, iri(CD, "forDiagramNode"))
+            if node not in node_ids: raise ValueError("Node presentation must reference a node in this diagram")
+            item = {"nodeId": compact(node), "source": [source_reference(dataset, presentation, "cd:forDiagramNode")]}
+            for predicate, key in [(str(SKOS.prefLabel), "label"), (CD + "body", "description"), (CD + "visualMotif", "visualMotif"), (CD + "nodeTransition", "transition")]:
+                value = literal(dataset, presentation, URIRef(predicate), language if key in ("label", "description") else None)
+                if value is not None: item[key] = value
+            thumbnail = one(dataset, presentation, iri(CD, "usesThumbnail"), required=False)
+            if thumbnail is not None:
+                media = media_asset_payload(dataset, thumbnail, language)
+                if not media["mediaType"].startswith("image/") or not re.fullmatch(r"/[A-Za-z0-9_./-]+", media["uri"]) or ".." in media["uri"]:
+                    raise ValueError("Diagram thumbnails must be local image assets")
+                item["thumbnail"] = {key: media[key] for key in ("uri", "alternativeText")}
+            if item.get("transition") not in (None, "replace-left"): raise ValueError("Unsupported node transition")
+            presentations.append(item)
+        if presentations:
+            if len({p["nodeId"] for p in presentations}) != len(presentations): raise ValueError("Duplicate node presentation in a state")
+            state_value["nodePresentations"] = presentations
         states.append(state_value)
     if states:
         payload["states"] = states
@@ -799,6 +867,12 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         }
         if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
             target = one(dataset, annotation, iri(CD, "targetObservation"))
+            focus = one(dataset, annotation, iri(CD, "focusSeries"), required=False)
+            if focus is not None:
+                if not isinstance(focus, Literal) or focus.datatype != XSD.boolean:
+                    raise ValueError("Point annotation focusSeries must be a boolean")
+                base["focusSeries"] = bool(focus.toPython())
+                base["source"].append(source_reference(dataset, annotation, "cd:focusSeries"))
             if compact(target) not in owners:
                 raise ValueError(f"Point annotation {compact(annotation)} targets an observation outside the chart dataset")
             annotations.append({**base, "seriesId": owners[compact(target)], "kind": "point", "datumId": compact(target)})
@@ -837,6 +911,11 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         "series": series,
         "annotations": annotations,
     }
+    if one(dataset, chart, iri(CD, "yAxisMinimum"), required=False) is not None:
+        minimum = decimal_number(dataset, chart, iri(CD, "yAxisMinimum"))
+        if not math.isfinite(minimum) or any(d["y"] < minimum for s in series for d in s["data"]):
+            raise ValueError("Line-chart y minimum must be finite and must not clip data")
+        payload["yMinimum"] = minimum
     return payload, label_relation_path
 
 
@@ -880,7 +959,21 @@ def media_asset_payload(dataset: Dataset, media: URIRef, language: str | None) -
     alternative = deterministic_authored_literal(dataset, media, iri(CD, "alternativeText"), language)
     if uri_value is None or media_type is None or alternative is None:
         raise ValueError(f"Incomplete MediaAsset {compact(media)}")
-    return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+    payload = {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+    if one(dataset, media, iri(CD, "cropWidth"), required=False) is not None:
+        crop = {key: decimal_number(dataset, media, iri(CD, "crop" + key.title())) for key in ("x", "y", "width", "height")}
+        if min(crop.values()) < 0 or min(crop["width"], crop["height"]) <= 0 or crop["x"] + crop["width"] > 1 or crop["y"] + crop["height"] > 1:
+            raise ValueError("Media crop must be a positive normalized rectangle")
+        payload["crop"] = crop
+    redactions = []
+    for region in objects(dataset, media, iri(CD, "hasMediaRedaction")):
+        item = {key: decimal_number(dataset, region, iri(CD, key)) for key in ("x", "y", "width", "height", "start", "end")}
+        item["label"] = literal(dataset, region, iri(CD, "body"), language)
+        if not item["label"] or min(item[key] for key in ("x", "y", "width", "height", "start")) < 0 or item["x"] + item["width"] > 1 or item["y"] + item["height"] > 1 or item["end"] <= item["start"]:
+            raise ValueError("Media redaction must have valid bounds, time range and label")
+        redactions.append(item)
+    if redactions: payload["redactions"] = redactions
+    return payload
 
 def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     """Project ordered dataset references; never manufacture observations or statistics."""
@@ -928,6 +1021,17 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
             lower,upper=[decimal_number(dataset,interval,iri(CD,p)) for p in ("lowerBound","upperBound")]
             if lower>upper:raise ValueError("Interval lower bound exceeds upper bound")
             groups[-1]["interval"]={"id":compact(interval),"label":selected_label_reference(dataset,interval,language)[0],"lower":lower,"upper":upper,"source":[source_reference(dataset,group,"cd:displayInterval"),source_reference(dataset,interval,"cd:lowerBound"),source_reference(dataset,interval,"cd:upperBound"),source_reference(dataset,interval,"cd:unit")]}
+            interval_role = one(dataset, interval, iri(CD, "intervalRole"), required=False)
+            if interval_role is not None and str(interval_role) != CD + "DescriptiveError":
+                raise ValueError("Unknown observation interval role")
+            if interval_role is not None:
+                groups[-1]["interval"]["role"] = "descriptive-error"
+                groups[-1]["interval"]["source"].append(source_reference(dataset, interval, "cd:intervalRole"))
+        if one(dataset, group, iri(CD, "revealStep"), required=False) is not None:
+            step = integer(dataset, group, iri(CD, "revealStep"))
+            if step < 1: raise ValueError("Group reveal step must be positive")
+            groups[-1]["disclosureStep"] = step
+            groups[-1]["source"].append(source_reference(dataset, group, "cd:revealStep"))
         if one(dataset, group, iri(CD, "groupXValue"), required=False) is not None:
             groups[-1]["x"] = decimal_number(dataset, group, iri(CD, "groupXValue"))
             groups[-1]["source"].append(source_reference(dataset, group, "cd:groupXValue"))
@@ -991,6 +1095,11 @@ def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[di
     for predicate in ["observationLabel", "summaryLabel"]:
         value = literal(dataset, chart, iri(CD, predicate))
         if value: options[predicate] = value
+    show_values = one(dataset, chart, iri(CD, "showSummaryValues"), required=False)
+    if show_values is not None:
+        if not isinstance(show_values, Literal) or show_values.datatype != XSD.boolean:
+            raise ValueError("showSummaryValues must be boolean")
+        options["showSummaryValues"] = show_values.toPython()
     numeric = one(dataset, chart, iri(CD, "numericXAxis"), required=False)
     if numeric is not None and str(numeric).lower() == "true":
         if any("x" not in group for group in groups):
@@ -1209,8 +1318,121 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
     return payload,label_path
 
 
+def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    """Expand authored periodic lane schedules; no TED identities or hidden timings."""
+    def ordered(values, expected_type, contiguous=True):
+        if any(not isinstance(v, URIRef) or not is_resource_type(dataset, v, expected_type) for v in values):
+            raise ValueError(f"Timeline requires {expected_type} IRIs")
+        records = sorted([(v, integer(dataset, v, iri(CD, "position"))) for v in values], key=lambda r: (r[1], str(r[0])))
+        positions = [p for _, p in records]
+        if not records or min(positions) < 1 or len(set(positions)) != len(positions) or (contiguous and positions != list(range(1, len(records) + 1))):
+            raise ValueError("Timeline positions must be positive and unique; runs, lanes, phases and categories must also be contiguous")
+        return [v for v, _ in records]
+
+    def identity(resource):
+        label, label_path = selected_label_reference(dataset, resource, language)
+        return {"id": compact(resource), "label": label, "source": [source_reference(dataset, resource, label_path), source_reference(dataset, resource, "cd:position")]}
+
+    def number(resource, predicate, positive=False):
+        value = decimal_number(dataset, resource, iri(CD, predicate))
+        if not math.isfinite(value) or value < 0 or (positive and value == 0):
+            raise ValueError(f"Invalid timeline {predicate}")
+        return value
+
+    categories = ordered(objects(dataset, chart, iri(CD, "hasTimelineCategory")), "TimelineCategory")
+    runs = ordered(objects(dataset, chart, iri(CD, "hasTimelineRun")), "TimelineRun")
+    primary = one(dataset, chart, iri(CD, "usesDataset"))
+    schedules = ordered([primary, *objects(dataset, chart, DCTERMS.hasPart)], "TimelineSchedule", contiguous=False)
+    scenarios = []
+    for schedule in schedules:
+        lanes = []
+        for lane in ordered(objects(dataset, schedule, iri(CD, "hasTimelineLane")), "TimelineLane"):
+            offset, period = number(lane, "startOffset"), number(lane, "repeatEvery", True)
+            intervals = []
+            phases = ordered(objects(dataset, lane, iri(CD, "hasTimelineInterval")), "TimelineInterval")
+            for run_index, run in enumerate(runs):
+                previous_end = -1
+                for phase in phases:
+                    start, duration = number(phase, "startOffset"), number(phase, "duration", True)
+                    category = one(dataset, phase, iri(CD, "intervalCategory"))
+                    if category not in categories or start < previous_end or start + duration > period:
+                        raise ValueError("Timeline phases must use chart categories, be ordered, non-overlapping and fit their repeat period")
+                    previous_end = start + duration
+                    interval = {"id": f"{compact(lane)}--{compact(run)}--{compact(phase)}",
+                                "label": identity(run)["label"], "start": offset + run_index * period + start,
+                                "end": offset + run_index * period + start + duration, "categoryId": compact(category),
+                                "source": [source_reference(dataset, resource, relation) for resource, relation in
+                                           ((lane, "cd:startOffset"), (lane, "cd:repeatEvery"), (lane, "cd:hasTimelineInterval"),
+                                            (phase, "cd:startOffset"), (phase, "cd:duration"), (phase, "cd:intervalCategory"),
+                                            (run, "cd:position"), (run, "skos:prefLabel@" + language))]}
+                    intervals.append(interval)
+            lanes.append({**identity(lane), "intervals": intervals})
+        scenario = {**identity(schedule), "lanes": lanes}
+        scenario["source"].append(source_reference(dataset, schedule, "cd:hasTimelineLane"))
+        scenarios.append(scenario)
+    label, label_path = selected_label_reference(dataset, chart, language)
+    unit = literal(dataset, chart, iri(CD, "xAxisUnit"))
+    if not unit:
+        raise ValueError("Timeline requires a time-axis unit")
+    return {"chartType": "timeline", "label": label,
+            "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language),
+            "xAxis": {"label": selected_literal(dataset, chart, iri(CD, "xAxisLabel"), "cd:xAxisLabel", language), "unit": unit},
+            "yAxis": {"label": selected_literal(dataset, chart, iri(CD, "yAxisLabel"), "cd:yAxisLabel", language)},
+            "categories": [identity(c) for c in categories], "scenarios": scenarios}, label_path
+
+
+def regression_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
+    chart_dataset = one(dataset, chart, iri(CD, "usesDataset"))
+    if not isinstance(chart_dataset, URIRef) or not is_resource_type(dataset, chart_dataset, "Dataset"):
+        raise ValueError("Regression requires a Dataset")
+    def ordered(owner, relation, type_name):
+        values = objects(dataset, owner, iri(CD, relation))
+        if any(not isinstance(v, URIRef) or not is_resource_type(dataset, v, type_name) for v in values):
+            raise ValueError(f"Regression {relation} requires {type_name} IRIs")
+        records = sorted([(v, integer(dataset, v, iri(CD, "position"))) for v in values], key=lambda r: (r[1], str(r[0])))
+        if not records or [p for _, p in records] != list(range(1, len(records) + 1)):
+            raise ValueError("Regression positions must be nonempty, unique and contiguous")
+        return [v for v, _ in records]
+    observations = ordered(chart_dataset, "hasObservation", "Observation")
+    data = [{"id": compact(o), "x": decimal_number(dataset, o, iri(CD, "xValue")), "y": decimal_number(dataset, o, iri(CD, "numericValue")),
+             "source": [source_reference(dataset, o, p) for p in ("cd:xValue", "cd:numericValue", "cd:position")]} for o in observations]
+    windows = []
+    for window in ordered(chart, "hasRegressionWindow", "RegressionWindow"):
+        members = set(objects(dataset, window, iri(CD, "hasObservation")))
+        if not members.issubset(set(observations)) or len(members) < 3:
+            raise ValueError("Regression windows require at least three known observations")
+        points = [p for p, o in zip(data, observations) if o in members]
+        for excluded in range(-1, len(points)):
+            training = [p for i, p in enumerate(points) if i != excluded]
+            if len({p["x"] for p in training}) < 2:
+                raise ValueError("Every held-out regression fit requires predictor variation")
+        label, path = selected_label_reference(dataset, window, language)
+        windows.append({"id": compact(window), "label": label, "datumIds": [p["id"] for p in points],
+                        "source": [source_reference(dataset, window, p) for p in (path, "cd:position", "cd:hasObservation")]})
+        if one(dataset, window, iri(CD, "cycleIntervalMs"), required=False) is not None:
+            interval = integer(dataset, window, iri(CD, "cycleIntervalMs"))
+            if interval < 100: raise ValueError("Cycle interval must be at least 100 ms")
+            indexes = [i for i, p in enumerate(data) if p["id"] in windows[-1]["datumIds"]]
+            if indexes != list(range(indexes[0], indexes[0] + len(indexes))):
+                raise ValueError("Cycle window must start with a contiguous selection")
+            windows[-1]["cycleIntervalMs"] = interval
+            windows[-1]["source"].append(source_reference(dataset, window, "cd:cycleIntervalMs"))
+    label, path = selected_label_reference(dataset, chart, language)
+    axes = {}
+    for axis in ("x", "y"):
+        unit = literal(dataset, chart, iri(CD, axis + "AxisUnit"))
+        if not unit:
+            raise ValueError("Regression axes require units")
+        axes[axis + "Axis"] = {"label": selected_literal(dataset, chart, iri(CD, axis + "AxisLabel"), "cd:" + axis + "AxisLabel", language), "unit": unit}
+    return {"chartType": "regression", "label": label, "description": selected_literal(dataset, chart, iri(CD, "body"), "cd:body", language), **axes, "data": data, "windows": windows}, path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD, "RegressionChart"):
+        return regression_chart_payload(dataset, chart, language)
+    if chart_type == iri(CD, "TimelineChart"):
+        return timeline_chart_payload(dataset, chart, language)
     if chart_type == iri(CD, "ObservationExplorer"):
         return observation_explorer_payload(dataset, chart, language)
     if chart_type == iri(CD, "DotPlot"):
@@ -1283,7 +1505,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13, "1.14":14}
     return required if versions[required] > versions[current] else current
 
 
@@ -1640,6 +1862,9 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if payload["chartType"] in ("histogram","histogram2d"):
                     predicates=("cd:chartType","cd:usesDataset","cd:binEdges","cd:xAxisUnit")+(("cd:yBinEdges","cd:yAxisUnit") if payload["chartType"]=="histogram2d" else ("cd:histogramNormalization",))
                     block_sources.extend(source_reference(dataset,selected,p) for p in predicates)
+                for option in ("yAxisMinimum", "showSummaryValues"):
+                    if one(dataset, selected, iri(CD, option), required=False) is not None:
+                        block_sources.append(source_reference(dataset, selected, "cd:" + option))
                 if payload["chartType"] == "box":
                     block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:chartType", "cd:dependsOn", "cd:fenceMultiplier", "cd:yAxisUnit", "cd:hasChartGroup"))
                 if label_relation_path is not None and label_relation_path != relation_path:
@@ -1657,6 +1882,14 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if payload.get("binAdjustment") or "compact" in payload or (payload["chartType"]=="observations" and payload["view"]=="ecdf" and len(payload["series"])>1) or any(g.get("interval") for g in payload.get("groups",[])):
                     document_version=promote_document_version(document_version,"1.11")
                 if payload.get("view")=="moments":document_version=promote_document_version(document_version,"1.12")
+                if payload["chartType"] == "regression":
+                    document_version = promote_document_version(document_version, "1.14")
+                    block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:usesDataset", "cd:hasRegressionWindow"))
+                if payload["chartType"] == "timeline":
+                    document_version = promote_document_version(document_version, "1.13")
+                    block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:usesDataset", "cd:hasTimelineCategory", "cd:hasTimelineRun"))
+                    if objects(dataset, selected, DCTERMS.hasPart):
+                        block_sources.append(source_reference(dataset, selected, "dct:hasPart"))
             elif role == "DiagramRole":
                 if relation_path != "cd:body":
                     raise ValueError(f"DiagramRole requires direct cd:body selection in {compact(item)}")
@@ -1667,6 +1900,12 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
                 block_sources = [source_reference(dataset, selected, relation_path)]
+                presentation = literal(dataset, selected, iri(CD, "diagramPresentation"))
+                if presentation is not None:
+                    if presentation not in ("inline", "dialog"):
+                        raise ValueError("diagramPresentation must be inline or dialog")
+                    payload["presentation"] = presentation
+                    block_sources.append(source_reference(dataset, selected, "cd:diagramPresentation"))
                 if label_relation_path is not None and label_relation_path != relation_path:
                     block_sources.append(source_reference(dataset, selected, label_relation_path))
                 block = {
@@ -2182,7 +2421,9 @@ def media_fallback_markup(block: dict[str, Any]) -> str:
     uri = html.escape(block["uri"], quote=True)
     alternative = html.escape(block["alternativeText"], quote=True)
     media_type = block.get("mediaType")
-    if isinstance(media_type, str) and media_type.startswith("video/"):
+    if block.get("redactions"):
+        content = f'<p>{alternative}. Masked video playback is available in the presentation only.</p>'
+    elif isinstance(media_type, str) and media_type.startswith("video/"):
         content = f'<video src="{uri}" controls preload="metadata" playsinline aria-label="{alternative}"></video>'
     elif media_type is None or media_type.startswith("image/"):
         content = f'<img src="{uri}" alt="{alternative}" />'
@@ -2377,7 +2618,8 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     for group in block["groups"]:
                         if "interval" in group:
                             interval=group["interval"];count=sum(interval["lower"]<=d["value"]<=interval["upper"] for d in group["data"])
-                            body+=f'<p{fallback_attributes(interval["source"])}>{html.escape(interval["label"])}: [{interval["lower"]}, {interval["upper"]}] {unit}; {count}/{len(group["data"])} = {100*count/len(group["data"])}% in the closed interval.</p>'
+                            note = "descriptive error display, not coverage or a confidence interval" if interval.get("role") == "descriptive-error" else f'{count}/{len(group["data"])} = {100*count/len(group["data"])}% in the closed interval'
+                            body+=f'<p{fallback_attributes(interval["source"])}>{html.escape(interval["label"])}: [{interval["lower"]}, {interval["upper"]}] {unit}; {note}.</p>'
                     if block["chartType"] == "box":
                         import statistics
                         body += '<p>Linear interpolation; whiskers end at observations inside the fences, not at the fences.</p>'
@@ -2389,6 +2631,17 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                             inside = [v for v in values if lower <= v <= upper]
                             outliers = [v for v in values if v < lower or v > upper]
                             body += f'<p>{html.escape(group["label"])}: Q1={q1}; median={median}; Q3={q3}; IQR={iqr}; fences=[{lower}, {upper}]; whiskers=[{min(inside)}, {max(inside)}]; flagged={outliers}</p>'
+                elif block["chartType"] == "regression":
+                    body = '<ul class="chart-data">' + ''.join(
+                        f'<li{fallback_attributes(p["source"])}>{html.escape(p["id"])}: {p["x"]} {html.escape(block["xAxis"]["unit"])}; {p["y"]} {html.escape(block["yAxis"]["unit"])}</li>' for p in block["data"]
+                    ) + '</ul><ul>' + ''.join(f'<li{fallback_attributes(w["source"])}>{html.escape(w["label"])}: {html.escape(", ".join(w["datumIds"]))}</li>' for w in block["windows"]) + '</ul>'
+                elif block["chartType"] == "timeline":
+                    body = '<ul class="chart-data">' + ''.join(
+                        f'<li{fallback_attributes(interval["source"])}>{html.escape(scenario["label"])}; {html.escape(lane["label"])}; '
+                        f'{html.escape(interval["label"])}; {html.escape(next(c["label"] for c in block["categories"] if c["id"] == interval["categoryId"]))}: '
+                        f'{interval["start"]}–{interval["end"]} {html.escape(block["xAxis"]["unit"])}</li>'
+                        for scenario in block["scenarios"] for lane in scenario["lanes"] for interval in lane["intervals"]
+                    ) + '</ul>'
                 elif block["chartType"] == "line":
                     point_items = "".join(
                         f'<li data-chart-series-id="{html.escape(series["id"], quote=True)}"{fallback_attributes(series["source"])}>'
@@ -2469,15 +2722,28 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     )
                     continue
                 labels = {node["id"]: node["label"] for node in block["nodes"]}
-                nodes = "".join(
-                    f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}</li>'
-                    for node in block["nodes"]
-                )
+                part_labels = {part["id"]: part["label"] for node in block["nodes"] for part in node.get("parts", [])}
+                node_fragments = []
+                for node in block["nodes"]:
+                    parts = "".join(
+                        f'<li{fallback_attributes(part["source"])}><strong>{html.escape(part["label"])}</strong>'
+                        f'{": " + html.escape(part["description"]) if part.get("description") else ""}'
+                        f'{" (under " + html.escape(part_labels[part["parentPartId"]]) + ")" if part.get("parentPartId") else ""}'
+                        f'{" (references " + html.escape(part_labels[part["referencePartId"]]) + ")" if part.get("referencePartId") else ""}</li>'
+                        for part in node.get("parts", [])
+                    )
+                    node_fragments.append(
+                        f'<li data-diagram-node-id="{html.escape(node["id"], quote=True)}"{fallback_attributes(node["source"])}>{html.escape(node["label"])}'
+                        f'{": " + html.escape(node["description"]) if node.get("description") else ""}'
+                        f'{"<ul>" + parts + "</ul>" if parts else ""}</li>'
+                    )
+                nodes = "".join(node_fragments)
                 edges = "".join(
                     f'<li data-diagram-edge-id="{html.escape(edge["id"], quote=True)}"{fallback_attributes(edge["source"])}>'
                     f'{html.escape(labels.get(edge["sourceNodeId"], edge["sourceNodeId"]))}: '
                     f'{html.escape(edge["label"])} → '
                     f'{html.escape(labels.get(edge["targetNodeId"], edge["targetNodeId"]))}'
+                    f'{"<details><summary>" + html.escape(edge["codeDetail"]["label"]) + "</summary><p>" + html.escape(edge["codeDetail"]["description"]) + "</p><pre><code>" + html.escape(edge["codeDetail"]["code"]) + "</code></pre></details>" if edge.get("codeDetail") else ""}'
                     f'</li>'
                     for edge in block["edges"]
                 )
@@ -2489,6 +2755,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 states = "".join(
                     f'<section class="diagram-state" data-diagram-state-id="{html.escape(state["id"], quote=True)}"{fallback_attributes(state["source"])}>'
                     f'<strong>{html.escape(state["label"])}</strong>'
+                    + "".join(f'<p{fallback_attributes(p["source"])}>{html.escape(p.get("label", next(n["label"] for n in block["nodes"] if n["id"] == p["nodeId"])))}: {html.escape(p.get("description", ""))} {html.escape(p.get("thumbnail", {}).get("alternativeText", ""))}</p>' for p in state.get("nodePresentations", []))
                     + "".join(
                         f'<p data-shared-edge-annotation-id="{html.escape(annotation["id"], quote=True)}" '
                         f'data-edge-ids="{html.escape(" ".join(annotation["edgeIds"]), quote=True)}"{fallback_attributes(annotation["source"])}>'

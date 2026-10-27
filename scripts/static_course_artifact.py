@@ -88,6 +88,11 @@ def media_uris(blocks):
             yield from media_uris(block["children"])
         elif block["kind"] == "media-reference":
             yield block["uri"]
+        elif block["kind"] == "diagram":
+            for state in block.get("states", []):
+                for presentation in state.get("nodePresentations", []):
+                    if presentation.get("thumbnail"):
+                        yield presentation["thumbnail"]["uri"]
 
 
 def compiled_module_text(directory: Path, entry: Path) -> str:
@@ -145,8 +150,9 @@ def public_files(public: Path, artifact: dict):
             for uri in media_uris(scene["blocks"]):
                 paths.append(public / uri.lstrip("/"))
             for logo in scene.get("presentationTitle", {}).get("logos", []):
-                if logo.get("uri"):
-                    paths.append(public / logo["uri"].lstrip("/"))
+                for key in ("uri", "darkUri"):
+                    if logo.get(key):
+                        paths.append(public / logo[key].lstrip("/"))
     for path in paths:
         if not path.resolve().is_relative_to(public.resolve()) or not path.is_file():
             raise ValueError("Missing or escaping selected public asset")
@@ -191,8 +197,9 @@ def validate_files(directory: Path, offering: str, base: str, public: Path) -> d
     for document in artifact["sceneDocuments"]:
         for scene in document["scenes"]:
             for logo in scene.get("presentationTitle", {}).get("logos", []):
-                if logo.get("uri"):
-                    asset_path(directory, logo["uri"], index)
+                for key in ("uri", "darkUri"):
+                    if logo.get(key):
+                        asset_path(directory, logo[key], index)
             if scene["id"] not in script:
                 raise ValueError("Selected scene identity missing from application bundle")
             for uri in media_uris(scene["blocks"]):

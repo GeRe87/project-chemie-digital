@@ -49,7 +49,11 @@
     "build:talks": "python scripts/build_static_course.py --collection --offering-id https://w3id.org/project-chemie-digital/resource/talks --out-dir dist/talks",
     "generate:talks": "python apps/pitch/scripts/generate-course-runtime.py --collection --offering-id https://w3id.org/project-chemie-digital/resource/talks",
     "talks:dev": "npm run generate:talks && npm --workspace @project-chemie-digital/pitch exec -- vite --host 127.0.0.1 --port 5186 --strictPort",
-    "check:talks-build": "python scripts/static_course_artifact.py dist/talks"
+    "check:talks-build": "python scripts/static_course_artifact.py dist/talks",
+    "test:talks": "python scripts/check_talks.py",
+    "check:talks-local": "python scripts/check_talks.py --build",
+    "check:talks-release": "python scripts/check_talks.py --full --build",
+    "prepare:talks-publication": "python scripts/prepare_talks_publication.py"
   },
   "engines": {
     "node": ">=22"

@@ -18,6 +18,8 @@
 }
 
 .pcd-background-layer {
+  transform: translateY(var(--pcd-background-layer-offset-y, 0vh)) scale(var(--pcd-background-layer-scale, 1));
+  transform-origin: center bottom;
   position: absolute;
   inset: -8vh -3vw;
   overflow: hidden;

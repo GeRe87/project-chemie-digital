@@ -1,6 +1,8 @@
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { mountD3Diagram, type D3DiagramComponent, type D3DiagramMountResult } from "../../../packages/renderer-d3/src/diagram.ts";
 import type { D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
+import { createExplanationDialog } from "./explanation-dialog.ts";
+import { trigMarkup } from "./trig-markup.ts";
 
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
@@ -108,6 +110,7 @@ export function mountPitchDiagrams(
 ): () => void {
   const blocks = diagramBlocks(documents);
   const components: D3DiagramComponent[] = [];
+  let dialogCount = 0;
   const removeKeyboardListeners: Array<() => void> = [];
   const removePresentationStateListeners: Array<() => void> = [];
   const removeAccessibilityListeners: Array<() => void> = [];
@@ -124,15 +127,60 @@ export function mountPitchDiagrams(
       if (!blockId) continue;
       const block = blocks.get(blockId);
       if (!block) throw new Error(`Pitch flow host references unknown block ${blockId}`);
-      const result = mount(host, block, options);
-      if ("diagnostics" in result) {
-        const message = result.diagnostics.map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`).join("; ");
-        throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
-      }
-      components.push(result);
-      removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
-      removeAccessibilityListeners.push(bindDiagramAccessibility(host, result));
-      removePresentationStateListeners.push(bindPresentationState(host, result, (stateId) => updateDiagramAccessibility(host, result, stateId)));
+      const attach = (target: PitchFlowHost) => {
+        const result = mount(target, block, options);
+        if ("diagnostics" in result) {
+          const message = result.diagnostics.map((diagnostic) => `[${diagnostic.code}] ${diagnostic.message}`).join("; ");
+          throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
+        }
+        components.push(result);
+        if (block.edges.some(edge => edge.codeDetail) && typeof HTMLElement !== "undefined" && target instanceof HTMLElement) {
+          const modal = createExplanationDialog("pcd-port-dialog", `pcd-port-title-${++dialogCount}`);
+          const activate: EventListener = event => {
+            if (event.type === "keydown" && !["Enter", " "].includes((event as KeyboardEvent).key)) return;
+            const invoker = (event.target as Element | null)?.closest<SVGElement>("[data-diagram-detail-id]");
+            const detail = block.edges.find(edge => edge.id === invoker?.getAttribute("data-diagram-detail-id"))?.codeDetail;
+            if (!detail || !invoker) return;
+            event.preventDefault(); event.stopImmediatePropagation();
+            const content = document.createElement("div"), prose = document.createElement("p"), pre = document.createElement("pre"), code = document.createElement("code");
+            prose.textContent = detail.description; code.textContent = detail.code;
+            code.innerHTML = trigMarkup(detail.code);
+            pre.className = "pcd-port-trig"; pre.append(code); content.append(prose, pre);
+            modal.open(detail.label, content, invoker);
+          };
+          const dismiss = () => { if (modal.dialog.open) modal.dialog.close(); };
+          target.addEventListener("click", activate); target.addEventListener("keydown", activate);
+          window.addEventListener("hashchange", dismiss);
+          removeAccessibilityListeners.push(() => {
+            target.removeEventListener("click", activate); target.removeEventListener("keydown", activate);
+            window.removeEventListener("hashchange", dismiss); modal.destroy();
+          });
+        }
+        removeKeyboardListeners.push(bindKeyboardTraversal(target, result, options));
+        removeAccessibilityListeners.push(bindDiagramAccessibility(target, result));
+        removePresentationStateListeners.push(bindPresentationState(target, result, (stateId) => updateDiagramAccessibility(target, result, stateId)));
+      };
+      if (block.presentation === "dialog" && typeof HTMLElement !== "undefined" && host instanceof HTMLElement) {
+        const modal = createExplanationDialog("pcd-diagram-dialog", `pcd-diagram-title-${++dialogCount}`);
+        const button = document.createElement("button"); button.type = "button";
+        button.className = "pcd-diagram-open"; button.textContent = `Open ${block.label}`;
+        button.setAttribute("aria-haspopup", "dialog");
+        // Reuse the same diagram theme as inline views, inside an unscaled shell.
+        const stage = document.createElement("div"); stage.className = "reveal pcd-diagram-dialog-stage";
+        const content = document.createElement("div"); content.className = "d3-diagram-host d3-flow-host"; stage.append(content);
+        let mounted = false;
+        const open = () => {
+          modal.open(block.label, stage, button);
+          if (!mounted) { attach(content); mounted = true; }
+        };
+        const dismiss = () => { if (modal.dialog.open) modal.dialog.close(); };
+        button.addEventListener("click", open); host.replaceChildren(button);
+        window.addEventListener("hashchange", dismiss);
+        removeAccessibilityListeners.push(() => {
+          button.removeEventListener("click", open); window.removeEventListener("hashchange", dismiss);
+          modal.destroy(); host.replaceChildren();
+        });
+      } else attach(host);
     }
   } catch (error) {
     cleanupMounted();

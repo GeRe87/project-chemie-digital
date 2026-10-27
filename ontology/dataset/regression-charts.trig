@@ -1,0 +1,39 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesConcept cd:RegressionWindow ; cdm:definesRelation cd:hasRegressionWindow .
+  cd:RegressionChart a cdm:ControlledValue .
+  cd:RegressionWindow a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:Dataset ;
+    rdfs:comment "An explicitly selected set of paired observations in an ordered comparison. The generic chart fits an ordinary least-squares line and evaluates inverse prediction by leaving each member out once. Display order need not be acquisition chronology."@en .
+  cd:hasRegressionWindow a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:RegressionWindow .
+  cd:LearningDomain cdm:definesAttribute cd:cycleIntervalMs .
+  cd:cycleIntervalMs a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:RegressionWindow ; rdfs:range xsd:integer ;
+    rdfs:comment "Optional FIFO replay interval. The window advances by exactly one observation per tick, wraps at the end, pauses off-slide and offers a pause control."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:RegressionWindowShape a sh:NodeShape ; sh:targetClass cd:RegressionWindow ;
+    sh:property [ sh:path cd:cycleIntervalMs ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 100 ] ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:hasObservation ; sh:minCount 3 ; sh:class cd:Observation ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+  cd:RegressionChartShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasRegressionWindow ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:RegressionChart ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasRegressionWindow ; sh:minCount 1 ; sh:class cd:RegressionWindow ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:xAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:sparql [ sh:message "Regression windows may only select observations in the chart dataset." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:usesDataset ?dataset ; cd:hasRegressionWindow/cd:hasObservation ?observation .
+  FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+}""" ] .
+}

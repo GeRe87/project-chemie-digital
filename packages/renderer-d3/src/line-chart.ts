@@ -16,6 +16,7 @@ export interface D3LineChartRenderModel {
   readonly yAxisLabel: string;
   readonly yAxisUnit?: string;
   readonly series: LineChartBlock["series"];
+  readonly yMinimum?: number;
   readonly annotations: readonly LineChartAnnotation[];
   readonly staticFallback: string;
 }
@@ -84,6 +85,7 @@ export function createD3LineChartRenderModel(block: ChartBlock): D3LineChartRend
       yAxisLabel: block.yAxis.label,
       ...(block.yAxis.unit ? { yAxisUnit: block.yAxis.unit } : {}),
       series: block.series,
+      ...(block.yMinimum !== undefined ? {yMinimum: block.yMinimum} : {}),
       annotations: block.annotations ?? [],
       staticFallback: fallback(block),
     },
@@ -145,12 +147,22 @@ export function mountD3LineChart(
 
   const applyStep = (): void => {
     const traceVisible = presentation.traceInitiallyVisible || currentStep >= 1;
+    const focusedSeries = new Set(model.annotations.flatMap(annotation =>
+      annotation.kind === "point" && annotation.focusSeries ? [annotation.seriesId] : []));
+    const activeFocus = model.annotations.reduce<string | undefined>((active, annotation, index) =>
+      annotation.kind === "point" && annotation.focusSeries && currentStep >= index + 2
+        ? annotation.seriesId : active, undefined);
+    const visibleSeries = (id: string): boolean => traceVisible && (!focusedSeries.has(id) || id === activeFocus);
     for (const path of chartSvg.querySelectorAll<SVGPathElement>(".d3-chart-line")) {
+      const id = path.dataset.seriesId!;
       path.style.strokeDashoffset = traceVisible ? "0" : "1";
-      path.style.opacity = traceVisible ? "1" : "0";
+      path.style.opacity = visibleSeries(id) ? "1" : "0";
+      path.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
     for (const point of chartSvg.querySelectorAll<SVGCircleElement>(".d3-chart-line-point")) {
-      point.style.opacity = traceVisible ? "0.9" : "0";
+      const id = point.dataset.seriesId!;
+      point.style.opacity = visibleSeries(id) ? (activeFocus && id !== activeFocus ? "0.25" : "0.9") : "0";
+      point.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
     for (const group of chartSvg.querySelectorAll<SVGGElement>("[data-annotation-step]")) {
       const requiredStep = Number(group.dataset.annotationStep ?? "999");
@@ -178,8 +190,9 @@ export function mountD3LineChart(
     const authoredYDomain = options.yDomain;
     const yDomain = authoredYDomain && Number.isFinite(authoredYDomain[0]) && Number.isFinite(authoredYDomain[1]) && authoredYDomain[1] > authoredYDomain[0]
       ? [authoredYDomain[0], authoredYDomain[1]] as const
-      : [0, maxY * 1.14 || 1] as const;
+       : [model.yMinimum ?? 0, maxY * 1.14 || 1] as const;
     const y = scaleLinear().domain(yDomain).nice(5).range([margin.top + plotHeight, margin.top]);
+    if (!authoredYDomain && model.yMinimum !== undefined) y.domain([model.yMinimum, y.domain()[1]!]);
 
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");
@@ -220,10 +233,15 @@ export function mountD3LineChart(
       if (pathData) {
         const node = svg("path");
         node.classList.add("d3-chart-line", `d3-chart-series-${(index % 5) + 1}`);
+        node.dataset.seriesId = series.id;
         node.setAttribute("d", pathData);
         node.setAttribute("fill", "none");
         node.setAttribute("pathLength", "1");
         node.setAttribute("stroke-dasharray", "1");
+        // Selected series stay solid; path dashes are only a reveal mechanism.
+        if (model.annotations.some(annotation => annotation.kind === "point" && annotation.focusSeries && annotation.seriesId === series.id)) {
+          node.style.strokeDasharray = "none";
+        }
         node.style.strokeDashoffset = presentation.traceInitiallyVisible ? "0" : "1";
         node.style.opacity = presentation.traceInitiallyVisible ? "1" : "0";
         node.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
@@ -233,10 +251,11 @@ export function mountD3LineChart(
       }
       for (const datum of series.data) {
         const point = svg("circle");
-        point.classList.add("d3-chart-line-point");
+        point.classList.add("d3-chart-line-point", `d3-chart-series-${(index % 5) + 1}`);
+        point.dataset.seriesId = series.id;
         point.setAttribute("cx", String(x(datum.x)));
         point.setAttribute("cy", String(y(datum.y)));
-        point.setAttribute("r", "7");
+        point.setAttribute("r", series.data.length > 50 ? "2.5" : "7");
         point.setAttribute("data-datum-id", datum.id);
         point.style.opacity = presentation.traceInitiallyVisible ? "0.9" : "0";
         point.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
@@ -313,6 +332,28 @@ export function mountD3LineChart(
         group.append(label);
       }
       chartSvg.append(group);
+      if (annotation.kind === "point") {
+        const label = group.querySelector<SVGTextElement>(".d3-chart-annotation-label");
+        const connector = group.querySelector<SVGPathElement>(".d3-chart-annotation-connector");
+        const datum = series.data.find(candidate => candidate.id === annotation.datumId);
+        if (label && connector && datum) {
+          const px = x(datum.x), py = y(datum.y);
+          const measured = label.getComputedTextLength?.() ?? 0;
+          const textWidth = measured > 0 ? measured : annotation.label.length * 14;
+          const rightSpace = margin.left + plotWidth - px - 72;
+          const leftSpace = px - margin.left - 72;
+          const preferRight = label.getAttribute("text-anchor") === "start";
+          const useRight = preferRight ? rightSpace >= textWidth || rightSpace >= leftSpace
+            : !(leftSpace >= textWidth || leftSpace > rightSpace);
+          const desiredX = useRight ? px + 72 : px - 72 - textWidth;
+          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - textWidth - 12));
+          const labelY = Math.max(margin.top + 24, Math.min(Number(label.getAttribute("y")), margin.top + plotHeight - 20));
+          label.setAttribute("text-anchor", "start");
+          label.setAttribute("x", String(labelX)); label.setAttribute("y", String(labelY));
+          const endX = useRight ? labelX : labelX + textWidth;
+          connector.setAttribute("d", `M ${px} ${py} L ${(px + endX) / 2} ${(py + labelY) / 2} L ${endX} ${labelY - 6}`);
+        }
+      }
     });
 
     const axes = svg("g");

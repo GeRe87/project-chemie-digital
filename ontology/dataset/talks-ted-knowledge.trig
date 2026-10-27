@@ -1,0 +1,100 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-gc-ms> {
+  ex:ted-gc-ms a cd:Concept ; skos:prefLabel "TED-GC-MS: the complete setup"@en ;
+    cd:hasDefinition ex:ted-definition ; cd:hasSource ex:ted-source-method ;
+    skos:related ex:ted-thermal-decomposition, ex:ted-sorptive-capture, ex:ted-cryofocusing,
+      ex:ted-gc-ms-detection, ex:ted-polymer-markers ; cd:authoredResource true .
+  ex:ted-definition a cd:Definition ; cd:body "Thermal extraction desorption gas chromatography-mass spectrometry couples controlled sample heating to collection of evolved organic products on a sorbent. The loaded sorbent is transferred, thermally desorbed and cryofocused before GC separation and mass-spectrometric detection. The Twister-based configuration illustrated here follows the requested talk setup; sorbent format is instrument- and method-dependent."@en ;
+    cd:hasSource ex:ted-source-method, ex:ted-source-twister ; cd:authoredResource true .
+
+  ex:ted-thermal-decomposition a cd:Concept ; skos:prefLabel "Thermal decomposition"@en ;
+    cd:hasDefinition ex:ted-decomposition-definition ; cd:hasInterpretation ex:ted-heating-points ;
+    cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+  ex:ted-decomposition-definition a cd:Definition ;
+    cd:body "A thermobalance heats the sample under a controlled program and inert carrier gas. Volatile compounds evolve and polymers decompose into smaller chemical products. The matrix can also release products; residue stays in the crucible. These products are not the fragment ions subsequently formed in the MS source. No universal heating rate or temperature is asserted by this schematic."@en ;
+    cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+  ex:ted-heating-points a cd:Interpretation ; cd:body "Sample heating and thermal decomposition."@en ;
+    cd:hasKeyPoint ex:ted-heat-point-1, ex:ted-heat-point-2, ex:ted-heat-point-3 ;
+    cd:hasMedia ex:ted-heating-illustration ; cd:authoredResource true .
+  ex:ted-heat-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Controlled heating** under inert gas"@en ; cd:authoredResource true .
+  ex:ted-heat-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Polymers** release smaller products"@en ; cd:authoredResource true .
+  ex:ted-heat-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Matrix compounds can evolve too=="@en ; cd:authoredResource true .
+
+  ex:ted-sorptive-capture a cd:Concept ; skos:prefLabel "Sorption and transfer"@en ;
+    cd:hasDefinition ex:ted-capture-definition ; cd:hasInterpretation ex:ted-capture-points ;
+    cd:dependsOn ex:ted-thermal-decomposition ; cd:hasSource ex:ted-source-method, ex:ted-source-twister ; cd:authoredResource true .
+  ex:ted-capture-definition a cd:Definition ;
+    cd:body "Evolved organic products are trapped by a sorptive phase. This talk illustrates the user's PDMS Twister configuration: enrichment occurs in the polydimethylsiloxane phase and the loaded device is transferred to thermal desorption at the GC-MS system. This is gas-stream capture, not immersion of a stir bar in a liquid sample. The cited TED method uses another PDMS sorbent format; the general Twister source supports PDMS sorption and thermal desorption, not validation of this specific coupling. Recovery depends on analyte properties and method conditions."@en ;
+    cd:hasSource ex:ted-source-method, ex:ted-source-twister ; cd:authoredResource true .
+  ex:ted-capture-points a cd:Interpretation ; cd:body "Sorptive collection and physical transfer."@en ;
+    cd:hasKeyPoint ex:ted-capture-point-1, ex:ted-capture-point-2, ex:ted-capture-point-3 ;
+    cd:hasMedia ex:ted-capture-illustration ; cd:authoredResource true .
+  ex:ted-capture-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**PDMS sorbent**: the Twister setup"@en ; cd:authoredResource true .
+  ex:ted-capture-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Transfer** the loaded sorbent"@en ; cd:authoredResource true .
+  ex:ted-capture-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==The loaded Twister carries the collected compounds=="@en ; cd:authoredResource true .
+
+  ex:ted-cryofocusing a cd:Concept ; skos:prefLabel "Cryofocusing and injection"@en ;
+    cd:hasDefinition ex:ted-cryofocusing-definition ; cd:hasInterpretation ex:ted-injection-points ;
+    cd:dependsOn ex:ted-sorptive-capture ; cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+  ex:ted-cryofocusing-definition a cd:Definition ;
+    cd:body "Thermal desorption releases collected products from the loaded sorbent. Carrier gas transfers them to the cooled injection system, where they are cryofocused. Rapid heating then releases the focused material into the GC column as a narrow injection band. Desorption, cryofocusing and injection are distinct operations; cold trapping alone is not injection. Temperatures and timing require the actual method specification."@en ;
+    cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+  ex:ted-injection-points a cd:Interpretation ; cd:body "Release, focus, inject."@en ;
+    cd:hasKeyPoint ex:ted-inject-point-1, ex:ted-inject-point-2, ex:ted-inject-point-3 ;
+    cd:hasMedia ex:ted-injection-illustration ; cd:authoredResource true .
+  ex:ted-inject-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Desorb** from the heated sorbent"@en ; cd:authoredResource true .
+  ex:ted-inject-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Cryofocus** in the cooled inlet"@en ; cd:authoredResource true .
+  ex:ted-inject-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "**Rapid heating** → ==narrow injection=="@en ; cd:authoredResource true .
+
+  ex:ted-gc-ms-detection a cd:Concept ; skos:prefLabel "GC separation → MS detection"@en ;
+    cd:hasDefinition ex:ted-detection-definition ; cd:dependsOn ex:ted-cryofocusing ;
+    cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+  ex:ted-detection-definition a cd:Definition ;
+    cd:body "The GC column separates the released compounds over retention time. Electron ionization in the mass spectrometer produces molecular and fragment ions, which are analysed by mass-to-charge ratio. A total-ion or selected-ion chromatogram records ion signal over chromatographic time; a mass spectrum instead describes the ion distribution at a given time. A chromatographic peak is not an intact microplastic particle and thermal decomposition products must not be confused with MS fragment ions."@en ;
+    cd:hasSource ex:ted-source-method ; cd:authoredResource true .
+
+  ex:ted-polymer-markers a cd:Concept ; skos:prefLabel "Markers → polymer mass"@en ;
+    cd:hasDefinition ex:ted-markers-definition ; cd:hasInterpretation ex:ted-marker-points ;
+    cd:dependsOn ex:ted-gc-ms-detection ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
+  ex:ted-markers-definition a cd:Definition ;
+    cd:body "Characteristic thermal decomposition products and their chromatographic and mass-spectral evidence can support identification of a polymer. Marker selection and interpretation depend on polymer composition, sample and matrix, and the analytical method. Matrix contributions and other polymers can overlap; a candidate peak alone is not proof of identity. Quantification uses validated marker peak areas and a suitable polymer calibration, with blanks, recovery and interference checks. TED-GC-MS provides polymer mass information, not particle count, shape or size. The accompanying trace is deliberately synthetic, with anonymous candidate markers and an illustrative matrix contribution; it is neither measured data nor a polymer assignment."@en ;
+    cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
+  ex:ted-marker-points a cd:Interpretation ; cd:body "Evidence for identification and quantification."@en ;
+    cd:hasKeyPoint ex:ted-marker-point-1, ex:ted-marker-point-2, ex:ted-marker-point-3 ; cd:authoredResource true .
+  ex:ted-marker-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Identify**: retention + ion pattern"@en ; cd:authoredResource true .
+  ex:ted-marker-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Quantify**: peak area + calibration"@en ; cd:authoredResource true .
+  ex:ted-marker-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Validate for polymer, matrix and sample=="@en ; cd:authoredResource true .
+
+  ex:ted-heating-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-heating.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Original schematic, not a device photograph: a crucible containing coloured polymer chains is heated inside a thermobalance; smaller molecular products leave with the gas while solid residue remains."@en ;
+    dct:references ex:ted-thermal-decomposition ; dct:creator "Project Chemie Digital" ; cd:authoredResource true .
+  ex:ted-capture-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-capture.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Original schematic of the requested Twister-based setup, not a manufacturer drawing: molecular products in a gas stream accumulate in a PDMS-coated rod inside a tube. The loaded tube is physically transferred to a second heated desorption position; no liquid stirring or intact-particle transfer is shown."@en ;
+    dct:references ex:ted-sorptive-capture ; dct:creator "Project Chemie Digital" ; cd:authoredResource true .
+  ex:ted-injection-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-injection.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Original three-stage schematic, left to right: heating releases products from a loaded sorbent, a cold inlet concentrates these products, then rapid heating sends a narrow band into the GC column. The colours distinguish product populations, not named compounds or measured amounts."@en ;
+    dct:references ex:ted-cryofocusing ; dct:creator "Project Chemie Digital" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-gc-ms> {
+  ex:ted-source-method a cd:Source ;
+    cd:supportsResource ex:ted-definition, ex:ted-decomposition-definition, ex:ted-capture-definition,
+      ex:ted-cryofocusing-definition, ex:ted-detection-definition, ex:ted-markers-definition ;
+    dct:title "Determination of Microplastic Mass Content by Thermal Extraction Desorption Gas Chromatography–Mass Spectrometry" ;
+    dct:creator "Yosri Wiesner; Korinna Altmann; Ulrike Braun" ; dct:issued "2021-03-01"^^xsd:date ;
+    dct:source <https://www.chromatographyonline.com/view/microplastic-mass-content-by-thermal-extraction-desorption-gas-chromatography-mass-spectrometry> ;
+    dct:description "Method description including TGA, PDMS collection, physical transfer, thermal desorption, CIS cryofocusing, GC-MS and marker calibration; also describes matrix interferences. Its PDMS device is not a Twister; no device equivalence is asserted."@en ; cd:authoredResource true .
+  ex:ted-source-twister a cd:Source ; dct:title "Overview Micro extraction techniques: Stir Bar Sorptive Extraction" ;
+    cd:supportsResource ex:ted-capture-definition ;
+    dct:creator "GERSTEL" ; dct:source <https://www.gerstel.com/en/products/sample-preparation/extraction/microextraction> ;
+    dct:description "Manufacturer description of the PDMS-coated Twister, sorptive enrichment and thermal desorption. Its liquid-extraction example is not presented as the TED gas-stream configuration."@en ; cd:authoredResource true .
+  ex:ted-source-review a cd:Source ; dct:title "Thermogravimetric analysis of microplastics: A mini review" ;
+    cd:supportsResource ex:ted-markers-definition ;
+    dct:creator "Rola Mansa; Shan Zou" ; dct:source <https://doi.org/10.1016/j.envadv.2021.100117> ;
+    dct:description "Review of TGA-based methods, limitations of marker specificity and the need for validation in the examined matrices."@en ; cd:authoredResource true .
+}

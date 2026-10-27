@@ -1,0 +1,10 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-setup> {
+ ex:ted-setup-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-setup.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Complete TED-GC-MS schematic: TGA, upright Twister capture, manual Twister transfer, thermal desorption, cryofocusing, GC separation and MS detection."@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+ ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-setup .
+ ex:ted-step-setup a cd:PathStep ; cd:position 2 ; cd:usesResource ex:ted-setup-illustration ; cd:usesScene ex:ted-scene-overview ; cd:authoredResource true .
+}

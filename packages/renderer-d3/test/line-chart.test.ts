@@ -94,7 +94,10 @@ test("generic line chart styling keeps traces unfilled and emphasizes points", (
   );
   assert.match(css, /\.d3-chart-line\s*\{[\s\S]*?fill:\s*none;[\s\S]*?stroke-width:\s*7;/u);
   assert.match(css, /\.d3-chart-line-point\s*\{[\s\S]*?stroke-width:\s*4;/u);
-  assert.match(source, /point\.setAttribute\("r", "7"\)/);
-  assert.match(source, /traceVisible \? "0\.9" : "0"/);
+  // The Talks chromatogram adds dense traces. Sparse plots retain the original
+  // emphasized markers; dense traces use smaller markers instead of hiding them.
+  assert.match(source, /point\.setAttribute\("r", series\.data\.length > 50 \? "2\.5" : "7"\)/);
+  assert.match(source, /const visibleSeries = \(id: string\): boolean => traceVisible && \(!focusedSeries\.has\(id\) \|\| id === activeFocus\)/);
+  assert.match(source, /point\.style\.opacity = visibleSeries\(id\) \? \(activeFocus && id !== activeFocus \? "0\.25" : "0\.9"\) : "0"/);
   assert.match(css, /\.d3-chart-range-highlight\s*\{[\s\S]*?fill:/u);
 });

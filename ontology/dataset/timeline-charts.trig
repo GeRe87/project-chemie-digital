@@ -1,0 +1,79 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesConcept cd:TimelineSchedule, cd:TimelineLane, cd:TimelineInterval, cd:TimelineRun, cd:TimelineCategory ;
+    cdm:definesRelation cd:hasTimelineLane, cd:hasTimelineInterval, cd:hasTimelineRun, cd:hasTimelineCategory, cd:intervalCategory ;
+    cdm:definesAttribute cd:startOffset, cd:duration, cd:repeatEvery .
+  cd:TimelineChart a cdm:ControlledValue .
+  cd:TimelineSchedule a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:Dataset .
+  cd:TimelineLane a rdfs:Class, cdm:ConceptDescriptor .
+  cd:TimelineInterval a rdfs:Class, cdm:ConceptDescriptor .
+  cd:TimelineRun a rdfs:Class, cdm:ConceptDescriptor .
+  cd:TimelineCategory a rdfs:Class, cdm:ConceptDescriptor .
+  cd:hasTimelineLane a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:TimelineSchedule ; rdfs:range cd:TimelineLane .
+  cd:hasTimelineInterval a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:TimelineLane ; rdfs:range cd:TimelineInterval .
+  cd:hasTimelineRun a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:TimelineRun .
+  cd:hasTimelineCategory a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:TimelineCategory .
+  cd:intervalCategory a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:TimelineInterval ; rdfs:range cd:TimelineCategory .
+  cd:startOffset a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal ;
+    rdfs:comment "Time offset from scenario origin for a lane, or from run start for an interval; in the chart time-axis unit."@en .
+  cd:duration a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:TimelineInterval ; rdfs:range xsd:decimal .
+  cd:repeatEvery a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:TimelineLane ; rdfs:range xsd:decimal ;
+    rdfs:comment "Time between starts of consecutive ordered runs on this lane. All intervals repeat for every run; this is an authored schedule, not an inferred dependency or execution engine."@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:TimelineAuthoredShape a sh:NodeShape ; sh:targetClass cd:TimelineSchedule, cd:TimelineLane, cd:TimelineInterval, cd:TimelineRun, cd:TimelineCategory ;
+    sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] .
+  cd:TimelineScheduleShape a sh:NodeShape ; sh:targetClass cd:TimelineSchedule ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:hasTimelineLane ; sh:minCount 1 ; sh:class cd:TimelineLane ; sh:nodeKind sh:IRI ] .
+  cd:TimelineLaneShape a sh:NodeShape ; sh:targetClass cd:TimelineLane ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:startOffset ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path cd:repeatEvery ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:hasTimelineInterval ; sh:minCount 1 ; sh:class cd:TimelineInterval ; sh:nodeKind sh:IRI ] ;
+    sh:sparql [ sh:message "Timeline phases must fit the repeat period and not overlap in authored order." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:repeatEvery ?period ; cd:hasTimelineInterval ?phase .
+  ?phase cd:position ?p ; cd:startOffset ?start ; cd:duration ?duration .
+  FILTER (?start + ?duration > ?period || EXISTS {
+    $this cd:hasTimelineInterval ?other .
+    ?other cd:position ?q ; cd:startOffset ?otherStart .
+    FILTER (?q > ?p && ?otherStart < ?start + ?duration)
+  })
+}""" ] .
+  cd:TimelineIntervalShape a sh:NodeShape ; sh:targetClass cd:TimelineInterval ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:startOffset ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path cd:duration ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+    sh:property [ sh:path cd:intervalCategory ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:TimelineCategory ; sh:nodeKind sh:IRI ] .
+  cd:TimelineRunShape a sh:NodeShape ; sh:targetClass cd:TimelineRun, cd:TimelineCategory ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] .
+  cd:TimelineChartShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasTimelineRun ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:TimelineChart ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:TimelineSchedule ] ;
+    sh:property [ sh:path dct:hasPart ; sh:class cd:TimelineSchedule ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:xAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path cd:hasTimelineCategory ; sh:minCount 1 ; sh:class cd:TimelineCategory ] ;
+    sh:property [ sh:path cd:hasTimelineRun ; sh:minCount 1 ; sh:class cd:TimelineRun ] ;
+    sh:sparql [ sh:message "Every timeline phase category must belong to the chart legend." ;
+      sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+PREFIX dct: <http://purl.org/dc/terms/>
+SELECT $this WHERE {
+  $this (cd:usesDataset|dct:hasPart)/cd:hasTimelineLane/cd:hasTimelineInterval/cd:intervalCategory ?category .
+  FILTER NOT EXISTS { $this cd:hasTimelineCategory ?category . }
+}""" ] .
+}

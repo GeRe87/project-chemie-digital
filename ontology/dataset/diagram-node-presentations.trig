@@ -1,0 +1,21 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+graph:concepts {
+ cd:LearningDomain cdm:definesConcept cd:NodePresentation ; cdm:definesRelation cd:hasNodePresentation, cd:forDiagramNode, cd:usesThumbnail ; cdm:definesAttribute cd:nodeTransition, cd:darkUri .
+ cd:NodePresentation a rdfs:Class, cdm:ConceptDescriptor .
+ cd:hasNodePresentation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramState ; rdfs:range cd:NodePresentation .
+ cd:forDiagramNode a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:NodePresentation ; rdfs:range cd:DiagramNode .
+ cd:usesThumbnail a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:NodePresentation ; rdfs:range cd:MediaAsset .
+ cd:nodeTransition a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:NodePresentation .
+ cd:darkUri a rdf:Property, cdm:AttributeDescriptor .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+ cd:NodePresentationShape a sh:NodeShape ; sh:targetClass cd:NodePresentation ;
+  sh:property [ sh:path cd:forDiagramNode ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:DiagramNode ] ;
+  sh:property [ sh:path cd:usesThumbnail ; sh:maxCount 1 ; sh:class cd:MediaAsset ] ;
+  sh:property [ sh:path cd:nodeTransition ; sh:maxCount 1 ; sh:in ("replace-left") ] .
+}

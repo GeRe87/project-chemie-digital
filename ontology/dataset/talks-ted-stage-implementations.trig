@@ -1,0 +1,27 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-processing> {
+ ex:ted-processing-flow cd:hasDiagramState ex:ted-tools-science, ex:ted-tools-implementation .
+ ex:ted-tools-science a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Scientific processing tasks"@en ; cd:authoredResource true .
+ ex:ted-tools-implementation a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Tools implementing the same tasks"@en ; cd:hasNodePresentation ex:ted-tool-import, ex:ted-tool-peaks, ex:ted-tool-components, ex:ted-tool-markers, ex:ted-tool-calibrate ; cd:authoredResource true .
+ ex:ted-tool-import a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-import ; cd:body "Java"@en ; cd:usesThumbnail ex:ted-openchrom-logo ; cd:authoredResource true .
+ ex:ted-tool-peaks a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-peaks ; cd:body "C++"@en ; cd:usesThumbnail ex:ted-qalgorithms-wordmark ; cd:authoredResource true .
+ ex:ted-tool-components a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-components ; cd:body "C++"@en ; cd:usesThumbnail ex:ted-qalgorithms-wordmark ; cd:authoredResource true .
+ ex:ted-tool-calibrate a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-calibration ; cd:body "In-house script\nPython"@en ; cd:usesThumbnail ex:ted-house-thumbnail ; cd:authoredResource true .
+ ex:ted-tool-markers a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-markers ; cd:body "In-house script\nPython"@en ; cd:usesThumbnail ex:ted-house-thumbnail ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-stage-implementations> {
+ ex:ted-openchrom-logo a cd:MediaAsset ; cd:uri "/talks-media/openchrom.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "OpenChrom logo, Lablicate"@en ; cd:authoredResource true .
+ ex:ted-qalgorithms-wordmark a cd:MediaAsset ; cd:uri "/talks-media/qalgorithms-logo.webp"^^xsd:anyURI ; cd:mediaType "image/webp" ; cd:alternativeText "qAlgorithms logo supplied by the speaker"@en ; cd:authoredResource true .
+ ex:ted-house-thumbnail a cd:MediaAsset ; cd:uri "/talks-media/in-house-script.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "House with code brackets: in-house script"@en ; cd:authoredResource true .
+ ex:ted-alternative-peak-step a cd:Concept ; skos:prefLabel "Alternative peak-finding implementation"@en ; cd:hasDefinition ex:ted-alternative-peak-definition ; cd:authoredResource true .
+ ex:ted-alternative-peak-definition a cd:Definition ; cd:body "The second pipeline stage substitutes an illustrative Find peaks better implementation while preserving the EIC input and feature/peak-list output contract. The name better is a demonstration label, not a measured claim of scientific or performance superiority. Implementations still need scientific validation and compatibility checks."@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-semantic-execution> {
+ ex:ted-semantic-pipeline-flow cd:hasDiagramState ex:ted-pipeline-original, ex:ted-pipeline-alternative .
+ ex:ted-pipeline-original a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Original compatible steps"@en ; cd:authoredResource true .
+ ex:ted-pipeline-alternative a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Replace one implementation, keep its port contract"@en ; cd:hasNodePresentation ex:ted-better-peak-presentation ; cd:authoredResource true .
+ ex:ted-better-peak-presentation a cd:NodePresentation ; cd:forDiagramNode ex:ted-sem-peaks ; skos:prefLabel "Find peaks better"@en ; cd:body "ProcessingStep\nIN: EICs\nOUT: features"@en ; cd:visualMotif "peak-search" ; cd:nodeTransition "replace-left" ; cd:authoredResource true .
+}

@@ -91,6 +91,7 @@ export type RevealVisualStageProfile =
 
 export type RevealMediaProfile =
   | "full-viewport"
+  | "framed-media"
   | "hero-attributions";
 
 export type RevealSemanticStageProfile =
@@ -177,6 +178,7 @@ function isIllustratedPrompt(block: SceneBlock): boolean {
 }
 
 function isFullViewportMediaGroup(block: SceneBlock): boolean {
+  if (block.kind === "media-reference" && block.mediaType?.startsWith("video/") && block.crop) return true;
   if (block.kind !== "group" || block.children.length !== 2) return false;
   const prose = block.children.filter((child) => child.kind === "prose");
   const media = block.children.filter((child) => child.kind === "media-reference");
@@ -687,6 +689,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   const heading = isHeading(blocks[0]) ? blocks[0] : undefined;
   const body = heading ? blocks.slice(1) : blocks;
+  // A human explanation and its machine-readable serialization share the stage;
+  // an optional diagram is a compact launcher, not a third competing panel.
+  const sourcePanel = body[body.length - 2], optionalDiagram = body[body.length - 1];
+  if (body.length >= 3 && body.slice(0, -2).every(block => block.kind === "prose") && sourcePanel?.kind === "code"
+      && optionalDiagram?.kind === "diagram" && optionalDiagram.presentation === "dialog") {
+    return {kind: "learning-stage", profile: "info-visual", mainCount: 2,
+      placements: [...placementsWithHeading(heading), ...body.slice(0, -2).map((block, i) => placement(block, "primary", i)),
+        placement(sourcePanel, "secondary", 0), placement(optionalDiagram, "footer", 0)]};
+  }
   if(body.length===1&&body[0]?.kind==="chart"&&body[0].chartType==="observations"&&body[0].view==="moments")return {kind:"visual-stage",profile:"diagram",mainCount:1,placements:[...placementsWithHeading(heading),placement(body[0],"main",0)]};
   if (body.length === 4 && body[0]?.kind === "definition-list" && body[1]?.kind === "table" && body[2]?.kind === "list" && body[3]?.kind === "chart") {
     return { kind: "learning-stage", profile: "scenario-data-visual", mainCount: 2,
@@ -720,10 +731,13 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   // One statistical visual owns the stage; concise conclusions do not compete
   // with its plot area. This signature is independent of chart/subject identity.
-  if (body.length === 2 && body.some(block => block.kind === "chart") && body.some(block => block.kind === "list")) {
+  if (body.length === 2 && (
+    (body.some(block => block.kind === "chart" || (block.kind === "diagram" && block.presentation !== "dialog")) && body.some(block => block.kind === "list"))
+    || (body[0]?.kind === "diagram" && body[0].presentation !== "dialog" && body[1]?.kind === "prose")
+  )) {
     const placements = placementsWithHeading(heading);
-    placements.push(placement(body.find(block => block.kind === "chart")!, "main", 0));
-    placements.push(placement(body.find(block => block.kind === "list")!, "footer", 0));
+    placements.push(placement(body.find(block => block.kind === "chart" || block.kind === "diagram")!, "main", 0));
+    placements.push(placement(body.find(block => block.kind === "list" || block.kind === "prose")!, "footer", 0));
     return { kind: "visual-stage", profile: "diagram", mainCount: 1, placements };
   }
   if (body.length === 2 && body[0]?.kind === "definition-list" && body[1]?.kind === "list") {
@@ -851,6 +865,16 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       mainCount: 3,
       profile: "hero-attributions",
     };
+  }
+
+  if (body.length === 1 && body[0]?.kind === "media-reference"
+      && (body[0].crop || body[0].mediaType?.startsWith("image/"))) {
+    return {kind: "media-stage", profile: "framed-media", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "main", 0)]};
+  }
+  if (body.length === 2 && body[0]?.kind === "media-reference" && body[0].mediaType?.startsWith("image/") && body[1]?.kind === "prose") {
+    return {kind: "media-stage", profile: "framed-media", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(body[0], "main", 0), placement(body[1], "footer", 0)]};
   }
 
   if (

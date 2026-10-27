@@ -1,0 +1,57 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+
+# Add to the existing exact path graph; do not create a competing path identity.
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-gc-ms, ex:ted-thermal-decomposition,
+    ex:ted-sorptive-capture, ex:ted-cryofocusing, ex:ted-gc-ms-detection, ex:ted-polymer-markers ;
+    cd:hasStep ex:ted-step-heating, ex:ted-step-capture,
+      ex:ted-step-injection, ex:ted-step-detection, ex:ted-step-markers .
+  ex:ted-step-heating a cd:PathStep ; cd:position 3 ; cd:usesResource ex:ted-heating-points, ex:ted-heating-illustration ; cd:usesScene ex:ted-scene-heating ; cd:authoredResource true .
+  ex:ted-step-capture a cd:PathStep ; cd:position 4 ; cd:usesResource ex:ted-capture-points, ex:ted-capture-illustration ; cd:usesScene ex:ted-scene-capture ; cd:authoredResource true .
+  ex:ted-step-injection a cd:PathStep ; cd:position 5 ; cd:usesResource ex:ted-injection-points, ex:ted-injection-illustration ; cd:usesScene ex:ted-scene-injection ; cd:authoredResource true .
+  ex:ted-step-detection a cd:PathStep ; cd:position 6 ; cd:usesResource ex:ted-gc-ms-signal-flow ; cd:usesScene ex:ted-scene-detection ; cd:authoredResource true .
+  ex:ted-step-markers a cd:PathStep ; cd:position 7 ; cd:usesResource ex:ted-marker-chromatogram, ex:ted-marker-points ; cd:usesScene ex:ted-scene-markers ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-gc-ms> {
+  ex:ted-scene-overview a cd:SceneDefinition ; cd:focusConcept ex:ted-gc-ms ;
+    cd:hasSceneItem ex:ted-overview-heading, ex:ted-overview-visual ;
+    cd:narration "TED means thermal extraction and desorption. This complete apparatus overview connects sample heating in the TGA, capture on an upright Twister at its outlet, manual transfer to thermal desorption, cryofocusing, GC separation and MS detection. The following slides explain these operations individually. Transfer refers to the loaded sorbent, not direct injection of intact microplastic particles. This is the requested Twister-based configuration, not a universal instrument diagram. Method background: Wiesner, Altmann and Braun (2021), with sorbent-format distinctions recorded in the knowledge definitions."@en ; cd:authoredResource true .
+  ex:ted-overview-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-gc-ms ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-overview-visual a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-setup-illustration ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-heating a cd:SceneDefinition ; cd:focusConcept ex:ted-thermal-decomposition ;
+    cd:hasSceneItem ex:ted-heating-heading, ex:ted-heating-bullets, ex:ted-heating-media ;
+    cd:narration "The crucible contains the sample and its matrix. Controlled heating under inert gas releases volatile compounds and polymer decomposition products. The illustration deliberately leaves solid residue in the crucible and sends molecular products into the gas stream. Coloured shapes are schematic populations, not a molecular structure or a mass balance. The exact temperature and heating rate belong to the validated analytical method; no setpoints or throughput claims are introduced here. See Wiesner, Altmann and Braun (2021)."@en ; cd:authoredResource true .
+  ex:ted-heating-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-thermal-decomposition ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-heating-bullets a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-heating-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-heating-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-heating-illustration ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-capture a cd:SceneDefinition ; cd:focusConcept ex:ted-sorptive-capture ;
+    cd:hasSceneItem ex:ted-capture-heading, ex:ted-capture-bullets, ex:ted-capture-media ;
+    cd:narration "The talk uses the requested PDMS Twister configuration. Products entering with the gas accumulate in the sorptive coating; the loaded device can then be transported to a thermal desorption position. Do not confuse this with ordinary Twister liquid-phase SBSE: no liquid sample or stirring step is depicted. Sorbent recovery is compound- and method-dependent. The general TED reference describes another PDMS device, while GERSTEL's Twister documentation establishes PDMS sorption and thermal desorption; the precise experimental coupling still requires the laboratory method specification."@en ; cd:authoredResource true .
+  ex:ted-capture-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-sorptive-capture ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-capture-bullets a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-capture-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-capture-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-capture-illustration ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-injection a cd:SceneDefinition ; cd:focusConcept ex:ted-cryofocusing ;
+    cd:hasSceneItem ex:ted-injection-heading, ex:ted-injection-bullets, ex:ted-injection-media ;
+    cd:narration "Read the illustration from left to right. First heat the loaded sorbent to release its collected compounds. Carrier gas transports them into the cooled inlet, where cryofocusing concentrates them. Only the subsequent rapid heating releases a narrow injection band into the GC. The cold-trap and release stages are sequential operations, not simultaneous transport of solid particles. The drawing is qualitative and contains no temperature, injection-width or recovery measurements. See Wiesner, Altmann and Braun (2021)."@en ; cd:authoredResource true .
+  ex:ted-injection-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-cryofocusing ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-injection-bullets a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-injection-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-injection-media a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-injection-illustration ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-detection a cd:SceneDefinition ; cd:focusConcept ex:ted-gc-ms-detection ;
+    cd:hasSceneItem ex:ted-detection-heading, ex:ted-detection-visual ;
+    cd:narration "The GC separates thermal decomposition products before they enter the mass spectrometer. Electron ionization then produces ions, including fragment ions; the MS analyses and detects them. A chromatogram is ion signal over chromatographic time. A mass spectrum is the ion distribution at a selected time; these two views must not be conflated. A chromatographic peak is not an intact microplastic particle. The authored diagram states let the presenter distinguish separation, ion formation and the recorded trace. See Wiesner, Altmann and Braun (2021)."@en ; cd:authoredResource true .
+  ex:ted-detection-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-gc-ms-detection ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-detection-visual a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-gc-ms-signal-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:ted-scene-markers a cd:SceneDefinition ; cd:focusConcept ex:ted-polymer-markers ;
+    cd:hasSceneItem ex:ted-markers-heading, ex:ted-markers-chart, ex:ted-markers-bullets ;
+    cd:narration "This is a synthetic teaching chromatogram, not measured TED-GC-MS data. TIC means total-ion chromatogram: many compounds contribute peaks. EIC means extracted-ion chromatogram: selecting one anonymous ion channel retains fewer peaks, shown in colour while the TIC stays grey as context. Both traces use the same arbitrary relative signal scale. EIC selection is not proof of identity and matrix interference can remain. No named polymer, real ion channel or compound identity is assigned. Step through TIC, selected EIC, characteristic marker candidate and the area of that same candidate peak. The shaded area is schematic, not a numerical validated integration. A candidate requires retention and mass-spectral evidence; only a validated marker area with suitable polymer calibration supports quantification. Markers depend on polymer, matrix, sample composition and method. Blanks, recovery and interference checks are essential. The result is polymer mass information, not particle count or size. Sources: Wiesner, Altmann and Braun (2021); Mansa and Zou (2021)."@en ; cd:authoredResource true .
+  ex:ted-markers-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-polymer-markers ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-markers-chart a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-marker-chromatogram ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-markers-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-marker-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+}

@@ -1,0 +1,68 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cf: <https://cogniflow.odea-project.org/cf#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/sources/ted-processing-interfaces> {
+ ex:ted-source-processing-interfaces a cd:Source ;
+  dct:title "Processing interfaces: source-aligned teaching excerpts" ;
+  dct:identifier "stonecastle/cf_concept_processing/semantics/{concept,examples,shapes}.trig; cf_ontology/semantics/{core,documentation.shapes}.trig" ;
+  dct:hasVersion "processing-concept sha256:0236d094847047cbce4ef7a28f48f834d002c1852eb7338353004a11875d1a16; ontology-core sha256:f7391168aec7e064b4cf88554da25439c20b6ce0b578aee68eeb903333a3cb1c" ;
+  dct:description "Read from the speaker-specified local Stonecastle source. ProcessingStep, Port, hasPort, portKey, hasPortRole and Input/Output follow the processing module. Human-readable names and definitions use SKOS, as in cf_ontology. Example resources use this talk's namespace; no core vocabulary is redefined or imported. dct:conformsTo is a standard documentation link to a small SHACL descriptor shape, not a claimed source-specific payload-shape relation. The example shape checks names, definitions, keys and roles, not scientific arrays or full runtime compatibility. The source processing module still contains older meta-properties not declared in the current core; those are deliberately not copied. These excerpts are not a certification of complete upstream ontology or production conformance."@en ;
+  cd:supportsResource ex:ted-processing-unit-definition, ex:ted-port-eics, ex:ted-port-features, ex:ted-port-components, ex:ted-port-marker-areas ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> {
+ ex:Import a cf:ProcessingStep ; skos:prefLabel "Import" ; skos:definition "Read measurement files and expose EIC traces." ; cf:hasPort ex:EICsOut .
+ ex:FindPeaks a cf:ProcessingStep ; skos:prefLabel "Find peaks" ; skos:definition "Detect chromatographic peaks in EIC traces." ; cf:hasPort ex:EICsIn .
+ ex:EICsOut a cf:Port ; skos:prefLabel "EICs output" ; skos:definition "Ion traces with time, intensity and m/z." ; cf:portKey "eics" ; cf:hasPortRole cf:Output ; dct:conformsTo ex:EICPortShape .
+ ex:EICsIn a cf:Port ; skos:prefLabel "EICs input" ; skos:definition "Ion traces with time, intensity and m/z." ; cf:portKey "eics" ; cf:hasPortRole cf:Input ; dct:conformsTo ex:EICPortShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-eics> {
+  ex:EICPortShape a sh:NodeShape, cf:Shape ; sh:targetNode ex:EICsOut, ex:EICsIn ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] ;
+  sh:property [ sh:path skos:definition ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:portKey ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:hasPortRole ; sh:in (cf:Input cf:Output) ; sh:minCount 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> {
+ ex:FindPeaks a cf:ProcessingStep ; skos:prefLabel "Find peaks" ; skos:definition "Detect chromatographic peaks in EIC traces." ; cf:hasPort ex:FeaturesOut .
+ ex:FormComponents a cf:ProcessingStep ; skos:prefLabel "Form components" ; skos:definition "Jointly fit peaks sharing an elution profile." ; cf:hasPort ex:FeaturesIn .
+ ex:FeaturesOut a cf:Port ; skos:prefLabel "Peak features output" ; skos:definition "Fitted peaks with source EIC, time and area." ; cf:portKey "features" ; cf:hasPortRole cf:Output ; dct:conformsTo ex:FeaturePortShape .
+ ex:FeaturesIn a cf:Port ; skos:prefLabel "Peak features input" ; skos:definition "Fitted peaks with source EIC, time and area." ; cf:portKey "features" ; cf:hasPortRole cf:Input ; dct:conformsTo ex:FeaturePortShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-features> {
+  ex:FeaturePortShape a sh:NodeShape, cf:Shape ; sh:targetNode ex:FeaturesOut, ex:FeaturesIn ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] ;
+  sh:property [ sh:path skos:definition ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:portKey ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:hasPortRole ; sh:in (cf:Input cf:Output) ; sh:minCount 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> {
+ ex:FormComponents a cf:ProcessingStep ; skos:prefLabel "Form components" ; skos:definition "Jointly fit peaks sharing an elution profile." ; cf:hasPort ex:ComponentsOut .
+ ex:SelectMarkers a cf:ProcessingStep ; skos:prefLabel "Select markers" ; skos:definition "Select validated polymer-marker components." ; cf:hasPort ex:ComponentsIn .
+ ex:ComponentsOut a cf:Port ; skos:prefLabel "Components output" ; skos:definition "Jointly fitted groups of EIC peaks." ; cf:portKey "components" ; cf:hasPortRole cf:Output ; dct:conformsTo ex:ComponentPortShape .
+ ex:ComponentsIn a cf:Port ; skos:prefLabel "Components input" ; skos:definition "Jointly fitted groups of EIC peaks." ; cf:portKey "components" ; cf:hasPortRole cf:Input ; dct:conformsTo ex:ComponentPortShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-components> {
+  ex:ComponentPortShape a sh:NodeShape, cf:Shape ; sh:targetNode ex:ComponentsOut, ex:ComponentsIn ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] ;
+  sh:property [ sh:path skos:definition ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:portKey ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:hasPortRole ; sh:in (cf:Input cf:Output) ; sh:minCount 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> {
+ ex:SelectMarkers a cf:ProcessingStep ; skos:prefLabel "Select markers" ; skos:definition "Select validated polymer-marker components." ; cf:hasPort ex:MarkerAreasOut .
+ ex:Calibrate a cf:ProcessingStep ; skos:prefLabel "Calibrate" ; skos:definition "Convert marker areas to polymer content." ; cf:hasPort ex:MarkerAreasIn .
+ ex:MarkerAreasOut a cf:Port ; skos:prefLabel "Marker areas output" ; skos:definition "Selected areas with polymer assignment and units." ; cf:portKey "marker_areas" ; cf:hasPortRole cf:Output ; dct:conformsTo ex:MarkerPortShape .
+ ex:MarkerAreasIn a cf:Port ; skos:prefLabel "Marker areas input" ; skos:definition "Selected areas with polymer assignment and units." ; cf:portKey "marker_areas" ; cf:hasPortRole cf:Input ; dct:conformsTo ex:MarkerPortShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-marker-areas> {
+  ex:MarkerPortShape a sh:NodeShape, cf:Shape ; sh:targetNode ex:MarkerAreasOut, ex:MarkerAreasIn ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ] ;
+  sh:property [ sh:path skos:definition ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:portKey ; sh:minCount 1 ] ;
+  sh:property [ sh:path cf:hasPortRole ; sh:in (cf:Input cf:Output) ; sh:minCount 1 ] .
+}

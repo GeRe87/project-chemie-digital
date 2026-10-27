@@ -34,6 +34,7 @@ export interface PresentationProfile {
   readonly backgroundProgressAxis?: "horizontal" | "vertical";
   readonly supportedViews?: readonly PresentationView[];
   readonly backgroundFamilyIds?: readonly string[];
+  readonly showToolbar?: boolean;
 }
 
 export interface ResolvedPresentationAppearance {
@@ -95,6 +96,9 @@ function laboratoryPack(theme: PresentationThemeMode): BackgroundPack {
     layers: ["back", "middle", "front"].map((id, index) => ({
       id, asset: `/talks-assets/${id}_layer_${theme}.webp`, speed: [0.12, 0.33, 0.61][index]!,
       anchor: "center" as const, repeat: "x" as const, opacity: 1, sizing: "cover-height" as const,
+      // The source image has a transparent bottom margin; move its opaque
+      // cabinet edge past the viewport, not just the image element's box.
+      ...(id === "front" ? { scale: 1.12, offsetYVh: 14 } : {}),
     })),
   };
 }
@@ -106,10 +110,12 @@ export const talksLaboratoryFamily: ThemedBackgroundPackFamily = {
 
 export const talksPresentationProfile: PresentationProfile = {
   id: "scientific-talks", label: "Scientific presentations", defaultView: "deck", defaultTheme: "dark",
+  showToolbar: false,
   defaultBackgroundFamilyId: talksLaboratoryFamily.id, viewportPolicy: "native-portrait",
   backgroundProgressAxis: "horizontal",
   supportedViews: ["deck"],
   backgroundFamilyIds: [talksLaboratoryFamily.id],
+  defaultReadability: "lecture",
   presenterCapabilities: { clock: true, laserPointer: true },
 };
 

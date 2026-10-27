@@ -52,6 +52,7 @@ import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-poll-runtime.ts";
 import { mountPitchDiagrams } from "./flow-runtime.ts";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountCroppedVideos } from "./video-crop-runtime.ts";
 import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -158,6 +159,8 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
   canonicalDatasetSnapshot,
 );
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId, options?.profile);
+// Keep keyboard shortcuts and the floating theme lamp, without a toolbar rail.
+shellRoot.hidden = appearance.profile.showToolbar === false;
 for (const message of appearance.diagnostics) console.warn(message);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
@@ -283,8 +286,10 @@ let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeView
 const syncNativeViewport = () => {
   if (!hasObservationExplorer && appearance.profile.viewportPolicy !== "native-portrait") return;
   const native = window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
-  const width = Math.max(320, Math.round(window.innerWidth));
-  const height = Math.max(560, Math.round(window.innerHeight));
+  // Native portrait means the actual presentation area, not the window plus
+  // the controls above it. Otherwise Reveal shrinks a phone-width slide again.
+  const width = Math.max(240, Math.round(presentation.clientWidth || window.innerWidth));
+  const height = Math.max(240, Math.round(presentation.clientHeight || window.innerHeight));
   document.body.classList.toggle("pcd-native-mobile", native);
   const key = `${native}:${width}:${height}`;
   if (key === viewportKey) return;
@@ -293,6 +298,8 @@ const syncNativeViewport = () => {
   deck.layout();
 };
 window.addEventListener("resize", syncNativeViewport);
+const nativeViewportObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(syncNativeViewport);
+nativeViewportObserver?.observe(presentation);
 syncNativeViewport();
 // Resolve authored deep links to native page boundaries. Reveal's proportional
 // scroll-trigger calculation can select a preceding page in fragment-rich decks.
@@ -362,6 +369,7 @@ function syncPresentationVideos(): void {
       continue;
     }
     if (video.dataset.pcdPresentationStarted === "true") continue;
+    if (reducedMotion) continue;
     video.dataset.pcdPresentationStarted = "true";
     video.currentTime = 0;
     void video.play().catch(() => {
@@ -369,6 +377,7 @@ function syncPresentationVideos(): void {
     });
   }
 }
+const unmountCroppedVideos = mountCroppedVideos(root);
 deck.on("slidechanged", syncPresentationVideos);
 deck.on("slidechanged", syncFullMediaMode);
 deck.on("slidechanged", syncNavigationMode);
@@ -460,7 +469,8 @@ if (connectedInteractive) {
 }
 
 const unmountCodeOutputZoom=mountCodeOutputZoom(root);
-const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
+const unmountScriptView=appearance.profile.showToolbar === false ? () => undefined
+  : mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
 
 const refreshInteractiveRuntime = (): void => {
   codeRuntime?.refresh();
@@ -479,6 +489,7 @@ const unmountShell = mountGraphSummaryShell({
 
 window.addEventListener("pagehide", () => {
   window.removeEventListener("resize", syncNativeViewport);
+  nativeViewportObserver?.disconnect();
   window.removeEventListener("resize", syncBackgroundPage);
   deck.off("slidechanged",syncBackgroundPage);
   unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
@@ -494,6 +505,7 @@ window.addEventListener("pagehide", () => {
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
   for (const video of presentationVideos) video.pause();
+  unmountCroppedVideos();
   deck.off("slidechanged", onCourseEnd);
   returnButton.removeEventListener("click", returnToWorld);
   returnButton.remove();

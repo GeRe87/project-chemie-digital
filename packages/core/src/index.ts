@@ -11,3 +11,5 @@ export * from "./observation-explorer.ts";
 export * from "./summary-comparison.ts";
 export * from "./box-plot.ts";
 export * from "./histogram.ts";
+export * from "./regression-chart.ts";
+export * from "./calibration-evaluation.ts";

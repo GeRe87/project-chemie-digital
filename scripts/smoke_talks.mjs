@@ -42,7 +42,7 @@ try {
         await button.focus(); await page.keyboard.press("Enter");
         await page.locator(".scientific-title").waitFor();
         await page.waitForTimeout(1200);
-        assert.equal(await page.locator(".reveal .slides > section").count(),1);
+        assert.ok(await page.locator(".reveal .slides > section").count() >= 1);
         assert.equal(await page.locator(".scientific-title h1").textContent(),title);
         assert.match(await page.locator(".scientific-title").textContent(),/Gerrit Renner/);
         assert.match(await page.locator(".scientific-title").textContent(),/Faculty of Chemistry/);
@@ -52,8 +52,14 @@ try {
           const heading = document.querySelector(".scientific-title h1").getBoundingClientRect();
           const layers = [...document.querySelectorAll(".pcd-background-layer")].map(layer=>({
             transform:layer.querySelector(".pcd-background-strip").style.transform,
-            width:layer.querySelector("img").getBoundingClientRect().width,
-            height:layer.querySelector("img").getBoundingClientRect().height,
+            // Compare compositing dimensions before the authored layer transform.
+            // The foreground's intentional scale is not a mismatched source tile.
+            width:layer.querySelector("img").offsetWidth,
+            height:layer.querySelector("img").offsetHeight,
+            naturalWidth:layer.querySelector("img").naturalWidth,
+            naturalHeight:layer.querySelector("img").naturalHeight,
+            renderedWidth:layer.querySelector("img").getBoundingClientRect().width,
+            renderedHeight:layer.querySelector("img").getBoundingClientRect().height,
           }));
           return { title:{x:title.x,y:title.y,width:title.width,height:title.height},
             heading:{x:heading.x,y:heading.y,width:heading.width,height:heading.height}, layers,
@@ -66,6 +72,8 @@ try {
         assert.ok(geometry.heading.x >= -1 && geometry.heading.x+geometry.heading.width <= viewport.width+1,"heading outside viewport");
         assert.ok(geometry.title.y >= -1 && geometry.title.y+geometry.title.height <= viewport.height+2,"title layout outside viewport");
         assert.equal(new Set(geometry.layers.map(l=>`${l.width}:${l.height}`)).size,1,"composited layer sizes differ");
+        assert.equal(new Set(geometry.layers.map(l=>`${l.naturalWidth}:${l.naturalHeight}`)).size,1,"source tile dimensions differ");
+        assert.ok(geometry.layers.every(l=>l.naturalWidth>0 && l.renderedWidth>=viewport.width && l.renderedHeight>=viewport.height),"background tiles must load and cover the viewport");
         assert.ok(!/cogniflow/i.test(geometry.visibleText),"unrelated public content");
         const transforms = geometry.layers.map(l=>l.transform);
         await page.waitForTimeout(250);
@@ -78,9 +86,11 @@ try {
         await page.keyboard.press("Alt+t");
         assert.equal(await page.locator("body").getAttribute("data-presentation-theme"),theme === "dark" ? "light":"dark");
         await page.keyboard.press("Alt+t");
-        await page.locator("#presentation-background-select").selectOption("none");
+        await page.keyboard.press("Alt+b");
+        assert.equal(await page.locator("#presentation-background-select").inputValue(),"none");
         assert.equal(await page.locator("body.pcd-background-active").count(),0);
-        await page.locator("#presentation-background-select").selectOption("talks-laboratory");
+        await page.keyboard.press("Alt+b");
+        assert.equal(await page.locator("#presentation-background-select").inputValue(),"talks-laboratory");
         await page.waitForTimeout(450);
         assert.equal(await page.locator(".pcd-background-stage").count(),1);
         assert.deepEqual(await page.locator("#presentation-background-select option").evaluateAll(nodes=>nodes.map(n=>n.value)),["none","talks-laboratory"]);

@@ -127,6 +127,26 @@ function unorderedList(id: string, count = 3): SceneBlock {
   };
 }
 
+test("prose and read-only code keep an on-demand diagram in the footer", () => {
+  const source = [{resourceId: "opaque:source"}];
+  const code: SceneBlock = {id: "serialization", kind: "code", language: "trig", code: "", fallback: "", editable: false, executable: false, source};
+  const diagram: SceneBlock = {id: "relations", kind: "diagram", diagramType: "network", label: "Graph", description: "Relations", presentation: "dialog", nodes: [], edges: [], source};
+  const blocks = [prose("heading", "introduce"), prose("story"), code, diagram];
+  const plan = inferRevealCompositionPlan({id: "arbitrary", blocks, source, readingOrder: blocks.map(block => block.id)});
+  assert.equal(plan.profile, "info-visual");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["story", "primary"], ["serialization", "secondary"], ["relations", "footer"],
+  ]);
+});
+
+test("an inline diagram and concise takeaways share the visual-stage composition", () => {
+  const blocks = [prose("heading", "introduce"), flowDiagram("input-process-output"), unorderedList("takeaways")];
+  const plan = inferRevealCompositionPlan({id: "opaque-process", blocks, source: [], readingOrder: blocks.map(block => block.id)});
+  assert.equal(plan.kind, "visual-stage");
+  assert.equal(plan.placements.find(p => p.blockId === "input-process-output")?.region, "main");
+  assert.equal(plan.placements.find(p => p.blockId === "takeaways")?.region, "footer");
+});
+
 test("scenario and evidence layouts depend only on ordered block kinds", () => {
   const railBlocks=[prose("heading","introduce"),definitions("scenario"),dataTable("observations"),unorderedList("conclusion"),barChart("stems")];
   const rail=inferRevealCompositionPlan({id:"opaque-rail",blocks:railBlocks,source:[],readingOrder:railBlocks.map(b=>b.id)});
@@ -1677,4 +1697,28 @@ test("diagram with explanatory takeaway keeps reusable visual-stage diagram/foot
       { blockId: "takeaway", region: "footer", index: 0 },
     ],
   });
+});
+
+test("single images and cropped videos keep the shared framed-media presentation", () => {
+  for (const mediaType of ["image/svg+xml", "video/mp4"]) {
+    const media: SceneBlock = {id: "media", kind: "media-reference", uri: "/assets/example",
+      mediaType, alternativeText: "An authored demonstration", source: [{resourceId: "resource:media"}],
+      ...(mediaType.startsWith("video/") ? {crop: {x: 0, y: .1, width: 1, height: .9}} : {})};
+    const scene: Scene = {id: "opaque:framed", source: [{resourceId: "resource:framed"}],
+      blocks: [prose("heading", "introduce"), media], readingOrder: ["heading", "media"]};
+    const plan = inferRevealCompositionPlan(scene);
+    assert.equal(plan.kind, "media-stage");
+    assert.equal(plan.profile, "framed-media");
+    assert.equal(plan.mainCount, 1);
+  }
+});
+
+test("a framed image keeps its readable caption in the footer", () => {
+  const media: SceneBlock = {id: "image", kind: "media-reference", uri: "/assets/image.svg",
+    mediaType: "image/svg+xml", alternativeText: "An illustration", source: [{resourceId: "resource:image"}]};
+  const scene: Scene = {id: "opaque:caption", source: [{resourceId: "resource:caption"}],
+    blocks: [prose("heading", "introduce"), media, prose("caption")], readingOrder: ["heading", "image", "caption"]};
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "framed-media");
+  assert.deepEqual(plan.placements.at(-1), {blockId: "caption", region: "footer", index: 0});
 });

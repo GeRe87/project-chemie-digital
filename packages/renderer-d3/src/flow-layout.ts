@@ -1,15 +1,16 @@
 export type D3FlowOrientation = "horizontal" | "vertical";
-export type D3FlowLayoutStrategy = "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
+export type D3FlowLayoutStrategy = "orchestration-system" | "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
 export interface D3FlowLayoutNodeInput {
   readonly id: string;
   readonly label: string;
   readonly notation?: string;
   readonly visualRole?: string;
-  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
+  readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string; readonly parentPartId?: string; readonly referencePartId?: string }[];
   readonly description?: string;
   readonly groupIds?: readonly string[];
   readonly visualMotifRole?: "supporting" | "highlight";
+  readonly visualMotif?: string;
 }
 
 export interface D3FlowLayoutEdgeInput {
@@ -26,7 +27,17 @@ export interface D3FlowLayoutInput {
   readonly diagramType?: "flow" | "network";
   readonly groups?: readonly { readonly id: string; readonly label?: string }[];
   readonly focusNodeId?: string;
-  readonly states?: readonly { readonly id: string; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
+  readonly states?: readonly { readonly id: string; readonly nodePresentations?: readonly {readonly nodeId: string; readonly thumbnail?: {readonly uri: string}}[]; readonly sharedEdgeAnnotations: readonly { readonly id: string; readonly edgeIds: readonly string[] }[] }[];
+}
+
+export function isSingleUnitFlow(input: Pick<D3FlowLayoutInput, "nodes" | "groups"> & {readonly diagramType?: string}): boolean {
+  return input.diagramType === "flow" && input.nodes.length === 3
+    && ["input", "process", "output"].every(role => input.nodes.filter(node => node.visualRole === role).length === 1)
+    && Boolean(input.groups?.some(group => input.nodes.every(node => node.groupIds?.includes(group.id))));
+}
+
+export function hasPartHierarchy(node: Pick<D3FlowLayoutNodeInput, "parts">): boolean {
+  return Boolean(node.parts?.some(part => part.parentPartId || part.referencePartId));
 }
 
 export interface D3FlowLayoutNode {
@@ -246,9 +257,61 @@ function bodyTextMeasure(value: string): number {
   return deterministicFlowTextMeasure(value) * 0.94;
 }
 
-function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false): number {
+/** Reusable stacked subcards, measured identically by layout and SVG rendering. */
+export function stackedFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1, illustration = false) {
+  let top = 44 + headingLines * 28 + (illustration ? 132 : 0);
+  return parts.map(part => {
+    const labelLines = wrapFlowText(part.label, width - 72, structuredTitleTextMeasure);
+    const bodyLines = part.description ? wrapFlowText(part.description, width - 72, bodyTextMeasure) : [];
+    const height = 32 + labelLines.length * 24 + (bodyLines.length ? 10 + bodyLines.length * 21 : 0);
+    const row = {id: part.id, top, height, labelLines, bodyLines};
+    top += height + 12;
+    return row;
+  });
+}
+
+export function treeFlowParts(parts: NonNullable<D3FlowLayoutNodeInput["parts"]>, width: number, headingLines = 1) {
+  if (new Set(parts.map(part => part.id)).size !== parts.length) throw new Error("Tree part ids must be unique");
+  const positioned: Array<{part: typeof parts[number]; x: number; width: number; depth: number}> = [];
+  const visit = (parent: string | undefined, left: number, available: number, depth: number) => {
+    const children = parts.filter(part => part.parentPartId === parent);
+    children.forEach((part, index) => {
+      const lane = available / children.length;
+      positioned.push({part, x: left + lane * (index + .5), width: lane - 16, depth});
+      visit(part.id, left + lane * index, lane, depth + 1);
+    });
+  };
+  visit(undefined, -width / 2 + 24, width - 48, 0);
+  if (positioned.length !== parts.length) throw new Error("Part hierarchy must be rooted and acyclic");
+  const rows = positioned.map(({part, x, width, depth}) => {
+    const labelLines = wrapFlowText(part.label, width - 24, value => structuredTitleTextMeasure(value) * .8);
+    const bodyLines = part.description ? wrapFlowText(part.description, width - 24, bodyTextMeasure) : [];
+    return {...part, x, width, depth, top: 0, labelLines, bodyLines, height: 28 + labelLines.length * 24 + bodyLines.length * 21};
+  });
+  let top = 64 + headingLines * 28;
+  for (let depth = 0; depth <= Math.max(0, ...rows.map(row => row.depth)); depth++) {
+    const height = Math.max(0, ...rows.filter(row => row.depth === depth).map(row => row.height));
+    for (const row of rows.filter(row => row.depth === depth)) row.top = top;
+    top += height + 38;
+  }
+  return rows;
+}
+
+function stackedFlowHeight(node: D3FlowLayoutNodeInput, width: number, headingLines: number): number {
+  if (hasPartHierarchy(node)) return Math.max(...treeFlowParts(node.parts!, width, headingLines).map(row => row.top + row.height)) + 24;
+  const rows = stackedFlowParts(node.parts!, width, headingLines, Boolean(node.visualMotif));
+  const last = rows[rows.length - 1]!;
+  return last.top + last.height + 20;
+}
+
+export function flowMotifExtent(motif?: string): number {
+  return ["semantic-model", "processing-composition", "average-operation", "event-server", "execution-engine", "workflow-results"].includes(motif ?? "") ? 144 : 88;
+}
+
+function nodeHeight(labelLines: readonly string[], bodyLines: readonly string[] = [], notation?: string, headerMotif = false, highlightMotif = false, motif?: string): number {
   const titleHeight = Math.max(labelLines.length, 1) * 28;
   const bodyHeight = bodyLines.length * FLOW_BODY_LINE_HEIGHT;
+  if (highlightMotif) return Math.max(276, 126 + titleHeight + flowMotifExtent(motif) + bodyHeight);
   if (notation || headerMotif) return Math.max(186, 60 + titleHeight + 28 + bodyHeight + 32);
   if (bodyLines.length === 0) return Math.max(FLOW_NODE_MIN_HEIGHT, 62 + titleHeight);
   return Math.max(168, 62 + titleHeight + bodyHeight + 18);
@@ -702,16 +765,21 @@ function spaceFillingLinearFlowLayout(
 ): SpaceFillingFlowGeometry {
   const side = hilbertSideForNodeCount(linearOrder.length);
   const window = compactHilbertWindow(linearOrder.length, side);
+  // Reserve text gutters only for labels that will actually be rendered.
+  // Repeated linear labels are suppressed by the same policy below.
+  const labelledEdges = repeatedLinearEdgeLabel(input, linearOrder) ? [] : input.edges;
+  const columnGap = Math.max(SPACE_FILLING_COLUMN_GAP, ...labelledEdges.map(edge =>
+    Math.min(EDGE_LABEL_MAX_WIDTH, deterministicFlowTextMeasure(edge.label)) + 32));
   const width = Math.max(
     hostWidth,
     SPACE_FILLING_MARGIN_X * 2
       + window.columns * SPACE_FILLING_CARD_MIN_WIDTH
-      + Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP,
+      + Math.max(0, window.columns - 1) * columnGap,
   );
   const availableCardWidth = (
     width
     - SPACE_FILLING_MARGIN_X * 2
-    - Math.max(0, window.columns - 1) * SPACE_FILLING_COLUMN_GAP
+    - Math.max(0, window.columns - 1) * columnGap
   ) / window.columns;
   const cardWidth = Math.max(
     SPACE_FILLING_CARD_MIN_WIDTH,
@@ -728,7 +796,7 @@ function spaceFillingLinearFlowLayout(
     );
     const titleHeight = Math.max(labelLines.length, 1) * 28;
     const bodyHeight = Math.max(bodyLines.length, 1) * 24;
-    const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
+    const highlightMotifHeight = original.visualMotifRole === "highlight" ? flowMotifExtent(original.visualMotif) + 4 : 0;
     return {
       ...original,
       labelLines,
@@ -742,9 +810,11 @@ function spaceFillingLinearFlowLayout(
       ),
     };
   });
-  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height));
+  const variantSpace = input.states?.some(state => state.nodePresentations?.some(p => p.thumbnail)) ? cardWidth - 80
+    : input.states?.some(state => state.nodePresentations?.length) ? 48 : 0;
+  const maxCardHeight = Math.max(FLOW_NODE_MIN_HEIGHT, ...cardNodes.map((node) => node.height)) + variantSpace;
   const rowPitch = maxCardHeight + SPACE_FILLING_ROW_GAP;
-  const columnPitch = cardWidth + SPACE_FILLING_COLUMN_GAP;
+  const columnPitch = cardWidth + columnGap;
   const height = SPACE_FILLING_MARGIN_Y * 2
     + window.rows * maxCardHeight
     + Math.max(0, window.rows - 1) * SPACE_FILLING_ROW_GAP;
@@ -768,7 +838,7 @@ function spaceFillingLinearFlowLayout(
       x: point.x,
       y: point.y,
       width: node.width,
-      height: node.height,
+      height: input.states?.some(state => state.nodePresentations?.some(presentation => presentation.nodeId === id)) ? maxCardHeight : node.height,
       labelLines: node.labelLines,
       bodyLines: node.bodyLines,
     });
@@ -834,7 +904,7 @@ function horizontalLayeredLayout(
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
+      height: original.parts?.length ? stackedFlowHeight(original, compactNodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight"), original.visualMotif),
     };
   };
 
@@ -923,7 +993,7 @@ function verticalLayeredLayout(
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
+        height: original.parts?.length ? stackedFlowHeight(original, nodeWidth, labelLines.length) : nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight"), Boolean(original.visualMotif && original.visualMotifRole === "highlight"), original.visualMotif),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1121,19 +1191,19 @@ function compactRadialNetworkLayout(
   const height = Math.max(320, Math.min(450, width * 0.9));
   const centerX = width / 2;
   const centerY = height / 2;
-  const nodeWidth = Math.max(146, Math.min(176, width * 0.39));
+  const nodeWidth = Math.max(146, Math.min(288, width * 0.30));
   const radiusX = Math.max(96, Math.min(width * 0.32, (width - nodeWidth) / 2 - 14));
   const radiusY = Math.max(96, Math.min(height * 0.34, (height - 68) / 2 - 16));
 
   const nodes = prepared.map((node, index): D3FlowLayoutNode => {
     const angle = -Math.PI / 2 + (2 * Math.PI * index) / prepared.length;
-    const labelLines = wrapFlowText(node.label, Math.max(118, nodeWidth - 28));
+    const labelLines = wrapFlowText(node.label, Math.max(118, nodeWidth - 32), structuredTitleTextMeasure);
     return {
       id: node.id,
       x: centerX + Math.cos(angle) * radiusX,
       y: centerY + Math.sin(angle) * radiusY,
       width: nodeWidth,
-      height: Math.max(62, 28 + labelLines.length * 21),
+      height: Math.max(62, 28 + labelLines.length * 24),
       labelLines,
       bodyLines: [],
     };
@@ -1572,7 +1642,7 @@ function hierarchyFanoutLayout(
     const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
     const motifSize = node.visualMotifRole === "highlight" ? Math.min(88, Math.max(72, w * .24)) : 0;
     const height = Math.max(root ? 154 : 324,
-      nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
+      nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(node.visualMotif && node.visualMotifRole === "highlight")),
       motifSize ? 42 + labelLines.length * 28 + 11 + 20 + motifSize + 20 + bodyLines.length * 23 + 24 : 0);
     return { ...node, width: w, height, labelLines, bodyLines };
   });
@@ -1596,16 +1666,81 @@ function hierarchyFanoutLayout(
   };
 }
 
+/** Recognize a controller-mediated execution/archive system by roles and edges, never identities or labels. */
+function orchestrationSystemLayout(input: D3FlowLayoutInput): D3FlowLayout | undefined {
+  const roles = ["input", "control", "process", "output", "specification", "storage"] as const;
+  if (input.diagramType !== "network" || input.nodes.length !== roles.length || input.edges.length !== 6) return undefined;
+  const byRole = new Map(roles.map(role => [role, input.nodes.filter(node => node.visualRole === role)]));
+  if ([...byRole.values()].some(nodes => nodes.length !== 1)) return undefined;
+  const id = (role: typeof roles[number]) => byRole.get(role)![0]!.id;
+  const pairs = [["input", "control"], ["control", "process"], ["process", "output"], ["specification", "process"], ["output", "control"], ["control", "storage"]] as const;
+  if (!pairs.every(([source, target]) => input.edges.some(edge => edge.sourceNodeId === id(source) && edge.targetNodeId === id(target)))) return undefined;
+  const cardWidth = 280, gap = 120, margin = 32, rowGap = 108;
+  const measured = input.nodes.map(node => ({...node,
+    labelLines: wrapFlowText(node.label, cardWidth - 40, structuredTitleTextMeasure),
+    bodyLines: wrapFlowText(node.description ?? "", cardWidth - 40, bodyTextMeasure)}));
+  const cardHeight = Math.max(244, ...measured.map(node => 164 + node.labelLines.length * 28 + node.bodyLines.length * 23));
+  const slots: Readonly<Record<string, readonly [number, number]>> = {input: [0, 1], control: [1, 1], process: [2, 1], output: [3, 1], specification: [2, 0], storage: [1, 0]};
+  const nodes = measured.map(node => {
+    const [column, row] = slots[node.visualRole!]!;
+    return {id: node.id, width: cardWidth, height: cardHeight, labelLines: node.labelLines, bodyLines: node.bodyLines,
+      x: margin + cardWidth / 2 + column * (cardWidth + gap), y: margin + cardHeight / 2 + row * (cardHeight + rowGap)};
+  });
+  const nodeById = new Map(nodes.map(node => [node.id, node]));
+  const roleById = new Map(input.nodes.map(node => [node.id, node.visualRole]));
+  const returnY = margin + cardHeight * 2 + rowGap + 72;
+  const edges = input.edges.map(edge => {
+    const source = nodeById.get(edge.sourceNodeId)!, target = nodeById.get(edge.targetNodeId)!;
+    const from = roleById.get(source.id), to = roleById.get(target.id);
+    let points: D3FlowLayoutPoint[], labelX: number, labelY: number;
+    if (from === "output" && to === "control") {
+      points = [{x: source.x, y: source.y + cardHeight / 2}, {x: source.x, y: returnY}, {x: target.x, y: returnY}, {x: target.x, y: target.y + cardHeight / 2}];
+      labelX = (source.x + target.x) / 2; labelY = returnY;
+    } else if (from === "specification" || to === "storage") {
+      const down = target.y > source.y;
+      points = [{x: source.x, y: source.y + (down ? cardHeight / 2 : -cardHeight / 2)}, {x: target.x, y: target.y + (down ? -cardHeight / 2 : cardHeight / 2)}];
+      labelX = source.x; labelY = (points[0]!.y + points[1]!.y) / 2;
+    } else {
+      points = [{x: source.x + cardWidth / 2, y: source.y}, {x: target.x - cardWidth / 2, y: target.y}];
+      labelX = (points[0]!.x + points[1]!.x) / 2; labelY = source.y;
+    }
+    return {id: edge.id, sourceNodeId: source.id, targetNodeId: target.id,
+      x1: points[0]!.x, y1: points[0]!.y, x2: points.at(-1)!.x, y2: points.at(-1)!.y,
+      routePoints: points, labelX, labelY, labelLines: wrapFlowText(edge.label, from === "output" || from === "specification" || to === "storage" ? 200 : gap - 46),
+      ...(edge.visualRole ? {visualRole: edge.visualRole} : {})};
+  });
+  return {orientation: "horizontal", strategy: "orchestration-system", width: margin * 2 + cardWidth * 4 + gap * 3,
+    height: returnY + margin, nodes, edges, groups: [], states: (input.states ?? []).map(state => ({id: state.id, sharedEdgeAnnotations: state.sharedEdgeAnnotations}))};
+}
+
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */
 export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number): D3FlowLayout {
+  const orchestration = orchestrationSystemLayout(input);
+  if (orchestration) return orchestration;
+  if (isSingleUnitFlow(input)) {
+    const base = createD3FlowLayout({...input, groups: []}, hostWidth);
+    const columnWidth = Math.max(280, ...base.nodes.map(node => node.width));
+    const height = Math.max(...base.nodes.map(node => node.height));
+    return {...base, strategy: "layered-flow", orientation: "horizontal", width: columnWidth * base.nodes.length + 48, height: height + 48,
+      nodes: base.nodes.map((node, index) => ({...node, width: columnWidth, height, x: 24 + columnWidth * (index + .5), y: 24 + height / 2})), edges: [], groups: []};
+  }
   const linearOrder = strictLinearFlowOrder(input);
   const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
+  const systemSelection = processSystemNodes(input);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
+    if (!systemSelection && input.diagramType === "flow" && node.parts?.length) {
+      const width = hasPartHierarchy(node) ? 560 : 380;
+      const labelLines = wrapFlowText(node.label, width - 44, structuredTitleTextMeasure);
+      return {...node, inputIndex, width, labelLines, bodyLines: [], height: stackedFlowHeight(node, width, labelLines.length)};
+    }
+    const highlightedCard = input.diagramType === "flow" && node.visualMotif && node.visualMotifRole === "highlight";
+    const cardWidth = highlightedCard ? Math.max(272, Math.min(352,
+      Math.max(structuredTitleTextMeasure(node.label), ...(description ?? "").split(/\r?\n/u).map(bodyTextMeasure)) + 44)) : undefined;
     const { labelLines, bodyLines } = structuredNodeText(
       node.label,
       description,
-      HORIZONTAL_LABEL_WIDTH,
+      cardWidth ? cardWidth - 44 : HORIZONTAL_LABEL_WIDTH,
     );
     return {
       ...node,
@@ -1613,12 +1748,14 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       inputIndex,
       labelLines,
       bodyLines,
-      width: horizontalNodeWidth(labelLines, bodyLines),
-      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
+      width: cardWidth ?? horizontalNodeWidth(labelLines, bodyLines),
+      height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard), node.visualMotif)
+        + (input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id && p.thumbnail))
+          ? Math.max(0, (cardWidth ?? 272) - 116)
+          : input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id)) ? 48 : 0),
     };
   });
   const layers = topologicalLayers(input);
-  const systemSelection = processSystemNodes(input);
   const system = systemSelection ? processSystemLayout(input, prepared, systemSelection) : undefined;
   const hierarchySelection = hierarchyFanoutSelection(input);
   const hierarchy = hierarchySelection ? hierarchyFanoutLayout(prepared, hierarchySelection, hostWidth) : undefined;
@@ -1754,7 +1891,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
           target,
           radial || triadic ? { x: geometry.width / 2, y: geometry.height / 2 } : undefined,
         ),
-        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        labelLines: wrapFlowText(edge.label, Math.max(EDGE_LABEL_MAX_WIDTH, Math.min(220, geometry.width * .22))),
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
     }

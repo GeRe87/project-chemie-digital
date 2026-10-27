@@ -1,6 +1,7 @@
 import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import { regressionStaticFallback } from "../../core/src/regression-chart.ts";
 import { observationExplorerFallback } from "../../core/src/observation-explorer.ts";
 import {empiricalMoments} from "../../core/src/moments.ts";
 import { renderDerivationDetail } from "../../renderer-reveal/src/mathematical-derivation.ts";
@@ -10,6 +11,9 @@ import {
   SCENE_DOCUMENT_HISTOGRAM_VERSION,
   SCENE_DOCUMENT_EXPLORATION_VERSION,
   SCENE_DOCUMENT_MOMENT_VERSION,
+  SCENE_DOCUMENT_TIMELINE_VERSION,
+  SCENE_DOCUMENT_REGRESSION_VERSION,
+  timelineStaticFallback,
   dotPlotStaticFallback,
   type DotPlotBlock,
   type ChartBlock,
@@ -253,6 +257,8 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
 }
 
 export interface SelfStudyDiagramNodePlan {
+  readonly description?: string;
+  readonly parts?: readonly import("../../core/src/scene-document.ts").DiagramNodePart[];
   readonly id: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
@@ -270,6 +276,7 @@ export interface SelfStudyDiagramGroupPlan {
 }
 
 export interface SelfStudyDiagramEdgePlan {
+  readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
   readonly id: string;
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
@@ -418,11 +425,13 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     block.label,
     block.description,
     "Nodes:",
-    ...block.nodes.map((node) => `- ${node.label}`),
+    ...block.nodes.flatMap((node) => [`- ${node.label}`, ...(node.parts ?? []).map(part => `  - ${part.label}${part.description ? `: ${part.description}` : ""}${part.parentPartId ? ` (under ${part.parentPartId})` : ""}${part.referencePartId ? ` (references ${part.referencePartId})` : ""}`)]),
     "Relations:",
+    ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
+      ...(state.nodePresentations ?? []).map(p => `- ${p.label ?? labels.get(p.nodeId) ?? p.nodeId}: ${p.description ?? ""}${p.thumbnail ? ` (${p.thumbnail.alternativeText})` : ""}`),
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
       ...(state.activeEdgeIds ? [`- Active relations: ${state.activeEdgeIds.join(", ")}`] : []),
       ...(state.activeGroupIds ? [`- Active groups: ${state.activeGroupIds.join(", ")}`] : []),
@@ -439,6 +448,8 @@ function chartAxisLabel(axis: { readonly label: string; readonly unit?: string }
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if (block.chartType === "regression") return regressionStaticFallback(block);
+  if (block.chartType === "timeline") return timelineStaticFallback(block);
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
   if(block.chartType==="box")return boxPlotStaticFallback(block);
   if(block.chartType==="dot")return dotPlotStaticFallback(block);
@@ -490,6 +501,10 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "media-reference":
+      if (block.redactions?.length) {
+        const text = `${block.alternativeText}. Masked video playback is available in the presentation only.`;
+        return {...baseFor(block, position, text), kind: "prose", text, format: "plain"};
+      }
       return {
         ...baseFor(block, position, `${block.alternativeText} (${block.uri})`),
         kind: "media-reference",
@@ -575,6 +590,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "chart":
+      if (block.chartType === "regression") return {...baseFor(block, position, regressionStaticFallback(block)), kind: "prose", text: regressionStaticFallback(block), format: "plain"};
+      if (block.chartType === "timeline") return {...baseFor(block, position, timelineStaticFallback(block)), kind: "prose", text: timelineStaticFallback(block), format: "plain"};
       if(["histogram","histogram2d","box","observations"].includes(block.chartType))return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block} as SelfStudyScientificChartPlan;
       if (block.chartType === "dot") return { ...baseFor(block,position,dotPlotStaticFallback(block)),kind:"chart",chartType:"dot",payload:block };
       if (block.chartType === "bar") {
@@ -654,6 +671,8 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         nodes: block.nodes.map((node) => ({
           id: node.id,
           label: node.label,
+          ...(node.description ? {description: node.description} : {}),
+          ...(node.parts ? {parts: node.parts.map(part => ({...part, source: sourceCopy(part.source)}))} : {}),
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
@@ -667,6 +686,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           targetNodeId: edge.targetNodeId,
           label: edge.label,
           source: sourceCopy(edge.source),
+          ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: sourceCopy(edge.codeDetail.source)}} : {}),
           ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
@@ -699,7 +719,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
+  if (version !== SCENE_DOCUMENT_REGRESSION_VERSION && version !== SCENE_DOCUMENT_TIMELINE_VERSION && version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -780,8 +800,9 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
   const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
   const roleLabels = new Map((node.participantRoles ?? []).map((role) => [role.id, role.label]));
   const messageLabels = new Map((node.messages ?? []).map((message) => [message.id, message.label]));
-  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
-  const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)}: ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
+  const partLabels = new Map(node.nodes.flatMap(item => (item.parts ?? []).map(part => [part.id, part.label] as const)));
+  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}${item.description ? `: ${escapeHtml(item.description)}` : ""}${item.parts ? `<ul>${item.parts.map(part => `<li${sourceAttributes(part.source)}>${escapeHtml(part.label)}${part.description ? `: ${escapeHtml(part.description)}` : ""}${part.parentPartId ? ` (under ${escapeHtml(partLabels.get(part.parentPartId) ?? part.parentPartId)})` : ""}${part.referencePartId ? ` (references ${escapeHtml(partLabels.get(part.referencePartId) ?? part.referencePartId)})` : ""}</li>`).join("")}</ul>` : ""}</li>`).join("");
+  const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)}: ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}${edge.codeDetail ? `<details${sourceAttributes(edge.codeDetail.source)}><summary>${escapeHtml(edge.codeDetail.label)}</summary><p>${escapeHtml(edge.codeDetail.description)}</p><pre><code>${escapeHtml(edge.codeDetail.code)}</code></pre></details>` : ""}</li>`).join("");
   const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${state.activeNodeIds ? ` data-active-node-ids="${escapeHtml(state.activeNodeIds.join(" "))}"` : ""}${state.activeEdgeIds ? ` data-active-edge-ids="${escapeHtml(state.activeEdgeIds.join(" "))}"` : ""}${state.activeGroupIds ? ` data-active-group-ids="${escapeHtml(state.activeGroupIds.join(" "))}"` : ""}${state.focusNodeId ? ` data-focus-node-id="${escapeHtml(state.focusNodeId)}"` : ""}${state.focusGroupId ? ` data-focus-group-id="${escapeHtml(state.focusGroupId)}"` : ""}${state.contextGroupIds ? ` data-context-group-ids="${escapeHtml(state.contextGroupIds.join(" "))}"` : ""}${state.activeMessageIds ? ` data-active-message-ids="${escapeHtml(state.activeMessageIds.join(" "))}"` : ""}${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.activeMessageIds ? `<p class="self-study-sequence-active-messages">Active messages: ${escapeHtml(state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", "))}</p>` : ""}${state.participantBindings?.length ? `<ul class="self-study-sequence-participant-bindings">${state.participantBindings.map((binding) => `<li data-participant-binding-role-id="${escapeHtml(binding.roleId)}" data-participant-id="${escapeHtml(binding.participantId)}"${sourceAttributes(binding.source)}>${escapeHtml(roleLabels.get(binding.roleId) ?? binding.roleId)}: ${escapeHtml(binding.label)}</li>`).join("")}</ul>` : ""}${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
   const participants = (node.participantRoles ?? []).map((role) => `<li data-participant-role-id="${escapeHtml(role.id)}"${sourceAttributes(role.source)}>${escapeHtml(role.label)}</li>`).join("");
   const messages = (node.messages ?? []).map((message) => `<li data-interaction-message-id="${escapeHtml(message.id)}" data-source-role-id="${escapeHtml(message.sourceRoleId)}" data-target-role-id="${escapeHtml(message.targetRoleId)}"${sourceAttributes(message.source)}>${escapeHtml(roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId)}: ${escapeHtml(message.label)} → ${escapeHtml(roleLabels.get(message.targetRoleId) ?? message.targetRoleId)}</li>`).join("");

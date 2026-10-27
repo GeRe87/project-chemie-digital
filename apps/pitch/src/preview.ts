@@ -1,12 +1,14 @@
 import katex from "katex";
+import { trigMarkup } from "./trig-markup.ts";
 import { renderScientificTitle } from "../../../packages/renderer-reveal/src/scientific-title.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
+import { regressionStaticFallback } from "../../../packages/core/src/regression-chart.ts";
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
 import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
-import { dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
+import { timelineStaticFallback, dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
 import { inferRevealCompositionFit } from "../../../packages/renderer-reveal/src/composition-fit.ts";
 import {
   inferRevealCompositionPlan,
@@ -67,6 +69,8 @@ function blockPresentationAttributes(
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if (block.chartType === "regression") return regressionStaticFallback(block);
+  if (block.chartType === "timeline") return timelineStaticFallback(block);
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
   if (block.chartType === "box") return boxPlotStaticFallback(block);
   if (block.chartType === "observations") return observationExplorerFallback(block);
@@ -109,6 +113,7 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
       ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
     ]),
     "Relations:",
+    ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
   ].join("\n");
 }
@@ -171,8 +176,10 @@ function appendBlock(
     sourceAttributes(shell, block.source);
     const pre = dom.createElement("pre");
     pre.className = "code-static-fallback";
+    if (!block.executable) pre.setAttribute("tabindex", "0");
     const code = dom.createElement("code");
     code.textContent = block.fallback;
+    if (block.language === "trig") code.innerHTML = trigMarkup(block.fallback);
     pre.appendChild(code);
     shell.appendChild(pre);
     parent.appendChild(shell);
@@ -197,12 +204,27 @@ function appendBlock(
     } else if (block.mediaType.startsWith("video/")) {
       const video = dom.createElement("video");
       video.setAttribute("src", resolvePublicAssetUrl(block.uri));
-      video.setAttribute("controls", "");
+      if (!block.crop) video.setAttribute("controls", "");
       video.setAttribute("preload", "metadata");
       video.setAttribute("playsinline", "");
       video.setAttribute("aria-label", block.alternativeText);
       video.setAttribute("data-presentation-video", "true");
-      figure.appendChild(video);
+      if (block.crop) {
+        const crop = block.crop, viewport = dom.createElement("div"); viewport.className = "pcd-cropped-video";
+        viewport.setAttribute("style", `aspect-ratio:${16 * crop.width}/${9 * crop.height}`);
+        viewport.setAttribute("data-crop-width", String(crop.width)); viewport.setAttribute("data-crop-height", String(crop.height));
+        video.setAttribute("style", `position:absolute;width:${100 / crop.width}%;height:${100 / crop.height}%;max-width:none;max-height:none;left:${-100 * crop.x / crop.width}%;top:${-100 * crop.y / crop.height}%;object-fit:fill`);
+        viewport.appendChild(video);
+        for (const region of block.redactions ?? []) {
+          const mask = dom.createElement("div"); mask.className = "pcd-video-redaction";
+          mask.setAttribute("data-redaction-start", String(region.start)); mask.setAttribute("data-redaction-end", String(region.end));
+          mask.setAttribute("style", `left:${region.x * 100}%;top:${region.y * 100}%;width:${region.width * 100}%;height:${region.height * 100}%`);
+          mask.textContent = region.label; viewport.appendChild(mask);
+        }
+        figure.appendChild(viewport);
+        const control = dom.createElement("button"); control.className = "pcd-video-toggle"; control.setAttribute("type", "button");
+        control.setAttribute("data-video-toggle", "true"); control.textContent = "Play / pause video"; figure.appendChild(control);
+      } else figure.appendChild(video);
     } else {
       const fallback = dom.createElement("span");
       fallback.className = "media-reference-fallback";
@@ -457,6 +479,7 @@ function appendBlock(
   if (block.kind === "diagram") {
     const shell = dom.createElement("div");
     shell.className = `d3-diagram-host d3-flow-host${block.diagramType === "sequence" ? " d3-sequence-host" : ""}`;
+    if (block.presentation === "dialog") shell.className = "pcd-diagram-dialog-launcher";
     blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);

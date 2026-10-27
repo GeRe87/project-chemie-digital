@@ -312,3 +312,50 @@ body[data-diagram-theme="eco-city"] .reveal
   min-height: 0;
   max-height: 100%;
 }
+
+/* A chart plus an authored takeaway must share the finite deck canvas. The
+   ordinary chart's intrinsic aspect ratio must not push its footer off-screen.
+   Scroll presentations retain their existing unconstrained page behavior. */
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(.d3-chart-host):has(> [data-composition-region-container="footer"]) {
+  height: 100%;
+  min-height: 0;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-host {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: .6rem 1rem;
+  box-sizing: border-box;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-figure {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+  min-height: 0;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-figure:has(> .d3-dot-legend) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-svg {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="footer"] .keypoint-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .35rem 1.5rem;
+  margin: .5rem 0 0;
+}
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="footer"] .keypoint-list > li {
+  font-size: var(--pcd-lecture-secondary, 24px);
+  line-height: 1.3;
+  margin: 0;
+}
+.reveal .slides section[data-composition="visual-stage"] > blockquote[data-composition-region="footer"] {
+  padding:.75rem 1rem; border:2px solid var(--pcd-accent); background:var(--pcd-surface-strong); text-align:left;
+}

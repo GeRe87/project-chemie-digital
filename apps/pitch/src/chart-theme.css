@@ -15,6 +15,32 @@
   --pcd-chart-series-5: #c7a94f;
 }
 
+.d3-timeline-scenario, .d3-timeline-total { fill: var(--pcd-chart-text); font: 700 24px system-ui, sans-serif; }
+.d3-timeline-lane { fill: var(--pcd-chart-text); font: 600 22px system-ui, sans-serif; }
+.d3-timeline-legend { fill: var(--pcd-chart-text); font: 20px system-ui, sans-serif; }
+.d3-timeline-interval { stroke: var(--pcd-chart-axis); stroke-width: .8; }
+.d3-timeline-run { fill: var(--pcd-chart-surface); stroke: var(--pcd-chart-text); stroke-width: 2px; paint-order: stroke; font: 700 17px system-ui, sans-serif; }
+.d3-chart-figure-scrollable { min-width: 0; overflow-x: auto; }
+.d3-chart-figure-scrollable:focus-visible { outline: 3px solid var(--pcd-focus); outline-offset: -3px; }
+.d3-regression-heading { fill: var(--pcd-chart-text); font: 700 23px system-ui, sans-serif; }
+.d3-regression-small { fill: var(--pcd-chart-text); font: 19px system-ui, sans-serif; }
+.d3-regression-fit { stroke: var(--pcd-chart-series-4); stroke-width: 4; }
+.d3-regression-point { stroke: var(--pcd-chart-text); stroke-width: 1.5; }
+.d3-regression-cycle-controls:not([hidden]) { display: flex; align-items: center; justify-content: center; gap: .6rem; margin-top: .35rem; }
+.d3-regression-cycle-controls button { font: inherit; color: var(--pcd-chart-text); background: var(--pcd-chart-surface); border: 1px solid var(--pcd-chart-axis); border-radius: .25rem; padding: .2rem .5rem; }
+.d3-dot-legend .d3-dot-key-error { width: 1.2em; height: .65em; border-block: 2px solid var(--pcd-chart-axis); background: linear-gradient(var(--pcd-chart-axis),var(--pcd-chart-axis)) center / 2px 100% no-repeat; }
+@media (max-width: 700px) {
+  .d3-timeline-svg, .d3-regression-svg { min-width: 1000px; }
+}
+
+/* Context stays visible when an authored annotation selects another series. */
+.reveal .d3-chart-line.d3-chart-series-context { stroke: var(--pcd-muted); stroke-width: 2.5; filter: none; }
+.reveal .d3-chart-line-point.d3-chart-series-context { fill: var(--pcd-muted); stroke: var(--pcd-muted); }
+.d3-chart-line.d3-chart-series-2, .d3-chart-line-point.d3-chart-series-2 { stroke: var(--pcd-chart-series-2); }
+.d3-chart-line.d3-chart-series-3, .d3-chart-line-point.d3-chart-series-3 { stroke: var(--pcd-chart-series-3); }
+.d3-chart-line.d3-chart-series-4, .d3-chart-line-point.d3-chart-series-4 { stroke: var(--pcd-chart-series-4); }
+.d3-chart-line.d3-chart-series-5, .d3-chart-line-point.d3-chart-series-5 { stroke: var(--pcd-chart-series-5); }
+
 /* Neutral diagrams follow the same light/dark tokens as the lecture surface. */
 body[data-diagram-theme="neutral"] {
   --pcd-chart-window-border: var(--pcd-border);

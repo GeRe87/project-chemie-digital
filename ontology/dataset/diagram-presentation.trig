@@ -1,0 +1,18 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesAttribute cd:diagramPresentation .
+  cd:diagramPresentation a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:string ;
+    rdfs:comment "Optional diagram presentation hint: inline (default) or dialog (open on demand). Static alternatives always retain the diagram content."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:DiagramPresentationShape a sh:NodeShape ; sh:targetSubjectsOf cd:diagramPresentation ;
+    sh:or ( [ sh:class cd:FlowDiagram ] [ sh:class cd:NetworkDiagram ] [ sh:class cd:SequenceDiagram ] ) ;
+    sh:property [ sh:path cd:diagramPresentation ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:in ("inline" "dialog") ] .
+}

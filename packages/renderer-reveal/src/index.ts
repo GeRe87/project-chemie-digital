@@ -1,11 +1,15 @@
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import { regressionStaticFallback } from "../../core/src/regression-chart.ts";
 import {
   SCENE_DOCUMENT_OBSERVATION_VERSION,
   SCENE_DOCUMENT_BOX_PLOT_VERSION,
   SCENE_DOCUMENT_HISTOGRAM_VERSION,
   SCENE_DOCUMENT_EXPLORATION_VERSION,
   SCENE_DOCUMENT_MOMENT_VERSION,
+  SCENE_DOCUMENT_TIMELINE_VERSION,
+  SCENE_DOCUMENT_REGRESSION_VERSION,
+  timelineStaticFallback,
   SCENE_DOCUMENT_FLOW_VERSION,
   SCENE_DOCUMENT_CHART_VERSION,
   SCENE_DOCUMENT_SEQUENCE_VERSION,
@@ -187,6 +191,7 @@ export interface RevealDiagramGroupPlan {
 }
 
 export interface RevealDiagramEdgePlan {
+  readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
   readonly id: string;
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
@@ -323,12 +328,14 @@ function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>):
     "Nodes:",
     ...block.nodes.flatMap((node) => [
       `- ${node.label}${node.notation ? ` (${node.notation})` : ""}${node.description ? `: ${node.description}` : ""}`,
-      ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}`),
+      ...(node.parts ?? []).map((part) => `  - ${part.label}${part.description ? `: ${part.description}` : ""}${part.parentPartId ? ` (under ${part.parentPartId})` : ""}${part.referencePartId ? ` (references ${part.referencePartId})` : ""}`),
     ]),
     "Relations:",
+    ...block.edges.filter(edge => edge.codeDetail).map(edge => `${edge.codeDetail!.label}\n${edge.codeDetail!.description}\n${edge.codeDetail!.code}`),
     ...block.edges.map((edge) => `- ${labels.get(edge.sourceNodeId) ?? edge.sourceNodeId}: ${edge.label} → ${labels.get(edge.targetNodeId) ?? edge.targetNodeId}`),
     ...(block.states ?? []).flatMap((state) => [
       `State: ${state.label}`,
+      ...(state.nodePresentations ?? []).map(p => `- ${p.label ?? labels.get(p.nodeId) ?? p.nodeId}: ${p.description ?? ""}${p.thumbnail ? ` (${p.thumbnail.alternativeText})` : ""}`),
       ...(state.activeNodeIds ? [`- Active nodes: ${state.activeNodeIds.join(", ")}`] : []),
       ...(state.activeEdgeIds ? [`- Active relations: ${state.activeEdgeIds.join(", ")}`] : []),
       ...(state.activeGroupIds ? [`- Active groups: ${state.activeGroupIds.join(", ")}`] : []),
@@ -372,6 +379,10 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         fallback: block.fallback,
       };
     case "media-reference":
+      if (block.redactions?.length) {
+        const text = `${block.alternativeText}. Masked video playback is available in the presentation only.`;
+        return {...baseFor(block, position, options, text), kind: "prose", text, format: "plain"};
+      }
       if (block.alternativeText.length === 0) throw new AdapterError("MISSING_ACCESSIBLE_ALTERNATIVE", "Media requires alternativeText", block.id);
       return {
         ...baseFor(block, position, options, `${block.alternativeText} (${block.uri})`),
@@ -459,6 +470,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         interactive: options.interactionPolicy === "interactive-when-supported",
       };
     case "chart":
+      if (block.chartType === "regression") return {...baseFor(block, position, options, regressionStaticFallback(block)), kind: "prose", text: regressionStaticFallback(block), format: "plain"};
+      if (block.chartType === "timeline") return { ...baseFor(block, position, options, timelineStaticFallback(block)), kind: "prose", text: timelineStaticFallback(block), format: "plain" };
       if(block.chartType==="histogram"||block.chartType==="histogram2d")return {...baseFor(block,position,options,histogramStaticFallback(block)),kind:"prose",text:histogramStaticFallback(block),format:"plain"};
       if (block.chartType === "box") return { ...baseFor(block, position, options, boxPlotStaticFallback(block)), kind: "prose", text: boxPlotStaticFallback(block), format: "plain" };
       if (block.chartType !== "observations") throw new AdapterError("UNSUPPORTED_PRIMITIVE", "Use the chart renderer for this chart", block.id);
@@ -489,6 +502,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           targetNodeId: edge.targetNodeId,
           label: edge.label,
           source: sourceCopy(edge.source),
+          ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: sourceCopy(edge.codeDetail.source)}} : {}),
           ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
         })),
         ...(block.groups ? { groups: block.groups.map((group) => ({ ...group, source: sourceCopy(group.source) })) } : {}),
@@ -526,7 +540,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
   const version = (document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
+  if (version !== SCENE_DOCUMENT_REGRESSION_VERSION && version !== SCENE_DOCUMENT_TIMELINE_VERSION && version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

@@ -1,0 +1,113 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-calibration> {
+  ex:ted-calibration-time a cd:Concept ; skos:prefLabel "Calibration still consumes the day"@en ;
+    cd:hasDefinition ex:ted-calibration-time-definition ; cd:hasSource ex:ted-source-workshop-calibration ; cd:authoredResource true .
+  ex:ted-calibration-time-definition a cd:Definition ;
+    cd:body "The supplied workshop alternates five calibration standards and five blanks, using its optimized TGA schedule. The TGA starts every 50 minutes; GC-MS starts at minute 20 and then every 53 minutes, with a 53-minute sequence. The tenth run ends at minute 550, or 9 hours 10 minutes. This is an authored schedule model, not a new throughput measurement or a universal calibration protocol. Blanks are retained; calibration cannot be treated as free overhead."@en ;
+    cd:hasSource ex:ted-source-workshop-calibration ; cd:authoredResource true .
+  ex:ted-running-calibration a cd:Concept ; skos:prefLabel "Balanced running calibration"@en ;
+    cd:hasDefinition ex:ted-running-calibration-definition ; cd:hasSource ex:ted-source-workshop-calibration, ex:ted-source-calibration-pairs ; cd:authoredResource true .
+  ex:ted-running-calibration-definition a cd:Definition ;
+    cd:body "The supplied workshop orders 44 SBR calibrants into five near-equal-size mass strata containing 9, 9, 9, 9 and 8 records. This is demonstration order, not acquisition chronology. The stages show five calibrants, fifteen calibrants, then a FIFO replay that advances the fifteen-member window by exactly one standard per tick and wraps from the last record to the first. Every frame refits ordinary least squares and recalculates held-out inverse-prediction errors. Replay is not new measurement or independent replication. A pause/resume control is available; updates stop off-slide or when the page is hidden, and reduced-motion mode starts paused. Leave-one-out checks are not independent validation, confidence intervals or proof of drift correction. Balanced mass coverage does not establish temporal representativeness, matrix equivalence or permission to omit blanks. The old fixed-t confidence-band approximation and raw-peak panels are not imported. Paired mass/area data are retained without measurement file names or dates."@en ;
+    cd:hasSource ex:ted-source-workshop-calibration, ex:ted-source-calibration-pairs ; cd:authoredResource true .
+  ex:ted-calibration-time-points a cd:Interpretation ; cd:body "Calibration remains a time bottleneck."@en ; cd:hasKeyPoint ex:ted-cal-time-p1, ex:ted-cal-time-p2, ex:ted-cal-time-p3 ; cd:authoredResource true .
+  ex:ted-cal-time-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**5 standards + 5 blanks**"@en ; cd:authoredResource true .
+  ex:ted-cal-time-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**550 min:** 9 h 10 min"@en ; cd:authoredResource true .
+  ex:ted-cal-time-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Even with the optimized schedule=="@en ; cd:authoredResource true .
+  ex:ted-running-points a cd:Interpretation ; cd:body "Balance, update and check calibration windows."@en ; cd:hasKeyPoint ex:ted-running-p1, ex:ted-running-p2, ex:ted-running-p3 ; cd:authoredResource true .
+  ex:ted-running-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Cover** the mass range"@en ; cd:authoredResource true .
+  ex:ted-running-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Update:** oldest out, newest in"@en ; cd:authoredResource true .
+  ex:ted-running-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Check held-out prediction, not only fit=="@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-calibration> {
+  ex:ted-source-workshop-calibration a cd:Source ; dct:title "Renner workshop microplastics: calibration overhead and balanced running regression" ; dct:creator "Gerrit Renner" ;
+    dct:identifier "renner_workshop_microplastics.html#bridge-slide-time; #running-regression; renderBridgeCalibrationGantt; balanceCalibrationOrder; fitLinearRegression; computeMeanLooPredictionError" ;
+    dct:hasVersion "sha256:29cfc1ceeadcd3a870ad2ca41ef6930ec2ce537dc8297dca5f07407a5c23472f" ;
+    dct:description "Author-supplied earlier HTML. Timings and method narrative are transcribed into RDF, not copied as executable slide code. The confidence-band shortcut and scientific claims about neighboring-session uncertainty are not adopted."@en ;
+    cd:supportsResource ex:ted-calibration-time-definition, ex:ted-running-calibration-definition ; cd:authoredResource true .
+  ex:ted-source-calibration-pairs a cd:Source ; dct:title "Author-supplied SBR calibration peak table" ; dct:creator "Gerrit Renner" ;
+    dct:identifier "sbr_mz104_peak_table.csv; columns mass_ug and area; 44 data records" ;
+    dct:hasVersion "sha256:772240ea48f349f0089faae3ca9bb465744a0f51afc1a43694ee1815b7cf3f3c" ;
+    dct:description "Mass is given in micrograms by the column name; peak-area physical units are not specified and remain source units. All 44 paired values are retained; display order follows the workshop's five-stratum balancing algorithm. Source row identifiers allow audit without disclosing original file names or dates. No synthetic calibration values, confidence bands or external-validation results are substituted."@en ;
+    cd:supportsResource ex:ted-calibration-pairs, ex:ted-running-calibration-definition ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/talks-ted-calibration> {
+  ex:ted-cal-run-std1 a cd:TimelineRun ; cd:position 1 ; skos:prefLabel "Std1"@en ; cd:authoredResource true .
+  ex:ted-cal-run-std2 a cd:TimelineRun ; cd:position 3 ; skos:prefLabel "Std2"@en ; cd:authoredResource true .
+  ex:ted-cal-run-std3 a cd:TimelineRun ; cd:position 5 ; skos:prefLabel "Std3"@en ; cd:authoredResource true .
+  ex:ted-cal-run-std4 a cd:TimelineRun ; cd:position 7 ; skos:prefLabel "Std4"@en ; cd:authoredResource true .
+  ex:ted-cal-run-std5 a cd:TimelineRun ; cd:position 9 ; skos:prefLabel "Std5"@en ; cd:authoredResource true .
+  ex:ted-cal-run-b4 a cd:TimelineRun ; cd:position 8 ; skos:prefLabel "B4"@en ; cd:authoredResource true .
+  ex:ted-cal-run-b5 a cd:TimelineRun ; cd:position 10 ; skos:prefLabel "B5"@en ; cd:authoredResource true .
+  ex:ted-calibration-time-chart a cd:ChartDefinition ; skos:prefLabel "Five calibration levels, ten instrument runs"@en ;
+    cd:body "Optimized workshop schedule model. Std = calibration standard; B = blank."@en ;
+    cd:chartType cd:TimelineChart ; cd:xAxisLabel "Elapsed time"@en ; cd:xAxisUnit "min" ; cd:yAxisLabel "Instrument"@en ;
+    cd:usesDataset ex:ted-schedule-optimized ;
+    cd:hasTimelineRun ex:ted-cal-run-std1, ex:ted-run-b1, ex:ted-cal-run-std2, ex:ted-run-b2, ex:ted-cal-run-std3, ex:ted-run-b3, ex:ted-cal-run-std4, ex:ted-cal-run-b4, ex:ted-cal-run-std5, ex:ted-cal-run-b5 ;
+    cd:hasTimelineCategory ex:ted-cat-extraction, ex:ted-cat-reset, ex:ted-cat-desorb, ex:ted-cat-gc, ex:ted-cat-post ; cd:hasSource ex:ted-source-workshop-calibration ; cd:authoredResource true .
+
+  ex:ted-running-regression-chart a cd:ChartDefinition ; skos:prefLabel "Balanced standards, linear fit and held-out mass errors"@en ;
+    cd:body "Supplied SBR mass/area pairs. Balanced display order is not acquisition chronology or validated drift correction."@en ;
+    cd:chartType cd:RegressionChart ; cd:xAxisLabel "Calibrant mass"@en ; cd:xAxisUnit "µg" ; cd:yAxisLabel "Marker peak area"@en ; cd:yAxisUnit "source units" ;
+    cd:usesDataset ex:ted-calibration-pairs ; cd:hasRegressionWindow ex:ted-cal-window-5, ex:ted-cal-window-15, ex:ted-cal-window-shift ;
+    cd:hasSource ex:ted-source-workshop-calibration, ex:ted-source-calibration-pairs ; cd:authoredResource true .
+  ex:ted-calibration-pairs a cd:Dataset ; skos:prefLabel "44 supplied SBR standards in balanced display order"@en ;
+    cd:hasObservation ex:ted-cal-01, ex:ted-cal-02, ex:ted-cal-03, ex:ted-cal-04, ex:ted-cal-05, ex:ted-cal-06, ex:ted-cal-07, ex:ted-cal-08, ex:ted-cal-09, ex:ted-cal-10,
+      ex:ted-cal-11, ex:ted-cal-12, ex:ted-cal-13, ex:ted-cal-14, ex:ted-cal-15, ex:ted-cal-16, ex:ted-cal-17, ex:ted-cal-18, ex:ted-cal-19, ex:ted-cal-20,
+      ex:ted-cal-21, ex:ted-cal-22, ex:ted-cal-23, ex:ted-cal-24, ex:ted-cal-25, ex:ted-cal-26, ex:ted-cal-27, ex:ted-cal-28, ex:ted-cal-29, ex:ted-cal-30,
+      ex:ted-cal-31, ex:ted-cal-32, ex:ted-cal-33, ex:ted-cal-34, ex:ted-cal-35, ex:ted-cal-36, ex:ted-cal-37, ex:ted-cal-38, ex:ted-cal-39, ex:ted-cal-40, ex:ted-cal-41, ex:ted-cal-42, ex:ted-cal-43, ex:ted-cal-44 ;
+    cd:hasSource ex:ted-source-calibration-pairs ; cd:authoredResource true .
+  ex:ted-cal-01 a cd:Observation ; cd:position 1 ; cd:xValue 19.0 ; cd:numericValue 2493.93631 ; dct:identifier "source CSV row 31" ; cd:authoredResource true .
+  ex:ted-cal-02 a cd:Observation ; cd:position 2 ; cd:xValue 50.0 ; cd:numericValue 6260.510529 ; dct:identifier "source CSV row 6" ; cd:authoredResource true .
+  ex:ted-cal-03 a cd:Observation ; cd:position 3 ; cd:xValue 97.0 ; cd:numericValue 29514.844727 ; dct:identifier "source CSV row 18" ; cd:authoredResource true .
+  ex:ted-cal-04 a cd:Observation ; cd:position 4 ; cd:xValue 125.0 ; cd:numericValue 34607.529181 ; dct:identifier "source CSV row 11" ; cd:authoredResource true .
+  ex:ted-cal-05 a cd:Observation ; cd:position 5 ; cd:xValue 203.0 ; cd:numericValue 41713.315161 ; dct:identifier "source CSV row 39" ; cd:authoredResource true .
+  ex:ted-cal-06 a cd:Observation ; cd:position 6 ; cd:xValue 20.0 ; cd:numericValue 4901.712198 ; dct:identifier "source CSV row 8" ; cd:authoredResource true .
+  ex:ted-cal-07 a cd:Observation ; cd:position 7 ; cd:xValue 60.0 ; cd:numericValue 22356.264737 ; dct:identifier "source CSV row 12" ; cd:authoredResource true .
+  ex:ted-cal-08 a cd:Observation ; cd:position 8 ; cd:xValue 100.0 ; cd:numericValue 18928.276037 ; dct:identifier "source CSV row 2" ; cd:authoredResource true .
+  ex:ted-cal-09 a cd:Observation ; cd:position 9 ; cd:xValue 129.0 ; cd:numericValue 29822.911832 ; dct:identifier "source CSV row 43" ; cd:authoredResource true .
+  ex:ted-cal-10 a cd:Observation ; cd:position 10 ; cd:xValue 204.0 ; cd:numericValue 31251.142802 ; dct:identifier "source CSV row 33" ; cd:authoredResource true .
+  ex:ted-cal-11 a cd:Observation ; cd:position 11 ; cd:xValue 20.0 ; cd:numericValue 2494.489555 ; dct:identifier "source CSV row 32" ; cd:authoredResource true .
+  ex:ted-cal-12 a cd:Observation ; cd:position 12 ; cd:xValue 60.0 ; cd:numericValue 16836.381594 ; dct:identifier "source CSV row 14" ; cd:authoredResource true .
+  ex:ted-cal-13 a cd:Observation ; cd:position 13 ; cd:xValue 100.0 ; cd:numericValue 18382.961288 ; dct:identifier "source CSV row 42" ; cd:authoredResource true .
+  ex:ted-cal-14 a cd:Observation ; cd:position 14 ; cd:xValue 150.0 ; cd:numericValue 34258.563355 ; dct:identifier "source CSV row 3" ; cd:authoredResource true .
+  ex:ted-cal-15 a cd:Observation ; cd:position 15 ; cd:xValue 204.0 ; cd:numericValue 49895.566621 ; dct:identifier "source CSV row 35" ; cd:authoredResource true .
+  ex:ted-cal-16 a cd:Observation ; cd:position 16 ; cd:xValue 20.0 ; cd:numericValue 3111.095354 ; dct:identifier "source CSV row 34" ; cd:authoredResource true .
+  ex:ted-cal-17 a cd:Observation ; cd:position 17 ; cd:xValue 60.0 ; cd:numericValue 15175.833342 ; dct:identifier "source CSV row 20" ; cd:authoredResource true .
+  ex:ted-cal-18 a cd:Observation ; cd:position 18 ; cd:xValue 105.0 ; cd:numericValue 19666.211939 ; dct:identifier "source CSV row 23" ; cd:authoredResource true .
+  ex:ted-cal-19 a cd:Observation ; cd:position 19 ; cd:xValue 150.0 ; cd:numericValue 32763.344119 ; dct:identifier "source CSV row 9" ; cd:authoredResource true .
+  ex:ted-cal-20 a cd:Observation ; cd:position 20 ; cd:xValue 204.0 ; cd:numericValue 34048.730036 ; dct:identifier "source CSV row 37" ; cd:authoredResource true .
+  ex:ted-cal-21 a cd:Observation ; cd:position 21 ; cd:xValue 23.0 ; cd:numericValue 6945.809156 ; dct:identifier "source CSV row 16" ; cd:authoredResource true .
+  ex:ted-cal-22 a cd:Observation ; cd:position 22 ; cd:xValue 68.0 ; cd:numericValue 10021.891259 ; dct:identifier "source CSV row 44" ; cd:authoredResource true .
+  ex:ted-cal-23 a cd:Observation ; cd:position 23 ; cd:xValue 105.0 ; cd:numericValue 14353.226498 ; dct:identifier "source CSV row 26" ; cd:authoredResource true .
+  ex:ted-cal-24 a cd:Observation ; cd:position 24 ; cd:xValue 151.0 ; cd:numericValue 33641.845556 ; dct:identifier "source CSV row 22" ; cd:authoredResource true .
+  ex:ted-cal-25 a cd:Observation ; cd:position 25 ; cd:xValue 205.0 ; cd:numericValue 54875.508809 ; dct:identifier "source CSV row 40" ; cd:authoredResource true .
+  ex:ted-cal-26 a cd:Observation ; cd:position 26 ; cd:xValue 40.0 ; cd:numericValue 8953.872506 ; dct:identifier "source CSV row 45" ; cd:authoredResource true .
+  ex:ted-cal-27 a cd:Observation ; cd:position 27 ; cd:xValue 71.0 ; cd:numericValue 13561.161621 ; dct:identifier "source CSV row 25" ; cd:authoredResource true .
+  ex:ted-cal-28 a cd:Observation ; cd:position 28 ; cd:xValue 106.0 ; cd:numericValue 13546.131848 ; dct:identifier "source CSV row 29" ; cd:authoredResource true .
+  ex:ted-cal-29 a cd:Observation ; cd:position 29 ; cd:xValue 198.0 ; cd:numericValue 49077.863607 ; dct:identifier "source CSV row 36" ; cd:authoredResource true .
+  ex:ted-cal-30 a cd:Observation ; cd:position 30 ; cd:xValue 206.0 ; cd:numericValue 34551.011344 ; dct:identifier "source CSV row 41" ; cd:authoredResource true .
+  ex:ted-cal-31 a cd:Observation ; cd:position 31 ; cd:xValue 49.0 ; cd:numericValue 13658.678751 ; dct:identifier "source CSV row 17" ; cd:authoredResource true .
+  ex:ted-cal-32 a cd:Observation ; cd:position 32 ; cd:xValue 75.0 ; cd:numericValue 11002.764527 ; dct:identifier "source CSV row 7" ; cd:authoredResource true .
+  ex:ted-cal-33 a cd:Observation ; cd:position 33 ; cd:xValue 107.0 ; cd:numericValue 29558.594837 ; dct:identifier "source CSV row 27" ; cd:authoredResource true .
+  ex:ted-cal-34 a cd:Observation ; cd:position 34 ; cd:xValue 200.0 ; cd:numericValue 33821.329795 ; dct:identifier "source CSV row 5" ; cd:authoredResource true .
+  ex:ted-cal-35 a cd:Observation ; cd:position 35 ; cd:xValue 209.0 ; cd:numericValue 31539.117183 ; dct:identifier "source CSV row 38" ; cd:authoredResource true .
+  ex:ted-cal-36 a cd:Observation ; cd:position 36 ; cd:xValue 49.0 ; cd:numericValue 8327.732432 ; dct:identifier "source CSV row 24" ; cd:authoredResource true .
+  ex:ted-cal-37 a cd:Observation ; cd:position 37 ; cd:xValue 90.0 ; cd:numericValue 28741.697176 ; dct:identifier "source CSV row 13" ; cd:authoredResource true .
+  ex:ted-cal-38 a cd:Observation ; cd:position 38 ; cd:xValue 107.0 ; cd:numericValue 20954.065845 ; dct:identifier "source CSV row 30" ; cd:authoredResource true .
+  ex:ted-cal-39 a cd:Observation ; cd:position 39 ; cd:xValue 200.0 ; cd:numericValue 52407.258701 ; dct:identifier "source CSV row 21" ; cd:authoredResource true .
+  ex:ted-cal-40 a cd:Observation ; cd:position 40 ; cd:xValue 250.0 ; cd:numericValue 69327.706675 ; dct:identifier "source CSV row 19" ; cd:authoredResource true .
+  ex:ted-cal-41 a cd:Observation ; cd:position 41 ; cd:xValue 50.0 ; cd:numericValue 5330.802786 ; dct:identifier "source CSV row 4" ; cd:authoredResource true .
+  ex:ted-cal-42 a cd:Observation ; cd:position 42 ; cd:xValue 90.0 ; cd:numericValue 24244.198394 ; dct:identifier "source CSV row 15" ; cd:authoredResource true .
+  ex:ted-cal-43 a cd:Observation ; cd:position 43 ; cd:xValue 120.0 ; cd:numericValue 22529.598856 ; dct:identifier "source CSV row 10" ; cd:authoredResource true .
+  ex:ted-cal-44 a cd:Observation ; cd:position 44 ; cd:xValue 203.0 ; cd:numericValue 31280.666186 ; dct:identifier "source CSV row 28" ; cd:authoredResource true .
+  ex:ted-cal-window-5 a cd:RegressionWindow ; cd:position 1 ; skos:prefLabel "Start with five balanced standards"@en ; cd:hasObservation ex:ted-cal-01, ex:ted-cal-02, ex:ted-cal-03, ex:ted-cal-04, ex:ted-cal-05 ; cd:authoredResource true .
+  ex:ted-cal-window-15 a cd:RegressionWindow ; cd:position 2 ; skos:prefLabel "Expand to fifteen standards"@en ; cd:hasObservation ex:ted-cal-01, ex:ted-cal-02, ex:ted-cal-03, ex:ted-cal-04, ex:ted-cal-05, ex:ted-cal-06, ex:ted-cal-07, ex:ted-cal-08, ex:ted-cal-09, ex:ted-cal-10, ex:ted-cal-11, ex:ted-cal-12, ex:ted-cal-13, ex:ted-cal-14, ex:ted-cal-15 ; cd:authoredResource true .
+  ex:ted-cal-window-shift a cd:RegressionWindow ; cd:position 3 ; skos:prefLabel "FIFO: one standard in, one standard out"@en ; cd:cycleIntervalMs 750 ; cd:hasObservation ex:ted-cal-01, ex:ted-cal-02, ex:ted-cal-03, ex:ted-cal-04, ex:ted-cal-05, ex:ted-cal-06, ex:ted-cal-07, ex:ted-cal-08, ex:ted-cal-09, ex:ted-cal-10, ex:ted-cal-11, ex:ted-cal-12, ex:ted-cal-13, ex:ted-cal-14, ex:ted-cal-15 ; cd:authoredResource true .
+}

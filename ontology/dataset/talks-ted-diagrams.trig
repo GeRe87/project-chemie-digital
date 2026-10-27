@@ -1,0 +1,42 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-gc-ms> {
+  ex:ted-sample-journey a cd:FlowDiagram ; skos:prefLabel "The sample journey"@en ;
+    cd:body "Heat → collect → desorb and focus → separate → detect."@en ;
+    cd:hasDiagramNode ex:ted-node-heat, ex:ted-node-capture, ex:ted-node-focus, ex:ted-node-gc, ex:ted-node-ms ;
+    cd:hasDiagramEdge ex:ted-edge-1, ex:ted-edge-2, ex:ted-edge-3, ex:ted-edge-4 ;
+    cd:hasDiagramState ex:ted-state-1, ex:ted-state-2, ex:ted-state-3, ex:ted-state-4, ex:ted-state-5 ;
+    cd:hasSource ex:ted-source-method ; dct:references ex:ted-gc-ms ; cd:authoredResource true .
+  ex:ted-node-heat a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Heat"@en ; cd:body "Thermal decomposition"@en ; cd:visualRole "highlight" ; dct:references ex:ted-thermal-decomposition ; cd:authoredResource true .
+  ex:ted-node-capture a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Capture"@en ; cd:body "PDMS sorbent"@en ; cd:visualRole "comparison" ; dct:references ex:ted-sorptive-capture ; cd:authoredResource true .
+  ex:ted-node-focus a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Focus / inject"@en ; cd:body "Desorb · cool · heat"@en ; dct:references ex:ted-cryofocusing ; cd:authoredResource true .
+  ex:ted-node-gc a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Separate"@en ; cd:body "GC column"@en ; cd:visualRole "comparison" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
+  ex:ted-node-ms a cd:DiagramNode ; cd:position 5 ; skos:prefLabel "Detect"@en ; cd:body "MS ion signal"@en ; cd:visualRole "highlight" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
+  ex:ted-edge-1 a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "Evolved products"@en ; cd:sourceNode ex:ted-node-heat ; cd:targetNode ex:ted-node-capture ; cd:authoredResource true .
+  ex:ted-edge-2 a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "Transfer loaded sorbent"@en ; cd:sourceNode ex:ted-node-capture ; cd:targetNode ex:ted-node-focus ; cd:authoredResource true .
+  ex:ted-edge-3 a cd:DiagramEdge ; cd:position 3 ; skos:prefLabel "Narrow injection"@en ; cd:sourceNode ex:ted-node-focus ; cd:targetNode ex:ted-node-gc ; cd:authoredResource true .
+  ex:ted-edge-4 a cd:DiagramEdge ; cd:position 4 ; skos:prefLabel "Separated products"@en ; cd:sourceNode ex:ted-node-gc ; cd:targetNode ex:ted-node-ms ; cd:authoredResource true .
+  ex:ted-state-1 a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Sample heating and decomposition"@en ; cd:activeDiagramNode ex:ted-node-heat ; cd:focusDiagramNode ex:ted-node-heat ; cd:authoredResource true .
+  ex:ted-state-2 a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Capture products on the sorbent"@en ; cd:activeDiagramNode ex:ted-node-heat, ex:ted-node-capture ; cd:activeDiagramEdge ex:ted-edge-1 ; cd:focusDiagramNode ex:ted-node-capture ; cd:authoredResource true .
+  ex:ted-state-3 a cd:DiagramState ; cd:position 3 ; skos:prefLabel "Transfer, desorption, cryofocusing and injection"@en ; cd:activeDiagramNode ex:ted-node-capture, ex:ted-node-focus ; cd:activeDiagramEdge ex:ted-edge-2 ; cd:focusDiagramNode ex:ted-node-focus ; cd:authoredResource true .
+  ex:ted-state-4 a cd:DiagramState ; cd:position 4 ; skos:prefLabel "Chromatographic separation"@en ; cd:activeDiagramNode ex:ted-node-focus, ex:ted-node-gc ; cd:activeDiagramEdge ex:ted-edge-3 ; cd:focusDiagramNode ex:ted-node-gc ; cd:authoredResource true .
+  ex:ted-state-5 a cd:DiagramState ; cd:position 5 ; skos:prefLabel "Mass-spectrometric detection"@en ; cd:activeDiagramNode ex:ted-node-gc, ex:ted-node-ms ; cd:activeDiagramEdge ex:ted-edge-4 ; cd:focusDiagramNode ex:ted-node-ms ; cd:authoredResource true .
+
+  ex:ted-gc-ms-signal-flow a cd:FlowDiagram ; skos:prefLabel "From separated compounds to time-resolved ion signals"@en ;
+    cd:body "GC separates compounds; the MS forms and detects ions. A chromatogram records ion signal over retention time."@en ;
+    cd:hasDiagramNode ex:ted-signal-node-gc, ex:ted-signal-node-ions, ex:ted-signal-node-trace ;
+    cd:hasDiagramEdge ex:ted-signal-edge-1, ex:ted-signal-edge-2 ;
+    cd:hasDiagramState ex:ted-signal-state-1, ex:ted-signal-state-2, ex:ted-signal-state-3 ;
+    cd:hasSource ex:ted-source-method ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
+  ex:ted-signal-node-gc a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "GC separation"@en ; cd:body "Different retention"@en ; cd:visualRole "comparison" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
+  ex:ted-signal-node-ions a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Ionization"@en ; cd:body "Fragment ions form here"@en ; cd:visualRole "highlight" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
+  ex:ted-signal-node-trace a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Chromatogram"@en ; cd:body "Ion signal over time"@en ; dct:references ex:ted-polymer-markers ; cd:authoredResource true .
+  ex:ted-signal-edge-1 a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "Eluting products"@en ; cd:sourceNode ex:ted-signal-node-gc ; cd:targetNode ex:ted-signal-node-ions ; cd:authoredResource true .
+  ex:ted-signal-edge-2 a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "Ion analysis + detection"@en ; cd:sourceNode ex:ted-signal-node-ions ; cd:targetNode ex:ted-signal-node-trace ; cd:authoredResource true .
+  ex:ted-signal-state-1 a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Compounds separate in the GC column"@en ; cd:activeDiagramNode ex:ted-signal-node-gc ; cd:focusDiagramNode ex:ted-signal-node-gc ; cd:authoredResource true .
+  ex:ted-signal-state-2 a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Ions form in the MS, after GC separation"@en ; cd:activeDiagramNode ex:ted-signal-node-gc, ex:ted-signal-node-ions ; cd:activeDiagramEdge ex:ted-signal-edge-1 ; cd:focusDiagramNode ex:ted-signal-node-ions ; cd:authoredResource true .
+  ex:ted-signal-state-3 a cd:DiagramState ; cd:position 3 ; skos:prefLabel "Record the ion signal over chromatographic time"@en ; cd:activeDiagramNode ex:ted-signal-node-ions, ex:ted-signal-node-trace ; cd:activeDiagramEdge ex:ted-signal-edge-2 ; cd:focusDiagramNode ex:ted-signal-node-trace ; cd:authoredResource true .
+}

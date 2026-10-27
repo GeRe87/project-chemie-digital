@@ -10,7 +10,7 @@ export interface PresentationTitleMetadata {
     readonly name: string;
     readonly affiliations: readonly { readonly id: string; readonly lines: readonly string[] }[];
   }[];
-  readonly logos: readonly { readonly id: string; readonly label: string; readonly uri?: string }[];
+  readonly logos: readonly { readonly id: string; readonly label: string; readonly uri?: string; readonly darkUri?: string }[];
   readonly source: readonly { readonly resourceId: string; readonly provenanceIds?: readonly string[] }[];
 }
 
@@ -33,6 +33,7 @@ export function validatePresentationTitle(value: PresentationTitleMetadata): voi
   }
   const logos = new Set<string>();
   for (const logo of value.logos) {
+    if (logo.darkUri && (!/^\/?[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_.-]+)+$/.test(logo.darkUri) || logo.darkUri.includes(".."))) throw new Error("Invalid dark logo asset");
     if (!iri(logo.id) || logos.has(logo.id) || !text(logo.label)
       || (logo.uri !== undefined && (!/^\/?[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_.-]+)+$/.test(logo.uri) || logo.uri.includes("..")))) {
       throw new Error("Invalid presentation logo");

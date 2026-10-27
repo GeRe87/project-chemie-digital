@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   createD3FlowLayout,
+  treeFlowParts,
   flowOrientationForWidth,
   wrapFlowText,
 } from "../src/flow-layout.ts";
@@ -17,6 +18,62 @@ const input = {
     { id: "edge:reuse", sourceNodeId: "node:metadata", targetNodeId: "node:reuse", label: "enables reuse" },
   ],
 } as const;
+
+test("joined columns share boundaries and retain their semantic edges outside the visual layout", () => {
+  const layout = createD3FlowLayout({...input, diagramType: "flow", groups: [{id: "unit"}],
+    nodes: input.nodes.map((node, index) => ({...node, groupIds: ["unit"], visualRole: ["input", "process", "output"][index]}))}, 1200);
+  assert.equal(layout.edges.length, 0);
+  assert.equal(input.edges.length, 2);
+  for (let i = 1; i < layout.nodes.length; i++) {
+    const left = layout.nodes[i - 1]!, right = layout.nodes[i]!;
+    assert.equal(left.x + left.width / 2, right.x - right.width / 2);
+    assert.equal(left.y, right.y);
+    assert.equal(left.height, right.height);
+  }
+});
+
+test("part trees keep siblings at the same level and children under their parent", () => {
+  const rows = treeFlowParts([
+    {id: "step", label: "ProcessingStep"},
+    {id: "pipeline", label: "ProcessingPipeline"},
+    {id: "node", label: "PipelineNode", parentPartId: "pipeline", referencePartId: "unit"},
+  ], 560);
+  assert.equal(rows[0]!.top, rows[1]!.top);
+  assert.equal(rows[2]!.x, rows[1]!.x);
+  assert.ok(rows[2]!.top > rows[1]!.top);
+  assert.equal(rows[2]!.referencePartId, "unit");
+  assert.throws(() => treeFlowParts([{id: "a", label: "a", parentPartId: "b"}, {id: "b", label: "b", parentPartId: "a"}], 560), /acyclic/);
+});
+
+const orchestrationInput = {
+  diagramType: "network" as const,
+  nodes: ["input", "control", "process", "output", "specification", "storage"].map(role => ({id: role, visualRole: role, label: role, description: "Two lines\nof context", visualMotif: "data-server"})),
+  edges: [["input", "control"], ["control", "process"], ["process", "output"], ["specification", "process"], ["output", "control"], ["control", "storage"]].map(([source, target], i) => ({id: String(i), sourceNodeId: source!, targetNodeId: target!, label: "relation"})),
+};
+
+test("orchestration topology yields disjoint cards and bounded orthogonal routes independent of ids", () => {
+  const layout = createD3FlowLayout(orchestrationInput, 1200);
+  assert.equal(layout.strategy, "orchestration-system");
+  const renamed = createD3FlowLayout({...orchestrationInput,
+    nodes: orchestrationInput.nodes.map(n => ({...n, id: `renamed:${n.id}`, label: "Different title"})),
+    edges: orchestrationInput.edges.map(e => ({...e, sourceNodeId: `renamed:${e.sourceNodeId}`, targetNodeId: `renamed:${e.targetNodeId}`})),
+  }, 900);
+  assert.equal(renamed.strategy, layout.strategy);
+  assert.deepEqual(renamed.nodes.map(n => [n.x,n.y]), layout.nodes.map(n => [n.x,n.y]));
+  for (const a of layout.nodes) for (const b of layout.nodes) if (a !== b) {
+    assert.ok(Math.abs(a.x-b.x) >= (a.width+b.width)/2 || Math.abs(a.y-b.y) >= (a.height+b.height)/2);
+  }
+  for (const edge of layout.edges) {
+    for (const [i, p] of edge.routePoints!.entries()) {
+      assert.ok(p.x >= 0 && p.x <= layout.width && p.y >= 0 && p.y <= layout.height);
+      if (i) { const previous = edge.routePoints![i-1]!; assert.ok(previous.x === p.x || previous.y === p.y); }
+    }
+    for (const n of layout.nodes) assert.ok(Math.abs(edge.labelX-n.x) >= n.width/2 + 20 || Math.abs(edge.labelY-n.y) >= n.height/2 + 20);
+  }
+  const feedback = layout.edges.find(e => e.sourceNodeId === "output" && e.targetNodeId === "control")!;
+  assert.ok(feedback.labelY > Math.max(...layout.nodes.map(n => n.y+n.height/2)));
+  assert.notEqual(createD3FlowLayout({...orchestrationInput, edges: orchestrationInput.edges.slice(1)}, 1200).strategy, "orchestration-system");
+});
 
 const branchedInput = {
   nodes: [
@@ -58,6 +115,28 @@ test("short strict linear flows use compact horizontal structure before the gene
   assert.ok(compactRight <= compact.width + 0.001);
   assert.ok(narrow.nodes[1]!.y > narrow.nodes[0]!.y);
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
+});
+
+test("suppressed repeated labels do not consume card width, while visible labels retain gutters", () => {
+  const input = {
+    diagramType: "flow" as const,
+    nodes: Array.from({length: 6}, (_, i) => ({id: `node:${i}`, label: `Stage ${i + 1}`, description: "Scientific context and interpretation for this stage"})),
+    edges: Array.from({length: 5}, (_, i) => ({id: `edge:${i}`, sourceNodeId: `node:${i}`, targetNodeId: `node:${i + 1}`, label: "builds on"})),
+  };
+  const short = createD3FlowLayout(input, 1180);
+  const long = createD3FlowLayout({...input, edges: input.edges.map((edge, i) => ({...edge,
+    label: i % 2 ? "  A long repeated semantic relationship  " : "a long repeated semantic relationship",
+  }))}, 1180);
+  assert.equal(short.strategy, "space-filling-flow");
+  assert.equal(long.strategy, "space-filling-flow");
+  assert.deepEqual(long.nodes, short.nodes, "invisible label length cannot alter card geometry");
+  assert.equal(long.width, short.width);
+  assert.ok(long.edges.every(edge => edge.labelLines.length === 0));
+  const visible = createD3FlowLayout({...input, edges: input.edges.map((edge, i) => ({...edge,
+    label: i === 2 ? "a different explicit relationship" : "a long repeated semantic relationship",
+  }))}, 1180);
+  assert.ok(visible.edges.every(edge => edge.labelLines.length > 0));
+  assert.ok(visible.nodes[0]!.width < long.nodes[0]!.width, "visible labels still reserve their measured gutter");
 });
 
 test("long strict linear flows use a readable Hilbert-style space-filling route", () => {

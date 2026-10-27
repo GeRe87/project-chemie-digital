@@ -161,6 +161,8 @@ function createStage(
     node.dataset.backgroundSizing = layer.sizing;
     node.dataset.backgroundAnchor = layer.anchor;
     node.dataset.backgroundRepeat = layer.repeat;
+    node.style.setProperty("--pcd-background-layer-scale", String(layer.scale ?? 1));
+    node.style.setProperty("--pcd-background-layer-offset-y", `${layer.offsetYVh ?? 0}vh`);
     node.style.zIndex = String(layerIndex + 1);
     const assetUrl = resolveBrowserAssetUrl(layer.asset, pack.id, layer.id);
     node.dataset.backgroundAssetUrl = assetUrl;

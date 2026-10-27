@@ -2,9 +2,12 @@ import { validatePresentationTitle, type PresentationTitleMetadata } from "./pre
 import { validateObservationExplorer, type ObservationExplorerBlock } from "./observation-explorer.ts";
 import { boxPlotSummary, type BoxPlotBlock } from "./box-plot.ts";
 import { validateHistogram, type HistogramBlock, type Histogram2DBlock } from "./histogram.ts";
+import { validateRegressionChart, type RegressionChartBlock } from "./regression-chart.ts";
 export const SCENE_DOCUMENT_HISTOGRAM_VERSION = "1.10" as const;
 export const SCENE_DOCUMENT_EXPLORATION_VERSION = "1.11" as const;
 export const SCENE_DOCUMENT_MOMENT_VERSION = "1.12" as const;
+export const SCENE_DOCUMENT_TIMELINE_VERSION = "1.13" as const;
+export const SCENE_DOCUMENT_REGRESSION_VERSION = "1.14" as const;
 export const SCENE_DOCUMENT_BOX_PLOT_VERSION = "1.9" as const;
 export const SCENE_DOCUMENT_OBSERVATION_VERSION = "1.8" as const;
 export const SCENE_DOCUMENT_VERSION = "1.0" as const;
@@ -29,7 +32,9 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_BOX_PLOT_VERSION
   | typeof SCENE_DOCUMENT_HISTOGRAM_VERSION
   | typeof SCENE_DOCUMENT_EXPLORATION_VERSION
-  | typeof SCENE_DOCUMENT_MOMENT_VERSION;
+  | typeof SCENE_DOCUMENT_MOMENT_VERSION
+  | typeof SCENE_DOCUMENT_TIMELINE_VERSION
+  | typeof SCENE_DOCUMENT_REGRESSION_VERSION;
 
 export const VISUAL_MOTIF_KEYS = [
   "discussion",
@@ -46,6 +51,19 @@ export const VISUAL_MOTIF_KEYS = [
   "multiple-inputs",
   "neural-network",
   "other-models",
+  "data-import",
+  "peak-search",
+  "shared-peak-shape",
+  "marker-selection",
+  "semantic-model",
+  "processing-composition",
+  "average-operation",
+  "event-server",
+  "execution-engine",
+  "workflow-results",
+  "measurement-ready",
+  "event-handler",
+  "data-server",
 ] as const;
 
 export type VisualMotifKey = typeof VISUAL_MOTIF_KEYS[number];
@@ -232,6 +250,8 @@ export interface MediaReferenceBlock extends SceneBlockBase {
   readonly version?: string;
   readonly integrity?: string;
   readonly alternativeText: string;
+  readonly crop?: {readonly x: number; readonly y: number; readonly width: number; readonly height: number};
+  readonly redactions?: readonly {readonly x: number; readonly y: number; readonly width: number; readonly height: number; readonly start: number; readonly end: number; readonly label: string}[];
 }
 
 export interface ListItem {
@@ -309,6 +329,8 @@ export interface DiagramNodePart {
   readonly id: string;
   readonly label: string;
   readonly description?: string;
+  readonly parentPartId?: string;
+  readonly referencePartId?: string;
   readonly source: readonly SourceReference[];
 }
 
@@ -340,6 +362,7 @@ export interface DiagramEdge {
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly visualRole?: string;
+  readonly codeDetail?: {readonly label: string; readonly description: string; readonly language: "trig"; readonly code: string; readonly source: readonly SourceReference[]};
 }
 
 export interface SharedEdgeAnnotation {
@@ -362,6 +385,11 @@ export interface DiagramState {
   readonly contextGroupIds?: readonly string[];
   readonly activeMessageIds?: readonly string[];
   readonly participantBindings?: readonly ParticipantBinding[];
+  readonly nodePresentations?: readonly {
+    readonly nodeId: string; readonly label?: string; readonly description?: string;
+    readonly visualMotif?: VisualMotifKey; readonly thumbnail?: {readonly uri: string; readonly alternativeText: string};
+    readonly transition?: "replace-left"; readonly source: readonly SourceReference[];
+  }[];
 }
 
 export interface ParticipantRole {
@@ -440,6 +468,8 @@ export interface LineChartPointAnnotation {
   readonly kind: "point";
   readonly seriesId: string;
   readonly datumId: string;
+  /** Reveal and focus this series at the annotation's presentation stage. */
+  readonly focusSeries?: boolean;
   readonly label: string;
   readonly source: readonly SourceReference[];
 }
@@ -483,17 +513,19 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly yAxis: ChartAxis;
   readonly series: readonly LineChartSeries[];
   readonly annotations?: readonly LineChartAnnotation[];
+  readonly yMinimum?: number;
   readonly liveUpdate?: LiveChartUpdate;
 }
 
 export interface DotPlotGroup {
   readonly id: string;
   readonly label: string;
+  readonly disclosureStep?: number;
   readonly source: readonly SourceReference[];
   readonly data: readonly { readonly id: string; readonly value: number; readonly label?: string; readonly source: readonly SourceReference[] }[];
   readonly x?: number;
   readonly summary?: ChartReferenceLine;
-  readonly interval?: {readonly id:string;readonly label:string;readonly lower:number;readonly upper:number;readonly source:readonly SourceReference[]};
+  readonly interval?: {readonly id:string;readonly label:string;readonly lower:number;readonly upper:number;readonly role?:"coverage"|"descriptive-error";readonly source:readonly SourceReference[]};
 }
 
 export interface ChartReferenceLine {
@@ -521,17 +553,58 @@ export interface DotPlotBlock extends SceneBlockBase {
   readonly observationLabel?: string;
   readonly summaryLabel?: string;
   readonly curves?: readonly LineChartSeries[];
+  readonly showSummaryValues?: boolean;
   readonly liveUpdate?: never;
 }
 
-export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
+export interface TimelineInterval {
+  readonly id: string;
+  readonly label: string;
+  readonly start: number;
+  readonly end: number;
+  readonly categoryId: string;
+  readonly source: readonly SourceReference[];
+}
+
+export interface TimelineChartBlock extends SceneBlockBase {
+  readonly kind: "chart";
+  readonly chartType: "timeline";
+  readonly label: string;
+  readonly description: string;
+  /** Optional on-demand presentation; static exports still include the graph. */
+  readonly presentation?: "inline" | "dialog";
+  readonly xAxis: ChartAxis;
+  readonly yAxis: ChartAxis;
+  readonly categories: readonly { readonly id: string; readonly label: string; readonly source: readonly SourceReference[] }[];
+  readonly scenarios: readonly {
+    readonly id: string;
+    readonly label: string;
+    readonly source: readonly SourceReference[];
+    readonly lanes: readonly {
+      readonly id: string;
+      readonly label: string;
+      readonly source: readonly SourceReference[];
+      readonly intervals: readonly TimelineInterval[];
+    }[];
+  }[];
+  readonly liveUpdate?: never;
+}
+
+export function timelineStaticFallback(block: TimelineChartBlock): string {
+  const unit = block.xAxis.unit ?? "";
+  return [block.label, block.description, ...block.scenarios.flatMap(scenario =>
+    scenario.lanes.flatMap(lane => lane.intervals.map(interval =>
+      `${scenario.label}; ${lane.label}; ${interval.label}: ${interval.start}–${interval.end} ${unit}; ${block.categories.find(c => c.id === interval.categoryId)?.label ?? interval.categoryId}`)))].join("\n");
+}
+
+export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | TimelineChartBlock | ((RegressionChartBlock | HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
 
 export function dotPlotStaticFallback(block: DotPlotBlock): string {
   const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
   return [block.label, block.description,
     ...block.groups.flatMap((group) => group.data.map((datum) => `${group.label}${datum.label ? `, ${datum.label}` : ""}: ${datum.value}${unit}${block.drawStems && block.referenceLine ? `; deviation ${datum.value - block.referenceLine.value >= 0 ? "+" : ""}${datum.value - block.referenceLine.value}${unit}` : ""}`)),
     ...block.groups.flatMap(group => group.summary ? [`${group.label}, ${group.summary.label}: ${group.summary.value}${unit}`] : []),
-    ...block.groups.flatMap(g=>g.interval?[`${g.interval.label}: [${g.interval.lower}, ${g.interval.upper}]${unit}; closed interval contains ${g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length}/${g.data.length} observations (${100*g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length/g.data.length}%).`]:[]),
+    ...block.groups.flatMap(g=>g.interval?[`${g.interval.label}: [${g.interval.lower}, ${g.interval.upper}]${unit}; ${g.interval.role === "descriptive-error" ? "descriptive error display, not coverage or a confidence interval" : `closed interval contains ${g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length}/${g.data.length} observations (${100*g.data.filter(d=>d.value>=g.interval!.lower&&d.value<=g.interval!.upper).length/g.data.length}%)`}.`]:[]),
     ...(block.curves ?? []).flatMap(curve => curve.data.map(datum => `${curve.label}: x=${datum.x}, y=${datum.y}${unit}`)),
     ...(block.referenceLine ? [`${block.referenceLine.label}: ${block.referenceLine.value}${unit}`] : []),
   ].join("\n");
@@ -673,6 +746,7 @@ function validateTable(block: TableBlock, label: string): void {
 }
 
 function validateDiagram(block: DiagramBlock, label: string): void {
+  if (block.presentation !== undefined && !["inline", "dialog"].includes(block.presentation)) throw new SceneContractError(`${label} diagram presentation must be inline or dialog`);
   requireNonEmpty(block.label, `${label} diagram label`);
   requireNonEmpty(block.description, `${label} diagram description`);
   if (block.diagramType !== "flow" && block.diagramType !== "network" && block.diagramType !== "sequence") throw new SceneContractError(`${label} diagram type must be flow, network or sequence`);
@@ -681,6 +755,7 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   if (block.diagramType === "sequence" && (block.participantRoles?.length ?? 0) < 2) throw new SceneContractError(`${label} sequence must contain at least two participant roles`);
   if (block.diagramType === "sequence" && (block.messages?.length ?? 0) < 1) throw new SceneContractError(`${label} sequence must contain at least one message`);
 
+  const allPartIds = new Set(block.nodes.flatMap(node => (node.parts ?? []).map(part => part.id)));
   const nodeIdSet = new Set<string>();
   for (const node of block.nodes) {
     requireNonEmpty(node.id, `${label} diagram node id`);
@@ -704,6 +779,16 @@ function validateDiagram(block: DiagramBlock, label: string): void {
         requireNonEmpty(part.label, `${label} diagram node ${node.id} part ${part.id} label`);
         if (part.description !== undefined) requireNonEmpty(part.description, `${label} diagram node ${node.id} part ${part.id} description`);
         validateSource(part.source, `${label} diagram node ${node.id} part ${part.id} source`);
+        if (part.referencePartId && !allPartIds.has(part.referencePartId)) throw new SceneContractError("Part reference must target a diagram part");
+        const seen = new Set<string>([part.id]);
+        let parent = part.parentPartId;
+        while (parent) {
+          if (seen.has(parent)) throw new SceneContractError("Part parent relations must be acyclic");
+          seen.add(parent);
+          const owner = node.parts.find(candidate => candidate.id === parent);
+          if (!owner) throw new SceneContractError("Part parent must belong to the same node");
+          parent = owner.parentPartId;
+        }
       }
     }
     validateVisualMotif(node.visualMotif, `${label} diagram node ${node.id}`);
@@ -729,6 +814,13 @@ function validateDiagram(block: DiagramBlock, label: string): void {
 
   const edgeIdSet = new Set<string>();
   for (const edge of block.edges) {
+    if (edge.codeDetail) {
+      requireNonEmpty(edge.codeDetail.label, "Diagram detail label");
+      requireNonEmpty(edge.codeDetail.description, "Diagram detail description");
+      requireNonEmpty(edge.codeDetail.code, "Diagram detail code");
+      if (edge.codeDetail.language !== "trig") throw new SceneContractError("Diagram port detail must be TriG");
+      validateSource(edge.codeDetail.source, "Diagram detail source");
+    }
     requireNonEmpty(edge.id, `${label} diagram edge id`);
     if (edgeIdSet.has(edge.id)) throw new SceneContractError(`${label} diagram contains duplicate edge ids`);
     edgeIdSet.add(edge.id);
@@ -759,6 +851,16 @@ function validateDiagram(block: DiagramBlock, label: string): void {
   }
   const annotationIds = new Set<string>();
   for (const state of block.states ?? []) {
+    const presented = new Set<string>();
+    for (const presentation of state.nodePresentations ?? []) {
+      if (!block.nodes.some(node => node.id === presentation.nodeId) || presented.has(presentation.nodeId)) throw new SceneContractError("Node presentation must reference a unique diagram node");
+      presented.add(presentation.nodeId); validateSource(presentation.source, "Node presentation source");
+      if (presentation.label !== undefined) requireNonEmpty(presentation.label, "Node presentation label");
+      if (presentation.description !== undefined) requireNonEmpty(presentation.description, "Node presentation description");
+      validateVisualMotif(presentation.visualMotif, "Node presentation motif");
+      if (presentation.transition !== undefined && presentation.transition !== "replace-left") throw new SceneContractError("Unsupported node transition");
+      if (presentation.thumbnail && (!/^\/[A-Za-z0-9_./-]+$/.test(presentation.thumbnail.uri) || presentation.thumbnail.uri.includes(".."))) throw new SceneContractError("Thumbnail must be a local asset");
+    }
     requireNonEmpty(state.id, `${label} diagram state id`);
     if (stateIds.has(state.id)) throw new SceneContractError(`${label} diagram contains duplicate state ids`);
     stateIds.add(state.id);
@@ -817,6 +919,36 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if (block.chartType === "regression") {
+    try { validateRegressionChart(block); } catch (error) { throw new SceneContractError(String(error)); }
+    return;
+  }
+  if (block.chartType === "timeline") {
+    if (!block.xAxis.unit || !block.categories.length || !block.scenarios.length || block.liveUpdate !== undefined) throw new SceneContractError("Timeline requires units, categories and scenarios, without live jitter");
+    const ids = new Set<string>();
+    const identity = (item: {id: string; label: string; source: readonly SourceReference[]}) => {
+      requireNonEmpty(item.id, "Timeline id"); requireNonEmpty(item.label, "Timeline label"); validateSource(item.source, "Timeline source");
+      if (ids.has(item.id)) throw new SceneContractError("Duplicate timeline identity"); ids.add(item.id);
+    };
+    block.categories.forEach(identity);
+    const categories = new Set(block.categories.map(c => c.id));
+    for (const scenario of block.scenarios) {
+      identity(scenario);
+      if (!scenario.lanes.length) throw new SceneContractError("Timeline scenario requires lanes");
+      for (const lane of scenario.lanes) {
+        identity(lane);
+        if (!lane.intervals.length) throw new SceneContractError("Timeline lane requires intervals");
+        let previousEnd = -Infinity;
+        for (const interval of lane.intervals) {
+          identity(interval);
+          if (!categories.has(interval.categoryId) || !Number.isFinite(interval.start) || !Number.isFinite(interval.end)
+            || interval.start < 0 || interval.end <= interval.start || interval.start < previousEnd) throw new SceneContractError("Timeline intervals require known categories, ordered finite bounds and no lane overlap");
+          previousEnd = interval.end;
+        }
+      }
+    }
+    return;
+  }
   if(block.chartType==="histogram"||block.chartType==="histogram2d"){
     try{validateHistogram(block);}catch(error){throw new SceneContractError(String(error));}return;
   }
@@ -879,6 +1011,9 @@ function validateChart(block: ChartBlock, label: string): void {
   }
 
   if (block.chartType === "dot") {
+    if (block.showSummaryValues !== undefined && typeof block.showSummaryValues !== "boolean") throw new SceneContractError("showSummaryValues must be boolean");
+    const steps = [...new Set(block.groups.map(g => g.disclosureStep ?? 1))].sort((a,b) => a-b);
+    if (steps.some((step,i) => step !== i+1)) throw new SceneContractError("Dot group reveal stages must be contiguous and start at one");
     if (block.xScale !== undefined && block.xScale !== "linear") throw new SceneContractError(`${label} invalid dot x-scale`);
     for (const size of [block.markerRadius, block.summaryRadius]) {
       if (size !== undefined && (!Number.isFinite(size) || size <= 0 || size > 20)) throw new SceneContractError(`${label} invalid marker radius`);
@@ -894,12 +1029,14 @@ function validateChart(block: ChartBlock, label: string): void {
     if (!block.groups.length) throw new SceneContractError(`${label} dot plot requires groups`);
     const groupIds = new Set<string>();
     for (const group of block.groups) {
+      if (group.disclosureStep !== undefined && (!Number.isInteger(group.disclosureStep) || group.disclosureStep < 1)) throw new SceneContractError("Dot group disclosure step must be positive integer");
       requireNonEmpty(group.id, `${label} group id`);
       if (groupIds.has(group.id)) throw new SceneContractError(`${label} duplicate group id`);
       groupIds.add(group.id);
       requireNonEmpty(group.label, `${label} group label`);
       validateSource(group.source, `${label} group source`);
       if(group.interval){
+        if (group.interval.role !== undefined && !["coverage", "descriptive-error"].includes(group.interval.role)) throw new SceneContractError("Unknown interval role");
         const i=group.interval;requireNonEmpty(i.id,`${label} interval id`);requireNonEmpty(i.label,`${label} interval label`);validateSource(i.source,`${label} interval source`);requireVisible(i.lower);requireVisible(i.upper);
         if(i.lower>i.upper||block.xScale||block.drawStems)throw new SceneContractError("Intervals require ordered bounds on categorical groups");
       }
@@ -945,6 +1082,7 @@ function validateChart(block: ChartBlock, label: string): void {
     return;
   }
   if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar, line or dot`);
+  if (block.yMinimum !== undefined && (!Number.isFinite(block.yMinimum) || block.series.some(s => s.data.some(d => d.y < block.yMinimum!)))) throw new SceneContractError("Line-chart lower bound must be finite and must not clip data");
   if (block.series.length === 0) throw new SceneContractError(`${label} line chart must contain at least one series`);
 
   const seriesIds = new Set<string>();
@@ -987,6 +1125,9 @@ function validateChart(block: ChartBlock, label: string): void {
     const series = datumBySeries.get(annotation.seriesId);
     if (!series) throw new SceneContractError(`${label} annotation ${annotation.id} references an unknown series`);
     if (annotation.kind === "point") {
+      if (annotation.focusSeries !== undefined && typeof annotation.focusSeries !== "boolean") {
+        throw new SceneContractError(`${label} point annotation focusSeries must be boolean`);
+      }
       if (!series.has(annotation.datumId)) {
         throw new SceneContractError(`${label} point annotation ${annotation.id} references an unknown datum`);
       }
@@ -1005,7 +1146,7 @@ function validateChart(block: ChartBlock, label: string): void {
 
 function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
   // 1.8 is additive to 1.7; retain the declared version through nested groups.
-  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
+  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION || declaredVersion===SCENE_DOCUMENT_TIMELINE_VERSION || declaredVersion===SCENE_DOCUMENT_REGRESSION_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
   validateDisclosureOrders(blocks, label);
@@ -1070,7 +1211,17 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       requireNonEmpty(block.code, `${label} code ${block.id} code`);
       requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
     }
-    if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+    if (block.kind === "media-reference") {
+      requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+      const rectangle = (r: {x: number; y: number; width: number; height: number}) =>
+        [r.x, r.y, r.width, r.height].every(Number.isFinite) && r.x >= 0 && r.y >= 0 && r.width > 0 && r.height > 0 && r.x + r.width <= 1 && r.y + r.height <= 1;
+      if (block.crop && !rectangle(block.crop)) throw new SceneContractError("Invalid normalized media crop");
+      if (block.redactions?.length && (!block.crop || !block.mediaType?.startsWith("video/"))) throw new SceneContractError("Redactions require cropped video");
+      for (const region of block.redactions ?? []) {
+        if (!rectangle(region) || !Number.isFinite(region.start) || !Number.isFinite(region.end) || region.start < 0 || region.end <= region.start) throw new SceneContractError("Invalid media redaction");
+        requireNonEmpty(region.label, "Media redaction label");
+      }
+    }
     if (block.kind === "prompt") {
       requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
       if (block.options !== undefined) {
@@ -1115,8 +1266,10 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION;
-      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
+      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION||declaredVersion===SCENE_DOCUMENT_TIMELINE_VERSION||declaredVersion===SCENE_DOCUMENT_REGRESSION_VERSION;
+      if(block.chartType==="regression"&&declaredVersion!==SCENE_DOCUMENT_REGRESSION_VERSION)throw new SceneContractError("Regression charts require SceneDocument 1.14");
+      if(block.chartType==="timeline"&&declaredVersion!==SCENE_DOCUMENT_TIMELINE_VERSION&&declaredVersion!==SCENE_DOCUMENT_REGRESSION_VERSION)throw new SceneContractError("Timelines require SceneDocument 1.13");
+      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION&&declaredVersion!==SCENE_DOCUMENT_TIMELINE_VERSION&&declaredVersion!==SCENE_DOCUMENT_REGRESSION_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
       if(!exploration&&((block.chartType==="histogram"&&block.binAdjustment)||(block.chartType==="dot"&&block.groups.some(g=>g.interval))||(block.chartType==="observations"&&(block.compact!==undefined||block.interactive!==undefined||block.view==="ecdf"&&block.series.length>1))))throw new SceneContractError("Exploration options require SceneDocument 1.11");
       if ((block.chartType==="histogram"||block.chartType==="histogram2d")&&declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration)throw new SceneContractError("Histograms require SceneDocument 1.10");
       if (block.chartType === "box" && declaredVersion !== SCENE_DOCUMENT_BOX_PLOT_VERSION && declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration) throw new SceneContractError("Box plots require SceneDocument 1.9");
@@ -1147,6 +1300,8 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_HISTOGRAM_VERSION
     && document.version !== SCENE_DOCUMENT_EXPLORATION_VERSION
     && document.version !== SCENE_DOCUMENT_MOMENT_VERSION
+    && document.version !== SCENE_DOCUMENT_TIMELINE_VERSION
+    && document.version !== SCENE_DOCUMENT_REGRESSION_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }

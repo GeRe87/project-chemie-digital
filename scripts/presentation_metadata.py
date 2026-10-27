@@ -61,6 +61,12 @@ def project_title(dataset, work):
             if not re.fullmatch(r"/?[A-Za-z0-9_-]+(?:/[A-Za-z0-9_.-]+)+", uri) or ".." in uri:
                 raise ValueError("Logo assets must be local non-escaping paths")
             record["uri"] = uri
+        dark_uri = R.literal(dataset, logo, URIRef(R.CD + "darkUri"))
+        if dark_uri:
+            import re
+            if not re.fullmatch(r"/?[A-Za-z0-9_-]+(?:/[A-Za-z0-9_.-]+)+", dark_uri) or ".." in dark_uri:
+                raise ValueError("Dark logo assets must be local non-escaping paths")
+            record["darkUri"] = dark_uri
         result["logos"].append(record)
     return result
 

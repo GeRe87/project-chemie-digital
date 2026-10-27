@@ -1,0 +1,109 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesConcept cd:PortContract, cd:PortDescription ; cdm:definesRelation cd:hasPortContract, cd:contractGraph, cd:contractDataGraph, cd:carries ; cdm:definesAttribute cd:portRole .
+  cd:PortContract a rdfs:Class, cdm:ConceptDescriptor ; rdfs:comment "A source-linked teaching contract shared by an output port and a following input port. Not an executable production binding."@en .
+  cd:PortDescription a rdfs:Class, cdm:ConceptDescriptor .
+  cd:hasPortContract a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:PortContract .
+  cd:contractGraph a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PortContract ; rdfs:comment "Exact authored named graph containing the inspectable contract and its shape."@en .
+  cd:contractDataGraph a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PortContract ; rdfs:comment "Optional exact named data graph displayed with the contract's SHACL graph; preserves their distinct graph identities."@en .
+  cd:carries a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PortDescription .
+  cd:portRole a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:PortDescription ; rdfs:range xsd:string .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:PortContractShape a sh:NodeShape ; sh:targetClass cd:PortContract ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:contractGraph ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:contractDataGraph ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dct:hasPart ; sh:minCount 2 ; sh:maxCount 2 ; sh:class cd:PortDescription ] ;
+    sh:property [ sh:path (dct:hasPart cd:portRole) ; sh:hasValue "Input" ] ;
+    sh:property [ sh:path (dct:hasPart cd:portRole) ; sh:hasValue "Output" ] ;
+    sh:property [ sh:path (dct:hasPart cd:carries) ; sh:maxCount 1 ] ;
+    sh:property [ sh:path (dct:hasPart dct:conformsTo) ; sh:maxCount 1 ] .
+  cd:PortDescriptionShape a sh:NodeShape ; sh:targetClass cd:PortDescription ;
+    sh:property [ sh:path cd:portRole ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("Input" "Output" "Parameter") ] ;
+    sh:property [ sh:path cd:carries ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dct:conformsTo ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sh:NodeShape ] .
+  cd:EdgePortContractShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasPortContract ; sh:class cd:DiagramEdge ;
+    sh:property [ sh:path cd:hasPortContract ; sh:maxCount 1 ; sh:class cd:PortContract ] .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/talks-ted-port-contracts> {
+  ex:ted-source-port-contracts a cd:Source ; dct:title "Illustrative TED port contracts for teaching semantic interoperability" ; dct:creator "Gerrit Renner" ; dct:identifier "issue-294/ted-port-contract-examples" ; dct:description "Proposed minimal teaching schemas for EIC collections, features, jointly fitted components and marker areas. These are authored examples, not asserted existing community standards or deployed runtime contracts. Shape constraints are inspectable, without claiming scientific identification from structure alone."@en ; cd:supportsResource ex:ted-port-eics, ex:ted-port-features, ex:ted-port-components, ex:ted-port-marker-areas ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-port-eics> {
+  ex:ted-port-eics a cd:PortContract ; skos:prefLabel "EICs: documented ports"@en ; cd:body "Import supplies EICs to Find peaks. Each step and port has a name and definition; each port has a stable key and an Input or Output role. The small shape checks port documentation, not the scientific payload. A teaching excerpt of the source processing vocabulary."@en ; cd:contractGraph <https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-eics> ; cd:contractDataGraph <https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> ; dct:hasPart ex:ted-eics-out, ex:ted-eics-in ; dct:source ex:ted-source-processing-interfaces .
+  ex:ted-eics-out a cd:PortDescription ; cd:portRole "Output" ; cd:carries ex:ted-EICCollection ; dct:isPartOf ex:ted-sem-import ; dct:conformsTo ex:ted-eics-shape .
+  ex:ted-eics-in a cd:PortDescription ; cd:portRole "Input" ; cd:carries ex:ted-EICCollection ; dct:isPartOf ex:ted-sem-peaks ; dct:conformsTo ex:ted-eics-shape .
+  ex:ted-EICCollection a rdfs:Class ; rdfs:label "Collection of extracted-ion chromatograms"@en .
+  ex:ted-eics-shape a sh:NodeShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-port-eics> {
+  ex:ted-eics-shape a sh:NodeShape ; sh:class ex:ted-EICCollection ;
+    sh:property [ sh:path ex:hasEIC ; sh:minCount 1 ; sh:node [
+      sh:property [ sh:path ex:massToCharge ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+      sh:property [ sh:path ex:intensityUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+      sh:property [ sh:path ex:hasPoint ; sh:minCount 1 ; sh:node [
+        sh:property [ sh:path ex:timeSeconds ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+        sh:property [ sh:path ex:intensity ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ] ] ] ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-port-features> {
+  ex:ted-port-features a cd:PortContract ; skos:prefLabel "Features: documented ports"@en ; cd:body "Find peaks supplies peak features to Form components. Names, definitions, stable port keys and controlled roles make this interface readable. The shape checks port descriptors; scientific payload constraints and implementation bindings are omitted from this teaching excerpt."@en ; cd:contractGraph <https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-features> ; cd:contractDataGraph <https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> ; dct:hasPart ex:ted-features-out, ex:ted-features-in ; dct:source ex:ted-source-processing-interfaces .
+  ex:ted-features-out a cd:PortDescription ; cd:portRole "Output" ; cd:carries ex:ted-FeatureCollection ; dct:isPartOf ex:ted-sem-peaks ; dct:conformsTo ex:ted-features-shape .
+  ex:ted-features-in a cd:PortDescription ; cd:portRole "Input" ; cd:carries ex:ted-FeatureCollection ; dct:isPartOf ex:ted-sem-components ; dct:conformsTo ex:ted-features-shape .
+  ex:ted-FeatureCollection a rdfs:Class ; rdfs:label "Collection of chromatographic features"@en .
+  ex:ted-features-shape a sh:NodeShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-port-features> {
+  ex:ted-features-shape a sh:NodeShape ; sh:class ex:ted-FeatureCollection ;
+    sh:property [ sh:path ex:hasFeature ; sh:nodeKind sh:IRI ; sh:node [
+      sh:property [ sh:path ex:sourceEIC ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+      sh:property [ sh:path ex:retentionTimeSeconds ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+      sh:property [ sh:path ex:integratedArea ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+      sh:property [ sh:path ex:areaUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ] ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-port-components> {
+  ex:ted-port-components a cd:PortContract ; skos:prefLabel "Components: documented ports"@en ; cd:body "Form components supplies jointly fitted components to Select markers. Both ports describe the same result with explicit roles and stable keys. The shape checks documentation only; a grouped component is not automatically a chemically identified substance."@en ; cd:contractGraph <https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-components> ; cd:contractDataGraph <https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> ; dct:hasPart ex:ted-components-out, ex:ted-components-in ; dct:source ex:ted-source-processing-interfaces .
+  ex:ted-components-out a cd:PortDescription ; cd:portRole "Output" ; cd:carries ex:ted-ComponentCollection ; dct:isPartOf ex:ted-sem-components ; dct:conformsTo ex:ted-components-shape .
+  ex:ted-components-in a cd:PortDescription ; cd:portRole "Input" ; cd:carries ex:ted-ComponentCollection ; dct:isPartOf ex:ted-sem-markers ; dct:conformsTo ex:ted-components-shape .
+  ex:ted-ComponentCollection a rdfs:Class ; rdfs:label "Collection of jointly fitted components"@en .
+  ex:ted-components-shape a sh:NodeShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-port-components> {
+  ex:ted-components-shape a sh:NodeShape ; sh:class ex:ted-ComponentCollection ;
+    sh:property [ sh:path ex:hasComponent ; sh:nodeKind sh:IRI ; sh:node [
+      sh:property [ sh:path ex:hasFeature ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+      sh:property [ sh:path ex:sharedShapeModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+      sh:property [ sh:path ex:retentionTimeSeconds ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ] ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/ted-port-marker-areas> {
+  ex:ted-port-marker-areas a cd:PortContract ; skos:prefLabel "Marker areas: documented ports"@en ; cd:body "Select markers supplies selected marker areas to Calibrate. Document each port, not only the algorithm. Calibration also requires a calibration model and sample metadata, omitted here. The small shape validates port documentation, not marker specificity or scientific validity."@en ; cd:contractGraph <https://w3id.org/project-chemie-digital/graph/shapes/ted-interface-marker-areas> ; cd:contractDataGraph <https://w3id.org/project-chemie-digital/graph/knowledge/ted-processing-interfaces> ; dct:hasPart ex:ted-marker-areas-out, ex:ted-marker-areas-in ; dct:source ex:ted-source-processing-interfaces .
+  ex:ted-marker-areas-out a cd:PortDescription ; cd:portRole "Output" ; cd:carries ex:ted-MarkerAreaCollection ; dct:isPartOf ex:ted-sem-markers ; dct:conformsTo ex:ted-marker-areas-shape .
+  ex:ted-marker-areas-in a cd:PortDescription ; cd:portRole "Input" ; cd:carries ex:ted-MarkerAreaCollection ; dct:isPartOf ex:ted-sem-calibrate ; dct:conformsTo ex:ted-marker-areas-shape .
+  ex:ted-MarkerAreaCollection a rdfs:Class ; rdfs:label "Collection of assigned marker areas"@en .
+  ex:ted-marker-areas-shape a sh:NodeShape .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-port-marker-areas> {
+  ex:ted-marker-areas-shape a sh:NodeShape ; sh:class ex:ted-MarkerAreaCollection ;
+    sh:property [ sh:path ex:hasMarkerArea ; sh:nodeKind sh:IRI ; sh:node [
+      sh:property [ sh:path ex:component ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+      sh:property [ sh:path ex:polymerMarker ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+      sh:property [ sh:path ex:integratedArea ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+      sh:property [ sh:path ex:areaUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ] ] .
+}
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-semantic-execution> {
+  ex:ted-sem-connect1 cd:hasPortContract ex:ted-port-eics .
+  ex:ted-sem-connect2 cd:hasPortContract ex:ted-port-features .
+  ex:ted-sem-connect3 cd:hasPortContract ex:ted-port-components .
+  ex:ted-sem-connect4 cd:hasPortContract ex:ted-port-marker-areas .
+}

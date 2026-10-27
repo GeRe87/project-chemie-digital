@@ -1,0 +1,58 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+graph:concepts {
+ cd:LearningDomain cdm:definesConcept cd:MediaRedaction ; cdm:definesRelation cd:hasMediaRedaction ; cdm:definesAttribute cd:cropX, cd:cropY, cd:cropWidth, cd:cropHeight .
+ cd:MediaRedaction a rdfs:Class, cdm:ConceptDescriptor .
+ cd:hasMediaRedaction a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:MediaAsset ; rdfs:range cd:MediaRedaction .
+ cd:cropX a rdf:Property, cdm:AttributeDescriptor . cd:cropY a rdf:Property, cdm:AttributeDescriptor .
+ cd:cropWidth a rdf:Property, cdm:AttributeDescriptor . cd:cropHeight a rdf:Property, cdm:AttributeDescriptor .
+ cd:LearningDomain cdm:definesAttribute cd:x, cd:y, cd:width, cd:height, cd:start, cd:end .
+ cd:x a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+ cd:y a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+ cd:width a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+ cd:height a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+ cd:start a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+ cd:end a rdf:Property, cdm:AttributeDescriptor ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+ cd:MediaRedactionShape a sh:NodeShape ; sh:targetClass cd:MediaRedaction ;
+  sh:property [ sh:path cd:x ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+  sh:property [ sh:path cd:y ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+  sh:property [ sh:path cd:width ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:maxInclusive 1 ] ;
+  sh:property [ sh:path cd:height ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:maxInclusive 1 ] ;
+  sh:property [ sh:path cd:start ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThan cd:end ] ;
+  sh:property [ sh:path cd:end ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path cd:body ; sh:minCount 1 ] .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-demo> {
+ ex:ted-workflow-demo a cd:Concept ; skos:prefLabel "Workflow demonstration"@en ; cd:hasDefinition ex:ted-workflow-demo-definition ; cd:authoredResource true .
+ ex:ted-workflow-demo-definition a cd:Definition ; cd:body "Two supplied recordings show workflow editing and execution, including the visible semantic documentation sidebar and execution metadata. The speaker approved displaying this metadata. The crop removes browser chrome only, with the same viewport and preserved aspect ratio in both recordings. Original recordings are unchanged."@en ; cd:authoredResource true .
+ ex:ted-demo-one a cd:MediaAsset ; cd:uri "/cogniflow-showcase/cf_web_showcase_1.mp4"^^xsd:anyURI ; cd:mediaType "video/mp4" ; cd:alternativeText "Workflow editor demonstration with semantic documentation sidebar"@en ; cd:cropX 0.0 ; cd:cropY 0.084 ; cd:cropWidth 1.0 ; cd:cropHeight 0.894 ; cd:authoredResource true .
+ ex:ted-demo-two a cd:MediaAsset ; cd:uri "/cogniflow-showcase/cf_web_showcase_2.mp4"^^xsd:anyURI ; cd:mediaType "video/mp4" ; cd:alternativeText "Workflow execution demonstration with semantic documentation sidebar"@en ; cd:cropX 0.0 ; cd:cropY 0.084 ; cd:cropWidth 1.0 ; cd:cropHeight 0.894 ; cd:authoredResource true .
+ ex:ted-demo-logs a cd:MediaRedaction ; cd:x 0.0 ; cd:y 0.78 ; cd:width 1.0 ; cd:height 0.22 ; cd:start 0.0 ; cd:end 60.0 ; cd:body "Execution metadata hidden"@en .
+ ex:ted-demo-one-sidebar a cd:MediaRedaction ; cd:x 0.0 ; cd:y 0.0 ; cd:width 0.205 ; cd:height 0.78 ; cd:start 32.0 ; cd:end 60.0 ; cd:body "Resource metadata hidden"@en .
+ ex:ted-demo-two-sidebar a cd:MediaRedaction ; cd:x 0.0 ; cd:y 0.0 ; cd:width 0.205 ; cd:height 0.78 ; cd:start 0.0 ; cd:end 16.0 ; cd:body "Resource metadata hidden"@en .
+ ex:ted-demo-file-selection a cd:MediaRedaction ; cd:x 0.32 ; cd:y 0.42 ; cd:width 0.60 ; cd:height 0.16 ; cd:start 0.0 ; cd:end 10.0 ; cd:body "File selection metadata hidden"@en .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+ ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-demo-one, ex:ted-step-demo-two .
+ ex:ted-step-demo-one a cd:PathStep ; cd:position 22 ; cd:usesResource ex:ted-demo-one ; cd:usesScene ex:ted-scene-demo-one ; cd:authoredResource true .
+ ex:ted-step-demo-two a cd:PathStep ; cd:position 23 ; cd:usesResource ex:ted-demo-two ; cd:usesScene ex:ted-scene-demo-two ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-demo> {
+ ex:ted-scene-demo-one a cd:SceneDefinition ; cd:focusConcept ex:ted-workflow-demo ; cd:hasSceneItem ex:ted-demo-item-one ; cd:narration "Demonstrate workflow construction through compatible operations and ports. The sidebar shows semantic documentation: names, definitions and interface metadata. Browser chrome is cropped, but the documentation and logs remain visible with the speaker's approval. The recording illustrates the supplied interface, not new validation evidence for the TED method."@en ; cd:authoredResource true .
+ ex:ted-scene-demo-two a cd:SceneDefinition ; cd:focusConcept ex:ted-workflow-demo ; cd:hasSceneItem ex:ted-demo-item-two ; cd:narration "Continue with loading and executing a configured workflow. The same viewport crop preserves the semantic documentation sidebar and execution metadata. The video remains inside the ordinary slide frame so the laboratory background stays visible. Playback pauses and resets on exit; reduced-motion users start playback manually."@en ; cd:authoredResource true .
+ ex:ted-scene-demo-one cd:hasSceneItem ex:ted-demo-heading-one .
+ ex:ted-scene-demo-two cd:hasSceneItem ex:ted-demo-heading-two .
+ ex:ted-demo-heading-one a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-workflow-demo ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:ted-demo-heading-two a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-workflow-demo ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:ted-demo-item-one a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-demo-one ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:ted-demo-item-two a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-demo-two ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+}

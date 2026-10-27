@@ -1,0 +1,19 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesAttribute cd:focusSeries .
+  cd:focusSeries a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:ChartPointAnnotation ; rdfs:range xsd:boolean ;
+    rdfs:comment "When true, the annotation's target observation selects its series at that presentation stage. Focus-selectable series are hidden until selected; other series remain visible as neutral context."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:ChartPointAnnotationShape sh:property [
+    sh:path cd:focusSeries ; sh:maxCount 1 ; sh:datatype xsd:boolean
+  ] .
+}
