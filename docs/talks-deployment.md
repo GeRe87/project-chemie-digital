@@ -46,6 +46,31 @@ inside the **current worktree**. Run family generators/builds sequentially in th
 worktree, or use separate worktrees; never point them at another agent's checkout.
 Rebuild Talks after running the general test suite, which generates lecture previews.
 
+## Local feedback and release checks
+
+```sh
+npm run test:talks
+npm run check:talks-local
+npm run check:talks-release
+```
+
+`test:talks` runs the explicit Talks Python/content/transport and TypeScript
+metadata/world tests. `check:talks-local` adds the existing production build and
+artifact verification. These are fast feedback, not substitutes for acceptance.
+`check:talks-release` runs the unchanged `npm test` first, then only the Talks
+build/check. It stops on failure. Logs, exit codes, elapsed seconds, source SHA
+and dirty-source information are written to ignored `dist/talks-checks/`.
+A successful release receipt additionally binds the build-manifest hash and
+requires clean, unchanged source (the generated Pitch HTML shell is the only
+end-of-run tracked-file exception). Browser acceptance and independent review
+remain separate gates. No existing test or Chemometrics command is removed.
+
+The observed GitHub run at `7cefac37` failed after 590 Python tests in 3069.972
+seconds, with 20 failures and one error. It was not merely a timeout. Repeated
+reports of one invalid canonical dataset must be fixed at their Talks source,
+not hidden by excluding the failing tests. GitHub Actions are not the prescribed
+validation provider and are neither added nor invoked by the local commands.
+
 ## Cloudflare Pages configuration (owner action; not deployed by this task)
 
 Create a **Pages** project using Cloudflare's Git integration:
@@ -53,20 +78,21 @@ Create a **Pages** project using Cloudflare's Git integration:
 | Setting | Value |
 |---|---|
 | Repository | `GeRe87/project-chemie-digital` |
-| Production branch | `talks` |
+| Production branch | `gh-pages-talks` (built static files only) |
 | Root directory | repository root (empty) |
 | Framework preset | None |
-| Build command | `python -m pip install -r scripts/requirements-static-build.txt && npm ci && npm run build:talks` |
-| Output directory | `dist/talks` |
-| `NODE_VERSION` | `22.22.0` (at least 22.12 required by the locked Vite) |
-| `PYTHON_VERSION` | `3.12.12` (3.11+ supported) |
-| `SKIP_DEPENDENCY_INSTALL` | `true` (the build command installs the locked dependencies explicitly) |
+| Build command | empty (or `exit 0` if required by the UI) |
+| Output directory | `/` (repository root) |
+| `SKIP_DEPENDENCY_INSTALL` | `true` (the branch contains an already-built artifact) |
 
-Use Cloudflare Pages' current Linux build image; ensure the selected Node/Python
-versions are available in its version manager. No npm/Python credentials are
-required for the pinned public dependencies. No Cloudflare token belongs in Git.
+The `talks` branch remains source-only. After exact-head local tests, artifact
+verification, production-browser acceptance and independent review pass, publish
+only the contents of `dist/talks` to `gh-pages-talks`. Never publish the source
+checkout, logs, credentials or another offering's `dist` directory. A branch
+named `gh-pages-talks` is not a request to change GitHub Pages settings: Cloudflare
+Pages reads it directly using Git integration. No Cloudflare token belongs in Git.
 
-After review and owner integration into `talks`, connect the repository, apply the
+After review, integration into `talks` and static-branch publication, connect the repository, apply the
 settings, and verify the generated Pages preview at its root. Then add
 `talks.odea-project.org` under the Pages project's **Custom domains** and follow
 Cloudflare's DNS validation instructions. Verify HTTPS, root assets, light/dark
@@ -74,8 +100,9 @@ mode and the return link on the custom domain. Do not change the Chemometrics DN
 `gh-pages`, GitHub Pages configuration or existing CNAME. This task creates no
 GitHub Actions and does not publish or merge anything automatically.
 
-Rollback: use Pages' previous successful deployment, or revert the accepted Talks
-change through review and rebuild. Do not roll back or force-push Chemometrics.
+Rollback: use Pages' previous successful Talks deployment, or publish a reviewed
+previous Talks artifact as a new commit on `gh-pages-talks`. Do not roll back,
+force-push or write `gh-pages`, Chemometrics sources/builds, Pages settings or DNS.
 
 ## Verification
 
