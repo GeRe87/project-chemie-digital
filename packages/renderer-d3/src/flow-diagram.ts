@@ -1424,6 +1424,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("class", "d3-flow-part-reference"); path.setAttribute("data-part-reference", id);
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence)})`);
           path.setAttribute("aria-label", source.description ?? "References a shared diagram part"); partReferenceLayer.append(path);
+          path.setAttribute("role", "img");
         }
         svg.append(partReferenceLayer);
 

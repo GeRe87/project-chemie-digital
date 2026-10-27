@@ -23,12 +23,18 @@ Owner-directed build/validation follow-up to #294 and draft PR #295, targeting
 
 ## Verification
 
-- [x] Focused Talks checks passed locally in about 27 seconds, including real
+- [x] Focused Talks checks passed locally: 52 checks in about 31 seconds, including real
   production transport policy, exact serialized RDF graphs and missing-definition
   counterexamples, local-check failure behavior and publication safety tests.
 - [ ] Complete final exact-head `npm test`: required, not yet claimed green.
-- [ ] Complete canonical SHACL: running separately, not yet claimed green.
-- [ ] Final production build and artifact verification.
+- [x] Complete canonical SHACL passed on source `257e0f9f`; dataset fingerprint
+  `sha256:18d04ce662ec82ff8fbfd9b1bcfd1d9bb46d3ae8323fdf17a0bfc0a969d2e8dc`.
+- [x] Production build and artifact verification passed on `257e0f9f`: 265 files,
+  `validated-build.json` SHA-256
+  `98d19e6eb039beebde6062bf4b31687577a15ff74219951901748a37673237b6`.
+- [x] Talks world/title browser acceptance passed all eight desktop/mobile,
+  light/dark and normal/reduced-motion combinations, including axe WCAG checks,
+  keyboard theme/background controls and script-disabled static fallback.
 - [ ] Production-browser and accessibility acceptance in both themes/viewports.
 - [x] Documentation updated.
 
@@ -46,6 +52,21 @@ invalid dataset. Fixes belong in Talks source, not weaker global assertions.
 The pre-existing Hilbert-width renderer failure remains out of this Talks-only
 increment. The locked dependency installation also reports npm advisories;
 no dependency upgrade or automatic audit fix is included.
+
+The production build was performed in a separate isolated checkout while the
+complete suite ran, so family generators could not overwrite each other's
+runtime files. Browser checks exposed stale Talks smoke assumptions: layer
+geometry must compare pre-transform dimensions while separately ensuring viewport
+coverage (the foreground intentionally scales); background controls use Alt+B;
+SVG illustrations are enhanced inline; and a semantic graph can be opened in
+a dialog beside a code representation. The smoke scripts now exercise those
+supported interfaces instead of failing on obsolete selectors. The talk smoke
+uses the real production branding policy and checks lazy/full transport equality,
+not a blanket regular expression over machine-readable provenance.
+The full slide audit then found a real `aria-prohibited-attr` violation on the
+new part-reference arrow. Its authored accessible label now has an explicit
+image role. Thirteen focused diagram/state regression checks pass after that
+single-attribute correction; a rebuilt artifact must be audited again.
 
 ## Recommended manager action
 
