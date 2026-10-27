@@ -73,7 +73,9 @@ try {
                ?? [...section.querySelectorAll(".definition-list,.code-block,svg")].find(visible);
             const nodes=[...section.querySelectorAll("h1,h2,.keypoint-list li,.teaching-svg")];
             const returnControl=document.querySelector(".pcd-return-world");
-            return {section:rect(section),visual:visual?rect(visual):null,returnControl:returnControl?rect(returnControl):null,
+             const viewBox=visual?.tagName.toLowerCase()==='svg' ? visual.viewBox?.baseVal : undefined;
+             const aspect=viewBox?.width&&viewBox?.height ? viewBox.width/viewBox.height : undefined;
+             return {section:rect(section),visual:visual?rect(visual):null,visualAspect:aspect,returnControl:returnControl?rect(returnControl):null,
               items:nodes.map(rect),overflowX:document.documentElement.scrollWidth>innerWidth+2,
               overflowY:document.documentElement.scrollHeight>innerHeight+2,text:section.innerText};
           });
@@ -85,7 +87,11 @@ try {
             if(control) assert.ok(item.x+item.width<=control.x || item.x>=control.x+control.width
               || item.y+item.height<=control.y || item.y>=control.y+control.height,`content overlaps return control in ${scene.id}`);
           }
-           if(index>0) assert.ok(geometry.visual?.width>200 && geometry.visual?.height>110,`visual too small in ${scene.id}`);
+            // Flat authored SVG comparisons can be naturally below 110px high
+            // at phone width. Require their full proportional height instead of
+            // accidentally testing a header card or imposing a distorted ratio.
+            const minimumHeight=geometry.visualAspect ? Math.min(110,geometry.visual.width/geometry.visualAspect*.9) : 110;
+            if(index>0) assert.ok(geometry.visual?.width>200 && geometry.visual?.height>minimumHeight,`visual too small in ${scene.id}`);
            for(const block of scene.blocks.filter(b=>b.kind==="diagram"&&b.presentation==="dialog")) {
              const button=current.getByRole("button",{name:`Open ${block.label}`,exact:true});
              await button.focus(); await page.keyboard.press("Enter");

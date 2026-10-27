@@ -136,10 +136,14 @@ node scripts/smoke_ted_introduction.mjs <base> <playwright-index.mjs> <browser-e
 node scripts/smoke_ted_revisions.mjs <base> <playwright-index.mjs> <browser-exe> <screenshots> <axe.min.js>
 ```
 
-The revision-specific check traverses every stage of 15 affected scenes at two
+The revision-specific check traverses every stage of 16 affected scenes at two
 viewports, both themes and motion modes, checks inset timing, endpoint arrows,
 highlighted interfaces, nested bullets, selected interval labels, visible legends,
 clipping, assets and WCAG rules. Each direct-entry test gets an isolated browser
 context so previous fragment/learner state cannot authorize a false initial state.
 Final exact-head results belong in the draft PR and handoff; a local preview is
 not independent acceptance or authorization to update a publication branch.
+The full-talk visual-size check respects authored SVG aspect ratios: a flat
+comparison is checked for its full proportional height on phones rather than an
+arbitrary 110-pixel minimum that would require distortion. Clipping, overflow,
+stage navigation and accessibility checks remain independent and unchanged.

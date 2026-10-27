@@ -52,10 +52,10 @@ try {
               assert.ok(geometry.px<geometry.x || geometry.px>geometry.x+geometry.w,"inset obscures selected marker");
               assert.ok(geometry.y>0);
               assert.ok((await inset.getAttribute('href')).endsWith(theme==='dark'?'spectrum-dark.svg':'spectrum.svg'));
-              await page.evaluate(()=>document.body.dataset.presentationTheme=document.body.dataset.presentationTheme==='dark'?'light':'dark');
+              await page.keyboard.press('Alt+t');
               await page.waitForTimeout(100);
               assert.ok((await inset.getAttribute('href')).endsWith(theme==='light'?'spectrum-dark.svg':'spectrum.svg'));
-              await page.evaluate(theme=>document.body.dataset.presentationTheme=theme,theme);
+              await page.keyboard.press('Alt+t');
             }
           }
           if(name==="processing-unit") {
@@ -66,6 +66,7 @@ try {
             if(step>=2) {
               const reference=current.locator('.d3-flow-part-reference');
               assert.match(await reference.getAttribute('d'),/^M[\d.]+ [\d.]+V[\d.]+H/,'reference must descend before travelling left');
+              assert.ok(await reference.evaluate(e=>{const r=e.getBBox(),v=e.ownerSVGElement.viewBox.baseVal;return r.x>=v.x&&r.y>=v.y&&r.x+r.width<=v.x+v.width&&r.y+r.height<=v.y+v.height;}),'reference route is outside the diagram canvas');
             }
           }
           if(name==="processing" && step===3) {
@@ -100,9 +101,9 @@ try {
             assert.equal(await current.locator('svg.teaching-svg').count(),1,'SVG failed safe inline enhancement');
             const panel=current.locator('svg.teaching-svg rect').first();
             const before=await panel.evaluate(e=>getComputedStyle(e).fill);
-            await page.evaluate(()=>document.body.dataset.presentationTheme=document.body.dataset.presentationTheme==='dark'?'light':'dark');
+            await page.keyboard.press('Alt+t');
             assert.notEqual(await panel.evaluate(e=>getComputedStyle(e).fill),before,'illustration did not respond to theme change');
-            await page.evaluate(theme=>document.body.dataset.presentationTheme=theme,theme);
+            await page.keyboard.press('Alt+t');
             const unit=current.locator(".formula-with-legend");
             assert.equal(await unit.count(),1);
             assert.ok(await unit.locator(".definition-list-description").isVisible());
