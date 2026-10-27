@@ -194,6 +194,7 @@ export type SelfStudyLineChartAnnotationPlan =
       readonly kind: "point";
       readonly seriesId: string;
       readonly datumId: string;
+      readonly media?: {readonly uri: string; readonly alternativeText: string};
       readonly label: string;
       readonly source: readonly SourceReference[];
     }
@@ -276,6 +277,8 @@ export interface SelfStudyDiagramGroupPlan {
 }
 
 export interface SelfStudyDiagramEdgePlan {
+  readonly sourcePartId?: string;
+  readonly targetPartId?: string;
   readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
   readonly id: string;
   readonly sourceNodeId: string;
@@ -473,7 +476,7 @@ function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): str
       `Series: ${series.label}`,
       ...series.data.map((datum) => `- ${datum.x}, ${datum.y}`),
     ]),
-    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}${annotation.kind === "point" && annotation.media ? `; ${annotation.media.alternativeText}` : ""}`),
   ].join("\n");
 }
 
@@ -647,6 +650,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
                 kind: "point" as const,
                 seriesId: annotation.seriesId,
                 datumId: annotation.datumId,
+                ...(annotation.media ? {media: {...annotation.media}} : {}),
                 label: annotation.label,
                 source: sourceCopy(annotation.source),
               }
@@ -679,11 +683,14 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           ...(node.visualMotif ? { visualMotif: node.visualMotif } : {}),
           ...(node.visualMotifRole ? { visualMotifRole: node.visualMotifRole } : {}),
           ...(node.groupIds ? { groupIds: [...node.groupIds] } : {}),
+          ...(node.parts ? {parts: node.parts.map(part => ({...part, source: sourceCopy(part.source)}))} : {}),
         })),
         edges: block.edges.map((edge) => ({
           id: edge.id,
           sourceNodeId: edge.sourceNodeId,
           targetNodeId: edge.targetNodeId,
+          ...(edge.sourcePartId ? {sourcePartId: edge.sourcePartId} : {}),
+          ...(edge.targetPartId ? {targetPartId: edge.targetPartId} : {}),
           label: edge.label,
           source: sourceCopy(edge.source),
           ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: sourceCopy(edge.codeDetail.source)}} : {}),
@@ -832,7 +839,7 @@ function renderChart(node: SelfStudyChartPlan): string {
   const axes = `<p class="self-study-chart-axes">X: ${escapeHtml(xAxis)} · Y: ${escapeHtml(yAxis)}</p>`;
   const annotations = (node.annotations ?? []).length > 0
     ? `<ul class="self-study-chart-annotations">${(node.annotations ?? []).map((annotation) =>
-        `<li data-chart-annotation-id="${escapeHtml(annotation.id)}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</li>`
+        `<li data-chart-annotation-id="${escapeHtml(annotation.id)}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}${"media" in annotation && annotation.media ? `: ${escapeHtml(annotation.media.alternativeText)}` : ""}</li>`
       ).join("")}</ul>`
     : "";
 

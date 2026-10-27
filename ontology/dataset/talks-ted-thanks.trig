@@ -13,7 +13,7 @@
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
  ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-thanks .
- ex:ted-step-thanks a cd:PathStep ; cd:position 25 ; cd:usesResource ex:ted-talks-qr, ex:ted-talks-website ; cd:usesScene ex:ted-scene-thanks ; cd:authoredResource true .
+ ex:ted-step-thanks a cd:PathStep ; cd:position 29 ; cd:usesResource ex:ted-talks-qr, ex:ted-talks-website ; cd:usesScene ex:ted-scene-thanks ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-thanks> {
  ex:ted-scene-thanks a cd:SceneDefinition ; cd:focusConcept ex:ted-thanks ; cd:hasSceneItem ex:ted-thanks-heading, ex:ted-thanks-image, ex:ted-thanks-address ; cd:narration "Thank the audience for their attention. Invite them to scan the QR code or use the displayed address, talks.odea-project.org. The QR code links directly to the HTTPS website without a redirect or external QR service."@en ; cd:authoredResource true .

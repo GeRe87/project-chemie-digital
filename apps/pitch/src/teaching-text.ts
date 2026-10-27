@@ -18,6 +18,13 @@ export function teachingInlineMarkup(text: string, symbols=false): string {
     .replace(/==([^=]+)==/gu, '<span class="pcd-marker-highlight pcd-marker-highlight--cyan">$1</span>');
 }
 
+/** Indented Markdown bullets belong to the preceding point, not its siblings. */
+export function teachingListItemMarkup(text: string): string {
+  const [heading, ...details] = text.split(/\r?\n/u);
+  if (!details.length || !details.every(line => /^\s{2,}-\s+\S/u.test(line))) return teachingInlineMarkup(text);
+  return teachingInlineMarkup(heading!) + `<ul class="pcd-list-item-details">${details.map(line => `<li>${teachingInlineMarkup(line.replace(/^\s+-\s+/u, ""))}</li>`).join("")}</ul>`;
+}
+
 /** A deliberately small safe Markdown subset. List purpose uses explicit [!] / [?] markers. */
 export function teachingTextMarkup(text: string): string {
   const inline = teachingInlineMarkup;

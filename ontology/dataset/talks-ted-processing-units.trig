@@ -52,8 +52,8 @@
 
   ex:ted-unit-flow a cd:FlowDiagram ; skos:prefLabel "Shared structure, specializations, concrete specification"@en ; cd:body "Three stages reveal explicit trees. Parent links show structural levels, not an execution sequence. ProcessingStep and ProcessingPipeline are peers; PipelineNode refers back to a reusable ProcessingUnit. The return arrow is a semantic reference, not a processing loop. Ports and binding are peers below FindPeaks."@en ; cd:hasDiagramNode ex:ted-unit-model, ex:ted-unit-specializations, ex:ted-unit-operation ; cd:hasDiagramEdge ex:ted-unit-edge1, ex:ted-unit-edge2 ; cd:hasDiagramState ex:ted-unit-state-model, ex:ted-unit-state-specs, ex:ted-unit-state-operation ; cd:hasSource ex:ted-source-processing-unit ; cd:authoredResource true .
   ex:ted-unit-state-model a cd:DiagramState ; cd:position 1 ; skos:prefLabel "1. Shared interface structure"@en ; cd:activeDiagramNode ex:ted-unit-model ; cd:authoredResource true .
-  ex:ted-unit-state-specs a cd:DiagramState ; cd:position 2 ; skos:prefLabel "2. Atomic and composite specializations"@en ; cd:activeDiagramNode ex:ted-unit-model, ex:ted-unit-specializations ; cd:authoredResource true .
-  ex:ted-unit-state-operation a cd:DiagramState ; cd:position 3 ; skos:prefLabel "3. Concrete operation and its implementation"@en ; cd:activeDiagramNode ex:ted-unit-model, ex:ted-unit-specializations, ex:ted-unit-operation ; cd:authoredResource true .
+  ex:ted-unit-state-specs a cd:DiagramState ; cd:position 2 ; skos:prefLabel "2. Atomic and composite specializations"@en ; cd:activeDiagramNode ex:ted-unit-model, ex:ted-unit-specializations ; cd:activeDiagramEdge ex:ted-unit-edge1 ; cd:authoredResource true .
+  ex:ted-unit-state-operation a cd:DiagramState ; cd:position 3 ; skos:prefLabel "3. Concrete operation and its implementation"@en ; cd:activeDiagramNode ex:ted-unit-model, ex:ted-unit-specializations, ex:ted-unit-operation ; cd:activeDiagramEdge ex:ted-unit-edge1, ex:ted-unit-edge2 ; cd:authoredResource true .
   ex:ted-unit-part-port cd:parentDiagramPart ex:ted-unit-part-concept .
   ex:ted-unit-part-role cd:parentDiagramPart ex:ted-unit-part-port .
   ex:ted-unit-part-node cd:parentDiagramPart ex:ted-unit-part-pipeline ; cd:referencesDiagramPart ex:ted-unit-part-concept .
@@ -65,20 +65,20 @@
   ex:ted-unit-part-concept a cd:DiagramNodePart ; cd:position 1 ; skos:prefLabel "ProcessingUnit"@en ; cd:body "Shared processing concept"@en ; cd:authoredResource true .
   ex:ted-unit-part-port a cd:DiagramNodePart ; cd:position 2 ; skos:prefLabel "Port"@en ; cd:body "hasPort → interface"@en ; cd:authoredResource true .
   ex:ted-unit-part-role a cd:DiagramNodePart ; cd:position 3 ; skos:prefLabel "PortRole"@en ; cd:body "Input · Output · Parameter"@en ; cd:authoredResource true .
-  ex:ted-unit-part-step a cd:DiagramNodePart ; cd:position 1 ; skos:prefLabel "ProcessingStep"@en ; cd:body "Atomic ProcessingUnit"@en ; cd:authoredResource true .
-  ex:ted-unit-part-pipeline a cd:DiagramNodePart ; cd:position 2 ; skos:prefLabel "ProcessingPipeline"@en ; cd:body "Composite ProcessingUnit"@en ; cd:authoredResource true .
+  ex:ted-unit-part-step a cd:DiagramNodePart ; cd:position 2 ; skos:prefLabel "ProcessingStep"@en ; cd:body "Atomic ProcessingUnit"@en ; cd:authoredResource true .
+  ex:ted-unit-part-pipeline a cd:DiagramNodePart ; cd:position 1 ; skos:prefLabel "ProcessingPipeline"@en ; cd:body "Composite ProcessingUnit"@en ; cd:authoredResource true .
   ex:ted-unit-part-node a cd:DiagramNodePart ; cd:position 3 ; skos:prefLabel "PipelineNode"@en ; cd:body "runs a ProcessingUnit"@en ; cd:authoredResource true .
   ex:ted-unit-part-average a cd:DiagramNodePart ; cd:position 1 ; skos:prefLabel "qalg:FindPeaks"@en ; cd:body "ProcessingStep + ServiceOperation"@en ; cd:authoredResource true .
   ex:ted-unit-part-ports a cd:DiagramNodePart ; cd:position 2 ; skos:prefLabel "Concrete ports"@en ; cd:body "Input: EIC vector\nOutput: Peak list"@en ; cd:authoredResource true .
   ex:ted-unit-part-binding a cd:DiagramNodePart ; cd:position 3 ; skos:prefLabel "Binding"@en ; cd:body "FindPeaks_binding\nImplementation"@en ; cd:authoredResource true .
-  ex:ted-unit-edge1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:ted-unit-model ; cd:targetNode ex:ted-unit-specializations ; skos:prefLabel "specialize"@en ; cd:authoredResource true .
-  ex:ted-unit-edge2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:ted-unit-specializations ; cd:targetNode ex:ted-unit-operation ; skos:prefLabel "specify"@en ; cd:authoredResource true .
+  ex:ted-unit-edge1 a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:ted-unit-model ; cd:sourceDiagramPart ex:ted-unit-part-concept ; cd:targetNode ex:ted-unit-specializations ; skos:prefLabel "specialize"@en ; cd:authoredResource true .
+  ex:ted-unit-edge2 a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:ted-unit-specializations ; cd:sourceDiagramPart ex:ted-unit-part-step ; cd:targetNode ex:ted-unit-operation ; cd:targetDiagramPart ex:ted-unit-part-average ; skos:prefLabel "specify"@en ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-processing-step, ex:ted-composable-steps, ex:ted-processing-unit ; cd:hasStep ex:ted-step-processing-step, ex:ted-step-composable-steps, ex:ted-step-processing-unit .
-  ex:ted-step-processing-step a cd:PathStep ; cd:position 17 ; cd:usesResource ex:ted-step-flow, ex:ted-interface-takeaway ; cd:usesScene ex:ted-scene-processing-step ; cd:authoredResource true .
-  ex:ted-step-composable-steps a cd:PathStep ; cd:position 18 ; cd:usesResource ex:ted-chain-flow, ex:ted-chain-points ; cd:usesScene ex:ted-scene-composable-steps ; cd:authoredResource true .
-  ex:ted-step-processing-unit a cd:PathStep ; cd:position 19 ; cd:usesResource ex:ted-unit-flow, ex:ted-unit-points ; cd:usesScene ex:ted-scene-processing-unit ; cd:authoredResource true .
+  ex:ted-step-processing-step a cd:PathStep ; cd:position 20 ; cd:usesResource ex:ted-step-flow, ex:ted-interface-takeaway ; cd:usesScene ex:ted-scene-processing-step ; cd:authoredResource true .
+  ex:ted-step-composable-steps a cd:PathStep ; cd:position 21 ; cd:usesResource ex:ted-chain-flow, ex:ted-chain-points ; cd:usesScene ex:ted-scene-composable-steps ; cd:authoredResource true .
+  ex:ted-step-processing-unit a cd:PathStep ; cd:position 22 ; cd:usesResource ex:ted-unit-flow, ex:ted-unit-points ; cd:usesScene ex:ted-scene-processing-unit ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-processing-units> {
   ex:ted-scene-processing-step a cd:SceneDefinition ; cd:focusConcept ex:ted-processing-step ; cd:hasSceneItem ex:ted-step-heading, ex:ted-step-diagram, ex:ted-step-bullets ; cd:narration "Transfer the semantic-description idea to data processing. A step receives input data, performs a defined transformation and produces output data. Parameters configure what happens inside. We first describe this boundary without opening the algorithm. The schematic shows one input and output for clarity, not a restriction to one port. A semantic description must say what the data mean, not just where a file is stored."@en ; cd:authoredResource true .

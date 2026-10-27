@@ -221,6 +221,10 @@ dialog.pcd-rule-dialog.pcd-port-dialog { width:min(94vw, 82rem); max-width:94vw;
 
 .reveal .d3-flow-edge { stroke: var(--pcd-accent); stroke-width: 2; }
 .reveal .d3-flow-edge-state-active { stroke-width: 5; }
+.reveal .d3-flow-edge-label-group.d3-flow-edge-state-active .d3-flow-edge-label-panel {
+  fill: var(--pcd-chart-series-1); stroke: var(--pcd-chart-series-1); stroke-width: 3;
+}
+.reveal .d3-flow-edge-label-group.d3-flow-edge-state-active .d3-flow-edge-label { fill: #07131f; font-weight: 900; }
 
 /* State semantics are generic: context remains legible while a node or group owns focus.
    Shared diagram tokens in diagram-tokens.css own the numeric values. */

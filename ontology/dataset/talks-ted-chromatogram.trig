@@ -14,7 +14,7 @@
     cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;
     # The annotations describe the selected EIC; the TIC is its contextual series.
     cd:usesDataset ex:ted-schematic-eic ; dct:hasPart ex:ted-schematic-signal ;
-    cd:hasChartAnnotation ex:ted-select-eic, ex:ted-marker-candidate-a, ex:ted-marker-area ;
+    cd:hasChartAnnotation ex:ted-select-eic, ex:ted-marker-candidate-a, ex:ted-marker-spectrum, ex:ted-marker-area ;
     dct:references ex:ted-polymer-markers ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
 
   ex:ted-schematic-signal a cd:Dataset ; skos:prefLabel "Synthetic total-ion chromatogram (TIC)"@en ;
@@ -203,5 +203,6 @@
 
   ex:ted-select-eic a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Selected EIC"@en ; cd:targetObservation ex:ted-e60 ; cd:focusSeries true ; cd:authoredResource true .
   ex:ted-marker-candidate-a a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "Characteristic marker candidate"@en ; cd:targetObservation ex:ted-e36 ; cd:authoredResource true .
-  ex:ted-marker-area a cd:ChartRangeAnnotation ; cd:position 3 ; cd:body "Marker area → calibration"@en ; cd:startObservation ex:ted-e33 ; cd:endObservation ex:ted-e39 ; cd:authoredResource true .
+  ex:ted-marker-spectrum a cd:ChartPointAnnotation ; cd:position 3 ; cd:body "Compare spectrum + reference"@en ; cd:targetObservation ex:ted-e36 ; cd:annotationMedia ex:ted-marker-spectrum-image ; cd:authoredResource true .
+  ex:ted-marker-area a cd:ChartRangeAnnotation ; cd:position 4 ; cd:body "Marker area → calibration"@en ; cd:startObservation ex:ted-e33 ; cd:endObservation ex:ted-e39 ; cd:authoredResource true .
 }

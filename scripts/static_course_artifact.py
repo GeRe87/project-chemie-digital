@@ -88,6 +88,10 @@ def media_uris(blocks):
             yield from media_uris(block["children"])
         elif block["kind"] == "media-reference":
             yield block["uri"]
+        elif block["kind"] == "chart":
+            for annotation in block.get("annotations", []):
+                if annotation.get("media"):
+                    yield annotation["media"]["uri"]
         elif block["kind"] == "diagram":
             for state in block.get("states", []):
                 for presentation in state.get("nodePresentations", []):

@@ -16,7 +16,7 @@ assert.equal(manifest.documents.length,1);
 const entry=manifest.documents[0];
 const artifact=await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes=artifact.sceneDocuments[0].scenes;
-assert.equal(scenes.length,25,"Expected title + 24 authored content scenes");
+assert.equal(scenes.length,29,"Expected title + 28 authored content scenes");
 // Run the actual production policy, not a blanket search over machine-readable
 // provenance, source descriptions and already-approved demonstration asset URLs.
 const publicArtifact=await(await fetch(`${base}/course-runtime.json`)).json();
@@ -68,8 +68,9 @@ try {
           }
           const geometry=await current.evaluate(section=>{
             const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
-             const visual=[...section.querySelectorAll(".teaching-svg,.d3-flow-svg,.d3-chart-svg,.media-reference img,.media-reference video,.definition-list,.code-block,svg")]
-               .find(element=>{const r=element.getBoundingClientRect();return r.width>0&&r.height>0;});
+             const visible=element=>{const r=element.getBoundingClientRect();return r.width>0&&r.height>0;};
+             const visual=[...section.querySelectorAll(".teaching-svg,.d3-flow-svg,.d3-chart-svg,.media-reference img,.media-reference video")].find(visible)
+               ?? [...section.querySelectorAll(".definition-list,.code-block,svg")].find(visible);
             const nodes=[...section.querySelectorAll("h1,h2,.keypoint-list li,.teaching-svg")];
             const returnControl=document.querySelector(".pcd-return-world");
             return {section:rect(section),visual:visual?rect(visual):null,returnControl:returnControl?rect(returnControl):null,

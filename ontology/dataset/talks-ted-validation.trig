@@ -1,0 +1,54 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix demo: <https://example.org/ted-validation/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# The deliberately invalid teaching graph is never a production pipeline.
+# Tests select these data graphs and this untargeted shape explicitly, so the
+# negative example does not invalidate the authored learning dataset itself.
+<https://w3id.org/project-chemie-digital/graph/examples/ted-validation-v1> {
+  demo:connection-v1 a demo:ProcessingConnection ; demo:outputType demo:PeakVector ; demo:inputType demo:IntegerValue .
+  demo:revision-v1 dct:hasVersion "v1" ; prov:generatedAtTime "2026-10-27T10:00:00Z"^^xsd:dateTime ; dct:description "Illustrative revision and timestamp, not an actual instrument run."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/examples/ted-validation-v2> {
+  demo:connection-v2 a demo:ProcessingConnection ; demo:outputType demo:PeakVector ; demo:inputType demo:PeakVector .
+  demo:revision-v2 dct:hasVersion "v2" ; prov:generatedAtTime "2026-10-27T10:05:00Z"^^xsd:dateTime ; prov:wasRevisionOf demo:revision-v1 ; dct:description "Illustrative revision and timestamp, not an actual instrument run."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/ted-validation-demo> {
+  demo:CompatibleConnectionShape a sh:NodeShape ; sh:property [ sh:path demo:outputType ; sh:minCount 1 ; sh:maxCount 1 ; sh:equals demo:inputType ; sh:message "Declared output and input types must match in this simplified example."@en ] .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-validation> {
+  ex:ted-pipeline-validation a cd:Concept ; skos:prefLabel "A semantic pipeline is more than documentation"@en ; cd:hasDefinition ex:ted-validation-definition ; cd:hasSource ex:ted-source-shacl-slide ; cd:authoredResource true .
+  ex:ted-validation-definition a cd:Definition ; cd:body "One RDF description can document declared processing interfaces and supply data for explicit SHACL constraints. In the simplified example Peak Detection outputs PeakVector while Peak Integration first requires IntegerValue. The declared equality constraint fails; after correcting the input to PeakVector it passes. The two example named data graphs and selected SHACL shape are exercised in regression tests. Version identifiers, revision links and timestamps are explicit metadata recorded by the authoring system, not automatic properties of RDF or SHACL. Both historical revisions can be retained with their own validation evidence. A passing static check establishes only the constraints actually expressed; units, multiplicity, structure, conversion, implementation behavior and scientific appropriateness need further rules and tests."@en ; cd:hasSource ex:ted-source-shacl-slide ; cd:authoredResource true .
+  ex:ted-validation-takeaway a cd:Interpretation ; cd:body "**Document → validate → retain the revision.** SHACL checks declared constraints, not analytical correctness. Record version, timestamp and validation evidence explicitly."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-validation> {
+  ex:ted-validation-flow a cd:FlowDiagram ; skos:prefLabel "Declared interfaces, SHACL report and revision history"@en ; cd:body "Simplified teaching example, tested against the selected SHACL shape. Stage 1: type mismatch. Stage 2: corrected input type. Version and timestamp metadata are recorded explicitly; a pass is not proof of successful execution or analytical correctness."@en ; cd:hasDiagramNode ex:ted-validation-output, ex:ted-validation-input, ex:ted-validation-report, ex:ted-validation-history ; cd:hasDiagramEdge ex:ted-validation-connect, ex:ted-validation-check, ex:ted-validation-record ; cd:hasDiagramState ex:ted-validation-bad, ex:ted-validation-good ; cd:hasSource ex:ted-source-shacl-slide ; cd:authoredResource true .
+  ex:ted-validation-output a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Peak detection"@en ; cd:body "OUTPUT: PeakVector\nPeak candidates"@en ; cd:visualRole "input" ; cd:visualMotif "peak-search" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:ted-validation-input a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Peak integration"@en ; cd:body "INPUT: IntegerValue\nSingle integer required"@en ; cd:visualRole "process" ; cd:visualMotif "processing-composition" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:ted-validation-report a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "SHACL: failed"@en ; cd:body "conforms: false\nDeclared types do not match"@en ; cd:visualRole "output" ; cd:visualMotif "workflow-results" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:ted-validation-history a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Revision history"@en ; cd:body "v1: mismatch\nRecord version + timestamp\nRetain validation report"@en ; cd:visualRole "storage" ; cd:visualMotif "data-server" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:ted-validation-connect a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:ted-validation-output ; cd:targetNode ex:ted-validation-input ; skos:prefLabel "declared connection"@en ; cd:authoredResource true .
+  ex:ted-validation-check a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:ted-validation-input ; cd:targetNode ex:ted-validation-report ; skos:prefLabel "check shapes"@en ; cd:authoredResource true .
+  ex:ted-validation-record a cd:DiagramEdge ; cd:position 3 ; cd:sourceNode ex:ted-validation-report ; cd:targetNode ex:ted-validation-history ; skos:prefLabel "record evidence"@en ; cd:authoredResource true .
+  ex:ted-validation-bad a cd:DiagramState ; cd:position 1 ; skos:prefLabel "v1: PeakVector output does not match IntegerValue input"@en ; cd:authoredResource true .
+  ex:ted-validation-good a cd:DiagramState ; cd:position 2 ; skos:prefLabel "v2: correct the declared input, validate and retain both revisions"@en ; cd:hasNodePresentation ex:ted-validation-good-input, ex:ted-validation-good-report, ex:ted-validation-good-history ; cd:authoredResource true .
+  ex:ted-validation-good-input a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-input ; cd:body "INPUT: PeakVector\nPeak candidates"@en ; cd:authoredResource true .
+  ex:ted-validation-good-report a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-report ; skos:prefLabel "SHACL: passed"@en ; cd:body "conforms: true\nDeclared types match"@en ; cd:authoredResource true .
+  ex:ted-validation-good-history a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-history ; cd:body "v1 → v2: corrected input\nTimestamp per revision\nKeep both reports"@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
+  ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-pipeline-validation ; cd:hasStep ex:ted-step-validation .
+  ex:ted-step-validation a cd:PathStep ; cd:position 24 ; cd:usesResource ex:ted-validation-flow, ex:ted-validation-takeaway ; cd:usesScene ex:ted-scene-validation ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-validation> {
+  ex:ted-scene-validation a cd:SceneDefinition ; cd:focusConcept ex:ted-pipeline-validation ; cd:hasSceneItem ex:ted-validation-heading, ex:ted-validation-visual, ex:ted-validation-footer ; cd:narration "A semantic pipeline is executable documentation for validation as well as a description. Our small teaching vocabulary has a PeakVector output and an initially incompatible IntegerValue input. The explicitly selected SHACL equality rule reports a violation. In stage two we change the declared input to PeakVector and the same rule passes. These outcomes are exercised against separate authored named data graphs and a selected shape in the tests; the slide is not performing live validation. Real interfaces also need units, structure, multiplicity, conversions and domain restrictions. A pass does not prove that software executes successfully or that a method is scientifically correct. Record each revision, its timestamp and its report so the corrected description remains linked to its history. Versioning is implemented by the surrounding system and explicit provenance metadata; RDF and SHACL do not create it automatically. The example graph timestamps are illustrative, not measurement or execution times."@en ; cd:authoredResource true .
+  ex:ted-validation-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-pipeline-validation ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-validation-visual a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-validation-flow ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-validation-footer a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-validation-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

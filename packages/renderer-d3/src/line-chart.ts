@@ -65,7 +65,7 @@ function fallback(block: LineChartBlock): string {
       `Series: ${series.label}`,
       ...series.data.map((datum) => `- x=${datum.x}${xu}, y=${datum.y}${yu}`),
     ]),
-    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}${annotation.kind === "point" && annotation.media ? `; ${annotation.media.alternativeText}` : ""}`),
   ].join("\n");
 }
 
@@ -169,6 +169,7 @@ export function mountD3LineChart(
       const visible = currentStep >= requiredStep;
       group.style.opacity = visible ? "1" : "0";
       group.style.transform = visible ? "translateY(0)" : "translateY(8px)";
+      group.setAttribute("aria-hidden", String(!visible));
     }
   };
 
@@ -177,10 +178,12 @@ export function mountD3LineChart(
     chartSvg.replaceChildren();
     const width = Math.max(680, Math.round(host.getBoundingClientRect().width || 1000));
     const height = Math.max(480, Math.round(width * 0.52));
-    const margin = { top: 54, right: 58, bottom: 82, left: 98 };
+    const hasMedia = model.annotations.some(annotation => annotation.kind === "point" && annotation.media);
+    const insetHeight = hasMedia ? Math.max(160, Math.round(width * 0.22)) : 0;
+    const margin = { top: 54 + insetHeight, right: 58, bottom: 82, left: 98 };
     const plotWidth = width - margin.left - margin.right;
-    const plotHeight = height - margin.top - margin.bottom;
-    chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    const plotHeight = height - 54 - margin.bottom;
+    chartSvg.setAttribute("viewBox", `0 0 ${width} ${height + insetHeight}`);
 
     const allData = model.series.flatMap((series) => series.data);
     const minX = Math.min(...allData.map((datum) => datum.x));
@@ -223,6 +226,22 @@ export function mountD3LineChart(
       grid.append(tickText);
     }
     chartSvg.append(grid);
+    if (model.series.length > 1) {
+      model.series.forEach((series, index) => {
+        const legend = svg("text"); legend.classList.add("d3-chart-series-legend", `d3-chart-series-${index % 5 + 1}`);
+        legend.setAttribute("x", String(margin.left + index * plotWidth / model.series.length));
+        legend.setAttribute("y", String(margin.top - 30)); legend.setAttribute("font-size", "16");
+        legend.style.fill = `var(--pcd-chart-series-${index % 5 + 1})`;
+        const capacity = Math.max(12, Math.floor(plotWidth / model.series.length / 8.5));
+        const rows: string[] = [""];
+        for (const word of series.label.split(/\s+/u)) {
+          if (rows.at(-1)!.length + word.length + 1 > capacity && rows.at(-1)) rows.push("");
+          rows[rows.length - 1] += (rows.at(-1) ? " " : "") + word;
+        }
+        rows.forEach((row, line) => {const span = svg("tspan"); span.setAttribute("x", legend.getAttribute("x")!); span.setAttribute("dy", line ? "17" : "0"); span.textContent = row; legend.append(span);});
+        chartSvg.append(legend);
+      });
+    }
 
     const lines = svg("g");
     lines.classList.add("d3-chart-line-layer");
@@ -332,6 +351,15 @@ export function mountD3LineChart(
         group.append(label);
       }
       chartSvg.append(group);
+      if (annotation.kind === "point" && annotation.media) {
+        const image = svg("image");
+        image.setAttribute("href", annotation.media.uri);
+        image.setAttribute("x", String(margin.left + plotWidth * 0.45));
+        image.setAttribute("y", "8"); image.setAttribute("width", String(plotWidth * 0.55));
+        image.setAttribute("height", String(insetHeight));
+        image.setAttribute("role", "img"); image.setAttribute("aria-label", annotation.media.alternativeText);
+        image.classList.add("d3-chart-annotation-media"); group.append(image);
+      }
       if (annotation.kind === "point") {
         const label = group.querySelector<SVGTextElement>(".d3-chart-annotation-label");
         const connector = group.querySelector<SVGPathElement>(".d3-chart-annotation-connector");
@@ -375,7 +403,7 @@ export function mountD3LineChart(
     const xTitle = svg("text");
     xTitle.classList.add("d3-chart-axis-title");
     xTitle.setAttribute("x", String(margin.left + plotWidth / 2));
-    xTitle.setAttribute("y", String(height - 18));
+    xTitle.setAttribute("y", String(height + insetHeight - 18));
     xTitle.setAttribute("text-anchor", "middle");
     xTitle.textContent = model.xAxisUnit ? `${model.xAxisLabel} (${model.xAxisUnit})` : model.xAxisLabel;
     axes.append(xTitle);

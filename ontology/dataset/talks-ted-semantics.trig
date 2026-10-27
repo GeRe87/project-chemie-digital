@@ -21,7 +21,7 @@
   ex:ted-semantics-definition a cd:Definition ; cd:body "A semantic description identifies entities independently of their display names and relates them with explicit, defined predicates. RDF statements connect a subject, predicate and object; the object can be another identified resource or a literal such as a name. Prefixes abbreviate IRIs, not their meaning. Here schema.org supplies name, alternateName and worksFor; the W3C Organization Ontology supplies memberOf, unitOf and headOf. UDE is another name for the same university, not a second university. The pronoun He is resolved to Gerrit, and the lab group is related to both its university and its head. TriG serializes an RDF Dataset with named graphs. The prose, TriG and diagram express the same illustrative affiliation story. This pedagogical example uses example.org identifiers and author-supplied affiliations, not persistent production identifiers or independently verified employment records. In processing, replace people and organizations with identified steps, tools and data, and use domain vocabularies for their inputs, outputs, parameters, units and provenance."@en ; cd:hasSource ex:ted-source-semantics-example, ex:ted-source-trig ; cd:authoredResource true .
   ex:ted-semantics-prose a cd:Interpretation ; cd:body "**Prose**\n\nGerrit works at the University of Duisburg-Essen, also called UDE. He works in Torsten C. Schmidt's lab group, Instrumental Analytical Chemistry."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
   ex:ted-semantics-explicit a cd:Interpretation ; cd:body "**Make the meaning explicit**\n\nGive entities IDs, use defined relationships, and attach aliases to the same entity."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
-  ex:ted-semantics-triple a cd:Interpretation ; cd:body "**Subject → predicate → object**\n\nGerrit → worksFor → UDE."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+  ex:ted-semantics-triple a cd:Interpretation ; cd:body "**Subject → predicate → object**\n\nGerrit → worksFor → University of Duisburg-Essen.\n\nUniversity of Duisburg-Essen → alternateName → UDE."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
   ex:ted-semantics-code a cd:CodeExample ; skos:prefLabel "The same statements as TriG"@en ; cd:programmingLanguage "trig" ; cd:editable false ; cd:executable false ; cd:showsResource ex:ted-semantic-description ;
     cd:code """@prefix : <https://example.org/fair-demo/> .
 @prefix schema: <https://schema.org/> .
@@ -62,7 +62,7 @@
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-semantic-description ; cd:hasStep ex:ted-step-semantics .
   ex:ted-step-semantics cd:usesResource ex:ted-semantics-explicit, ex:ted-semantics-triple .
-  ex:ted-step-semantics a cd:PathStep ; cd:position 16 ; cd:usesResource ex:ted-semantics-prose, ex:ted-semantics-code, ex:ted-affiliation-network ; cd:usesScene ex:ted-scene-semantics ; cd:authoredResource true .
+  ex:ted-step-semantics a cd:PathStep ; cd:position 19 ; cd:usesResource ex:ted-semantics-prose, ex:ted-semantics-code, ex:ted-affiliation-network ; cd:usesScene ex:ted-scene-semantics ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-semantics> {
   ex:ted-scene-semantics a cd:SceneDefinition ; cd:focusConcept ex:ted-semantic-description ; cd:hasSceneItem ex:ted-semantics-heading, ex:ted-semantics-text, ex:ted-semantics-code-item, ex:ted-semantics-network-item ;

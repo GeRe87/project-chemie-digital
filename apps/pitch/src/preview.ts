@@ -5,7 +5,7 @@ import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
 import { regressionStaticFallback } from "../../../packages/core/src/regression-chart.ts";
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
-import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
+import { teachingTextMarkup, teachingInlineMarkup, teachingListItemMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { timelineStaticFallback, dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
@@ -400,9 +400,9 @@ function appendBlock(
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
-      const itemText = dom.createElement("span");
+      const itemText = dom.createElement("div");
       itemText.className = "pcd-list-item-text";
-      if (/\*\*|==/u.test(item.text)) itemText.innerHTML = teachingInlineMarkup(item.text);
+      if (/\*\*|==|\n\s{2,}-/u.test(item.text)) itemText.innerHTML = teachingListItemMarkup(item.text);
       else itemText.textContent = item.text;
       listItem.appendChild(itemText);
       if (block.listStyle === "unordered") {

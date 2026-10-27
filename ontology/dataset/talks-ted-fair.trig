@@ -21,12 +21,15 @@
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-fair-processing ; cd:hasStep ex:ted-step-fair .
-  ex:ted-step-fair a cd:PathStep ; cd:position 15 ; cd:usesResource ex:ted-fair-cards, ex:ted-fair-points ; cd:usesScene ex:ted-scene-fair ; cd:authoredResource true .
+  ex:ted-step-fair a cd:PathStep ; cd:position 18 ; cd:usesResource ex:ted-fair-cards, ex:ted-fair-points ; cd:usesScene ex:ted-scene-fair ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-fair> {
   ex:ted-scene-fair a cd:SceneDefinition ; cd:focusConcept ex:ted-fair-processing ; cd:hasSceneItem ex:ted-fair-heading, ex:ted-fair-card-item, ex:ted-fair-bullets ;
     cd:narration "FAIR stands for Findable, Accessible, Interoperable and Reusable. Our processing contains multiple steps and possibly multiple tools. A file passed from one program to another is not enough: its meaning must survive. Give the data and metadata persistent identifiers and searchable descriptions; provide standard retrieval and explicit permissions; use shared, formal vocabularies and qualified links; retain context, provenance, licenses and community standards. Describe each process, its inputs and outputs, parameters and units, software version and execution so humans and machines can interpret the same statements. Standardized semantics is the bridge between tools, especially for interoperability and reuse, not a substitute for all other FAIR obligations. FAIR can include controlled access. Source: Wilkinson et al. (2016), doi:10.1038/sdata.2016.18. The next slide makes a semantic description concrete with a small everyday example."@en ; cd:authoredResource true .
   ex:ted-fair-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:ted-fair-processing ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
   ex:ted-fair-card-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-fair-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
-  ex:ted-fair-bullets a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-fair-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-comparison a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-fair-comparison-image ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-formula a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:ted-fair-comparison-label ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-fair-bullets a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:ted-fair-points ; cd:communicativeRole cd:KeyPointRole ; cd:selectionPath "cd:hasKeyPoint" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-scene-fair cd:hasSceneItem ex:ted-fair-comparison, ex:ted-fair-formula .
 }

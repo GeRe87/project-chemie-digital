@@ -1669,18 +1669,22 @@ function hierarchyFanoutLayout(
 /** Recognize a controller-mediated execution/archive system by roles and edges, never identities or labels. */
 function orchestrationSystemLayout(input: D3FlowLayoutInput): D3FlowLayout | undefined {
   const roles = ["input", "control", "process", "output", "specification", "storage"] as const;
-  if (input.diagramType !== "network" || input.nodes.length !== roles.length || input.edges.length !== 6) return undefined;
+  if (input.diagramType !== "network" || input.nodes.length !== roles.length || ![5, 6].includes(input.edges.length)) return undefined;
   const byRole = new Map(roles.map(role => [role, input.nodes.filter(node => node.visualRole === role)]));
   if ([...byRole.values()].some(nodes => nodes.length !== 1)) return undefined;
   const id = (role: typeof roles[number]) => byRole.get(role)![0]!.id;
   const pairs = [["input", "control"], ["control", "process"], ["process", "output"], ["specification", "process"], ["output", "control"], ["control", "storage"]] as const;
-  if (!pairs.every(([source, target]) => input.edges.some(edge => edge.sourceNodeId === id(source) && edge.targetNodeId === id(target)))) return undefined;
-  const cardWidth = 280, gap = 120, margin = 32, rowGap = 108;
+  const hubPairs = [["specification", "process"], ["input", "process"], ["control", "process"], ["process", "output"], ["output", "storage"]] as const;
+  const hub = input.edges.length === 5 && hubPairs.every(([source, target]) => input.edges.some(edge => edge.sourceNodeId === id(source) && edge.targetNodeId === id(target)));
+  if (!hub && !pairs.every(([source, target]) => input.edges.some(edge => edge.sourceNodeId === id(source) && edge.targetNodeId === id(target)))) return undefined;
+  const cardWidth = 280, gap = hub ? 180 : 120, margin = 32, rowGap = hub ? 84 : 108;
   const measured = input.nodes.map(node => ({...node,
     labelLines: wrapFlowText(node.label, cardWidth - 40, structuredTitleTextMeasure),
     bodyLines: wrapFlowText(node.description ?? "", cardWidth - 40, bodyTextMeasure)}));
   const cardHeight = Math.max(244, ...measured.map(node => 164 + node.labelLines.length * 28 + node.bodyLines.length * 23));
-  const slots: Readonly<Record<string, readonly [number, number]>> = {input: [0, 1], control: [1, 1], process: [2, 1], output: [3, 1], specification: [2, 0], storage: [1, 0]};
+  const slots: Readonly<Record<string, readonly [number, number]>> = hub
+    ? {input: [0, 1], control: [1, 2], process: [1, 1], output: [2, 1], specification: [1, 0], storage: [3, 1]}
+    : {input: [0, 1], control: [1, 1], process: [2, 1], output: [3, 1], specification: [2, 0], storage: [1, 0]};
   const nodes = measured.map(node => {
     const [column, row] = slots[node.visualRole!]!;
     return {id: node.id, width: cardWidth, height: cardHeight, labelLines: node.labelLines, bodyLines: node.bodyLines,
@@ -1693,10 +1697,14 @@ function orchestrationSystemLayout(input: D3FlowLayoutInput): D3FlowLayout | und
     const source = nodeById.get(edge.sourceNodeId)!, target = nodeById.get(edge.targetNodeId)!;
     const from = roleById.get(source.id), to = roleById.get(target.id);
     let points: D3FlowLayoutPoint[], labelX: number, labelY: number;
-    if (from === "output" && to === "control") {
+    if (hub && source.x === target.x) {
+      const down = target.y > source.y;
+      points = [{x: source.x, y: source.y + (down ? cardHeight / 2 : -cardHeight / 2)}, {x: target.x, y: target.y + (down ? -cardHeight / 2 : cardHeight / 2)}];
+      labelX = source.x; labelY = (points[0]!.y + points[1]!.y) / 2;
+    } else if (from === "output" && to === "control") {
       points = [{x: source.x, y: source.y + cardHeight / 2}, {x: source.x, y: returnY}, {x: target.x, y: returnY}, {x: target.x, y: target.y + cardHeight / 2}];
       labelX = (source.x + target.x) / 2; labelY = returnY;
-    } else if (from === "specification" || to === "storage") {
+    } else if (!hub && (from === "specification" || to === "storage")) {
       const down = target.y > source.y;
       points = [{x: source.x, y: source.y + (down ? cardHeight / 2 : -cardHeight / 2)}, {x: target.x, y: target.y + (down ? -cardHeight / 2 : cardHeight / 2)}];
       labelX = source.x; labelY = (points[0]!.y + points[1]!.y) / 2;
@@ -1706,11 +1714,11 @@ function orchestrationSystemLayout(input: D3FlowLayoutInput): D3FlowLayout | und
     }
     return {id: edge.id, sourceNodeId: source.id, targetNodeId: target.id,
       x1: points[0]!.x, y1: points[0]!.y, x2: points.at(-1)!.x, y2: points.at(-1)!.y,
-      routePoints: points, labelX, labelY, labelLines: wrapFlowText(edge.label, from === "output" || from === "specification" || to === "storage" ? 200 : gap - 46),
+      routePoints: points, labelX, labelY, labelLines: wrapFlowText(edge.label, hub ? (source.x === target.x ? 200 : gap - 36) : from === "output" || from === "specification" || to === "storage" ? 200 : gap - 46),
       ...(edge.visualRole ? {visualRole: edge.visualRole} : {})};
   });
   return {orientation: "horizontal", strategy: "orchestration-system", width: margin * 2 + cardWidth * 4 + gap * 3,
-    height: returnY + margin, nodes, edges, groups: [], states: (input.states ?? []).map(state => ({id: state.id, sharedEdgeAnnotations: state.sharedEdgeAnnotations}))};
+    height: hub ? margin * 2 + cardHeight * 3 + rowGap * 2 : returnY + margin, nodes, edges, groups: [], states: (input.states ?? []).map(state => ({id: state.id, sharedEdgeAnnotations: state.sharedEdgeAnnotations}))};
 }
 
 /** Deterministic renderer-only geometry derived from graph topology and canonical array order. */

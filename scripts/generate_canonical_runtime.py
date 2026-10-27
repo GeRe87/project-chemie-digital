@@ -496,6 +496,13 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
             "source": [source_reference(dataset, edge, relation_path)],
         }
         visual_role = one(dataset, edge, iri(CD, "visualRole"), required=False)
+        for predicate, key, node in (("sourceDiagramPart", "sourcePartId", source_node), ("targetDiagramPart", "targetPartId", target_node)):
+            part = one(dataset, edge, iri(CD, predicate), required=False)
+            if part is not None:
+                if part not in objects(dataset, node, iri(CD, "hasDiagramNodePart")):
+                    raise ValueError("Edge endpoint part must belong to its endpoint node")
+                edge_value[key] = compact(part)
+                edge_value["source"].append(source_reference(dataset, edge, "cd:" + predicate))
         if visual_role is not None:
             edge_value["visualRole"] = str(visual_role)
         contract = one(dataset, edge, iri(CD, "hasPortContract"), required=False)
@@ -867,6 +874,15 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
         }
         if is_resource_type(dataset, annotation, "ChartPointAnnotation"):
             target = one(dataset, annotation, iri(CD, "targetObservation"))
+            media = one(dataset, annotation, iri(CD, "annotationMedia"), required=False)
+            if media is not None:
+                if not is_resource_type(dataset, media, "MediaAsset"):
+                    raise ValueError("Annotation media must be a MediaAsset")
+                uri = str(one(dataset, media, iri(CD, "uri")))
+                if not re.fullmatch(r"/[A-Za-z0-9_./-]+", uri) or ".." in uri:
+                    raise ValueError("Annotation media must be a local asset")
+                base["media"] = {"uri": uri, "alternativeText": selected_literal(dataset, media, iri(CD, "alternativeText"), "cd:alternativeText", language)}
+                base["source"].extend([source_reference(dataset, annotation, "cd:annotationMedia"), source_reference(dataset, media, "cd:uri")])
             focus = one(dataset, annotation, iri(CD, "focusSeries"), required=False)
             if focus is not None:
                 if not isinstance(focus, Literal) or focus.datatype != XSD.boolean:
@@ -1365,6 +1381,12 @@ def timeline_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tu
                                            ((lane, "cd:startOffset"), (lane, "cd:repeatEvery"), (lane, "cd:hasTimelineInterval"),
                                             (phase, "cd:startOffset"), (phase, "cd:duration"), (phase, "cd:intervalCategory"),
                                             (run, "cd:position"), (run, "skos:prefLabel@" + language))]}
+                    show_label = one(dataset, category, iri(CD, "labelsRun"), required=False)
+                    if show_label is not None:
+                        if not isinstance(show_label, Literal) or show_label.datatype != XSD.boolean:
+                            raise ValueError("Timeline labelsRun must be boolean")
+                        interval["showRunLabel"] = bool(show_label.toPython())
+                        interval["source"].append(source_reference(dataset, category, "cd:labelsRun"))
                     intervals.append(interval)
             lanes.append({**identity(lane), "intervals": intervals})
         scenario = {**identity(schedule), "lanes": lanes}
@@ -2562,7 +2584,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     )
                     annotation_items = "".join(
                         f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
-                        f'{html.escape(annotation["label"])}</li>'
+                        f'{html.escape(annotation["label"])} {html.escape(annotation.get("media", {}).get("alternativeText", ""))}</li>'
                         for annotation in block.get("annotations", [])
                     )
                     body = (
@@ -2653,7 +2675,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                     )
                     annotation_items = "".join(
                         f'<li data-chart-annotation-id="{html.escape(annotation["id"], quote=True)}">'
-                        f'{html.escape(annotation["label"])}</li>'
+                        f'{html.escape(annotation["label"])} {html.escape(annotation.get("media", {}).get("alternativeText", ""))}</li>'
                         for annotation in block.get("annotations", [])
                     )
                     body = f'<ol class="chart-data">{point_items}</ol><ul class="chart-annotations">{annotation_items}</ul>'

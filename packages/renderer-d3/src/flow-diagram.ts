@@ -51,6 +51,8 @@ export interface D3FlowRenderEdge {
   readonly id: string;
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
+  readonly sourcePartId?: string;
+  readonly targetPartId?: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly readingIndex: number;
@@ -230,6 +232,9 @@ function validateFlowBlock(block: DiagramBlock): void {
     validateVisualRole(edge.visualRole, `Flow edge ${edge.id}`);
     if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {
       throw new Error(`Flow edge ${edge.id} references an unknown node`);
+    }
+    for (const [nodeId, partId] of [[edge.sourceNodeId, edge.sourcePartId], [edge.targetNodeId, edge.targetPartId]]) {
+      if (partId !== undefined && !block.nodes.find(node => node.id === nodeId)?.parts?.some(part => part.id === partId)) throw new Error("Edge endpoint part must belong to its endpoint node");
     }
   }
   if (block.focusNodeId !== undefined && !nodeIdSet.has(block.focusNodeId)) {
@@ -434,6 +439,8 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
           id: edge.id,
           sourceNodeId: edge.sourceNodeId,
           targetNodeId: edge.targetNodeId,
+          ...(edge.sourcePartId ? {sourcePartId: edge.sourcePartId} : {}),
+          ...(edge.targetPartId ? {targetPartId: edge.targetPartId} : {}),
           label: edge.label,
           source: cloneSources(edge.source),
           readingIndex,
@@ -1057,7 +1064,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           if (resolvedState.contextEdgeIds.has(edge.id)) path.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(edge.sourceNodeId) && resolvedState.focusNodeIds.has(edge.targetNodeId)) path.setAttribute("data-diagram-state-focus", "true");
            if (edge.visualRole) path.setAttribute("data-visual-role", edge.visualRole);
-           if (activeAnnotatedEdgeIds.has(edge.id)) path.classList.add("d3-flow-edge-state-active");
+           if (activeAnnotatedEdgeIds.has(edge.id) || activeState?.activeEdgeIds?.includes(edge.id)) path.classList.add("d3-flow-edge-state-active");
           path.setAttribute("d", d3FlowEdgePath(edge, layout.orientation, layout.strategy));
           path.setAttribute("stroke", "currentColor");
           path.setAttribute("fill", "none");
@@ -1065,7 +1072,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           nextEdgeLayer.append(path);
            if (!activeAnnotatedEdgeIds.has(edge.id) && edge.labelLines.length > 0) {
              const label = addEdgeLabel(nextEdgeLayer, edge, layout.orientation, layout.strategy);
-             const authoredEdge = model.edges.find(candidate => candidate.id === edge.id);
+              const authoredEdge = model.edges.find(candidate => candidate.id === edge.id);
+              if (activeState?.activeEdgeIds?.includes(edge.id)) label.classList.add("d3-flow-edge-state-active");
              if (authoredEdge?.codeDetail) {
                label.setAttribute("data-diagram-detail-id", edge.id);
                label.setAttribute("data-presentation-interactive", "true");
@@ -1427,6 +1435,27 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
           path.setAttribute("role", "img");
         }
         svg.append(partReferenceLayer);
+
+        // Endpoint identities are semantic; route geometry remains renderer-owned.
+        for (const edge of model.edges) {
+          if (!edge.sourcePartId && !edge.targetPartId) continue;
+          const sourcePart = edge.sourcePartId ? partGeometry.get(edge.sourcePartId) : undefined;
+          const targetPart = edge.targetPartId ? partGeometry.get(edge.targetPartId) : undefined;
+          const source = layout.nodes.find(node => node.id === edge.sourceNodeId);
+          const target = layout.nodes.find(node => node.id === edge.targetNodeId);
+          const path = Array.from(edgeLayer?.querySelectorAll<SVGPathElement>("path[data-edge-id]") ?? []).find(path => path.dataset.edgeId === edge.id);
+          if (!path || !source || !target) continue;
+          const sx = sourcePart ? sourcePart.x + sourcePart.width / 2 : source.x + source.width / 2;
+          const sy = sourcePart?.y ?? source.y;
+          const tx = targetPart ? targetPart.x - targetPart.width / 2 : target.x - target.width / 2;
+          const ty = targetPart?.y ?? target.y;
+          const gutter = (source.x + source.width / 2 + target.x - target.width / 2) / 2;
+          path.setAttribute("d", `M${sx} ${sy}H${gutter}V${ty}H${tx}`);
+          path.setAttribute("data-source-part-id", edge.sourcePartId ?? "");
+          path.setAttribute("data-target-part-id", edge.targetPartId ?? "");
+          // Endpoint paths must remain visible over their containing node panels.
+          partReferenceLayer.append(path);
+        }
 
         if (layout.groups.length > 0) {
           if (!groupAnnotationLayer) {
