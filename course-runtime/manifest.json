@@ -1,0 +1,61 @@
+{
+  "bindings": [
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-talk-microplastics-ted-gc-ms",
+      "sceneDocumentId": "ex:path-talk-microplastics-ted-gc-ms--scene-document"
+    }
+  ],
+  "collection": {
+    "graphId": "https://w3id.org/project-chemie-digital/graph/presentations/talks",
+    "id": "https://w3id.org/project-chemie-digital/resource/talks",
+    "talks": [
+      {
+        "event": {
+          "id": "https://w3id.org/project-chemie-digital/resource/event-gerstel-microplastics",
+          "name": "GERSTEL Microplastics Expert Meeting"
+        },
+        "id": "https://w3id.org/project-chemie-digital/resource/talk-microplastics-ted-gc-ms",
+        "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms",
+        "pathId": "https://w3id.org/project-chemie-digital/resource/path-talk-microplastics-ted-gc-ms",
+        "title": "Automated and FAIR microplastics analysis using TED-GC-MS"
+      }
+    ],
+    "title": "Talks Overworld",
+    "version": "1.0"
+  },
+  "documents": [
+    {
+      "id": "ex:path-talk-microplastics-ted-gc-ms--scene-document",
+      "pathId": "ex:path-talk-microplastics-ted-gc-ms",
+      "runtime": "course-runtime/7abf2c45a01c4ff0.json",
+      "sceneIds": [
+        "ex:scene-talk-microplastics-title--scene",
+        "ex:ted-scene-overview--scene",
+        "ex:ted-scene-heating--scene",
+        "ex:ted-scene-capture--scene",
+        "ex:ted-scene-injection--scene",
+        "ex:ted-scene-detection--scene",
+        "ex:ted-scene-markers--scene",
+        "ex:ted-scene-bottleneck--scene",
+        "ex:ted-scene-nesting--scene",
+        "ex:ted-scene-heating-rate--scene",
+        "ex:ted-scene-calibration-time--scene",
+        "ex:ted-scene-running-calibration--scene",
+        "ex:ted-scene-sample-comparison--scene",
+        "ex:ted-scene-processing--scene",
+        "ex:ted-scene-fair--scene",
+        "ex:ted-scene-semantics--scene",
+        "ex:ted-scene-processing-step--scene",
+        "ex:ted-scene-composable-steps--scene",
+        "ex:ted-scene-processing-unit--scene",
+        "ex:ted-scene-semantic-pipeline--scene",
+        "ex:ted-scene-automatic-execution--scene",
+        "ex:ted-scene-demo-one--scene",
+        "ex:ted-scene-demo-two--scene",
+        "ex:ted-scene-ai--scene",
+        "ex:ted-scene-thanks--scene"
+      ]
+    }
+  ]
+}

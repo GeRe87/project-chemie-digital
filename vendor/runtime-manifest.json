@@ -1,0 +1,23 @@
+{
+  "codeMirror": {
+    "entry": "/vendor/codemirror/view-6.43.6.mjs",
+    "modules": {
+      "/npm/@codemirror/state@6.7.1/+esm": "/vendor/codemirror/modules/d78b4b9a20b415ccc69ed19c.mjs",
+      "/npm/@codemirror/view@6.43.6/+esm": "/vendor/codemirror/view-6.43.6.mjs",
+      "/npm/@marijn/find-cluster-break@1.0.3/+esm": "/vendor/codemirror/modules/07aade87de2afb924f5d87c1.mjs",
+      "/npm/crelt@1.0.7/+esm": "/vendor/codemirror/modules/090c712ace5e4b4c68f5a827.mjs",
+      "/npm/style-mod@4.1.3/+esm": "/vendor/codemirror/modules/5ed326e63587a4b40315ce7d.mjs",
+      "/npm/w3c-keyname@2.2.8/+esm": "/vendor/codemirror/modules/f1f09e9e01a38d2d323a1a92.mjs"
+    },
+    "version": "6.43.6"
+  },
+  "schemaVersion": 1,
+  "webR": {
+    "archiveSha256": "5821c8bd87484add59064fa13fa62a65f686032f3f64dacf4b0aa34c4325e959",
+    "baseUrl": "/vendor/webr/v0.6.0/",
+    "browserExport": "./dist/webr.js",
+    "module": "/vendor/webr/v0.6.0/webr.js",
+    "npmTarball": "https://registry.npmjs.org/webr/-/webr-0.6.0.tgz",
+    "version": "0.6.0"
+  }
+}

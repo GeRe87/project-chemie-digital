@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect x="12" y="12" width="776" height="496" rx="36" fill="var(--pcd-surface-strong)"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35 360H175M245 150V90H300" stroke="#73d9ff" stroke-width="9"/>
+    <path d="M150 345l20 15-20 15M285 76l18 14-18 14" stroke="#73d9ff" stroke-width="5"/>
+    <rect x="175" y="143" width="140" height="264" rx="28" stroke="var(--pcd-foreground)" stroke-width="5"/>
+    <rect x="218" y="185" width="54" height="175" rx="25" fill="#49d4d1" fill-opacity=".3" stroke="#49d4d1" stroke-width="5"/>
+    <path d="M245 205V340" stroke="#9caec2" stroke-width="15"/>
+    <path d="M278 132C360 40 555 40 625 150" stroke="#e784e7" stroke-width="7"/>
+    <path d="M603 143l24 15 1-28" stroke="#e784e7" stroke-width="6"/>
+    <rect x="525" y="177" width="210" height="248" rx="34" fill="#ff8756" fill-opacity=".12" stroke="#ffad50" stroke-width="5"/>
+    <rect x="575" y="205" width="112" height="180" rx="26" stroke="var(--pcd-foreground)" stroke-width="5"/>
+    <rect x="604" y="240" width="54" height="110" rx="24" fill="#49d4d1" fill-opacity=".3" stroke="#49d4d1" stroke-width="5"/>
+    <path d="M630 258V333" stroke="#9caec2" stroke-width="12"/>
+    <path d="M550 235q-14 18 0 36t0 36M713 235q-14 18 0 36t0 36" stroke="#ff8756" stroke-width="5"/>
+    <path d="M630 425v30H756m-20-14 20 14-20 14" stroke="#73d9ff" stroke-width="8"/>
+  </g>
+  <g fill="#5de3a7"><circle cx="225" cy="220" r="7"/><circle cx="263" cy="260" r="7"/><circle cx="612" cy="266" r="6"/></g>
+  <g fill="#e784e7"><circle cx="263" cy="310" r="7"/><circle cx="225" cy="280" r="7"/><circle cx="649" cy="315" r="6"/></g>
+  <g fill="var(--pcd-foreground)" font-family="sans-serif" font-size="21" text-anchor="middle"><text x="245" y="452">Capture after TGA</text><text x="445" y="110">Transfer Twister</text><text x="630" y="492">Thermal desorption</text></g>
+</svg>
