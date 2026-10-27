@@ -117,6 +117,28 @@ test("short strict linear flows use compact horizontal structure before the gene
   assert.equal(narrow.nodes[1]!.x, narrow.nodes[0]!.x);
 });
 
+test("suppressed repeated labels do not consume card width, while visible labels retain gutters", () => {
+  const input = {
+    diagramType: "flow" as const,
+    nodes: Array.from({length: 6}, (_, i) => ({id: `node:${i}`, label: `Stage ${i + 1}`, description: "Scientific context and interpretation for this stage"})),
+    edges: Array.from({length: 5}, (_, i) => ({id: `edge:${i}`, sourceNodeId: `node:${i}`, targetNodeId: `node:${i + 1}`, label: "builds on"})),
+  };
+  const short = createD3FlowLayout(input, 1180);
+  const long = createD3FlowLayout({...input, edges: input.edges.map((edge, i) => ({...edge,
+    label: i % 2 ? "  A long repeated semantic relationship  " : "a long repeated semantic relationship",
+  }))}, 1180);
+  assert.equal(short.strategy, "space-filling-flow");
+  assert.equal(long.strategy, "space-filling-flow");
+  assert.deepEqual(long.nodes, short.nodes, "invisible label length cannot alter card geometry");
+  assert.equal(long.width, short.width);
+  assert.ok(long.edges.every(edge => edge.labelLines.length === 0));
+  const visible = createD3FlowLayout({...input, edges: input.edges.map((edge, i) => ({...edge,
+    label: i === 2 ? "a different explicit relationship" : "a long repeated semantic relationship",
+  }))}, 1180);
+  assert.ok(visible.edges.every(edge => edge.labelLines.length > 0));
+  assert.ok(visible.nodes[0]!.width < long.nodes[0]!.width, "visible labels still reserve their measured gutter");
+});
+
 test("long strict linear flows use a readable Hilbert-style space-filling route", () => {
   const longLinear = {
     diagramType: "flow" as const,

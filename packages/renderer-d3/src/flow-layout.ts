@@ -765,8 +765,10 @@ function spaceFillingLinearFlowLayout(
 ): SpaceFillingFlowGeometry {
   const side = hilbertSideForNodeCount(linearOrder.length);
   const window = compactHilbertWindow(linearOrder.length, side);
-  // Keep authored connector labels out of adjacent information cards.
-  const columnGap = Math.max(SPACE_FILLING_COLUMN_GAP, ...input.edges.map(edge =>
+  // Reserve text gutters only for labels that will actually be rendered.
+  // Repeated linear labels are suppressed by the same policy below.
+  const labelledEdges = repeatedLinearEdgeLabel(input, linearOrder) ? [] : input.edges;
+  const columnGap = Math.max(SPACE_FILLING_COLUMN_GAP, ...labelledEdges.map(edge =>
     Math.min(EDGE_LABEL_MAX_WIDTH, deterministicFlowTextMeasure(edge.label)) + 32));
   const width = Math.max(
     hostWidth,

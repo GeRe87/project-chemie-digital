@@ -57,6 +57,31 @@ Owner-directed build/validation follow-up to #294 and draft PR #295, targeting
 
 ## Boundary and decisions
 
+### Explicit follow-up approval: repeated-label geometry
+
+After the earlier blocked handoff, the owner explicitly approved the shared
+renderer correction, including a possible change to the Chemometrics roadmap
+on a future rebuild. The currently published course, its RDF/build commands,
+`gh-pages` and hosting remain out of scope and untouched.
+
+The width guard failed because a Talks-introduced gutter calculation reserved
+space for repeated labels which the existing renderer policy hides. The fix
+uses that same suppression policy during measurement, rather than changing the
+minimum-width assertion. A new regression compares short/long normalized repeated
+labels and requires identical node geometry, while non-repeated visible labels
+must still retain measured gutters. No resource/scene identities select layout.
+
+A read-only comparison of all five compiled Chemometrics documents (167 scenes,
+eight diagrams, eight widths, 64 comparisons) identified only the introduction
+roadmap at widths 960, 1180, 1440 and 1920 as changed by this correction. That
+specific future-rebuild effect was disclosed before the owner approved it.
+This approval does not constitute release acceptance or permission to deploy
+or otherwise modify the Chemometrics course.
+The corrected shared renderer passes all 99 D3 tests, including the unchanged
+minimum-width guard and the new hidden/visible-label gutter regression. Final
+exact-head full-suite, production-build and browser evidence must be refreshed
+after this runtime change; earlier results above are historical evidence only.
+
 `gh-pages` was observed at `d1edb925904b019d662f155976b454dd4eb3f7ca` before any
 publication work. It must remain untouched. `talks` was at `026b489a`;
 `gh-pages-talks` did not exist. Source integration, publication and Cloudflare
