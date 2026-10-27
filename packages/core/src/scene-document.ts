@@ -359,6 +359,8 @@ export interface DiagramEdge {
   readonly id: string;
   readonly sourceNodeId: string;
   readonly targetNodeId: string;
+  readonly sourcePartId?: string;
+  readonly targetPartId?: string;
   readonly label: string;
   readonly source: readonly SourceReference[];
   readonly visualRole?: string;
@@ -470,6 +472,7 @@ export interface LineChartPointAnnotation {
   readonly datumId: string;
   /** Reveal and focus this series at the annotation's presentation stage. */
   readonly focusSeries?: boolean;
+  readonly media?: {readonly uri: string; readonly darkUri?: string; readonly alternativeText: string};
   readonly label: string;
   readonly source: readonly SourceReference[];
 }
@@ -558,6 +561,7 @@ export interface DotPlotBlock extends SceneBlockBase {
 }
 
 export interface TimelineInterval {
+  readonly showRunLabel?: boolean;
   readonly id: string;
   readonly label: string;
   readonly start: number;
@@ -833,6 +837,11 @@ function validateDiagram(block: DiagramBlock, label: string): void {
     if (!nodeIdSet.has(edge.sourceNodeId) || !nodeIdSet.has(edge.targetNodeId)) {
       throw new SceneContractError(`${label} diagram edge ${edge.id} references an unknown node`);
     }
+    for (const [nodeId, partId] of [[edge.sourceNodeId, edge.sourcePartId], [edge.targetNodeId, edge.targetPartId]]) {
+      if (partId !== undefined && !block.nodes.find(node => node.id === nodeId)?.parts?.some(part => part.id === partId)) {
+        throw new SceneContractError(`${label} edge endpoint part must belong to its endpoint node`);
+      }
+    }
     validateSource(edge.source, `${label} diagram edge ${edge.id} source`);
   }
 
@@ -941,6 +950,7 @@ function validateChart(block: ChartBlock, label: string): void {
         let previousEnd = -Infinity;
         for (const interval of lane.intervals) {
           identity(interval);
+          if (interval.showRunLabel !== undefined && typeof interval.showRunLabel !== "boolean") throw new SceneContractError("Timeline run-label selection must be boolean");
           if (!categories.has(interval.categoryId) || !Number.isFinite(interval.start) || !Number.isFinite(interval.end)
             || interval.start < 0 || interval.end <= interval.start || interval.start < previousEnd) throw new SceneContractError("Timeline intervals require known categories, ordered finite bounds and no lane overlap");
           previousEnd = interval.end;
@@ -1125,6 +1135,10 @@ function validateChart(block: ChartBlock, label: string): void {
     const series = datumBySeries.get(annotation.seriesId);
     if (!series) throw new SceneContractError(`${label} annotation ${annotation.id} references an unknown series`);
     if (annotation.kind === "point") {
+      if (annotation.media && (!/^\/[A-Za-z0-9_./-]+$/.test(annotation.media.uri) || annotation.media.uri.includes("..") || typeof annotation.media.alternativeText !== "string" || !annotation.media.alternativeText.trim())) {
+        throw new SceneContractError("Annotation media requires a local asset and alternative text");
+      }
+      if (annotation.media?.darkUri !== undefined && (!/^\/[A-Za-z0-9_./-]+$/.test(annotation.media.darkUri) || annotation.media.darkUri.includes(".."))) throw new SceneContractError("Annotation dark media must be a local asset");
       if (annotation.focusSeries !== undefined && typeof annotation.focusSeries !== "boolean") {
         throw new SceneContractError(`${label} point annotation focusSeries must be boolean`);
       }

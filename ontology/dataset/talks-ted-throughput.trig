@@ -52,11 +52,11 @@
 
 <https://w3id.org/project-chemie-digital/graph/data/talks-ted-schedules> {
   # Repeated phases are semantic time intervals, not drawing coordinates.
-  ex:ted-cat-extraction a cd:TimelineCategory ; cd:position 1 ; skos:prefLabel "TGA extraction"@en ; cd:authoredResource true .
-  ex:ted-cat-reset a cd:TimelineCategory ; cd:position 2 ; skos:prefLabel "TGA reset"@en ; cd:authoredResource true .
-  ex:ted-cat-desorb a cd:TimelineCategory ; cd:position 3 ; skos:prefLabel "TDU / focus"@en ; cd:authoredResource true .
-  ex:ted-cat-gc a cd:TimelineCategory ; cd:position 4 ; skos:prefLabel "GC-MS"@en ; cd:authoredResource true .
-  ex:ted-cat-post a cd:TimelineCategory ; cd:position 5 ; skos:prefLabel "Post-run"@en ; cd:authoredResource true .
+  ex:ted-cat-extraction a cd:TimelineCategory ; cd:position 1 ; skos:prefLabel "TGA extraction"@en ; cd:labelsRun true ; cd:authoredResource true .
+  ex:ted-cat-reset a cd:TimelineCategory ; cd:position 2 ; skos:prefLabel "TGA reset"@en ; cd:labelsRun false ; cd:authoredResource true .
+  ex:ted-cat-desorb a cd:TimelineCategory ; cd:position 3 ; skos:prefLabel "TDU / focus"@en ; cd:labelsRun false ; cd:authoredResource true .
+  ex:ted-cat-gc a cd:TimelineCategory ; cd:position 4 ; skos:prefLabel "GC-MS"@en ; cd:labelsRun true ; cd:authoredResource true .
+  ex:ted-cat-post a cd:TimelineCategory ; cd:position 5 ; skos:prefLabel "Post-run"@en ; cd:labelsRun false ; cd:authoredResource true .
   ex:ted-run-s1 a cd:TimelineRun ; cd:position 1 ; skos:prefLabel "S1"@en ; cd:authoredResource true .
   ex:ted-run-b1 a cd:TimelineRun ; cd:position 2 ; skos:prefLabel "B1"@en ; cd:authoredResource true .
   ex:ted-run-s2 a cd:TimelineRun ; cd:position 3 ; skos:prefLabel "S2"@en ; cd:authoredResource true .

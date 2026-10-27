@@ -2,7 +2,7 @@
 @prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 <https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-setup> {
- ex:ted-setup-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-setup.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Complete TED-GC-MS schematic: TGA, upright Twister capture, manual Twister transfer, thermal desorption, cryofocusing, GC separation and MS detection."@en ; cd:authoredResource true .
+ ex:ted-setup-illustration a cd:MediaAsset ; cd:uri "/talks-media/ted-setup.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Complete TED-GC-MS schematic: TGA, upright Twister capture, manual transfer or autosampler, thermal desorption, cryofocusing, GC separation and MS detection."@en ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
  ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-setup .

@@ -43,8 +43,8 @@ graph:concepts {
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
  ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-demo-one, ex:ted-step-demo-two .
- ex:ted-step-demo-one a cd:PathStep ; cd:position 22 ; cd:usesResource ex:ted-demo-one ; cd:usesScene ex:ted-scene-demo-one ; cd:authoredResource true .
- ex:ted-step-demo-two a cd:PathStep ; cd:position 23 ; cd:usesResource ex:ted-demo-two ; cd:usesScene ex:ted-scene-demo-two ; cd:authoredResource true .
+ ex:ted-step-demo-one a cd:PathStep ; cd:position 26 ; cd:usesResource ex:ted-demo-one ; cd:usesScene ex:ted-scene-demo-one ; cd:authoredResource true .
+ ex:ted-step-demo-two a cd:PathStep ; cd:position 27 ; cd:usesResource ex:ted-demo-two ; cd:usesScene ex:ted-scene-demo-two ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-demo> {
  ex:ted-scene-demo-one a cd:SceneDefinition ; cd:focusConcept ex:ted-workflow-demo ; cd:hasSceneItem ex:ted-demo-item-one ; cd:narration "Demonstrate workflow construction through compatible operations and ports. The sidebar shows semantic documentation: names, definitions and interface metadata. Browser chrome is cropped, but the documentation and logs remain visible with the speaker's approval. The recording illustrates the supplied interface, not new validation evidence for the TED method."@en ; cd:authoredResource true .

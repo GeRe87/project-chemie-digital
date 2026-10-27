@@ -8,12 +8,12 @@
 <https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-thanks> {
  ex:ted-thanks a cd:Concept ; skos:prefLabel "Thank you for your attention"@en ; cd:hasDefinition ex:ted-thanks-definition ; cd:authoredResource true .
  ex:ted-thanks-definition a cd:Definition ; cd:body "Closing slide with the speaker-specified talks website, presented both as readable text and a locally generated QR code."@en ; cd:authoredResource true .
- ex:ted-talks-website a cd:Interpretation ; cd:body "talks.odea-project.org"@en ; schema:url "https://talks.odea-project.org"^^xsd:anyURI ; cd:authoredResource true .
+ ex:ted-talks-website a cd:Interpretation ; cd:body "talks.odea-project.org\n\n**Gerrit Renner**\ngerrit.renner@uni-due.de · www.uni-due.de/iac"@en ; cd:bodyFormat "markdown" ; schema:url "https://talks.odea-project.org"^^xsd:anyURI ; cd:authoredResource true .
  ex:ted-talks-qr a cd:MediaAsset ; cd:uri "/talks-media/talks-website-qr.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "QR code linking to https://talks.odea-project.org. The address is also displayed below."@en ; dct:references ex:ted-talks-website ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
  ex:path-talk-microplastics-ted-gc-ms cd:hasStep ex:ted-step-thanks .
- ex:ted-step-thanks a cd:PathStep ; cd:position 25 ; cd:usesResource ex:ted-talks-qr, ex:ted-talks-website ; cd:usesScene ex:ted-scene-thanks ; cd:authoredResource true .
+ ex:ted-step-thanks a cd:PathStep ; cd:position 29 ; cd:usesResource ex:ted-talks-qr, ex:ted-talks-website ; cd:usesScene ex:ted-scene-thanks ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-thanks> {
  ex:ted-scene-thanks a cd:SceneDefinition ; cd:focusConcept ex:ted-thanks ; cd:hasSceneItem ex:ted-thanks-heading, ex:ted-thanks-image, ex:ted-thanks-address ; cd:narration "Thank the audience for their attention. Invite them to scan the QR code or use the displayed address, talks.odea-project.org. The QR code links directly to the HTTPS website without a redirect or external QR service."@en ; cd:authoredResource true .

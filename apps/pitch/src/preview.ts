@@ -5,7 +5,7 @@ import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
 import { regressionStaticFallback } from "../../../packages/core/src/regression-chart.ts";
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
-import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
+import { teachingTextMarkup, teachingInlineMarkup, teachingListItemMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { timelineStaticFallback, dotPlotStaticFallback, validateSceneDocument, type SceneDocument, type SceneBlock, type SourceReference } from "../../../packages/core/src/scene-document.ts";
@@ -176,7 +176,10 @@ function appendBlock(
     sourceAttributes(shell, block.source);
     const pre = dom.createElement("pre");
     pre.className = "code-static-fallback";
-    if (!block.executable) pre.setAttribute("tabindex", "0");
+    if (!block.executable) {
+      pre.setAttribute("tabindex", "0");
+      pre.setAttribute("data-presentation-interactive", "true");
+    }
     const code = dom.createElement("code");
     code.textContent = block.fallback;
     if (block.language === "trig") code.innerHTML = trigMarkup(block.fallback);
@@ -400,9 +403,9 @@ function appendBlock(
     sourceAttributes(list, block.source);
     for (const item of block.items) {
       const listItem = dom.createElement("li");
-      const itemText = dom.createElement("span");
+      const itemText = dom.createElement("div");
       itemText.className = "pcd-list-item-text";
-      if (/\*\*|==/u.test(item.text)) itemText.innerHTML = teachingInlineMarkup(item.text);
+      if (/\*\*|==|\n\s{2,}-/u.test(item.text)) itemText.innerHTML = teachingListItemMarkup(item.text);
       else itemText.textContent = item.text;
       listItem.appendChild(itemText);
       if (block.listStyle === "unordered") {
@@ -610,6 +613,12 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         region = dom.createElement("div");
         region.className = "pcd-composition-region";
         region.setAttribute("data-composition-region-container", placement.region);
+        if (composition.profile === "info-visual" && placement.region === "primary"
+            && scene.blocks.some(block => block.kind === "code" && !block.editable && !block.executable)) {
+          region.setAttribute("tabindex", "0"); region.setAttribute("role", "region");
+          region.setAttribute("aria-label", "Explanatory text. Scroll to read.");
+          region.setAttribute("data-presentation-interactive", "true");
+        }
         compositionRegions.set(placement.region, region);
         section.appendChild(region);
       }

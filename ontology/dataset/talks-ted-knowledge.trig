@@ -21,7 +21,7 @@
   ex:ted-heating-points a cd:Interpretation ; cd:body "Sample heating and thermal decomposition."@en ;
     cd:hasKeyPoint ex:ted-heat-point-1, ex:ted-heat-point-2, ex:ted-heat-point-3 ;
     cd:hasMedia ex:ted-heating-illustration ; cd:authoredResource true .
-  ex:ted-heat-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Controlled heating** under inert gas"@en ; cd:authoredResource true .
+  ex:ted-heat-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Controlled heating** under inert gas\n  - **Range:** 25–1000 °C"@en ; cd:hasSource ex:ted-source-revision-notes ; cd:authoredResource true .
   ex:ted-heat-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Polymers** release smaller products"@en ; cd:authoredResource true .
   ex:ted-heat-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==Matrix compounds can evolve too=="@en ; cd:authoredResource true .
 
@@ -34,9 +34,9 @@
   ex:ted-capture-points a cd:Interpretation ; cd:body "Sorptive collection and physical transfer."@en ;
     cd:hasKeyPoint ex:ted-capture-point-1, ex:ted-capture-point-2, ex:ted-capture-point-3 ;
     cd:hasMedia ex:ted-capture-illustration ; cd:authoredResource true .
-  ex:ted-capture-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**PDMS sorbent**: the Twister setup"@en ; cd:authoredResource true .
+  ex:ted-capture-point-1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Twister:** captures only a small fraction of evolved compounds"@en ; cd:hasSource ex:ted-source-revision-notes ; cd:authoredResource true .
   ex:ted-capture-point-2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Transfer** the loaded sorbent"@en ; cd:authoredResource true .
-  ex:ted-capture-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "==The loaded Twister carries the collected compounds=="@en ; cd:authoredResource true .
+  ex:ted-capture-point-3 a cd:KeyPoint ; cd:position 3 ; cd:body "**Recondition** after measurement for reuse; check blanks"@en ; cd:hasSource ex:ted-source-revision-notes ; cd:authoredResource true .
 
   ex:ted-cryofocusing a cd:Concept ; skos:prefLabel "Cryofocusing and injection"@en ;
     cd:hasDefinition ex:ted-cryofocusing-definition ; cd:hasInterpretation ex:ted-injection-points ;

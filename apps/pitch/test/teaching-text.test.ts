@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { teachingInlineMarkup, teachingTextMarkup, symbolLegendMarkup } from "../src/teaching-text.ts";
+import { teachingInlineMarkup, teachingTextMarkup, teachingListItemMarkup, symbolLegendMarkup } from "../src/teaching-text.ts";
 
 test("formula symbols have stable distinct palette tokens without coloring prose words",()=>{
   const symbols=symbolLegendMarkup("n, i and xᵢ; mean is in the original unit");
@@ -30,4 +30,12 @@ test("existing short teaching lists retain semantic task and question markers", 
   assert.match(result, /data-marker-purpose="question"/);
   assert.match(result, /data-marker-purpose="task"/);
   assert.match(result, /pcd-marker-highlight--cyan/);
+});
+
+test("indented list-item details remain nested and escape author-supplied HTML", () => {
+  const result = teachingListItemMarkup('**Program**\n  - **Range:** 25–1000 °C\n  - <script>unsafe</script>');
+  assert.match(result, /<strong>Program<\/strong><ul class="pcd-list-item-details"><li><strong>Range:<\/strong> 25–1000 °C<\/li>/);
+  assert.match(result, /&lt;script&gt;/);
+  assert.doesNotMatch(result, /<script>/);
+  assert.equal(teachingListItemMarkup("**No nested point**"), teachingInlineMarkup("**No nested point**"));
 });

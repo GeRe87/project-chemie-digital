@@ -1,0 +1,30 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix graph: <https://w3id.org/project-chemie-digital/graph/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+graph:concepts {
+  cd:LearningDomain cdm:definesRelation cd:annotationMedia, cd:sourceDiagramPart, cd:targetDiagramPart ; cdm:definesAttribute cd:labelsRun .
+  cd:annotationMedia a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartPointAnnotation ; rdfs:range cd:MediaAsset ; rdfs:comment "Source-linked visual evidence for a chart annotation."@en .
+  cd:sourceDiagramPart a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNodePart .
+  cd:targetDiagramPart a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:DiagramEdge ; rdfs:range cd:DiagramNodePart .
+  cd:labelsRun a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:TimelineCategory ; rdfs:range xsd:boolean ; rdfs:comment "Whether intervals in this category identify the run. False suppresses repeated run labels on auxiliary phases."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/core> {
+  cd:ChartAnnotationMediaShape a sh:NodeShape ; sh:targetSubjectsOf cd:annotationMedia ;
+    sh:class cd:ChartPointAnnotation ; sh:property [ sh:path cd:annotationMedia ; sh:maxCount 1 ; sh:class cd:MediaAsset ] .
+  cd:TimelineRunLabelShape a sh:NodeShape ; sh:targetSubjectsOf cd:labelsRun ; sh:class cd:TimelineCategory ;
+    sh:property [ sh:path cd:labelsRun ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+  cd:DiagramEdgePartShape a sh:NodeShape ; sh:targetClass cd:DiagramEdge ;
+    sh:property [ sh:path cd:sourceDiagramPart ; sh:maxCount 1 ; sh:class cd:DiagramNodePart ] ;
+    sh:property [ sh:path cd:targetDiagramPart ; sh:maxCount 1 ; sh:class cd:DiagramNodePart ] ;
+    sh:sparql [ sh:message "Edge endpoint parts must belong to their corresponding endpoint nodes." ; sh:select """
+      PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        { $this cd:sourceDiagramPart ?part ; cd:sourceNode ?node . FILTER NOT EXISTS { ?node cd:hasDiagramNodePart ?part } }
+        UNION { $this cd:targetDiagramPart ?part ; cd:targetNode ?node . FILTER NOT EXISTS { ?node cd:hasDiagramNodePart ?part } }
+      }""" ] .
+}

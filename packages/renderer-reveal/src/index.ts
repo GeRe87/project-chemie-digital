@@ -191,6 +191,8 @@ export interface RevealDiagramGroupPlan {
 }
 
 export interface RevealDiagramEdgePlan {
+  readonly sourcePartId?: string;
+  readonly targetPartId?: string;
   readonly codeDetail?: import("../../core/src/scene-document.ts").DiagramEdge["codeDetail"];
   readonly id: string;
   readonly sourceNodeId: string;
@@ -500,6 +502,8 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           id: edge.id,
           sourceNodeId: edge.sourceNodeId,
           targetNodeId: edge.targetNodeId,
+          ...(edge.sourcePartId ? {sourcePartId: edge.sourcePartId} : {}),
+          ...(edge.targetPartId ? {targetPartId: edge.targetPartId} : {}),
           label: edge.label,
           source: sourceCopy(edge.source),
           ...(edge.codeDetail ? {codeDetail: {...edge.codeDetail, source: sourceCopy(edge.codeDetail.source)}} : {}),

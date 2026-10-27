@@ -3,9 +3,10 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 <https://w3id.org/project-chemie-digital/graph/diagrams/talks-ted-processing> {
- ex:ted-processing-flow cd:hasDiagramState ex:ted-tools-science, ex:ted-tools-implementation .
+ ex:ted-processing-flow cd:hasDiagramState ex:ted-tools-science, ex:ted-tools-implementation, ex:ted-tools-interfaces .
  ex:ted-tools-science a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Scientific processing tasks"@en ; cd:authoredResource true .
  ex:ted-tools-implementation a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Tools implementing the same tasks"@en ; cd:hasNodePresentation ex:ted-tool-import, ex:ted-tool-peaks, ex:ted-tool-components, ex:ted-tool-markers, ex:ted-tool-calibrate ; cd:authoredResource true .
+ ex:ted-tools-interfaces a cd:DiagramState ; cd:position 3 ; skos:prefLabel "Explicit interfaces preserve the meaning of results"@en ; cd:activeDiagramNode ex:ted-process-import, ex:ted-process-peaks, ex:ted-process-components, ex:ted-process-markers, ex:ted-process-calibration ; cd:activeDiagramEdge ex:ted-process-edge1, ex:ted-process-edge2, ex:ted-process-edge3, ex:ted-process-edge4 ; cd:authoredResource true .
  ex:ted-tool-import a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-import ; cd:body "Java"@en ; cd:usesThumbnail ex:ted-openchrom-logo ; cd:authoredResource true .
  ex:ted-tool-peaks a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-peaks ; cd:body "C++"@en ; cd:usesThumbnail ex:ted-qalgorithms-wordmark ; cd:authoredResource true .
  ex:ted-tool-components a cd:NodePresentation ; cd:forDiagramNode ex:ted-process-components ; cd:body "C++"@en ; cd:usesThumbnail ex:ted-qalgorithms-wordmark ; cd:authoredResource true .

@@ -33,7 +33,7 @@
     cd:hasSource ex:ted-source-method ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
   ex:ted-signal-node-gc a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "GC separation"@en ; cd:body "Different retention"@en ; cd:visualRole "comparison" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
   ex:ted-signal-node-ions a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Ionization"@en ; cd:body "Fragment ions form here"@en ; cd:visualRole "highlight" ; dct:references ex:ted-gc-ms-detection ; cd:authoredResource true .
-  ex:ted-signal-node-trace a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Chromatogram"@en ; cd:body "Ion signal over time"@en ; dct:references ex:ted-polymer-markers ; cd:authoredResource true .
+  ex:ted-signal-node-trace a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Chromato-\ngram"@en ; cd:body "Ion signal over time"@en ; dct:references ex:ted-polymer-markers ; cd:authoredResource true .
   ex:ted-signal-edge-1 a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "Eluting products"@en ; cd:sourceNode ex:ted-signal-node-gc ; cd:targetNode ex:ted-signal-node-ions ; cd:authoredResource true .
   ex:ted-signal-edge-2 a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "Ion analysis + detection"@en ; cd:sourceNode ex:ted-signal-node-ions ; cd:targetNode ex:ted-signal-node-trace ; cd:authoredResource true .
   ex:ted-signal-state-1 a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Compounds separate in the GC column"@en ; cd:activeDiagramNode ex:ted-signal-node-gc ; cd:focusDiagramNode ex:ted-signal-node-gc ; cd:authoredResource true .

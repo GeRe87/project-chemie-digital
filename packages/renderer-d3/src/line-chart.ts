@@ -1,5 +1,6 @@
 import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
+import { wrapFlowText } from "./flow-layout.ts";
 import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } from "../../core/src/scene-document.ts";
 
 export interface D3LineChartOptions {
@@ -65,7 +66,7 @@ function fallback(block: LineChartBlock): string {
       `Series: ${series.label}`,
       ...series.data.map((datum) => `- x=${datum.x}${xu}, y=${datum.y}${yu}`),
     ]),
-    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}`),
+    ...(block.annotations ?? []).map((annotation) => `Annotation: ${annotation.label}${annotation.kind === "point" && annotation.media ? `; ${annotation.media.alternativeText}` : ""}`),
   ].join("\n");
 }
 
@@ -156,6 +157,7 @@ export function mountD3LineChart(
     for (const path of chartSvg.querySelectorAll<SVGPathElement>(".d3-chart-line")) {
       const id = path.dataset.seriesId!;
       path.style.strokeDashoffset = traceVisible ? "0" : "1";
+      path.style.strokeDasharray = "none";
       path.style.opacity = visibleSeries(id) ? "1" : "0";
       path.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
@@ -169,6 +171,7 @@ export function mountD3LineChart(
       const visible = currentStep >= requiredStep;
       group.style.opacity = visible ? "1" : "0";
       group.style.transform = visible ? "translateY(0)" : "translateY(8px)";
+      group.setAttribute("aria-hidden", String(!visible));
     }
   };
 
@@ -179,7 +182,7 @@ export function mountD3LineChart(
     const height = Math.max(480, Math.round(width * 0.52));
     const margin = { top: 54, right: 58, bottom: 82, left: 98 };
     const plotWidth = width - margin.left - margin.right;
-    const plotHeight = height - margin.top - margin.bottom;
+    const plotHeight = height - 54 - margin.bottom;
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
     const allData = model.series.flatMap((series) => series.data);
@@ -223,6 +226,22 @@ export function mountD3LineChart(
       grid.append(tickText);
     }
     chartSvg.append(grid);
+    if (model.series.length > 1) {
+      model.series.forEach((series, index) => {
+        const legend = svg("text"); legend.classList.add("d3-chart-series-legend", `d3-chart-series-${index % 5 + 1}`);
+        legend.setAttribute("x", String(margin.left + index * plotWidth / model.series.length));
+        legend.setAttribute("y", String(margin.top - 30)); legend.setAttribute("font-size", "16");
+        legend.style.fill = `var(--pcd-chart-series-${index % 5 + 1})`;
+        const capacity = Math.max(12, Math.floor(plotWidth / model.series.length / 8.5));
+        const rows: string[] = [""];
+        for (const word of series.label.split(/\s+/u)) {
+          if (rows.at(-1)!.length + word.length + 1 > capacity && rows.at(-1)) rows.push("");
+          rows[rows.length - 1] += (rows.at(-1) ? " " : "") + word;
+        }
+        rows.forEach((row, line) => {const span = svg("tspan"); span.setAttribute("x", legend.getAttribute("x")!); span.setAttribute("dy", line ? "17" : "0"); span.textContent = row; legend.append(span);});
+        chartSvg.append(legend);
+      });
+    }
 
     const lines = svg("g");
     lines.classList.add("d3-chart-line-layer");
@@ -332,6 +351,22 @@ export function mountD3LineChart(
         group.append(label);
       }
       chartSvg.append(group);
+      if (annotation.kind === "point" && annotation.media) {
+        const image = svg("image");
+        image.setAttribute("href", annotation.media.uri);
+        // Evidence overlays the plot, not an extra row that shrinks its trace.
+        // Choose the side away from the annotated datum to keep its peak clear.
+        const datum = series.data.find(datum => datum.id === annotation.datumId)!;
+        const insetWidth = plotWidth * .43;
+        const insetX = x(datum.x) < margin.left + plotWidth / 2 ? margin.left + plotWidth - insetWidth : margin.left;
+        image.setAttribute("x", String(insetX));
+        image.setAttribute("y", String(margin.top + 8)); image.setAttribute("width", String(insetWidth));
+        image.setAttribute("height", String(insetWidth * 270 / 640));
+        image.dataset.mediaUri = annotation.media.uri;
+        if (annotation.media.darkUri) image.dataset.darkUri = annotation.media.darkUri;
+        image.setAttribute("role", "img"); image.setAttribute("aria-label", annotation.media.alternativeText);
+        image.classList.add("d3-chart-annotation-media"); group.append(image);
+      }
       if (annotation.kind === "point") {
         const label = group.querySelector<SVGTextElement>(".d3-chart-annotation-label");
         const connector = group.querySelector<SVGPathElement>(".d3-chart-annotation-connector");
@@ -340,17 +375,26 @@ export function mountD3LineChart(
           const px = x(datum.x), py = y(datum.y);
           const measured = label.getComputedTextLength?.() ?? 0;
           const textWidth = measured > 0 ? measured : annotation.label.length * 14;
-          const rightSpace = margin.left + plotWidth - px - 72;
-          const leftSpace = px - margin.left - 72;
+          const gap = 24;
+          const rightSpace = margin.left + plotWidth - px - gap - 12;
+          const leftSpace = px - margin.left - gap - 12;
           const preferRight = label.getAttribute("text-anchor") === "start";
-          const useRight = preferRight ? rightSpace >= textWidth || rightSpace >= leftSpace
-            : !(leftSpace >= textWidth || leftSpace > rightSpace);
-          const desiredX = useRight ? px + 72 : px - 72 - textWidth;
-          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - textWidth - 12));
-          const labelY = Math.max(margin.top + 24, Math.min(Number(label.getAttribute("y")), margin.top + plotHeight - 20));
+          // Preserve alternating sides when there is room for a readable label.
+          // Wrap instead of flipping two annotations of the same datum together.
+          const useRight = preferRight ? rightSpace >= Math.min(textWidth, 160) || rightSpace >= leftSpace
+            : !(leftSpace >= Math.min(textWidth, 80) || leftSpace > rightSpace);
+          const available = Math.max(80, useRight ? rightSpace : leftSpace);
+          const measure = (text: string) => {label.textContent = text; return label.getComputedTextLength?.() || text.length * 14;};
+          const lines = wrapFlowText(annotation.label, available, measure);
+          const labelWidth = Math.max(...lines.map(measure));
+          const desiredX = useRight ? px + gap : px - gap - labelWidth;
+          const labelX = Math.max(margin.left + 12, Math.min(desiredX, margin.left + plotWidth - labelWidth - 12));
+          const labelY = Math.max(margin.top + 24, Math.min(annotation.media ? py + 64 : Number(label.getAttribute("y")), margin.top + plotHeight - 20));
           label.setAttribute("text-anchor", "start");
           label.setAttribute("x", String(labelX)); label.setAttribute("y", String(labelY));
-          const endX = useRight ? labelX : labelX + textWidth;
+          label.textContent = "";
+          lines.forEach((text, index) => {const span = svg("tspan"); span.setAttribute("x", String(labelX)); span.setAttribute("dy", index ? "28" : "0"); span.textContent = text; label.append(span);});
+          const endX = useRight ? labelX : labelX + labelWidth;
           connector.setAttribute("d", `M ${px} ${py} L ${(px + endX) / 2} ${(py + labelY) / 2} L ${endX} ${labelY - 6}`);
         }
       }
@@ -387,7 +431,13 @@ export function mountD3LineChart(
     axes.append(yTitle);
     chartSvg.append(axes);
 
+    updateMediaTheme();
     applyStep();
+  };
+
+  const updateMediaTheme = () => {
+    const dark = typeof getComputedStyle === "function" && getComputedStyle(host).colorScheme.includes("dark");
+    for (const image of chartSvg.querySelectorAll<SVGImageElement>(".d3-chart-annotation-media")) image.setAttribute("href", dark && image.dataset.darkUri ? image.dataset.darkUri : image.dataset.mediaUri!);
   };
 
   const setStep = (step: number): void => {
@@ -406,6 +456,8 @@ export function mountD3LineChart(
   render();
   const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => render()) : undefined;
   observer?.observe(host);
+  const themeObserver = typeof MutationObserver !== "undefined" ? new MutationObserver(updateMediaTheme) : undefined;
+  themeObserver?.observe(document.body, {attributes: true});
 
   return {
     model,
@@ -417,6 +469,7 @@ export function mountD3LineChart(
       destroyed = true;
       if (presentation.progressive) host.removeEventListener("pcd-presentation-step", stepListener);
       observer?.disconnect();
+      themeObserver?.disconnect();
       host.innerHTML = "";
     },
   };

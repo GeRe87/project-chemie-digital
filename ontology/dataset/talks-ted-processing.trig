@@ -30,7 +30,7 @@
 }
 <https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms> {
   ex:path-talk-microplastics-ted-gc-ms cd:forTopic ex:ted-data-processing ; cd:hasStep ex:ted-step-processing .
-  ex:ted-step-processing a cd:PathStep ; cd:position 14 ; cd:usesResource ex:ted-processing-flow ; cd:usesScene ex:ted-scene-processing ; cd:authoredResource true .
+  ex:ted-step-processing a cd:PathStep ; cd:position 17 ; cd:usesResource ex:ted-processing-flow ; cd:usesScene ex:ted-scene-processing ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-processing> {
   ex:ted-scene-processing a cd:SceneDefinition ; cd:focusConcept ex:ted-data-processing ; cd:hasSceneItem ex:ted-processing-heading, ex:ted-processing-visual ;

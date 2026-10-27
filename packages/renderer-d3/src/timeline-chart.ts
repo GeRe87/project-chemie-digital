@@ -3,6 +3,11 @@ import { timelineStaticFallback, type TimelineChartBlock } from "../../core/src/
 
 const NS = "http://www.w3.org/2000/svg";
 
+export function timelineRunLabelPlacement(label: string, width: number, show?: boolean): "inside" | "above" | undefined {
+  const fits = width >= label.length * 10 + 12;
+  return show === false || show !== true && !fits ? undefined : fits ? "inside" : "above";
+}
+
 /** Generic interval comparison: no scheduling policy or subject identities here. */
 export function mountD3TimelineChart(host: HTMLElement, block: TimelineChartBlock, options: {reducedMotion: boolean}) {
   const progressive = block.scenarios.length > 1;
@@ -69,7 +74,13 @@ export function mountD3TimelineChart(host: HTMLElement, block: TimelineChartBloc
         const barHeight = Math.max(15, Math.min(48, rowHeight - 10));
         const rect = add(group, "rect", {class: `d3-timeline-interval d3-chart-series-${categoryIndex.get(interval.categoryId)}`, x: xx, y: yy + (rowHeight - barHeight) / 2, width: w, height: barHeight, rx: 3});
         add(rect, "title", {}, `${interval.label}; ${block.categories.find(c => c.id === interval.categoryId)?.label}: ${interval.start}–${interval.end} ${block.xAxis.unit}`);
-        if (w >= 42) add(group, "text", {class: "d3-timeline-run", x: xx + w / 2, y: yy + rowHeight * 0.56, "text-anchor": "middle"}, interval.label);
+        const placement = timelineRunLabelPlacement(interval.label, w, interval.showRunLabel);
+        if (placement) {
+          const inside = placement === "inside";
+          add(group, "text", {class: "d3-timeline-run", "data-interval-id": interval.id,
+            "data-label-placement": inside ? "inside" : "above", x: xx + w / 2,
+            y: inside ? yy + rowHeight * 0.56 : yy + (rowHeight - barHeight) / 2 - 4, "text-anchor": "middle"}, interval.label);
+        }
       }
       row++;
     }

@@ -83,7 +83,8 @@ export type RevealLearningProfile =
   | "scenario-data-visual"
   | "process-matrix"
   | "compact-list"
-  | "formula-deck";
+  | "formula-deck"
+  | "visual-evidence";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -752,6 +753,15 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   }
 
   const formulaUnits = resolveFormulaLegendUnits(scene);
+  // A visual remains the main evidence; a formula and its authored legend form
+  // a compact caption rather than displacing the visual into an unbounded prelude.
+  if (formulaUnits.length === 1 && body.filter(block => block.kind === "media-reference").length === 1
+      && body.every(block => ["media-reference", "math", "definition-list", "list", "prose"].includes(block.kind))) {
+    const unitIds = new Set(formulaUnits[0]!.map(block => block.id));
+    return {kind: "learning-stage", profile: "visual-evidence", mainCount: 1,
+      placements: [...placementsWithHeading(heading), ...body.map((block, index) => placement(block,
+        block.kind === "media-reference" ? "main" : block.kind === "definition-list" && !unitIds.has(block.id) ? "prelude" : "footer", index))]};
+  }
   // A single unaccompanied formula is a visual explanation alongside prose.
   // Formula/legend collections continue to use the existing formula deck.
   if(body.length===2 && body[0]?.kind==="prose" && body[1]?.kind==="math" && !formulaUnits.length){

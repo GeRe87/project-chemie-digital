@@ -1239,6 +1239,17 @@ test("supporting definition parts stay immediately below their formula with no i
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), inferRevealCompositionPlan(scene));
 });
 
+test("a visual with a source-linked mathematical caption retains its visible formula and legend together", () => {
+  const legend: SceneBlock = {...definitions("symbols"), emphasis: "supporting", source: [{resourceId: "resource:formula", relationPath: "dct:hasPart"}]};
+  const blocks = [prose("heading", "introduce"), definitions("context"), mediaReference("visual"), math("formula"), legend, prose("takeaway")];
+  const scene: Scene = {id: "unrelated-evidence", source: [], blocks, readingOrder: blocks.map(block => block.id)};
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "visual-evidence");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [["heading", "heading"], ["context", "prelude"], ["visual", "main"], ["formula", "footer"], ["symbols", "footer"], ["takeaway", "footer"]]);
+  assert.deepEqual(resolveFormulaLegendUnits(scene).map(unit => unit.map(b => b.id)), [["formula", "symbols"]]);
+  assert.deepEqual(inferRevealCompositionPlan({...scene, id: "another-subject"}), plan);
+});
+
 test("adjacent singleton formula legends remain separate comparison units", () => {
   const singleton = (id: string, emphasis: "primary" | "supporting"): SceneBlock => {
     const block = definitions(id);

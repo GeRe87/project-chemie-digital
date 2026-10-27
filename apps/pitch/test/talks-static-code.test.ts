@@ -28,6 +28,7 @@ test("static code is keyboard-scrollable without changing executable code fallba
     const pre = flatten(root).find(element=>element.className==="code-static-fallback")!;
     assert.ok(pre);
     assert.equal(pre.attributes.get("tabindex"),executable ? undefined : "0");
+    assert.equal(pre.attributes.get("data-presentation-interactive"),executable ? undefined : "true");
     assert.equal(pre.children[0]!.textContent,"example");
     dispose();
   }

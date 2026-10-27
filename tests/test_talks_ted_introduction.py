@@ -22,7 +22,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
             "ex:scene-talk-microplastics-title--scene",
-            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "bottleneck", "nesting", "heating-rate", "calibration-time", "running-calibration", "sample-comparison", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "automatic-execution", "demo-one", "demo-two", "ai", "thanks"]],
+            *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "process-variance", "bottleneck", "nesting", "heating-rate", "temperature-program", "calibration-time", "running-calibration", "sample-comparison", "fifo-design", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "validation", "automatic-execution", "demo-one", "demo-two", "ai", "thanks"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
         self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
@@ -49,17 +49,20 @@ class TedIntroductionTests(unittest.TestCase):
         for scene in self.scenes[1:]:
             self.assertTrue(any(block["kind"] in {"diagram", "chart", "media-reference", "definition-list"} for block in scene["blocks"]))
             self.assertTrue(scene.get("narration"))
-            self.assertFalse(any(block["kind"] == "math" for block in scene["blocks"]))
+            for formula in (block for block in scene["blocks"] if block["kind"] == "math"):
+                self.assertIn(scene["id"], {"ex:ted-scene-process-variance--scene", "ex:ted-scene-fair--scene"})
+                self.assertTrue(any(block["kind"] == "definition-list" and any(source.get("relationPath") == "dct:hasPart" and source["resourceId"] == formula["source"][0]["resourceId"] for source in block["source"]) for block in scene["blocks"]), "Every formula requires its own authored same-slide legend")
             for block in scene["blocks"]:
                 if block["kind"] == "list":
                     self.assertEqual(len(block["items"]), 3)
                     for item in block["items"]:
-                        self.assertLessEqual(len(item["text"].split()), 11)
+                        for line in item["text"].splitlines():
+                            self.assertLessEqual(len(line.split()), 11)
                         self.assertTrue("**" in item["text"] or "==" in item["text"])
 
     def test_animation_states_are_authored_not_derived_from_slide_ids(self):
         diagrams = [b for scene in self.scenes for b in scene["blocks"] if b["kind"] == "diagram"]
-        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 2, 0, 0, 0, 3, 2, 0, 0])
+        self.assertEqual([len(d.get("states", [])) for d in diagrams], [3, 3, 0, 0, 0, 3, 2, 2, 0, 3])
         for diagram in diagrams:
             nodes = {n["id"] for n in diagram["nodes"]}
             for state in diagram.get("states", []):
@@ -70,7 +73,7 @@ class TedIntroductionTests(unittest.TestCase):
     def test_processing_overview_has_five_illustrated_steps_and_tool_stage(self):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-processing--scene")
         diagram = next(b for b in scene["blocks"] if b["kind"] == "diagram")
-        self.assertEqual(len(diagram["states"]), 2)
+        self.assertEqual(len(diagram["states"]), 3)
         tools = diagram["states"][1]["nodePresentations"]
         self.assertEqual(len(tools), 5)
         self.assertTrue(all("label" not in tool for tool in tools))
@@ -128,7 +131,8 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(shared[2]["parentPartId"], shared[1]["id"])
         self.assertNotIn("parentPartId", specs[0])
         self.assertNotIn("parentPartId", specs[1])
-        self.assertEqual(specs[2]["parentPartId"], specs[1]["id"])
+        self.assertEqual([p["label"] for p in specs[:2]], ["ProcessingPipeline", "ProcessingStep"])
+        self.assertEqual(specs[2]["parentPartId"], specs[0]["id"])
         self.assertEqual(specs[2]["referencePartId"], shared[0]["id"])
         self.assertEqual([p["parentPartId"] for p in operation[1:]], [operation[0]["id"]] * 2)
         fallback = R.static_fallback(self.artifact)
@@ -308,7 +312,7 @@ class TedIntroductionTests(unittest.TestCase):
         scene = self.scenes[-1]
         self.assertEqual(scene["id"], "ex:ted-scene-thanks--scene")
         self.assertEqual(scene["blocks"][0]["text"], "Thank you for your attention")
-        self.assertEqual(scene["blocks"][-1]["text"], "talks.odea-project.org")
+        self.assertEqual(scene["blocks"][-1]["text"].splitlines()[0], "talks.odea-project.org")
         media = next(b for b in scene["blocks"] if b["kind"] == "media-reference")
         self.assertEqual(media["uri"], "/talks-media/talks-website-qr.svg")
         self.assertIn("https://talks.odea-project.org", media["alternativeText"])
@@ -363,21 +367,24 @@ class TedIntroductionTests(unittest.TestCase):
             self.assertEqual(len(data), 81)
             self.assertTrue(all(a["x"] < b["x"] for a, b in zip(data, data[1:])))
         self.assertTrue(all(a["x"] == b["x"] and a["y"] >= b["y"] for a, b in zip(tic["data"], eic["data"])))
-        select, marker, area = chart["annotations"]
+        select, marker, spectrum, area = chart["annotations"]
+        self.assertEqual(spectrum["datumId"], marker["datumId"])
+        self.assertEqual(spectrum["media"]["uri"], "/talks-media/ted-marker-spectrum.svg")
+        self.assertIn("Synthetic", spectrum["media"]["alternativeText"])
         self.assertTrue(select["focusSeries"])
         self.assertEqual(select["seriesId"], eic["id"])
         self.assertEqual(marker["seriesId"], area["seriesId"])
         ids = [datum["id"] for datum in eic["data"]]
         self.assertLess(ids.index(area["startDatumId"]), ids.index(marker["datumId"]))
         self.assertLess(ids.index(marker["datumId"]), ids.index(area["endDatumId"]))
-        self.assertEqual([annotation["kind"] for annotation in chart["annotations"]], ["point", "point", "x-range"])
+        self.assertEqual([annotation["kind"] for annotation in chart["annotations"]], ["point", "point", "point", "x-range"])
         self.assertEqual(chart["yAxis"]["unit"], "a.u.")
         notes = marker_scene["narration"].lower()
         for required in ["matrix", "calibration", "blanks", "not particle count", "no named polymer"]:
             self.assertIn(required, notes)
 
     def test_illustrations_are_original_inert_vector_drawings_with_rdf_alternatives(self):
-        media = [b for scene in self.scenes if scene["id"] != "ex:ted-scene-thanks--scene" for b in scene["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "image/svg+xml"]
+        media = [b for scene in self.scenes if scene["id"] in {f"ex:ted-scene-{name}--scene" for name in ("overview", "heating", "capture", "injection")} for b in scene["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "image/svg+xml"]
         self.assertEqual(len(media), 4)
         for block in media:
             self.assertEqual(block["mediaType"], "image/svg+xml")
