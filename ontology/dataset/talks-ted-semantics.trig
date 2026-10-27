@@ -71,7 +71,7 @@
   ex:ted-semantics-text a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-semantics-prose ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:ted-semantics-explicit-item a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-semantics-explicit ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
   ex:ted-semantics-triple-item a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:ted-semantics-triple ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
-  ex:ted-semantics-code-item a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:ted-semantics-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:code" ; cd:language "en" ; cd:authoredResource true .
+  ex:ted-semantics-code-item a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:ted-semantics-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
   ex:ted-semantics-network-item a cd:SceneItem ; cd:position 6 ; cd:selectsResource ex:ted-affiliation-network ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/talks-ted-semantics> {

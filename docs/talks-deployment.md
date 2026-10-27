@@ -98,6 +98,9 @@ FAIR card literals retain their `@en` tags without misusing the SceneItem-only
 chart dataset with the TIC retained as the contextual series; staged visibility
 still starts with the TIC. Missing source support links and an incomplete
 logo-staging fixture are corrected in Talks-only files/tests.
+The semantics code SceneItem now uses the existing `cd:hasCodeExample` selection
+path rather than the unsupported `cd:code` path. A focused regression checks all
+Talks selection paths against the unchanged authored SHACL enumeration.
 
 ## Cloudflare Pages configuration (owner action; not deployed by this task)
 

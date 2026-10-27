@@ -30,6 +30,21 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(self.artifact["sceneDocumentBindings"][0]["pathGraphId"],
                          "https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms")
 
+    def test_talk_scene_selection_paths_use_the_existing_shacl_vocabulary(self):
+        from rdflib.collection import Collection
+        from rdflib.namespace import SH
+        dataset = R.assemble_dataset()
+        shapes = dataset.graph(URIRef("https://w3id.org/project-chemie-digital/graph/shapes/core"))
+        allowed = set()
+        for constraint in shapes.subjects(SH.path, URIRef(R.CD + "selectionPath")):
+            head = shapes.value(constraint, SH["in"])
+            if head is not None:
+                allowed.update(str(value) for value in Collection(shapes, head))
+        self.assertTrue(allowed)
+        for subject, _, value, _ in dataset.quads((None, URIRef(R.CD + "selectionPath"), None, None)):
+            if str(subject).startswith(R.EX + "ted-"):
+                self.assertIn(str(value), allowed, str(subject))
+
     def test_every_content_scene_is_visual_first_and_bullets_are_concise(self):
         for scene in self.scenes[1:]:
             self.assertTrue(any(block["kind"] in {"diagram", "chart", "media-reference", "definition-list"} for block in scene["blocks"]))
