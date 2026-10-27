@@ -81,6 +81,13 @@ The corrected shared renderer passes all 99 D3 tests, including the unchanged
 minimum-width guard and the new hidden/visible-label gutter regression. Final
 exact-head full-suite, production-build and browser evidence must be refreshed
 after this runtime change; earlier results above are historical evidence only.
+The previously unreached Pitch phase exposed one more stale Talks test: SVGs
+with inspectable port controls use a group role even without node-keyboard
+navigation. Its assertion now requires that existing compound accessibility
+condition, without changing renderer behavior. Those four Talks layout tests
+are included in the fast lane. The isolated self-study renderer (24 tests) and
+self-study app/static generator (29 tests) pass. These focused diagnostics do
+not substitute for the final complete release command.
 
 `gh-pages` was observed at `d1edb925904b019d662f155976b454dd4eb3f7ca` before any
 publication work. It must remain untouched. `talks` was at `026b489a`;

@@ -22,6 +22,7 @@ def commands(full: bool, build: bool) -> list[tuple[str, list[str]]]:
         checks = [("talks-python", [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", pattern, "-v"])
                   for pattern in ("test_presentation_collection.py", "test_talks_ted_introduction.py", "test_talks_local_checks.py", "test_talks_publication.py")]
         files = ["apps/pitch/test/talks-world.test.ts", "apps/pitch/test/talks-static-code.test.ts",
+                 "apps/pitch/test/ted-introduction-layout.test.ts",
                  "packages/core/test/presentation-metadata.test.ts", "packages/renderer-d3/test/line-chart.test.ts"]
         checks += [("talks-typescript", ["node", "--experimental-strip-types", "--test", *files])]
     if build:

@@ -26,5 +26,5 @@ test("chart and concise footer fit a bounded deck canvas without semantic identi
 });
 test("interactive flow nodes are not hidden inside a single image role",()=>{
   const source=readFileSync(new URL("../../../packages/renderer-d3/src/flow-diagram.ts",import.meta.url),"utf8");
-  assert.match(source,/svg\.setAttribute\("role", model\.interactionPolicy === "keyboard" \? "group" : "img"\)/);
+   assert.match(source,/svg\.setAttribute\("role", model\.interactionPolicy === "keyboard" \|\| model\.edges\.some\(edge => edge\.codeDetail\) \? "group" : "img"\)/);
 });
