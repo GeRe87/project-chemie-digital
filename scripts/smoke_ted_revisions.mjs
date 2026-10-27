@@ -83,6 +83,17 @@ try {
           }
           stages++;
         }
+        if(name==="semantics" && viewport.width<700) {
+          const heading=await current.locator("h2").boundingBox();
+          const primary=current.locator('[data-composition-region-container="primary"]');
+          const primaryBox=await primary.boundingBox();
+          assert.ok(heading.y+heading.height<=primaryBox.y,"scrollable explanation overlaps heading");
+          for(const pane of [primary,current.locator(".code-static-fallback")]) {
+            await pane.focus();await page.keyboard.press("PageDown");await page.waitForTimeout(180);
+            assert.ok(await pane.evaluate(element=>element.scrollTop)>0,"native keyboard scrolling failed");
+            assert.equal(await current.getAttribute("id"),id,"scroll key navigated away from the source example");
+          }
+        }
         if(axe) {
           await page.addScriptTag({content:axe});
           const violations=await page.evaluate(async()=> (await window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}})).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})));

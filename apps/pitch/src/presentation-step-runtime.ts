@@ -343,6 +343,14 @@ export function mountPresentationStageNavigation(
   controlTarget?: PresentationStageNavigationTarget,
   options: PresentationStageNavigationOptions = {},
 ): () => void {
+  // Explicit interactive regions retain native scrolling. Isolate at the
+  // presentation root's bubble phase, after a widget's own key handlers and
+  // before Reveal's document-level shortcuts. Never prevent the native action.
+  const onInteractiveKeyDown: EventListener = event => {
+    const key = event as KeyboardEvent;
+    if ((key.target as Element | null)?.closest?.("[data-presentation-interactive='true']")
+        && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(key.key)) event.stopPropagation();
+  };
   const onKeyDown: EventListener = (event) => {
     const keyboardEvent = event as KeyboardEvent;
     if (options.root?.ownerDocument.body.classList.contains("pcd-course-world-active") || options.root?.ownerDocument.body.dataset?.presentationMode === "script") return;
@@ -361,6 +369,7 @@ export function mountPresentationStageNavigation(
   };
 
   keyboardTarget.addEventListener("keydown", onKeyDown, { capture: true });
+  options.root?.addEventListener?.("keydown", onInteractiveKeyDown);
   controlTarget?.addEventListener("click", onClick, { capture: true });
 
   let destroyed = false;
@@ -368,6 +377,7 @@ export function mountPresentationStageNavigation(
     if (destroyed) return;
     destroyed = true;
     keyboardTarget.removeEventListener("keydown", onKeyDown, { capture: true });
+    options.root?.removeEventListener?.("keydown", onInteractiveKeyDown);
     controlTarget?.removeEventListener("click", onClick, { capture: true });
   };
 }

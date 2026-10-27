@@ -636,6 +636,20 @@ test("stage navigation captures forward keys through the terminal direct slide j
   assert.equal(listeners.get("keydown")?.size ?? 0, 0);
 });
 
+test("interactive regions isolate native scroll keys after widget handling without cancelling defaults", () => {
+  const rootListeners = new Set<EventListener>();
+  const root = {addEventListener(_type: string, listener: EventListener, options?: unknown) { assert.equal(options, undefined); rootListeners.add(listener); },
+    removeEventListener(_type: string, listener: EventListener) {rootListeners.delete(listener);}};
+  const keyboard = {addEventListener() {}, removeEventListener() {}};
+  const destroy = mountPresentationStageNavigation({} as Parameters<typeof mountPresentationStageNavigation>[0], keyboard,
+    undefined, {root: root as unknown as HTMLElement});
+  let stopped = 0;
+  const event = {key: "PageDown", target: {closest: () => ({})}, stopPropagation() {stopped++;}, preventDefault() {throw new Error("Native scrolling must not be cancelled");}} as unknown as Event;
+  for (const listener of rootListeners) listener(event);
+  assert.equal(stopped, 1);
+  destroy(); assert.equal(rootListeners.size, 0);
+});
+
 test("stage navigation control click uses the same terminal direct jump", () => {
   const makeSlide = (staged: boolean) => ({
     getAttribute(name: string) {

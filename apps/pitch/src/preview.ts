@@ -176,7 +176,10 @@ function appendBlock(
     sourceAttributes(shell, block.source);
     const pre = dom.createElement("pre");
     pre.className = "code-static-fallback";
-    if (!block.executable) pre.setAttribute("tabindex", "0");
+    if (!block.executable) {
+      pre.setAttribute("tabindex", "0");
+      pre.setAttribute("data-presentation-interactive", "true");
+    }
     const code = dom.createElement("code");
     code.textContent = block.fallback;
     if (block.language === "trig") code.innerHTML = trigMarkup(block.fallback);
@@ -610,6 +613,12 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         region = dom.createElement("div");
         region.className = "pcd-composition-region";
         region.setAttribute("data-composition-region-container", placement.region);
+        if (composition.profile === "info-visual" && placement.region === "primary"
+            && scene.blocks.some(block => block.kind === "code" && !block.editable && !block.executable)) {
+          region.setAttribute("tabindex", "0"); region.setAttribute("role", "region");
+          region.setAttribute("aria-label", "Explanatory text. Scroll to read.");
+          region.setAttribute("data-presentation-interactive", "true");
+        }
         compositionRegions.set(placement.region, region);
         section.appendChild(region);
       }

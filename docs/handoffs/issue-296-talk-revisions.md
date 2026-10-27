@@ -31,6 +31,11 @@ Owner-directed Talks content and presentation follow-up, outside dispatcher lane
 
 - Focused Talks checks and the earlier 99-test D3 suite passed during development.
 - Canonical SHACL validation and an initial Talks production build passed.
+- The first revision browser run found a portrait source-example overflow. The
+  correction bounds explanation/code panes, preserves the heading and graph
+  launcher, and isolates native keyboard scrolling. A direct mobile check passed
+  geometry, keyboard scrolling in both panes and axe rules. Full browser reruns
+  remain required for the corrected head.
 - Exact final-head full suite, final build and browser evidence must be recorded
   in the draft PR after the revision is frozen. Development passes are not a
   release receipt or an external-validator status.

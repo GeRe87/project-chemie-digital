@@ -17,6 +17,9 @@ formula/legend renderer visible beside its main graphic. A dialog-launcher fix
 prevents a button from reserving the space of an inline diagram. The six-node
 semantic-tool hub reuses the existing illustrated system-card renderer through
 an identity-independent topology rule. There are no scene-ID layout selectors.
+Portrait source examples have independently scrollable explanation and code
+panes, with a visible heading and graph launcher. Both panes are keyboard-focusable;
+native scroll keys are isolated from deck shortcuts without cancelling scrolling.
 
 ## Request mapping
 
