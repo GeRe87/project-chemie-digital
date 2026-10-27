@@ -10,6 +10,12 @@ Owner-directed Talks content and presentation follow-up, outside dispatcher lane
 
 ## Completed
 
+- Owner review a1–a9: solid/thinner TIC and inset inside the plot, theme-aware
+  variance/FAIR illustrations and paired spectrum assets, 15 K/min comparison,
+  visible interface emphasis, below-box reference route, red/green validation
+  thumbnail sequence and closing institutional contact details. Thumbnail geometry
+  is bounded so a replacement icon does not obscure the slide footer.
+
 - Implemented the owner's 16-point revision, with item 8 interpreted as item 15's
   placement. Four new slides, an extra marker-evidence stage, interface emphasis,
   corrected schedule labels and an illustrated semantic-tool architecture.
@@ -28,6 +34,11 @@ Owner-directed Talks content and presentation follow-up, outside dispatcher lane
   `docs/talks-ted-revisions-296.md` (request map and source decisions).
 
 ## Verification
+
+- The original `f9662fd4` clean full-suite/build/check succeeded. That receipt is
+  historical, not evidence for a1–a9. The updated focused Talks tests and 103 D3
+  tests pass. Desktop light-mode screenshots were inspected during correction;
+  final static browser matrices and a new exact-head full suite are still pending.
 
 - Focused Talks checks and the earlier 99-test D3 suite passed during development.
 - Canonical SHACL validation and an initial Talks production build passed.

@@ -92,6 +92,8 @@ def media_uris(blocks):
             for annotation in block.get("annotations", []):
                 if annotation.get("media"):
                     yield annotation["media"]["uri"]
+                    if annotation["media"].get("darkUri"):
+                        yield annotation["media"]["darkUri"]
         elif block["kind"] == "diagram":
             for state in block.get("states", []):
                 for presentation in state.get("nodePresentations", []):

@@ -38,6 +38,7 @@ class TedRevisionTests(unittest.TestCase):
         self.assertEqual([(p["x"], p["y"]) for p in chart["series"][0]["data"]], [(0, 200), (2, 200), (32, 500), (38, 500)])
         self.assertEqual(chart["xAxis"]["unit"], "min")
         self.assertEqual(chart["yAxis"]["unit"], "°C")
+        self.assertEqual([(p["x"],p["y"]) for p in chart["series"][1]["data"]], [(0,200),(2,200),(22,500),(28,500)])
         self.assertIn("settling", self.scene("temperature-program")["narration"])
         self.assertIn("separate", self.scene("temperature-program")["narration"])
         self.assertEqual(self.block("heating", "list")["items"][0]["text"].splitlines()[1], "  - **Range:** 25–1000 °C")
@@ -64,6 +65,8 @@ class TedRevisionTests(unittest.TestCase):
         self.assertEqual([a["id"] for a in annotations], ["ex:ted-select-eic", "ex:ted-marker-candidate-a", "ex:ted-marker-spectrum", "ex:ted-marker-area"])
         self.assertEqual(annotations[1]["datumId"], annotations[2]["datumId"])
         self.assertIn(annotations[2]["media"]["uri"], list(media_uris([chart])))
+        self.assertEqual(annotations[2]["media"]["darkUri"], "/talks-media/ted-marker-spectrum-dark.svg")
+        self.assertIn(annotations[2]["media"]["darkUri"], list(media_uris([chart])))
         self.assertIn("not a measured spectrum", annotations[2]["media"]["alternativeText"])
         self.assertIn("Synthetic mirror-spectrum inset", R.static_fallback(self.artifact))
 
@@ -86,7 +89,7 @@ class TedRevisionTests(unittest.TestCase):
         for name, content in A.assets().items():
             self.assertEqual((R.ROOT / "apps/pitch/public/talks-media" / name).read_text(encoding="utf-8"), content)
             for element in ET.fromstring(content).iter():
-                self.assertNotIn(element.tag.split("}")[-1], {"script", "foreignObject", "image"})
+                self.assertNotIn(element.tag.split("}")[-1], {"script", "foreignObject", "image", "style"})
                 self.assertFalse(any(key.startswith("on") for key in element.attrib))
 
     def test_fifo_exact_source_values_and_limits_survive_export(self):
@@ -136,8 +139,16 @@ class TedRevisionTests(unittest.TestCase):
         diagram = self.block("validation", "diagram")
         self.assertEqual(len(diagram["states"]), 2)
         self.assertIn("conforms: false", diagram["nodes"][2]["description"])
+        self.assertEqual(diagram["states"][0]["nodePresentations"][0]["thumbnail"]["uri"], "/talks-media/ted-validation-failure.svg")
         report = next(p for p in diagram["states"][1]["nodePresentations"] if p["nodeId"] == "ex:ted-validation-report")
         self.assertIn("conforms: true", report["description"])
+        self.assertNotIn("thumbnail", report)
+
+    def test_closing_contact_details_preserve_the_talk_address_and_qr(self):
+        text = " ".join(b.get("text", "") for b in self.scene("thanks")["blocks"])
+        for value in ("talks.odea-project.org", "Gerrit Renner", "gerrit.renner@uni-due.de", "www.uni-due.de/iac"):
+            self.assertIn(value, text)
+        self.assertEqual(self.block("thanks", "media-reference")["uri"], "/talks-media/talks-website-qr.svg")
 
     def test_ai_finale_is_a_semantic_tool_architecture_not_an_unqualified_success_claim(self):
         diagram = self.block("ai", "diagram")

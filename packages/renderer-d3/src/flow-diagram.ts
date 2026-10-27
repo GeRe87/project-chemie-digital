@@ -1096,7 +1096,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         const nextNodeLayer = document.createElementNS(namespace, "g");
         nextNodeLayer.setAttribute("class", "d3-flow-node-layer");
         const nextNodeElements = new Map<string, SVGGElement>();
-        const partGeometry = new Map<string, {x: number; y: number; width: number; height: number; outerLeft: number; outerRight: number; outerTop: number; referencePartId?: string; description?: string}>();
+        const partGeometry = new Map<string, {x: number; y: number; width: number; height: number; outerLeft: number; outerRight: number; outerTop: number; outerBottom: number; referencePartId?: string; description?: string}>();
         for (const baseLayoutNode of layout.nodes) {
           const presentation = model.states.find(state => state.id === activeStateId)?.nodePresentations?.find(item => item.nodeId === baseLayoutNode.id);
           const originalNode = modelNodeById.get(baseLayoutNode.id)!;
@@ -1268,7 +1268,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 if (row.bodyLines.length) addTextLines(part, row.bodyLines, row.x, top + row.top + 22 + row.labelLines.length * 24 + row.bodyLines.length * 10.5, "d3-flow-node-part-body", 21);
                 group.append(part);
                 partGeometry.set(row.id, {x: layoutNode.x + row.x, y: layoutNode.y + top + row.top + row.height / 2, width: row.width, height: row.height,
-                  outerLeft: layoutNode.x - layoutNode.width / 2, outerRight: layoutNode.x + layoutNode.width / 2, outerTop: layoutNode.y + top,
+                  outerLeft: layoutNode.x - layoutNode.width / 2, outerRight: layoutNode.x + layoutNode.width / 2, outerTop: layoutNode.y + top, outerBottom: layoutNode.y + layoutNode.height / 2,
                   referencePartId: row.referencePartId, description: row.description});
               }
             } else if (informationCard && modelNode.parts?.length) {
@@ -1348,7 +1348,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 titleY = top + titleHeight / 2;
                 dividerY = top + titleHeight + dividerGap / 2;
                 const extent = flowMotifExtent(modelNode.visualMotif);
-                const motifSize = compactSystem ? 80 : modelNode.thumbnail ? layoutNode.width - 44
+                const motifSize = compactSystem ? 80 : modelNode.thumbnail ? Math.min(144, layoutNode.width - 44)
                   : extent === 144 ? Math.min(144, Math.max(96, layoutNode.width * .42)) : Math.min(88, Math.max(72, layoutNode.width * .24));
                 const motifY = dividerY + (compactSystem ? 14 : 20) + motifSize / 2;
                 bodyY = motifY + motifSize / 2 + (compactSystem ? 14 : 20) + bodyHeight / 2;
@@ -1427,8 +1427,8 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         for (const [id, source] of partGeometry) {
           const target = source.referencePartId ? partGeometry.get(source.referencePartId) : undefined;
           if (!target) continue;
-          const path = document.createElementNS(namespace, "path"), laneY = Math.min(source.outerTop, target.outerTop) - 24;
-          path.setAttribute("d", `M${source.x + source.width / 2} ${source.y}H${source.outerRight + 12}V${laneY}H${target.outerLeft - 12}V${target.y}H${target.x - target.width / 2}`);
+          const path = document.createElementNS(namespace, "path"), laneY = Math.max(source.outerBottom, target.outerBottom) + 24;
+          path.setAttribute("d", `M${source.x} ${source.y + source.height / 2}V${laneY}H${target.outerLeft - 12}V${target.y}H${target.x - target.width / 2}`);
           path.setAttribute("class", "d3-flow-part-reference"); path.setAttribute("data-part-reference", id);
           path.setAttribute("marker-end", `url(#${markerIdFor(model, mountSequence)})`);
           path.setAttribute("aria-label", source.description ?? "References a shared diagram part"); partReferenceLayer.append(path);

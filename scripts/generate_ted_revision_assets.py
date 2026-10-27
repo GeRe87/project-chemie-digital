@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from rdflib import Dataset, Namespace
@@ -16,14 +17,25 @@ def text(x, y, value, size=22, anchor="middle"):
     return f'<text x="{x}" y="{y}" font-size="{size}" text-anchor="{anchor}">{html.escape(value)}</text>'
 
 
-def svg(body, label, width=1280, height=480):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title">'
-            f'<title id="title">{html.escape(label)}</title>'
-            '<style>text{font-family:system-ui,sans-serif;fill:var(--pcd-foreground,#e8f1ff)}'
-            '.axis{stroke:var(--pcd-foreground,#b8cce8);stroke-width:2;fill:none}'
-            '.panel{fill:var(--pcd-surface,#14233b);stroke:#507293;stroke-width:2}'
-            '.accent{stroke:#38bde8;stroke-width:4;fill:none}</style>'
-            f'{body}</svg>\n')
+def svg(body, label, width=1280, height=480, dark=False):
+    # Inert presentation attributes survive the shared SVG sanitizer. Root style
+    # supplies standalone-image defaults only and is discarded on inline import.
+    colors = ['#66e6f3','#bd99ff','#a99dda','#ffad79','#e9ca69'] if dark else ['#00627c','#713fb0','#625995','#9d4e22','#766000']
+    surface, foreground = ('#14233b','#e8f1ff') if dark else ('#f6f9fc','#182c3c')
+    defaults = f'--pcd-foreground:{foreground};--pcd-surface-strong:{surface};'
+    defaults += ''.join(f'--pcd-chart-series-{i+1}:{color};--pcd-illustration-card-{i+1}:{surface};' for i,color in enumerate(colors))
+    root = ET.fromstring(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title"><title id="title">{html.escape(label)}</title>{body}</svg>')
+    root.set('style', defaults)
+    for element in root.iter():
+        cls = element.attrib.pop('class', '')
+        tone = element.attrib.pop('data-tone', '1')
+        if element.tag.endswith('}text'):
+            element.set('font-family','system-ui, sans-serif'); element.set('fill','var(--pcd-foreground)')
+        if cls == 'axis': element.attrib.update({'stroke':'var(--pcd-foreground)','stroke-width':'2','fill':'none'})
+        if cls == 'accent': element.attrib.update({'stroke':'var(--pcd-chart-series-1)','stroke-width':'4','fill':'none'})
+        if cls == 'panel': element.attrib.update({'fill':f'var(--pcd-illustration-card-{tone})','stroke':f'var(--pcd-chart-series-{tone})','stroke-width':'2'})
+    ET.register_namespace('', 'http://www.w3.org/2000/svg')
+    return ET.tostring(root, encoding='unicode')+'\n'
 
 
 def data():
@@ -54,7 +66,7 @@ def scatter(points, offset, heading, x_label, y_label):
     x = lambda v: left+(right-left)*v/xmax
     y = lambda v: bottom-(bottom-top)*v/ymax
     a, b, _ = fit(points)
-    body = f'<rect class="panel" x="{offset+20}" y="165" width="600" height="350" rx="16"/>'
+    body = f'<rect class="panel" data-tone="{1 if offset == 0 else 2}" x="{offset+20}" y="165" width="600" height="350" rx="16"/>'
     body += text(offset+320, 199, heading, 23)
     body += f'<path class="axis" d="M{left} {top}V{bottom}H{right}"/>'
     for i in range(4):
@@ -64,7 +76,7 @@ def scatter(points, offset, heading, x_label, y_label):
     lo, hi = min(v[0] for v in points), max(v[0] for v in points)
     body += f'<path class="accent" d="M{x(lo):.3f} {y(a+b*lo):.3f}L{x(hi):.3f} {y(a+b*hi):.3f}"/>'
     for xx, yy in points:
-        body += f'<circle cx="{x(xx):.3f}" cy="{y(yy):.3f}" r="7" fill="#ffba64" stroke="#101c30" stroke-width="2"/>'
+        body += f'<circle cx="{x(xx):.3f}" cy="{y(yy):.3f}" r="7" fill="var(--pcd-chart-series-4)" stroke="var(--pcd-surface-strong)" stroke-width="2"/>'
     body += text((left+right)/2, 502, x_label, 18)
     body += f'<text transform="translate({offset+42} 345) rotate(-90)" text-anchor="middle" font-size="18">{html.escape(y_label)}</text>'
     return body
@@ -80,7 +92,7 @@ def variance(dataset):
     steps = ['Decompose', 'Cool', 'Capture', 'Desorb', 'Refocus', 'Heat / inject']
     for i, step in enumerate(steps):
         xx = 18+i*210
-        body += f'<rect class="panel" x="{xx}" y="22" width="192" height="80" rx="12"/>'
+        body += f'<rect class="panel" data-tone="{i%5+1}" x="{xx}" y="22" width="192" height="80" rx="12"/>'
         body += text(xx+96, 57, step, 22)
         body += text(xx+96, 84, ['TGA','Gas stream','Twister + transfer','Thermal release','Cold inlet','GC-MS'][i], 17)
         if i < 5: body += text(xx+201, 70, '→', 23)
@@ -111,24 +123,28 @@ def fair():
     return svg(body, 'Readable files versus shared machine-interpretable meaning', height=292)
 
 
-def spectrum():
+def spectrum(dark=False):
     # Anonymous, explicitly synthetic ion-channel pattern, not a named compound.
-    body = '<rect x="2" y="2" width="636" height="264" rx="12" fill="#14233b" stroke="#507293" stroke-width="2"/>'
+    body = '<rect class="panel" x="2" y="2" width="636" height="264" rx="12"/>'
     body += text(320, 30, 'Synthetic candidate ↔ reference', 21)
     body += '<path class="axis" d="M80 128H600"/>'
     for i, (candidate, reference) in enumerate([(0.35,0.32),(1.0,1.0),(0.18,0.20),(0.6,0.58),(0.12,0.10)]):
         xx = 150+i*95
-        body += f'<path d="M{xx} 128v{-candidate*70}" stroke="#38bde8" stroke-width="6"/>'
-        body += f'<path d="M{xx} 128v{reference*70}" stroke="#ffba64" stroke-width="6"/>'
+        body += f'<path d="M{xx} 128v{-candidate*70}" stroke="var(--pcd-chart-series-1)" stroke-width="6"/>'
+        body += f'<path d="M{xx} 128v{reference*70}" stroke="var(--pcd-chart-series-4)" stroke-width="6"/>'
         body += text(xx, 228, str(i+1), 16)
     body += text(25, 88, 'C', 18)+text(25, 179, 'R', 18)
     body += text(320, 253, 'C: candidate · R: reference · numbered anonymous ion channels', 16)
-    return svg(body, 'Synthetic mirror-spectrum illustration, not an identification result', width=640, height=270)
+    return svg(body, 'Synthetic mirror-spectrum illustration, not an identification result', width=640, height=270, dark=dark)
+
+
+def failure():
+    return svg('<path d="M15 5h29l12 12v44H15zM44 5v14h12M25 30l22 22M47 30L25 52" fill="none" stroke="#d13b42" stroke-width="5"/>', 'Failed validation: red document with a cross', width=72, height=72)
 
 
 def assets():
     dataset = data()
-    return {'ted-variance-comparison.svg': variance(dataset), 'ted-fair-compatibility.svg': fair(), 'ted-marker-spectrum.svg': spectrum()}
+    return {'ted-variance-comparison.svg': variance(dataset), 'ted-fair-compatibility.svg': fair(), 'ted-marker-spectrum.svg': spectrum(), 'ted-marker-spectrum-dark.svg': spectrum(dark=True), 'ted-validation-failure.svg': failure()}
 
 
 def main():

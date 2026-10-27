@@ -312,7 +312,7 @@ class TedIntroductionTests(unittest.TestCase):
         scene = self.scenes[-1]
         self.assertEqual(scene["id"], "ex:ted-scene-thanks--scene")
         self.assertEqual(scene["blocks"][0]["text"], "Thank you for your attention")
-        self.assertEqual(scene["blocks"][-1]["text"], "talks.odea-project.org")
+        self.assertEqual(scene["blocks"][-1]["text"].splitlines()[0], "talks.odea-project.org")
         media = next(b for b in scene["blocks"] if b["kind"] == "media-reference")
         self.assertEqual(media["uri"], "/talks-media/talks-website-qr.svg")
         self.assertIn("https://talks.odea-project.org", media["alternativeText"])

@@ -1759,7 +1759,7 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       width: cardWidth ?? horizontalNodeWidth(labelLines, bodyLines),
       height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight"), Boolean(highlightedCard), node.visualMotif)
         + (input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id && p.thumbnail))
-          ? Math.max(0, (cardWidth ?? 272) - 116)
+          ? 56
           : input.states?.some(state => state.nodePresentations?.some(p => p.nodeId === node.id)) ? 48 : 0),
     };
   });

@@ -1,5 +1,24 @@
 # TED-GC-MS revision preview (#296)
 
+## Owner review corrections a1–a9
+
+- Solid TIC at every stage, thinner after EIC selection. Spectrum overlays the
+  upper plot opposite its marker and switches light/dark assets without reload.
+- Variance and FAIR SVGs use inert theme-aware drawing attributes; variance
+  process/panel cards use the shared colorful presentation palette.
+- Added the speaker-specified 15 K/min curve with unchanged 2/6 minute holds:
+  a 20-minute ramp and 28-minute nominal total, versus the export's 38 minutes.
+- Connector labels follow the theme in every layout, with explicit active-stage
+  styling for the processing interfaces.
+- PipelineNode's reference descends below the containing boxes, travels left
+  of the vocabulary box and enters ProcessingUnit from the left.
+- Failed SHACL stage uses a red document/cross; passed stage restores the shared
+  green check motif.
+- Closing slide retains its talk QR/address and adds the owner-specified name,
+  institutional email and institute website. No remote contact lookup is used.
+
+Earlier green full-suite evidence at `f9662fd4` does not validate these corrections.
+
 ## Boundary
 
 Owner-requested follow-up to accepted PR #295, based on `talks`. The result is

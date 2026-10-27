@@ -36,7 +36,9 @@
   ex:ted-validation-connect a cd:DiagramEdge ; cd:position 1 ; cd:sourceNode ex:ted-validation-output ; cd:targetNode ex:ted-validation-input ; skos:prefLabel "declared connection"@en ; cd:authoredResource true .
   ex:ted-validation-check a cd:DiagramEdge ; cd:position 2 ; cd:sourceNode ex:ted-validation-input ; cd:targetNode ex:ted-validation-report ; skos:prefLabel "check shapes"@en ; cd:authoredResource true .
   ex:ted-validation-record a cd:DiagramEdge ; cd:position 3 ; cd:sourceNode ex:ted-validation-report ; cd:targetNode ex:ted-validation-history ; skos:prefLabel "record evidence"@en ; cd:authoredResource true .
-  ex:ted-validation-bad a cd:DiagramState ; cd:position 1 ; skos:prefLabel "v1: PeakVector output does not match IntegerValue input"@en ; cd:authoredResource true .
+  ex:ted-validation-bad a cd:DiagramState ; cd:position 1 ; skos:prefLabel "v1: PeakVector output does not match IntegerValue input"@en ; cd:hasNodePresentation ex:ted-validation-bad-report ; cd:authoredResource true .
+  ex:ted-validation-bad-report a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-report ; cd:usesThumbnail ex:ted-validation-failure-image ; cd:authoredResource true .
+  ex:ted-validation-failure-image a cd:MediaAsset ; cd:uri "/talks-media/ted-validation-failure.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Failed validation: a red document with a cross, not a successful validation check."@en ; cd:authoredResource true .
   ex:ted-validation-good a cd:DiagramState ; cd:position 2 ; skos:prefLabel "v2: correct the declared input, validate and retain both revisions"@en ; cd:hasNodePresentation ex:ted-validation-good-input, ex:ted-validation-good-report, ex:ted-validation-good-history ; cd:authoredResource true .
   ex:ted-validation-good-input a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-input ; cd:body "INPUT: PeakVector\nPeak candidates"@en ; cd:authoredResource true .
   ex:ted-validation-good-report a cd:NodePresentation ; cd:forDiagramNode ex:ted-validation-report ; skos:prefLabel "SHACL: passed"@en ; cd:body "conforms: true\nDeclared types match"@en ; cd:authoredResource true .

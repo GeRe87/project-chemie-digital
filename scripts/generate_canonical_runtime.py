@@ -882,6 +882,12 @@ def line_chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[
                 if not re.fullmatch(r"/[A-Za-z0-9_./-]+", uri) or ".." in uri:
                     raise ValueError("Annotation media must be a local asset")
                 base["media"] = {"uri": uri, "alternativeText": selected_literal(dataset, media, iri(CD, "alternativeText"), "cd:alternativeText", language)}
+                dark_uri = one(dataset, media, iri(CD, "darkUri"), required=False)
+                if dark_uri is not None:
+                    if not re.fullmatch(r"/[A-Za-z0-9_./-]+", str(dark_uri)) or ".." in str(dark_uri):
+                        raise ValueError("Annotation dark media must be a local asset")
+                    base["media"]["darkUri"] = str(dark_uri)
+                    base["source"].append(source_reference(dataset, media, "cd:darkUri"))
                 base["source"].extend([source_reference(dataset, annotation, "cd:annotationMedia"), source_reference(dataset, media, "cd:uri")])
             focus = one(dataset, annotation, iri(CD, "focusSeries"), required=False)
             if focus is not None:

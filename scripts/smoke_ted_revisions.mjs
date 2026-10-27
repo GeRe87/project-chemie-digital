@@ -11,7 +11,7 @@ const entry = manifest.documents[0];
 const artifact = await (await fetch(`${base}/${entry.runtime}`)).json();
 const scenes = artifact.sceneDocuments[0].scenes;
 assert.equal(scenes.length, 29);
-const names = ["overview","heating","capture","markers","process-variance","nesting","temperature-program","calibration-time","fifo-design","processing","fair","semantics","processing-unit","validation","ai"];
+const names = ["overview","heating","capture","markers","process-variance","nesting","temperature-program","calibration-time","fifo-design","processing","fair","semantics","processing-unit","validation","ai","thanks"];
 const axe = axePath ? await fs.readFile(axePath,"utf8") : undefined;
 const browser = await chromium.launch({headless:true, ...(executablePath ? {executablePath} : {})});
 let cases=0, stages=0;
@@ -46,15 +46,39 @@ try {
             const inset=current.locator(".d3-chart-annotation-media");
             assert.equal(await inset.count(),1);
             assert.equal(await inset.evaluate(el=>getComputedStyle(el.parentElement).opacity),step>=4?"1":"0");
+            for(const dash of await current.locator('.d3-chart-line').evaluateAll(es=>es.map(e=>getComputedStyle(e).strokeDasharray))) assert.equal(dash,"none");
+            if(step===4) {
+              const geometry=await inset.evaluate(el=>{const peak=el.parentElement.querySelector('circle');return {x:+el.getAttribute('x'),y:+el.getAttribute('y'),w:+el.getAttribute('width'),px:+peak.getAttribute('cx'),py:+peak.getAttribute('cy')};});
+              assert.ok(geometry.px<geometry.x || geometry.px>geometry.x+geometry.w,"inset obscures selected marker");
+              assert.ok(geometry.y>0);
+              assert.ok((await inset.getAttribute('href')).endsWith(theme==='dark'?'spectrum-dark.svg':'spectrum.svg'));
+              await page.evaluate(()=>document.body.dataset.presentationTheme=document.body.dataset.presentationTheme==='dark'?'light':'dark');
+              await page.waitForTimeout(100);
+              assert.ok((await inset.getAttribute('href')).endsWith(theme==='light'?'spectrum-dark.svg':'spectrum.svg'));
+              await page.evaluate(theme=>document.body.dataset.presentationTheme=theme,theme);
+            }
           }
           if(name==="processing-unit") {
             const anchored=current.locator("path[data-source-part-id]");
             assert.equal(await anchored.count(),step-1);
             if(step>=2) assert.equal(await anchored.first().getAttribute("data-source-part-id"),"ex:ted-unit-part-concept");
             if(step===3) assert.equal(await anchored.last().getAttribute("data-target-part-id"),"ex:ted-unit-part-average");
+            if(step>=2) {
+              const reference=current.locator('.d3-flow-part-reference');
+              assert.match(await reference.getAttribute('d'),/^M[\d.]+ [\d.]+V[\d.]+H/,'reference must descend before travelling left');
+            }
           }
           if(name==="processing" && step===3) {
             assert.equal(await current.locator(".d3-flow-edge-label-group.d3-flow-edge-state-active").count(),4);
+            const active=await current.locator('.d3-flow-edge-label-group.d3-flow-edge-state-active rect').first().evaluate(e=>getComputedStyle(e).fill);
+            assert.notEqual(active,await current.evaluate(e=>getComputedStyle(e).getPropertyValue('--pcd-surface-strong').trim()));
+          }
+          if(name==='thanks') for(const text of ['Gerrit Renner','gerrit.renner@uni-due.de','www.uni-due.de/iac','talks.odea-project.org']) assert.ok((await current.textContent()).includes(text));
+          if(name==='validation') assert.equal(await current.locator('image[href*="ted-validation-failure"]').count(),step===1?1:0);
+          if(name==='ai') {
+            const fills=await current.locator('.d3-flow-edge-label-panel').evaluateAll(es=>es.map(e=>getComputedStyle(e).fill));
+            assert.ok(fills.length>0);
+            if(theme==='light') for(const fill of fills) {const rgb=fill.match(/[\d.]+/g).map(Number);assert.ok(rgb[0]+rgb[1]+rgb[2]>400,'dark connector panel in light mode');}
           }
           if(name==="validation") assert.ok((await current.locator(".d3-flow-svg").textContent()).includes(step===1?"SHACL: failed":"SHACL: passed"));
           if(name==="heating") assert.equal(await current.locator(".pcd-list-item-details li").count(),1);
@@ -73,6 +97,12 @@ try {
           assert.equal(bounds.overflow,false,`${name}: document overflow`);
           for(const b of bounds.items) assert.ok(b.x>=-2&&b.y>=-2&&b.x+b.width<=viewport.width+2&&b.y+b.height<=viewport.height+2,`${name} stage ${step}: clipped content ${JSON.stringify(b)}`);
           if(name==="process-variance" || name==="fair") {
+            assert.equal(await current.locator('svg.teaching-svg').count(),1,'SVG failed safe inline enhancement');
+            const panel=current.locator('svg.teaching-svg rect').first();
+            const before=await panel.evaluate(e=>getComputedStyle(e).fill);
+            await page.evaluate(()=>document.body.dataset.presentationTheme=document.body.dataset.presentationTheme==='dark'?'light':'dark');
+            assert.notEqual(await panel.evaluate(e=>getComputedStyle(e).fill),before,'illustration did not respond to theme change');
+            await page.evaluate(theme=>document.body.dataset.presentationTheme=theme,theme);
             const unit=current.locator(".formula-with-legend");
             assert.equal(await unit.count(),1);
             assert.ok(await unit.locator(".definition-list-description").isVisible());

@@ -34,12 +34,9 @@
 }
 
 /* Context stays visible when an authored annotation selects another series. */
-.reveal .d3-chart-line.d3-chart-series-context { stroke: var(--pcd-muted); stroke-width: 2.5; filter: none; }
+.reveal .d3-chart-line.d3-chart-series-context { stroke-width: 2.5; filter: none; }
 .reveal .d3-chart-line-point.d3-chart-series-context { fill: var(--pcd-muted); stroke: var(--pcd-muted); }
 .d3-chart-line.d3-chart-series-2, .d3-chart-line-point.d3-chart-series-2 { stroke: var(--pcd-chart-series-2); }
-.d3-chart-line.d3-chart-series-3, .d3-chart-line-point.d3-chart-series-3 { stroke: var(--pcd-chart-series-3); }
-.d3-chart-line.d3-chart-series-4, .d3-chart-line-point.d3-chart-series-4 { stroke: var(--pcd-chart-series-4); }
-.d3-chart-line.d3-chart-series-5, .d3-chart-line-point.d3-chart-series-5 { stroke: var(--pcd-chart-series-5); }
 .d3-chart-line.d3-chart-series-3, .d3-chart-line-point.d3-chart-series-3 { stroke: var(--pcd-chart-series-3); }
 .d3-chart-line.d3-chart-series-4, .d3-chart-line-point.d3-chart-series-4 { stroke: var(--pcd-chart-series-4); }
 .d3-chart-line.d3-chart-series-5, .d3-chart-line-point.d3-chart-series-5 { stroke: var(--pcd-chart-series-5); }

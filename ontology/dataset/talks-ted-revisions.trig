@@ -12,11 +12,13 @@
 }
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-revisions> {
+  ex:ted-marker-spectrum-image cd:darkUri "/talks-media/ted-marker-spectrum-dark.svg"^^xsd:anyURI .
+  ex:ted-temperature-definition cd:hasSource ex:ted-source-fast-program .
   ex:ted-temperature-program a cd:Concept ; skos:prefLabel "Our TGA temperature program"@en ; cd:hasDefinition ex:ted-temperature-definition ; cd:hasSource ex:ted-source-tga-method ; cd:authoredResource true .
   ex:ted-temperature-definition a cd:Definition ; cd:body "The supplied program holds 200 degrees Celsius for 2 minutes, heats to 500 degrees Celsius at 10 kelvin per minute (30 minutes), then holds 500 degrees Celsius for 6 minutes. The nominal segment total is 38 minutes. Nitrogen flow changes from 20 to 30 millilitres per minute after the first segment. Conditional sample-temperature settling, insertion, cooling and reset are excluded from the plotted time. This supplied program must not be mistaken for the optimized 20-minute extraction in the preceding schedule model."@en ; cd:hasSource ex:ted-source-tga-method ; cd:authoredResource true .
   ex:ted-temperature-points a cd:Interpretation ; cd:body "Nominal programmed segments, not a complete instrument cycle."@en ; cd:hasKeyPoint ex:ted-temp-p1, ex:ted-temp-p2, ex:ted-temp-p3 ; cd:authoredResource true .
   ex:ted-temp-p1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Hold:** 200 °C, 2 min; nitrogen 20 mL/min"@en ; cd:authoredResource true .
-  ex:ted-temp-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Ramp:** 10 K/min to 500 °C; nitrogen 30 mL/min"@en ; cd:authoredResource true .
+  ex:ted-temp-p2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Ramp comparison:** 10 or 15 K/min to 500 °C"@en ; cd:authoredResource true .
   ex:ted-temp-p3 a cd:KeyPoint ; cd:position 3 ; cd:body "**Hold:** 500 °C, 6 min; settling/reset excluded"@en ; cd:authoredResource true .
 
   ex:ted-process-variance a cd:Concept ; skos:prefLabel "Why TED-GC-MS needs replicates"@en ; cd:hasDefinition ex:ted-variance-definition ; cd:hasSource ex:ted-source-revision-notes, ex:ted-source-calibration-pairs ; cd:authoredResource true .
@@ -43,7 +45,13 @@
 }
 
 <https://w3id.org/project-chemie-digital/graph/data/talks-ted-revisions> {
-  ex:ted-temperature-chart a cd:ChartDefinition ; skos:prefLabel "Supplied TGA method: nominal temperature against time"@en ; cd:body "Supplied method, not the optimized schedule model. 38 min nominal; conditional settling, insertion, cooling and reset excluded."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Nominal segment time"@en ; cd:xAxisUnit "min" ; cd:yAxisLabel "Temperature"@en ; cd:yAxisUnit "°C" ; cd:usesDataset ex:ted-temperature-data ; cd:hasSource ex:ted-source-tga-method ; cd:authoredResource true .
+  ex:ted-temperature-chart a cd:ChartDefinition ; skos:prefLabel "TGA programs: nominal temperature against time"@en ; cd:body "10 K/min: supplied export, 38 min. 15 K/min: speaker-specified comparison, 28 min. Same 2/6 min holds; settling, cooling and reset excluded."@en ; cd:chartType cd:LineChart ; cd:xAxisLabel "Nominal segment time"@en ; cd:xAxisUnit "min" ; cd:yAxisLabel "Temperature"@en ; cd:yAxisUnit "°C" ; cd:usesDataset ex:ted-temperature-data ; dct:hasPart ex:ted-temperature-fast-data ; cd:hasSource ex:ted-source-tga-method ; cd:authoredResource true .
+  ex:ted-temperature-fast-data a cd:Dataset ; skos:prefLabel "15 K/min: 28 min (comparison)"@en ; cd:hasObservation ex:ted-fast-0, ex:ted-fast-2, ex:ted-fast-22, ex:ted-fast-28 ; cd:hasSource ex:ted-source-fast-program ; cd:authoredResource true .
+  ex:ted-source-fast-program a cd:Source ; dct:title "Speaker-specified 15 K/min comparison" ; dct:description "Owner revision a3: retain the supplied 200 and 500 degrees Celsius setpoints and 2/6 minute holds; change the ramp to 15 K/min. The 300 K ramp takes 20 min, yielding 28 min nominal. Calculated program, not a measured timing or the original method export."@en ; cd:supportsResource ex:ted-temperature-fast-data ; cd:authoredResource true .
+  ex:ted-fast-0 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 200.0 ; cd:authoredResource true .
+  ex:ted-fast-2 a cd:Observation ; cd:position 2 ; cd:xValue 2.0 ; cd:numericValue 200.0 ; cd:authoredResource true .
+  ex:ted-fast-22 a cd:Observation ; cd:position 3 ; cd:xValue 22.0 ; cd:numericValue 500.0 ; cd:authoredResource true .
+  ex:ted-fast-28 a cd:Observation ; cd:position 4 ; cd:xValue 28.0 ; cd:numericValue 500.0 ; cd:authoredResource true .
   ex:ted-temperature-data a cd:Dataset ; skos:prefLabel "200 °C hold → 10 K/min ramp → 500 °C hold"@en ; cd:hasObservation ex:ted-temp-0, ex:ted-temp-2, ex:ted-temp-32, ex:ted-temp-38 ; cd:hasSource ex:ted-source-tga-method ; cd:authoredResource true .
   ex:ted-temp-0 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 200.0 ; cd:authoredResource true .
   ex:ted-temp-2 a cd:Observation ; cd:position 2 ; cd:xValue 2.0 ; cd:numericValue 200.0 ; cd:authoredResource true .

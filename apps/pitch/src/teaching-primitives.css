@@ -25,6 +25,11 @@
   overflow: auto;
 }
 .reveal .formula-with-legend { flex: 1 1 0; min-width: 0; text-align: center; }
+.reveal { --pcd-illustration-card-1: color-mix(in srgb,var(--pcd-chart-series-1) 12%,var(--pcd-surface-strong));
+  --pcd-illustration-card-2: color-mix(in srgb,var(--pcd-chart-series-2) 12%,var(--pcd-surface-strong));
+  --pcd-illustration-card-3: color-mix(in srgb,var(--pcd-chart-series-3) 12%,var(--pcd-surface-strong));
+  --pcd-illustration-card-4: color-mix(in srgb,var(--pcd-chart-series-4) 12%,var(--pcd-surface-strong));
+  --pcd-illustration-card-5: color-mix(in srgb,var(--pcd-chart-series-5) 12%,var(--pcd-surface-strong)); }
 .reveal .slides section[data-composition-profile="visual-evidence"] {
   display: grid !important; grid-template-rows: auto auto minmax(0,1fr) auto;
   gap: .55rem; align-content: stretch;

@@ -194,7 +194,7 @@ export type SelfStudyLineChartAnnotationPlan =
       readonly kind: "point";
       readonly seriesId: string;
       readonly datumId: string;
-      readonly media?: {readonly uri: string; readonly alternativeText: string};
+      readonly media?: {readonly uri: string; readonly darkUri?: string; readonly alternativeText: string};
       readonly label: string;
       readonly source: readonly SourceReference[];
     }

@@ -472,7 +472,7 @@ export interface LineChartPointAnnotation {
   readonly datumId: string;
   /** Reveal and focus this series at the annotation's presentation stage. */
   readonly focusSeries?: boolean;
-  readonly media?: {readonly uri: string; readonly alternativeText: string};
+  readonly media?: {readonly uri: string; readonly darkUri?: string; readonly alternativeText: string};
   readonly label: string;
   readonly source: readonly SourceReference[];
 }
@@ -1138,6 +1138,7 @@ function validateChart(block: ChartBlock, label: string): void {
       if (annotation.media && (!/^\/[A-Za-z0-9_./-]+$/.test(annotation.media.uri) || annotation.media.uri.includes("..") || typeof annotation.media.alternativeText !== "string" || !annotation.media.alternativeText.trim())) {
         throw new SceneContractError("Annotation media requires a local asset and alternative text");
       }
+      if (annotation.media?.darkUri !== undefined && (!/^\/[A-Za-z0-9_./-]+$/.test(annotation.media.darkUri) || annotation.media.darkUri.includes(".."))) throw new SceneContractError("Annotation dark media must be a local asset");
       if (annotation.focusSeries !== undefined && typeof annotation.focusSeries !== "boolean") {
         throw new SceneContractError(`${label} point annotation focusSeries must be boolean`);
       }

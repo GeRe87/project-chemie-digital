@@ -59,6 +59,9 @@ test("annotation media preserves its own stage, alternative and immutable source
     const broken = structuredClone(line);
     Object.assign(broken.annotations![0], {media: {uri, alternativeText: "not safe"}});
     assert.throws(() => validateSceneDocument(doc(broken)), /local asset/);
+    const dark = structuredClone(line);
+    Object.assign(dark.annotations![0], {media: {uri: '/evidence.svg', darkUri: uri, alternativeText: 'Reference'}});
+    assert.throws(() => validateSceneDocument(doc(dark)), /local asset/);
   }
 });
 
