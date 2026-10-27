@@ -67,6 +67,11 @@ The full slide audit then found a real `aria-prohibited-attr` violation on the
 new part-reference arrow. Its authored accessible label now has an explicit
 image role. Thirteen focused diagram/state regression checks pass after that
 single-attribute correction; a rebuilt artifact must be audited again.
+The next mobile audit found an unfocusable scrollable static TriG code block.
+Non-executable code fallbacks now receive `tabindex=0`. A dedicated regression
+also verifies that executable-code fallback focus remains unchanged. Existing
+Chemometrics resources contain no `cd:executable false` code examples; no course
+content or layout is changed by this static-code accessibility correction.
 
 ## Recommended manager action
 

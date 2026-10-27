@@ -176,6 +176,7 @@ function appendBlock(
     sourceAttributes(shell, block.source);
     const pre = dom.createElement("pre");
     pre.className = "code-static-fallback";
+    if (!block.executable) pre.setAttribute("tabindex", "0");
     const code = dom.createElement("code");
     code.textContent = block.fallback;
     if (block.language === "trig") code.innerHTML = trigMarkup(block.fallback);
