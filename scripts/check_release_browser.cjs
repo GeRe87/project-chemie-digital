@@ -20,7 +20,7 @@ function isSymbolList(block) {
   assert(['chromium', 'firefox', 'webkit', 'edge'].includes(engine), 'Unsupported browser engine.');
   fs.mkdirSync(output, { recursive: true });
   const reportPath = path.join(output, `${engine}-release-browser.json`);
-  const report = { ok: false, engine, url: base.href, levels: [], errors: [], failedRequests: [], remoteRequests: [], checks: [], symbolLegendChecks: 0 };
+  const report = { ok: false, engine, url: base.href, levels: [], errors: [], failedRequests: [], disabledScripts: [], remoteRequests: [], checks: [], symbolLegendChecks: 0 };
   // Invalidate earlier evidence even when parsing input or launching the browser fails.
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n');
   let browser;
@@ -38,16 +38,25 @@ function isSymbolList(block) {
     page.setDefaultTimeout(30000);
     const requested = [];
     let stageExample;
-    function monitor(page) {
+    function monitor(page, { javaScriptDisabled = false } = {}) {
     page.on('pageerror', error => report.errors.push(error.message));
     page.on('response', response => {
       if (response.status() >= 400) report.failedRequests.push({ url: response.url(), status: response.status() });
     });
     page.on('requestfailed', request => {
+      const error = request.failure()?.errorText || '';
+      // Chromium deliberately blocks module preloads when JavaScript is disabled.
+      // Record this only in the no-JavaScript context; every other CSP failure,
+      // remote request and non-script failure still fails the release gate.
+      if (javaScriptDisabled && request.resourceType() === 'script' && error === 'csp'
+        && new URL(request.url()).origin === base.origin) {
+        report.disabledScripts.push({ url: request.url(), error });
+        return;
+      }
       // Browser navigation may cancel optional media decoding; transport/script
       // failures remain fatal, including errors that do not produce HTTP responses.
-      if (!['media', 'image'].includes(request.resourceType()) || !/ERR_ABORTED|NS_BINDING_ABORTED/.test(request.failure()?.errorText || '')) {
-        report.failedRequests.push({ url: request.url(), error: request.failure()?.errorText });
+      if (!['media', 'image'].includes(request.resourceType()) || !/ERR_ABORTED|NS_BINDING_ABORTED/.test(error)) {
+        report.failedRequests.push({ url: request.url(), error });
       }
     });
     page.on('request', request => {
@@ -93,9 +102,20 @@ function isSymbolList(block) {
               has: page.locator(`[data-definition-entry-id="${legend.entries[0].id}"]`),
             });
             assert.equal(await symbols.count(), 1, 'An authored symbol legend must have a visible disclosure.');
-            if (!await symbols.evaluate(element => element.open)) {
-              const summary = symbols.locator('summary'); await summary.focus(); await page.keyboard.press('Enter');
+            const summary = symbols.locator('summary');
+            const tabId = await summary.evaluate(element => element.closest('[role="tabpanel"]')?.getAttribute('aria-labelledby'));
+            if (tabId) {
+              const tab = page.locator(`[role="tab"][id="${tabId}"]`);
+              await tab.focus(); await page.keyboard.press('Enter');
             }
+            await summary.waitFor({ state: 'visible' });
+            await summary.focus();
+            assert(await summary.evaluate(element => element === document.activeElement), 'The visible Symbols control must receive keyboard focus.');
+            if (await symbols.evaluate(element => element.open)) {
+              await page.keyboard.press('Enter');
+              assert(!await symbols.evaluate(element => element.open), 'Symbols must close from the keyboard.');
+            }
+            await page.keyboard.press('Enter');
             assert(await symbols.evaluate(element => element.open), 'Symbols must open from the keyboard.');
             const renderedIds = await symbols.locator('.definition-list-entry').evaluateAll(entries => entries.map(entry => entry.dataset.definitionEntryId));
             assert.deepEqual(renderedIds, legend.entries.map(entry => entry.id), 'Every authored symbol entry must be rendered in order.');
@@ -170,9 +190,12 @@ function isSymbolList(block) {
 
     const staticContext = await browser.newContext({ javaScriptEnabled: false });
     const fallback = await staticContext.newPage();
-    monitor(fallback);
+    monitor(fallback, { javaScriptDisabled: true });
     await fallback.goto(base.href);
-    await fallback.getByRole('link', { name: 'Open static course content' }).click();
+    await Promise.all([
+      fallback.waitForURL(new URL('./course-runtime/static-course.html', base).href, { waitUntil: 'load' }),
+      fallback.getByRole('link', { name: 'Open static course content' }).click(),
+    ]);
     const staticIds = await fallback.locator('article[data-pitch-step]').evaluateAll(elements => elements.map(element => element.getAttribute('data-pitch-step')));
     assert.deepEqual(staticIds, documents.flatMap(item => item.record.sceneIds), 'The no-JavaScript course must retain all selected scenes in order.');
     assert((await fallback.locator('dl').count()) > 0, 'Static formula legends must remain present.');
