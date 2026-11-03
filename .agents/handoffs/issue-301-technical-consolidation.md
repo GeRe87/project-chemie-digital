@@ -50,7 +50,7 @@ included.
 
 ## Verification
 
-Focused implementation evidence before the final integration run:
+Focused implementation evidence:
 
 - 159 Core tests and 20 RDF tests passed; structural negative fixtures exercise
   more than 1,500 malformed field cases.

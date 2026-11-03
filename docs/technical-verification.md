@@ -143,7 +143,9 @@ explicit browser engine to the gate before claiming coverage for it.
 
 Subpath hosting remains constrained by the existing root-relative local R/network
 guard integration. The supported production base remains `/`, or `./` at a domain
-root. No deployment, GitHub Actions workflow, branch-protection change or automatic
+root. Verified JSON loading uses the browser's Web Crypto API and requires HTTPS
+or localhost; a remote plain-HTTP origin cannot initialize the verified course.
+No deployment, GitHub Actions workflow, branch-protection change or automatic
 dependency audit is part of these commands.
 
 The exact-head external status `agent-validator/project-chemie-digital` remains
