@@ -41,6 +41,25 @@ html.print-pdf .reveal .pdf-page .media-reference img {
 html.print-pdf .reveal .pdf-page .media-reference img { display:block!important;width:100%!important; }
 /* This late-loaded shared composition must also survive Reveal's block reset. */
 html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="visual-formula"] { display:grid!important; }
+/* Dense, complete symbol lists need a little more paper width than the live
+   diagram. Interactive screen views use tabs instead of this paper split. */
+html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="visual-formula"]:has(> [data-composition-region-container="primary"] > [data-chart-block-id]):has(.authored-symbol-definitions) {
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+}
+html.print-pdf .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(4)) :is(.authored-symbol-definitions,.authored-symbol-conventions) { font-size:14px; }
+/* Dense overview cards retain mathematical line heights and complete legends.
+   Reclaim paper-only card padding instead of shrinking their text further. */
+html.print-pdf .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(> .formula-with-legend:nth-child(4)) > .formula-with-legend { padding:.4rem; }
+/* Tables and their complete formula/legend unit share a standard paper split.
+   This structural rule avoids shrinking a long vertical table+legend stack. */
+html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);
+  gap:1rem 1.5rem;
+}
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region="heading"] { grid-column:1 / -1;grid-row:1; }
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="prelude"] { grid-column:1;grid-row:2;min-width:0; }
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="main"] { grid-column:2;grid-row:2;min-width:0; }
 @media print {
   .pcd-slides-pdf-toolbar { display:none!important; }
   html.print-pdf,html.print-pdf body { margin:0!important;padding:0!important; }

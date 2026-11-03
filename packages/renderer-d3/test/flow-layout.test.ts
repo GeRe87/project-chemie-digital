@@ -18,6 +18,19 @@ const input = {
   ],
 } as const;
 
+test('wide flow cards use their content width without splitting ordinary words',()=>{
+ const graph={diagramType:'flow' as const,nodes:[
+  {id:'a',label:'Take six measurements',description:'Independent results from one population.'},
+  {id:'b',label:'Estimate mean and SD',description:'Both estimates vary across complete samples.'},
+  {id:'c',label:'Standardize the mean',description:'Centre and scale the estimated mean.'},
+  {id:'d',label:'Collect and compare',description:'Collect one value per complete sample.'},
+ ],edges:[{id:'ab',sourceNodeId:'a',targetNodeId:'b',label:'next'},{id:'bc',sourceNodeId:'b',targetNodeId:'c',label:'next'},{id:'cd',sourceNodeId:'c',targetNodeId:'d',label:'next'}]};
+ const layout=createD3FlowLayout(graph,1380);
+ assert(layout.nodes[0]!.labelLines.includes('measurements'));
+ assert.equal(layout.nodes[0]!.labelLines.join(''),'Take six measurements');
+ assert(layout.nodes.every(node=>node.width>=252));
+});
+
 const branchedInput = {
   nodes: [
     { id: "raw", label: "RAW DATA" },

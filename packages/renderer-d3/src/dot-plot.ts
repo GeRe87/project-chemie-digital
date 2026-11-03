@@ -77,8 +77,10 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
 
   const render = () => {
     canvas.replaceChildren();
-    const width = Math.max(600, Math.round(host.getBoundingClientRect().width || 900));
-    const height = Math.max(370, Math.min(520, width * .48));
+    const width = Math.max(600, Math.round(host.clientWidth || host.getBoundingClientRect().width || 900));
+    const naturalHeight = width >= 1000 ? 360 : Math.max(370, Math.min(520, width * .48));
+    const fill = typeof getComputedStyle !== 'undefined' && getComputedStyle(host).getPropertyValue('--pcd-chart-fill-stage').trim() === '1';
+    const height = fill ? Math.max(naturalHeight, canvas.clientHeight) : naturalHeight;
     canvas.setAttribute("viewBox", `0 0 ${width} ${height}`);
     const { x, y, numericX } = dotPlotGeometry(model, width, height);
     const groupX = (group: DotPlotBlock["groups"][number]) => numericX ? numericX(group.x!) : x(group.id)!;

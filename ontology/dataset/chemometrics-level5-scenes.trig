@@ -1,0 +1,1298 @@
+# Active Level 5 resources; original RDF identities and named graphs preserved.
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-analytical-lecture> {
+  ex:al-map-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:al-map-title .
+  ex:al-map-title rdf:type cd:Interpretation ;
+    skos:prefLabel "How the five distribution families connect"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-ic-experiments> {
+  ex:ix-series-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ix-series-title .
+  ex:ix-series-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Same method, different spreads"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ix-size-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ix-size .
+  ex:ix-size-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ix-size-title .
+  ex:ix-size-title rdf:type cd:Interpretation ;
+    skos:prefLabel "What changes when six repeats become thirty"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ix-square-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ix-square .
+  ex:ix-square-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ix-square-title .
+  ex:ix-square-scene dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ix-square-f ;
+    cd:hasSceneItem ex:ix-square-h ;
+    cd:hasSceneItem ex:ix-square-v ;
+    cd:narration "Squaring a standard-normal value folds both tails onto the nonnegative axis. The result follows a chi-square distribution with one degree of freedom and a long right tail. As for every continuous variable, probabilities describe intervals; each exact value has probability zero."@en .
+  ex:ix-square-title rdf:type cd:Interpretation ;
+    skos:prefLabel "From one normal draw to one squared distance"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ix-square-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:ix-square-media .
+  ex:ix-sum-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ix-sum .
+  ex:ix-sum-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ix-sum-title .
+  ex:ix-sum-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Add independent squares to construct chi-square"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-ic-precision> {
+  ex:ic-deviations-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ic-deviations-title .
+  ex:ic-deviations-t rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:TableRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasTableRow" ;
+    cd:selectsResource ex:ic-deviation-table .
+  ex:ic-deviations-title rdf:type cd:Interpretation ;
+    skos:prefLabel "First describe today's spread; judge its rarity afterward"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ic-repeated-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ic-repeated-title .
+  ex:ic-repeated-title rdf:type cd:Interpretation ;
+    skos:prefLabel "What variance estimates would an unchanged method produce"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ic-squares dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ic-squares-c ;
+    cd:hasSceneItem ex:ic-squares-f ;
+    cd:hasSceneItem ex:ic-squares-h ;
+    cd:hasSceneItem ex:ic-squares-v ;
+    cd:narration "Scale the deviations from the sample mean 10.05 mg/L by the reference SD 0.10 mg/L. The residuals become -1, 1, -2, 2, -1, 1; their squared sum is 12.\n\nThe same result follows from 0.12 / 0.01 or 5 times 0.024 / 0.01. Units cancel. Estimating the mean links the six residuals, leaving five independent degrees of freedom under the Normal model."@en .
+  ex:ic-squares-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:ic-q-context .
+  ex:ic-squares-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ic-q .
+  ex:ic-squares-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ic-squares-title .
+  ex:ic-squares-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Scale, square and add: the observed statistic is 12"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ic-squares-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:ic-residual-media .
+  ex:ic-test dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ic-test-c ;
+    cd:hasSceneItem ex:ic-test-f ;
+    cd:hasSceneItem ex:ic-test-h ;
+    cd:hasSceneItem ex:ic-test-v ;
+    cd:narration "The prespecified question is whether repeatability SD exceeds 0.10 mg/L. At this boundary, Q = 12 has upper-tail probability 0.0347878, about 3.48%. It exceeds the 5% critical value 11.0704977, providing evidence of increased spread.\n\nThe reference requires independent Normal readings and a known reference SD. Smaller true SDs shift Q downward. The p-value describes the statistic's tail probability under the boundary model. Laboratory procedures govern investigation and release; identifying the cause requires further evidence."@en .
+  ex:ic-test-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:ic-decision-context .
+  ex:ic-test-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ic-decision .
+  ex:ic-test-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ic-test-title .
+  ex:ic-test-title rdf:type cd:Interpretation ;
+    skos:prefLabel "12 exceeds 11.07: evidence of poorer IC repeatability"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:ic-test-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:ic-tail-media .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-ic-story-bridge> {
+  ex:ic-question-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:ic-question-title .
+  ex:ic-question-title rdf:type cd:Interpretation ;
+    skos:prefLabel "A larger sample SD is not yet a test decision"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-lognormal-workup> {
+  ex:lg-checks-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-checks-title .
+  ex:lg-checks-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Positive and right-skewed does not prove lognormal"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:lg-definition-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-definition-title .
+  ex:lg-definition-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Exponentiating a normal log ratio creates the model"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:lg-log-scale-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:lg-log-scale .
+  ex:lg-log-scale-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-log-scale-title .
+  ex:lg-log-scale-scene dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-log-scale-f ;
+    cd:hasSceneItem ex:lg-log-scale-h ;
+    cd:hasSceneItem ex:lg-log-scale-v ;
+    cd:narration "The same three concentrations have linear gaps of 2 and 2.5 ng/L. Their natural log ratios to 10 ng/L are symmetric around zero, at about -0.22314 and 0.22314.\n\nLogarithms express relative changes. Their arguments are dimensionless, and concentrations below the reference give negative log ratios."@en .
+  ex:lg-log-scale-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Same concentrations, different distance scales"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:lg-log-scale-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:lg-scales-media .
+  ex:lg-process dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-process-c ;
+    cd:hasSceneItem ex:lg-process-h ;
+    cd:hasSceneItem ex:lg-process-v ;
+    cd:narration "This example measures an organic trace analyte by LC-MS/MS in ng/L. Procedure A repeats injections of one prepared solution. Procedure B independently prepares aliquots from one homogeneous sample.\n\nB includes preparation variability as well as injection variability. Relative preparation effects motivate a multiplicative candidate model."@en .
+  ex:lg-process-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:lg-process-cards .
+  ex:lg-process-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-process-title .
+  ex:lg-process-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Two different repeat experiments"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:lg-process-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:lg-process-media .
+  ex:lg-saved-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-saved-title .
+  ex:lg-saved-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Why the long right tail"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:lg-saved-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:lg-saved-chart .
+  ex:lg-tail-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:lg-tail-title .
+  ex:lg-tail-title rdf:type cd:Interpretation ;
+    skos:prefLabel "How often would a stable model exceed 15 ng/L"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-model-check-story> {
+  ex:rev-ks-overlay-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rev-ks-overlay-title .
+  ex:rev-ks-overlay-title rdf:type cd:Interpretation ;
+    skos:prefLabel "KS: overlay ECDF and CDF, find the largest vertical gap"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:rev-pearson-start-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rev-pearson-start-title .
+  ex:rev-pearson-start-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Pearson: do 100 particle counts match five stated proportions"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:rev-pearson-table-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rev-pearson-table-title .
+  ex:rev-pearson-table-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Pearson decision: read 4 df and the 5% column"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:rev-qq-read-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:rev-qq-reading .
+  ex:rev-qq-read-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rev-qq-read-title .
+  ex:rev-qq-read-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Q-Q comparison: near the line versus a clear bend"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:rev-qq-read-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:rev-qq-media .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-normal-ic-story> {
+  ex:nn-bands-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-bands .
+  ex:nn-bands-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-bands-title .
+  ex:nn-bands-title rdf:type cd:Interpretation ;
+    skos:prefLabel "One tail or two: derive the central coverage"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-cdf-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-cdf .
+  ex:nn-cdf-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-cdf-title .
+  ex:nn-cdf-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Uppercase Phi turns density area into probability"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-decision-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-decision .
+  ex:nn-decision-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-decision-title .
+  ex:nn-decision-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Where should an upper one-percent limit lie"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-devices-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-devices .
+  ex:nn-devices-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-devices-title .
+  ex:nn-devices-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Compare Methods on a Standardized Scale"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-ecdf-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-ecdf-title .
+  ex:nn-ecdf-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Why does the ECDF not exactly follow the model"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-eta-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-eta-title .
+  ex:nn-eta-title rdf:type cd:Interpretation ;
+    skos:prefLabel "z-score: distance from expectation in SD units"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-phi-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-phi .
+  ex:nn-phi-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-phi-title .
+  ex:nn-phi-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Lowercase phi describes density, not point probability"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:nn-tail-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:nn-tail .
+  ex:nn-tail-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:nn-tail-title .
+  ex:nn-tail-title rdf:type cd:Interpretation ;
+    skos:prefLabel "How often does a stable method exceed 10.20 mg/L"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-complete> {
+  ex:p1-n15-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-normal-tail .
+  ex:p1-n17-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-normal-inverse .
+  ex:p1-n28-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-log-tasks .
+  ex:p1-n41-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-variance-compare .
+  ex:p1-n46-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:dist-t-compare .
+  ex:p1-n63-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-pearson-contributions .
+  ex:rv-f-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:dist-f .
+  ex:rv-log-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-log-transform .
+  ex:rv-n14 dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-cdf-f ;
+    cd:hasSceneItem ex:nn-cdf-h ;
+    cd:hasSceneItem ex:rv-normal-v ;
+    cd:narration "For the Normal model, the CDF is written uppercase Phi and the density lowercase phi. At 10.20 mg/L, z = 2 gives cumulative probability 0.977249868 and upper-tail probability 0.022750132.\n\nIntegrating phi from minus infinity gives Phi. Its antiderivative uses the error function erf, with the scaling and half-offset shown in the formula."@en .
+  ex:rv-n15 dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-tail-f ;
+    cd:hasSceneItem ex:nn-tail-h ;
+    cd:hasSceneItem ex:p1-n15-v ;
+    cd:hasSceneItem ex:rv-normal-r ;
+    cd:narration "The upper-tail probability answers how often an individual result exceeds a chosen threshold. Under the stated stable-method model, about 2.275% of results exceed 10.20 mg/L. This frequency describes expected model behaviour."@en .
+  ex:rv-n16 dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-ecdf-h ;
+    cd:hasSceneItem ex:rv-n16-r ;
+    cd:hasSceneItem ex:rv-n16-v ;
+    cd:narration "The empirical CDF gives the observed fraction at or below each threshold. Using the same simulated sequence, the fraction at 10.20 mg/L is 0.978 for 1,000 results. The theoretical CDF supplies the corresponding population-model probability."@en .
+  ex:rv-n16-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:nn-ecdf-code .
+  ex:rv-n16-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-ecdf-start .
+  ex:rv-n17 dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-decision-f ;
+    cd:hasSceneItem ex:nn-decision-h ;
+    cd:hasSceneItem ex:p1-n17-v ;
+    cd:narration "A quantile reverses the probability question. To leave 1% of individual results above the threshold, choose the 99th percentile: 10.232634787 mg/L for this known-parameter model. Repeated monitoring and estimated parameters require their own calibration."@en .
+  ex:rv-n22 dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-saved-h ;
+    cd:hasSceneItem ex:lg-saved-v ;
+    cd:hasSceneItem ex:rv-n22-r ;
+    cd:narration "These constructed datasets compare repeat injections with independent full preparations. Their histograms illustrate two possible patterns: roughly symmetric absolute variation and a right-skewed pattern consistent with relative effects. The sampling design determines which sources of variability each dataset includes."@en .
+  ex:rv-n22-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:lg-compare-code .
+  ex:rv-n25 dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-definition-h ;
+    cd:hasSceneItem ex:rv-log-v ;
+    cd:hasSceneItem ex:rv-n25-f ;
+    cd:hasSceneItem ex:rv-n25-r ;
+    cd:narration "A normally distributed log ratio produces a Lognormal concentration after exponentiation. The concentration stays positive and has a right tail. Increasing log SD while holding the median fixed widens that tail and raises the arithmetic expectation; the log-scale distribution remains symmetric."@en .
+  ex:rv-n25-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:lg-definition .
+  ex:rv-n25-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:lg-transform-code .
+  ex:rv-n28 dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-tail-h ;
+    cd:hasSceneItem ex:p1-n28-v ;
+    cd:hasSceneItem ex:rv-n28-f ;
+    cd:narration "At log SD 0.30, the probability of exceeding 15 ng/L is about 0.08826. Reversing the question, a 5% upper-tail probability gives a threshold of about 16.38 ng/L. Both calculations use the Normal log-scale model and return to concentration units by exponentiation."@en .
+  ex:rv-n28-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:lg-quantile .
+  ex:rv-n29 dct:subject ex:l5-topic-lognormal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:lognormal-concentration-model ;
+    cd:hasSceneItem ex:lg-checks-h ;
+    cd:hasSceneItem ex:rv-n29-c ;
+    cd:hasSceneItem ex:rv-n29-r ;
+    cd:narration "Model choice starts with the sampling unit: repeated preparation of one homogeneous sample describes repeatability; sampling different sites includes environmental variation. Mixtures, reporting limits and censoring can change the observed shape. Arithmetic and geometric summaries answer different reporting questions."@en .
+  ex:rv-n29-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:p1-population-cards .
+  ex:rv-n29-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:lg-environment-code .
+  ex:rv-n31 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ic-question-h ;
+    cd:hasSceneItem ex:rv-n31-v ;
+    cd:narration "A new constructed nitrate QC series contains six independent readings. We compare its repeatability with a known reference SD of 0.10 mg/L, assuming Normal measurement results. The prespecified question is whether spread has increased, using a one-sided 5% level. An estimated reference SD would require a different comparison."@en .
+  ex:rv-n31-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:ic-process-media .
+  ex:rv-n32 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ic-deviations-h ;
+    cd:hasSceneItem ex:ic-deviations-t ;
+    cd:hasSceneItem ex:rv-n32-f ;
+    cd:narration "Subtract the sample mean, 10.05 mg/L, from each QC result. The squared residuals sum to 0.12 (mg/L) squared. Dividing by five gives sample variance 0.024 (mg/L) squared; its positive square root gives sample SD about 0.155 mg/L."@en .
+  ex:rv-n32-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:ic-spread .
+  ex:rv-n34 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ic-repeated-h ;
+    cd:hasSceneItem ex:rv-variance-r ;
+    cd:hasSceneItem ex:rv-variance-v ;
+    cd:narration "Repeating a six-reading experiment produces a different estimated variance each time, even with fixed true SD. The histogram shows this sampling variability. The separately marked QC variance is 0.024 (mg/L) squared. A chi-square model describes the scaled variance under independent Normal sampling."@en .
+  ex:rv-n36 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ix-sum-f ;
+    cd:hasSceneItem ex:ix-sum-h ;
+    cd:hasSceneItem ex:rv-n36-v ;
+    cd:narration "Adding independent squared standard-normal variables gives a chi-square distribution. Its degrees of freedom count the independent terms. For a sample variance, estimating the mean uses one degree of freedom, leaving n - 1."@en .
+  ex:rv-n36-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-five-squares .
+  ex:rv-n41 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ix-size-f ;
+    cd:hasSceneItem ex:ix-size-h ;
+    cd:hasSceneItem ex:p1-n41-v ;
+    cd:hasSceneItem ex:rv-variance-r ;
+    cd:narration "Increasing the number of readings per series from 6 to 30 reduces the relative SD of the variance estimate from 63.2% to 26.3%, with true precision fixed. Increasing the simulation count instead refines the displayed histogram. Q also depends on degrees of freedom, so compare like-for-like reference distributions."@en .
+  ex:rv-n44 dct:subject ex:l5-topic-t ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-student-t ;
+    cd:hasSceneItem ex:rv-n44-c ;
+    cd:hasSceneItem ex:rv-student-v ;
+    cd:hasSceneItem ex:tf-denominator-h ;
+    cd:narration "Student's distribution describes a centred sample mean divided by its estimated standard error under independent Normal sampling. Small denominator estimates produce heavier tails than the standard Normal. The experiment starts with n = 2 readings, giving one degree of freedom."@en .
+  ex:rv-n44-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:tf-denominator .
+  ex:rv-n46 dct:subject ex:l5-topic-t ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-student-t ;
+    cd:hasSceneItem ex:p1-n46-v ;
+    cd:hasSceneItem ex:rv-n46-c ;
+    cd:hasSceneItem ex:tf-df-live-h ;
+    cd:narration "Student densities are symmetric around zero. With 3 degrees of freedom, their tails are heavier than with 29. As sample size grows, the estimated standard error stabilizes and the Student distribution approaches the standard Normal."@en .
+  ex:rv-n46-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:rv-n46-info .
+  ex:rv-n46-info rdf:type cd:Interpretation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body """- **More measurements:** a more stable estimated denominator.
+- **More degrees of freedom:** lighter tails, closer to the normal density.
+- **Same center:** the distributions remain symmetric around zero."""@en ;
+    cd:bodyFormat "markdown" .
+  ex:rv-n49 dct:subject ex:l5-topic-f ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-f-distribution ;
+    cd:hasSceneItem ex:dist-devices-h ;
+    cd:hasSceneItem ex:rv-n49-f ;
+    cd:hasSceneItem ex:rv-n49-v ;
+    cd:narration "Two constructed independent groups each contain six readings. A has mean 10.10 mg/L and sample SD 0.10 mg/L; B has mean 10.00 mg/L and sample SD 0.30 mg/L. Their sample-variance ratio B/A is 9. Repeated pairs show how such ratios vary."@en .
+  ex:rv-n49-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:tf-ratio .
+  ex:rv-n49-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:rx-devices .
+  ex:rv-n50 dct:subject ex:l5-topic-f ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-f-distribution ;
+    cd:hasSceneItem ex:rv-f-v ;
+    cd:hasSceneItem ex:tf-f-live-h ;
+    cd:narration "Even with equal true variances, independent samples give varying variance estimates and B/A ratios. Small denominator estimates create a long right tail. Under Normal sampling, the reference distribution is F; the two population means may differ."@en .
+  ex:rv-n60 dct:subject ex:l5-topic-tests ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:rev-qq ;
+    cd:hasSceneItem ex:rev-qq-read-c ;
+    cd:hasSceneItem ex:rev-qq-read-h ;
+    cd:hasSceneItem ex:rev-qq-read-v ;
+    cd:hasSceneItem ex:rv-n60-f ;
+    cd:narration "A new pair of constructed five-reading samples illustrates a Q-Q plot. Ordered observations are compared with quantiles of a fixed Normal model: mean 10 mg/L, SD 0.50 mg/L. A follows the identity line; B bends. This is a visual compatibility check, with limited information from five points."@en .
+  ex:rv-n60-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:rev-qq-formula .
+  ex:rv-n61 dct:subject ex:l5-topic-tests ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-kolmogorov-smirnov ;
+    cd:hasSceneItem ex:rev-ks-overlay-h ;
+    cd:hasSceneItem ex:rv-n61-c ;
+    cd:hasSceneItem ex:rv-n61-r ;
+    cd:hasSceneItem ex:rv-n61-v ;
+    cd:narration "The Kolmogorov-Smirnov distance is the largest vertical gap between empirical and model CDFs, checking both sides of each jump. For these five-reading samples, the exact two-sided 5% cutoff is 0.563275: A's 0.144578 lies below it; B's 0.725747 exceeds it. This calibration assumes the stated fixed CDF; fitting parameters changes the reference."@en .
+  ex:rv-n61-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:rv-n61-info .
+  ex:rv-n61-decision rdf:type cd:DefinitionListEntry ;
+    skos:prefLabel "Fixed model: compare both distances with 0.563275"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "Fixed Normal model: mean 10 mg/L, SD 0.50 mg/L. For five independent continuous observations, the exact two-sided 5% cutoff is 0.563275. A: 0.144578 lies below it. B: 0.725747 exceeds it. Measure gaps on both sides of each ECDF jump."@en ;
+    cd:position "1"^^xsd:integer .
+  ex:rv-n61-fitted rdf:type cd:DefinitionListEntry ;
+    skos:prefLabel "A model fitted to these data needs another reference"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "Estimating mean and SD from the same observations changes the reference distribution. Use a suitable Lilliefors calibration or a parametric bootstrap that refits every replicate. Ties, censoring and dependence also need a matching calibration."@en ;
+    cd:position "2"^^xsd:integer .
+  ex:rv-n61-info rdf:type cd:DefinitionList ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasDefinitionListEntry ex:rv-n61-decision ;
+    cd:hasDefinitionListEntry ex:rv-n61-fitted .
+  ex:rv-n61-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "5"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:rev-ks-code .
+  ex:rv-n61-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:rev-ks-media .
+  ex:rv-n62 dct:subject ex:l5-topic-tests ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-pearson-gof ;
+    cd:hasSceneItem ex:rev-pearson-start-h ;
+    cd:hasSceneItem ex:rv-n62-f ;
+    cd:hasSceneItem ex:rv-pearson-v ;
+    cd:narration "A separate particle-count example classifies 100 observations into five exhaustive categories with fixed probabilities. Expected counts are 10, 20, 40, 20, 10; observed counts are 4, 12, 44, 24, 16. The weighted squared discrepancies sum to 11.6. Their large-sample reference is approximately chi-square."@en .
+  ex:rv-n62-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:l5-p20a-formula .
+  ex:rv-n63 dct:subject ex:l5-topic-tests ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-pearson-gof ;
+    cd:hasSceneItem ex:p1-n63-v ;
+    cd:hasSceneItem ex:rev-pearson-table-h ;
+    cd:hasSceneItem ex:rv-n63-r ;
+    cd:hasSceneItem ex:v3-n63-f ;
+    cd:narration "The first Pearson contribution is (4 - 10) squared / 10 = 3.6. All five contributions sum to 11.6. With fixed category probabilities and a fixed total, the reference has four degrees of freedom.\n\nThe 5% cutoff is 9.487729 and p = 0.020587. The alternative compatible counts give statistic 0.225. This comparison assesses model compatibility; explaining a discrepancy requires further investigation."@en .
+  ex:rv-n63-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:rev-pearson-code .
+  ex:rv-normal-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:nn-threshold-code .
+  ex:rv-normal-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-normal-cdf .
+  ex:rv-pearson-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:rx-pearson .
+  ex:rv-student-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:dist-t .
+  ex:rv-variance-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:ix-simulation .
+  ex:rv-variance-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:rx-variance .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-normal> {
+  ex:rv-n07-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rv-n07-title .
+  ex:rv-n07-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:MediaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:nn-process-media .
+  ex:rv-n08-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rv-n08-title .
+  ex:rv-n08-r rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:CodeRole ;
+    cd:language "en" ;
+    cd:optionalCode "true"^^xsd:boolean ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:hasCodeExample" ;
+    cd:selectsResource ex:rv-growth-code .
+  ex:rv-n08-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:rv-growth-chart .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-opening> {
+  ex:rv-n02 dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-analytical-distributions ;
+    cd:hasSceneItem ex:rv-n02-c ;
+    cd:hasSceneItem ex:rv-n02-h ;
+    cd:narration "Distribution models connect measurement variability with probabilities. We first introduce densities, cumulative probabilities and quantiles, then develop the Normal, Lognormal, chi-square, Student and F families. The final examples compare observed data with a stated model."@en .
+  ex:rv-n02-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:p1-route .
+  ex:rv-n02-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:rv-n02-title .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-p1-scenes> {
+  ex:p1-n12 dct:subject ex:l5-topic-z ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-eta-h ;
+    cd:hasSceneItem ex:p1-n12-v ;
+    cd:hasSceneItem ex:v3-n12-f ;
+    cd:narration "Standardization expresses distance from the mean in SD units. Uppercase Z denotes the random standardized result; lowercase z denotes a realised value. With known mean 10 mg/L and SD 0.10 mg/L, the result 10.20 mg/L gives z = 2. Standardization changes scale while preserving distributional shape."@en .
+  ex:p1-n12-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:v3-normal-coordinate .
+  ex:p1-n13 dct:subject ex:l5-topic-z ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-devices-f ;
+    cd:hasSceneItem ex:nn-devices-h ;
+    cd:hasSceneItem ex:p1-n13-v ;
+    cd:narration "The same concentration can have different standardized distances under different models. With expectation 10 mg/L, 10.20 mg/L is two SDs above the mean when the known SD is 0.10 mg/L, and one SD above it when the known SD is 0.20 mg/L."@en .
+  ex:p1-n13-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-normal-devices .
+  ex:p1-n18 dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-bands-f ;
+    cd:hasSceneItem ex:nn-bands-h ;
+    cd:hasSceneItem ex:p1-n18-v ;
+    cd:narration "Central coverage is the probability between two bounds. Subtracting the lower CDF value from the upper one gives the familiar Normal coverages of about 68%, 95% and 99.7% within one, two and three SDs. These bands describe individual measurement results."@en .
+  ex:p1-n18-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-normal-bands .
+  ex:p1-n33 dct:subject ex:l5-topic-chi ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:al-chi-square ;
+    cd:hasSceneItem ex:ix-series-h ;
+    cd:hasSceneItem ex:p1-n33-v ;
+    cd:narration "These three six-reading series have the same constructed mean and different spreads. Their sample variances summarize those spreads. Repeating the sampling experiment would produce a distribution of variance estimates, as well as variation in the sample means."@en .
+  ex:p1-n33-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:p1-series-chart .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-pdf-cdf> {
+  ex:pc-n03 dct:references ex:cf-readings ;
+    dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:cumulative-distribution-function ;
+    cd:hasSceneItem ex:pc-n03-c ;
+    cd:hasSceneItem ex:pc-n03-h ;
+    cd:narration "Three questions guide the lecture: What is the probability of a result in an interval? How much probability lies below a threshold? Which threshold corresponds to a chosen probability? Density, cumulative distribution and quantiles provide the respective tools."@en .
+  ex:pc-n03-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:DefinitionListRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:hasDefinitionListEntry" ;
+    cd:selectsResource ex:pc-questions .
+  ex:pc-n03-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:pc-questions-title .
+  ex:pc-n07 dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:pc-n07-c ;
+    cd:hasSceneItem ex:rv-n07-h ;
+    cd:hasSceneItem ex:rv-n07-v ;
+    cd:narration "In ion chromatography, repeated measurements of one homogeneous nitrate sample vary because injection, flow, temperature and electronics affect the result. A process model describes how these contributions combine. The following simulation explores an assumed additive Normal model."@en .
+  ex:pc-n07-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:pc-process-info .
+  ex:pc-n08 dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:probability-density-function ;
+    cd:hasSceneItem ex:pc-n08-c ;
+    cd:hasSceneItem ex:rv-n08-h ;
+    cd:hasSceneItem ex:rv-n08-r ;
+    cd:hasSceneItem ex:rv-n08-v ;
+    cd:narration "The simulation assumes Normal individual results with expectation 10.00 mg/L and SD 0.10 mg/L. Extending the same sequence from 20 to 50, 100 and 1,000 results reveals the assumed shape more clearly. The method's SD stays fixed."@en .
+  ex:pc-n08-c rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:pc-growth-info .
+  ex:pc-n09 dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:probability-density-function ;
+    cd:hasSceneItem ex:pc-n09-f ;
+    cd:hasSceneItem ex:pc-n09-h ;
+    cd:hasSceneItem ex:pc-n09-v ;
+    cd:narration "The histogram summarizes 1,000 simulated results; the smooth curve represents the model density. Probability over an interval is the area under that curve, obtained by integrating the density. Comparing the shaded area with the observed interval fraction connects population-model probability with a finite sample."@en .
+  ex:pc-n09-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:pc-area .
+  ex:pc-n09-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:pc-density-title .
+  ex:pc-n09-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:pc-density .
+  ex:pc-n10 dct:references ex:pc-n09 ;
+    dct:references ex:theoretical-quantile ;
+    dct:subject ex:l5-topic-functions ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:cumulative-distribution-function ;
+    cd:hasSceneItem ex:pc-n10-f ;
+    cd:hasSceneItem ex:pc-n10-h ;
+    cd:hasSceneItem ex:pc-n10-v ;
+    cd:narration "The CDF gives the density area to the left of a threshold. Where the derivative relation holds, its slope equals the PDF. High density therefore produces a steep CDF.\n\nThe quantile function reverses this question: choosing cumulative probability 0.95 gives the threshold with 95% probability at or below it. These tools apply to both the Normal and bounded flat examples."@en .
+  ex:pc-n10-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:pc-functions .
+  ex:pc-n10-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:pc-linked-title .
+  ex:pc-n10-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:pc-linked .
+  ex:pc-n11 dct:references ex:pc-n10 ;
+    dct:subject ex:l5-topic-normal ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:normal-measurement-model ;
+    cd:hasSceneItem ex:nn-phi-f ;
+    cd:hasSceneItem ex:nn-phi-h ;
+    cd:hasSceneItem ex:pc-n11-v ;
+    cd:narration "The standard Normal is one particular distribution model. Its density is written lowercase phi and its CDF uppercase Phi. Under suitable central-limit conditions, many small additive influences can yield an approximately Normal result. The model's centre, spread and symmetric shape summarize that behaviour."@en .
+  ex:pc-n11-v rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:ChartRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:pc-phi-chart .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-v3> {
+  ex:v3-n12-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:v3-eta .
+  ex:v3-n63-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "3"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:v3-pearson-sum .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-tf-story> {
+  ex:tf-denominator-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:tf-denominator-title .
+  ex:tf-denominator-title rdf:type cd:Interpretation ;
+    skos:prefLabel "Where do the heavier tails come from?"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:tf-df-live-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:tf-df-live-title .
+  ex:tf-df-live-title rdf:type cd:Interpretation ;
+    skos:prefLabel "What changes when we collect more results?"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:tf-f-construction-f rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:FormulaRole ;
+    cd:language "en" ;
+    cd:position "2"^^xsd:integer ;
+    cd:selectionPath "cd:latex" ;
+    cd:selectsResource ex:tf-f-law .
+  ex:tf-f-construction-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:tf-f-construction-title .
+  ex:tf-f-construction-scene dct:subject ex:l5-topic-f ;
+    rdf:type cd:SceneDefinition ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:focusConcept ex:l5-f-distribution ;
+    cd:hasSceneItem ex:tf-f-construction-f ;
+    cd:hasSceneItem ex:tf-f-construction-h ;
+    cd:narration "An F variable is the ratio of two independent chi-square variables, each divided by its own degrees of freedom. For independent Normal samples, these terms arise from sample variances scaled by their true variances. Equal true variances cancel, leaving the sample-variance ratio B/A; population means may differ."@en .
+  ex:tf-f-construction-title rdf:type cd:Interpretation ;
+    skos:prefLabel "F combines two independent chi-square quantities"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+  ex:tf-f-live-h rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:HeadingRole ;
+    cd:language "en" ;
+    cd:position "1"^^xsd:integer ;
+    cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:tf-f-live-title .
+  ex:tf-f-live-title rdf:type cd:Interpretation ;
+    skos:prefLabel "What if the true device variances were equal?"@en ;
+    cd:authoredResource "true"^^xsd:boolean .
+}

@@ -9,6 +9,7 @@ import { createLearnerStateDocument } from "../../../packages/learner-state/src/
 import { createSelfStudyRenderPlan, type SelfStudyNodePlan } from "../../../packages/renderer-self-study/src/index.ts";
 import type { SelfStudyController } from "../../../packages/renderer-self-study/src/browser.ts";
 import { renderStudyInline, renderStudyMath } from "../../../packages/renderer-self-study/src/teaching-text.ts";
+import { renderSymbolDefinitions } from "../../../packages/renderer-reveal/src/symbol-definitions.ts";
 import {
   createSelfStudyLearnerRuntime,
   restoreSelfStudyLearnerStateAtomically,
@@ -62,6 +63,11 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       return;
     case "definition-list":
       for (const entry of node.entries) {
+        const definitions = entry.symbol ? renderSymbolDefinitions(entry.explanation ?? entry.description ?? "") : undefined;
+        if (definitions) {
+          assert.ok(index.includes(definitions), `missing complete authored symbol definitions ${entry.id}`);
+          continue;
+        }
         if (entry.expression) {
           assert.ok(index.includes(`<dt>${renderStudyMath(entry.expression)}</dt>`), `missing static symbol term ${entry.id}`);
         } else {
@@ -279,6 +285,13 @@ test("generated static-first shell renders DefinitionList terms and descriptions
   for (const node of definitionLists) {
     assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
     for (const entry of node.entries) {
+      const definitions = entry.symbol ? renderSymbolDefinitions(entry.explanation ?? entry.description ?? "") : undefined;
+      if (definitions) {
+        assert.match(definitions, /<dl class="authored-symbol-definitions">/u);
+        assert.match(definitions, /<dt>.+?<\/dt><dd>.+?<\/dd>/u);
+        assert.ok(index.includes(definitions), `missing semantic authored dt/dd definitions for ${entry.id}`);
+        continue;
+      }
       const term = entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term);
       assert.ok(index.includes(`<dt>${term}</dt>`), `missing semantic dt for ${entry.id}`);
       if (entry.description) {

@@ -146,8 +146,6 @@
   max-width: none;
   margin: 0;
   padding: .42rem .72rem;
-  border-left: 4px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-accent) 6%, var(--pcd-surface-strong));
   color: var(--pcd-foreground);
   font: 740 .72em/1.2 Arial, Helvetica, sans-serif;
   text-align: left;
@@ -695,8 +693,6 @@
   width: min(60rem, 88%);
   margin: 0 auto;
   padding: .42rem .68rem;
-  border: 2px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-surface-strong) 92%, var(--pcd-accent) 8%);
   color: var(--pcd-accent);
   font: 850 .72em/1.05 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: center;

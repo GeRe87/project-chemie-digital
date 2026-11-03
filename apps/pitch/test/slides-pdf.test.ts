@@ -70,5 +70,11 @@ test('paper charts have an intrinsic SVG viewport rather than a zero-height flex
 });
 test('multiple complete formula units form stacked comparison cards',()=>{
  const css=readFileSync(new URL('../src/teaching-primitives.css',import.meta.url),'utf8');
- assert.match(css,/:has\(> \.formula-with-legend ~ \.formula-with-legend\)\s*\{\s*display:grid;grid-template-columns:minmax\(0,1fr\)/);
+ assert.match(css,/:has\(> \.formula-with-legend ~ \.formula-with-legend\):not\(:has\(> \.formula-with-legend:nth-child\(4\)\)\)\s*\{\s*display:grid;grid-template-columns:minmax\(0,1fr\)/);
+});
+
+test('dense paper overviews reclaim card padding without reducing symbol typography',()=>{
+ const css=readFileSync(new URL('../src/slides-pdf.css',import.meta.url),'utf8');
+ assert.match(css,/html\.print-pdf[^{}]*:has\(> \.formula-with-legend:nth-child\(4\)\) > \.formula-with-legend \{ padding:\.4rem; \}/u);
+ assert.match(css,/\.authored-symbol-conventions\) \{ font-size:14px; \}/u);
 });

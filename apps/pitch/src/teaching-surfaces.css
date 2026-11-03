@@ -1,0 +1,78 @@
+/* Three shared surfaces: a content panel, its unboxed interior, and a workspace.
+   Composition profiles own geometry only, never a new card design. */
+.reveal {
+  --pcd-panel-border: 2px solid var(--pcd-border);
+  --pcd-panel-background: var(--pcd-surface-strong);
+  --pcd-panel-padding: .75rem;
+}
+.reveal :is(.definition-list-entry, .formula-with-legend, [data-component-kind="info-surface"], [data-component-kind="prompt"], [data-component-kind="visual"], .code-function-workbench) {
+  box-sizing: border-box;
+  border: var(--pcd-panel-border);
+  border-radius: var(--pcd-surface-radius, 0);
+  background: var(--pcd-panel-background);
+  box-shadow: none;
+  color: var(--pcd-foreground);
+}
+/* Charts already own axis/control insets; prose panels need the same default
+   text inset even when no specialized composition supplies one. */
+.reveal :is(.definition-list-entry, .formula-with-legend, [data-component-kind="info-surface"], [data-component-kind="prompt"], .code-function-workbench) {
+  padding: var(--pcd-panel-padding);
+}
+.reveal .definition-list-term {
+  color: var(--pcd-foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.reveal .definition-list-description { font-weight: 400; }
+.reveal .formula-with-legend {
+  box-sizing: border-box;
+  padding: var(--pcd-panel-padding);
+}
+/* Nesting changes structure, not the number of visible boxes. */
+.reveal :is(.formula-with-legend, .code-function-workbench, [data-component-kind="prompt"]) .definition-list-entry {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.reveal .pcd-composition-region > :is(.distribution-experiment, .oe-stage) {
+  border: var(--pcd-panel-border);
+  background: var(--pcd-panel-background);
+  padding: var(--pcd-panel-padding);
+}
+/* One standard card treatment: a numbered colour header and quiet body.
+   Symbol legends retain their own compact, unnumbered semantic presentation. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry {
+  --pcd-card-header: hsl(var(--definition-entry-hue, 205deg) 65% 25%);
+  padding: var(--pcd-panel-padding);
+  border-color: color-mix(in srgb, var(--pcd-card-header) 50%, var(--pcd-border));
+  border-radius: .45rem;
+  background: color-mix(in srgb, var(--pcd-card-header) 6%, var(--pcd-panel-background));
+}
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry > .definition-list-term {
+  display: grid;
+  grid-template-columns: 2.2em minmax(0, 1fr);
+  gap: .65em;
+  align-items: start;
+  box-sizing: border-box;
+  min-height: calc(2.5em + 1.5rem);
+  margin: calc(-1 * var(--pcd-panel-padding)) calc(-1 * var(--pcd-panel-padding)) .75rem;
+  padding: .75rem;
+  border-radius: .35rem .35rem 0 0;
+  color: #fff;
+  background: var(--pcd-card-header);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry > .definition-list-term::before {
+  content: attr(data-card-number) / "";
+  display: block;
+  padding: .15em .2em;
+  border: 1px solid rgb(255 255 255 / .5);
+  border-radius: .3em;
+  background: rgb(255 255 255 / .14);
+  text-align: center;
+  font-size: .85em;
+  font-variant-numeric: tabular-nums;
+}

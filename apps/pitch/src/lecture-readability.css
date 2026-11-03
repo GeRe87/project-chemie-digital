@@ -10,7 +10,7 @@ body[data-presentation-readability="lecture"] .reveal {
   --pcd-lecture-chart-tick: 22px;
   --pcd-lecture-chart-axis: 26px;
   --pcd-lecture-chart-value: 26px;
-  --pcd-lecture-heading: clamp(3.4rem, 4.45vw, 4.15rem);
+  --pcd-lecture-heading: clamp(2.7rem, 3.4vw, 3rem);
   --pcd-lecture-yellow: #ffd84a;
   --pcd-lecture-cyan: #39dfe8;
   --pcd-lecture-pink: #ff6bb5;
@@ -238,53 +238,8 @@ body[data-presentation-readability="lecture"] .reveal
     ) -.035em 47% / 95% .28em no-repeat;
 }
 
-/* Definition cards inherit a consistent colourful lecture rhythm. */
-body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 1) {
-  --pcd-lecture-card-accent: var(--pcd-lecture-cyan);
-}
-body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 2) {
-  --pcd-lecture-card-accent: var(--pcd-lecture-yellow);
-}
-body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n + 3) {
-  --pcd-lecture-card-accent: var(--pcd-lecture-pink);
-}
-body[data-presentation-readability="lecture"] .reveal .definition-list-entry:nth-child(4n) {
-  --pcd-lecture-card-accent: var(--pcd-lecture-green);
-}
-
-body[data-presentation-readability="lecture"] .reveal .definition-list-entry {
-  border-top-color: var(--pcd-lecture-card-accent, var(--pcd-accent)) !important;
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--pcd-lecture-card-accent, var(--pcd-accent)) 13%, transparent),
-      transparent 64%
-    ),
-    var(--pcd-surface-strong);
-}
-
-/* Context-data-visual evidence regions use the same palette through generic composition metadata. */
-body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
-  > [data-composition-region-container="context"]
-  [data-component-kind="group"] {
-  border-color: var(--pcd-lecture-cyan);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--pcd-lecture-cyan) 18%, transparent);
-}
-
-body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
-  > [data-composition-region-container="primary"]
-  [data-component-kind="data-surface"] {
-  border-top: 5px solid var(--pcd-lecture-yellow);
-}
-
-body[data-presentation-readability="lecture"] .reveal
-  section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]
-  > [data-composition-region-container="secondary"]
-  [data-component-kind="visual"] {
-  border-top-color: var(--pcd-lecture-pink) !important;
-}
+/* Surface appearance belongs to teaching-surfaces.css. The readability layer
+   keeps typography and authored emphasis, not another set of card designs. */
 
 body[data-presentation-readability="lecture"] .reveal
   section[data-composition="evidence-stage"][data-composition-profile="context-data-visual"]

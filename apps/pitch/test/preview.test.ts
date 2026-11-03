@@ -800,10 +800,10 @@ test("renders generic main-aside-note composition regions from block semantics",
   assert.match(css, /data-composition="main-aside-note"/u);
   assert.match(css, /data-composition-profile="formula-cards"/u);
   assert.match(css, /data-composition-profile="formula-visual"/u);
-  assert.match(cardCss, /flex-wrap:\s*wrap/u);
-  assert.match(cardCss, /--pcd-card-content-width/u);
-  assert.match(cardCss, /flex:\s*1 1 clamp\(14rem/u);
-  const lower = `${css}\n${cardCss}`.toLowerCase();
+  const layoutCss = readFileSync(new URL("../src/teaching-layouts.css", import.meta.url), "utf8");
+  assert.match(layoutCss, /grid-template-columns:\s*repeat\(auto-fit, minmax\(min\(100%, 22rem\), 1fr\)\)/u);
+  assert.match(layoutCss, /data-component-kind="card-collection"/u);
+  const lower = `${css}\n${cardCss}\n${layoutCss}`.toLowerCase();
   assert.equal(lower.includes("functional-dependence"), false);
   assert.equal(lower.includes("chemometrics"), false);
   assert.equal(lower.includes("scene:"), false);
