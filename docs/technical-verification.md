@@ -64,7 +64,10 @@ The smoke gate opens every level in light and dark themes, checks scene coverage
 chart mounting, formula rendering and keyboard-accessible symbol legends, exercises
 navigation and cached-page lifecycle events, runs real local R code, stops a running
 R session and verifies recovery, opens the course on a mobile viewport and injects a
-manifest failure to check Retry and the static content link. Ordinary navigation
+manifest failure to check Retry and the static content link. It also follows the
+static escape with JavaScript disabled and checks a representative Slides PDF view
+for complete scene coverage and open legends. The mobile zoom policy is checked
+while an authored presentation stage is actually locked. Ordinary navigation
 must not download the shared full graph. Unexpected browser errors, failed requests
 or external requests fail the gate.
 
@@ -109,7 +112,7 @@ Optional environment configuration for an existing host installation:
 | --- | --- | --- |
 | RDF export | Dataset-wide blank-node identity is preserved, including cross-graph sharing. Export and fingerprint use the same canonical representation. | Independent round-trip, node counts, graph context, deterministic renaming and shared-versus-split identity fixtures. |
 | Raw scenes | Unknown kinds and malformed fields fail at the input boundary with a field path. A central table declares supported version capabilities. | Negative raw fixtures alongside existing valid contracts. |
-| Nested blocks | Runtime mounts follow the common recursive reading-order traversal. | Nested group and renderer tests. |
+| Nested blocks | Runtime mounts use common recursive traversal; rendering retains authored reading order. | Nested group and renderer tests. |
 | Signed charts | Automatic domains include negative values and zero; bar geometry extends from the zero baseline. | Negative-only, mixed-sign and zero-value cases. |
 | Live charts | Data updates reuse mounted SVG; inactive/hidden work pauses. | Renderer update and lifecycle checks. |
 | R execution | Stop/Restart cancel the shared session. Reset and disposal reject late results. | Cancellation, queue, stale-result and real-browser recovery checks. |

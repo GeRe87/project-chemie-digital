@@ -7,6 +7,10 @@ const { launchBrowser, readCourseMetadata } = require('./browser-tools.cjs');
 function blocksIn(blocks) {
   return blocks.flatMap(block => [block, ...(block.kind === 'group' ? blocksIn(block.children) : [])]);
 }
+function isSymbolList(block) {
+  return block.kind === 'definition-list' && block.entries.length > 0
+    && block.entries.every(entry => entry.symbol) && block.disclosure?.mode !== 'optional';
+}
 
 (async () => {
   const base = new URL(process.argv[2] || 'http://127.0.0.1:4186/');
@@ -33,6 +37,7 @@ function blocksIn(blocks) {
     const page = await context.newPage();
     page.setDefaultTimeout(30000);
     const requested = [];
+    let stageExample;
     function monitor(page) {
     page.on('pageerror', error => report.errors.push(error.message));
     page.on('response', response => {
@@ -79,8 +84,6 @@ function blocksIn(blocks) {
           await goToScene(chartScene.id);
           await page.locator('section.present [data-chart-block-id] svg').first().waitFor({ state: 'attached' });
         }
-        const isSymbolList = block => block.kind === 'definition-list' && block.entries.length > 0
-          && block.entries.every(entry => entry.symbol) && block.disclosure?.mode !== 'optional';
         const formulaScene = document.scenes.find(scene => blocksIn(scene.blocks).some(block => block.kind === 'math')
           && blocksIn(scene.blocks).some(isSymbolList));
         if (formulaScene) {
@@ -99,6 +102,8 @@ function blocksIn(blocks) {
             report.symbolLegendChecks++;
           }
         }
+        const staged = page.locator(`section[data-scene-document-id="${record.id}"][data-stage-lock="true"]`).first();
+        if (!stageExample && await staged.count()) stageExample = { record, id: await staged.getAttribute('id') };
         const countBefore = await sections.count();
         await page.evaluate(() => {
           window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true }));
@@ -122,24 +127,31 @@ function blocksIn(blocks) {
     assert(!requested.some(uri => uri.includes(manifest.sharedGraph.path)), 'Ordinary levels must not download the full shared graph.');
     report.checks.push('All levels, both themes, keyboard navigation, formula rendering, chart mounting, cached lifecycle events and history return.');
 
-    const lab = documents.flatMap(({ record, document }) => document.scenes.map(scene => ({ record, scene })))
-      .find(({ scene }) => blocksIn(scene.blocks).some(block => block.kind === 'code' && block.language === 'r' && block.executable));
+    const lab = documents.flatMap(({ record, document }) => document.scenes.flatMap(scene =>
+      blocksIn(scene.blocks).map(block => ({ record, scene, block }))))
+      .find(({ block }) => block.kind === 'code' && block.language === 'r' && block.executable && block.editable);
     assert(lab, 'The course must contain a representative executable R example.');
     const labUrl = new URL(base); labUrl.searchParams.set('level', lab.record.id); labUrl.searchParams.set('view', 'deck'); labUrl.hash = '/' + encodeURIComponent(lab.scene.id);
     await page.goto(labUrl.href); await waitForPresentation(lab.record.id); await goToScene(lab.scene.id);
     const optional = page.locator('section.present details.pcd-optional-material');
     for (const disclosure of await optional.all()) if (!await disclosure.evaluate(element => element.open)) await disclosure.locator(':scope > summary').click();
-    const workspace = page.locator('section.present .code-block').filter({ has: page.locator('.code-run-button') }).first();
+    const workspace = page.locator(`section.present .code-block[data-code-block-id="${lab.block.id}"]`);
+    assert.equal(await workspace.count(), 1, 'The selected editable R workspace must be mounted.');
+    async function waitForOutput(text) {
+      await page.waitForFunction(({ id, text }) => Array.from(document.querySelectorAll('[data-code-block-id]'))
+        .find(element => element.getAttribute('data-code-block-id') === id)?.querySelector('.code-output')?.textContent.includes(text),
+        { id: lab.block.id, text }, { timeout: 180000 });
+    }
     const editor = workspace.locator('.cm-content'); await editor.waitFor();
     await editor.fill('cat("release smoke: ", 2 + 2, "\\n", sep="")');
     await workspace.locator('.code-run-button').click();
-    await page.waitForFunction(() => document.querySelector('section.present .code-output')?.textContent.includes('release smoke: 4'), null, { timeout: 180000 });
+    await waitForOutput('release smoke: 4');
     await editor.fill('repeat {}'); await workspace.locator('.code-run-button').click();
     await workspace.locator('.code-stop-button').click();
     await workspace.locator('.code-reset-button').click();
     assert.equal(await workspace.locator('.code-output').innerText(), 'Output will appear here.');
     await editor.fill('cat("R recovered after stop")'); await workspace.locator('.code-run-button').click();
-    await page.waitForFunction(() => document.querySelector('section.present .code-output')?.textContent.includes('R recovered after stop'), null, { timeout: 180000 });
+    await waitForOutput('R recovered after stop');
     await workspace.locator('.code-reset-button').click();
     assert.equal(await workspace.locator('.code-output').innerText(), 'Output will appear here.');
     report.checks.push('Real local webR execution, Stop, Reset and successful execution after worker restart.');
@@ -148,17 +160,42 @@ function blocksIn(blocks) {
     await page.goto(base.href); await page.locator('.pitch-course-world').waitFor({ state: 'visible' });
     await page.screenshot({ path: path.join(output, `${engine}-course-mobile.png`), fullPage: true });
     await page.locator('.pitch-world-start').first().click(); await waitForPresentation(documents[0].record.id);
-    const touchActions = await page.evaluate(() => ['html', 'body', '.reveal'].map(selector => getComputedStyle(document.querySelector(selector)).touchAction));
+    assert(stageExample, 'The smoke gate must cover an authored locked presentation stage.');
+    const stageUrl = new URL(base); stageUrl.searchParams.set('level', stageExample.record.id); stageUrl.searchParams.set('view', 'deck'); stageUrl.hash = '/' + encodeURIComponent(stageExample.id);
+    await page.goto(stageUrl.href); await waitForPresentation(stageExample.record.id); await goToScene(stageExample.id);
+    await page.locator('body.pcd-stage-lock-active').waitFor({ state: 'attached' });
+    const touchActions = await page.evaluate(() => Array.from(document.querySelectorAll('html, body, .reveal-viewport, .reveal')).map(element => getComputedStyle(element).touchAction));
     assert(touchActions.every(value => value === 'auto' || value === 'manipulation' || value.split(/\s+/).includes('pinch-zoom')), 'Every presentation ancestor must preserve browser pinch zoom.');
     report.checks.push('Mobile opening and pinch-zoom CSS policy. Physical device gestures remain a manual check.');
 
-    const fallback = await context.newPage();
+    const staticContext = await browser.newContext({ javaScriptEnabled: false });
+    const fallback = await staticContext.newPage();
     monitor(fallback);
-    await fallback.goto(new URL('course-runtime/static-course.html', base).href);
-    assert((await fallback.locator('article[data-pitch-step]').count()) >= documents.reduce((total, item) => total + item.document.scenes.length, 0), 'Static course must retain the selected scenes.');
+    await fallback.goto(base.href);
+    await fallback.getByRole('link', { name: 'Open static course content' }).click();
+    const staticIds = await fallback.locator('article[data-pitch-step]').evaluateAll(elements => elements.map(element => element.getAttribute('data-pitch-step')));
+    assert.deepEqual(staticIds, documents.flatMap(item => item.record.sceneIds), 'The no-JavaScript course must retain all selected scenes in order.');
     assert((await fallback.locator('dl').count()) > 0, 'Static formula legends must remain present.');
-    await fallback.close();
-    report.checks.push('Separate static course and authored legends remain available.');
+    await staticContext.close();
+    report.checks.push('Root no-JavaScript escape reaches the complete static course and authored legends.');
+
+    const pdfDocument = documents.find(({ document }) => document.scenes.some(scene => blocksIn(scene.blocks).some(isSymbolList)));
+    assert(pdfDocument, 'A representative print document with authored symbols is required.');
+    const pdfUrl = new URL(base); pdfUrl.searchParams.set('level', pdfDocument.record.id); pdfUrl.searchParams.set('view', 'deck'); pdfUrl.searchParams.set('print-pdf', '');
+    const printPage = await context.newPage(); monitor(printPage);
+    await printPage.goto(pdfUrl.href);
+    await printPage.waitForFunction(() => document.body.dataset.slidesPdfReady === 'true', null, { timeout: 120000 });
+    await printPage.emulateMedia({ media: 'print' });
+    await printPage.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+    assert((await printPage.locator('.pdf-page').count()) > 0, 'Slides PDF must initialize printable pages.');
+    const printedIds = await printPage.locator('.pdf-page section[data-scene-document-id]:not([data-course-level-buffer]):not([data-course-return-sentinel])').evaluateAll(elements => [...new Set(elements.map(element => element.id))]);
+    assert.deepEqual(printedIds.sort(), [...pdfDocument.record.sceneIds].sort(), 'Slides PDF must contain all selected scene identities.');
+    const printedLegends = printPage.locator('details.symbol-legend-disclosure');
+    assert((await printedLegends.count()) > 0, 'The print fixture must contain symbol legends.');
+    assert(await printedLegends.evaluateAll(elements => elements.every(element => element.open)), 'Print legends must be open without interaction.');
+    assert.equal(await printPage.locator('.katex-error').count(), 0, 'PDF formula rendering failed.');
+    await printPage.close();
+    report.checks.push('Slides PDF initializes with all selected scenes and open formula legends.');
 
     // Fault injection uses a separate page so expected failures cannot hide
     // accidental HTTP or runtime errors in the successful course checks above.

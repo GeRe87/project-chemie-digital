@@ -58,7 +58,8 @@ Raw `SceneDocument` input is validated before use. Validation checks discriminat
 block kinds and their nested structure before semantic invariants access typed
 properties. `scene-version.ts` is the single capability table for supported
 additive versions. Unknown future versions fail explicitly. Nested groups are
-traversed in authored reading order by the shared `scene-blocks.ts` iterator.
+discovered by the shared recursive `scene-blocks.ts` iterator; renderers continue
+to apply the authored reading order.
 
 ## Course transport and delivery
 
