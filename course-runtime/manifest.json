@@ -284,7 +284,7 @@
     }
   ],
   "offering": {
-    "datasetFingerprint": "sha256:71c92b4d4b012bb6c9afdcbe89b41c9e7e9dd6d1dd1cc038beaca02fa1590e09",
+    "datasetFingerprint": "sha256:563e4b7b7aeada2167e319075e6146532bcb44b5d23e6688abc683c5166398a9",
     "offering": {
       "descriptions": [],
       "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
