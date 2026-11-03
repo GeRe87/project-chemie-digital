@@ -63,6 +63,10 @@ Focused implementation evidence before the final integration run:
 - 28 Self-Study tests passed after sharing the math/legend implementation.
 - Strict TypeScript and an independent clean Linux `npm ci --no-audit` plus Vite
   build passed.
+- Three isolated subprocess regressions passed for release-report freshness:
+  failed preflight, abrupt process-group termination and failed final Git metadata.
+  A new run atomically invalidates old success and preserves distinct start/end
+  revision metadata without changing validation coverage.
 
 The full integration command is:
 

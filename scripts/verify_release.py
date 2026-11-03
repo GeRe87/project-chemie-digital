@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import functools
 import http.server
 import json
@@ -10,6 +11,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 
@@ -20,6 +22,25 @@ OFFERING = "https://w3id.org/project-chemie-digital/resource/teaching-offering-c
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, _format, *_args):
         pass
+
+
+def write_report(path: Path, report: dict) -> None:
+    """Replace one complete report without exposing a partially written JSON file."""
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                         prefix=".release-report-", suffix=".tmp", delete=False) as stream:
+            temporary = Path(stream.name)
+            json.dump(report, stream, indent=2)
+            stream.write("\n")
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def utc_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 def main() -> int:
@@ -36,18 +57,18 @@ def main() -> int:
     if not reports.is_relative_to(ROOT / ".local"):
         parser.error("--report-dir must be a dedicated directory under .local/")
     reports.mkdir(parents=True, exist_ok=True)
-    npm = shutil.which("npm")
-    if not npm:
-        parser.error("npm is unavailable; install the documented toolchain")
     browsers = list(dict.fromkeys(args.browser or [os.environ.get("PLAYWRIGHT_BROWSER", "chromium")]))
-    if len(browsers) > 1 and os.environ.get("PLAYWRIGHT_EXECUTABLE_PATH"):
-        parser.error("An explicit browser executable can verify only one engine per run")
     report = {
-        "revision": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-        "worktreeBefore": subprocess.check_output(["git", "status", "--short"], cwd=ROOT, text=True).splitlines(),
+        "revision": None, "revisionAtStart": None, "revisionAtEnd": None,
+        "worktreeBefore": None, "worktreeAfter": None,
+        "startedAt": utc_timestamp(), "finishedAt": None, "status": "running",
         "offlineVendor": args.offline, "browsers": browsers, "stages": [], "ok": False,
         "externalAcceptance": "Requires agent-validator/project-chemie-digital success on the exact PR head; this local report does not replace it.",
     }
+    report_path = reports / "report.json"
+    # An interrupted rerun must never leave an earlier successful report beside
+    # newly overwritten stage logs. Invalidate it before any external checks.
+    write_report(report_path, report)
     environment = os.environ.copy()
     # npm's Python steps must use this same activated, pinned environment.
     environment["PATH"] = str(Path(sys.executable).parent) + os.pathsep + environment.get("PATH", "")
@@ -80,6 +101,15 @@ def main() -> int:
 
     server = None
     try:
+        npm = shutil.which("npm")
+        if not npm:
+            raise RuntimeError("npm is unavailable; install the documented toolchain")
+        if len(browsers) > 1 and os.environ.get("PLAYWRIGHT_EXECUTABLE_PATH"):
+            raise RuntimeError("An explicit browser executable can verify only one engine per run")
+        revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+        report["revision"] = report["revisionAtStart"] = revision
+        report["worktreeBefore"] = subprocess.check_output(["git", "status", "--short"], cwd=ROOT, text=True).splitlines()
+        write_report(report_path, report)
         for browser in browsers:
             run(f"preflight-{browser}", ["node", "scripts/doctor.mjs", "--browser"], {"PLAYWRIGHT_BROWSER": browser})
         run("project-tests", [npm, "test"])
@@ -98,18 +128,33 @@ def main() -> int:
             run(f"browser-{browser}", ["node", "scripts/check_release_browser.cjs", url,
                                       str(artifact), str(reports / "browser"), browser])
         report["ok"] = True
-        return 0
-    except (OSError, RuntimeError, KeyboardInterrupt) as error:
+    except (OSError, RuntimeError, subprocess.SubprocessError, KeyboardInterrupt) as error:
         report["failure"] = str(error) or "Verification interrupted"
         print(report["failure"], file=sys.stderr)
-        return 1
     finally:
+        finalization_errors = []
         if server:
-            server.shutdown()
-            server.server_close()
-        report["worktreeAfter"] = subprocess.check_output(["git", "status", "--short"], cwd=ROOT, text=True).splitlines()
-        (reports / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            for action in (server.shutdown, server.server_close):
+                try:
+                    action()
+                except (Exception, KeyboardInterrupt) as error:
+                    finalization_errors.append(f"{action.__name__}: {error}")
+        for field, command in (("revisionAtEnd", ["git", "rev-parse", "HEAD"]),
+                               ("worktreeAfter", ["git", "status", "--short"])):
+            try:
+                result = subprocess.check_output(command, cwd=ROOT, text=True)
+                report[field] = result.splitlines() if field == "worktreeAfter" else result.strip()
+            except (Exception, KeyboardInterrupt) as error:
+                finalization_errors.append(f"{field}: {error}")
+        if finalization_errors:
+            report["ok"] = False
+            report["finalizationErrors"] = finalization_errors
+            report.setdefault("failure", "Verification finalization failed")
+        report["finishedAt"] = utc_timestamp()
+        report["status"] = "passed" if report["ok"] else "failed"
+        write_report(report_path, report)
         print(f"Verification evidence: {reports.relative_to(ROOT)}/report.json", flush=True)
+    return 0 if report["ok"] else 1
 
 
 if __name__ == "__main__":

@@ -72,9 +72,13 @@ must not download the shared full graph. Unexpected browser errors, failed reque
 or external requests fail the gate.
 
 Reports and stage logs are written under `.local/release-verification/`; the server
-is closed on completion or failure. The report records Git revision, worktree state,
-stage durations, browser version and coverage. It is diagnostic evidence, not a
-deployment or acceptance certificate.
+is closed on completion or failure. A new run atomically replaces the previous
+report with `status: running` and `ok: false` before any preflight subprocess. An
+abrupt termination therefore leaves an incomplete report instead of stale success.
+The report records start/end Git revisions and timestamps, worktree state, stage
+durations, browser version and coverage. The start revision is never relabeled as
+the ending revision. It is diagnostic evidence, not a deployment or acceptance
+certificate.
 
 To include a second installed browser engine:
 
