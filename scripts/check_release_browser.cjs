@@ -76,8 +76,8 @@ function isSymbolList(block) {
         assert(!requested.slice(requestStart).some(uri => /course-runtime\/(level-|graph-)/.test(uri)), 'Course map must not download scene or global graph data.');
         await control.focus(); await page.keyboard.press('Enter');
         await waitForPresentation(record.id);
-        const sections = page.locator(`section[data-scene-document-id="${record.id}"]:not([data-course-level-buffer]):not([data-course-return-sentinel])`);
-        assert.equal(await sections.count(), record.sceneIds.length, 'Every selected scene must be rendered.');
+        const sections = page.locator(`section[data-scene-document-id="${record.id}"]:not([data-course-level-buffer]):not([data-course-return-sentinel]):not([data-lecture-title])`);
+        assert.deepEqual(await sections.evaluateAll(elements => elements.map(element => element.id)), record.sceneIds, 'Every selected scene must be rendered in canonical order; generated title chrome is separate.');
         assert.equal(await sections.locator('.katex-error').count(), 0, 'Formula rendering failed.');
         const chartScene = document.scenes.find(scene => blocksIn(scene.blocks).some(block => block.kind === 'chart'));
         if (chartScene) {
@@ -188,7 +188,7 @@ function isSymbolList(block) {
     await printPage.emulateMedia({ media: 'print' });
     await printPage.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
     assert((await printPage.locator('.pdf-page').count()) > 0, 'Slides PDF must initialize printable pages.');
-    const printedIds = await printPage.locator('.pdf-page section[data-scene-document-id]:not([data-course-level-buffer]):not([data-course-return-sentinel])').evaluateAll(elements => [...new Set(elements.map(element => element.id))]);
+    const printedIds = await printPage.locator('.pdf-page section[data-scene-document-id]:not([data-course-level-buffer]):not([data-course-return-sentinel]):not([data-lecture-title])').evaluateAll(elements => [...new Set(elements.map(element => element.id))]);
     assert.deepEqual(printedIds.sort(), [...pdfDocument.record.sceneIds].sort(), 'Slides PDF must contain all selected scene identities.');
     const printedLegends = printPage.locator('details.symbol-legend-disclosure');
     assert((await printedLegends.count()) > 0, 'The print fixture must contain symbol legends.');

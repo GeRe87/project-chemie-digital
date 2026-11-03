@@ -28,7 +28,7 @@ const path = require('node:path');
       await page.keyboard.press('Enter');
       await page.waitForTimeout(700);
       if (await page.locator('.pitch-course-world').isVisible()) throw Error('Level did not open: ' + binding.sceneDocumentId);
-      const sections = page.locator(`section[data-scene-document-id="${binding.sceneDocumentId}"]:not([data-course-level-buffer]):not([data-course-return-sentinel])`);
+      const sections = page.locator(`section[data-scene-document-id="${binding.sceneDocumentId}"]:not([data-course-level-buffer]):not([data-course-return-sentinel]):not([data-lecture-title])`);
       const expected = artifact.sceneDocuments.find(d => d.id === binding.sceneDocumentId);
       if (await sections.count() !== expected.scenes.length) throw Error('Scene coverage changed');
       for (const scene of await sections.all()) {
