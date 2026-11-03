@@ -1,10 +1,10 @@
 /* Local-only complete-deck QA; outputs remain disposable. */
-const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'../.local/browser-tools/node_modules/playwright');
+const {launchBrowser}=require('./browser-tools.cjs');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/public/authoring-level5-review-complete-runtime.json'),'utf8'));
 (async()=>{
- const output=process.argv[2],engine=process.argv[3]||'edge';assert(output);fs.mkdirSync(output,{recursive:true});
- const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));
+ const output=process.argv[2],engine=process.argv[3]||'chromium';assert(output);fs.mkdirSync(output,{recursive:true});
+ const browser=await launchBrowser(engine);
  const report={engine,errors:[],configurations:[]};
  try{
   for(const [width,height,theme]of [[1731,1006,'light'],[1280,720,'dark'],[390,844,'light']]){

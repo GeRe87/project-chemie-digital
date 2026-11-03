@@ -1,1 +1,2 @@
-pyshacl==0.40.0
+# Development and production use the same deterministic semantic toolchain.
+-r scripts/requirements-static-build.txt

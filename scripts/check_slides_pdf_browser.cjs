@@ -2,7 +2,7 @@
  * directory. Start the preview first. Output is disposable, not semantic content.
  * Usage: node scripts/check_slides_pdf_browser.cjs URL OUTPUT_DIR [edge|firefox]
  */
-const {chromium, firefox} = require(process.env.PLAYWRIGHT_MODULE || '../.local/browser-tools/node_modules/playwright');
+const {launchBrowser} = require('./browser-tools.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
@@ -11,10 +11,10 @@ const assert = require('node:assert/strict');
   const base = new URL(process.argv[2] || 'http://127.0.0.1:5173/authoring.html?preview=authoring-level5-block1');
   const output = process.argv[3];
   assert(output, 'Specify a local output directory for screenshots and the QA report');
-  const engine = process.argv[4] || 'edge';
-  assert(['edge', 'firefox'].includes(engine), 'Engine must be edge or firefox');
+  const engine = process.argv[4] || 'chromium';
+  assert(['chromium', 'edge', 'firefox'].includes(engine), 'Engine must be chromium, edge or firefox');
   fs.mkdirSync(output, {recursive: true});
-  const browser = await (engine === 'firefox' ? firefox.launch() : chromium.launch({channel: 'msedge'}));
+  const browser = await launchBrowser(engine);
   const report = {engine, url: base.href, themes: [], errors: [], failures: []};
   try {
     for (const theme of ['light', 'dark']) {
@@ -84,7 +84,7 @@ const assert = require('node:assert/strict');
       assert.equal(await page.locator('.katex-error').count(), 0, 'Invalid rendered formula');
       assert.equal(await page.locator('.pcd-slides-pdf-toolbar').isVisible(), false);
       console.log(`${engine} ${theme}: audited ${pages.length} pages`);
-      if (engine === 'edge' && process.env.PDF_QA_EXPORT !== '0') await page.pdf({path: path.join(output, `${engine}-${theme}.pdf`), preferCSSPageSize: true, printBackground: true, displayHeaderFooter: false, timeout: 120000});
+      if (engine !== 'firefox' && process.env.PDF_QA_EXPORT !== '0') await page.pdf({path: path.join(output, `${engine}-${theme}.pdf`), preferCSSPageSize: true, printBackground: true, displayHeaderFooter: false, timeout: 120000});
       // Compare the same reviewed scenes in the live presentation, at the final
       // fragment state. IDs are obtained from the print DOM, not hard-coded CSS.
       const comparisons = [];

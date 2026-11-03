@@ -1,9 +1,9 @@
 /* Local-only ribbon interaction, state preservation and geometry regression. */
-const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'../.local/browser-tools/node_modules/playwright');
+const {launchBrowser}=require('./browser-tools.cjs');
 const assert=require('node:assert/strict');
 (async()=>{
- const engine=process.argv[2]||'edge';
- const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));
+ const engine=process.argv[2]||'chromium';
+ const browser=await launchBrowser(engine);
  try{
   for(const [view,width,height] of [['deck',1731,1006],['scroll',1731,1006],['deck',1280,720],['scroll',390,844]]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];
