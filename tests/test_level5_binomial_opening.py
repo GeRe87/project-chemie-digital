@@ -50,10 +50,11 @@ class BinomialOpeningTests(unittest.TestCase):
         self.assertIn("not a concentration or an infallible true state", description)
         self.assertIn("not a legal safety limit", scene["narration"])
 
-    def test_accepted_course_placement_is_unchanged(self):
+    def test_retained_binomial_preview_is_not_a_course_placement(self):
         union = validate_semantics.dataset_union(self.dataset)
         placements = set(union.objects(EX["teaching-offering-chemometrics-applied-statistics"], CD.hasUnitPlacement))
-        self.assertEqual(5, len(placements))
+        self.assertEqual(6, len(placements))
+        self.assertIn(EX["unit-placement-chemometrics-theoretical-distributions"], placements)
         self.assertNotIn(EX["placement-level5-binomial-preview"], placements)
 
     def test_shacl_accepts_authored_models_and_rejects_invalid_probability(self):
