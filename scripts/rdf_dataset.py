@@ -5,8 +5,8 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from rdflib import BNode, Dataset, Literal, RDF, URIRef
-from rdflib.compare import to_canonical_graph, to_isomorphic
+from rdflib import BNode, Dataset, Graph, Literal, RDF, URIRef
+from rdflib.compare import to_canonical_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_TRIG = tuple(sorted((ROOT / "ontology" / "dataset").glob("*.trig")))
@@ -112,47 +112,83 @@ def _nquads_term(term: object) -> str:
 
 
 def canonical_nquads(dataset: Dataset) -> str:
-    """Serialize the Dataset as valid deterministic-within-assembly N-Quads.
+    """Serialize a logical Dataset with one canonical blank-node namespace.
 
-    This representation is used for the local Fuseki snapshot. Blank-node labels are
-    canonicalized per named graph before serialization, while literal lexical forms use
-    N-Quads-compatible escaping.
+    Named graphs sharing a blank node must be canonicalized together. Within each
+    such component, a reversible (graph IRI, predicate IRI) encoding lets RDFLib's
+    graph canonicalizer retain quad context and cross-graph node identity. Graph
+    components receive disjoint deterministic label prefixes. Unrelated named
+    graphs therefore cannot accidentally reuse a canonical blank-node label.
+
+    Grounded quads need no canonicalization. Keeping them outside the temporary
+    graphs, and partitioning only along genuinely disjoint graph boundaries,
+    avoids making canonicalization of a large Dataset unnecessarily expensive.
     """
     rows: list[str] = []
-    for graph_id in populated_graph_ids(dataset):
-        graph = dataset.graph(graph_id)
-        canonical = to_canonical_graph(graph)
-        gid = _nquads_term(graph_id)
-        rows.extend(
-            f"{_nquads_term(subject)} {_nquads_term(predicate)} {_nquads_term(obj)} {gid} ."
-            for subject, predicate, obj in canonical
+    blank_triples: dict[URIRef, list[tuple]] = {}
+    first_graph: dict[BNode, URIRef] = {}
+    parents: dict[URIRef, URIRef] = {}
+
+    def root(graph_id: URIRef) -> URIRef:
+        while parents[graph_id] != graph_id:
+            parents[graph_id] = parents[parents[graph_id]]
+            graph_id = parents[graph_id]
+        return graph_id
+
+    def row(subject: object, predicate: object, obj: object, graph_id: URIRef) -> str:
+        return (
+            f"{_nquads_term(subject)} {_nquads_term(predicate)} "
+            f"{_nquads_term(obj)} {_nquads_term(graph_id)} ."
         )
+
+    for subject, predicate, obj, graph_id in dataset.quads((None, None, None, None)):
+        if not isinstance(graph_id, URIRef):
+            raise ValueError(f"Unsupported graph identity: {graph_id}")
+        nodes = [term for term in (subject, obj) if isinstance(term, BNode)]
+        if not nodes:
+            rows.append(row(subject, predicate, obj, graph_id))
+            continue
+        blank_triples.setdefault(graph_id, []).append((subject, predicate, obj))
+        parents.setdefault(graph_id, graph_id)
+        for node in nodes:
+            previous_graph = first_graph.setdefault(node, graph_id)
+            parents[root(graph_id)] = root(previous_graph)
+
+    components: dict[URIRef, list[URIRef]] = {}
+    for graph_id in blank_triples:
+        components.setdefault(root(graph_id), []).append(graph_id)
+    ordered_components = sorted(tuple(sorted(ids, key=str)) for ids in components.values())
+    for component_index, graph_ids in enumerate(ordered_components):
+        encoded = Graph()
+        predicates: dict[URIRef, tuple[URIRef, URIRef]] = {}
+        for graph_id in graph_ids:
+            graph_key = str(graph_id).encode("utf-8").hex()
+            for subject, predicate, obj in blank_triples[graph_id]:
+                # Hexadecimal UTF-8 with a separator is injective, even for IRIs
+                # containing separators or Unicode. No hash collision can merge
+                # distinct predicate/graph pairs in this temporary representation.
+                encoded_predicate = URIRef(
+                    f"urn:project-chemie-digital:canonical-quad:{graph_key}:"
+                    f"{str(predicate).encode('utf-8').hex()}"
+                )
+                predicates[encoded_predicate] = (predicate, graph_id)
+                encoded.add((subject, encoded_predicate, obj))
+
+        def scoped(term: object) -> object:
+            return BNode(f"ds{component_index}_{term}") if isinstance(term, BNode) else term
+
+        for subject, encoded_predicate, obj in to_canonical_graph(encoded):
+            predicate, graph_id = predicates[encoded_predicate]
+            rows.append(row(scoped(subject), predicate, scoped(obj), graph_id))
     return "\n".join(sorted(rows)) + "\n"
 
 
-def _isomorphic_graph_digest(dataset: Dataset, graph_id: URIRef) -> str:
-    """Return an isomorphism-invariant digest for one named graph.
-
-    RDF blank-node identifiers are parser-local and must never participate directly in
-    an authoring stale-base fingerprint. RDFLib's IsomorphicGraph digest implements a
-    blank-node-aware graph digest; the named graph IRI is incorporated separately by
-    ``dataset_fingerprint`` so moving identical triples between graphs changes the
-    Dataset identity.
-    """
-    digest = to_isomorphic(dataset.graph(graph_id)).graph_digest()
-    return format(digest, "x")
-
-
 def dataset_fingerprint(dataset: Dataset) -> str:
-    """Return a stable SHA-256 identity for the logical named RDF Dataset.
+    """Hash the canonical logical Dataset, including cross-graph node identity.
 
-    The fingerprint is intentionally not a hash of serialized blank-node labels.
-    Instead it hashes the ordered mapping of each populated named-graph IRI to an
-    isomorphism-invariant graph digest. This keeps SHACL blank nodes and graph identity
-    in scope while remaining stable across independent fresh TriG parses.
+    Canonical labels do not depend on parser-local blank-node identifiers, parse
+    order, or serialization order. Hashing the same dataset-wide representation
+    used for export also detects split or merged blank nodes between named graphs,
+    which a collection of independent per-graph digests cannot distinguish.
     """
-    records = [
-        f"{_nquads_term(graph_id)}\t{_isomorphic_graph_digest(dataset, graph_id)}\n"
-        for graph_id in populated_graph_ids(dataset)
-    ]
-    return hashlib.sha256("".join(records).encode("utf-8")).hexdigest()
+    return hashlib.sha256(canonical_nquads(dataset).encode("utf-8")).hexdigest()
