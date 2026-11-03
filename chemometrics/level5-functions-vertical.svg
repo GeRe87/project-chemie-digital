@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 720" role="img" aria-labelledby="title desc">
+<title id="title">One uniform input, three function mappings</title><desc id="desc">Three vertically arranged panels show a uniform density rectangle, its cumulative distribution and inverse CDF. PDF maps value to density; selected area is probability. CDF maps value to accumulated probability. Inverse CDF maps probability to a value. The underlying input is dimensionless Uniform(0,1), later mapped to pipette volume.</desc>
+<style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.axis{fill:none;stroke:#294f60;stroke-width:3}.curve{fill:none;stroke:#007c91;stroke-width:5}.shade{fill:#8bc8d6}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.axis{stroke:#c0dbe5}.curve{stroke:#7bd9e3}.shade{fill:#315f70}}</style>
+<rect class="bg" width="640" height="720" rx="18"/>
+<g class="ink" font-size="28" text-anchor="middle" font-weight="bold"><text x="340" y="36">PDF: probability is an area</text><text x="340" y="276">CDF: accumulate that area</text><text x="340" y="516">Inverse CDF: reverse the question</text></g>
+<path class="shade" d="M250 160V70H430V160Z"/>
+<path class="axis" d="M120 55V160H580M120 295V400H580M120 535V640H580"/>
+<path class="curve" d="M130 160H160V70H520V160H570M130 400H160L520 310H570M160 640L520 550"/>
+<g class="ink" font-size="25" text-anchor="middle"><text x="340" y="212">Value x</text><text x="340" y="452">Value x</text><text x="340" y="692">Probability u</text><text transform="translate(55 110) rotate(-90)">Density f(x)</text><text transform="translate(55 350) rotate(-90)">Probability F(x)</text><text transform="translate(55 590) rotate(-90)">Value Q(u)</text><text x="160" y="188">0</text><text x="520" y="188">1</text><text x="160" y="428">0</text><text x="520" y="428">1</text><text x="160" y="668">0</text><text x="520" y="668">1</text><text x="100" y="78">1</text><text x="100" y="318">1</text><text x="100" y="558">1</text></g>
+</svg>

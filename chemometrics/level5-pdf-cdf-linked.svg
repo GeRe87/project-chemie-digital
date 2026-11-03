@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" role="img" aria-labelledby="title desc">
+<title id="title">PDF area equals a CDF difference</title><desc id="desc">Uniform input from zero to one. The PDF rectangle between 0.25 and 0.75 has area 0.50. Its accumulated CDF rises from 0.25 to 0.75 over the same interval, a probability difference of 0.50.</desc>
+<style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.axis{fill:none;stroke:#294f60;stroke-width:3}.curve{fill:none;stroke:#007c91;stroke-width:5}.shade{fill:#8bc8d6}.guide{fill:none;stroke:#a25920;stroke-width:3;stroke-dasharray:6 5}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.axis{stroke:#c0dbe5}.curve{stroke:#7bd9e3}.shade{fill:#315f70}.guide{stroke:#ffc083}}</style>
+<rect class="bg" width="760" height="460" rx="18"/>
+<g class="ink" text-anchor="middle" font-size="28" font-weight="bold"><text x="210" y="45">PDF: area</text><text x="580" y="45">CDF: difference</text></g>
+<path class="shade" d="M155 320V120H285V320Z"/><path class="axis" d="M85 90V320H365M465 90V320H745"/>
+<path class="curve" d="M90 320V120H350V320M470 320L730 120"/>
+<path class="guide" d="M155 320V120M285 320V120M535 320V270H465M665 320V170H465"/>
+<g class="ink" font-size="26" text-anchor="middle"><text x="220" y="240">0.50</text><text x="155" y="355">0.25</text><text x="285" y="355">0.75</text><text x="535" y="355">0.25</text><text x="665" y="355">0.75</text><text x="220" y="395">Value x</text><text x="600" y="395">Value x</text><text x="380" y="442">Area = 0.75 minus 0.25 = 0.50</text><text transform="translate(30 205) rotate(-90)">Density f(x)</text><text transform="translate(400 205) rotate(-90)">Probability F(x)</text></g>
+<g class="ink" text-anchor="end" font-size="23"><text x="75" y="129">1</text><text x="455" y="278">0.25</text><text x="455" y="178">0.75</text></g>
+</svg>

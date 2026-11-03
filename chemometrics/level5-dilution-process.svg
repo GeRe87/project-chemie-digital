@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+ <title id="title">Dilution and photometric concentration determination</title>
+ <desc id="desc">Pipette ten millilitres from a collected sample, dilute to one hundred millilitres, then measure absorbance in a cuvette. Signal and volume uncertainty propagate into the original sample concentration.</desc>
+ <style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.line{fill:none;stroke:#245565;stroke-width:4}.water{fill:#7ec7d5}.glass{fill:#e2f0f4;stroke:#245565;stroke-width:4}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.line{stroke:#b2d9e6}.water{fill:#5ab6ca}.glass{fill:#294d59;stroke:#b2d9e6}}</style>
+ <rect class="bg" width="1200" height="430" rx="18"/>
+ <g class="ink" text-anchor="middle" font-size="33" font-weight="700"><text x="205" y="54">1. Pipette</text><text x="600" y="54">2. Dilute</text><text x="995" y="54">3. Measure</text></g>
+ <path class="glass" d="M120 193h150v103H120Z"/><path class="water" d="M124 235h142v57H124Z"/>
+ <path class="glass" d="M219 85h25v84l-9 43-9-43Z"/><path class="line" d="M224 110h15M224 125h15M224 140h15"/>
+ <path class="water" d="M234 218q-14 20 0 20t0-20"/>
+ <path class="glass" d="M580 91h40v116q70 40 63 91H517q-7-51 63-91Z"/><path class="water" d="M554 232q-30 25-31 60h154q-1-35-31-60Z"/><path class="line" d="M570 153h60"/>
+ <path class="glass" d="M958 144h76v151h-76Z"/><path class="water" d="M963 199h66v91h-66Z"/>
+ <path class="line" d="M875 213h68m-13-10 13 10-13 10M1049 213h75m-13-10 13 10-13 10"/>
+ <path class="line" d="M335 200h125m-15-12 15 12-15 12M735 200h105m-15-12 15 12-15 12"/>
+ <g class="ink" text-anchor="middle" font-size="30"><text x="205" y="350">10.00 mL sample</text><text x="600" y="350">100.00 mL final</text><text x="995" y="350">Absorbance 0.200</text><text x="600" y="405" font-size="26">Target: concentration in the collected sample, not a water-body mean</text></g>
+</svg>

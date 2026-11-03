@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" role="img" aria-labelledby="title desc">
+ <title id="title">Theoretical distribution models</title>
+ <desc id="desc">Decorative floating island with density silhouettes and a cumulative curve; not measurement data.</desc>
+ <path d="m35 139 40 35 56 7 51 15 53-19 55-7 35-31" fill="#446b86"/>
+ <ellipse cx="180" cy="139" rx="145" ry="28" fill="#81c7b9" stroke="#163e55" stroke-width="3"/>
+ <rect x="57" y="39" width="246" height="105" rx="10" fill="#effbfa" stroke="#163e55" stroke-width="4"/>
+ <path d="M72 124h215M77 124V53" fill="none" stroke="#426577" stroke-width="3"/>
+ <path d="M83 123c28 0 28-56 53-56s25 56 53 56" fill="#86d5e2" fill-opacity=".7" stroke="#096b86" stroke-width="4"/>
+ <path d="M174 123c8-5 9-61 27-61s18 43 42 54c13 5 25 6 36 7" fill="none" stroke="#a6582c" stroke-width="4"/>
+ <path d="M89 109c61 0 56-56 116-56h68" fill="none" stroke="#6549a2" stroke-width="4" stroke-dasharray="7 4"/>
+ <path d="M108 147v13m144-13v13" stroke="#163e55" stroke-width="6"/>
+</svg>

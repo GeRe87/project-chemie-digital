@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+<title id="title">Chi-square five-degree reference: observed 12 exceeds the 5% cutoff</title><desc id="desc">Reference at true SD equal to 0.10 mg/L. Dashed line at 11.0704977 marks the upper five-percent critical value; solid orange line at observed statistic twelve. The orange right-tail probability from twelve to infinity is 0.0347878, about 3.48 percent. Shading stops at the drawing boundary 32, while the theoretical tail continues.</desc>
+<style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.axis{fill:none;stroke:#294f60;stroke-width:3}.curve{fill:none;stroke:#007c91;stroke-width:4}.shade{fill:#d77a21;opacity:.65}.cut{stroke:#59737c;stroke-width:3;stroke-dasharray:8 6}.observed{stroke:#a25920;stroke-width:4}.leader{fill:none;stroke:#a25920;stroke-width:2}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.axis{stroke:#c0dbe5}.curve{stroke:#7bd9e3}.shade{fill:#ffad61}.cut{stroke:#c0dbe5}.observed,.leader{stroke:#ffc083}}</style>
+<rect class="bg" width="760" height="560" rx="18"/>
+<g class="ink" text-anchor="middle" font-size="26"><text x="380" y="36">Reference: chi-square, 5 degrees of freedom</text><text x="380" y="74">Dashed cutoff: 11.0705 | observed statistic: 12</text></g>
+<path class="shade" d="M325 420V395.336L362.5 408.566L400 414.861L475 419.028L550 419.827L625 419.971L700 419.995V420Z"/>
+<path class="axis" d="M100 110V420H715"/>
+<path class="curve" d="M100 420L118.75 274.818L137.5 170.936L156.25 142.475L175 160.843L193.75 200.325L212.5 244.852L250 320.798L287.5 368.998L307.572 385.216L325 395.336L362.5 408.566L400 414.861L475 419.028L550 419.827L625 419.971L700 419.995"/>
+<path class="cut" d="M307.572 120V420" data-cutoff="11.07049769351635"/><path class="observed" d="M325 120V420" data-observed="12"/>
+<path class="leader" d="M490 322L382 410"/>
+<g class="ink" font-size="27" text-anchor="middle"><text x="510" y="280">Upper tail from 12:</text><text x="510" y="317">3.48%</text><text x="400" y="502">Scaled variance statistic (dimensionless)</text><text x="380" y="544">The theoretical tail continues beyond the drawing.</text><text transform="translate(35 265) rotate(-90)">Reference density</text></g>
+<g class="ink" font-size="23" text-anchor="middle"><text x="100" y="454">0</text><text x="250" y="454">8</text><text x="400" y="454">16</text><text x="550" y="454">24</text><text x="700" y="454">32</text></g>
+</svg>

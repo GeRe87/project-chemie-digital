@@ -24,6 +24,11 @@
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture",
       "sceneDocumentId": "ex:path-chemometrics-variance-dispersion-lecture--scene-document"
+    },
+    {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/level5-review-complete",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-level5-review-complete",
+      "sceneDocumentId": "ex:path-level5-review-complete--scene-document"
     }
   ],
   "documents": [
@@ -228,10 +233,58 @@
         "ex:l4-scene-skew-zero--scene",
         "ex:l4-scene-moment-lab--scene"
       ]
+    },
+    {
+      "id": "ex:path-level5-review-complete--scene-document",
+      "pathId": "ex:path-level5-review-complete",
+      "runtime": "course-runtime/e9190b667a5551c1.json",
+      "sceneIds": [
+        "ex:rv-n02--scene",
+        "ex:pc-n03--scene",
+        "ex:pc-n07--scene",
+        "ex:pc-n08--scene",
+        "ex:pc-n09--scene",
+        "ex:pc-n10--scene",
+        "ex:pc-n11--scene",
+        "ex:p1-n12--scene",
+        "ex:p1-n13--scene",
+        "ex:rv-n14--scene",
+        "ex:rv-n15--scene",
+        "ex:rv-n16--scene",
+        "ex:rv-n17--scene",
+        "ex:p1-n18--scene",
+        "ex:lg-process--scene",
+        "ex:rv-n22--scene",
+        "ex:lg-log-scale-scene--scene",
+        "ex:rv-n25--scene",
+        "ex:rv-n28--scene",
+        "ex:rv-n29--scene",
+        "ex:rv-n31--scene",
+        "ex:rv-n32--scene",
+        "ex:p1-n33--scene",
+        "ex:rv-n34--scene",
+        "ex:ix-square-scene--scene",
+        "ex:rv-n36--scene",
+        "ex:ic-squares--scene",
+        "ex:ic-test--scene",
+        "ex:rv-n41--scene",
+        "ex:dist-t-intro-scene--scene",
+        "ex:rv-n44--scene",
+        "ex:rv-n46--scene",
+        "ex:dist-f-intro-scene--scene",
+        "ex:rv-n49--scene",
+        "ex:rv-n50--scene",
+        "ex:tf-f-construction-scene--scene",
+        "ex:map-mechanisms-scene--scene",
+        "ex:rv-n60--scene",
+        "ex:rv-n61--scene",
+        "ex:rv-n62--scene",
+        "ex:rv-n63--scene"
+      ]
     }
   ],
   "offering": {
-    "datasetFingerprint": "sha256:405a3ddf748fea637dd540a1700752c7e33d5c655a49e19d13508749aa8392cf",
+    "datasetFingerprint": "sha256:71c92b4d4b012bb6c9afdcbe89b41c9e7e9dd6d1dd1cc038beaca02fa1590e09",
     "offering": {
       "descriptions": [],
       "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-scale",
@@ -268,6 +321,11 @@
         "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-quantiles-moments-shape",
         "position": 50,
         "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-quantiles-moments-shape"
+      },
+      {
+        "id": "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-theoretical-distributions",
+        "position": 60,
+        "unitId": "https://w3id.org/project-chemie-digital/resource/learning-unit-theoretical-distributions"
       }
     ],
     "sections": [
@@ -316,17 +374,19 @@
         "descriptions": [
           {
             "language": "en",
-            "value": "Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."
+            "value": "Theoretical distributions: density, cumulative probability and quantiles; normal, lognormal, chi-square, Student-t and F models. Follow-up topics: hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."
           }
         ],
         "id": "https://w3id.org/project-chemie-digital/resource/offering-section-chemometrics-similarity-analysis",
         "labels": [
           {
             "language": "en",
-            "value": "Similarity Analysis"
+            "value": "Theoretical Distributions & Similarity Analysis"
           }
         ],
-        "placementIds": [],
+        "placementIds": [
+          "https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-theoretical-distributions"
+        ],
         "position": 30
       },
       {
@@ -533,6 +593,40 @@
           "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
           "id": "https://w3id.org/project-chemie-digital/resource/world-variables-art",
           "uri": "/course-world/variables.svg"
+        }
+      },
+      {
+        "descriptions": [],
+        "id": "https://w3id.org/project-chemie-digital/resource/learning-unit-theoretical-distributions",
+        "labels": [
+          {
+            "language": "en",
+            "value": "Theoretical Distribution Models"
+          }
+        ],
+        "paths": [
+          {
+            "descriptions": [],
+            "graphId": "https://w3id.org/project-chemie-digital/graph/paths/level5-review-complete",
+            "id": "https://w3id.org/project-chemie-digital/resource/path-level5-review-complete",
+            "labels": [
+              {
+                "language": "en",
+                "value": "Theoretical Distribution Models"
+              }
+            ]
+          }
+        ],
+        "thumbnail": {
+          "alternativeTexts": [
+            {
+              "language": "en",
+              "value": "Illustrated floating island with symmetric and right-skewed density silhouettes and a cumulative curve, suggesting theoretical distribution models. Decorative, not measurement data."
+            }
+          ],
+          "graphId": "https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork",
+          "id": "https://w3id.org/project-chemie-digital/resource/world-theoretical-distributions-art",
+          "uri": "/course-world/theoretical-distributions.svg"
         }
       },
       {
