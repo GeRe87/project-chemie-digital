@@ -62,12 +62,12 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
   const legendEntry = (label: string, kind: string) => {
     appendDotLegendEntry(legend, label, kind);
   };
-  if (block.observationLabel) legendEntry(block.observationLabel, "observation");
-  if (block.groups.some(group => group.summary)) legendEntry(block.summaryLabel ?? "Group summary", "summary");
-   if (block.referenceLine) legendEntry(`${block.referenceLine.label}: ${Number(block.referenceLine.value.toFixed(3))} ${block.yAxis.unit}`, "reference");
-  for (const curve of block.curves ?? []) legendEntry(curve.label, "curve");
-  for (const group of block.groups) if(group.interval) legendEntry(`${group.interval.label} ${block.yAxis.unit}`, "reference");
-  if (block.drawStems) for (const [index, group] of block.groups.entries()) {
+  if (model.observationLabel) legendEntry(model.observationLabel, "observation");
+  if (model.groups.some(group => group.summary)) legendEntry(model.summaryLabel ?? "Group summary", "summary");
+   if (model.referenceLine) legendEntry(`${model.referenceLine.label}: ${Number(model.referenceLine.value.toFixed(3))} ${block.yAxis.unit}`, "reference");
+  for (const curve of model.curves ?? []) legendEntry(curve.label, "curve");
+  for (const group of model.groups) if(group.interval) legendEntry(`${group.interval.label} ${block.yAxis.unit}`, "reference");
+  if (model.drawStems) for (const [index, group] of model.groups.entries()) {
     legendEntry(group.label, "observation");
     legend.lastElementChild?.classList.add(`d3-chart-series-${index % 5 + 1}`);
     legend.lastElementChild?.querySelector("i")?.setAttribute("style", `background:var(--pcd-chart-series-${index % 5 + 1})`);

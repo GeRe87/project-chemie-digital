@@ -7,7 +7,7 @@ body[data-presentation-clean="true"] #view-switch-shell { display:none!important
 /* Keep the existing slide canvas, formula units and SVG text. No screenshots,
    script conversion or scene-identity-specific layout rules. */
 html.print-pdf body > :not(.reveal,.pcd-slides-pdf-toolbar) { display:none!important; }
-html.print-pdf .reveal :is(.controls,.progress,.slide-number,.speaker-notes,.pcd-presentation-navigation,.pcd-return-world,.pcd-screen-controls,.code-run-button,.code-reset-button,.code-plot-button) { display:none!important; }
+html.print-pdf .reveal :is(.controls,.progress,.slide-number,.speaker-notes,.pcd-presentation-navigation,.pcd-return-world,.pcd-screen-controls,.code-run-button,.code-stop-button,.code-restart-button,.code-reset-button,.code-plot-button) { display:none!important; }
 html.print-pdf .reveal .fragment { opacity:1!important;visibility:visible!important;transform:none!important; }
 html.print-pdf .reveal .fragment.fade-out { display:none!important; }
 html.print-pdf .reveal .histogram-controls { display:none!important; }

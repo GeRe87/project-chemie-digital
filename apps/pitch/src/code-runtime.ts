@@ -22,7 +22,7 @@ interface CodeMirrorViewModule {
   readonly EditorView: EditorViewConstructor;
 }
 
-interface WebRInstance {
+export interface WebRInstance {
   init(): Promise<unknown>;
   evalRString(code: string): Promise<string>;
   Shelter: new () => WebRShelter | Promise<WebRShelter>;
@@ -41,7 +41,7 @@ export interface RExecutionResult { readonly text:string; readonly images:readon
 
 /** Keep existing source/print semantics while also capturing ordinary R graphics. */
 export async function captureRCode(webR:Pick<WebRInstance,"Shelter">,code:string):Promise<RExecutionResult>{
-  const shelter=await new webR.Shelter();let images:ImageBitmap[]=[];
+  const shelter=await new webR.Shelter();let images:ImageBitmap[]=[];let failed=false;
   try {
     const capture=await shelter.captureR(wrapRForCapturedOutput(code),{captureGraphics:{width:720,height:420,bg:"white"}});
     images=capture.images;
@@ -57,11 +57,14 @@ export async function captureRCode(webR:Pick<WebRInstance,"Shelter">,code:string
     }
     const values=await capture.result.toArray();
     return {text:[...messages,...values.filter((v):v is string=>v!==null)].join("\n"),images};
-  }catch(error){for(const image of images)image.close();throw error;}
-  finally{await shelter.purge();}
+  }catch(error){failed=true;for(const image of images)image.close();throw error;}
+  finally{
+    try{await shelter.purge();}
+    catch(error){if(!failed){for(const image of images)image.close();throw error;}}
+  }
 }
 
-interface WebRModule {
+export interface WebRModule {
   readonly WebR: new (options: { baseUrl: string; channelType: number }) => WebRInstance;
   readonly ChannelType: { readonly PostMessage: number };
 }
@@ -107,36 +110,90 @@ async function loadCodeMirrorView(): Promise<EditorViewConstructor> {
   return module.EditorView;
 }
 
-function createWebRExecutor(): { execute(code: string): Promise<RExecutionResult>; close(): void } {
-  let instancePromise: Promise<WebRInstance> | undefined;
-  let closed=false;
-  let queue:Promise<unknown>=Promise.resolve();
-  const instance = (): Promise<WebRInstance> => {
-    if(closed)return Promise.reject(new Error("R executor has been disposed"));
-    if (!instancePromise) {
-      instancePromise = importPinned<WebRModule>(WEBR_MODULE_PATH).then(async ({ WebR, ChannelType }) => {
-        const webR = new WebR({ baseUrl: localBrowserUrl(WEBR_BASE_PATH), channelType: ChannelType.PostMessage });
-        try{
+export class RExecutionCancelledError extends Error {
+  constructor() { super("Execution stopped. The R session has been cleared."); this.name = "RExecutionCancelledError"; }
+}
+
+/** Termination resets the worker and queue together, even if an R call never settles. */
+export function createWebRExecutor(dependencies: {
+  readonly loadModule?: () => Promise<WebRModule>;
+  readonly baseUrl?: string;
+} = {}): { execute(code: string): Promise<RExecutionResult>; restart(): void; close(): void } {
+  interface Generation {
+    cancelled: boolean;
+    session?: WebRInstance;
+    promise?: Promise<WebRInstance>;
+    queue: Promise<unknown>;
+    cancellations: Set<() => void>;
+  }
+  const generation = (): Generation => ({ cancelled: false, queue: Promise.resolve(), cancellations: new Set() });
+  let current = generation();
+  let closed = false;
+  const disposeSession = (state: Generation) => {
+    const session = state.session;
+    state.session = undefined;
+    session?.close();
+  };
+  const cancel = (state: Generation) => {
+    if (state.cancelled) return;
+    state.cancelled = true;
+    for (const reject of state.cancellations) reject();
+    state.cancellations.clear();
+    disposeSession(state);
+  };
+  const instance = (state: Generation): Promise<WebRInstance> => {
+    if (state.cancelled) return Promise.reject(new RExecutionCancelledError());
+    if (!state.promise) {
+      const pending: Promise<WebRInstance> = (dependencies.loadModule?.() ?? importPinned<WebRModule>(WEBR_MODULE_PATH)).then(async ({ WebR, ChannelType }) => {
+        if (state.cancelled) throw new RExecutionCancelledError();
+        const webR = new WebR({ baseUrl: dependencies.baseUrl ?? localBrowserUrl(WEBR_BASE_PATH), channelType: ChannelType.PostMessage });
+        state.session = webR;
+        try {
           await webR.init();
-          // captureR restores the previous device after capture. Keep that fallback
-          // on the supported browser device rather than R's default PDF device.
+          if (state.cancelled) throw new RExecutionCancelledError();
           await webR.evalRString('options(device=webr::canvas); "ready"');
-        }catch(error){webR.close();throw error;}
-        return webR;
-      }).catch((error: unknown) => { instancePromise = undefined; throw error; });
+          if (state.cancelled) throw new RExecutionCancelledError();
+          return webR;
+        } catch (error) { disposeSession(state); throw error; }
+      }).catch((error: unknown) => {
+        if (state.promise === pending) state.promise = undefined;
+        throw error;
+      });
+      state.promise = pending;
     }
-    return instancePromise;
+    return state.promise;
   };
   return {
     execute(code: string): Promise<RExecutionResult> {
-      const task=queue.then(async()=>captureRCode(await instance(),code));
-      queue=task.catch(()=>undefined);return task;
+      if (closed) return Promise.reject(new Error("R executor has been disposed"));
+      const state = current;
+      const task = state.queue.then(async () => {
+        if (state.cancelled) throw new RExecutionCancelledError();
+        const session = await instance(state);
+        if (state.cancelled) throw new RExecutionCancelledError();
+        return captureRCode(session, code);
+      });
+      state.queue = task.catch(() => undefined);
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const cancelled = () => { if (!settled) { settled = true; reject(new RExecutionCancelledError()); } };
+        state.cancellations.add(cancelled);
+        void task.then(result => {
+          state.cancellations.delete(cancelled);
+          if (settled || state.cancelled) { for (const image of result.images) image.close(); return; }
+          settled = true; resolve(result);
+        }, error => {
+          state.cancellations.delete(cancelled);
+          if (!settled) { settled = true; reject(error); }
+        });
+      });
     },
-    close(): void {
-      closed=true;
-      void instancePromise?.then((webR) => webR.close()).catch(() => undefined);
-      instancePromise = undefined;
+    restart() {
+      if (closed) return;
+      cancel(current);
+      current = generation();
     },
+    close() { if (closed) return; closed = true; cancel(current); },
   };
 }
 
@@ -199,6 +256,12 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       reset.type = "button";
       reset.className = "code-reset-button";
       reset.textContent = "Reset";
+      const stop = document.createElement("button");
+      stop.type = "button"; stop.className = "code-stop-button"; stop.textContent = "Stop"; stop.disabled = true;
+      stop.title = "Stop all running or queued R code and clear the shared R session";
+      const restart = document.createElement("button");
+      restart.type = "button"; restart.className = "code-restart-button"; restart.textContent = "Restart R";
+      restart.title = "Clear R variables and restart the shared session on the next Run";
       const showPlots=document.createElement("button");showPlots.type="button";showPlots.className="code-plot-button";
       showPlots.hidden=true;showPlots.textContent="Show plots";showPlots.setAttribute("aria-haspopup","dialog");
       const plots=document.createElement("div");plots.className="code-plot-gallery";
@@ -215,7 +278,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       const runtimeLabel = document.createElement("span");
       runtimeLabel.className = "code-runtime-label";
       runtimeLabel.textContent = "R · webR";
-      controls.append(run, reset, showPlots, runtimeLabel);
+      controls.append(run, stop, reset, restart, showPlots, runtimeLabel);
 
       const existingOutput = resultPane?.querySelector<HTMLPreElement>(".code-output");
       const output = existingOutput ?? document.createElement("pre");
@@ -235,8 +298,11 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
 
       let editor: EditorHandle | undefined;
       let disposed = false;
+      let outputRevision = 0;
+      let activeRun: number | undefined;
       const resetEditor = (): void => {
         if (disposed || !editor) return;
+        outputRevision += 1;
         editor.dispatch({
           changes: { from: 0, to: editor.state.doc.length, insert: initialCode },
         });
@@ -245,38 +311,53 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
         plots.replaceChildren();showPlots.hidden=true;
         editor.requestMeasure();
       };
+      const restartSession = (message: string) => {
+        if (disposed) return;
+        outputRevision += 1; activeRun = undefined;
+        executor.restart();
+        run.disabled = false; stop.disabled = true;
+        output.textContent = message;
+        if (plotModal.dialog.open) plotModal.dialog.close();
+        plots.replaceChildren(); showPlots.hidden = true;
+      };
+      const stopExecution = () => restartSession("Execution stopped. The R session has been cleared.");
+      const restartExecution = () => restartSession("R session cleared. Run code to start a fresh session.");
       const execute = async (): Promise<void> => {
-        if (disposed || !editor) return;
-        run.disabled = true;
+        if (disposed || !editor || activeRun !== undefined) return;
+        const revision = ++outputRevision; activeRun = revision;
+        run.disabled = true; stop.disabled = false;
         output.textContent = "Loading R runtime …";
         if(plotModal.dialog.open)plotModal.dialog.close();
         plots.replaceChildren();showPlots.hidden=true;
         try {
           const result = await executor.execute(editor.state.doc.toString());
-          if (!disposed) {
+          if (!disposed && outputRevision === revision) {
             output.textContent = result.text.length > 0 ? result.text : "(no text output)";
-            for(const [index,image] of result.images.entries()){
-              try{
+            try {
+              for(const [index,image] of result.images.entries()){
                 const canvas=document.createElement("canvas");canvas.width=image.width;canvas.height=image.height;
                 canvas.setAttribute("role","img");canvas.setAttribute("aria-label",`R plot ${index+1}. Refer to the code and numeric output for the plotted values.`);
                 canvas.getContext("2d")?.drawImage(image,0,0);plots.append(canvas);
-              }finally{image.close();}
-            }
+              }
+            } finally { for (const image of result.images) image.close(); }
             showPlots.hidden=result.images.length===0;showPlots.textContent=`${split?'Enlarge plots':'Show plots'} (${result.images.length})`;
           } else for(const image of result.images)image.close();
         } catch (error) {
-          if (!disposed) output.textContent = `Error: ${error instanceof Error ? error.message : String(error)}`;
+          if (!disposed && outputRevision === revision) output.textContent = error instanceof RExecutionCancelledError
+            ? error.message : `Error: ${error instanceof Error ? error.message : String(error)}`;
         } finally {
-          if (!disposed) run.disabled = false;
+          if (!disposed && activeRun === revision) { activeRun = undefined; run.disabled = false; stop.disabled = true; }
         }
       };
 
       cleanup.push(() => {
-        disposed = true;
+        disposed = true; outputRevision += 1;
         shell.removeEventListener("keydown", stopDeckKeyboard);
         glossary?.removeEventListener("keydown",scrollGlossary);
         run.removeEventListener("click", execute);
         reset.removeEventListener("click", resetEditor);
+        stop.removeEventListener("click", stopExecution);
+        restart.removeEventListener("click", restartExecution);
         showPlots.removeEventListener("click",openPlots);plots.replaceChildren();plots.remove();
         editor?.destroy();
         editorHost.remove();
@@ -294,6 +375,8 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       editors.push(editor);
       run.addEventListener("click", execute);
       reset.addEventListener("click", resetEditor);
+      stop.addEventListener("click", stopExecution);
+      restart.addEventListener("click", restartExecution);
     }
   } catch (error) {
     for (const remove of cleanup.reverse()) remove();

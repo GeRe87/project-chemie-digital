@@ -391,9 +391,11 @@ export function mountPresentationSwipeNavigation(
       || (event.target as Element).closest("button, input, textarea, select, a, dialog, [contenteditable], [data-presentation-interactive='true']")) return;
     start = { x: event.touches[0]!.clientX, y: event.touches[0]!.clientY };
   };
+  const cancel = (): void => { start = undefined; };
+  const move = (event: TouchEvent): void => { if (event.touches.length !== 1) cancel(); };
   const end = (event: TouchEvent): void => {
     const origin = start; start = undefined;
-    if (!origin || !event.changedTouches.length) return;
+    if (!origin || event.touches.length || event.changedTouches.length !== 1) return;
     const dx = event.changedTouches[0]!.clientX - origin.x;
     const dy = event.changedTouches[0]!.clientY - origin.y;
     const movement = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
@@ -401,8 +403,13 @@ export function mountPresentationSwipeNavigation(
     consumePresentationStageNavigation(deck, movement < 0 ? "next" : "prev", options);
   };
   target.addEventListener("touchstart", begin, { passive: true });
+  target.addEventListener("touchmove", move, { passive: true });
   target.addEventListener("touchend", end);
-  return () => { target.removeEventListener("touchstart", begin); target.removeEventListener("touchend", end); };
+  target.addEventListener("touchcancel", cancel);
+  return () => {
+    target.removeEventListener("touchstart", begin); target.removeEventListener("touchmove", move);
+    target.removeEventListener("touchend", end); target.removeEventListener("touchcancel", cancel);
+  };
 }
 
 /** Scroll-view wheel input uses the same command on staged and plain pages.
@@ -552,7 +559,9 @@ export function mountPresentationStageLock(
   };
 
   const blockScroll = (event: Event): void => {
-    if (!locked || body?.dataset?.presentationMode === "script" || (event.type === "wheel" && (event as WheelEvent).ctrlKey)) return;
+    if (!locked || body?.dataset?.presentationMode === "script"
+      || (event.type === "wheel" && (event as WheelEvent).ctrlKey)
+      || (event.type === "touchmove" && (event as TouchEvent).touches.length > 1)) return;
     event.preventDefault();
     queueRestore();
   };

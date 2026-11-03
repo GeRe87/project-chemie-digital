@@ -48,7 +48,7 @@ export const udeChemistryPitchTheme: PitchThemeTokens = Object.freeze({
   chemistryTreatment: "structural-grid",
 });
 
-export type PitchComponentKind = "heading" | "prose" | "math" | "code" | "media" | "list" | "group" | "prompt" | "diagram";
+export type PitchComponentKind = "heading" | "prose" | "math" | "code" | "media" | "list" | "definition-list" | "table" | "group" | "prompt" | "diagram";
 
 export interface PitchComponentPlan {
   readonly id: string;

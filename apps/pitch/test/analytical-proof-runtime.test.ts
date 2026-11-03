@@ -111,3 +111,9 @@ test("branched flow diagrams do not accidentally opt into analytical proof synch
   };
   assert.equal(linearFlowNodeOrder(branched), undefined);
 });
+
+test("analytical proof synchronization discovers chart and flow nested in semantic groups", () => {
+  const inner = { kind: "group" as const, id: "group:inner", source: scene.source, readingOrder: scene.readingOrder, children: scene.blocks };
+  const outer = { kind: "group" as const, id: "group:outer", source: scene.source, readingOrder: [inner.id], children: [inner] };
+  assert.deepEqual(analyticalProofProjection({ ...scene, blocks: [outer], readingOrder: [outer.id] }), analyticalProofProjection(scene));
+});

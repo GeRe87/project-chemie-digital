@@ -1,3 +1,4 @@
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import katex from "katex";
 import type { DerivationStep, MathematicalDerivationDetail, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { renderDerivationExplanation, renderDerivationDetail } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
@@ -8,8 +9,7 @@ export function mountMathematicalDerivations(root: HTMLElement, documents: reado
   const steps = new Map<string, DerivationStep>();
   const details = new Map<string, MathematicalDerivationDetail>();
   const visit = (blocks: SceneDocument["scenes"][number]["blocks"]) => {
-    for (const block of blocks) {
-      if (block.kind === "group") visit(block.children);
+    for (const block of walkSceneBlocks(blocks)) {
       if (block.kind === "math" && block.derivation) for (const step of block.derivation.steps) steps.set(step.id, step);
       if (block.kind === "math") for (const detail of block.derivationDetails ?? []) details.set(detail.id,detail);
     }

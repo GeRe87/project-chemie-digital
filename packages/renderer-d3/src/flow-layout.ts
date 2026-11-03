@@ -1,3 +1,5 @@
+import type { VisualMotifKey } from "../../core/src/index.ts";
+
 export type D3FlowOrientation = "horizontal" | "vertical";
 export type D3FlowLayoutStrategy = "hierarchy-fanout" | "process-system" | "layered-flow" | "space-filling-flow" | "grouped-network" | "radial-network" | "triadic-network" | "concentric-network";
 
@@ -9,6 +11,7 @@ export interface D3FlowLayoutNodeInput {
   readonly parts?: readonly { readonly id: string; readonly label: string; readonly description?: string }[];
   readonly description?: string;
   readonly groupIds?: readonly string[];
+  readonly visualMotif?: VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
 }
 
@@ -497,7 +500,7 @@ function strictLinearFlowOrder(input: D3FlowLayoutInput): readonly string[] | un
     if (visited.has(current)) return undefined;
     visited.add(current);
     order.push(current);
-    const targets = outgoing.get(current) ?? [];
+    const targets: readonly string[] = outgoing.get(current) ?? [];
     if (targets.length > 1) return undefined;
     current = targets[0];
   }

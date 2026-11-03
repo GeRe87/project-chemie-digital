@@ -114,3 +114,10 @@ test("semantic multi-view stage order is absolute and clamped", () => {
   assert.equal(semanticMultiViewStage(2), "chart");
   assert.equal(semanticMultiViewStage(99), "chart");
 });
+
+test("semantic multi-view discovers linked charts and source code through nested groups", () => {
+  const inner = { kind: "group" as const, id: "group:inner", source: scene.source, readingOrder: scene.readingOrder, children: scene.blocks };
+  const outer = { kind: "group" as const, id: "group:outer", source: scene.source, readingOrder: [inner.id], children: [inner] };
+  const grouped = { ...scene, blocks: [outer], readingOrder: [outer.id] };
+  assert.deepEqual(semanticMultiViewProjection(grouped, snapshot), semanticMultiViewProjection(scene, snapshot));
+});

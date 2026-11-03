@@ -1,3 +1,4 @@
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { mountD3Diagram, type D3DiagramComponent, type D3DiagramMountResult } from "../../../packages/renderer-d3/src/diagram.ts";
 import type { D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
@@ -25,7 +26,7 @@ function diagramBlocks(documents: readonly SceneDocument[]): Map<string, Diagram
   const blocks = new Map<string, DiagramBlock>();
   for (const document of documents) {
     for (const scene of document.scenes) {
-      for (const block of scene.blocks) {
+      for (const block of walkSceneBlocks(scene.blocks)) {
         if (block.kind !== "diagram") continue;
         if (blocks.has(block.id)) throw new Error(`Duplicate pitch flow block id ${block.id}`);
         blocks.set(block.id, block);

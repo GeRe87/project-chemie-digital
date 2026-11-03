@@ -7,6 +7,10 @@ import type {
 } from "../../../packages/core/src/scene-document.ts";
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
 
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
+
+type SemanticTableChart = Extract<ChartBlock, { chartType: "bar" | "line" | "dot" | "observations" }>;
+
 const SHOWS_RESOURCE = "cd:showsResource";
 
 export type SemanticMultiViewStage = "semantic" | "table" | "chart";
@@ -14,7 +18,7 @@ export type SemanticMultiViewStage = "semantic" | "table" | "chart";
 export interface SemanticMultiViewProjection {
   readonly sceneId: string;
   readonly codeBlock: CodeBlock;
-  readonly chartBlock: ChartBlock;
+  readonly chartBlock: SemanticTableChart;
 }
 
 export interface SemanticTableRow {
@@ -50,7 +54,7 @@ export function semanticMultiViewStage(step: number): SemanticMultiViewStage {
   return normalized === 0 ? "semantic" : normalized === 1 ? "table" : "chart";
 }
 
-export function semanticTableModel(block: ChartBlock): SemanticTableModel {
+export function semanticTableModel(block: SemanticTableChart): SemanticTableModel {
   if (block.chartType === "observations") return {
     label: block.label,
     columns: ["Series", "Observation", axisLabel(block.xAxis.label, block.xAxis.unit)],
@@ -91,11 +95,13 @@ export function semanticMultiViewProjection(
   scene: Scene,
   snapshot: RdfDatasetSnapshot,
 ): SemanticMultiViewProjection | undefined {
-  const codeBlocks = scene.blocks.filter(
+  const blocks = [...walkSceneBlocks(scene.blocks)];
+  const codeBlocks = blocks.filter(
     (block): block is CodeBlock => block.kind === "code" && block.language.toLowerCase() === "trig",
   );
-  const chartBlocks = scene.blocks.filter(
-    (block): block is ChartBlock => block.kind === "chart",
+  const chartBlocks = blocks.filter(
+    (block): block is SemanticTableChart => block.kind === "chart"
+      && ["bar", "line", "dot", "observations"].includes(block.chartType),
   );
 
   for (const codeBlock of codeBlocks) {
@@ -122,7 +128,7 @@ function setSourceAttributes(node: HTMLElement, sources: readonly SourceReferenc
   if (relationPaths.length) node.dataset.relationPath = relationPaths.join(" ");
 }
 
-function tableStage(block: ChartBlock): HTMLElement {
+function tableStage(block: SemanticTableChart): HTMLElement {
   const model = semanticTableModel(block);
   const shell = document.createElement("div");
   shell.className = "pcd-semantic-multi-view-stage pcd-semantic-table-stage";

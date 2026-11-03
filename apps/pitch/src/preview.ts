@@ -30,6 +30,30 @@ export interface MinimalElement {
 }
 export interface PitchDomPort { createElement(tag: string): MinimalElement; root: MinimalElement; }
 
+/** Adapt native DOM nodes to the small renderer port without weakening its type contract. */
+export function createBrowserPitchDomPort(root: HTMLElement): PitchDomPort {
+  const elements = new WeakMap<MinimalElement, HTMLElement>();
+  const wrap = (element: HTMLElement): MinimalElement => {
+    const port: MinimalElement = {
+      get innerHTML() { return element.innerHTML; },
+      set innerHTML(value) { element.innerHTML = value; },
+      get className() { return element.className; },
+      set className(value) { element.className = value; },
+      get textContent() { return element.textContent; },
+      set textContent(value) { element.textContent = value; },
+      setAttribute: (name, value) => element.setAttribute(name, value),
+      appendChild(child) {
+        const nativeChild = elements.get(child);
+        if (!nativeChild) throw new Error("Cannot append an element from another DOM port");
+        element.appendChild(nativeChild);
+      },
+    };
+    elements.set(port, element);
+    return port;
+  };
+  return { root: wrap(root), createElement: tag => wrap(root.ownerDocument.createElement(tag)) };
+}
+
 function sourceAttributes(node: MinimalElement, sources: readonly SourceReference[]): void {
   node.setAttribute("data-resource-id", sources.map((source) => source.resourceId).join(" "));
   const provenance = sources.flatMap((source) => source.provenanceIds ?? []);
@@ -544,7 +568,7 @@ function appendBlock(
       shell.setAttribute("data-presentation-interactive", "true");
       shell.setAttribute("tabindex", "0");
     }
-    if (block.liveUpdate) shell.setAttribute("data-live-chart", "true");
+    if ((block.chartType === "bar" || block.chartType === "line") && block.liveUpdate) shell.setAttribute("data-live-chart", "true");
     const stageResourceIds = [
       ...block.source.map((source) => source.resourceId),
       ...("annotations" in block ? block.annotations ?? [] : []).flatMap((annotation) =>
@@ -564,7 +588,7 @@ function appendBlock(
     parent.appendChild(shell);
     return;
   }
-  if (block.kind !== "prose") throw new Error(`Unsupported pitch scene block kind: ${block.kind}`);
+  if (block.kind !== "prose") throw new Error("Unsupported pitch scene block kind");
   const tag = block.intent?.kind === "introduce" ? "h2" : block.intent?.kind === "explain" ? "blockquote" : "cite";
   const node = dom.createElement(tag);
   blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);

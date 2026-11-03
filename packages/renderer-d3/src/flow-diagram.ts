@@ -7,6 +7,7 @@ import {
   wrapFlowText,
   type D3FlowLayout,
   type D3FlowLayoutEdge,
+  type D3FlowLayoutNode,
 } from "./flow-layout.ts";
 
 export type D3FlowOptions = D3KnowledgeNetworkOptions;
@@ -176,7 +177,7 @@ function validateOptions(options: D3FlowOptions): void {
 
 function validateFlowBlock(block: DiagramBlock): void {
   if ((block as { kind?: unknown }).kind !== "diagram") throw new Error("Flow renderer requires a diagram block");
-  if ((block as { diagramType?: unknown }).diagramType !== "flow" && (block as { diagramType?: unknown }).diagramType !== "network") {
+  if (block.diagramType !== "flow" && block.diagramType !== "network") {
     throw new Error(`Unsupported diagram type ${String((block as { diagramType?: unknown }).diagramType)}`);
   }
   requireNonEmpty(block.id, "Flow diagram id");
@@ -394,7 +395,7 @@ export function createD3FlowRenderModel(block: DiagramBlock, options: D3FlowOpti
     return flowDiagnostic("INVALID_FLOW_ADAPTER_OPTIONS", error instanceof Error ? error.message : "Invalid flow adapter options");
   }
 
-  if ((block as { diagramType?: unknown }).diagramType !== "flow" && (block as { diagramType?: unknown }).diagramType !== "network") {
+  if (block.diagramType !== "flow" && block.diagramType !== "network") {
     return flowDiagnostic("UNSUPPORTED_FLOW_DIAGRAM_TYPE", `Unsupported diagram type ${String((block as { diagramType?: unknown }).diagramType)}`);
   }
 

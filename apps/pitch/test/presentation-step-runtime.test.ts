@@ -12,6 +12,7 @@ import {
   stepFromVisibleCount,
   stageDirectionForKey,
   mountPresentationWheelNavigation,
+  mountPresentationSwipeNavigation,
 } from "../src/presentation-step-runtime.ts";
 
 test("focused operation cards retain Enter/Space activation but do not swallow arrow navigation", () => {
@@ -286,6 +287,18 @@ test("stage lock waits for Reveal to settle, then stabilizes fragments and unloc
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), false);
   runNextFrame();
   assert.equal(bodyClasses.has("pcd-stage-lock-active"), true);
+
+  // Accessibility zoom gestures remain available while a slide is locked.
+  let zoomPrevented = false;
+  for (const [type, data] of [
+    ["wheel", { ctrlKey: true }],
+    ["touchmove", { touches: [{}, {}] }],
+  ] as const) {
+    const event = { type, ...data, preventDefault() { zoomPrevented = true; } } as unknown as Event;
+    for (const listener of windowListeners.get(type) ?? []) listener(event);
+    for (const listener of viewportListeners.get(type) ?? []) listener(event);
+  }
+  assert.equal(zoomPrevented, false);
 
   // Once settled, wheel/touch attempts restore the captured stable position.
   scrollX = 99;
@@ -706,4 +719,30 @@ test("stage navigation control click uses the same terminal direct jump", () => 
   assert.equal(terminal.stopped, true);
 
   destroy();
+});
+
+
+test("pinch and cancelled touch gestures cannot advance a staged presentation", () => {
+  const listeners = new Map<string, EventListener>();
+  const target = {
+    addEventListener(type: string, listener: EventListener) { listeners.set(type, listener); },
+    removeEventListener(type: string) { listeners.delete(type); },
+  } as unknown as HTMLElement;
+  let advances = 0;
+  const deck = {
+    getCurrentSlide: () => ({ getAttribute: () => "true" }),
+    availableFragments: () => ({ next: true, prev: false }),
+    nextFragment: () => { advances++; return true; },
+  } as unknown as Parameters<typeof mountPresentationSwipeNavigation>[0];
+  const destroy = mountPresentationSwipeNavigation(deck, target, { view: "scroll" });
+  const touch = { clientX: 100, clientY: 200 };
+  const send = (type: string, touches: typeof touch[], changedTouches = [touch]) => {
+    listeners.get(type)?.({ touches, changedTouches, target: { closest: () => null } } as unknown as Event);
+  };
+  send("touchstart", [touch]); send("touchmove", [touch, touch]);
+  send("touchend", [], [{ clientX: 100, clientY: 0 }]); assert.equal(advances, 0);
+  send("touchstart", [touch]); send("touchcancel", []);
+  send("touchend", [], [{ clientX: 100, clientY: 0 }]); assert.equal(advances, 0);
+  send("touchstart", [touch]); send("touchend", [], [{ clientX: 100, clientY: 0 }]); assert.equal(advances, 1);
+  destroy(); assert.equal(listeners.size, 0);
 });

@@ -30,3 +30,13 @@ test("captured R conditions remain visible instead of being lost with graphics c
   }
   assert.equal((await captureRCode({Shelter},"warning('Check the input')")).text,"warning: Check the input\nok");
 });
+
+test("a shelter cleanup failure releases already captured images", async () => {
+  let closed = 0;
+  class Shelter {
+    async captureR() { return { result: { async toArray() { return ["ok"]; } }, output: [], images: [{ close() { closed++; } } as ImageBitmap] }; }
+    async purge() { throw new Error("purge failed"); }
+  }
+  await assert.rejects(captureRCode({ Shelter }, "plot(1)"), /purge failed/);
+  assert.equal(closed, 1);
+});

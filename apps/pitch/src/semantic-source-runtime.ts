@@ -1,3 +1,4 @@
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import type { CodeBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
 
@@ -82,7 +83,7 @@ function semanticCodeBlocks(documents: readonly SceneDocument[]): Map<string, Co
   const blocks = new Map<string, CodeBlock>();
   for (const document of documents) {
     for (const scene of document.scenes) {
-      for (const block of scene.blocks) {
+      for (const block of walkSceneBlocks(scene.blocks)) {
         if (block.kind !== "code" || block.language.toLowerCase() !== "trig") continue;
         blocks.set(block.id, block);
       }
