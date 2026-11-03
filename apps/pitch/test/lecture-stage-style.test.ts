@@ -48,7 +48,7 @@ test("lecture mode exposes strong layered marker strokes behind list text", () =
 
   const automaticMarker = lectureStyles.slice(
     lectureStyles.indexOf(".keypoint-list > li > .pcd-list-item-text"),
-    lectureStyles.indexOf("/* Definition cards inherit"),
+    lectureStyles.indexOf("/* Surface appearance belongs"),
   );
   assert.equal((automaticMarker.match(/linear-gradient\(/g) ?? []).length, 3);
   assert.match(automaticMarker, /64%, transparent/);

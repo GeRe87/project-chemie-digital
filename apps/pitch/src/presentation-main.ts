@@ -27,6 +27,7 @@ import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
 import "./teaching-primitives.css";
+import "./teaching-surfaces.css";
 import "./mathematical-derivation.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";

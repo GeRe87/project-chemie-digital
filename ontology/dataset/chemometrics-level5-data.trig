@@ -1,0 +1,924 @@
+# Active Level 5 resources; original RDF identities and named graphs preserved.
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-cdf-first> {
+  ex:cf-readings rdf:type cd:Dataset ;
+    skos:prefLabel "Twenty fictional nitrate-standard measurements"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasObservation ex:cf-x01 ;
+    cd:hasObservation ex:cf-x02 ;
+    cd:hasObservation ex:cf-x03 ;
+    cd:hasObservation ex:cf-x04 ;
+    cd:hasObservation ex:cf-x05 ;
+    cd:hasObservation ex:cf-x06 ;
+    cd:hasObservation ex:cf-x07 ;
+    cd:hasObservation ex:cf-x08 ;
+    cd:hasObservation ex:cf-x09 ;
+    cd:hasObservation ex:cf-x10 ;
+    cd:hasObservation ex:cf-x11 ;
+    cd:hasObservation ex:cf-x12 ;
+    cd:hasObservation ex:cf-x13 ;
+    cd:hasObservation ex:cf-x14 ;
+    cd:hasObservation ex:cf-x15 ;
+    cd:hasObservation ex:cf-x16 ;
+    cd:hasObservation ex:cf-x17 ;
+    cd:hasObservation ex:cf-x18 ;
+    cd:hasObservation ex:cf-x19 ;
+    cd:hasObservation ex:cf-x20 ;
+    cd:unit "mg/L" .
+  ex:cf-x01 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.55"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:cf-x02 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.65"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:cf-x03 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.75"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:cf-x04 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.80"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:cf-x05 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.85"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:cf-x06 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.90"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:cf-x07 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.90"^^xsd:decimal ;
+    cd:position "7"^^xsd:integer .
+  ex:cf-x08 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.95"^^xsd:decimal ;
+    cd:position "8"^^xsd:integer .
+  ex:cf-x09 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.95"^^xsd:decimal ;
+    cd:position "9"^^xsd:integer .
+  ex:cf-x10 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.00"^^xsd:decimal ;
+    cd:position "10"^^xsd:integer .
+  ex:cf-x11 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.00"^^xsd:decimal ;
+    cd:position "11"^^xsd:integer .
+  ex:cf-x12 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.05"^^xsd:decimal ;
+    cd:position "12"^^xsd:integer .
+  ex:cf-x13 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.10"^^xsd:decimal ;
+    cd:position "13"^^xsd:integer .
+  ex:cf-x14 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.15"^^xsd:decimal ;
+    cd:position "14"^^xsd:integer .
+  ex:cf-x15 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.20"^^xsd:decimal ;
+    cd:position "15"^^xsd:integer .
+  ex:cf-x16 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.25"^^xsd:decimal ;
+    cd:position "16"^^xsd:integer .
+  ex:cf-x17 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.30"^^xsd:decimal ;
+    cd:position "17"^^xsd:integer .
+  ex:cf-x18 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.35"^^xsd:decimal ;
+    cd:position "18"^^xsd:integer .
+  ex:cf-x19 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.40"^^xsd:decimal ;
+    cd:position "19"^^xsd:integer .
+  ex:cf-x20 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.50"^^xsd:decimal ;
+    cd:position "20"^^xsd:integer .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-ic-precision> {
+  ex:ic-chi5-density rdf:type cd:Dataset ;
+    skos:prefLabel "Specified chi-square-five reference density coordinates"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:ic-law ;
+    cd:hasObservation ex:ic-d0 ;
+    cd:hasObservation ex:ic-d10 ;
+    cd:hasObservation ex:ic-d12 ;
+    cd:hasObservation ex:ic-d14 ;
+    cd:hasObservation ex:ic-d16 ;
+    cd:hasObservation ex:ic-d1 ;
+    cd:hasObservation ex:ic-d20 ;
+    cd:hasObservation ex:ic-d24 ;
+    cd:hasObservation ex:ic-d28 ;
+    cd:hasObservation ex:ic-d2 ;
+    cd:hasObservation ex:ic-d32 ;
+    cd:hasObservation ex:ic-d3 ;
+    cd:hasObservation ex:ic-d4 ;
+    cd:hasObservation ex:ic-d5 ;
+    cd:hasObservation ex:ic-d6 ;
+    cd:hasObservation ex:ic-d8 ;
+    cd:hasObservation ex:ic-dcut ;
+    cd:unit "1" .
+  ex:ic-d0 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.0"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer ;
+    cd:xValue "0.0"^^xsd:decimal .
+  ex:ic-d1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.08065690817304773"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer ;
+    cd:xValue "1.0"^^xsd:decimal .
+  ex:ic-d10 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.028334555341734475"^^xsd:decimal ;
+    cd:position "9"^^xsd:integer ;
+    cd:xValue "10.0"^^xsd:decimal .
+  ex:ic-d12 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.013702310000441035"^^xsd:decimal ;
+    cd:position "11"^^xsd:integer ;
+    cd:xValue "12.0"^^xsd:decimal .
+  ex:ic-d14 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.006352131662999731"^^xsd:decimal ;
+    cd:position "12"^^xsd:integer ;
+    cd:xValue "14.0"^^xsd:decimal .
+  ex:ic-d16 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.002855044816317551"^^xsd:decimal ;
+    cd:position "13"^^xsd:integer ;
+    cd:xValue "16.0"^^xsd:decimal .
+  ex:ic-d2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.1383691658068648"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer ;
+    cd:xValue "2.0"^^xsd:decimal .
+  ex:ic-d20 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.0005399940637392741"^^xsd:decimal ;
+    cd:position "14"^^xsd:integer ;
+    cd:xValue "20.0"^^xsd:decimal .
+  ex:ic-d24 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.00009606648286403555"^^xsd:decimal ;
+    cd:position "15"^^xsd:integer ;
+    cd:xValue "24.0"^^xsd:decimal .
+  ex:ic-d28 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.000016383365173213166"^^xsd:decimal ;
+    cd:position "16"^^xsd:integer ;
+    cd:xValue "28.0"^^xsd:decimal .
+  ex:ic-d3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.15418032980376922"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer ;
+    cd:xValue "3.0"^^xsd:decimal .
+  ex:ic-d32 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.0000027089567299982015"^^xsd:decimal ;
+    cd:position "17"^^xsd:integer ;
+    cd:xValue "32.0"^^xsd:decimal .
+  ex:ic-d4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.14397591070183471"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer ;
+    cd:xValue "4.0"^^xsd:decimal .
+  ex:ic-d5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.12204152134938728"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer ;
+    cd:xValue "5.0"^^xsd:decimal .
+  ex:ic-d6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.09730434665928286"^^xsd:decimal ;
+    cd:position "7"^^xsd:integer ;
+    cd:xValue "6.0"^^xsd:decimal .
+  ex:ic-d8 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.05511196094424541"^^xsd:decimal ;
+    cd:position "8"^^xsd:integer ;
+    cd:xValue "8.0"^^xsd:decimal .
+  ex:ic-dcut rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.019324643893552606"^^xsd:decimal ;
+    cd:position "10"^^xsd:integer ;
+    cd:xValue "11.07049769351635"^^xsd:decimal .
+  ex:ic-deviation-table rdf:type cd:TableDefinition ;
+    skos:prefLabel "Subtract the fitted mean 10.05 mg/L, then square each deviation"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableColumn ex:ic-tc1 ;
+    cd:hasTableColumn ex:ic-tc2 ;
+    cd:hasTableColumn ex:ic-tc3 ;
+    cd:hasTableRow ex:ic-tr1 ;
+    cd:hasTableRow ex:ic-tr2 ;
+    cd:hasTableRow ex:ic-tr3 ;
+    cd:hasTableRow ex:ic-tr4 ;
+    cd:hasTableRow ex:ic-tr5 ;
+    cd:hasTableRow ex:ic-tr6 ;
+    cd:hasTableRow ex:ic-tr7 .
+  ex:ic-t11 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "1: 9.95"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t12 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "-0.10"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t13 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.01"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t21 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "2: 10.15"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t22 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "+0.10"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t23 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.01"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t31 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "3: 9.85"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t32 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "-0.20"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t33 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.04"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t41 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "4: 10.25"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t42 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "+0.20"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t43 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.04"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t51 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "5: 9.95"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t52 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "-0.10"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t53 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.01"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t61 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "6: 10.15"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t62 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "+0.10"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t63 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.01"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-t71 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "Sum"@en ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-t72 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0"@en ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-t73 rdf:type cd:TableCell ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:body "0.12"@en ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-tail-media dct:references ex:ic-case ;
+    dct:references ex:ic-chi5-density ;
+    rdf:type cd:MediaAsset ;
+    cd:alternativeText "Chi-square reference with five degrees of freedom at true SD equal to 0.10 mg/L. Dashed line: upper 5% critical value 11.0704977. Solid orange line: observed statistic 12. Orange area to its right is the upper tail, about 3.47878%; the theoretical tail continues beyond the drawing at 32. Observed 12 exceeds the cutoff, so reject the no-deterioration null at 5% under the stated assumptions."@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:mediaType "image/svg+xml" ;
+    cd:uri "/chemometrics/level5-ic-chi5-tail.svg"^^xsd:anyURI .
+  ex:ic-tc1 rdf:type cd:TableColumn ;
+    skos:prefLabel "Measurement result (mg/L)"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-tc2 rdf:type cd:TableColumn ;
+    skos:prefLabel "Deviation (mg/L)"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-tc3 rdf:type cd:TableColumn ;
+    skos:prefLabel "Squared deviation ((mg/L)²)"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-tr1 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t11 ;
+    cd:hasTableCell ex:ic-t12 ;
+    cd:hasTableCell ex:ic-t13 ;
+    cd:position "1"^^xsd:integer .
+  ex:ic-tr2 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t21 ;
+    cd:hasTableCell ex:ic-t22 ;
+    cd:hasTableCell ex:ic-t23 ;
+    cd:position "2"^^xsd:integer .
+  ex:ic-tr3 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t31 ;
+    cd:hasTableCell ex:ic-t32 ;
+    cd:hasTableCell ex:ic-t33 ;
+    cd:position "3"^^xsd:integer .
+  ex:ic-tr4 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t41 ;
+    cd:hasTableCell ex:ic-t42 ;
+    cd:hasTableCell ex:ic-t43 ;
+    cd:position "4"^^xsd:integer .
+  ex:ic-tr5 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t51 ;
+    cd:hasTableCell ex:ic-t52 ;
+    cd:hasTableCell ex:ic-t53 ;
+    cd:position "5"^^xsd:integer .
+  ex:ic-tr6 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t61 ;
+    cd:hasTableCell ex:ic-t62 ;
+    cd:hasTableCell ex:ic-t63 ;
+    cd:position "6"^^xsd:integer .
+  ex:ic-tr7 rdf:type cd:TableRow ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasTableCell ex:ic-t71 ;
+    cd:hasTableCell ex:ic-t72 ;
+    cd:hasTableCell ex:ic-t73 ;
+    cd:position "7"^^xsd:integer .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-lognormal-workup> {
+  ex:lg-bc0 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-bc1 .
+  ex:lg-bc1 rdf:first "3"^^xsd:integer ;
+    rdf:rest ex:lg-bc2 .
+  ex:lg-bc10 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:lg-bc11 .
+  ex:lg-bc11 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:lg-bc12 .
+  ex:lg-bc12 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:lg-bc13 .
+  ex:lg-bc13 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-bc14 .
+  ex:lg-bc14 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-bc15 .
+  ex:lg-bc15 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-bc16 .
+  ex:lg-bc16 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-bc17 .
+  ex:lg-bc17 rdf:first "0"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:lg-bc2 rdf:first "42"^^xsd:integer ;
+    rdf:rest ex:lg-bc3 .
+  ex:lg-bc3 rdf:first "179"^^xsd:integer ;
+    rdf:rest ex:lg-bc4 .
+  ex:lg-bc4 rdf:first "268"^^xsd:integer ;
+    rdf:rest ex:lg-bc5 .
+  ex:lg-bc5 rdf:first "226"^^xsd:integer ;
+    rdf:rest ex:lg-bc6 .
+  ex:lg-bc6 rdf:first "149"^^xsd:integer ;
+    rdf:rest ex:lg-bc7 .
+  ex:lg-bc7 rdf:first "67"^^xsd:integer ;
+    rdf:rest ex:lg-bc8 .
+  ex:lg-bc8 rdf:first "43"^^xsd:integer ;
+    rdf:rest ex:lg-bc9 .
+  ex:lg-bc9 rdf:first "18"^^xsd:integer ;
+    rdf:rest ex:lg-bc10 .
+  ex:lg-be0 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:lg-be1 .
+  ex:lg-be1 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:lg-be2 .
+  ex:lg-be10 rdf:first "20"^^xsd:integer ;
+    rdf:rest ex:lg-be11 .
+  ex:lg-be11 rdf:first "22"^^xsd:integer ;
+    rdf:rest ex:lg-be12 .
+  ex:lg-be12 rdf:first "24"^^xsd:integer ;
+    rdf:rest ex:lg-be13 .
+  ex:lg-be13 rdf:first "26"^^xsd:integer ;
+    rdf:rest ex:lg-be14 .
+  ex:lg-be14 rdf:first "28"^^xsd:integer ;
+    rdf:rest ex:lg-be15 .
+  ex:lg-be15 rdf:first "30"^^xsd:integer ;
+    rdf:rest ex:lg-be16 .
+  ex:lg-be16 rdf:first "32"^^xsd:integer ;
+    rdf:rest ex:lg-be17 .
+  ex:lg-be17 rdf:first "34"^^xsd:integer ;
+    rdf:rest ex:lg-be18 .
+  ex:lg-be18 rdf:first "36"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:lg-be2 rdf:first "4"^^xsd:integer ;
+    rdf:rest ex:lg-be3 .
+  ex:lg-be3 rdf:first "6"^^xsd:integer ;
+    rdf:rest ex:lg-be4 .
+  ex:lg-be4 rdf:first "8"^^xsd:integer ;
+    rdf:rest ex:lg-be5 .
+  ex:lg-be5 rdf:first "10"^^xsd:integer ;
+    rdf:rest ex:lg-be6 .
+  ex:lg-be6 rdf:first "12"^^xsd:integer ;
+    rdf:rest ex:lg-be7 .
+  ex:lg-be7 rdf:first "14"^^xsd:integer ;
+    rdf:rest ex:lg-be8 .
+  ex:lg-be8 rdf:first "16"^^xsd:integer ;
+    rdf:rest ex:lg-be9 .
+  ex:lg-be9 rdf:first "18"^^xsd:integer ;
+    rdf:rest ex:lg-be10 .
+  ex:lg-count-data rdf:type cd:Dataset ;
+    skos:prefLabel "1,000 full-preparation simulation counts, fixed protocol"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binCounts ex:lg-bc0 ;
+    cd:derivedFromResource ex:lg-compare-code ;
+    cd:unit "ng/L" .
+  ex:lg-saved-chart rdf:type cd:ChartDefinition ;
+    skos:prefLabel "One thousand simulated complete preparations"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binEdges ex:lg-be0 ;
+    cd:body "Positive relative factors, fixed teaching protocol. Counts are not validation data or a fitted distribution. The saved realization has 100 of 1,000 results above 15 ng/L; finite frequency is not the exact model probability."@en ;
+    cd:chartType cd:Histogram ;
+    cd:histogramNormalization "density" ;
+    cd:usesDataset ex:lg-count-data ;
+    cd:xAxisLabel "Full-preparation result"@en ;
+    cd:xAxisUnit "ng/L" ;
+    cd:yAxisLabel "Simulated density"@en ;
+    cd:yAxisUnit "L/ng" .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-normal-ic-story> {
+  ex:nn-gc0 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:nn-gc1 .
+  ex:nn-gc1 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:nn-gc2 .
+  ex:nn-gc10 rdf:first "96"^^xsd:integer ;
+    rdf:rest ex:nn-gc11 .
+  ex:nn-gc11 rdf:first "43"^^xsd:integer ;
+    rdf:rest ex:nn-gc12 .
+  ex:nn-gc12 rdf:first "15"^^xsd:integer ;
+    rdf:rest ex:nn-gc13 .
+  ex:nn-gc13 rdf:first "5"^^xsd:integer ;
+    rdf:rest ex:nn-gc14 .
+  ex:nn-gc14 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:nn-gc15 .
+  ex:nn-gc15 rdf:first "0"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:nn-gc2 rdf:first "5"^^xsd:integer ;
+    rdf:rest ex:nn-gc3 .
+  ex:nn-gc3 rdf:first "15"^^xsd:integer ;
+    rdf:rest ex:nn-gc4 .
+  ex:nn-gc4 rdf:first "41"^^xsd:integer ;
+    rdf:rest ex:nn-gc5 .
+  ex:nn-gc5 rdf:first "110"^^xsd:integer ;
+    rdf:rest ex:nn-gc6 .
+  ex:nn-gc6 rdf:first "165"^^xsd:integer ;
+    rdf:rest ex:nn-gc7 .
+  ex:nn-gc7 rdf:first "189"^^xsd:integer ;
+    rdf:rest ex:nn-gc8 .
+  ex:nn-gc8 rdf:first "177"^^xsd:integer ;
+    rdf:rest ex:nn-gc9 .
+  ex:nn-gc9 rdf:first "136"^^xsd:integer ;
+    rdf:rest ex:nn-gc10 .
+  ex:nn-ge0 rdf:first "9.60"^^xsd:decimal ;
+    rdf:rest ex:nn-ge1 .
+  ex:nn-ge1 rdf:first "9.65"^^xsd:decimal ;
+    rdf:rest ex:nn-ge2 .
+  ex:nn-ge10 rdf:first "10.10"^^xsd:decimal ;
+    rdf:rest ex:nn-ge11 .
+  ex:nn-ge11 rdf:first "10.15"^^xsd:decimal ;
+    rdf:rest ex:nn-ge12 .
+  ex:nn-ge12 rdf:first "10.20"^^xsd:decimal ;
+    rdf:rest ex:nn-ge13 .
+  ex:nn-ge13 rdf:first "10.25"^^xsd:decimal ;
+    rdf:rest ex:nn-ge14 .
+  ex:nn-ge14 rdf:first "10.30"^^xsd:decimal ;
+    rdf:rest ex:nn-ge15 .
+  ex:nn-ge15 rdf:first "10.35"^^xsd:decimal ;
+    rdf:rest ex:nn-ge16 .
+  ex:nn-ge16 rdf:first "10.40"^^xsd:decimal ;
+    rdf:rest rdf:nil .
+  ex:nn-ge2 rdf:first "9.70"^^xsd:decimal ;
+    rdf:rest ex:nn-ge3 .
+  ex:nn-ge3 rdf:first "9.75"^^xsd:decimal ;
+    rdf:rest ex:nn-ge4 .
+  ex:nn-ge4 rdf:first "9.80"^^xsd:decimal ;
+    rdf:rest ex:nn-ge5 .
+  ex:nn-ge5 rdf:first "9.85"^^xsd:decimal ;
+    rdf:rest ex:nn-ge6 .
+  ex:nn-ge6 rdf:first "9.90"^^xsd:decimal ;
+    rdf:rest ex:nn-ge7 .
+  ex:nn-ge7 rdf:first "9.95"^^xsd:decimal ;
+    rdf:rest ex:nn-ge8 .
+  ex:nn-ge8 rdf:first "10.00"^^xsd:decimal ;
+    rdf:rest ex:nn-ge9 .
+  ex:nn-ge9 rdf:first "10.05"^^xsd:decimal ;
+    rdf:rest ex:nn-ge10 .
+  ex:nn-growth-data rdf:type cd:Dataset ;
+    skos:prefLabel "Published 1,000-draw histogram counts"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binCounts ex:nn-gc0 ;
+    cd:derivedFromResource ex:nn-readings-code ;
+    cd:unit "mg/L" .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-experiments> {
+  ex:rx-a1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.95"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:rx-a2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.05"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:rx-a3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.10"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:rx-a4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.10"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:rx-a5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.15"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:rx-a6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.25"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:rx-b1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.55"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:rx-b2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.85"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:rx-b3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.00"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:rx-b4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.00"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:rx-b5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.15"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:rx-b6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.45"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:rx-data-a rdf:type cd:Dataset ;
+    skos:prefLabel "Exact retained CRM device A readings"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:tf-data ;
+    cd:hasObservation ex:rx-a1 ;
+    cd:hasObservation ex:rx-a2 ;
+    cd:hasObservation ex:rx-a3 ;
+    cd:hasObservation ex:rx-a4 ;
+    cd:hasObservation ex:rx-a5 ;
+    cd:hasObservation ex:rx-a6 ;
+    cd:unit "mg/L" .
+  ex:rx-data-b rdf:type cd:Dataset ;
+    skos:prefLabel "Exact independent device B readings"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:tf-pair-data ;
+    cd:hasObservation ex:rx-b1 ;
+    cd:hasObservation ex:rx-b2 ;
+    cd:hasObservation ex:rx-b3 ;
+    cd:hasObservation ex:rx-b4 ;
+    cd:hasObservation ex:rx-b5 ;
+    cd:hasObservation ex:rx-b6 ;
+    cd:unit "mg/L" .
+  ex:rx-pc1 rdf:type cd:Observation ;
+    skos:prefLabel "<5 µm"@en ;
+    cd:alternativeValue "9.0"^^xsd:decimal ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.0"^^xsd:decimal ;
+    cd:pairedValue "4.0"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:rx-pc2 rdf:type cd:Observation ;
+    skos:prefLabel "5–<10 µm"@en ;
+    cd:alternativeValue "21.0"^^xsd:decimal ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "20.0"^^xsd:decimal ;
+    cd:pairedValue "12.0"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:rx-pc3 rdf:type cd:Observation ;
+    skos:prefLabel "10–<20 µm"@en ;
+    cd:alternativeValue "39.0"^^xsd:decimal ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "40.0"^^xsd:decimal ;
+    cd:pairedValue "44.0"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:rx-pc4 rdf:type cd:Observation ;
+    skos:prefLabel "20–<40 µm"@en ;
+    cd:alternativeValue "21.0"^^xsd:decimal ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "20.0"^^xsd:decimal ;
+    cd:pairedValue "24.0"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:rx-pc5 rdf:type cd:Observation ;
+    skos:prefLabel "≥40 µm"@en ;
+    cd:alternativeValue "10.0"^^xsd:decimal ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.0"^^xsd:decimal ;
+    cd:pairedValue "16.0"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:rx-pearson-data rdf:type cd:Dataset ;
+    skos:prefLabel "Fixed expectations and departing or compatible particle counts"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:hasObservation ex:rx-pc1 ;
+    cd:hasObservation ex:rx-pc2 ;
+    cd:hasObservation ex:rx-pc3 ;
+    cd:hasObservation ex:rx-pc4 ;
+    cd:hasObservation ex:rx-pc5 ;
+    cd:unit "particles" .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-normal> {
+  ex:rv-g100-0 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g100-1 .
+  ex:rv-g100-1 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g100-2 .
+  ex:rv-g100-10 rdf:first "6"^^xsd:integer ;
+    rdf:rest ex:rv-g100-11 .
+  ex:rv-g100-11 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:rv-g100-12 .
+  ex:rv-g100-12 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:rv-g100-13 .
+  ex:rv-g100-13 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g100-14 .
+  ex:rv-g100-14 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g100-15 .
+  ex:rv-g100-15 rdf:first "0"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:rv-g100-2 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g100-3 .
+  ex:rv-g100-3 rdf:first "4"^^xsd:integer ;
+    rdf:rest ex:rv-g100-4 .
+  ex:rv-g100-4 rdf:first "5"^^xsd:integer ;
+    rdf:rest ex:rv-g100-5 .
+  ex:rv-g100-5 rdf:first "16"^^xsd:integer ;
+    rdf:rest ex:rv-g100-6 .
+  ex:rv-g100-6 rdf:first "8"^^xsd:integer ;
+    rdf:rest ex:rv-g100-7 .
+  ex:rv-g100-7 rdf:first "17"^^xsd:integer ;
+    rdf:rest ex:rv-g100-8 .
+  ex:rv-g100-8 rdf:first "22"^^xsd:integer ;
+    rdf:rest ex:rv-g100-9 .
+  ex:rv-g100-9 rdf:first "16"^^xsd:integer ;
+    rdf:rest ex:rv-g100-10 .
+  ex:rv-g20-0 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-1 .
+  ex:rv-g20-1 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-2 .
+  ex:rv-g20-10 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-11 .
+  ex:rv-g20-11 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-12 .
+  ex:rv-g20-12 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-13 .
+  ex:rv-g20-13 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-14 .
+  ex:rv-g20-14 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-15 .
+  ex:rv-g20-15 rdf:first "0"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:rv-g20-2 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-3 .
+  ex:rv-g20-3 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g20-4 .
+  ex:rv-g20-4 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g20-5 .
+  ex:rv-g20-5 rdf:first "4"^^xsd:integer ;
+    rdf:rest ex:rv-g20-6 .
+  ex:rv-g20-6 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g20-7 .
+  ex:rv-g20-7 rdf:first "3"^^xsd:integer ;
+    rdf:rest ex:rv-g20-8 .
+  ex:rv-g20-8 rdf:first "7"^^xsd:integer ;
+    rdf:rest ex:rv-g20-9 .
+  ex:rv-g20-9 rdf:first "4"^^xsd:integer ;
+    rdf:rest ex:rv-g20-10 .
+  ex:rv-g50-0 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g50-1 .
+  ex:rv-g50-1 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g50-2 .
+  ex:rv-g50-10 rdf:first "2"^^xsd:integer ;
+    rdf:rest ex:rv-g50-11 .
+  ex:rv-g50-11 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g50-12 .
+  ex:rv-g50-12 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g50-13 .
+  ex:rv-g50-13 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g50-14 .
+  ex:rv-g50-14 rdf:first "0"^^xsd:integer ;
+    rdf:rest ex:rv-g50-15 .
+  ex:rv-g50-15 rdf:first "0"^^xsd:integer ;
+    rdf:rest rdf:nil .
+  ex:rv-g50-2 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g50-3 .
+  ex:rv-g50-3 rdf:first "1"^^xsd:integer ;
+    rdf:rest ex:rv-g50-4 .
+  ex:rv-g50-4 rdf:first "3"^^xsd:integer ;
+    rdf:rest ex:rv-g50-5 .
+  ex:rv-g50-5 rdf:first "10"^^xsd:integer ;
+    rdf:rest ex:rv-g50-6 .
+  ex:rv-g50-6 rdf:first "4"^^xsd:integer ;
+    rdf:rest ex:rv-g50-7 .
+  ex:rv-g50-7 rdf:first "9"^^xsd:integer ;
+    rdf:rest ex:rv-g50-8 .
+  ex:rv-g50-8 rdf:first "11"^^xsd:integer ;
+    rdf:rest ex:rv-g50-9 .
+  ex:rv-g50-9 rdf:first "8"^^xsd:integer ;
+    rdf:rest ex:rv-g50-10 .
+  ex:rv-growth100 rdf:type cd:Dataset ;
+    skos:prefLabel "First 100 draws of the same seeded stream"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binCounts ex:rv-g100-0 ;
+    cd:derivedFromResource ex:nn-readings-code ;
+    cd:unit "mg/L" .
+  ex:rv-growth20 rdf:type cd:Dataset ;
+    skos:prefLabel "First 20 draws of the stated normal simulation"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binCounts ex:rv-g20-0 ;
+    cd:derivedFromResource ex:nn-readings-code ;
+    cd:unit "mg/L" .
+  ex:rv-growth50 rdf:type cd:Dataset ;
+    skos:prefLabel "First 50 draws of the same seeded stream"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:binCounts ex:rv-g50-0 ;
+    cd:derivedFromResource ex:nn-readings-code ;
+    cd:unit "mg/L" .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-p1-models> {
+  ex:p1-varA rdf:type cd:Observation ;
+    skos:prefLabel "Illustrative series A"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.00316"^^xsd:decimal ;
+    cd:pairedValue "0.0"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:p1-varB rdf:type cd:Observation ;
+    skos:prefLabel "Illustrative series B"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.00748"^^xsd:decimal ;
+    cd:pairedValue "0.0"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:p1-varC rdf:type cd:Observation ;
+    skos:prefLabel "Illustrative series C"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "0.01648"^^xsd:decimal ;
+    cd:pairedValue "0.0"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:p1-variance-examples rdf:type cd:Dataset ;
+    skos:prefLabel "Variance markers from the three preceding illustrative series"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:ix-series-cards ;
+    cd:hasObservation ex:p1-varA ;
+    cd:hasObservation ex:p1-varB ;
+    cd:hasObservation ex:p1-varC ;
+    cd:unit "(mg/L) squared" .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-p1-scenes> {
+  ex:p1-a1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.97"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:p1-a2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.04"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:p1-a3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.08"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:p1-a4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.93"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:p1-a5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.02"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:p1-a6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.96"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:p1-b1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.86"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:p1-b2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.05"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:p1-b3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.01"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:p1-b4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.12"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:p1-b5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.98"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:p1-b6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.98"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:p1-c1 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.84"^^xsd:decimal ;
+    cd:position "1"^^xsd:integer .
+  ex:p1-c2 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.19"^^xsd:decimal ;
+    cd:position "2"^^xsd:integer .
+  ex:p1-c3 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.93"^^xsd:decimal ;
+    cd:position "3"^^xsd:integer .
+  ex:p1-c4 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "10.11"^^xsd:decimal ;
+    cd:position "4"^^xsd:integer .
+  ex:p1-c5 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.99"^^xsd:decimal ;
+    cd:position "5"^^xsd:integer .
+  ex:p1-c6 rdf:type cd:Observation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:numericValue "9.94"^^xsd:decimal ;
+    cd:position "6"^^xsd:integer .
+  ex:p1-data-A rdf:type cd:Dataset ;
+    skos:prefLabel "Original illustrative series A"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:ix-series-cards ;
+    cd:hasObservation ex:p1-a1 ;
+    cd:hasObservation ex:p1-a2 ;
+    cd:hasObservation ex:p1-a3 ;
+    cd:hasObservation ex:p1-a4 ;
+    cd:hasObservation ex:p1-a5 ;
+    cd:hasObservation ex:p1-a6 ;
+    cd:unit "mg/L" .
+  ex:p1-data-B rdf:type cd:Dataset ;
+    skos:prefLabel "Original illustrative series B"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:ix-series-cards ;
+    cd:hasObservation ex:p1-b1 ;
+    cd:hasObservation ex:p1-b2 ;
+    cd:hasObservation ex:p1-b3 ;
+    cd:hasObservation ex:p1-b4 ;
+    cd:hasObservation ex:p1-b5 ;
+    cd:hasObservation ex:p1-b6 ;
+    cd:unit "mg/L" .
+  ex:p1-data-C rdf:type cd:Dataset ;
+    skos:prefLabel "Original illustrative series C"@en ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:derivedFromResource ex:ix-series-cards ;
+    cd:hasObservation ex:p1-c1 ;
+    cd:hasObservation ex:p1-c2 ;
+    cd:hasObservation ex:p1-c3 ;
+    cd:hasObservation ex:p1-c4 ;
+    cd:hasObservation ex:p1-c5 ;
+    cd:hasObservation ex:p1-c6 ;
+    cd:unit "mg/L" .
+}

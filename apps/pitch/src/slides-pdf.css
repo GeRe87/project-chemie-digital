@@ -41,6 +41,16 @@ html.print-pdf .reveal .pdf-page .media-reference img {
 html.print-pdf .reveal .pdf-page .media-reference img { display:block!important;width:100%!important; }
 /* This late-loaded shared composition must also survive Reveal's block reset. */
 html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="visual-formula"] { display:grid!important; }
+/* Tables and their complete formula/legend unit share a standard paper split.
+   This structural rule avoids shrinking a long vertical table+legend stack. */
+html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);
+  gap:1rem 1.5rem;
+}
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region="heading"] { grid-column:1 / -1;grid-row:1; }
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="prelude"] { grid-column:1;grid-row:2;min-width:0; }
+html.print-pdf .reveal .pdf-page section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="main"] { grid-column:2;grid-row:2;min-width:0; }
 @media print {
   .pcd-slides-pdf-toolbar { display:none!important; }
   html.print-pdf,html.print-pdf body { margin:0!important;padding:0!important; }

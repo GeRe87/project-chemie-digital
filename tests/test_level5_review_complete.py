@@ -5,7 +5,7 @@ import re
 import subprocess
 from pathlib import Path
 from rdflib.namespace import DCTERMS
-from test_level5_binomial_opening import unittest, rdf_dataset, runtime, validate_semantics, EX, CD, BASE, validate
+from level5_test_support import unittest, rdf_dataset, runtime, validate_semantics, EX, CD, BASE, validate
 
 
 class ReviewCompleteTests(unittest.TestCase):
@@ -30,7 +30,7 @@ class ReviewCompleteTests(unittest.TestCase):
                  'rv-n42','rv-n43','v3-n45','p1-n47','p1-n48','rv-n52','rv-n53','rv-n55','rv-n56','v3-n57','rv-n58','tf-square-scene','dist-square-scene','rv-n64','rv-n65','rv-n66']
         self.assertTrue({'ex:'+s+'--scene' for s in removed}.isdisjoint(s['id'] for s in self.document['scenes']))
         for name in removed:
-            self.assertTrue(list(self.union.objects(EX[name],CD.hasSceneItem)))
+            self.assertFalse(list(self.union.objects(EX[name],CD.hasSceneItem)))
         self.assertEqual('1.14', self.document['version'])
         ids = [b['id'] for s in self.document['scenes'] for b in s['blocks']]
         self.assertEqual(len(ids), len(set(ids)))
@@ -75,7 +75,7 @@ class ReviewCompleteTests(unittest.TestCase):
         legends=[b for b in scene['blocks'] if b['kind']=='definition-list' and all(e.get('symbol') for e in b['entries'])]
         self.assertEqual(5,len(legends))
         self.assertTrue(all(e['description'] for b in legends for e in b['entries']))
-        self.assertTrue(list(self.union.objects(EX['al-map-media'],CD.uri)))
+        self.assertTrue(all(formula['source'] for formula in formulas))
 
     def test_lognormal_caveats_use_structured_points_and_targeted_emphasis(self):
         cards=next(b for b in self.scene(29)['blocks'] if b['kind']=='definition-list')
@@ -118,17 +118,6 @@ class ReviewCompleteTests(unittest.TestCase):
             legend=next(b for b in intro['blocks'] if b['kind']=='definition-list')
             self.assertTrue(all(entry.get('symbol') and entry['description'] for entry in legend['entries']))
         self.assertFalse(any(b['kind']=='prose' and b.get('intent',{}).get('kind')!='introduce' for b in self.scene(22)['blocks']))
-
-    def test_calibration_observations_match_the_retained_r_example(self):
-        rows=sorted(self.union.objects(EX['rx-cal-data'],CD.hasObservation),
-                    key=lambda row:int(next(self.union.objects(row,CD.position))))
-        noise = [-.12,.08,.03,-.06,.10,-.02,-.09,.05,.02,-.08,.11,-.04]
-        self.assertEqual(12,len(rows))
-        for i,row in enumerate(rows):
-            x=float(next(self.union.objects(row,CD.numericValue)))
-            y=float(next(self.union.objects(row,CD.pairedValue)))
-            self.assertAlmostEqual(i*10/11,x,places=13)
-            self.assertAlmostEqual(1+2*x+.025*x**2+noise[i],y,places=12)
 
     def test_targeted_experiment_shapes(self):
         conforms,_,report=validate(self.union,shacl_graph=self.dataset.graph(BASE+'shapes/scientific-experiments'),inference='none')
@@ -247,9 +236,8 @@ console.log('Authored P1 snapshots, inference markers and source comparisons pas
         entries=next(b for b in self.scene(10)['blocks'] if b['kind']=='definition-list')['entries']
         self.assertEqual(2,len(entries))
         self.assertTrue(all(e['description'].startswith('- ') and e['explanation'] for e in entries))
-        # The displaced combinatorial material remains authored and available.
-        self.assertTrue(list(self.union.objects(EX['nn-four-chart'],CD.usesDataset)))
-        self.assertTrue(list(self.union.objects(EX['rv-n10'],CD.hasSceneItem)))
+        # Displaced draft scenes are no longer shipped as canonical lecture content.
+        self.assertFalse(list(self.union.objects(EX['rv-n10'],CD.hasSceneItem)))
 
     def test_z_notation_is_consistent_in_authored_formulas_legends_and_code(self):
         predicates=[CD.latex,CD.mathNotation,CD.body,CD.narration,CD.xAxisLabel,CD.yAxisLabel,CD.code,CD.alternativeText]

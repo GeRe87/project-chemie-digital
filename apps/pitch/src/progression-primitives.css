@@ -51,9 +51,6 @@
   max-width: none;
   margin: 0;
   padding: .58rem 1rem .52rem;
-  border: 4px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-accent) 12%, var(--pcd-surface-strong));
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 24%, transparent);
   color: var(--pcd-accent);
   font: 950 1.02em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   letter-spacing: .07em;
@@ -437,9 +434,6 @@ body[data-presentation-theme="dark"] .reveal .slides
   max-width: none;
   margin: 0 auto;
   padding: .58rem 1rem .52rem;
-  border: 4px solid var(--pcd-accent);
-  background: color-mix(in srgb, var(--pcd-accent) 9%, var(--pcd-surface-strong));
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--pcd-accent) 18%, transparent);
   color: var(--pcd-foreground);
   font: 900 .96em/1.1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
   text-align: center;
@@ -500,9 +494,6 @@ body[data-presentation-theme="dark"] .reveal .slides
   > [data-composition-region-container="prelude"]
   [data-component-kind="info-surface"] {
   width: min(1040px, 92%);
-  border: 0;
-  background: transparent;
-  box-shadow: none;
   color: var(--pcd-muted);
   font-size: 1.02em;
 }

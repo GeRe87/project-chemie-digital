@@ -75,9 +75,6 @@
   max-width: none;
   margin: 0;
   padding: .56rem .9rem;
-  border: 2px solid color-mix(in srgb, var(--pcd-accent) 68%, transparent);
-  background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-accent) 12%, transparent);
   color: var(--pcd-foreground);
   font: 760 .82em/1.2 Arial, Helvetica, sans-serif;
   text-align: left;
@@ -87,10 +84,6 @@
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
   > [data-composition-region-container="footer"]
   [data-component-kind="info-surface"] {
-  border-width: 0;
-  border-top: 2px solid var(--pcd-accent);
-  box-shadow: none;
-  background: color-mix(in srgb, var(--pcd-accent) 4%, transparent);
   font-weight: 760;
 }
 
@@ -108,7 +101,6 @@
 }
 
 .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
-  counter-reset: pcd-card;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -125,7 +117,6 @@
   > .definition-list-entry {
   --pcd-card-hue: var(--definition-entry-hue, 205deg);
   --pcd-card-stroke: hsl(var(--pcd-card-hue) 62% 38%);
-  counter-increment: pcd-card;
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -136,39 +127,16 @@
   min-height: 0;
   margin: 0;
   padding: .82rem .88rem;
-  border: 2px solid var(--pcd-card-stroke);
-  background:
-    linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--pcd-card-stroke) 8%, var(--pcd-surface-strong)) 0%,
-      var(--pcd-surface-strong) 72%
-    );
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--pcd-card-stroke) 13%, transparent);
   color: var(--pcd-foreground);
   text-align: left;
 }
 
 .reveal [data-component-kind="card-collection"][data-composition-region="main"]
-  > .definition-list-entry::before {
-  content: counter(pcd-card, decimal-leading-zero);
-  position: absolute;
-  top: .58rem;
-  right: .68rem;
-  color: color-mix(in srgb, var(--pcd-card-stroke) 68%, var(--pcd-foreground));
-  font: 850 .62em/1 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .04em;
-  opacity: .66;
-}
-
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]
   .definition-list-term {
   margin: 0 0 .42rem;
-  padding: 0 2rem .36rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcd-card-stroke) 48%, transparent);
-  color: color-mix(in srgb, var(--pcd-card-stroke) 88%, var(--pcd-foreground));
-  font: 900 .78em/1.08 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .035em;
-  text-transform: uppercase;
+  padding: 0 0 .36rem;
+  font-size: .78em;
+  line-height: 1.2;
   overflow-wrap: normal;
   word-break: normal;
 }
@@ -178,7 +146,8 @@
   flex: 1 1 auto;
   margin: 0;
   color: var(--pcd-foreground);
-  font: 740 .78em/1.28 Arial, Helvetica, sans-serif;
+  font-size: .78em;
+  line-height: 1.28;
   overflow-wrap: break-word;
   word-break: normal;
   white-space: pre-line;
@@ -367,15 +336,6 @@ body[data-presentation-theme="dark"] .reveal
   [data-component-kind="card-collection"][data-composition-region="main"]
   > .definition-list-entry {
   --pcd-card-stroke: hsl(var(--pcd-card-hue) 72% 66%);
-  background:
-    linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--pcd-card-stroke) 9%, var(--pcd-surface-strong)) 0%,
-      var(--pcd-surface-strong) 74%
-    );
-  box-shadow:
-    0 0 14px color-mix(in srgb, var(--pcd-card-stroke) 8%, transparent),
-    4px 4px 0 rgb(0 0 0 / .24);
 }
 
 @media screen and (max-width: 900px) {
@@ -459,7 +419,6 @@ body[data-presentation-theme="dark"] .reveal
   min-width: 0;
   max-width: none;
   min-height: 7rem;
-  border-radius: var(--pcd-surface-radius, 0);
   padding: 1rem 1.15rem;
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
