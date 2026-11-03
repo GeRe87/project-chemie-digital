@@ -6,20 +6,34 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
  const output=process.argv[2],engine=process.argv[3]||'edge';if(!output)throw Error('Specify an output directory');fs.mkdirSync(output,{recursive:true});
  const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));const report={engine,configurations:[],errors:[]};
  try{
-  for(const [view,width,height]of [['deck',1731,1006],['deck',1280,720],['scroll',1731,1006]]){
+   for(const [view,width,height]of [['deck',1731,1006],['deck',1280,720],['scroll',1731,1006],['scroll',1280,720]]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(e.message));
-   await page.goto(`http://127.0.0.1:5173/authoring.html?preview=authoring-level5-review-complete&view=${view}&clean=1&theme=light`);
+    await page.goto(`http://127.0.0.1:5173/authoring.html?preview=authoring-level5-review-complete&view=${view}&appearance-controls=hidden&theme=light`);
    await page.locator('.pcd-slides-pdf-link').waitFor({timeout:120000});await page.evaluate(()=>document.fonts.ready);const scenes=[];
    for(const scene of runtime.sceneDocuments[0].scenes){
      if(view==='deck'){await page.evaluate(id=>{location.hash='/'+id;},scene.id);await page.waitForFunction(id=>document.querySelector('section.present')?.id===id,scene.id);}
      const current=page.locator(`section[id="${scene.id}"]`);
      if(view==='scroll')await current.scrollIntoViewIfNeeded();
-     await current.evaluate(s=>{s.querySelectorAll('.fragment').forEach(e=>e.classList.add('visible'));s.querySelectorAll('[data-presentation-disclosure-visible]').forEach(e=>{e.dataset.presentationDisclosureVisible='true';e.removeAttribute('aria-hidden');});});
+      await current.evaluate(s=>{s.querySelectorAll('.fragment').forEach(e=>e.classList.add('visible'));s.querySelectorAll('[data-presentation-disclosure-visible]').forEach(e=>{e.dataset.presentationDisclosureVisible='true';e.removeAttribute('aria-hidden');});});
+      await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
      const audit=await current.evaluate((slide,view)=>{
       const bounds=slide.getBoundingClientRect().toJSON();if(view==='deck'){bounds.bottom=Math.min(bounds.bottom,innerHeight);bounds.right=Math.min(bounds.right,innerWidth);}
       const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&s.opacity!=='0'&&r.width>0&&r.height>0&&!e.closest('.katex-mathml,math,details:not([open]) > :not(summary)');};
      const selector='h1,h2,h3,p,li,dt,dd,.math-display,.katex-html .base,.experiment-description,.experiment-readouts span,.experiment-panels > figure > svg,.media-reference img';
-     const clipped=[],scrolling=[],prose=[];
+      const clipped=[],scrolling=[],prose=[];
+      for(const svg of slide.querySelectorAll('[data-chart-block-id] .d3-chart-svg')){
+       if(!visible(svg.closest('[data-chart-block-id]'))||svg.closest('[hidden],[data-presentation-disclosure-visible="false"]'))continue;
+       const rect=svg.getBoundingClientRect();
+       if(rect.width<40||rect.height<40)clipped.push({reason:'collapsed chart',tag:'svg',text:svg.getAttribute('aria-label')});
+      }
+      if(innerWidth>700&&['info-visual','visual-formula'].includes(slide.dataset.compositionProfile)){
+       const panels=[...slide.querySelectorAll(':scope > .pcd-composition-region')].map(region=>region.firstElementChild).filter(e=>e&&visible(e));
+       if(panels.length===2){const [a,b]=panels.map(e=>e.getBoundingClientRect());if((a.right<=b.left||b.right<=a.left)&&Math.abs(a.top-b.top)>3)clipped.push({reason:'misaligned column panels',tag:'section',text:slide.id});}
+      }
+      for(const panel of slide.querySelectorAll('.definition-list-entry,.formula-with-legend,[data-component-kind="info-surface"],[data-component-kind="prompt"],[data-component-kind="visual"],.code-function-workbench')){
+       const css=getComputedStyle(panel);
+       if(visible(panel)&&parseFloat(css.borderLeftWidth)>0&&Math.min(parseFloat(css.paddingLeft),parseFloat(css.paddingTop),parseFloat(css.paddingRight),parseFloat(css.paddingBottom))<8)clipped.push({reason:'bordered panel without inset',tag:panel.tagName,text:panel.textContent.trim().slice(0,100)});
+      }
      for(const e of slide.querySelectorAll(selector)){
       if(!visible(e)||e.closest('dialog,.experiment-details,.code-example-optional'))continue;
       const r=e.getBoundingClientRect(),text=e.textContent.trim().slice(0,100);
@@ -39,5 +53,5 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
   }
  }finally{await browser.close();fs.writeFileSync(path.join(output,`${engine}-layout.json`),JSON.stringify(report,null,2));}
  console.log(JSON.stringify({engine,errors:report.errors,configurations:report.configurations.map(c=>({view:c.view,width:c.width,clipped:c.scenes.filter(s=>s.clipped.length).map(s=>({id:s.id,problems:s.clipped.length})),scrolling:c.scenes.filter(s=>s.scrolling.length).map(s=>({id:s.id,surfaces:s.scrolling})),longProse:c.scenes.filter(s=>s.prose.length).map(s=>({id:s.id,paragraphs:s.prose}))}))},null,2));
- if(report.errors.length)process.exitCode=1;
+  if(report.errors.length||report.configurations.some(c=>c.scenes.some(s=>s.clipped.length||s.scrolling.length)))process.exitCode=1;
 })().catch(e=>{console.error(e);process.exitCode=1;});

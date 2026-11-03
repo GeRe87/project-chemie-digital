@@ -1,5 +1,5 @@
 /* Shared controls and typography for interactive scientific views, not slide identities. */
-.pcd-interactive { font-size: clamp(var(--pcd-interactive-font-min, 16px), var(--pcd-interactive-font-size, 1.7vw), 28px); line-height: 1.4; }
+.pcd-interactive { font: clamp(max(22px, var(--pcd-interactive-font-min, 22px)), var(--pcd-interactive-font-size, 24px), 28px)/1.35 Arial, Helvetica, sans-serif; }
 [data-interactive-surface="true"] { container-type: inline-size; --pcd-interactive-font-size: 2.05cqw; }
 .pcd-interactive button, .pcd-interactive input { font: inherit; }
 .pcd-interactive-controls { display: flex; flex-wrap: wrap; gap: .6em; align-items: center; }

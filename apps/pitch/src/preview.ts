@@ -1,4 +1,5 @@
 import katex from "katex";
+import {renderSymbolDefinitions} from "../../../packages/renderer-reveal/src/symbol-definitions.ts";
 import {binaryDiagramFallback} from "../../../packages/core/src/binary-experiment.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
@@ -272,7 +273,10 @@ function appendBlock(
 
       const term = dom.createElement("dt");
       term.className = "definition-list-term";
-      if (entry.symbol) term.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
+      term.setAttribute("data-card-number", String(index + 1).padStart(2, "0"));
+      const symbolDefinitions=entry.symbol?renderSymbolDefinitions(entry.explanation??entry.description??""):undefined;
+      if(symbolDefinitions)term.textContent=entry.term;
+      else if (entry.symbol) term.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
       else if (/^[^\s]+(?:[, ]+(?:and )?[^\s]+)*$/u.test(entry.term)&&/[₀-₉ₐ-ₜᵢ-ᵥⱼΣ√\p{M}]|^[a-zA-Z]$/u.test(entry.term))term.innerHTML=symbolLegendMarkup(entry.term);
       else term.textContent = entry.term;
       term.setAttribute("data-definition-entry-id", entry.id);
@@ -297,7 +301,9 @@ function appendBlock(
           .map((point) => point.trim())
           .filter((point) => point.length > 0);
 
-        if (/^-\s+/mu.test(entry.description)) {
+        if(symbolDefinitions){
+          description.innerHTML=symbolDefinitions;
+        } else if (/^-\s+/mu.test(entry.description)) {
           // Explicit paragraph/list authoring uses the same safe rich-text
           // subset as prose cards. Legacy line-wise point spacing stays intact.
           description.innerHTML = teachingTextMarkup(entry.description);
@@ -329,7 +335,7 @@ function appendBlock(
           description.innerHTML = teachingInlineMarkup(entry.description,true);
         }
 
-        if (entry.explanation) {
+        if (entry.explanation&&!symbolDefinitions) {
           const content = dom.createElement("div");
           content.className = "symbol-explanation";
           content.innerHTML = teachingTextMarkup(entry.explanation);
@@ -533,7 +539,7 @@ function appendBlock(
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
     if (staticDistribution || block.chartType === "experiment" || block.chartType === "box" || block.chartType === "histogram" || block.chartType === "histogram2d") shell.setAttribute("data-chart-renderer", "dot");
-    if (block.chartType === "observations" && !staticDistribution && block.interactive!==false) {
+    if (block.chartType === "experiment" || block.chartType === "observations" && !staticDistribution && block.interactive!==false) {
       shell.setAttribute("data-interactive-surface","true");
       shell.setAttribute("data-presentation-interactive", "true");
       shell.setAttribute("tabindex", "0");

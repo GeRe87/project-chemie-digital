@@ -28,6 +28,10 @@ import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
 import "./teaching-primitives.css";
 import "./teaching-surfaces.css";
+import "./teaching-layouts.css";
+import "./scene-view-tabs.css";
+import "../../../packages/renderer-reveal/src/symbol-definitions.css";
+import {mountSceneViewTabs} from "./scene-view-tabs.ts";
 import "./mathematical-derivation.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";
@@ -287,6 +291,7 @@ const deck = new Reveal({
     : { scrollActivationWidth: 0 }),
 });
 const pdfLayoutReady = slidesPdf ? new Promise<void>(resolve => deck.on("pdf-ready", () => resolve())) : undefined;
+const unmountSceneViewTabs = slidesPdf ? () => {} : mountSceneViewTabs(root);
 if (slidesPdf) { await document.fonts.ready; prepareSlidesPdf(root); }
 await deck.initialize();
 if (slidesPdf) {
@@ -500,6 +505,7 @@ window.addEventListener("pagehide", () => {
   unmountSlidesPdfLink();unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
   deck.off("slidechanged", refreshInteractiveRuntime);
   unmountOptionalMaterial();
+  unmountSceneViewTabs();
   pollRuntime?.destroy();
   localPollRuntime?.destroy();
   codeRuntime?.destroy();

@@ -270,7 +270,7 @@ test("SVG renders source-linked mathematical notation separately from descriptio
     const mathBlock: DiagramBlock = {
       ...block,
       nodes: block.nodes.map((node) => node.id === "node:a"
-        ? { ...node, label: "INPUT", notation: "cᵢ", description: "Chosen concentration" }
+        ? { ...node, label: "INPUT", notation: "cᵢ", description: "Chosen concentration for this complete sample" }
         : node),
     };
     const result = createD3FlowRenderModel(mathBlock, { reducedMotion: true, interactionPolicy: "static" });
@@ -285,7 +285,7 @@ test("SVG renders source-linked mathematical notation separately from descriptio
     assert.equal(notation[0]!.getAttribute("xml:space"), "preserve");
     const descriptions = host.findByClass("d3-flow-node-body");
     assert.ok(descriptions.some((node) =>
-      node.children.map((part) => part.textContent ?? "").join("") === "Chosen concentration"));
+      node.children.map((part) => part.textContent ?? "").join("") === "Chosen concentration for this complete sample"));
     assert.ok(descriptions.some((node) => node.children.length > 1), "exercise visual wrapping, not just a single tspan");
     const card = host.findByClass("d3-flow-node").find((node) => node.getAttribute("data-node-id") === "node:a")!;
     assert.equal(card.findByClass("d3-flow-node-header").length, 1);

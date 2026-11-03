@@ -1,0 +1,104 @@
+/* Chart/formula tabs share a bounded stage, not an expanding accordion. */
+html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] {
+  box-sizing: border-box;
+  height: 800px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  align-content: start;
+}
+.pcd-scene-view-tabs {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  gap: .35rem;
+  padding: .3rem;
+  border-bottom: 2px solid var(--pcd-accent);
+  font: 22px/1.25 Arial, Helvetica, sans-serif;
+}
+.pcd-scene-view-tabs [role="tab"] {
+  min-height: 44px;
+  padding: .35rem .9rem;
+  border: 1px solid var(--pcd-border);
+  border-radius: .4rem .4rem 0 0;
+  color: var(--pcd-foreground);
+  background: var(--pcd-panel-background);
+  font: inherit;
+  cursor: pointer;
+}
+.pcd-scene-view-tabs [aria-selected="true"] {
+  color: var(--pcd-panel-background);
+  background: var(--pcd-foreground);
+  border-color: var(--pcd-foreground);
+  font-weight: 700;
+}
+.pcd-scene-view-tabs [role="tab"]:focus-visible {
+  outline: 3px solid var(--pcd-accent);
+  outline-offset: 3px;
+}
+.pcd-scene-view-tabs-hint { margin-left: auto; align-self: center; color: var(--pcd-muted); }
+section[data-scene-view-tabs="true"] .distribution-experiment { --pcd-interactive-font-size: 24px; }
+section[data-scene-view-tabs="true"] .experiment-panels figcaption { display: flex; flex-wrap: wrap; gap: .25rem .75rem; }
+section[data-scene-view-tabs="true"] .experiment-legend-entry { max-width: 100%; }
+section[data-scene-view-tabs="true"] .experiment-readouts [data-readout-kind="text"] { grid-column: 1 / -1; }
+@media screen {
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure :is(.authored-symbol-definitions,.authored-symbol-conventions) { font-size: 22px; }
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure .definition-list-term:has(+ .definition-list-description .authored-symbol-definitions) { font-size: 22px; color: var(--pcd-foreground); }
+  section[data-scene-view-tabs="true"] .symbol-legend-disclosure[open] { max-height: none; overflow: visible; }
+  section[data-scene-view-tabs="true"] .symbol-legend-disclosure > .definition-list { display: grid; }
+}
+html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] > [data-scene-view-active] {
+  grid-column: 1;
+  grid-row: 3;
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] > [data-scene-view-active="false"] { display: none !important; }
+@media screen and (min-width:701px) {
+  /* A single active pane occupies the remaining row. Fixed-size controls and
+     prose keep their type size; only the visual receives the spare height. */
+  html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] > [data-scene-view-active="true"] {
+    height: 100%;
+    align-self: stretch;
+  }
+  .reveal .slides section[data-scene-view-tabs="true"] [data-scene-view-active="true"] > [data-component-kind="visual"] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    --pcd-chart-fill-stage: 1;
+  }
+  .reveal .slides section[data-scene-view-tabs="true"] [data-scene-view-active="true"] > .formula-with-legend { min-height: 100%; }
+  section[data-scene-view-tabs="true"] .distribution-experiment {
+    --pcd-experiment-fill-stage: 1;
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
+  }
+  section[data-scene-view-tabs="true"] .distribution-experiment > :not(.experiment-panels) { flex-shrink: 0; }
+  section[data-scene-view-tabs="true"] .experiment-panels { flex: 1 1 240px; min-height: 240px; }
+  section[data-scene-view-tabs="true"] .experiment-panels > figure { display: flex; flex-direction: column; height: 100%; }
+  section[data-scene-view-tabs="true"] .experiment-panels > figure > svg { flex: 1 1 0; height: 0; min-height: 160px; }
+  section[data-scene-view-tabs="true"] .experiment-panels figcaption { flex: none; min-height: var(--pcd-experiment-legend-height, 0px); }
+  section[data-scene-view-tabs="true"] [data-scene-view-active="true"] [data-chart-block-id] > .d3-chart-figure {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
+  }
+  section[data-scene-view-tabs="true"] [data-scene-view-active="true"] .d3-chart-figure > .d3-chart-svg { flex: 1 1 0; min-height: 240px; height: 0; }
+  section[data-scene-view-tabs="true"] [data-scene-view-active="true"] .d3-chart-figure > :not(.d3-chart-svg) { flex: none; }
+}
+@media screen and (max-width:700px) {
+  html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] { height: calc(100dvh - 32px); }
+  .pcd-scene-view-tabs { flex-wrap: wrap; }
+  .pcd-scene-view-tabs-hint { display: none; }
+}
+@media print {
+  .pcd-scene-view-tabs { display: none !important; }
+  html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] { height: auto; display: block !important; }
+  html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] > [data-scene-view-active] { display: block !important; max-height: none; overflow: visible; }
+}

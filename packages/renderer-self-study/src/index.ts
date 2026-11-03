@@ -1,4 +1,5 @@
 import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
+import {renderSymbolDefinitions} from "../../renderer-reveal/src/symbol-definitions.ts";
 import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
 import {SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION} from "../../core/src/scene-document.ts";
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
@@ -873,7 +874,10 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
       return `<${tag} class="self-study-list">${items}</${tag}>`;
     }
     case "definition-list": {
-      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entry.explanation ? `<dd class="self-study-symbol-explanation">${renderStudyInline(entry.explanation)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
+      const entries = node.entries.map((entry) => {
+        const definitions=entry.symbol?renderSymbolDefinitions(entry.explanation??entry.description??""):undefined;
+        return `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${definitions?escapeHtml(entry.term):entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${definitions?`<dd>${definitions}</dd>`:entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entry.explanation&&!definitions ? `<dd class="self-study-symbol-explanation">${renderStudyInline(entry.explanation)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`;
+      }).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "table": {
@@ -931,7 +935,11 @@ export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readon
   const sections = plan.sections.map((section, index) => {
     const narrative=options.narrative&&section.narration;
     const prose=narrative?`<div class="self-study-narration">${section.narration!.split(/\n\s*\n/u).map(p=>`<p>${renderStudyInline(p)}</p>`).join("")}</div>`:"";
-    const nodes=narrative?section.nodes.filter(n=>!["list","prompt","prose"].includes(n.kind)&&(n.kind!=="definition-list"||n.emphasis==="supporting")):section.nodes;
+    const nodes=narrative?section.nodes.filter(n=>!["list","prompt","prose"].includes(n.kind)&&(n.kind!=="definition-list"||n.emphasis==="supporting")).map(node=>{
+      if(node.kind!=="definition-list")return node;
+      return {...node,entries:node.entries.map(entry=>entry.symbol&&entry.explanation&&entry.source.some(source=>source.relationPath==="cd:presentationDefinition")
+        ? {...entry,description:entry.explanation,explanation:undefined}:entry)};
+    }):section.nodes;
     const topic = section.topic ? `<p class="self-study-topic"${sourceAttributes(section.topic.source)}>Topic: ${escapeHtml(section.topic.label)}</p>` : "";
     return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}>${topic}<h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive)}</section>`;
   }).join("");

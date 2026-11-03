@@ -4,18 +4,11 @@
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
   display: grid !important;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
-  row-gap: .72rem;
   align-content: stretch;
-  padding: 1.2rem 1.65rem 1.15rem !important;
 }
 
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] > [data-composition-region="heading"] {
   grid-row: 1;
-  margin: 0;
-  max-width: none;
-  font-size: 2.42em;
-  line-height: 1;
-  text-wrap: balance;
 }
 
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"]
@@ -101,11 +94,6 @@
 }
 
 .reveal [data-component-kind="card-collection"][data-composition-region="main"] {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  gap: .72rem;
   width: 100%;
   min-width: 0;
   min-height: 0;
@@ -120,10 +108,7 @@
   position: relative;
   box-sizing: border-box;
   display: flex;
-  flex: 1 1 clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem);
   flex-direction: column;
-  min-width: min(100%, clamp(14rem, calc(var(--pcd-card-content-width, 16ch) + 4.5rem), 22rem));
-  max-width: 34rem;
   min-height: 0;
   margin: 0;
   padding: .82rem .88rem;

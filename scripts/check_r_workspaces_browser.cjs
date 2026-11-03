@@ -10,7 +10,8 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce',colorScheme:theme});page.on('pageerror',e=>report.errors.push(e.message));
    await page.goto(`http://127.0.0.1:5173/authoring.html?preview=authoring-level5-review-complete&view=deck&theme=${theme}`);
    await page.locator('.pcd-slides-pdf-link').waitFor({timeout:120000});await page.evaluate(()=>document.fonts.ready);
-   const scenes=runtime.sceneDocuments[0].scenes.filter(s=>s.blocks.some(b=>b.kind==='code'&&b.language==='r'&&b.executable&&b.disclosure?.mode==='optional'));
+    const scenes=runtime.sceneDocuments[0].scenes.filter(s=>s.blocks.some(b=>b.kind==='code'&&b.language==='r'&&b.disclosure?.mode==='optional'));
+    for(const scene of scenes)for(const block of scene.blocks.filter(b=>b.kind==='code'&&b.language==='r'))assert.equal(block.executable,true,`${scene.id}: optional R example must expose execution controls`);
    const checked=[];
    const within=(box,outer,label)=>{assert(box,`${label}: missing box`);assert(box.x>=outer.x-2&&box.y>=outer.y-2&&box.x+box.width<=outer.x+outer.width+2&&box.y+box.height<=outer.y+outer.height+2,`${label}: outside bounds ${JSON.stringify({box,outer})}`);};
    for(const scene of scenes){
@@ -55,7 +56,15 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
     assert.equal(await shell.locator('.code-result-pane canvas').count(),1);assert.equal(await shell.locator('.code-output[role="button"]').count(),0);
     const plots=shell.getByRole('button',{name:/Enlarge plots/});await plots.click();await page.locator('dialog.pcd-r-plot-dialog[open]').waitFor();await page.keyboard.press('Escape');
     assert.equal(await shell.locator('.code-result-pane canvas').count(),1,'Enlargement must not remove the inline plot');
-    await page.screenshot({path:path.join(output,`${engine}-executed.png`)});report.execution={scene:id,inlinePlots:1,output:'R workspace execution check'};
+     await page.screenshot({path:path.join(output,`${engine}-executed.png`)});report.execution={scene:id,inlinePlots:1,output:'R workspace execution check'};
+     for(const [example,expected]of [['ex:rv-n61--scene',/0\.563275/],['ex:rv-n63--scene',/9\.487729[\s\S]*0\.020587/]]){
+      await page.evaluate(id=>location.hash='/'+id,example);await page.waitForFunction(id=>document.querySelector('section.present')?.id===id,example);
+      const details=page.locator('section.present details.pcd-optional-material');await details.locator(':scope > summary').click();
+      const exampleShell=details.locator('.code-block[data-code-layout="split"]');await exampleShell.getByRole('button',{name:'Run',exact:true}).click();
+      await page.waitForFunction(()=>{const s=document.querySelector('section.present .code-block[data-code-layout="split"]');return s&&!s.querySelector('.code-run-button')?.disabled&&s.querySelector('.code-output')?.textContent!=='Output will appear here.';},{},{timeout:180000});
+      assert.match(await exampleShell.locator('.code-output').innerText(),expected,`${example}: authored R calculation must produce its expected values`);
+      await details.locator(':scope > summary').press('Escape');
+     }
    }
    report.configurations.push({width,height,theme,scenes:checked});await page.close();
   }

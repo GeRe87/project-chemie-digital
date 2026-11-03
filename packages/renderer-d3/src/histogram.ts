@@ -17,7 +17,7 @@ export function mountD3Histogram(host:unknown,block:HistogramBlock|Histogram2DBl
   let widthInput:HTMLInputElement|undefined,originInput:HTMLInputElement|undefined;
   figure.append(svg,caption,fallback);host.replaceChildren(figure);
   const render=()=>{
-    const width=Math.max(600,host.getBoundingClientRect().width||900),height=480,left=85,right=width-35,bottom=height-75,top=45;
+    const width=Math.max(280,figure.clientWidth||host.clientWidth||host.getBoundingClientRect().width||900),naturalHeight=width>=1000?320:480,fill=typeof getComputedStyle!=='undefined'&&getComputedStyle(host).getPropertyValue('--pcd-chart-fill-stage').trim()==='1',height=fill?Math.max(naturalHeight,svg.clientHeight):naturalHeight,left=85,right=width-35,bottom=height-75,top=45;
     svg.replaceChildren();svg.setAttribute("viewBox",`0 0 ${width} ${height}`);
     const node=(tag:string,attrs:Record<string,string|number>,text?:string)=>{const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;svg.append(n);return n;};
     const x=scaleLinear().domain([edges[0],edges.at(-1)!]).range([left,right]);

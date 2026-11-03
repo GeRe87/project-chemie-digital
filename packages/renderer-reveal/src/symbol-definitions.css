@@ -1,0 +1,36 @@
+.authored-symbol-definitions {
+  --pcd-symbol-definition-color: #6d28d9;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+  gap: .4em 1.2em;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.authored-symbol-definitions > .authored-symbol-definition {
+  display: grid;
+  grid-template-columns: minmax(3.5em, max-content) minmax(0, 1fr);
+  gap: .6em;
+  align-items: baseline;
+  padding: .25em 0;
+  border-bottom: 1px solid var(--pcd-border, #c8d0d5);
+}
+.authored-symbol-definitions > .authored-symbol-definition > :is(dt,dd) { margin: 0; padding: 0; color: inherit; font: inherit; line-height: 1.35; }
+.authored-symbol-definitions > .authored-symbol-definition > dt { color: var(--pcd-symbol-definition-color); font-weight: 700; }
+/* The legacy formula prose reset must not neutralize the actual symbol column. */
+.formula-with-legend .authored-symbol-definitions > .authored-symbol-definition > dt { color: var(--pcd-symbol-definition-color); font-weight: 700 !important; }
+.formula-with-legend .authored-symbol-definitions > .authored-symbol-definition > dt * { color: inherit; }
+.authored-symbol-definitions > .authored-symbol-definition > dd { overflow-wrap: anywhere; }
+body[data-presentation-theme="dark"] .authored-symbol-definitions { --pcd-symbol-definition-color: #c4a1ff; }
+/* The script retains a white paper surface, including in a dark presentation. */
+body[data-presentation-theme="dark"] .pcd-script-view .authored-symbol-definitions { --pcd-symbol-definition-color: #6d28d9; }
+.authored-symbol-conventions { margin: .75em 0 0; font: inherit; line-height: 1.35; text-align: left; }
+/* Paper retains every definition but avoids spending a separate table gutter,
+   row rule and padding on each short symbol. This is still a semantic dl. */
+html.print-pdf .authored-symbol-definitions { display: block; }
+html.print-pdf .authored-symbol-definitions > .authored-symbol-definition { display: block; padding: 0; margin: 0 0 .12em; border: 0; }
+html.print-pdf .authored-symbol-definitions > .authored-symbol-definition > :is(dt,dd) { display: inline; line-height: 1.15; }
+html.print-pdf .authored-symbol-definition > dt::after { content: ": "; }
+html.print-pdf .authored-symbol-conventions { margin: .35em 0 0; line-height: 1.2; }
+html.print-pdf .symbol-legend-disclosure > [data-symbol-legend="true"] > .definition-list-entry { padding: .25rem; }
+html.print-pdf .symbol-legend-disclosure > [data-symbol-legend="true"] > .definition-list-entry:only-child > .definition-list-term { display: none; }

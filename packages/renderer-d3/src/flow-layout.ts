@@ -1602,18 +1602,25 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
   const orientation = flowOrientationForStructure(input, hostWidth, linearOrder);
   const prepared: PreparedNode[] = input.nodes.map((node, inputIndex) => {
     const description = input.diagramType === "network" ? undefined : node.description;
-    const { labelLines, bodyLines } = structuredNodeText(
+    const initialText = structuredNodeText(
       node.label,
       description,
       HORIZONTAL_LABEL_WIDTH,
     );
+    const width = horizontalNodeWidth(initialText.labelLines, initialText.bodyLines);
+    // Wide flow cards have no legacy index strip in their content area. Reuse
+    // the actual card width rather than leaving its text in a 178px column.
+    const {labelLines,bodyLines} = description && input.diagramType === "flow"
+      && orientation === "horizontal" && hostWidth >= FLOW_HORIZONTAL_BREAKPOINT
+      ? structuredNodeText(node.label,description,width-44)
+      : initialText;
     return {
       ...node,
       ...(description ? { description } : {}),
       inputIndex,
       labelLines,
       bodyLines,
-      width: horizontalNodeWidth(labelLines, bodyLines),
+      width,
       height: nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
     };
   });

@@ -173,8 +173,10 @@ export function mountD3LineChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const width = Math.max(680, Math.round(host.getBoundingClientRect().width || 1000));
-    const height = Math.max(480, Math.round(width * 0.52));
+    const width = Math.max(680, Math.round(host.clientWidth || host.getBoundingClientRect().width || 1000));
+    const naturalHeight = width >= 1000 ? 360 : Math.max(480, Math.round(width * 0.52));
+    const fill = typeof getComputedStyle !== 'undefined' && getComputedStyle(host).getPropertyValue('--pcd-chart-fill-stage').trim() === '1';
+    const height = fill ? Math.max(naturalHeight, chartSvg.clientHeight) : naturalHeight;
     const margin = { top: 54, right: 58, bottom: 82, left: 98 };
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;

@@ -22,3 +22,13 @@ test('layout styles do not repeat the historical redundant profile guard',()=>{
  const charts=readFileSync(new URL('../src/chart-theme.css',import.meta.url),'utf8');
  assert.doesNotMatch(charts,/\.retro-neon-chart-header::after/u);
 });
+
+test('standard cards have one coloured header and decorative ordinal without numbering symbol legends',()=>{
+ const css=readFileSync(new URL('../src/teaching-surfaces.css',import.meta.url),'utf8');
+ assert.match(css,/:not\(\[data-symbol-legend="true"\]\)/u);
+ assert.match(css,/background: var\(--pcd-card-header\)/u);
+ assert.match(css,/content: attr\(data-card-number\) \/ ""/u);
+ assert.match(css,/color: #fff/u);
+ const renderer=readFileSync(new URL('../src/preview.ts',import.meta.url),'utf8');
+ assert.match(renderer,/term\.setAttribute\("data-card-number", String\(index \+ 1\)\.padStart\(2, "0"\)\)/u);
+});

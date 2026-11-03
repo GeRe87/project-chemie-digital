@@ -52,6 +52,11 @@ class ReviewCompleteTests(unittest.TestCase):
         html = runtime.static_fallback({'sceneDocuments':[self.document]})
         self.assertIn('Replay seed (Park-Miller)', html)
 
+    def test_every_optional_r_example_has_an_execution_surface(self):
+        blocks=[b for scene in self.document['scenes'] for b in scene['blocks'] if b['kind']=='code' and b['language']=='r']
+        self.assertEqual(10,len(blocks))
+        self.assertTrue(all(b['executable'] and b['disclosure']['mode']=='optional' for b in blocks))
+
     def test_slide_wording_uses_measurements_and_omits_print_state_editorial_labels(self):
         def visible_strings(value):
             if isinstance(value,str):
@@ -65,6 +70,29 @@ class ReviewCompleteTests(unittest.TestCase):
         for scene in self.document['scenes']:
             for text in visible_strings(scene['blocks']):
                 self.assertIsNone(re.search(r'\bprinted\b|\breadings\b|\bone reading\b|Reading \(mg/L\)',text,re.I),(scene['id'],text))
+
+    def test_script_prose_is_concise_and_reader_facing(self):
+        narrations=[scene['narration'] for scene in self.document['scenes']]
+        self.assertLessEqual(sum(len(text.split()) for text in narrations),1900)
+        for scene,text in zip(self.document['scenes'],narrations):
+            self.assertLessEqual(len(text.split()),80,scene['id'])
+            self.assertIsNone(re.search(r'^N\d+\.|extended path|optional extended|next slide|\bannounce\b|the class already|the title is N',text,re.I),(scene['id'],text))
+
+    def test_copy_edit_keeps_assumptions_at_the_relevant_explanation(self):
+        self.assertIn('assumes Normal individual results',self.scene(8)['narration'])
+        self.assertIn('known reference SD',self.scene(31)['narration'])
+        self.assertIn('independent Normal',self.scene(44)['narration'])
+        self.assertIn('population means may differ',self.scene(50)['narration'])
+        self.assertIn('fitting parameters changes the reference',self.scene(61)['narration'])
+
+    def test_formula_legends_use_authored_definition_rows_and_separate_conventions(self):
+        entries=[entry for scene in self.document['scenes'] for block in scene['blocks'] if block['kind']=='definition-list' for entry in block['entries'] if entry.get('symbol')]
+        self.assertEqual(43,len(entries))
+        for entry in entries:
+            text=entry.get('explanation',entry['description'])
+            rows=text.split('\n\n')[0].splitlines()
+            self.assertTrue(all(re.fullmatch(r'- \*\*(.+?)\*\*: .+',row) for row in rows),entry['id'])
+            self.assertTrue(entry['expression'],entry['id'])
 
     def test_family_overview_uses_five_authored_mechanisms_with_complete_formula_legends(self):
         scene=self.scene(59)
@@ -101,7 +129,7 @@ class ReviewCompleteTests(unittest.TestCase):
             self.assertIn(term,formula['expression'])
         legend=next(b for b in scene['blocks'] if b['kind']=='definition-list')
         text=' '.join(e['description'] for e in legend['entries'])
-        for term in ('lowercase x','positive real','integration variable','no point mass','dimensionless'):
+        for term in ('**x**','positive real','integration variable','no point mass','dimensionless'):
             self.assertIn(term,text)
 
     def test_distribution_introductions_show_the_repeated_experiment_before_the_live_views(self):

@@ -26,16 +26,40 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
      if(scene.id==='ex:map-mechanisms-scene--scene'){assert.equal(await current.locator('.formula-with-legend').count(),5);const legends=current.locator('details.symbol-legend-disclosure');assert.equal(await legends.count(),5);for(const legend of await legends.all()){assert.equal(await legend.getAttribute('open'),null);await legend.locator('summary').click();assert.notEqual(await legend.getAttribute('open'),null);assert.equal(await current.getAttribute('id'),scene.id);await legend.locator('summary').press('Enter');assert.equal(await legend.getAttribute('open'),null);}}
     const experiment=current.locator('.distribution-experiment'),hasExperiment=await experiment.count();
     const checks=[];
-    if(hasExperiment){
+     if(hasExperiment){
+       await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
       assert.ok(await experiment.locator('svg').count());assert.ok((await experiment.locator('.experiment-readouts').innerText()).length>20,`${scene.id}: missing teaching results`);
       const assertWidgetFits=async()=>{if(width<=700)return;const box=await experiment.boundingBox();assert(box&&box.x>=0&&box.y>=0&&box.x+box.width<=width+2&&box.y+box.height<=height+2,`${scene.id}: widget outside ${width}x${height} viewport`);};
-      await assertWidgetFits();
+       await assertWidgetFits();
+       assert.ok(await experiment.locator(':scope > .experiment-controls > label').count()<=2,`${scene.id}: too many primary controls`);
+       const typography=await experiment.locator('label,input,button,figcaption,.experiment-readouts,svg text').evaluateAll(es=>es.filter(e=>e.getBoundingClientRect().height>0).map(e=>parseFloat(getComputedStyle(e).fontSize)));
+       assert.ok(typography.every(size=>size>=22),`${scene.id}: text below the logical 22px floor`);
+       const canvases=await experiment.locator('.experiment-panels > figure > svg').evaluateAll(es=>es.map(e=>({canvas:e.viewBox.baseVal.width,cell:e.parentElement.clientWidth})));
+       assert.ok(canvases.every(({canvas,cell})=>Math.abs(canvas-cell)<=2),`${scene.id}: SVG coordinates do not match their content cell`);
+       const settingsDisclosure=experiment.locator('details.experiment-settings');
+       if(await settingsDisclosure.count()){
+        assert.equal(await settingsDisclosure.locator('input').first().isVisible(),false);
+        await settingsDisclosure.locator('summary').focus();await page.keyboard.press('Enter');
+        assert.notEqual(await settingsDisclosure.getAttribute('open'),null);
+        assert.equal(await settingsDisclosure.locator('input').first().isVisible(),true);
+        await page.keyboard.press('Escape');assert.equal(await settingsDisclosure.getAttribute('open'),null);
+        assert.equal(await settingsDisclosure.locator('summary').evaluate(e=>e===document.activeElement),true);
+       }
+       if(reviewNumber===10&&width===1731){
+        const before=await experiment.getAttribute('data-model-values'),readouts=await experiment.locator('.experiment-readouts').innerText();
+        await page.setViewportSize({width:1280,height:720});
+        await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+        assert.equal(await experiment.getAttribute('data-model-values'),before);
+        assert.equal(await experiment.locator('.experiment-readouts').innerText(),readouts);
+        await page.setViewportSize({width,height});
+        await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+       }
       const notes=experiment.locator('details.experiment-details');await notes.locator('summary').click();assert.notEqual(await notes.getAttribute('open'),null);assert.ok((await notes.locator('pre').innerText()).length>20);await assertWidgetFits();await notes.locator('summary').focus();await page.keyboard.press('Escape');assert.equal(await notes.getAttribute('open'),null);assert.equal(await current.getAttribute('id'),scene.id);
       const block=scene.blocks.find(b=>b.kind==='chart'&&b.chartType==='experiment');
       if(reviewNumber===36)assert.equal(JSON.parse(await experiment.getAttribute('data-model-values')).df,2);
       if(reviewNumber===44)assert.equal(JSON.parse(await experiment.getAttribute('data-model-values')).n,2);
       if(reviewNumber===10){const domains=await experiment.locator('.experiment-panels > figure > svg').evaluateAll(es=>es.map(e=>e.dataset.xDomain));assert.equal(domains.length,2);assert.equal(domains[0],domains[1]);const markers=await experiment.locator('[data-marker-x]').evaluateAll(es=>es.map(e=>Number(e.dataset.markerX)));assert.deepEqual(markers,[10.1,10.1]);}
-      if(reviewNumber===10){const details=current.locator('details.symbol-legend-disclosure');assert.equal(await details.count(),1);const first=details.first();assert.equal(await first.getAttribute('open'),null);assert.equal(await first.locator('summary').innerText(),'Symbols');assert.equal(await first.locator('.definition-list-description').first().isVisible(),false);await first.locator('summary').click();assert.notEqual(await first.getAttribute('open'),null);assert.equal(await first.locator('.definition-list-description').first().isVisible(),true);assert.equal(await first.locator('.symbol-explanation').count(),2);await first.locator('summary').focus();await page.keyboard.press('Enter');assert.equal(await first.getAttribute('open'),null);assert.equal(await current.getAttribute('id'),scene.id);}
+       if(reviewNumber===10){await current.getByRole('tab',{name:'Formula & symbols',exact:true}).click();const details=current.locator('details.symbol-legend-disclosure');assert.equal(await details.count(),1);const first=details.first();assert.equal(await first.getAttribute('open'),null);assert.equal(await first.locator('summary').innerText(),'Symbols');assert.equal(await first.locator('.definition-list-description').first().isVisible(),false);await first.locator('summary').click();assert.notEqual(await first.getAttribute('open'),null);assert.equal(await first.locator('.definition-list-description').first().isVisible(),true);assert.equal(await first.locator('.authored-symbol-definitions').count(),2);assert.equal(await first.locator('.symbol-explanation').count(),0);await first.locator('summary').focus();await page.keyboard.press('Enter');assert.equal(await first.getAttribute('open'),null);assert.equal(await current.getAttribute('id'),scene.id);await current.getByRole('tab',{name:'Diagram',exact:true}).click();}
       if(reviewNumber===12){assert.doesNotMatch(await experiment.locator('.experiment-readouts').innerText(),/probability|2\.275|0\.02275/);}
       if(reviewNumber===20){assert.doesNotMatch(await experiment.locator('.experiment-readouts').innerText(),/variance ratio|F p/);}
       if(reviewNumber===26)assert.equal(await experiment.locator('[data-experiment-inset]').count(),1);
@@ -45,13 +69,16 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
       if(reviewNumber===62){const expected=experiment.locator('circle[data-experiment-reference="true"]');assert.equal(await expected.count(),5);assert.deepEqual(await expected.evaluateAll(es=>es.map(e=>Number(e.dataset.valueY))),[10,20,40,20,10]);assert.ok((await expected.evaluateAll(es=>es.map(e=>Number(e.getAttribute('r'))))).every(r=>r>=8));assert.equal(await experiment.locator('.experiment-legend-entry[data-experiment-reference="true"]').innerText(),'Expected');}
       if([26,47,48,53,66].includes(reviewNumber))assert.ok(await experiment.locator('[data-experiment-marker]').count()>=3);
      for(const parameter of block.parameters.filter(p=>p.adjustable)){
-      const input=experiment.getByRole('spinbutton',{name:parameter.label,exact:true});
+       const input=experiment.getByRole('spinbutton',{name:parameter.label,exact:true});
+       const settings=experiment.locator('details.experiment-settings');
+       if(!await input.isVisible())await settings.locator('summary').click();
       const value=parameter.value===parameter.minimum?Math.min(parameter.maximum,parameter.value+parameter.step):parameter.minimum;
-      await input.fill(String(value));await input.dispatchEvent('change');
+       await input.fill(String(value));await input.dispatchEvent('change');
+       if(await settings.count()&&await settings.getAttribute('open')!==null)await settings.locator('summary').click();
       assert.equal(await experiment.locator('[aria-invalid="true"]').count(),0,`${scene.id}: ${parameter.key}`);
        assert.equal(JSON.parse(await experiment.getAttribute('data-model-values'))[parameter.key],value);
-       if(reviewNumber===63&&parameter.key==='mode')assert.match(await experiment.locator('.experiment-readouts').innerText(),/No significant departure from stated proportions/);
-       await assertWidgetFits();
+        if(reviewNumber===63&&parameter.key==='mode')assert.match(await experiment.locator('.experiment-readouts').innerText(),/No significant departure from stated proportions/);
+        try{await assertWidgetFits();}catch(error){console.error({scene:scene.id,parameter:parameter.key,value,box:await experiment.boundingBox()});throw error;}
       checks.push(parameter.key);await experiment.getByRole('button',{name:'Reset model'}).click();
      }
      assert.equal(await experiment.locator('.experiment-feedback').innerText(),'');
@@ -65,7 +92,9 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
     const script=page.getByRole('main',{name:'Course script',exact:true});await script.waitFor();
       assert.equal(await script.locator('[data-source-scene-id]').count(),41);
     assert.ok(await script.locator('.distribution-experiment').count()>10);
-     const scriptText=await script.innerText();assert.match(scriptText,/Mu is the fixed true population mean/);assert.match(scriptText,/F is the random dimensionless ratio/);assert.doesNotMatch(scriptText,/Live case: from dilution|Simulated concentration uncertainty/);
+      assert.equal(await script.locator('.authored-symbol-definitions').count(),43);
+      assert.equal(await script.locator('.self-study-symbol-explanation').count(),0);
+      const scriptText=await script.innerText();assert.match(scriptText,/Fixed true population mean/);assert.match(scriptText,/Random normalized variance ratio/);assert.doesNotMatch(scriptText,/Live case: from dilution|Simulated concentration uncertainty/);
     await page.getByRole('button',{name:'Switch to presentation',exact:true}).click();
    }
    assert.deepEqual(rRequests,[],'Experiments must run without initializing R');report.configurations.push({width,height,theme,scenes});await page.close();

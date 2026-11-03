@@ -10,7 +10,7 @@ body[data-presentation-readability="lecture"] .reveal {
   --pcd-lecture-chart-tick: 22px;
   --pcd-lecture-chart-axis: 26px;
   --pcd-lecture-chart-value: 26px;
-  --pcd-lecture-heading: clamp(3.4rem, 4.45vw, 4.15rem);
+  --pcd-lecture-heading: clamp(2.7rem, 3.4vw, 3rem);
   --pcd-lecture-yellow: #ffd84a;
   --pcd-lecture-cyan: #39dfe8;
   --pcd-lecture-pink: #ff6bb5;

@@ -313,7 +313,7 @@ export function mountAppearanceControls(options: {
   themeSelect.addEventListener("change", applyTheme);
   window.addEventListener("keydown", shortcut);
   wrapper.append(backgroundLabel, backgroundSelect, themeLabel, themeSelect, hint);
-  options.root.prepend(wrapper);
+  if (new URLSearchParams(window.location.search).get("appearance-controls") !== "hidden") options.root.prepend(wrapper);
 
   let destroyed = false;
   return {

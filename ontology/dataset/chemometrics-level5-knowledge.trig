@@ -168,7 +168,17 @@ par(old)
     cd:position "2"^^xsd:integer .
   ex:ix-density-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X is the dimensionless sum; lowercase x is a concrete value. f subscript k is its probability density, not a point probability. k is the degrees of freedom: a positive integer for the independent-square construction, any positive real for the density family. The formula applies for x>0; density is zero for x<0 and there is no point mass at zero. e is Euler's number; Gamma(k/2) normalizes the area to one. Superscripts are powers; juxtaposition multiplies, the fraction divides, minus subtracts or negates, equals defines, and > means greater than. Parentheses group function arguments."@en ;
+    cd:body """- **X**: Random chi-square variable (dimensionless).
+- **x**: Concrete value of X (dimensionless).
+- **fₖ(x)**: Probability density at x for k degrees of freedom.
+- **k**: Degrees of freedom; a positive real parameter of the density family.
+- **e**: Base of the natural exponential.
+- **Γ(k/2)**: Gamma function evaluated at k/2; part of the density normalization.
+- **Powers**: Superscripts raise their bases to the stated exponents.
+- **Multiplication, /, −**: Adjacent factors multiply; fractions divide; minus subtracts or negates.
+- **>, =**: Greater than; equality defining the density.
+
+Domain: x > 0. Density is zero for x < 0, with no point mass at zero. The independent-square construction uses integer k. Parentheses group function arguments; total density area is one."""@en ;
     cd:mathNotation "X,x,f_k(x),k,e,\\Gamma(k/2),>,=,/,{}^{}" ;
     cd:symbol "chi-square density" .
   ex:ix-gamma-entry dct:references ex:ix-gamma-symbols ;
@@ -178,7 +188,14 @@ par(old)
     cd:position "3"^^xsd:integer .
   ex:ix-gamma-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Capital Gamma is defined by this improper integral for positive real argument a; here a=k/2. t is a dimensionless integration variable, not the Student t distribution. The integral accumulates from zero to positive infinity; dt specifies integration with respect to t. All quantities are dimensionless. At a positive integer m, Gamma(m) equals (m-1) factorial."@en ;
+    cd:body """- **Γ(a)**: Gamma function at positive real argument a.
+- **a**: Dimensionless argument; here k/2.
+- **t**: Dimensionless integration variable.
+- **∫₀∞**: Integral over t from zero to positive infinity.
+- **dt**: Infinitesimal increment of t.
+- **tᵃ⁻¹, e⁻ᵗ**: A power of t and the natural exponential with exponent −t.
+
+All quantities are dimensionless. For a positive integer m, Γ(m) = (m − 1) factorial."""@en ;
     cd:mathNotation "\\Gamma,a,t,\\int_0^\\infty,dt" ;
     cd:symbol "Gamma function" .
   ex:ix-series-a rdf:type cd:DefinitionListEntry ;
@@ -217,7 +234,17 @@ par(old)
     cd:hasDefinitionListEntry ex:ix-size-entry .
   ex:ix-size-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "n: number of independent normally distributed measurement results, at least two. S squared: random sample variance in (mg/L) squared; sigma: true SD in mg/L. Q: centered squared sum divided by true variance, dimensionless (the test Q has this law at sigma=sigma0). E: expectation; Var: variance; SD: positive square root of variance. Juxtaposition multiplies; subtract one fitted mean, divide and take the positive root. Sigma to fourth power and Var(S squared) have (mg/L) to fourth-power units. The SD-to-expectation ratio is dimensionless; display it as a percentage."@en ;
+    cd:body """- **n**: Number of independent Normal measurement results, at least two.
+- **S²**: Random sample variance ((mg/L)²).
+- **σ**: True population SD (mg/L).
+- **Q**: Centred squared sum divided by true variance (dimensionless).
+- **E**: Expectation; E(S²) has units (mg/L)².
+- **Var**: Variance; Var(S²) has units (mg/L)⁴.
+- **SD**: Positive square root of variance; SD(S²) has units (mg/L)².
+- **n − 1**: Degrees of freedom after estimating one mean.
+- **Powers, √, /, =**: Exponentiation, positive square root, division and equality; adjacent factors multiply.
+
+SD(S²) / E(S²) is a dimensionless relative SD, displayed as a percentage. The QC statistic has this reference law at σ = σ₀."""@en ;
     cd:mathNotation "Q,n,S^2,\\sigma,E,\\operatorname{Var},\\operatorname{SD},=,-,{}^2,{}^4,/,\\sqrt{}" ;
     cd:symbol "uncertainty across complete repeated series" .
   ex:ix-square dct:hasPart ex:ix-square-legend ;
@@ -241,7 +268,15 @@ par(old)
     cd:uri "/chemometrics/level5-normal-to-square.svg"^^xsd:anyURI .
   ex:ix-square-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Z: standard normal, mean zero, variance one. Y: its square. Tilde names a law; chi squared with subscript 1 is the chi-square family with one independent squared component, or one df. Equality evaluates squares; plus and minus mark direction; parentheses group signed values. All quantities are dimensionless; Y is nonnegative, not symmetric."@en ;
+    cd:body """- **Z**: Standard-normal random variable; mean zero and variance one.
+- **Y**: Square of Z; a nonnegative random variable.
+- **N(0, 1)**: Normal distribution with mean zero and variance one.
+- **χ²₁**: Chi-square distribution with one degree of freedom.
+- **∼**: Follows the named distribution.
+- **², =**: Squaring; equality evaluating or defining a value.
+- **+, −**: Signs indicating direction before squaring.
+
+All quantities are dimensionless. Parentheses group signed values; squaring folds both tails onto the nonnegative axis."""@en ;
     cd:mathNotation "Z,Y,\\mathcal N(0,1),\\chi^2_1,\\sim,=,{}^2,+,-" ;
     cd:symbol "one squared normal component" .
   ex:ix-sum dct:hasPart ex:ix-sum-legend ;
@@ -264,7 +299,15 @@ par(old)
     cd:hasDefinitionListEntry ex:ix-sum-entry .
   ex:ix-sum-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Each Z indexed by i is an independent standard-normal variable, mean zero and variance one. i counts components from 1 through positive integer k. Square each component and add; plus and the summation sign express addition. Tilde names the chi-square law; its subscript is the number of independent squared components. All variables and sums are dimensionless. Independence is essential."@en ;
+    cd:body """- **Zᵢ**: Standard-normal component i, with mean zero and variance one.
+- **i**: Component index, from 1 through k.
+- **k**: Positive integer number of independent components.
+- **Σ, +**: Add the squared components.
+- **²**: Square each component.
+- **χ²ₖ**: Chi-square distribution with k degrees of freedom.
+- **∼**: Follows the stated distribution.
+
+Condition: the Zᵢ are independent. All variables and their squared sum are dimensionless."""@en ;
     cd:mathNotation "Z_i,i,k,\\sum,{}^2,+,\\sim,\\chi^2_k" ;
     cd:symbol "independent components and sum" .
 }
@@ -287,7 +330,7 @@ par(old)
   ex:ic-decision-context1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Is this spread unusual under unchanged precision"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Observed 12 exceeds cutoff 11.07; its boundary-null upper tail is 3.48%. Reject at the preselected 5% level. Investigate repeatability; the test does not identify an ageing column as the cause."@en ;
+    cd:body "Q = 12 exceeds the 5% cutoff 11.07; its boundary-model upper tail is 3.48%. This indicates increased spread under the stated assumptions. Investigating the analytical system is a separate step."@en ;
     cd:position "1"^^xsd:integer .
   ex:ic-decision-entry dct:references ex:ic-decision-ops ;
     dct:references ex:ic-decision-quantile ;
@@ -301,17 +344,33 @@ par(old)
     cd:hasDefinitionListEntry ex:ic-decision-entry .
   ex:ic-decision-ops rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Colon defines hypotheses; inequalities select directions; equals states values; approximately rounds. Choose alpha=0.05 before data. For sigma below sigma0 this upper-tail rejection probability is smaller, so boundary calibration controls the composite null."@en ;
+    cd:body """- **:**: Introduces the statement of a hypothesis.
+- **≤, >, ≥**: At most, greater than and at least.
+- **=, ≈**: Equality and approximate equality.
+- **α**: Prespecified significance level, 0.05.
+
+For σ below σ₀, the upper-tail rejection probability is smaller. Calibration at σ = σ₀ therefore controls the composite null."""@en ;
     cd:mathNotation ":,\\le,>,\\ge,=,\\approx" ;
     cd:symbol "decision notation" .
   ex:ic-decision-quantile rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "q=12 is observed; Q is random. Chi-square subscript 5;0.95: 95th percentile with 5 df. P is probability at the null boundary sigma=sigma0; p is its upper tail, not the probability the null is true. All are dimensionless."@en ;
+    cd:body """- **q**: Observed QC statistic, 12.
+- **Q**: Random statistic under the boundary model.
+- **χ²₅;₀.₉₅**: 95th percentile of chi-square with five degrees of freedom.
+- **P**: Probability under the null boundary σ = σ₀.
+- **p**: Upper-tail probability P(Q ≥ q) under that boundary.
+
+All these quantities are dimensionless. The p-value is a probability about the statistic under the stated model."""@en ;
     cd:mathNotation "q,Q,\\chi^2_{5;0.95},p,P" ;
     cd:symbol "upper-tail comparison" .
   ex:ic-decision-values rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "H with subscript 0: true SD at most reference; subscript 1: larger SD. Sigma is true repeatability SD; sigma0=0.10 mg/L is treated as known. This tests spread, not the correctness of a 10 mg/L mean."@en ;
+    cd:body """- **H₀**: True repeatability SD is at most the reference SD.
+- **H₁**: True repeatability SD exceeds the reference SD.
+- **σ**: True repeatability SD (mg/L).
+- **σ₀**: Known reference SD, 0.10 mg/L; subscript 0 identifies the reference.
+
+The comparison concerns repeatability spread."""@en ;
     cd:mathNotation "H_0,H_1,\\sigma,\\sigma_0" ;
     cd:symbol "hypotheses and SD" .
   ex:ic-law dct:hasPart ex:ic-law-legend ;
@@ -358,7 +417,7 @@ par(old)
   ex:ic-q-context1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Put the observed spread on the reference scale"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Divide each deviation by 0.10 mg/L, then square and add. The result is 12, dimensionless. Subtracting the fitted mean constrains these residuals; they are not six independent standard normals."@en ;
+    cd:body "Scale deviations by 0.10 mg/L, square and add: Q = 12, dimensionless. Estimating the mean links the six residuals and leaves five degrees of freedom."@en ;
     cd:position "1"^^xsd:integer .
   ex:ic-q-entry dct:references ex:ic-q-ops ;
     dct:references ex:ic-q-values ;
@@ -371,12 +430,21 @@ par(old)
     cd:hasDefinitionListEntry ex:ic-q-entry .
   ex:ic-q-ops rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Sum all six indexed terms. Subtract, divide by reference SD, then square. Parentheses group the ratio; equality rewrites the same calculation. Numerator 0.12 has (mg/L) squared units; dividing by 0.10 squared cancels them, giving q=12."@en ;
+    cd:body """- **Σ**: Add all six indexed terms.
+- **i**: Measurement index, from 1 through 6.
+- **−**: Subtract the sample mean from a measurement.
+- **/, ²**: Divide by the reference SD, then square the ratio.
+- **=**: Rewrites the same calculation; parentheses group each ratio.
+
+The squared-deviation sum is 0.12 (mg/L)². Dividing by (0.10 mg/L)² cancels the units and gives q = 12."""@en ;
     cd:mathNotation "\\sum,i,-,/,{}^2,=" ;
     cd:symbol "squared scaled residuals" .
   ex:ic-q-values rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Lowercase q is this series' observed statistic. x indexed by i: IC result; bar x: fitted mean 10.05 mg/L. Sigma subscript zero: fixed reference SD 0.10 mg/L, not a fitted SD from these data."@en ;
+    cd:body """- **q**: Observed statistic for this series (dimensionless).
+- **xᵢ**: IC measurement result i (mg/L).
+- **x̄**: Sample mean, 10.05 mg/L; the bar denotes averaging.
+- **σ₀**: Independently known reference SD, 0.10 mg/L; subscript 0 labels the reference."""@en ;
     cd:mathNotation "q,x_i,\\bar x,\\sigma_0" ;
     cd:symbol "observed statistic" .
   ex:ic-readings rdf:type cd:Dataset ;
@@ -415,17 +483,28 @@ par(old)
     cd:hasDefinitionListEntry ex:ic-spread-entry .
   ex:ic-spread-ops rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "i=1,...,6 indexes measurements; sum adds squared deviations. Minus subtracts; superscript 2 squares; fraction divides; root is positive; equals states identity; approximately marks rounding. One fitted mean leaves divisor 6-1=5."@en ;
+    cd:body """- **i**: Measurement index, from 1 through 6.
+- **Σ**: Add all indexed squared deviations.
+- **−, ², /**: Subtraction, squaring and division.
+- **√**: Positive square root.
+- **=, ≈**: Equality and approximate equality.
+
+Estimating one sample mean leaves divisor 6 − 1 = 5."""@en ;
     cd:mathNotation "\\sum,i,-,{}^2,/,=,\\sqrt{},\\approx" ;
     cd:symbol "calculation" .
   ex:ic-spread-reference rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Sigma-zero: reference SD, 0.10 mg/L, known independently, not estimated from this sample. Subscript zero labels the reference, not its value."@en ;
+    cd:body """- **σ₀**: Reference SD, 0.10 mg/L, known independently.
+
+Subscript 0 identifies the reference; the reference value comes from outside this sample."""@en ;
     cd:mathNotation "\\sigma_0" ;
     cd:symbol "reference SD" .
   ex:ic-spread-values rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "x_i: measurement i, in mg/L; bar x: sample mean 10.05 mg/L. s²: sample variance, in (mg/L)²; s: sample SD, its positive root, in mg/L."@en ;
+    cd:body """- **xᵢ**: Measurement i (mg/L).
+- **x̄**: Sample mean, 10.05 mg/L; the bar denotes averaging.
+- **s²**: Observed sample variance ((mg/L)²).
+- **s**: Observed sample SD, the positive square root of s² (mg/L)."""@en ;
     cd:mathNotation "x_i,\\bar x,s^2,s" ;
     cd:symbol "sample spread" .
   ex:ic-x1 rdf:type cd:Observation ;
@@ -671,7 +750,16 @@ par(old)
     cd:hasDefinitionListEntry ex:lg-definition-entry .
   ex:lg-definition-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X: positive concentration in ng/L; x subscript ref: fixed positive reference 10 ng/L. Y is its dimensionless natural log ratio. Mu subscript L: log-ratio mean; sigma subscript L: positive log-ratio SD, not concentration SD. The normal law's second parameter is log variance. For the main example mu L is zero and sigma L 0.30, giving median 10 ng/L. Divide, log and exponentiate as shown; e is the exponential base; multiply by the reference to restore units. Equality defines transforms; tilde names the law."@en ;
+    cd:body """- **X**: Positive random concentration (ng/L).
+- **$x_{ref}$**: Fixed positive reference concentration, 10 ng/L; subscript ref means reference.
+- **$Y$**: Natural log ratio $\\ln(X / x_{ref})$, dimensionless.
+- **$μ_L$**: Mean of the log ratio, dimensionless; subscript L identifies the log scale.
+- **$σ_L$**: Positive SD of the log ratio, dimensionless.
+- **$N, ∼$**: Normal distribution; follows that distribution. Its second parameter is variance $σ_L^2$.
+- **ln, e**: Natural logarithm and the base of the natural exponential.
+- **/, ², =**: Division, squaring and equality defining the transforms.
+
+Here $μ_L = 0$ and $σ_L = 0.30$, giving median 10 ng/L. Multiplying the exponentiated ratio by the reference restores concentration units."""@en ;
     cd:mathNotation "X,Y,x_{\\mathrm{ref}},\\mu_L,\\sigma_L,\\ln,e,{}^2,\\mathcal N,\\sim,/,=" ;
     cd:symbol "the transformed normal model" .
   ex:lg-log-scale dct:hasPart ex:lg-log-scale-legend ;
@@ -690,7 +778,12 @@ par(old)
     cd:hasDefinitionListEntry ex:lg-log-scale-entry .
   ex:lg-log-scale-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Concentrations 8, 10 and 12.5 and fixed reference 10 are all in ng/L. Divide before taking the natural logarithm, so each argument is dimensionless. Reciprocal ratios 0.8 and 1.25 have opposite log values; negative and positive signs mark direction. Equality gives the center, approximately rounds. Logarithms convert equal multiplicative ratios to equal distances, not arbitrary skewed data into a guaranteed normal law."@en ;
+    cd:body """- **ln**: Natural logarithm of a dimensionless ratio.
+- **/**: Divide a concentration by the reference 10 ng/L; all concentrations use ng/L.
+- **−, +**: Direction below or above zero on the log-ratio scale.
+- **=, ≈**: Equality and approximate equality.
+
+The concentrations are 8, 10 and 12.5 ng/L. Reciprocal ratios 0.8 and 1.25 give opposite log values. Equal multiplicative ratios become equal log-scale distances; a Normal log-scale law is a separate model condition."""@en ;
     cd:mathNotation "\\ln,/,-,+,=,\\approx" ;
     cd:symbol "log ratios and reciprocal symmetry" .
   ex:lg-process-cards rdf:type cd:DefinitionList ;
@@ -700,12 +793,12 @@ par(old)
   ex:lg-process1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "A: repeat the instrument step"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Switch to an organic trace analyte by LC-MS/MS, in ng/L, not nitrate in mg/L. Reinject one prepared homogeneous control. Our simplified instrument model has mostly additive error."@en ;
+    cd:body "Organic trace analyte by LC-MS/MS, in ng/L. Reinject one prepared homogeneous control. The simplified instrument model uses mainly additive error."@en ;
     cd:position "1"^^xsd:integer .
   ex:lg-process2 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "B: repeat the complete preparation"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Split one homogeneous water sample into independent aliquots. Each undergoes extraction, concentration and analysis. Relative step-to-step influences may produce a different result distribution. That is a hypothesis, not a finding from ten values."@en ;
+    cd:body "Independently extract, concentrate and analyse aliquots from one homogeneous sample. Relative step-to-step effects motivate a multiplicative candidate model."@en ;
     cd:position "2"^^xsd:integer .
   ex:lg-quantile dct:hasPart ex:lg-quantile-legend ;
     rdf:type cd:MathExpression ;
@@ -723,7 +816,16 @@ par(old)
     cd:hasDefinitionListEntry ex:lg-quantile-entry .
   ex:lg-quantile-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Lowercase z subscript 0.95: dimensionless standard-normal 95th percentile from inverse Phi, not reciprocal Phi. x subscript 0.95: concentration percentile in ng/L. Reference is 10 ng/L; log mean mu L=0 and log SD sigma L=0.30. Multiply by log SD, add log mean, exponentiate and multiply by reference. Equality defines/calculates; approximately rounds. The unrounded concentration quantile is 16.3796740847 ng/L. Rounding, resolution and estimated parameters affect a real rule; this is per result, not campaign-wide calibration."@en ;
+    cd:body """- **z₀.₉₅**: Standard-normal 95th percentile (dimensionless).
+- **x₀.₉₅**: Corresponding concentration percentile (ng/L); subscript 0.95 is the cumulative probability.
+- **$x_{ref}$**: Reference concentration, 10 ng/L.
+- **$μ_L$**: Log-ratio mean, 0; subscript L denotes the log scale.
+- **$σ_L$**: Log-ratio SD, 0.30 (dimensionless).
+- **Φ⁻¹**: Inverse standard-normal CDF, mapping cumulative probability to a z value.
+- **exp**: Natural exponential, applied to the dimensionless log-scale value.
+- **+, =, ≈**: Addition, equality and approximate equality; adjacent factors multiply.
+
+The unrounded quantile is 16.3796740847 ng/L. This is a per-result model threshold; rounding, resolution and estimated parameters matter when constructing a real rule."""@en ;
     cd:mathNotation "z_{0.95},x_{0.95},x_{\\mathrm{ref}},\\mu_L,\\sigma_L,\\Phi^{-1},\\exp,+,=,\\approx" ;
     cd:symbol "model quantile and back-transformation" .
 }
@@ -902,7 +1004,16 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasDefinitionListEntry ex:map-chi-symbol-entry .
   ex:map-chi-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Q: unitless chi-square variable. Indexed Z: nu independent standard normals, each with mean zero and variance one; nu is a positive integer count of degrees of freedom. Squares, plus and dots sum all nu squared components. For n iid normal measurements, n at least two, S squared is sample variance about the estimated mean using divisor n minus one; sigma squared is positive true variance. Both use (mg/L) squared. Scaling gives unitless Q with nu equal to n minus one. Minus subtracts; fractions divide; juxtaposition multiplies; equals states identities. Independent Z components are orthonormal residual coordinates, not the dependent raw residuals."@en ;
+    cd:body """- **Q**: Chi-square random variable (dimensionless).
+- **Zᵢ**: Independent standard-normal component i, with mean zero and variance one.
+- **$ν$**: Positive integer number of degrees of freedom; the last component is $Z_ν$.
+- **n**: Number of independent, identically distributed Normal measurements, at least two.
+- **S²**: Sample variance about the estimated mean, using divisor n − 1 ((mg/L)²).
+- **σ²**: Positive true population variance ((mg/L)²).
+- **², +, …**: Squaring, addition and continuation through all ν components.
+- **−, /, =**: Subtraction, division and equality; adjacent factors multiply.
+
+For sample variance, ν = n − 1. Scaling cancels concentration units. Independent Z components correspond to orthonormal residual coordinates; the raw centred residuals share the fitted mean."""@en ;
     cd:mathNotation "Q,Z_1,Z_\\nu,\\nu,n,S^2,\\sigma^2,{}^2,+,-,/,=,\\cdots" ;
     cd:symbol "scaled variance" .
   ex:map-chi-symbol-entry dct:references ex:map-chi-symbol ;
@@ -943,7 +1054,14 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasDefinitionListEntry ex:map-f-symbol-entry .
   ex:map-f-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "F: unitless random ratio. S squared: sample variance about its own estimated mean, using sample count minus one; sigma squared: positive true variance. All variances use (mg/L) squared. Subscripts identify independent groups B (numerator) and A (denominator); superscript two squares an SD. Inner divisions normalize variances; the outer fraction forms their ratio; equals defines F. Measurements within each group are iid normal; group means may differ. Ordered degrees of freedom are B count minus one, then A count minus one. Equal true variances cancel, giving the raw sample-variance ratio."@en ;
+    cd:body """- **F**: Random normalized variance ratio (dimensionless).
+- **$S_B^2, S_A^2$**: Random sample variances in groups B and A ($\\mathrm{(mg/L)^2}$).
+- **$σ_B^2, σ_A^2$**: Corresponding positive true population variances ($\\mathrm{(mg/L)^2}$).
+- **A, B**: Independent groups; B supplies the numerator and A the denominator.
+- **²**: Squaring an SD to obtain variance.
+- **/, =**: Inner fractions normalize each variance; the outer fraction forms the ratio; equality defines F.
+
+Within each group, measurements are independent and identically Normal; group means may differ. Each sample variance uses its fitted mean and divisor sample count minus one. Ordered degrees of freedom are B count minus one, then A count minus one. Equal true variances cancel."""@en ;
     cd:mathNotation "F,S_B^2,\\sigma_B^2,S_A^2,\\sigma_A^2,{}^2,/,=" ;
     cd:symbol "normalized variance ratio" .
   ex:map-f-symbol-entry dct:references ex:map-f-symbol ;
@@ -984,7 +1102,12 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasDefinitionListEntry ex:map-log-symbol-entry .
   ex:map-log-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Y: positive random total relative factor. Each X is a positive dimensionless relative factor, not the concentration contribution in the normal card. Subscripts 1, 2, 3 identify factors. Centered dots multiply; the ellipsis continues a finite product; equals defines Y. A normal sum of natural-log factors gives a lognormal product; independent normal log factors suffice. Arbitrary products need not be lognormal. Multiply by a fixed reference concentration to recover concentration units."@en ;
+    cd:body """- **Y**: Positive random total relative factor (dimensionless).
+- **X₁, X₂, X₃**: Positive random relative factors (dimensionless); subscripts identify the factors.
+- **·**: Multiplication of factors.
+- **…, =**: Continuation of the finite product; equality defining Y.
+
+Condition: the sum of natural-log factors is Normal; independent Normal log factors suffice. Multiplying Y by a fixed reference concentration restores concentration units."""@en ;
     cd:mathNotation "Y,X_1,X_2,X_3,\\cdot,\\cdots,=" ;
     cd:symbol "relative factors" .
   ex:map-log-symbol-entry dct:references ex:map-log-symbol ;
@@ -1007,7 +1130,7 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasSceneItem ex:map-normal-f ;
     cd:hasSceneItem ex:map-t-c ;
     cd:hasSceneItem ex:map-t-f ;
-    cd:narration "Review the five families through their random quantities and mechanisms: additive contributions, multiplicative relative factors, independent squared standardized components or scaled normal-sample variances, means standardized by estimated standard errors, and ratios of normalized independent sample variances. The same X notation is local to each example; do not multiply concentration units when describing relative factors. State the independence, normality and normalization conditions instead of claiming that any sum, product or variance ratio has the named distribution."@en .
+    cd:narration "The five families describe different constructions: Normal models for suitable additive effects; Lognormal models for products of relative factors with a Normal log sum; chi-square for independent squared standard Normals or scaled Normal-sample variances; Student for centred means divided by estimated standard errors; and F for ratios of independent normalized variances. Each construction has its stated sampling assumptions."@en .
   ex:map-normal-c rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:communicativeRole cd:DefinitionListRole ;
@@ -1041,7 +1164,13 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasDefinitionListEntry ex:map-normal-symbol-entry .
   ex:map-normal-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Y: random total; X with subscripts 1, 2, 3: random additive contributions, such as injection, flow and detector effects. Subscripts identify contributions, not powers. All use mg/L. Plus adds; dots continue a finite sum; equals defines Y. Independent normal contributions give an exact normal sum. Central-limit approximations need suitable conditions, including finite variances and no dominating contribution."@en ;
+    cd:body """- **Y**: Random total concentration contribution (mg/L).
+- **X₁, X₂, X₃**: Random additive contributions, such as injection, flow and detector effects (mg/L).
+- **1, 2, 3**: Subscripts identifying the contributions.
+- **+**: Addition.
+- **…, =**: Continuation of the finite sum; equality defining Y.
+
+Independent Normal contributions give an exact Normal sum. A central-limit approximation requires suitable conditions, including finite variances and no dominating contribution."""@en ;
     cd:mathNotation "Y,X_1,X_2,X_3,+,\\cdots,=" ;
     cd:symbol "additive contributions" .
   ex:map-normal-symbol-entry dct:references ex:map-normal-symbol ;
@@ -1082,7 +1211,15 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
     cd:hasDefinitionListEntry ex:map-t-symbol-entry .
   ex:map-t-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "T: unitless random Student variable. Bar X: random sample mean, bar denoting averaging. Mu: fixed true mean. S: positive sample SD from the same n measurements, using variance divisor n minus one. Mean, mu and S use mg/L. Count n is at least two; measurements are independent and identically normal. Divide S by the positive square root of n for estimated standard error. Minus centers, fractions divide and equals defines T, with n minus one degrees of freedom."@en ;
+    cd:body """- **T**: Random Student variable (dimensionless).
+- **X̄**: Random sample mean (mg/L); the bar denotes averaging.
+- **μ**: Fixed true population mean (mg/L).
+- **S**: Positive sample SD from the same measurements (mg/L).
+- **n**: Sample count, at least two.
+- **S / √n**: Estimated standard error of the mean (mg/L); the square root is positive.
+- **−, /, =**: Centre the mean, divide its departure by the standard error, and define T.
+
+Condition: independent, identically distributed Normal measurements. Sample variance uses divisor n − 1, giving n − 1 Student degrees of freedom."""@en ;
     cd:mathNotation "T,\\bar X,\\mu,S,n,-,/,\\sqrt{},=" ;
     cd:symbol "standardized means" .
   ex:map-t-symbol-entry dct:references ex:map-t-symbol ;
@@ -1105,7 +1242,7 @@ tail <- function(d) { k <- 0:floor(n*(1-d))
 uniroot(function(d) tail(d)-a, c(.500001,.999999), tol=1e-12)$root
 # 0.5632751984. Exact shortcut here requires d above 0.5.""" ;
     cd:editable "false"^^xsd:boolean ;
-    cd:executable "false"^^xsd:boolean ;
+    cd:executable "true"^^xsd:boolean ;
     cd:programmingLanguage "r" ;
     cd:showsResource ex:l5-kolmogorov-smirnov .
   ex:rev-ks-media dct:references ex:rev-check-protocol ;
@@ -1123,7 +1260,7 @@ uniroot(function(d) tail(d)-a, c(.500001,.999999), tol=1e-12)$root
 pchisq(11.6, df = 4, lower.tail = FALSE)  # 0.02058737
 # Upper-tail 5% in the table = cumulative 95% for qchisq.""" ;
     cd:editable "false"^^xsd:boolean ;
-    cd:executable "false"^^xsd:boolean ;
+    cd:executable "true"^^xsd:boolean ;
     cd:programmingLanguage "r" ;
     cd:showsResource ex:l5-pearson-gof .
   ex:rev-qa1 rdf:type cd:Observation ;
@@ -1233,16 +1370,26 @@ pchisq(11.6, df = 4, lower.tail = FALSE)  # 0.02058737
   ex:rev-qq-reading1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Read the pattern before calculating a test"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "A lies close to the identity line for this fixed model. B bends sharply. A fitted straight line checks shape with adjustable location and scale; it is not the same fixed-model comparison. Neither plot alone proves normality."@en ;
+    cd:body "A follows the fixed model's identity line; B bends. Fitting a straight line instead adjusts location and scale to inspect shape. With five observations, either comparison provides limited evidence about the distribution."@en ;
     cd:position "1"^^xsd:integer .
   ex:rev-qq-symbol1 rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "i is sorted rank 1 to n=5; p indexed by i is a dimensionless midpoint plotting probability, not a p value. Subtract 0.5 then divide by n; this convention is stated, not a unique empirical-quantile rule."@en ;
+    cd:body """- **i**: Sorted observation rank, from 1 through n.
+- **n**: Sample count, 5 here.
+- **pᵢ**: Midpoint plotting probability at rank i (dimensionless).
+- **−, /**: Subtract 0.5 from the rank, then divide by n.
+
+The formula specifies the midpoint plotting convention; pᵢ is a plotting probability."""@en ;
     cd:mathNotation "i,n,p_i" ;
     cd:symbol "rank and plotting probability" .
   ex:rev-qq-symbol2 rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "q is horizontal theoretical quantile from the inverse fixed normal CDF; x with parenthesized rank is the vertical sorted result, both mg/L. Parentheses form a coordinate pair; equals defines it. Superscript minus one means inverse, not reciprocal."@en ;
+    cd:body """- **qᵢ**: Horizontal theoretical quantile at probability pᵢ (mg/L).
+- **x₍ᵢ₎**: Vertical sorted observation at rank i (mg/L).
+- **F₀⁻¹**: Inverse of the fixed model CDF; subscript 0 identifies the specified model.
+- **( , ), =**: Ordered coordinate pair and equality defining it.
+
+Superscript −1 denotes the inverse function."""@en ;
     cd:mathNotation "q_i,x_{(i)},F_0^{-1}" ;
     cd:symbol "theoretical and observed quantiles" .
   ex:rev-source-qq dct:creator "NIST/SEMATECH" ;
@@ -1469,7 +1616,16 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-bands-entry .
   ex:nn-bands-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Z: standard normal; a and b: ordered dimensionless bounds; positive k: symmetric distance in SD units. P denotes probability; Phi is the standard-normal CDF. Comparisons include endpoints, each with zero point probability. Subtract lower CDF from upper; symmetry gives twice Phi(k) minus one. Equality states identities, juxtaposition multiplies. The central interval loses both tails, unlike a single upper threshold."@en ;
+    cd:body """- **Z**: Standard-normal random variable.
+- **a, b**: Ordered interval bounds (dimensionless).
+- **k**: Positive symmetric distance from zero, in SD units.
+- **P**: Probability.
+- **Φ**: Standard-normal CDF, giving cumulative probability.
+- **≤**: Includes each interval endpoint; each exact value has probability zero.
+- **−, +, =**: Subtraction, addition and equality.
+- **2Φ(k)**: Two times Φ(k); adjacent quantities multiply.
+
+Subtract the lower CDF from the upper. Symmetry gives central coverage 2Φ(k) − 1, leaving one tail on each side."""@en ;
     cd:mathNotation "Z,a,b,k,\\Phi,P,\\le,-,+,=,2" ;
     cd:symbol "central probability versus upper tail" .
   ex:nn-cdf dct:hasPart ex:nn-cdf-legend ;
@@ -1491,7 +1647,16 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-erf-entry .
   ex:nn-cdf-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Uppercase Phi: standard-normal CDF, dimensionless, a special case of general F. Lowercase phi: its density, a special case of general f. Z: standard-normal random variable; lowercase z: a concrete standardized threshold, here two; t: dimensionless integration variable. P denotes probability; at most includes the threshold. Integrate density from minus infinity to z; dt identifies the integration variable. Equals states the definition; approximately rounds. A steep CDF means high density, not high point probability."@en ;
+    cd:body """- **Φ(z)**: Standard-normal cumulative probability at z; a special case of F.
+- **φ(t)**: Standard-normal density at t; a special case of f.
+- **Z**: Standard-normal random variable.
+- **z**: Concrete standardized threshold, 2 here (dimensionless).
+- **t**: Dimensionless integration variable.
+- **P, ≤**: Probability; at or below the threshold.
+- **∫, −∞, dt**: Integrate over all t up to z, with no finite lower bound; dt is the increment of t.
+- **=, ≈**: Equality and approximate equality.
+
+The CDF slope equals the density where the derivative exists. All quantities use the standardized, dimensionless scale."""@en ;
     cd:mathNotation "\\Phi,\\varphi,z,Z,t,P,\\le,\\int,-\\infty,dt,=,\\approx" ;
     cd:symbol "accumulated left-tail probability" .
   ex:nn-decision dct:hasPart ex:nn-decision-legend ;
@@ -1510,7 +1675,15 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-decision-entry .
   ex:nn-decision-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Phi: standard-normal CDF; inverse Phi maps cumulative probability 0.99 to dimensionless threshold z star. Superscript star marks a chosen threshold; minus-one means inverse function, not reciprocal. x star: corresponding concentration threshold; mu=10.00 mg/L; sigma=0.10 mg/L, treated as known. Multiply z star by SD and add expectation. Equals defines the quantities; approximately rounds. Under the model, one percent of individual results exceed the unrounded threshold. A displayed rounded 10.233 is approximate, not exact one-percent calibration."@en ;
+    cd:body """- **Φ, Φ⁻¹**: Standard-normal CDF and its inverse quantile function.
+- **z***: Chosen standardized threshold (dimensionless), here the 0.99 quantile.
+- **x***: Corresponding concentration threshold (mg/L).
+- **μ**: Known expectation, 10.00 mg/L.
+- **σ**: Known SD, 0.10 mg/L.
+- *****: Superscript star identifying a chosen threshold.
+- **+, =, ≈**: Addition, equality and approximate equality; adjacent factors multiply.
+
+Superscript −1 denotes the inverse function. Under the model, 1% of individual results exceed the unrounded threshold; the displayed 10.233 mg/L is rounded."""@en ;
     cd:mathNotation "\\Phi,\\Phi^{-1},z^*,x^*,\\mu,\\sigma,{}^*,=,+,\\approx" ;
     cd:symbol "inverse CDF and decision threshold" .
   ex:nn-devices dct:hasPart ex:nn-devices-legend ;
@@ -1529,7 +1702,12 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-devices-entry .
   ex:nn-devices-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Subscripts A and B identify two normal methods with the same known expectation 10.00 mg/L. Both report 10.20 mg/L; SD is 0.10 for A and 0.20 mg/L for B. Subtract expectation and divide by the method's SD; units cancel. z A is two and z B one. Equality evaluates the concrete standardized distances, not probabilities. The result is farther into A's upper tail."@en ;
+    cd:body """- **$z_A$**: Standardized distance for method A, equal to 2 (dimensionless).
+- **$z_B$**: Standardized distance for method B, equal to 1 (dimensionless).
+- **A, B**: Method-identifying subscripts.
+- **−, /, =**: Subtract expectation, divide by that method's SD, and evaluate the distance.
+
+Both Normal models have known expectation 10.00 mg/L and result 10.20 mg/L. Their known SDs are 0.10 mg/L for A and 0.20 mg/L for B; concentration units cancel in each ratio."""@en ;
     cd:mathNotation "z_A,z_B,A,B,=,-,/" ;
     cd:symbol "two methods with different precision" .
   ex:nn-erf-entry dct:references ex:nn-erf-symbols ;
@@ -1539,7 +1717,19 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:position "2"^^xsd:integer .
   ex:nn-erf-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "erf is the special error function, not an inverse function or a probability. Lowercase u is its dimensionless argument; t is a dimensionless dummy integration variable, reused independently in each integral. The integral runs from zero to u and dt identifies its integration variable. e is the base of the natural exponential; minus t squared is its exponent. Pi is the circle constant; square roots are positive. The factor two divided by the square root of pi normalizes erf. In the CDF identity, divide standardized threshold z by the square root of two, evaluate erf, add one and multiply by one half; parentheses and square brackets group these operations. All arguments, integrals and function values here are dimensionless. Phi is an antiderivative of the standard-normal density phi; the displayed lower limit minus infinity fixes its probability normalization. There is no elementary antiderivative of the Gaussian density. erf supplies a special-function representation, not a new distributional assumption."@en ;
+    cd:body """- **erf(u)**: Error function at dimensionless argument u.
+- **u**: Upper integration limit in the definition of erf.
+- **t, dt**: Dimensionless integration variable and its infinitesimal increment.
+- **∫₀ᵘ**: Integrate from zero to u.
+- **e⁻ᵗ²**: Natural exponential with exponent −t².
+- **π**: Circle constant.
+- **√**: Positive square root.
+- **2 / √π**: Normalizing factor in the definition of erf.
+- **z / √2**: Scaled standardized threshold used as the erf argument.
+- **½, 1, +**: Multiply the grouped expression by one half after adding one.
+- **( ), [ ]**: Group the stated operations.
+
+All quantities here are dimensionless. There is no elementary antiderivative of the standard-normal density; erf provides its special-function representation. Integrating from minus infinity fixes the CDF normalization."""@en ;
     cd:mathNotation "\\operatorname{erf},u,t,e,{}^2,\\pi,\\sqrt{},\\frac12,1,+,0,2,\\int,dt" ;
     cd:symbol "error function" .
   ex:nn-eta dct:hasPart ex:nn-eta-legend ;
@@ -1577,7 +1767,15 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-phi-entry .
   ex:nn-phi-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Lowercase phi: standard-normal PDF per dimensionless z-unit; lowercase z: a concrete standardized value in SD units, not a probability. e: exponential base; pi: circle constant. Square z, negate, divide by two and exponentiate; divide by the positive square root of two times pi. Equality defines the density. It is symmetric, maximal at zero, decreases with distance and has total area one. Its height is not the probability of an exact value."@en ;
+    cd:body """- **φ(z)**: Standard-normal density per dimensionless z-unit.
+- **z**: Concrete standardized value, in SD units.
+- **e**: Base of the natural exponential.
+- **π**: Circle constant.
+- **z², −, /**: Square z, negate it and divide by two in the exponent.
+- **√(2π)**: Positive square root of two times π; the density's normalizing denominator.
+- **=**: Equality defining the density.
+
+The density is symmetric around zero, where it is maximal, and has total area one. Probabilities are areas over intervals."""@en ;
     cd:mathNotation "\\varphi,z,e,\\pi,\\sqrt{},{}^2,-,/,=" ;
     cd:symbol "density and standardized argument" .
   ex:nn-tail dct:hasPart ex:nn-tail-legend ;
@@ -1596,7 +1794,14 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:nn-tail-entry .
   ex:nn-tail-symbols rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X: normal concentration, mean 10.00 and SD 0.10 mg/L; 10.20 mg/L: upper threshold. Subtract mean and divide by SD to get dimensionless z two. Lowercase phi at two is density per z-unit, not 5.40% probability. Uppercase Phi at two is left-tail probability; subtract from total probability one to obtain the upper tail 2.275%. P and greater-than select that tail; equality evaluates, approximately rounds."@en ;
+    cd:body """- **X**: Normal random concentration (mg/L), with mean 10.00 mg/L and SD 0.10 mg/L.
+- **z**: Standardized threshold, 2 at concentration 10.20 mg/L.
+- **φ(2)**: Density at z = 2, per dimensionless z-unit.
+- **Φ(2)**: Cumulative probability at z = 2.
+- **P, >**: Probability of exceeding the stated threshold.
+- **−, /, =, ≈**: Subtraction, division, equality and approximate equality.
+
+Subtracting Φ(2) from total probability one gives the upper-tail probability, about 2.275%."""@en ;
     cd:mathNotation "X,z,\\varphi,\\Phi,P,>,=,-,/,\\approx" ;
     cd:symbol "upper-tail calculation and density trap" .
 }
@@ -1624,7 +1829,7 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:position "1"^^xsd:integer .
   ex:l5-p20a-expectation rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Expected count of particles in category j under the fixed null model. Not an expected diameter or an observed frequency."@en ;
+    cd:body """- **Eⱼ**: Expected particle count in category j under the fixed null model (count)."""@en ;
     cd:mathNotation "E_j" ;
     cd:symbol "expected category count" .
   ex:l5-p20a-formula dct:hasPart ex:l5-p20a-legend ;
@@ -1639,7 +1844,9 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:latex "E_j=n p_j" .
   ex:l5-p20a-index rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Categories 1 to 5: diameters below 5, 5 to below 10, 10 to below 20, 20 to below 40, at least 40 micrometres. Lower bounds included."@en ;
+    cd:body """- **j**: Category index, from 1 through 5.
+
+The diameter categories are below 5, 5 to below 10, 10 to below 20, 20 to below 40, and at least 40 micrometres. Each finite lower bound is included."""@en ;
     cd:mathNotation "j" ;
     cd:symbol "category index" .
   ex:l5-p20a-legend rdf:type cd:DefinitionList ;
@@ -1647,12 +1854,16 @@ cat('Graphs show z -4 to 4; probabilities use the full normal law.\\n')
     cd:hasDefinitionListEntry ex:l5-p20a-entry .
   ex:l5-p20a-probability rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Prespecified probabilities 0.10, 0.20, 0.40, 0.20, 0.10. They sum to 1; none is estimated from this sample. Each is dimensionless."@en ;
+    cd:body """- **pⱼ**: Prespecified probability of category j (dimensionless).
+
+The five fixed probabilities are 0.10, 0.20, 0.40, 0.20 and 0.10; their sum is one."""@en ;
     cd:mathNotation "p_j" ;
     cd:symbol "specified probability" .
   ex:l5-p20a-total rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Fixed total n = 100 independently classified particles. Equality defines expected counts; adjacent n and p mean multiplication."@en ;
+    cd:body """- **n**: Fixed total of independently classified particles, 100.
+- **=**: Equality defining an expected count.
+- **npⱼ**: Multiplication of total n by category probability pⱼ."""@en ;
     cd:mathNotation "n,\\ =" ;
     cd:symbol "fixed sample size" .
   ex:l5-p20b-arithmetic rdf:type cd:MathSymbol ;
@@ -2336,32 +2547,32 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-route1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Why do measurements vary?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Session I: observe repeated results."@en ;
+    cd:body "Observe repeated results and define the random quantity."@en ;
     cd:position "1"^^xsd:integer .
   ex:p1-route2 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Why a bell-shaped model?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Session I: add small independent effects."@en ;
+    cd:body "Combine suitable independent additive effects."@en ;
     cd:position "2"^^xsd:integer .
   ex:p1-route3 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Why a long right tail?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Session I: multiply relative effects and compare log scales."@en ;
+    cd:body "Model relative effects on the log scale."@en ;
     cd:position "3"^^xsd:integer .
   ex:p1-route4 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "How random is estimated spread?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Session II: construct chi-square and Student references."@en ;
+    cd:body "Study sample variances and standardized means."@en ;
     cd:position "4"^^xsd:integer .
   ex:p1-route5 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "How can we compare methods?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Session II, split if needed: F and calibration."@en ;
+    cd:body "Describe variance ratios with the F distribution."@en ;
     cd:position "5"^^xsd:integer .
   ex:p1-route6 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "How do we check our models?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Separate follow-up, Session III: checks and Monte Carlo."@en ;
+    cd:body "Compare data with model quantiles, CDFs and expected counts."@en ;
     cd:position "6"^^xsd:integer .
   ex:p1-series-A rdf:type cd:ChartGroup ;
     skos:prefLabel "A: sample SD 0.056"@en ;
@@ -2415,13 +2626,23 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasDefinitionListEntry ex:pc-area-entry .
   ex:pc-area-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X: random individual nitrate result, not a mean; x: concentration coordinate; a and b: ordered bounds, all in mg/L. P: probability; less-than-or-equal includes endpoints, which have zero point probability for this density model. f(x): model density in L/mg, not a histogram height. The integral adds density times infinitesimal concentration increments dx from a to b. Area is unitless. F: cumulative probability; subtract its lower value from its upper value. Equals links the same event. Density is nonnegative with total area one."@en ;
+    cd:body """- **X**: Random individual nitrate concentration (mg/L).
+- **x**: Concrete concentration coordinate (mg/L).
+- **a, b**: Ordered lower and upper interval bounds (mg/L).
+- **P**: Probability of the stated event (dimensionless).
+- **f(x)**: Model probability density at x (L/mg).
+- **F(x)**: Cumulative probability at or below x (dimensionless).
+- **∫, dx**: Accumulate density over the interval; dx is an infinitesimal concentration increment (mg/L).
+- **≤**: Includes the interval endpoints, each with zero point probability.
+- **=, −**: Equality between equivalent probabilities; subtraction of the lower CDF value from the upper.
+
+The density is nonnegative and has total area one. Integrating density times concentration gives a dimensionless probability."""@en ;
     cd:mathNotation "P,a,b,X,\\le,\\int,f(x),dx,F,=,-" ;
     cd:symbol "interval probability and density area" .
   ex:pc-below rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "How much is below a limit?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "A cumulative distribution adds probability up to a threshold. Observed cumulative fractions estimate it; the population model is not the sample."@en ;
+    cd:body "The cumulative distribution gives the probability at or below a threshold."@en ;
     cd:position "2"^^xsd:integer .
   ex:pc-density rdf:type cd:ChartDefinition ;
     skos:prefLabel "Finite histogram versus an assumed population density"@en ;
@@ -2471,7 +2692,17 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasDefinitionListEntry ex:pc-quantile-entry .
   ex:pc-functions-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X: random concentration; x: threshold, both mg/L. F(x)=P(X at most x): unitless cumulative probability. For an absolutely continuous model, integrate density f(t) in L/mg from negative infinity to x. t is a dummy concentration coordinate; dt is its infinitesimal increment. Minus infinity means no finite lower bound, not negative probability. The prime differentiates with respect to x; the slope equals f where this derivative relation holds, not automatically at density discontinuities. Equals links the expressions. Every distribution has a CDF; not every distribution has a PDF."@en ;
+    cd:body """- **X**: Random concentration (mg/L).
+- **x**: Concrete concentration threshold (mg/L).
+- **F(x)**: Cumulative probability at or below x (dimensionless).
+- **P, ≤**: Probability of an event; at or below the threshold.
+- **f(t)**: Probability density at concentration t (L/mg).
+- **t, dt**: Integration coordinate and its infinitesimal increment (mg/L).
+- **∫, −∞**: Integrate up to x over an unbounded lower range.
+- **F′(x)**: Derivative of F with respect to x; the local slope (L/mg).
+- **=**: Equality linking the expressions.
+
+Conditions: the integral representation uses an absolutely continuous model. The slope equals f where the derivative relation holds. Every distribution has a CDF; existence of a PDF requires additional conditions."""@en ;
     cd:mathNotation "F(x),P,X,\\le,\\int,-\\infty,f(t),dt,F',=" ;
     cd:presentationDefinition """- X: random concentration; x: threshold; t: integration coordinate (mg/L).
 - f: density (L/mg); F and P: unitless probabilities at or below x.
@@ -2480,11 +2711,11 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:symbol "general PDF and CDF" .
   ex:pc-growth-info rdf:type cd:Interpretation ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Simulation, not laboratory measurements: hold model expectation 10.00 mg/L and SD 0.10 mg/L fixed. Grow the sample from 20 to 1,000. This generator assumes normally distributed measurement results; it does not prove normality of a real method. Next overlay its theoretical density and ask what density area means."@en .
+    cd:body "Simulate 20, 50, 100 and 1,000 Normal results with fixed expectation 10.00 mg/L and SD 0.10 mg/L. More results reveal the assumed shape more clearly."@en .
   ex:pc-inverse rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Which limit gives a chosen probability?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Reverse the cumulative question to find a quantile. PDF, CDF and quantiles are tools; Normal, Lognormal, chi-square, Student and F are model families."@en ;
+    cd:body "Choose a cumulative probability. The quantile gives its corresponding threshold."@en ;
     cd:position "3"^^xsd:integer .
   ex:pc-linked rdf:type cd:ChartDefinition ;
     skos:prefLabel "One shared threshold links area and accumulation"@en ;
@@ -2554,7 +2785,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:position "5"^^xsd:integer .
   ex:pc-process-info rdf:type cd:Interpretation ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Repeat measurements of one homogeneous nitrate sample. Injection, flow, temperature and electronics can each perturb a result. A finite measurement series does not establish a population law. Next explore an explicitly assumed model, then distinguish its PDF from the histogram."@en .
+    cd:body "Repeated measurements of one homogeneous nitrate sample vary through injection, flow, temperature and electronics. A process model describes how these contributions combine."@en .
   ex:pc-quantile-entry dct:references ex:pc-quantile-symbol ;
     rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Cumulative probability to concentration"@en ;
@@ -2562,7 +2793,11 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:position "2"^^xsd:integer .
   ex:pc-quantile-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "p is a chosen probability strictly between zero and one; subscript p labels concentration quantile x p in mg/L. F inverse is not reciprocal F. The generalized inverse is the greatest lower bound of thresholds whose cumulative probability is at least p. For continuous strictly increasing F it agrees with the usual inverse. This definition remains meaningful when F is not strictly increasing. p=0.95 means 95% at or below the limit in the continuous examples, not above it."@en ;
+    cd:body """- **p**: Chosen cumulative probability, strictly between zero and one.
+- **$x_p$**: Concentration quantile at probability $p$ (mg/L); subscript $p$ identifies the probability.
+- **F⁻¹(p)**: Quantile function, the generalized inverse CDF evaluated at p.
+
+The generalized inverse is the greatest lower bound of thresholds whose cumulative probability is at least $p$. For continuous, strictly increasing $F$, it is the usual inverse function. In these continuous examples, $p = 0.95$ places 95% probability at or below $x_p$."""@en ;
     cd:mathNotation "x_p,F^{-1},p" ;
     cd:presentationDefinition """- p: chosen probability strictly between zero and one.
 - Subscript p labels concentration quantile x p (mg/L).
@@ -2580,7 +2815,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:pc-range rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "How often in a range?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Choose a concentration interval. A density model gives its probability through area, not through curve height."@en ;
+    cd:body "Choose a concentration interval. Its probability is the area under the model density."@en ;
     cd:position "1"^^xsd:integer .
   ex:pc-scale rdf:type cd:ExperimentParameter ;
     skos:prefLabel "Assumed model SD (mg/L)"@en ;
@@ -2832,7 +3067,17 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasDefinitionListEntry ex:v3-eta-entry .
   ex:v3-eta-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "X is a random nitrate result; lowercase x is one concrete value, here 10.20 mg/L. The model expectation mu is 10.00 mg/L and its known positive SD sigma is 0.10 mg/L. Normal N uses mean and variance, so sigma squared has (mg/L) squared units. Uppercase Z is the standardized random variable with mean zero and variance one. Lowercase z is the concrete dimensionless z-score, here two. Subtract the expectation, then divide by SD; mg/L units cancel. Tilde names the distribution; equals defines or evaluates, minus subtracts, the fraction divides and the exponent squares. Standardizing a nonnormal variable does not make it normal."@en ;
+    cd:body """- **X**: Random nitrate concentration (mg/L).
+- **x**: Concrete result, 10.20 mg/L.
+- **μ**: Known model expectation, 10.00 mg/L.
+- **σ**: Known positive model SD, 0.10 mg/L.
+- **σ²**: Model variance ((mg/L)²).
+- **Z**: Standardized random variable, with mean zero and variance one under the Normal model.
+- **z**: Concrete standardized distance, 2 here (dimensionless).
+- **N, ∼**: Normal distribution, parameterized by mean and variance; follows that distribution.
+- **−, /, ², =**: Subtraction, division, squaring and equality defining or evaluating a value.
+
+Subtracting μ and dividing by σ cancels concentration units. Standardization preserves distributional shape; a standard-normal reference requires a Normal starting model."""@en ;
     cd:mathNotation "X,Z,z,x,\\mu,\\sigma,\\mathcal N,\\sim,{}^2,=,-,/" ;
     cd:symbol "standardized result" .
   ex:v3-normal-coordinate rdf:type cd:ChartDefinition ;
@@ -2865,7 +3110,15 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:latex "\\begin{gathered}q=\\sum_{j=1}^{5}\\frac{(O_j-E_j)^2}{E_j}\\\\\\frac{(4-10)^2}{10}=3.6\\\\q=3.6+3.2+0.4+0.8+3.6=11.6\\end{gathered}" .
   ex:v3-pearson-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "q is the observed unitless Pearson statistic, whose approximate null reference is chi-square with four df. Index j runs over the five fixed diameter categories; O and E are observed and expected counts, not concentrations. In the first category O is 4 and E is 10. Subtract, square the discrepancy, divide by the positive expected count and sum all five contributions. Equals gives the calculation; plus adds contributions. The fixed total 100 removes one independent count direction; no category probabilities are fitted. Independent classifications, exhaustive prespecified categories and adequate expected counts are needed for this approximation."@en ;
+    cd:body """- **q**: Observed Pearson statistic (dimensionless).
+- **j**: Index of the five fixed diameter categories.
+- **Oⱼ**: Observed particle count in category j.
+- **Eⱼ**: Positive expected count in category j under the fixed model.
+- **Σ, +**: Sum all category contributions.
+- **−, ², /**: Subtract expected from observed count, square, then divide by expected count.
+- **=**: Equality giving the calculation.
+
+In the first category O = 4 and E = 10. A fixed total of 100 and fixed category probabilities leave four degrees of freedom. The chi-square reference is approximate and requires independent classifications, exhaustive prespecified categories and adequate expected counts."""@en ;
     cd:mathNotation "q,\\sum,j,O_j,E_j,=,-,+,/,{}^2" ;
     cd:symbol "Pearson weighted count discrepancies" .
   ex:v3-view5 rdf:type cd:ExperimentParameter ;
@@ -2997,10 +3250,18 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasSceneItem ex:dist-f-intro-f ;
     cd:hasSceneItem ex:dist-f-intro-h ;
     cd:hasSceneItem ex:dist-f-intro-v ;
-    cd:narration "Introduce the repeated experiment before examining two example groups. Each independent pair of normal samples supplies two sample variances. Divide each by its own true variance before taking the ordered B-over-A ratio. Under equal true variances this reduces to the sample-variance ratio in the following experiment. Repeated pairs reveal a distribution, not a decision about the two example groups."@en .
+    cd:narration "Each independent pair of Normal samples supplies two sample variances. Scale each estimate by its own true variance, then take the ordered B/A ratio. Repeating this experiment produces an F distribution. With equal true variances, the scaling cancels and the ratio uses the sample variances directly."@en .
   ex:dist-f-intro-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "F is the random dimensionless ratio. Subscripts A and B identify two independent groups, with B in the numerator and A in the denominator. S squared denotes a random sample variance calculated about that sample's estimated mean, with sample count minus one in the denominator. Sigma squared denotes the corresponding fixed positive true population variance. Squaring converts an SD to a variance; all variances use (mg/L) squared. Each inner division normalizes a sample variance by its true variance, yielding a dimensionless quantity; the outer fraction divides the normalized B estimate by the independent A estimate. Equality defines F. Measurement results within each group are independent and identically distributed normal variables; the groups are independent of one another. Means need not be equal. With six measurements per group both degrees of freedom are five. If the true variances are equal, their scale factors cancel and the normalized ratio equals the B-over-A sample-variance ratio used in the following simulation."@en ;
+    cd:body """- **F**: Random normalized variance ratio (dimensionless).
+- **A, B**: Independent groups; B is the numerator and A the denominator.
+- **$S_B^2, S_A^2$**: Random sample variances about each group's estimated mean ($\\mathrm{(mg/L)^2}$).
+- **$σ_B^2, σ_A^2$**: Corresponding fixed positive population variances ($\\mathrm{(mg/L)^2}$).
+- **²**: Square an SD to obtain variance.
+- **/**: Inner divisions normalize each sample variance; the outer fraction forms B/A.
+- **=**: Equality defining F.
+
+Conditions: measurements are independent and identically Normal within each group, and the groups are independent. Group means may differ. Each variance uses divisor sample count minus one; six measurements per group give five degrees of freedom each. Equal true variances cancel, leaving the sample-variance ratio."""@en ;
     cd:mathNotation "F,S_B^2,\\sigma_B^2,S_A^2,\\sigma_A^2" ;
     cd:symbol "normalized variance ratio" .
   ex:dist-f-intro-title rdf:type cd:Interpretation ;
@@ -3138,10 +3399,19 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasSceneItem ex:dist-t-intro-f ;
     cd:hasSceneItem ex:dist-t-intro-h ;
     cd:hasSceneItem ex:dist-t-intro-v ;
-    cd:narration "Start with an estimated mean. Ask what happens when its centered departure is divided by its estimated standard error, not the known SD of one measurement result. Repeat the entire six-measurement experiment, calculating both mean and SD anew each time. The next slide displays the distribution of the collected standardized values. The true mean supplies the centering in this sampling experiment; this is not a hypothesis test."@en .
+    cd:narration "Repeated six-measurement experiments produce different sample means and SDs. Subtract the true mean from each estimated mean and divide by its estimated standard error. Under independent Normal sampling, these standardized values follow a Student distribution with five degrees of freedom."@en .
   ex:dist-t-intro-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "T is the random dimensionless standardized mean. Bar X is the random sample mean; the bar denotes averaging. Mu is the fixed true population mean, not a tested reference. S is the positive random sample SD estimated from the same n independent identically distributed normal measurement results, using n minus one in its variance estimate. Bar X, mu and S use mg/L. Lowercase n is the dimensionless sample count, six here; the positive square root of n scales S to the estimated standard error of the mean. Minus centers the mean; the fraction divides its departure by that estimated standard error. Equality defines T and specifies the count; comma separates these statements. Across independent complete samples, both mean and SD estimates vary while the population remains fixed."@en ;
+    cd:body """- **T**: Random standardized sample mean (dimensionless).
+- **X̄**: Random sample mean (mg/L); the bar denotes averaging.
+- **μ**: Fixed true population mean (mg/L).
+- **S**: Positive random sample SD estimated from the same sample (mg/L).
+- **n**: Dimensionless sample count, six here.
+- **S / √n**: Estimated standard error of the mean (mg/L); the square root is positive.
+- **−, /, =**: Centre the mean, divide by its estimated standard error, and define T.
+- **Comma**: Separates the definition from the stated sample count.
+
+Condition: independent, identically distributed Normal measurement results. Sample variance uses divisor n − 1. Across complete samples, both estimated mean and SD vary while the population stays fixed."""@en ;
     cd:mathNotation "T,\\bar X,\\mu,S,n" ;
     cd:symbol "standardized sample mean" .
   ex:dist-t-intro-title rdf:type cd:Interpretation ;
@@ -3286,7 +3556,16 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasDefinitionListEntry ex:tf-f-law-entry .
   ex:tf-f-law-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Index j is A or B; nu subscript j is that group's sample count minus one. S squared is its random sample variance and sigma squared its positive true variance, in (mg/L) squared. Multiply variance by df and divide by true variance to obtain unitless Q, a chi-square variable. Q A and Q B are independent. Divide each by its own df, then take B over A. F denotes the resulting unitless variable and, on the right, the F distribution name. Its first df is numerator B, second denominator A; both five here. Squares mean variance; equality defines quantities, tilde names laws, comma orders parameters. Without equal variances the observed sample ratio must also be divided by the true B/A variance ratio to have this reference law."@en ;
+    cd:body """- **$j$**: Group index $A$ or $B$.
+- **$ν_j$**: Group $j$'s sample count minus one, giving its degrees of freedom.
+- **$S_j^2$**: Random sample variance about group $j$'s fitted mean ($\\mathrm{(mg/L)^2}$).
+- **$σ_j^2$**: Positive true variance of group $j$ ($\\mathrm{(mg/L)^2}$).
+- **$Q_j$**: Scaled sample variance, $\\frac{ν_j S_j^2}{σ_j^2}$ (dimensionless).
+- **$F$**: Resulting dimensionless random ratio; also the name of its reference distribution.
+- **$()^2, /, =, ∼$**: Variance from squaring an SD; division; equality; follows the named distribution.
+- **Comma**: Orders distribution parameters: numerator B degrees of freedom, then denominator A.
+
+The Normal samples and groups are independent, making $Q_A$ and $Q_B$ independent chi-square variables. Both degrees of freedom are five here. Equal true variances cancel; otherwise normalize the sample-variance ratio by the true $B/A$ variance ratio."""@en ;
     cd:mathNotation "j,Q_j,\\nu_j,S_j^2,\\sigma_j^2,F" ;
     cd:symbol "F construction" .
   ex:tf-pa1 rdf:type cd:TableCell ;
@@ -3372,7 +3651,13 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:hasDefinitionListEntry ex:tf-ratio-entry .
   ex:tf-ratio-symbol rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Lowercase f is the observed dimensionless ratio. Lowercase s squared means sample variance computed about each group's own mean, using divisor five. Subscripts B and A identify the devices; values 0.090 and 0.010 are in (mg/L) squared, so units cancel on division. Equality gives arithmetic results. B/A is assigned before inspecting the data; never automatically put the larger estimate on top. Each group has six results, independent within and between groups."@en ;
+    cd:body """- **f**: Observed sample-variance ratio (dimensionless).
+- **$s_B^2$**: Observed variance in group B, $0.090\\,\\mathrm{(mg/L)^2}$.
+- **$s_A^2$**: Observed variance in group A, $0.010\\,\\mathrm{(mg/L)^2}$.
+- **B, A**: Group subscripts specifying the prespecified numerator and denominator.
+- **², /, =**: Squaring an SD to obtain variance, division and equality.
+
+Each group contains six independent results, with independent groups. Each variance uses that group's fitted mean and divisor five. Concentration units cancel in B/A; the group order is fixed before inspecting the data."""@en ;
     cd:mathNotation "f,s_B^2,s_A^2" ;
     cd:symbol "observed variance ratio" .
   ex:tf-row1 rdf:type cd:TableRow ;

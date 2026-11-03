@@ -28,7 +28,7 @@ export function mountScriptView(root:HTMLElement,presentation:HTMLElement,tools:
         const course=document.createElement("p");course.textContent=title.course;header.prepend(course);
         const kind=document.createElement("p");kind.textContent="Lecture script";header.append(kind);
       }
-      for(const entry of pane.querySelectorAll<HTMLElement>(".self-study-formula-unit dt, .self-study-formula-unit dd"))if(!entry.children.length)entry.innerHTML=symbolLegendMarkup(entry.textContent??"");
+      for(const entry of pane.querySelectorAll<HTMLElement>(".self-study-formula-unit dt, .self-study-formula-unit dd"))if(!entry.children.length&&!entry.closest('.authored-symbol-definitions'))entry.innerHTML=symbolLegendMarkup(entry.textContent??"");
       built=true;
     }
     let targetId=savedScene;

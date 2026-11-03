@@ -12,6 +12,9 @@
   inset:1rem;max-width:none;display:flex;flex-direction:column;box-sizing:border-box;overflow:hidden;
 }
 .pcd-optional-material[open] > summary { flex:none;border-bottom:1px solid var(--pcd-accent); }
+@media screen and (min-width:701px) {
+ html:not(.print-pdf) .reveal .slides section:has(> .pcd-optional-material[open]) { min-height:650px; }
+}
 .pcd-optional-material-content { min-height:0;overflow:auto;padding:1rem;overscroll-behavior:contain; }
 .pcd-optional-material[open] > .pcd-optional-material-content { position:absolute;inset:var(--pcd-optional-summary-height,3.4rem) 0 0;box-sizing:border-box; }
 .reveal .pcd-optional-material-content .code-block { height:auto;max-height:none; }

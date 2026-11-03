@@ -29,6 +29,9 @@ const assert = require('node:assert/strict');
       await page.goto(url.href);
       await page.waitForFunction(() => document.body.dataset.slidesPdfReady === 'true', {}, {timeout: 120000});
       await page.emulateMedia({media: 'print'});
+      // Match native printing: the app refits after print media removes its
+      // screen rules. emulateMedia alone does not dispatch beforeprint.
+      await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
       const pages = await page.locator('.pdf-page').evaluateAll(pages => pages.map((page, index) => {
         const slide = page.querySelector('section');
         const bounds = page.getBoundingClientRect();
@@ -39,7 +42,7 @@ const assert = require('node:assert/strict');
         };
         // Deliberately independent of the fitter. In particular do NOT measure
         // KaTeX's clipped SVG paths or hidden MathML accessibility tree.
-        const components = [...slide.querySelectorAll('h1,h2,h3,p,pre,table,figure,img,canvas,.math-display,.katex-html .base,.definition-list-entry,figcaption,.experiment-description')]
+        const components = [...slide.querySelectorAll('h1,h2,h3,p,pre,table,figure,img,canvas,.math-display,.katex-html .base,.definition-list-entry,.authored-symbol-definition,figcaption,.experiment-description')]
           .filter(visible).map(element => {
             const rect = element.getBoundingClientRect();
             return {tag: element.tagName, text: element.textContent.slice(0, 80),

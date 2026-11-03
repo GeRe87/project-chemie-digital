@@ -63,9 +63,9 @@ body:not(.pcd-background-active):has(.observation-explorer) .scroll-page { backg
 }
 @media print { .oe-controls { display: none; } .oe-data { display: block; } }
 .observation-explorer[data-compact="true"] { min-height:0; border:1px solid var(--pcd-chart-axis); padding:.6rem; background:var(--pcd-chart-surface); }
-.observation-explorer[data-compact="true"] .oe-description { font-size:.65em; margin:.2rem 0; }
+.observation-explorer[data-compact="true"] .oe-description { font-size:1em; margin:.2rem 0; }
 .observation-explorer[data-compact="true"] .oe-rows { display:none; }
-.observation-explorer[data-compact="true"] .oe-readout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25em .6em; font-size:.7em; }
+.observation-explorer[data-compact="true"] .oe-readout { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.25em .6em; font-size:1em; }
 .observation-explorer[data-compact="true"] .oe-count { font-size:1em; }
 .observation-explorer[data-compact="true"] .oe-condition { grid-column:1/-1; margin:0; }
 .observation-explorer[data-compact="true"] .oe-stage svg { max-height:none; }
