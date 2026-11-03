@@ -394,7 +394,7 @@ export function validateCanonicalRuntimeArtifact(value: unknown): CanonicalRunti
   for (const [index, raw] of sceneDocuments.entries()) {
     const sceneDocument = requireRecord(raw, `CanonicalRuntimeArtifact.sceneDocuments[${index}]`);
     try {
-      validateSceneDocument(raw as SceneDocument);
+      validateSceneDocument(raw);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       fail(`CanonicalRuntimeArtifact.sceneDocuments[${index}] is invalid: ${message}`);

@@ -150,7 +150,8 @@ test("stable diagnostics fail atomically", async () => {
   unsupportedPrimitive.scenes[0]!.blocks[0]!.kind = "unknown-primitive";
   result = createRevealRenderPlan(unsupportedPrimitive as unknown as SceneDocument, interactive);
   assert.equal(result.plan, undefined);
-  assert.equal(result.diagnostics[0]!.code, "UNSUPPORTED_PRIMITIVE");
+  assert.equal(result.diagnostics[0]!.code, "INVALID_SCENE_DOCUMENT");
+  assert.match(result.diagnostics[0]!.message, /blocks\[0\]\.kind/);
 });
 
 test("plan generation performs no network I/O and captures no learner state", async () => {
