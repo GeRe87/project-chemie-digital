@@ -95,7 +95,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         cls.artifact = RUNTIME.build_artifact(request())
         cls.document = cls.artifact["sceneDocuments"][0]
 
-    def test_course_order_is_unchanged_and_introduction_has_seven_focus_concepts(self) -> None:
+    def test_course_order_includes_level5_and_introduction_keeps_its_focus_concepts(self) -> None:
         placements = []
         for placement in self.course_graph.objects(OFFERING, CD.hasUnitPlacement):
             position = int(next(self.course_graph.objects(placement, CD.position)))
@@ -123,6 +123,11 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                     50,
                     EX["unit-placement-chemometrics-quantiles-moments-shape"],
                     EX["learning-unit-quantiles-moments-shape"],
+                ),
+                (
+                    60,
+                    EX["unit-placement-chemometrics-theoretical-distributions"],
+                    EX["learning-unit-theoretical-distributions"],
                 ),
             ],
             sorted(placements),
