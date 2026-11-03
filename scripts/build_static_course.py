@@ -12,7 +12,7 @@ import tempfile
 from pathlib import Path
 
 import prepare_interactive_runtime as VENDOR
-from static_course_artifact import MARKER, ROOT, inventory, validate_base, validate_files
+from static_course_artifact import MARKER, ROOT, inventory, public_assets, validate_base, validate_files
 
 
 def output_path(value: str) -> Path:
@@ -45,6 +45,15 @@ def check_python_dependencies():
             raise ValueError(f"Production dependency mismatch: {name}=={expected} required; install scripts/requirements-static-build.txt in an isolated Python environment")
 
 
+def stage_public_assets(source: Path, destination: Path) -> None:
+    """Create a closed production input tree, without development leftovers."""
+    destination.mkdir(parents=True)
+    for file in public_assets(source):
+        target = destination / file.relative_to(source)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(file, target)
+
+
 def build(offering: str, output: Path, base: str, offline: bool = False) -> dict:
     # Never let old successful evidence authorize a failed new attempt.
     if output.exists() and any(output.iterdir()):
@@ -75,16 +84,26 @@ def build(offering: str, output: Path, base: str, offline: bool = False) -> dict
     spec = importlib.util.spec_from_file_location("offering_generator", generator_path)
     generator = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(generator)
-    generator.generate_course(offering)
     output.parent.mkdir(parents=True, exist_ok=True)
     # Only this helper's temporary build is emptied by Vite. Existing Pitch dist
     # and output from other offerings remain untouched.
     with tempfile.TemporaryDirectory(prefix="course-build-", dir=output.parent) as temporary:
-        stage = Path(temporary)
+        workspace = Path(temporary)
+        public = workspace / "public"
+        stage_public_assets(ROOT / "apps/pitch/public", public)
+        artifact = generator.generate_course(offering, public_root=public)
+        stage = workspace / "site"
+        # This compile-time flag removes the standalone fallback's complete
+        # dataset chunk from a course-only deployment. Development/standalone
+        # generators retain their existing entry behavior.
+        config = workspace / "vite.config.mjs"
+        config.write_text("export default " + json.dumps({
+            "publicDir": str(public), "define": {"__PCD_COURSE_BUILD__": "true"},
+        }) + ";\n", encoding="utf-8")
         vite = ROOT / "node_modules/vite/bin/vite.js"
-        run(["node", str(vite), "build", "--base", base, "--outDir", str(stage), "--emptyOutDir"], ROOT / "apps/pitch")
-        shutil.copyfile(generator.OUTPUT, stage / "course-runtime.json")
-        evidence = validate_files(stage, offering, base, ROOT / "apps/pitch/public")
+        run(["node", str(vite), "build", "--config", str(config), "--base", base,
+             "--outDir", str(stage), "--emptyOutDir"], ROOT / "apps/pitch")
+        evidence = validate_files(stage, offering, base, public, expected_artifact=artifact)
         (stage / MARKER).write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
         if output.exists():
             shutil.rmtree(output)
