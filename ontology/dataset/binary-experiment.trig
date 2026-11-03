@@ -1,0 +1,82 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/binary-experiment> {
+  cd:LearningDomain cdm:definesConcept cd:BinaryExperiment, cd:BinaryExperimentStage ; cdm:definesRelation cd:hasBinaryExperiment, cd:hasBinaryStage ;
+    cdm:definesRelation cd:revealOn ;
+    cdm:definesAttribute cd:binaryRevealLevel, cd:binaryStageTrialCount, cd:binaryStagePositiveProbability, cd:binaryArrangementIndex, cd:binaryCaseIndex, cd:binarySeriesRun, cd:revealAtStage, cd:binaryTargetCount, cd:binaryExperimentMode, cd:binaryTrialCount, cd:binaryPositiveProbability, cd:binarySeed,
+      cd:binaryPositiveLabel, cd:binaryNegativeLabel, cd:binaryUnitLabel, cd:binaryTrialName .
+  cd:BinaryExperiment a rdfs:Class, cdm:ConceptDescriptor ; rdfs:comment "An explicit iid binary teaching model with deterministic simulation settings, not observed analytical data."@en .
+  cd:hasBinaryExperiment a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:FlowDiagram ; rdfs:range cd:BinaryExperiment .
+  cd:binaryExperimentMode a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:string .
+  cd:binaryTrialCount a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:integer .
+  cd:binaryPositiveProbability a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:decimal .
+  cd:binarySeed a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:integer .
+  cd:binaryPositiveLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range rdf:langString .
+  cd:binaryNegativeLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range rdf:langString .
+  cd:binaryUnitLabel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range rdf:langString .
+  cd:binaryTrialName a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range rdf:langString .
+  cd:binaryTargetCount a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:integer .
+  cd:revealAtStage a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:integer .
+  cd:revealOn a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range cd:FlowDiagram .
+  cd:BinaryExperimentStage a rdfs:Class, cdm:ConceptDescriptor ; rdfs:comment "An ordered, reversible lecture snapshot including a discussion prompt; the first stage is the initial view."@en .
+  cd:hasBinaryStage a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range cd:BinaryExperimentStage .
+  cd:binaryRevealLevel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
+  cd:binaryStageTrialCount a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
+  cd:binaryStagePositiveProbability a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:decimal .
+  cd:binaryArrangementIndex a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
+  cd:binaryCaseIndex a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
+  cd:binarySeriesRun a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/binary-experiment> {
+  cd:BinaryExperimentShape a sh:NodeShape ; sh:targetClass cd:BinaryExperiment ;
+    sh:property [ sh:path cd:binaryExperimentMode ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "decision" "series" "sequence" "arrangements" "distribution" "zero" "assumptions" ) ] ;
+    sh:property [ sh:path cd:binaryTargetCount ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:lessThanOrEquals cd:binaryTrialCount ] ;
+    sh:property [ sh:path cd:binaryTrialCount ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 100 ] ;
+    sh:property [ sh:path cd:binaryPositiveProbability ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+    sh:property [ sh:path cd:binarySeed ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 4294967295 ] ;
+    sh:property [ sh:path cd:binaryPositiveLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:binaryNegativeLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:binaryUnitLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:binaryTrialName ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] ;
+    sh:sparql [ sh:message "Decision mode has one trial; outcomes need distinct labels." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:binaryExperimentMode ?mode ; cd:binaryTrialCount ?n ; cd:binaryPositiveLabel ?p ; cd:binaryNegativeLabel ?q .
+        FILTER ((?mode = "decision" && ?n != 1) || ?p = ?q)
+      }""" ] ;
+    sh:sparql [ sh:message "Count modes require a target; positioning views support at most 20 trials." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        $this cd:binaryExperimentMode ?mode ; cd:binaryTrialCount ?n .
+        FILTER ((?mode IN ("sequence", "arrangements", "distribution") && NOT EXISTS { $this cd:binaryTargetCount ?k }) || (?mode IN ("sequence", "arrangements") && ?n > 20))
+      }""" ] .
+  cd:BinaryExperimentDiagramShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasBinaryExperiment ;
+    sh:class cd:FlowDiagram ;
+    sh:property [ sh:path cd:hasBinaryExperiment ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:BinaryExperiment ] ;
+    sh:property [ sh:path cd:hasDiagramState ; sh:maxCount 0 ] .
+  cd:AuthoredStageShape a sh:NodeShape ; sh:targetSubjectsOf cd:revealAtStage ; sh:targetSubjectsOf cd:revealOn ;
+    sh:class cd:SceneItem ;
+    sh:property [ sh:path cd:revealAtStage ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 10 ] ;
+    sh:property [ sh:path cd:revealOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:FlowDiagram ] .
+  cd:BinaryLectureShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasBinaryStage ;
+    sh:class cd:BinaryExperiment ;
+    sh:property [ sh:path cd:hasBinaryStage ; sh:minCount 1 ; sh:maxCount 30 ; sh:class cd:BinaryExperimentStage ] .
+  cd:BinaryStageShape a sh:NodeShape ; sh:targetClass cd:BinaryExperimentStage ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 30 ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ] ;
+    sh:property [ sh:path cd:binaryRevealLevel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 3 ] ;
+    sh:property [ sh:path cd:binaryStageTrialCount ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 100 ] ;
+    sh:property [ sh:path cd:binaryStagePositiveProbability ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+    sh:property [ sh:path cd:binaryArrangementIndex ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path cd:binaryCaseIndex ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path cd:binarySeriesRun ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 20 ] ;
+    sh:sparql [ sh:message "Lecture stage positions must be contiguous and unique within a model." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE {
+        ?model cd:hasBinaryStage $this . $this cd:position ?position .
+        { ?model cd:hasBinaryStage ?other . ?other cd:position ?position . FILTER (?other != $this) }
+        UNION { FILTER (?position > 1) FILTER NOT EXISTS { ?model cd:hasBinaryStage ?previous . ?previous cd:position ?before . FILTER (?before = ?position - 1) } }
+      }""" ] .
+}

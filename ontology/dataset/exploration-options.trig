@@ -19,8 +19,14 @@
   cd:interactiveObservations a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
   cd:bodyFormat a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:LearningResource ; rdfs:range xsd:string .
   cd:momentMetric a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+  cd:LearningDomain cdm:definesAttribute cd:lowerThresholdInitial .
+  cd:lowerThresholdInitial a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
 }
 <https://w3id.org/project-chemie-digital/graph/shapes/exploration-options> {
+  cd:TwoThresholdECDFShape a sh:NodeShape ; sh:targetSubjectsOf cd:lowerThresholdInitial ;
+    sh:property [ sh:path cd:observationView ; sh:hasValue "ecdf" ] ;
+    sh:property [ sh:path cd:lowerThresholdInitial ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:thresholdInitial ] ;
+    sh:property [ sh:path cd:thresholdMinimum ; sh:minCount 1 ; sh:lessThanOrEquals cd:lowerThresholdInitial ] .
   cd:MomentViewShape a sh:NodeShape ; sh:targetSubjectsOf cd:momentMetric ;
     sh:property [ sh:path cd:momentMetric ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "mean" "variance" "kurtosis" "skewness" ) ] ;
     sh:property [ sh:path cd:observationView ; sh:hasValue "moments" ] ;

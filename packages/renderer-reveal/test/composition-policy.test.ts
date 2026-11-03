@@ -1219,6 +1219,16 @@ test("supporting definition parts stay immediately below their formula with no i
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), inferRevealCompositionPlan(scene));
 });
 
+test("one visual and its complete formula unit share standard surfaces, independent of course identity",()=>{
+  const legend:SceneBlock={...definitions("symbols"),emphasis:"supporting",source:[{resourceId:"resource:formula",relationPath:"dct:hasPart"}]};
+  const blocks=[prose("heading","introduce"),barChart("visual"),math("formula"),legend];
+  const scene:Scene={id:"opaque:visual-formula",source:[],blocks,readingOrder:blocks.map(b=>b.id)};
+  const plan=inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile,"visual-formula");
+  assert.deepEqual(plan.placements.map(p=>[p.blockId,p.region]),[["heading","heading"],["visual","primary"],["formula","secondary"],["symbols","secondary"]]);
+  assert.deepEqual(inferRevealCompositionPlan({...scene,id:"unrelated"}),plan);
+});
+
 test("adjacent singleton formula legends remain separate comparison units", () => {
   const singleton = (id: string, emphasis: "primary" | "supporting"): SceneBlock => {
     const block = definitions(id);
@@ -1236,6 +1246,53 @@ test("adjacent singleton formula legends remain separate comparison units", () =
   ]);
   assert.equal(new Set(units.flat().map(b => b.id)).size, units.flat().length);
   assert.equal(inferRevealCompositionPlan(scene).mainCount, 2);
+});
+
+test("a media illustration shares the existing visual-formula surfaces with its complete legend", () => {
+  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting",
+    source: [{ resourceId: "resource:formula", relationPath: "dct:hasPart" }] };
+  const blocks = [prose("heading", "introduce"), mediaReference("illustration"), math("formula"), legend];
+  const scene: Scene = { id: "opaque:illustrated-formula", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "visual-formula");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["illustration", "primary"], ["formula", "secondary"], ["symbols", "secondary"],
+  ]);
+  assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), plan);
+});
+
+test("authored infocards and one illustration reuse the standard info-visual columns", () => {
+  const blocks = [prose("heading", "introduce"), definitions("questions"), mediaReference("diagram")];
+  const scene: Scene = { id: "opaque:questions-and-visual", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "info-visual");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["questions", "primary"], ["diagram", "secondary"],
+  ]);
+  assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), plan);
+});
+
+test("a visible data question stays with its preceding visual, not inside the symbol legend column", () => {
+  const context = definitions("data-question");
+  assert.ok(context.kind === "definition-list");
+  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting",
+    source: [{ resourceId: "resource:formula", relationPath: "dct:hasPart" }] };
+  const blocks = [prose("heading", "introduce"), barChart("data"),
+    { ...context, entries: context.entries.slice(0, 1) }, math("formula"), legend];
+  const scene: Scene = { id: "opaque:data-question", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  assert.deepEqual(resolveFormulaLegendUnits(scene).map(unit => unit.map(b => b.id)), [["formula", "symbols"]]);
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "visual-formula");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["data", "primary"], ["data-question", "primary"],
+    ["formula", "secondary"], ["symbols", "secondary"],
+  ]);
+});
+
+test("one question card and one chart reuse info-visual without a formula", () => {
+  const blocks = [prose("heading", "introduce"), definitions("question"), barChart("comparison")];
+  const scene: Scene = { id: "opaque:question-chart", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  assert.equal(inferRevealCompositionPlan(scene).profile, "info-visual");
 });
 
 test("prompt illustration stays with the prompt before executable code", () => {

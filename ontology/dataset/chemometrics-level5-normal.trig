@@ -1,0 +1,189 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/sources/level5-normal> {
+  ex:l5-source-r-normal a cd:Source ; dct:title "R stats: The Normal Distribution" ; dct:creator "R Core Team" ; dct:identifier "l5-source-r-normal" ; dct:source <https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html> ; cd:supportsResource ex:l5-normal-definition, ex:l5-n09c-formula, ex:l5-n10a-formula ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-normal> {
+  ex:normal-measurement-model a cd:Concept ; skos:prefLabel "Normal model for repeated measurements"@en ; cd:hasDefinition ex:l5-normal-definition ; cd:authoredResource true .
+  ex:l5-normal-definition a cd:Definition ; cd:body "A normal distribution is a continuous model with a real mean and a strictly positive standard deviation. Its density is symmetric about the mean and integrates to one. Normal measurement errors are an assumption to check, not a universal property of chemical measurements. Repeated technical measurements of the same homogeneous sample and variation across environmental sites are different populations."@en ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+
+  ex:l5-n09a-formula a cd:MathExpression ; cd:formulaLabel "One sample, repeated measurements"@en ; cd:body "Measurement result i equals fixed true concentration plus constant bias plus random error. Assume normally distributed zero-mean errors with variance sigma squared."@en ; cd:latex "\\begin{gathered}Y_i=c+b+\\varepsilon_i\\\\\\varepsilon_i\\sim\\mathcal{N}(0,\\sigma^2)\\end{gathered}" ; dct:hasPart ex:l5-n09a-legend ; cd:hasSymbol ex:l5-na-reading, ex:l5-na-fixed, ex:l5-na-error, ex:l5-na-notation ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n09a-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-na-entry ; cd:authoredResource true .
+  ex:l5-na-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols, units and assumptions"@en ; dct:references ex:l5-na-reading, ex:l5-na-fixed, ex:l5-na-error, ex:l5-na-notation ; cd:authoredResource true .
+  ex:l5-na-reading a cd:MathSymbol ; cd:symbol "Y, i" ; cd:mathNotation "Y_i" ; cd:body "Random UV/Vis nitrate measurement result in mg/L; index i labels a repeat on the same homogeneous sample, not a different site."@en ; cd:authoredResource true .
+  ex:l5-na-fixed a cd:MathSymbol ; cd:symbol "c, b" ; cd:mathNotation "c,\\ b" ; cd:body "Fixed true concentration and constant bias, both in mg/L. Their sum is the model mean; zero bias is not implied by a bell shape."@en ; cd:authoredResource true .
+  ex:l5-na-error a cd:MathSymbol ; cd:symbol "epsilon, sigma" ; cd:mathNotation "\\varepsilon_i,\\ \\sigma^2" ; cd:body "Random error in mg/L. Positive sigma is its standard deviation in mg/L; sigma squared is variance in (mg/L) squared."@en ; cd:authoredResource true .
+  ex:l5-na-notation a cd:MathSymbol ; cd:symbol "model notation and operators" ; cd:mathNotation "=,\\ +,\\ \\sim,\\ \\mathcal{N}(0,\\sigma^2)" ; cd:body "Equality and addition define the measurement result. Tilde means distributed as; N is normal with zero error mean and variance as second parameter."@en ; cd:authoredResource true .
+
+  ex:l5-n09b-formula a cd:MathExpression ; cd:formulaLabel "Location and spread are separate"@en ; cd:body "The measurement model is normal with mean mu equal to c plus b, and variance sigma squared. Shifting the mean moves the curve; increasing sigma makes it wider and lower."@en ; cd:latex "\\begin{gathered}Y_i\\sim\\mathcal{N}(\\mu,\\sigma^2)\\\\\\mu=c+b,\\quad\\sigma>0\\end{gathered}" ; dct:hasPart ex:l5-n09b-legend ; cd:hasSymbol ex:l5-nb-reading, ex:l5-nb-location, ex:l5-nb-spread ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n09b-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-nb-entry ; cd:authoredResource true .
+  ex:l5-nb-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols and parameter convention"@en ; dct:references ex:l5-nb-reading, ex:l5-nb-location, ex:l5-nb-spread ; cd:authoredResource true .
+  ex:l5-nb-reading a cd:MathSymbol ; cd:symbol "Y, i, N" ; cd:mathNotation "Y_i\\sim\\mathcal{N}" ; cd:body "Measurement result i in mg/L follows a normal model. Tilde means distributed as; i labels a repeat. The second N parameter is variance, not SD."@en ; cd:authoredResource true .
+  ex:l5-nb-location a cd:MathSymbol ; cd:symbol "mu, c, b" ; cd:mathNotation "\\mu=c+b" ; cd:body "Mean = true concentration + bias, all in mg/L. Narrow curves: means 10.0 and 10.6 mg/L, both with SD 0.30 mg/L."@en ; cd:authoredResource true .
+  ex:l5-nb-spread a cd:MathSymbol ; cd:symbol "sigma and variance" ; cd:mathNotation "\\sigma>0,\\ \\sigma^2" ; cd:body "SD must be positive; its square is variance. Broad curve: mean 10.0, SD 0.60 mg/L. Every complete model has total area one."@en ; cd:authoredResource true .
+
+  ex:l5-n09c-formula a cd:MathExpression ; cd:formulaLabel "The normal probability density"@en ; cd:body "The normal density has a normalizing factor and an exponential of minus one half the squared standardized distance from the mean."@en ; cd:latex "f(x)=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\!\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)" ; dct:hasPart ex:l5-n09c-legend ; cd:hasSymbol ex:l5-nc-value, ex:l5-nc-location, ex:l5-nc-constants, ex:l5-nc-operators ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n09c-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-nc-entry ; cd:authoredResource true .
+  ex:l5-nc-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols, operators and units"@en ; dct:references ex:l5-nc-value, ex:l5-nc-location, ex:l5-nc-constants, ex:l5-nc-operators ; cd:authoredResource true .
+  ex:l5-nc-value a cd:MathSymbol ; cd:symbol "f, x" ; cd:mathNotation "f(x)" ; cd:body "Density in L/mg at concentration x in mg/L, not point probability. Areas are probabilities; total area on the real line is one."@en ; cd:authoredResource true .
+  ex:l5-nc-location a cd:MathSymbol ; cd:symbol "mu, sigma" ; cd:mathNotation "\\mu,\\ \\sigma" ; cd:body "Mean 10.0 mg/L and positive SD 0.30 mg/L here. Sigma squared is variance, in (mg/L) squared."@en ; cd:authoredResource true .
+  ex:l5-nc-constants a cd:MathSymbol ; cd:symbol "pi, exponential and root" ; cd:mathNotation "\\pi,\\ \\exp,\\ \\sqrt{2\\pi}" ; cd:body "Pi is about 3.14159; exp is the natural exponential; the root is the positive square root. Constants 1 and 2 are dimensionless."@en ; cd:authoredResource true .
+  ex:l5-nc-operators a cd:MathSymbol ; cd:symbol "equality and arithmetic" ; cd:mathNotation "(x-\\mu)^2/(2\\sigma^2)" ; cd:body "Equality defines f. Subtract, square, divide by twice the variance, then negate: a dimensionless exponent. Multiply by the prefactor to normalize area."@en ; cd:authoredResource true .
+
+  ex:l5-n10a-formula a cd:MathExpression ; cd:formulaLabel "A result 1.5 standard deviations above the mean"@en ; cd:body "Standardize by subtracting the mean and dividing by the standard deviation. The threshold 10.45 becomes 1.5. The probability above it is one minus Phi of 1.5, about 6.68 percent."@en ; cd:latex "\\begin{gathered}Z=\\frac{X-\\mu}{\\sigma},\\quad z=\\frac{10.45-10.0}{0.30}=1.5\\\\P(X>10.45)=1-\\Phi(1.5)\\approx6.68\\%\\end{gathered}" ; dct:hasPart ex:l5-n10a-legend ; cd:hasSymbol ex:l5-nt-reading, ex:l5-nt-standard, ex:l5-nt-cdf, ex:l5-nt-operators ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n10a-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-nt-entry ; cd:authoredResource true .
+  ex:l5-nt-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols, units and probability"@en ; dct:references ex:l5-nt-reading, ex:l5-nt-standard, ex:l5-nt-cdf, ex:l5-nt-operators ; cd:authoredResource true .
+  ex:l5-nt-reading a cd:MathSymbol ; cd:symbol "X, mu, sigma" ; cd:mathNotation "X,\\ \\mu,\\ \\sigma" ; cd:body "One future measurement result; mean 10.0 and SD 0.30, all in mg/L. Threshold 10.45 is in mg/L; the units cancel in the ratio."@en ; cd:authoredResource true .
+  ex:l5-nt-standard a cd:MathSymbol ; cd:symbol "Z, z" ; cd:mathNotation "Z,\\ z" ; cd:body "Dimensionless standardized random measurement result and threshold. Z is standard normal: mean 0, variance 1. Lowercase z = 1.5 is not a probability."@en ; cd:authoredResource true .
+  ex:l5-nt-cdf a cd:MathSymbol ; cd:symbol "P, Phi" ; cd:mathNotation "P,\\ \\Phi" ; cd:body "P denotes event probability; Phi is the standard-normal CDF, giving left-tail probability. One minus Phi gives the right tail."@en ; cd:authoredResource true .
+  ex:l5-nt-operators a cd:MathSymbol ; cd:symbol "operators and percent" ; cd:mathNotation "=,\\ -,\\ /,\\ >,\\ \\approx,\\ \\%" ; cd:body "Subtract and divide to standardize; > means above. Equalities are exact identities; approximation and percent give rounded probability, not a confidence interval."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level5-normal> {
+  ex:unit-level5-probability-models cd:hasFocusConcept ex:normal-measurement-model .
+  ex:l5-n09a-title a cd:Interpretation ; skos:prefLabel "Model the analytical part of uncertainty"@en ; cd:authoredResource true .
+  ex:l5-n09b-title a cd:Interpretation ; skos:prefLabel "Separate analytical centre and spread"@en ; cd:authoredResource true .
+  ex:l5-n09c-title a cd:Interpretation ; skos:prefLabel "Express analytical variation as a density"@en ; cd:authoredResource true .
+  ex:l5-n10a-title a cd:Interpretation ; skos:prefLabel "Tool: probability under a specified model"@en ; cd:authoredResource true .
+  ex:l5-n09a-chart a cd:ChartDefinition ; skos:prefLabel "A model for one future UV/Vis nitrate result"@en ; cd:body "Assumed model: mean 10.0, SD 0.30 mg/L. Not fitted to the five values."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "linear" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.5 ; cd:xAxisLabel "Measured nitrate concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:usesDataset ex:l5-normal-base ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n09b-chart a cd:ChartDefinition ; skos:prefLabel "Change one parameter at a time"@en ; cd:body "Keep the model family; change only the mean or SD. All areas remain one."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "linear" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.5 ; cd:xAxisLabel "Measured nitrate concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:usesDataset ex:l5-normal-base ; dct:hasPart ex:l5-normal-shift, ex:l5-normal-wide ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n09c-chart a cd:ChartDefinition ; skos:prefLabel "Same curve, now expressed mathematically"@en ; cd:body "Return to mean 10.0, SD 0.30 mg/L. Use density areas for probabilities."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "linear" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.5 ; cd:xAxisLabel "Measured nitrate concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:usesDataset ex:l5-normal-base ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-n10a-chart a cd:ChartDefinition ; skos:prefLabel "Above 10.45 mg/L: about 6.68%"@en ; cd:body "Same nitrate model, one future result, not a sample mean. Full tail: 6.68%."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "linear" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.5 ; cd:xAxisLabel "Measured nitrate concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:usesDataset ex:l5-normal-base ; cd:hasChartAnnotation ex:l5-normal-tail ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:l5-normal-tail a cd:ChartRangeAnnotation ; cd:position 1 ; cd:startObservation ex:l5-nbase-22 ; cd:endObservation ex:l5-nbase-32 ; cd:body "Right tail: about 6.68%"@en ; cd:authoredResource true .
+
+  ex:l5-normal-base a cd:Dataset ; skos:prefLabel "Normal model: mean 10.0, SD 0.30 mg/L"@en ; cd:body "Authored theoretical density coordinates, not simulated or measured observations. Linear drawing segments approximate the normal curve; the mathematical support is the whole real line. Display spans four standard deviations either side, omitting about 0.006334% total probability."@en ; cd:derivedFromResource ex:l5-n09c-formula ; cd:hasObservation ex:l5-nbase-0, ex:l5-nbase-1, ex:l5-nbase-2, ex:l5-nbase-3, ex:l5-nbase-4, ex:l5-nbase-5, ex:l5-nbase-6, ex:l5-nbase-7, ex:l5-nbase-8, ex:l5-nbase-9, ex:l5-nbase-10, ex:l5-nbase-11, ex:l5-nbase-12, ex:l5-nbase-13, ex:l5-nbase-14, ex:l5-nbase-15, ex:l5-nbase-16, ex:l5-nbase-17, ex:l5-nbase-18, ex:l5-nbase-19, ex:l5-nbase-20, ex:l5-nbase-21, ex:l5-nbase-22, ex:l5-nbase-23, ex:l5-nbase-24, ex:l5-nbase-25, ex:l5-nbase-26, ex:l5-nbase-27, ex:l5-nbase-28, ex:l5-nbase-29, ex:l5-nbase-30, ex:l5-nbase-31, ex:l5-nbase-32 ; cd:authoredResource true .
+  ex:l5-nbase-0 a cd:Observation ; cd:position 1 ; cd:xValue 8.8 ; cd:numericValue 0.000446100753 ; cd:authoredResource true .
+  ex:l5-nbase-1 a cd:Observation ; cd:position 2 ; cd:xValue 8.875 ; cd:numericValue 0.001175318941 ; cd:authoredResource true .
+  ex:l5-nbase-2 a cd:Observation ; cd:position 3 ; cd:xValue 8.95 ; cd:numericValue 0.002908942317 ; cd:authoredResource true .
+  ex:l5-nbase-3 a cd:Observation ; cd:position 4 ; cd:xValue 9.025 ; cd:numericValue 0.006763493524 ; cd:authoredResource true .
+  ex:l5-nbase-4 a cd:Observation ; cd:position 5 ; cd:xValue 9.1 ; cd:numericValue 0.014772828040 ; cd:authoredResource true .
+  ex:l5-nbase-5 a cd:Observation ; cd:position 6 ; cd:xValue 9.175 ; cd:numericValue 0.030311875005 ; cd:authoredResource true .
+  ex:l5-nbase-6 a cd:Observation ; cd:position 7 ; cd:xValue 9.25 ; cd:numericValue 0.058427668312 ; cd:authoredResource true .
+  ex:l5-nbase-7 a cd:Observation ; cd:position 8 ; cd:xValue 9.325 ; cd:numericValue 0.105798839452 ; cd:authoredResource true .
+  ex:l5-nbase-8 a cd:Observation ; cd:position 9 ; cd:xValue 9.4 ; cd:numericValue 0.179969888377 ; cd:authoredResource true .
+  ex:l5-nbase-9 a cd:Observation ; cd:position 10 ; cd:xValue 9.475 ; cd:numericValue 0.287591062755 ; cd:authoredResource true .
+  ex:l5-nbase-10 a cd:Observation ; cd:position 11 ; cd:xValue 9.55 ; cd:numericValue 0.431725318886 ; cd:authoredResource true .
+  ex:l5-nbase-11 a cd:Observation ; cd:position 12 ; cd:xValue 9.625 ; cd:numericValue 0.608830284630 ; cd:authoredResource true .
+  ex:l5-nbase-12 a cd:Observation ; cd:position 13 ; cd:xValue 9.7 ; cd:numericValue 0.806569081730 ; cd:authoredResource true .
+  ex:l5-nbase-13 a cd:Observation ; cd:position 14 ; cd:xValue 9.775 ; cd:numericValue 1.003791440516 ; cd:authoredResource true .
+  ex:l5-nbase-14 a cd:Observation ; cd:position 15 ; cd:xValue 9.85 ; cd:numericValue 1.173551089214 ; cd:authoredResource true .
+  ex:l5-nbase-15 a cd:Observation ; cd:position 16 ; cd:xValue 9.925 ; cd:numericValue 1.288893722676 ; cd:authoredResource true .
+  ex:l5-nbase-16 a cd:Observation ; cd:position 17 ; cd:xValue 10.0 ; cd:numericValue 1.329807601338 ; cd:authoredResource true .
+  ex:l5-nbase-17 a cd:Observation ; cd:position 18 ; cd:xValue 10.075 ; cd:numericValue 1.288893722676 ; cd:authoredResource true .
+  ex:l5-nbase-18 a cd:Observation ; cd:position 19 ; cd:xValue 10.15 ; cd:numericValue 1.173551089214 ; cd:authoredResource true .
+  ex:l5-nbase-19 a cd:Observation ; cd:position 20 ; cd:xValue 10.225 ; cd:numericValue 1.003791440516 ; cd:authoredResource true .
+  ex:l5-nbase-20 a cd:Observation ; cd:position 21 ; cd:xValue 10.3 ; cd:numericValue 0.806569081730 ; cd:authoredResource true .
+  ex:l5-nbase-21 a cd:Observation ; cd:position 22 ; cd:xValue 10.375 ; cd:numericValue 0.608830284630 ; cd:authoredResource true .
+  ex:l5-nbase-22 a cd:Observation ; cd:position 23 ; cd:xValue 10.45 ; cd:numericValue 0.431725318886 ; cd:authoredResource true .
+  ex:l5-nbase-23 a cd:Observation ; cd:position 24 ; cd:xValue 10.525 ; cd:numericValue 0.287591062755 ; cd:authoredResource true .
+  ex:l5-nbase-24 a cd:Observation ; cd:position 25 ; cd:xValue 10.6 ; cd:numericValue 0.179969888377 ; cd:authoredResource true .
+  ex:l5-nbase-25 a cd:Observation ; cd:position 26 ; cd:xValue 10.675 ; cd:numericValue 0.105798839452 ; cd:authoredResource true .
+  ex:l5-nbase-26 a cd:Observation ; cd:position 27 ; cd:xValue 10.75 ; cd:numericValue 0.058427668312 ; cd:authoredResource true .
+  ex:l5-nbase-27 a cd:Observation ; cd:position 28 ; cd:xValue 10.825 ; cd:numericValue 0.030311875005 ; cd:authoredResource true .
+  ex:l5-nbase-28 a cd:Observation ; cd:position 29 ; cd:xValue 10.9 ; cd:numericValue 0.014772828040 ; cd:authoredResource true .
+  ex:l5-nbase-29 a cd:Observation ; cd:position 30 ; cd:xValue 10.975 ; cd:numericValue 0.006763493524 ; cd:authoredResource true .
+  ex:l5-nbase-30 a cd:Observation ; cd:position 31 ; cd:xValue 11.05 ; cd:numericValue 0.002908942317 ; cd:authoredResource true .
+  ex:l5-nbase-31 a cd:Observation ; cd:position 32 ; cd:xValue 11.125 ; cd:numericValue 0.001175318941 ; cd:authoredResource true .
+  ex:l5-nbase-32 a cd:Observation ; cd:position 33 ; cd:xValue 11.2 ; cd:numericValue 0.000446100753 ; cd:authoredResource true .
+
+  ex:l5-normal-shift a cd:Dataset ; skos:prefLabel "Normal model: mean 10.6, SD 0.30 mg/L"@en ; cd:body "Theoretical density coordinates, not observations. Same spread as the baseline, shifted by 0.6 mg/L. Tails continue beyond the displayed four-SD span."@en ; cd:derivedFromResource ex:l5-n09c-formula ; cd:hasObservation ex:l5-nshift-0, ex:l5-nshift-1, ex:l5-nshift-2, ex:l5-nshift-3, ex:l5-nshift-4, ex:l5-nshift-5, ex:l5-nshift-6, ex:l5-nshift-7, ex:l5-nshift-8, ex:l5-nshift-9, ex:l5-nshift-10, ex:l5-nshift-11, ex:l5-nshift-12, ex:l5-nshift-13, ex:l5-nshift-14, ex:l5-nshift-15, ex:l5-nshift-16 ; cd:authoredResource true .
+  ex:l5-nshift-0 a cd:Observation ; cd:position 1 ; cd:xValue 9.4 ; cd:numericValue 0.000446100753 ; cd:authoredResource true .
+  ex:l5-nshift-1 a cd:Observation ; cd:position 3 ; cd:xValue 9.55 ; cd:numericValue 0.002908942317 ; cd:authoredResource true .
+  ex:l5-nshift-2 a cd:Observation ; cd:position 5 ; cd:xValue 9.7 ; cd:numericValue 0.014772828040 ; cd:authoredResource true .
+  ex:l5-nshift-3 a cd:Observation ; cd:position 7 ; cd:xValue 9.85 ; cd:numericValue 0.058427668312 ; cd:authoredResource true .
+  ex:l5-nshift-4 a cd:Observation ; cd:position 9 ; cd:xValue 10.0 ; cd:numericValue 0.179969888377 ; cd:authoredResource true .
+  ex:l5-nshift-5 a cd:Observation ; cd:position 11 ; cd:xValue 10.15 ; cd:numericValue 0.431725318886 ; cd:authoredResource true .
+  ex:l5-nshift-6 a cd:Observation ; cd:position 13 ; cd:xValue 10.3 ; cd:numericValue 0.806569081730 ; cd:authoredResource true .
+  ex:l5-nshift-7 a cd:Observation ; cd:position 15 ; cd:xValue 10.45 ; cd:numericValue 1.173551089214 ; cd:authoredResource true .
+  ex:l5-nshift-8 a cd:Observation ; cd:position 17 ; cd:xValue 10.6 ; cd:numericValue 1.329807601338 ; cd:authoredResource true .
+  ex:l5-nshift-9 a cd:Observation ; cd:position 19 ; cd:xValue 10.75 ; cd:numericValue 1.173551089214 ; cd:authoredResource true .
+  ex:l5-nshift-10 a cd:Observation ; cd:position 21 ; cd:xValue 10.9 ; cd:numericValue 0.806569081730 ; cd:authoredResource true .
+  ex:l5-nshift-11 a cd:Observation ; cd:position 23 ; cd:xValue 11.05 ; cd:numericValue 0.431725318886 ; cd:authoredResource true .
+  ex:l5-nshift-12 a cd:Observation ; cd:position 25 ; cd:xValue 11.2 ; cd:numericValue 0.179969888377 ; cd:authoredResource true .
+  ex:l5-nshift-13 a cd:Observation ; cd:position 27 ; cd:xValue 11.35 ; cd:numericValue 0.058427668312 ; cd:authoredResource true .
+  ex:l5-nshift-14 a cd:Observation ; cd:position 29 ; cd:xValue 11.5 ; cd:numericValue 0.014772828040 ; cd:authoredResource true .
+  ex:l5-nshift-15 a cd:Observation ; cd:position 31 ; cd:xValue 11.65 ; cd:numericValue 0.002908942317 ; cd:authoredResource true .
+  ex:l5-nshift-16 a cd:Observation ; cd:position 33 ; cd:xValue 11.8 ; cd:numericValue 0.000446100753 ; cd:authoredResource true .
+  ex:l5-normal-shift cd:hasObservation ex:l5-nshift-mid0, ex:l5-nshift-mid1, ex:l5-nshift-mid2, ex:l5-nshift-mid3, ex:l5-nshift-mid4, ex:l5-nshift-mid5, ex:l5-nshift-mid6, ex:l5-nshift-mid7, ex:l5-nshift-mid8, ex:l5-nshift-mid9, ex:l5-nshift-mid10, ex:l5-nshift-mid11, ex:l5-nshift-mid12, ex:l5-nshift-mid13, ex:l5-nshift-mid14, ex:l5-nshift-mid15 .
+  ex:l5-nshift-mid0 a cd:Observation ; cd:position 2 ; cd:xValue 9.475 ; cd:numericValue 0.001175318941 ; cd:authoredResource true .
+  ex:l5-nshift-mid1 a cd:Observation ; cd:position 4 ; cd:xValue 9.625 ; cd:numericValue 0.006763493524 ; cd:authoredResource true .
+  ex:l5-nshift-mid2 a cd:Observation ; cd:position 6 ; cd:xValue 9.775 ; cd:numericValue 0.030311875005 ; cd:authoredResource true .
+  ex:l5-nshift-mid3 a cd:Observation ; cd:position 8 ; cd:xValue 9.925 ; cd:numericValue 0.105798839452 ; cd:authoredResource true .
+  ex:l5-nshift-mid4 a cd:Observation ; cd:position 10 ; cd:xValue 10.075 ; cd:numericValue 0.287591062755 ; cd:authoredResource true .
+  ex:l5-nshift-mid5 a cd:Observation ; cd:position 12 ; cd:xValue 10.225 ; cd:numericValue 0.608830284630 ; cd:authoredResource true .
+  ex:l5-nshift-mid6 a cd:Observation ; cd:position 14 ; cd:xValue 10.375 ; cd:numericValue 1.003791440516 ; cd:authoredResource true .
+  ex:l5-nshift-mid7 a cd:Observation ; cd:position 16 ; cd:xValue 10.525 ; cd:numericValue 1.288893722676 ; cd:authoredResource true .
+  ex:l5-nshift-mid8 a cd:Observation ; cd:position 18 ; cd:xValue 10.675 ; cd:numericValue 1.288893722676 ; cd:authoredResource true .
+  ex:l5-nshift-mid9 a cd:Observation ; cd:position 20 ; cd:xValue 10.825 ; cd:numericValue 1.003791440516 ; cd:authoredResource true .
+  ex:l5-nshift-mid10 a cd:Observation ; cd:position 22 ; cd:xValue 10.975 ; cd:numericValue 0.608830284630 ; cd:authoredResource true .
+  ex:l5-nshift-mid11 a cd:Observation ; cd:position 24 ; cd:xValue 11.125 ; cd:numericValue 0.287591062755 ; cd:authoredResource true .
+  ex:l5-nshift-mid12 a cd:Observation ; cd:position 26 ; cd:xValue 11.275 ; cd:numericValue 0.105798839452 ; cd:authoredResource true .
+  ex:l5-nshift-mid13 a cd:Observation ; cd:position 28 ; cd:xValue 11.425 ; cd:numericValue 0.030311875005 ; cd:authoredResource true .
+  ex:l5-nshift-mid14 a cd:Observation ; cd:position 30 ; cd:xValue 11.575 ; cd:numericValue 0.006763493524 ; cd:authoredResource true .
+  ex:l5-nshift-mid15 a cd:Observation ; cd:position 32 ; cd:xValue 11.725 ; cd:numericValue 0.001175318941 ; cd:authoredResource true .
+
+  ex:l5-normal-wide a cd:Dataset ; skos:prefLabel "Normal model: mean 10.0, SD 0.60 mg/L"@en ; cd:body "Theoretical density coordinates, not observations. Twice the baseline SD and half its peak density. Tails continue beyond the displayed four-SD span."@en ; cd:derivedFromResource ex:l5-n09c-formula ; cd:hasObservation ex:l5-nwide-0, ex:l5-nwide-1, ex:l5-nwide-2, ex:l5-nwide-3, ex:l5-nwide-4, ex:l5-nwide-5, ex:l5-nwide-6, ex:l5-nwide-7, ex:l5-nwide-8, ex:l5-nwide-9, ex:l5-nwide-10, ex:l5-nwide-11, ex:l5-nwide-12, ex:l5-nwide-13, ex:l5-nwide-14, ex:l5-nwide-15, ex:l5-nwide-16 ; cd:authoredResource true .
+  ex:l5-nwide-0 a cd:Observation ; cd:position 1 ; cd:xValue 7.6 ; cd:numericValue 0.0002230503765 ; cd:authoredResource true .
+  ex:l5-nwide-1 a cd:Observation ; cd:position 3 ; cd:xValue 7.9 ; cd:numericValue 0.0014544711585 ; cd:authoredResource true .
+  ex:l5-nwide-2 a cd:Observation ; cd:position 5 ; cd:xValue 8.2 ; cd:numericValue 0.007386414020 ; cd:authoredResource true .
+  ex:l5-nwide-3 a cd:Observation ; cd:position 7 ; cd:xValue 8.5 ; cd:numericValue 0.029213834156 ; cd:authoredResource true .
+  ex:l5-nwide-4 a cd:Observation ; cd:position 9 ; cd:xValue 8.8 ; cd:numericValue 0.0899849441885 ; cd:authoredResource true .
+  ex:l5-nwide-5 a cd:Observation ; cd:position 11 ; cd:xValue 9.1 ; cd:numericValue 0.215862659443 ; cd:authoredResource true .
+  ex:l5-nwide-6 a cd:Observation ; cd:position 13 ; cd:xValue 9.4 ; cd:numericValue 0.403284540865 ; cd:authoredResource true .
+  ex:l5-nwide-7 a cd:Observation ; cd:position 15 ; cd:xValue 9.7 ; cd:numericValue 0.586775544607 ; cd:authoredResource true .
+  ex:l5-nwide-8 a cd:Observation ; cd:position 17 ; cd:xValue 10.0 ; cd:numericValue 0.664903800669 ; cd:authoredResource true .
+  ex:l5-nwide-9 a cd:Observation ; cd:position 19 ; cd:xValue 10.3 ; cd:numericValue 0.586775544607 ; cd:authoredResource true .
+  ex:l5-nwide-10 a cd:Observation ; cd:position 21 ; cd:xValue 10.6 ; cd:numericValue 0.403284540865 ; cd:authoredResource true .
+  ex:l5-nwide-11 a cd:Observation ; cd:position 23 ; cd:xValue 10.9 ; cd:numericValue 0.215862659443 ; cd:authoredResource true .
+  ex:l5-nwide-12 a cd:Observation ; cd:position 25 ; cd:xValue 11.2 ; cd:numericValue 0.0899849441885 ; cd:authoredResource true .
+  ex:l5-nwide-13 a cd:Observation ; cd:position 27 ; cd:xValue 11.5 ; cd:numericValue 0.029213834156 ; cd:authoredResource true .
+  ex:l5-nwide-14 a cd:Observation ; cd:position 29 ; cd:xValue 11.8 ; cd:numericValue 0.007386414020 ; cd:authoredResource true .
+  ex:l5-nwide-15 a cd:Observation ; cd:position 31 ; cd:xValue 12.1 ; cd:numericValue 0.0014544711585 ; cd:authoredResource true .
+  ex:l5-nwide-16 a cd:Observation ; cd:position 33 ; cd:xValue 12.4 ; cd:numericValue 0.0002230503765 ; cd:authoredResource true .
+  ex:l5-normal-wide cd:hasObservation ex:l5-nwide-mid0, ex:l5-nwide-mid1, ex:l5-nwide-mid2, ex:l5-nwide-mid3, ex:l5-nwide-mid4, ex:l5-nwide-mid5, ex:l5-nwide-mid6, ex:l5-nwide-mid7, ex:l5-nwide-mid8, ex:l5-nwide-mid9, ex:l5-nwide-mid10, ex:l5-nwide-mid11, ex:l5-nwide-mid12, ex:l5-nwide-mid13, ex:l5-nwide-mid14, ex:l5-nwide-mid15 .
+  ex:l5-nwide-mid0 a cd:Observation ; cd:position 2 ; cd:xValue 7.75 ; cd:numericValue 0.0005876594705 ; cd:authoredResource true .
+  ex:l5-nwide-mid1 a cd:Observation ; cd:position 4 ; cd:xValue 8.05 ; cd:numericValue 0.003381746762 ; cd:authoredResource true .
+  ex:l5-nwide-mid2 a cd:Observation ; cd:position 6 ; cd:xValue 8.35 ; cd:numericValue 0.0151559375025 ; cd:authoredResource true .
+  ex:l5-nwide-mid3 a cd:Observation ; cd:position 8 ; cd:xValue 8.65 ; cd:numericValue 0.052899419726 ; cd:authoredResource true .
+  ex:l5-nwide-mid4 a cd:Observation ; cd:position 10 ; cd:xValue 8.95 ; cd:numericValue 0.1437955313775 ; cd:authoredResource true .
+  ex:l5-nwide-mid5 a cd:Observation ; cd:position 12 ; cd:xValue 9.25 ; cd:numericValue 0.304415142315 ; cd:authoredResource true .
+  ex:l5-nwide-mid6 a cd:Observation ; cd:position 14 ; cd:xValue 9.55 ; cd:numericValue 0.501895720258 ; cd:authoredResource true .
+  ex:l5-nwide-mid7 a cd:Observation ; cd:position 16 ; cd:xValue 9.85 ; cd:numericValue 0.644446861338 ; cd:authoredResource true .
+  ex:l5-nwide-mid8 a cd:Observation ; cd:position 18 ; cd:xValue 10.15 ; cd:numericValue 0.644446861338 ; cd:authoredResource true .
+  ex:l5-nwide-mid9 a cd:Observation ; cd:position 20 ; cd:xValue 10.45 ; cd:numericValue 0.501895720258 ; cd:authoredResource true .
+  ex:l5-nwide-mid10 a cd:Observation ; cd:position 22 ; cd:xValue 10.75 ; cd:numericValue 0.304415142315 ; cd:authoredResource true .
+  ex:l5-nwide-mid11 a cd:Observation ; cd:position 24 ; cd:xValue 11.05 ; cd:numericValue 0.1437955313775 ; cd:authoredResource true .
+  ex:l5-nwide-mid12 a cd:Observation ; cd:position 26 ; cd:xValue 11.35 ; cd:numericValue 0.052899419726 ; cd:authoredResource true .
+  ex:l5-nwide-mid13 a cd:Observation ; cd:position 28 ; cd:xValue 11.65 ; cd:numericValue 0.0151559375025 ; cd:authoredResource true .
+  ex:l5-nwide-mid14 a cd:Observation ; cd:position 30 ; cd:xValue 11.95 ; cd:numericValue 0.003381746762 ; cd:authoredResource true .
+  ex:l5-nwide-mid15 a cd:Observation ; cd:position 32 ; cd:xValue 12.25 ; cd:numericValue 0.0005876594705 ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level5-binomial-opening> {
+  ex:path-level5-binomial-opening cd:forTopic ex:normal-measurement-model ; cd:hasStep ex:l5-n09a-step, ex:l5-n09b-step, ex:l5-n09c-step, ex:l5-n10a-step .
+  ex:l5-n09a-step a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l5-n09a-scene ; cd:usesResource ex:l5-n09a-title, ex:l5-n09a-chart, ex:l5-n09a-formula ; cd:authoredResource true .
+  ex:l5-n09b-step a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l5-n09b-scene ; cd:usesResource ex:l5-n09b-title, ex:l5-n09b-chart, ex:l5-n09b-formula ; cd:authoredResource true .
+  ex:l5-n09c-step a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l5-n09c-scene ; cd:usesResource ex:l5-n09c-title, ex:l5-n09c-chart, ex:l5-n09c-formula ; cd:authoredResource true .
+  ex:l5-n10a-step a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l5-n10a-scene ; cd:usesResource ex:l5-n10a-title, ex:l5-n10a-chart, ex:l5-n10a-formula ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-normal> {
+  ex:l5-n09a-scene a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; cd:hasSceneItem ex:l5-n09a-heading, ex:l5-n09a-plot, ex:l5-n09a-math ; cd:narration "To estimate concentration from analysed samples, we need to understand the analytical contribution to variation. For one homogeneous sample, write the measurement result as fixed true concentration plus constant bias plus random error. Normal zero-mean error is an assumption, not a natural law. The teaching curve specifies analytical mean 10.0 mg/L and SD 0.30 mg/L; it is not a histogram, simulation or fitted measurement result. We are not describing concentrations at different environmental sites or the sampling distribution of the water-body mean estimator. A bell shape does not demonstrate zero bias. Independent errors are an additional assumption for a joint model of repeats. Drift, matrix effects, outliers, mixtures and correlation can invalidate this model. Its real-line support permits mathematically negative measurement results; reconsider adequacy near physical or detection limits. The curve's tails continue beyond the drawing. Next separate analytical centre from spread, because a precise laboratory result can still be biased and its sample can still be unrepresentative."@en ; cd:authoredResource true .
+  ex:l5-n09b-scene a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; cd:hasSceneItem ex:l5-n09b-heading, ex:l5-n09b-plot, ex:l5-n09b-math ; cd:narration "The preceding model needed a mean and an SD. Keep the nitrate measurement target and compare what changing each parameter does. On shared axes, the narrow peak at 10.0 mg/L is the baseline with SD 0.30 mg/L. Moving the mean to 10.6 mg/L shifts the curve without changing SD. Keeping mean 10.0 but doubling SD to 0.60 mg/L broadens the curve and halves its peak. These are alternative specified models, not new samples or parameter estimates. Every complete density has area one, so a lower peak does not mean less total probability. Normal notation uses variance as its second parameter; SD has concentration units and variance has squared units. True concentration and bias enter only through their sum and cannot be separated from repeat results alone. The finite drawing does not truncate the mathematical support. We now return to the baseline curve and write the density formula that lets us calculate its probabilities."@en ; cd:authoredResource true .
+  ex:l5-n09c-scene a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; cd:hasSceneItem ex:l5-n09c-heading, ex:l5-n09c-plot, ex:l5-n09c-math ; cd:narration "The same analytical model can now be written as a density. Keep mean 10.0 mg/L and SD 0.30 mg/L. Subtracting the mean measures displacement from the centre; dividing its square by variance makes the exponent dimensionless. The minus sign makes density decrease away from the mean, and the prefactor normalizes total area to one. SD is positive and the maximum about 1.3298 L/mg is a density height, not a point probability greater than one. Areas describe probabilities; the drawing coordinates evaluate the formula and are not observations. Normality remains an assumption and the tails extend beyond the plot. We next practise probability and quantile calculations under this specified model. They are tools for understanding reference distributions, not estimates of the unknown water-body mean. We then return to the environmental sampling question."@en ; cd:authoredResource true .
+  ex:l5-n10a-scene a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; cd:hasSceneItem ex:l5-n10a-heading, ex:l5-n10a-plot, ex:l5-n10a-math ; cd:narration "This supporting calculation starts with specified analytical parameters, not with an estimated environmental mean. With mean 10.0 mg/L and SD 0.30 mg/L, the illustrative threshold 10.45 mg/L is 1.5 SDs above the mean. It is not a legal or safety limit. Standardization gives standard normal mean zero and variance one and preserves the event probability. The standard-normal CDF at 1.5 is about 0.9331928, leaving an upper tail of about 0.0668072 or 6.68 percent. The calculation uses the full normal CDF, not the polygon shaded only up to 11.2 mg/L; the omitted tail is about 0.003167 percent. Including an endpoint makes no difference in a continuous model. This is not a confidence interval for the unknown mean, nor a probability that the water body's mean exceeds 10.45 mg/L. A model probability for individual results must not be read backwards as a probability for an unknown parameter. Next reverse the probability-to-threshold calculation, then use the distinction to return to estimation."@en ; cd:authoredResource true .
+  ex:l5-n09a-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-n09a-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09a-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-n09a-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09a-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-n09a-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09b-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-n09b-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09b-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-n09b-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09b-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-n09b-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09c-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-n09c-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09c-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-n09c-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n09c-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-n09c-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n10a-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-n10a-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n10a-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-n10a-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-n10a-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-n10a-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+}

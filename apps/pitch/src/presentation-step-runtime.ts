@@ -423,6 +423,16 @@ export function mountPresentationWheelNavigation(
     if (event.ctrlKey || !event.deltaY || Math.abs(event.deltaX ?? 0) > Math.abs(event.deltaY)) return;
     if (options.root?.ownerDocument.body.classList.contains("pcd-course-world-active") || options.root?.ownerDocument.body.dataset?.presentationMode === "script") return;
     if ((event.target as Element).closest("dialog, input, textarea, select, .cm-editor, [data-presentation-interactive='true']")) return;
+    // A readable phone scene or a bounded evidence panel owns its native scroll
+    // until the requested edge is reached. Do not turn reading into a page turn.
+    if (typeof HTMLElement !== "undefined" && event.target instanceof HTMLElement) {
+      const slide = deck.getCurrentSlide();
+      for (let node:HTMLElement|null=event.target; node && slide?.contains(node); node=node.parentElement) {
+        const overflow = node.ownerDocument.defaultView?.getComputedStyle(node).overflowY;
+        if ((overflow === "auto" || overflow === "scroll") && canConsumeVerticalScroll(node, event.deltaY)) return;
+        if (node === slide) break;
+      }
+    }
     if (options.view !== "scroll" && !isStageLockedSlide(deck.getCurrentSlide())) return;
     event.preventDefault(); event.stopImmediatePropagation();
     const direction = Math.sign(event.deltaY);
@@ -439,6 +449,13 @@ export function mountPresentationWheelNavigation(
   };
   target.addEventListener("wheel", wheel, { capture: true, passive: false });
   return () => target.removeEventListener("wheel", wheel, true);
+}
+
+export function canConsumeVerticalScroll(
+  box:{readonly scrollTop:number;readonly scrollHeight:number;readonly clientHeight:number},delta:number,
+):boolean {
+  if (!Number.isFinite(delta) || !delta || box.scrollHeight <= box.clientHeight + 1) return false;
+  return delta > 0 ? box.scrollTop + box.clientHeight < box.scrollHeight - 1 : box.scrollTop > 1;
 }
 
 export function isStageLockedSlide(slide: Element | null | undefined): boolean {

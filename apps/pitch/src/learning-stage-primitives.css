@@ -284,6 +284,100 @@
 }
 
 /* Formula + diagram ------------------------------------------------------- */
+/* A chart is flex-sized inside its allocated evidence cell. Its controls and
+   caption reserve space; a projection-sized SVG minimum must not crop the axis. */
+.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure {
+  display:flex;flex-direction:column;min-height:0;height:100%;box-sizing:border-box;
+}
+.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > .d3-chart-svg {
+  flex:1 1 0;min-height:0;height:0;max-height:100%;width:100%;
+}
+.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > :not(.d3-chart-svg) {
+  flex:none;
+}
+.reveal .slides section[data-composition-profile="info-visual"] .d3-histogram-figure > :is(figcaption,.histogram-readout) {
+  font:500 20px/1.3 Arial,Helvetica,sans-serif;
+}
+/* An illustration must fit the allocated info-visual column, including tall
+   authored diagrams. Intrinsic image height must not extend below the slide. */
+.reveal .slides section[data-composition-profile="info-visual"] > [data-composition-region-container="secondary"]:has(> .media-reference) {
+  display: grid;
+  min-height: 0;
+}
+.reveal .slides section[data-composition-profile="info-visual"] > [data-composition-region-container="secondary"] > .media-reference {
+  margin: 0;
+  min-height: 0;
+  height: 100%;
+}
+.reveal .slides section[data-composition-profile="info-visual"] > [data-composition-region-container="secondary"] > .media-reference img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+/* One visual alongside one complete, authored formula/legend unit. */
+.reveal .slides section[data-composition-profile="visual-formula"] {
+  display: grid !important; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+  grid-template-rows: auto minmax(0,1fr); gap: 1rem 1.5rem; padding: 1.3rem 1.8rem !important;
+}
+/* Keep complete formula units clear of the shared bottom navigation band. */
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="visual-formula"] { padding-bottom: 3rem !important; }
+.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region="heading"] { grid-column: 1 / -1; margin: 0; font-size: 2.45em; line-height: 1; text-wrap: balance; }
+.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container] { min-width: 0; min-height: 0; align-self: center; }
+.reveal .slides section[data-composition-profile="visual-formula"] [data-component-kind="visual"] { min-height: 0; height: auto; width: 100%; }
+.reveal .slides section[data-composition-profile="visual-formula"] [data-interactive-surface] { --pcd-interactive-font-min: 22px; }
+.reveal .slides section[data-composition-profile="visual-formula"] .formula-with-legend { min-width: 0; font-size: .9em; }
+.reveal .slides section[data-composition-profile="visual-formula"] .math-display { margin: 0; padding: .5rem; font-size: 1em; }
+.reveal .slides section[data-composition-profile="visual-formula"] .math-expression-label { font-size: .7em; }
+.reveal .slides section[data-composition-profile="visual-formula"] .d3-chart-svg { min-height: 0; }
+/* Panoramic illustrations carry their meaning horizontally. Use the full row
+   above the equation rather than shrinking their labels into a half column. */
+.reveal .slides section[data-composition-profile="visual-formula"]:has(.media-reference[data-media-aspect="panoramic"]) {
+  grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;align-content:start;
+}
+.reveal .slides section[data-composition-profile="visual-formula"]:has(.media-reference[data-media-aspect="panoramic"]) > [data-composition-region-container="primary"] { grid-column:1;grid-row:2; }
+.reveal .slides section[data-composition-profile="visual-formula"]:has(.media-reference[data-media-aspect="panoramic"]) > [data-composition-region-container="secondary"] { grid-column:1;grid-row:3; }
+.reveal .slides section[data-composition-profile="visual-formula"] .media-reference[data-media-aspect="panoramic"] { width:100%;height:auto;margin:0; }
+.reveal .slides section[data-composition-profile="visual-formula"] .media-reference[data-media-aspect="panoramic"] :is(img,svg.teaching-svg) { width:100%;height:auto;max-height:23rem;object-fit:contain; }
+.reveal .slides section[data-composition-profile="visual-formula"]:has(.media-reference[data-media-aspect="panoramic"]) .katex-display { margin:.25em 0; }
+/* Multi-step processes need a full-width reading line. A half-width flow next
+   to mathematics otherwise squeezes words and can paint over the formula. */
+.reveal .slides section[data-composition-profile="visual-formula"]:has([data-diagram-type="flow"]) {
+  grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;align-content:start;
+}
+.reveal .slides section[data-composition-profile="visual-formula"]:has([data-diagram-type="flow"]) > [data-composition-region-container="primary"] {
+  grid-column:1;grid-row:2;align-self:start;
+}
+.reveal .slides section[data-composition-profile="visual-formula"]:has([data-diagram-type="flow"]) > [data-composition-region-container="secondary"] {
+  grid-column:1;grid-row:3;align-self:start;
+}
+.reveal .slides section[data-composition-profile="visual-formula"] [data-component-kind="visual"][data-diagram-type="flow"] {
+  height:24rem;min-height:0;max-width:100%;padding:0;margin:0;
+}
+.reveal .slides section[data-composition-profile="visual-formula"] [data-diagram-type="flow"] :is(.d3-flow-runtime,.d3-flow-figure,.d3-flow-svg) {
+  width:100%;height:100%;min-height:0;max-height:100%;margin:0;
+}
+/* A visible data question shares the visual column. Reserve room for it rather
+   than allowing the chart's intrinsic aspect ratio to push it into the footer. */
+.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container="primary"]:has(> .definition-list:not([data-symbol-legend="true"])) [data-chart-block-id] .d3-chart-svg {
+  max-height: 24rem;
+}
+.reveal .slides section[data-composition-profile="visual-formula"]:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"]):not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="true"])) { grid-template-columns: minmax(0,1fr); }
+.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container="secondary"]:has([data-presentation-disclosure-visible="false"]):not(:has([data-presentation-disclosure-visible="true"])) { display: none; }
+@media screen and (max-width: 700px) {
+  .reveal .slides section[data-composition-profile="visual-formula"] { grid-template-columns: minmax(0,1fr); grid-template-rows: auto auto minmax(0,1fr); }
+  .reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container] { align-self: start; }
+  .reveal .slides section[data-composition-profile="visual-formula"] [data-interactive-surface] { --pcd-interactive-font-min: 16px; }
+  .reveal .slides section[data-composition-profile="visual-formula"]:has([data-composition-region-container="secondary"] .formula-with-legend):not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) [data-interactive-detail] { display: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"] .formula-with-legend { font-size: 1.1em; }
+  /* A full formula/legend unit takes priority on narrow screens. Preserve the
+     authored chart summary rather than squeezing a projection chart above it. */
+  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) [data-chart-block-id] { height: auto; padding: .35rem; border: 0; background: none; box-shadow: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id] .d3-chart-figure { height: auto; }
+  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) [data-chart-block-id] svg { display: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id]::before,
+  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id]::after { display: none; }
+}
 .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"])[data-composition-profile="formula-visual"] {
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: .7rem;
@@ -369,7 +463,7 @@
   [data-component-kind="media"] { width: 100%; min-width: 0; margin: 0; }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="visual-media"]
   [data-component-kind="media"] img { display: block; width: 100%; max-height: 14rem; object-fit: contain; }
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="visual-media"] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr);
@@ -544,7 +638,7 @@
   line-height: 1.16;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="prompt-code"], [data-composition-profile="info-code"], [data-composition-profile="info-visual"], [data-composition-profile="formula-visual"], [data-composition-profile="single-prompt"], [data-composition-profile="prompt-grid"]) {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto auto !important;
@@ -948,7 +1042,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   color: #fff1d8;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"]:is([data-composition-profile="visual-dual-reference"], [data-composition-profile="list-code-reference"]) {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto auto !important;

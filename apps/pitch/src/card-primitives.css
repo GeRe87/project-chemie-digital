@@ -281,6 +281,7 @@
 }
 
 .reveal .definition-list-visual-motif[data-visual-motif-role="highlight"] {
+  order: -1;
   width: clamp(4.4rem, 10vw, 6.6rem);
   height: clamp(4.4rem, 10vw, 6.6rem);
   margin: .12rem auto .45rem;
@@ -377,7 +378,7 @@ body[data-presentation-theme="dark"] .reveal
     4px 4px 0 rgb(0 0 0 / .24);
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="definition-deck"] {
     max-height: 100%;
     overflow-y: auto;
@@ -471,7 +472,7 @@ body[data-presentation-theme="dark"] .reveal
   font-size: .82em;
   line-height: 1.35;
 }
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
     [data-component-kind="card-collection"][data-composition-region="main"] {
     grid-template-columns: 1fr;

@@ -1,0 +1,32 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/ontology/scientific-experiments> {
+ cd:LearningDomain cdm:definesControlledValue cd:ScientificExperiment ; cdm:definesConcept cd:ExperimentParameter ; cdm:definesRelation cd:hasExperimentParameter ; cdm:definesAttribute cd:experimentKind, cd:parameterKey, cd:parameterMinimum, cd:parameterMaximum, cd:parameterStep, cd:adjustableParameter, cd:alternativeValue .
+ cd:ScientificExperiment a cdm:ControlledValue ; rdfs:label "Scientific model experiment"@en .
+ cd:ExperimentParameter a rdfs:Class, cdm:ConceptDescriptor .
+ cd:hasExperimentParameter a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:ExperimentParameter .
+ cd:experimentKind a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
+ cd:parameterKey a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ExperimentParameter ; rdfs:range xsd:string .
+ cd:parameterMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ExperimentParameter ; rdfs:range xsd:decimal .
+ cd:parameterMaximum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ExperimentParameter ; rdfs:range xsd:decimal .
+ cd:parameterStep a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ExperimentParameter ; rdfs:range xsd:decimal .
+ cd:adjustableParameter a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ExperimentParameter ; rdfs:range xsd:boolean .
+ cd:alternativeValue a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:Observation ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/scientific-experiments> {
+ cd:ScientificExperimentShape a sh:NodeShape ; sh:targetSubjectsOf cd:experimentKind ;
+  sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ;
+  sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" ) ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 1 ; sh:class cd:ExperimentParameter ; sh:nodeKind sh:IRI ] .
+ cd:ExperimentParameterShape a sh:NodeShape ; sh:targetClass cd:ExperimentParameter ;
+  sh:property [ sh:path cd:parameterKey ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:parameterMaximum ] ;
+  sh:property [ sh:path cd:parameterMinimum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:numericValue ] ;
+  sh:property [ sh:path cd:parameterMaximum ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path cd:parameterStep ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path cd:adjustableParameter ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+}

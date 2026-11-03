@@ -7,6 +7,8 @@ export * from "./scene-graph-view-contracts.ts";
 export * from "./scene-graph-projector.ts";
 export * from "./canonical-runtime.ts";
 export * from "./empirical-distribution.ts";
+export * from "./binary-experiment.ts";
+export * from "./binomial.ts";
 export * from "./observation-explorer.ts";
 export * from "./summary-comparison.ts";
 export * from "./box-plot.ts";

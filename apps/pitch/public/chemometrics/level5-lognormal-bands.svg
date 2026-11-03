@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+<title id="title">Lognormal model ranges are multiplicative</title><desc id="desc">A logarithmic diameter axis shows intervals symmetric about central diameter 2 micrometres. One log SD: 0.9447 to 4.2340; two: 0.4463 to 8.9634; three: 0.2108 to 18.9755 micrometres. Coverages 68.27, 95.45 and 99.73 percent.</desc>
+<style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.axis{stroke:#294f60;stroke-width:3}.band{stroke:#007c91;stroke-width:12;stroke-linecap:round}.guide{stroke:#819ca6;stroke-width:2;stroke-dasharray:5 5}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.axis{stroke:#c0dbe5}.band{stroke:#7bd9e3}.guide{stroke:#93b6c2}}</style>
+<rect class="bg" width="760" height="520" rx="18"/>
+<g class="ink" text-anchor="middle" font-size="28"><text x="380" y="38">Central diameter: 2 µm</text><text x="380" y="75">Geometric SD factor: 2.117</text></g>
+<path class="guide" d="M380 92V400"/>
+<g class="band"><path d="M280 165H480"/><path d="M180 265H580" opacity=".75"/><path d="M80 365H680" opacity=".5"/></g>
+<g class="ink" font-size="26" text-anchor="middle"><text x="380" y="145">1 log SD: 0.9447 to 4.2340 µm | 68.27%</text><text x="380" y="245">2 log SDs: 0.4463 to 8.9634 µm | 95.45%</text><text x="380" y="345">3 log SDs: 0.2108 to 18.9755 µm | 99.73%</text></g>
+<path class="axis" d="M65 405H695M80 399V412M180 399V412M280 399V412M380 399V412M480 399V412M580 399V412M680 399V412"/>
+<g class="ink" font-size="23" text-anchor="middle"><text x="80" y="440">0.211</text><text x="180" y="440">0.446</text><text x="280" y="440">0.945</text><text x="380" y="440">2.000</text><text x="480" y="440">4.234</text><text x="580" y="440">8.963</text><text x="680" y="440">18.975</text><text x="380" y="479">Diameter (µm), logarithmic axis</text><text x="380" y="510">Individual model ranges, not confidence intervals</text></g>
+</svg>

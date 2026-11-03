@@ -23,7 +23,16 @@ def bins(values, edges, normalization="count"):
         raise ValueError("Unequal bin widths require density heights")
     counts=[0]*(len(edges)-1)
     for value in values:counts[bin_index(value,edges)]+=1
-    result=[dict(lower=a,upper=b,count=c,height=c if normalization=="count" else c/len(values)/(b-a),relativeFrequency=c/len(values)) for a,b,c in zip(edges,edges[1:],counts)]
+    return bins_from_counts(counts,edges,normalization)
+
+def bins_from_counts(counts,edges,normalization="count"):
+    edges_valid(edges)
+    if len(counts)!=len(edges)-1 or any(type(c) is not int or not 0<=c<=9007199254740991 for c in counts) or not 0<sum(counts)<=9007199254740991:
+        raise ValueError("Published counts require nonnegative safe integers, positive total and one count per bin")
+    if normalization not in ("count","density") or (normalization=="count" and not equal_width(edges)):
+        raise ValueError("Invalid bin normalization; unequal bins require density")
+    n=sum(counts)
+    result=[dict(lower=a,upper=b,count=c,height=c if normalization=="count" else c/n/(b-a),relativeFrequency=c/n) for a,b,c in zip(edges,edges[1:],counts)]
     if any(not math.isfinite(b["height"]) for b in result):raise ValueError("Nonfinite histogram height")
     return result
 

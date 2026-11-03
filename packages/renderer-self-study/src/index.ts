@@ -1,6 +1,9 @@
 import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
+import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
+import {SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION} from "../../core/src/scene-document.ts";
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import {experimentFallback} from '../../core/src/distribution-experiment.ts';
 import { observationExplorerFallback } from "../../core/src/observation-explorer.ts";
 import {empiricalMoments} from "../../core/src/moments.ts";
 import { renderDerivationDetail } from "../../renderer-reveal/src/mathematical-derivation.ts";
@@ -113,6 +116,7 @@ export interface SelfStudyDefinitionListEntryPlan {
   readonly expression?: string;
   readonly symbol?: boolean;
   readonly description?: string;
+  readonly explanation?: string;
   readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
@@ -232,7 +236,7 @@ export interface SelfStudyDotChartPlan extends SelfStudyNodeBase {
 }
 export interface SelfStudyScientificChartPlan extends SelfStudyNodeBase {
   readonly kind:"chart";
-  readonly chartType:"box"|"histogram"|"histogram2d"|"observations";
+  readonly chartType:"box"|"histogram"|"histogram2d"|"observations"|"experiment";
   readonly payload:Exclude<ChartBlock,{chartType:"bar"|"line"|"dot"}>;
 }
 export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan | SelfStudyDotChartPlan | SelfStudyScientificChartPlan;
@@ -325,6 +329,7 @@ export interface SelfStudySectionPlan {
   readonly sourceSceneId: string;
   readonly source: readonly SourceReference[];
   readonly semanticLabel: string;
+  readonly topic?: SceneDocument["scenes"][number]["topic"];
   readonly narration?: string;
   readonly accessibility?: AccessibilityMetadata;
   readonly nodes: readonly SelfStudyNodePlan[];
@@ -396,6 +401,7 @@ function orderedBlocks(blocks: readonly SceneBlock[], readingOrder: readonly str
 }
 
 function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  if(block.binaryExperiment)return binaryDiagramFallback(block);
   if (block.diagramType === "sequence") {
     const roleLabels = new Map((block.participantRoles ?? []).map((role) => [role.id, role.label]));
     const messageLabels = new Map((block.messages ?? []).map((message) => [message.id, message.label]));
@@ -439,6 +445,7 @@ function chartAxisLabel(axis: { readonly label: string; readonly unit?: string }
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if(block.chartType==='experiment')return experimentFallback(block);
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
   if(block.chartType==="box")return boxPlotStaticFallback(block);
   if(block.chartType==="dot")return dotPlotStaticFallback(block);
@@ -520,6 +527,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
           ...(entry.expression ? { expression: entry.expression } : {}),
           ...(entry.symbol !== undefined ? { symbol: entry.symbol } : {}),
           ...(entry.description ? { description: entry.description } : {}),
+          ...(entry.explanation ? { explanation: entry.explanation } : {}),
           ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
           ...(entry.visualMotifRole ? { visualMotifRole: entry.visualMotifRole } : {}),
           source: sourceCopy(entry.source),
@@ -575,7 +583,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "chart":
-      if(["histogram","histogram2d","box","observations"].includes(block.chartType))return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block} as SelfStudyScientificChartPlan;
+      if(["experiment","histogram","histogram2d","box","observations"].includes(block.chartType))return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block} as SelfStudyScientificChartPlan;
       if (block.chartType === "dot") return { ...baseFor(block,position,dotPlotStaticFallback(block)),kind:"chart",chartType:"dot",payload:block };
       if (block.chartType === "bar") {
         return {
@@ -650,7 +658,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         kind: "diagram",
         diagramType: block.diagramType,
         label: block.label,
-        description: block.description,
+        description: block.binaryExperiment?binaryDiagramFallback(block):block.description,
         nodes: block.nodes.map((node) => ({
           id: node.id,
           label: node.label,
@@ -698,7 +706,7 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 }
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
-  const version = (document as { version?: unknown }).version;
+  const version = document.version===SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION||document.version==='1.14'?SCENE_DOCUMENT_MOMENT_VERSION:(document as { version?: unknown }).version;
   if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
@@ -719,6 +727,7 @@ export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPla
         sourceSceneId: scene.id,
         source: sourceCopy(scene.source),
         semanticLabel: scene.accessibility?.label ?? scene.id,
+        ...(scene.topic ? { topic: scene.topic } : {}),
         ...(scene.narration ? { narration: scene.narration } : {}),
         ...(scene.accessibility ? { accessibility: { ...scene.accessibility } } : {}),
         nodes: orderedBlocks(scene.blocks, scene.readingOrder).map((block, index) => mapBlock(block, index)),
@@ -789,7 +798,7 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
 }
 
 function renderChart(node: SelfStudyChartPlan): string {
-  if(node.chartType==="box"||node.chartType==="histogram"||node.chartType==="histogram2d"||node.chartType==="observations"){
+  if(node.chartType==="experiment"||node.chartType==="box"||node.chartType==="histogram"||node.chartType==="histogram2d"||node.chartType==="observations"){
     const p=node.payload;
     let table="";
     if(p.chartType==="observations"&&p.view==="moments"){
@@ -864,7 +873,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
       return `<${tag} class="self-study-list">${items}</${tag}>`;
     }
     case "definition-list": {
-      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
+      const entries = node.entries.map((entry) => `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entry.explanation ? `<dd class="self-study-symbol-explanation">${renderStudyInline(entry.explanation)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
     }
     case "table": {
@@ -923,7 +932,8 @@ export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readon
     const narrative=options.narrative&&section.narration;
     const prose=narrative?`<div class="self-study-narration">${section.narration!.split(/\n\s*\n/u).map(p=>`<p>${renderStudyInline(p)}</p>`).join("")}</div>`:"";
     const nodes=narrative?section.nodes.filter(n=>!["list","prompt","prose"].includes(n.kind)&&(n.kind!=="definition-list"||n.emphasis==="supporting")):section.nodes;
-    return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}><h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive)}</section>`;
+    const topic = section.topic ? `<p class="self-study-topic"${sourceAttributes(section.topic.source)}>Topic: ${escapeHtml(section.topic.label)}</p>` : "";
+    return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}>${topic}<h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive)}</section>`;
   }).join("");
   return `${navigation}${sections}`;
 }

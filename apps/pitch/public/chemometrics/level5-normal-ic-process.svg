@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 270" role="img" aria-labelledby="title desc">
+<title id="title">Repeated nitrate measurements from one homogeneous control by ion chromatography</title>
+<desc id="desc">One homogeneous nitrate control is repeatedly injected into an ion-chromatography column. The detector produces a signal and the method reports a concentration result. Injection, flow, temperature and electronic fluctuations can contribute small random deviations. The same control does not imply identical results, normality or absence of bias.</desc>
+<style>text{font-family:system-ui,sans-serif;fill:#17354b;font-size:22px}.line{stroke:#086a91;stroke-width:3;fill:none}.fill{fill:#1689ab;fill-opacity:.18}.small{font-size:19px}@media(prefers-color-scheme:dark){text{fill:#e5f1fa}.line{stroke:#69ceef}.fill{fill:#69ceef}}</style>
+<g class="line"><path d="M55 75h55v42l30 68q4 12-9 12H34q-13 0-9-12l30-68Z"/><path class="fill" d="M44 153h77l17 38H28Z"/>
+<path d="M146 140h54m-10-7 10 7-10 7"/><rect x="210" y="107" width="105" height="65" rx="5"/><path d="M230 87v20m-13-20h26M233 105l18 25"/>
+<path d="M320 140h57m-10-7 10 7-10 7"/><rect x="387" y="112" width="145" height="54" rx="20"/><path d="M405 122v34m18-34v34m18-34v34m18-34v34m18-34v34m18-34v34m18-34v34"/>
+<path d="M538 140h57m-10-7 10 7-10 7"/><rect x="605" y="95" width="100" height="90" rx="5"/><path d="M620 158h15l9-35 10 35h10l11-49 12 49h6"/>
+<path d="M710 140h40m-10-7 10 7-10 7"/><rect x="760" y="110" width="95" height="60" rx="5"/></g>
+<text x="28" y="47">Same control</text><text class="small" x="215" y="215">Injection</text><text class="small" x="395" y="215">IC column</text><text class="small" x="610" y="215">Detector</text><text class="small" x="766" y="145">Result</text>
+<text class="small" x="28" y="254">Repeat the process: injection, flow, temperature and electronics can affect the reported value.</text>
+</svg>

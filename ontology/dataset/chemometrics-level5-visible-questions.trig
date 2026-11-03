@@ -1,0 +1,46 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-visible-questions> {
+  ex:l5-topic-tests a skos:Concept ; skos:prefLabel "Model checking · Q-Q, KS and Pearson"@en ; cd:authoredResource true .
+  ex:rev-normal-q a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-normal-q1 ; cd:authoredResource true .
+  ex:rev-normal-q1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What quantity does this normal curve describe"@en ; cd:body "One analytical result under stable additive variation. Mean 10.0 and SD 0.30 mg/L specify a candidate model, not a fit established by five observations. Areas answer questions about individual results."@en ; cd:authoredResource true .
+  ex:rev-normal-p a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-normal-p1 ; cd:authoredResource true .
+  ex:rev-normal-p1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "How often does an in-control result trigger review"@en ; cd:body "Keep mean 10.0 and SD 0.30 mg/L. An illustrative upper review flag at 10.45 mg/L leaves 6.68% above it. This is a model flag rate, not the probability that a flag proves failure."@en ; cd:authoredResource true .
+  ex:rev-normal-i a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-normal-i1 ; cd:authoredResource true .
+  ex:rev-normal-i1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Which review threshold leaves only 5% above it"@en ; cd:body "Invert the same control model at cumulative probability 0.95. The answer is a concentration threshold, not a confidence interval or a safety limit."@en ; cd:authoredResource true .
+  ex:rev-z-q a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-z-q1 ; cd:authoredResource true .
+  ex:rev-z-q1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "How far is this result from the mean in SD units"@en ; cd:body "10.30 mg/L is one SD above 10.00 when SD is 0.30 mg/L. Standardization changes coordinates, not model probabilities; it does not make arbitrary data normal."@en ; cd:authoredResource true .
+  ex:rev-sigma-q a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-sigma-q1 ; cd:authoredResource true .
+  ex:rev-sigma-q1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What range of individual control results should a report describe"@en ; cd:body "Choose one, two or three SDs around the specified normal mean. Their coverage is 68.27%, 95.45% or 99.73%. These are individual model ranges, not confidence intervals for the mean."@en ; cd:authoredResource true .
+  ex:rev-log-q a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-log-q1 ; cd:authoredResource true .
+  ex:rev-log-q1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Why use a log scale for these particle diameters"@en ; cd:body "Relative growth multiplies positive diameters. Log ratios add those effects. A suitable normal log-size model gives a lognormal diameter; positivity alone is not enough."@en ; cd:authoredResource true .
+  ex:rev-log-p a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-log-p1 ; cd:authoredResource true .
+  ex:rev-log-p1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What fraction of particles exceed 5 µm"@en ; cd:body "Under the same number-weighted size model, transform the threshold to the normal log scale. The full upper tail gives 11.09%, not the probability that the mean diameter exceeds five."@en ; cd:authoredResource true .
+  ex:rev-log-r a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-log-r1 ; cd:authoredResource true .
+  ex:rev-log-r1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What replaces an additive plus-or-minus SD range"@en ; cd:body "Use symmetric bands on the log scale, then back-transform: divide and multiply the central diameter by a geometric SD factor. Original-scale bounds are asymmetric."@en ; cd:authoredResource true .
+  ex:rev-log-i a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rev-log-i1 ; cd:authoredResource true .
+  ex:rev-log-i1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Which diameter range contains the central 95% of the model"@en ; cd:body "Choose lower and upper tail probabilities 0.025 and 0.975 and invert the same model. This is an individual-size range, not uncertainty in an estimated mean or median."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-visible-questions> {
+  ex:al-normal-model cd:hasSceneItem ex:rev-normal-model-q .
+  ex:rev-normal-model-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-normal-q ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-normal-probability cd:hasSceneItem ex:rev-normal-prob-q .
+  ex:rev-normal-prob-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-normal-p ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-normal-inverse cd:hasSceneItem ex:rev-normal-inv-q .
+  ex:rev-normal-inv-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-normal-i ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-standardization cd:hasSceneItem ex:rev-standard-q .
+  ex:rev-standard-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-z-q ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:dep-sigma cd:hasSceneItem ex:rev-sigma-scene-q .
+  ex:rev-sigma-scene-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-sigma-q ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:dep-log-model cd:hasSceneItem ex:rev-log-model-q .
+  ex:rev-log-model-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-log-q ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:dep-log-threshold cd:hasSceneItem ex:rev-log-prob-q .
+  ex:rev-log-prob-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-log-p ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:dep-log-ranges cd:hasSceneItem ex:rev-log-range-q .
+  ex:rev-log-range-q a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rev-log-r ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:dep-log-reporting cd:hasSceneItem ex:rev-log-report-q .
+  ex:rev-log-report-q a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rev-log-i ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}

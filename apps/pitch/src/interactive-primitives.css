@@ -1,0 +1,8 @@
+/* Shared controls and typography for interactive scientific views, not slide identities. */
+.pcd-interactive { font-size: clamp(var(--pcd-interactive-font-min, 16px), var(--pcd-interactive-font-size, 1.7vw), 28px); line-height: 1.4; }
+[data-interactive-surface="true"] { container-type: inline-size; --pcd-interactive-font-size: 2.05cqw; }
+.pcd-interactive button, .pcd-interactive input { font: inherit; }
+.pcd-interactive-controls { display: flex; flex-wrap: wrap; gap: .6em; align-items: center; }
+.pcd-interactive-controls button { border: 1px solid var(--pcd-border); padding: .4em .75em; background: var(--pcd-surface); color: var(--pcd-foreground); cursor: pointer; min-height: 44px; }
+.pcd-interactive-controls button:disabled { opacity: .4; cursor: default; }
+.pcd-interactive :focus-visible { outline: 3px solid var(--pcd-accent); outline-offset: 4px; }

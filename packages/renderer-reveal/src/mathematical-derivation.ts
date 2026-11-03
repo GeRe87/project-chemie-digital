@@ -30,10 +30,10 @@ export function renderMathematicalDerivation(section: MathematicalDerivationSect
       <span class="derivation-kind">${escape(step.kindLabel)}</span><span class="derivation-open-hint">Explain this step ↗</span></button>` : "";
     return formulaMarkup + operation;
   }).join("");
-  const legend = section.legend.map(entry => `<div><dt><span class="symbol-math">${render(entry.expression ?? entry.term)}</span>:</dt><dd>${escape(entry.description ?? "")}</dd></div>`).join("");
+  const legend = section.legend.map(entry => `<div><dt><span class="symbol-math">${render(entry.expression ?? entry.term)}</span>:</dt><dd>${escape(entry.description ?? "")}${entry.explanation ? `<div class="symbol-explanation">${escape(entry.explanation)}</div>` : ""}</dd></div>`).join("");
   const assumptions = [...new Map(section.steps.flatMap(step => step.assumptions).map(a => [a.id, a])).values()];
   const conditions = assumptions.length ? `<p class="derivation-assumptions">Assumptions: ${assumptions.map(a => `<span title="${escape(a.description)}">${escape(a.label)}</span>`).join(" · ")}</p>` : "";
-  return `<div class="derivation-work" data-derivation-layout="${layout}">${rows}</div><dl class="derivation-legend">${legend}</dl>${conditions}`;
+  return `<div class="derivation-work" data-derivation-layout="${layout}">${rows}</div><details class="symbol-legend-disclosure" data-presentation-interactive="true"><summary>Symbols</summary><dl class="derivation-legend">${legend}</dl></details>${conditions}`;
 }
 
 export function renderDerivationExplanation(step: DerivationStep, render: MathematicalMarkup): string {

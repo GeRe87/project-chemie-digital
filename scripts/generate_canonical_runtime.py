@@ -15,7 +15,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from rdflib import DCTERMS, RDF, SKOS, Dataset, Literal, URIRef
+from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Literal, URIRef
 
 from course_path_selection import (
     CoursePathReference,
@@ -24,7 +24,7 @@ from course_path_selection import (
 )
 from rdf_dataset import assemble_dataset, dataset_fingerprint
 from teaching_offering_runtime import project_teaching_offering_runtime_document
-from histogram_statistics import bins as histogram_bins, cells as histogram_cells
+from histogram_statistics import bins as histogram_bins, cells as histogram_cells, bins_from_counts as histogram_counts
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
@@ -381,6 +381,8 @@ def selected_label_reference(dataset: Dataset, resource: URIRef, language: str |
 
 def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     if is_resource_type(dataset, diagram, "SequenceDiagram"):
+        if objects(dataset, diagram, iri(CD, "hasBinaryExperiment")):
+            raise ValueError("Binary experiments require a FlowDiagram")
         return sequence_diagram_payload(dataset, diagram, language)
     diagram_type = "network" if is_resource_type(dataset, diagram, "NetworkDiagram") else "flow"
     node_records = [
@@ -517,6 +519,72 @@ def flow_diagram_payload(dataset: Dataset, diagram: URIRef, language: str) -> tu
         "edges": edges,
         **({"groups": groups} if groups else {}),
     }
+    experiment = one(dataset, diagram, iri(CD, "hasBinaryExperiment"), required=False)
+    if experiment is not None:
+        if diagram_type != "flow" or not isinstance(experiment, URIRef) or not is_resource_type(dataset, experiment, "BinaryExperiment") or objects(dataset, diagram, iri(CD, "hasDiagramState")):
+            raise ValueError("Binary experiments require an un-staged FlowDiagram and typed model")
+        mode = literal(dataset, experiment, iri(CD, "binaryExperimentMode"))
+        n = integer(dataset, experiment, iri(CD, "binaryTrialCount"))
+        seed_value = one(dataset, experiment, iri(CD, "binarySeed"))
+        if not isinstance(seed_value, Literal) or seed_value.datatype != XSD.integer:
+            raise ValueError("Binary seed must be an integer")
+        seed = int(seed_value)
+        p = decimal_number(dataset, experiment, iri(CD, "binaryPositiveProbability"))
+        if mode not in ("decision", "series", "sequence", "arrangements", "distribution", "zero", "assumptions") or not 1 <= n <= 100 or mode == "decision" and n != 1 or not 0 <= p <= 1 or not 0 <= seed <= 4294967295:
+            raise ValueError("Invalid binary experiment settings")
+        target = one(dataset, experiment, iri(CD, "binaryTargetCount"), required=False)
+        if target is not None and (not isinstance(target, Literal) or target.datatype != XSD.integer or not 0 <= int(target) <= n):
+            raise ValueError("Invalid binary target count")
+        if mode in ("sequence", "arrangements", "distribution") and target is None or mode in ("sequence", "arrangements") and n > 20:
+            raise ValueError("Binary positioning modes need a bounded authored target count")
+        names = {key: selected_literal(dataset, experiment, iri(CD, predicate), "cd:" + predicate, language) for key, predicate in (
+            ("positiveLabel", "binaryPositiveLabel"), ("negativeLabel", "binaryNegativeLabel"), ("unitLabel", "binaryUnitLabel"), ("trialName", "binaryTrialName"))}
+        if names["positiveLabel"] == names["negativeLabel"] or any(not text.strip() for text in names.values()):
+            raise ValueError("Distinct authored outcome labels required")
+        payload["binaryExperiment"] = {"id": compact(experiment), "mode": mode, "trialCount": n, "positiveProbability": p, "seed": seed, **names,
+            "source": [source_reference(dataset, diagram, "cd:hasBinaryExperiment"), *[source_reference(dataset, experiment, "cd:" + predicate) for predicate in (
+                "binaryExperimentMode", "binaryTrialCount", "binaryPositiveProbability", "binarySeed", "binaryPositiveLabel", "binaryNegativeLabel", "binaryUnitLabel", "binaryTrialName")]]}
+        if target is not None:
+            payload["binaryExperiment"]["targetCount"] = int(target)
+            payload["binaryExperiment"]["source"].append(source_reference(dataset, experiment, "cd:binaryTargetCount"))
+        stage_resources = objects(dataset, experiment, iri(CD, "hasBinaryStage"))
+        if stage_resources:
+            positioned = sorted([(integer(dataset, stage, iri(CD, "position")), stage) for stage in stage_resources], key=lambda pair: pair[0])
+            if not 1 <= len(positioned) <= 30 or [pos for pos, _ in positioned] != list(range(1, len(positioned) + 1)):
+                raise ValueError("Binary lecture stages require unique contiguous positions and 1 to 30 stages")
+            stages = []
+            for _, stage in positioned:
+                if not is_resource_type(dataset, stage, "BinaryExperimentStage"):
+                    raise ValueError("Typed binary lecture stage required")
+                level_literal = one(dataset, stage, iri(CD, "binaryRevealLevel"))
+                if not isinstance(level_literal, Literal) or level_literal.datatype != XSD.integer:
+                    raise ValueError("Binary lecture reveal level must be an integer")
+                level = int(level_literal)
+                prompt = selected_literal(dataset, stage, iri(CD, "body"), "cd:body", language)
+                if not 0 <= level <= 3 or not prompt.strip():
+                    raise ValueError("Invalid binary lecture stage")
+                record = {"id": compact(stage), "prompt": prompt, "revealLevel": level,
+                          "source": [source_reference(dataset, experiment, "cd:hasBinaryStage"), source_reference(dataset, stage, "cd:body"), source_reference(dataset, stage, "cd:binaryRevealLevel"), source_reference(dataset, stage, "cd:position")]}
+                for key, predicate in (("trialCount", "binaryStageTrialCount"), ("positiveProbability", "binaryStagePositiveProbability"), ("arrangementIndex", "binaryArrangementIndex"), ("caseIndex", "binaryCaseIndex"), ("seriesRun", "binarySeriesRun")):
+                    value = one(dataset, stage, iri(CD, predicate), required=False)
+                    if value is not None:
+                        if not isinstance(value, Literal) or value.datatype != (XSD.decimal if key == "positiveProbability" else XSD.integer):
+                            raise ValueError("Invalid binary lecture snapshot datatype")
+                        record[key] = float(value) if key == "positiveProbability" else int(value)
+                        record["source"].append(source_reference(dataset, stage, "cd:" + predicate))
+                sn, sp = record.get("trialCount", n), record.get("positiveProbability", p)
+                if not 1 <= sn <= 100 or not 0 <= sp <= 1 or mode != "distribution" and (sn != n or sp != p):
+                    raise ValueError("Invalid binary lecture parameters")
+                if "arrangementIndex" in record:
+                    import math
+                    if mode != "arrangements" or not 0 <= record["arrangementIndex"] < math.comb(n, int(target)):
+                        raise ValueError("Invalid binary lecture arrangement")
+                if "caseIndex" in record and (mode != "assumptions" or not 0 <= record["caseIndex"] < len([node for node in nodes if node.get("visualRole") == "case"])):
+                    raise ValueError("Invalid binary lecture case")
+                if "seriesRun" in record and (mode != "series" or not 0 <= record["seriesRun"] <= 20):
+                    raise ValueError("Invalid binary lecture series")
+                stages.append(record)
+            payload["binaryExperiment"]["stages"] = stages
     state_resources = [state for state in objects(dataset, diagram, iri(CD, "hasDiagramState")) if isinstance(state, URIRef)]
     positioned_states = [(state, integer(dataset, state, iri(CD, "position"))) for state in state_resources if objects(dataset, state, iri(CD, "position"))]
     if positioned_states:
@@ -1151,8 +1219,16 @@ def observation_explorer_payload(dataset: Dataset, chart: URIRef, language: str)
         if not minimum < min(values) <= max(values) < maximum or not minimum <= initial <= maximum or step <= 0:
             raise ValueError("Threshold domain must include both tails, a valid initial value and positive step")
         payload["threshold"] = {"minimum": minimum, "maximum": maximum, "initial": initial, "step": step}
+        lower_initial = one(dataset, chart, iri(CD, "lowerThresholdInitial"), required=False)
+        if lower_initial is not None:
+            lower = decimal_number(dataset, chart, iri(CD, "lowerThresholdInitial"))
+            if view != "ecdf" or not minimum <= lower <= initial:
+                raise ValueError("Lower threshold requires an ECDF and ordered initial thresholds")
+            payload["threshold"]["lowerInitial"] = lower
     elif any(objects(dataset, chart, iri(CD, p)) for p in threshold_predicates):
         raise ValueError("Only counting and ECDF views permit thresholds")
+    elif objects(dataset, chart, iri(CD, "lowerThresholdInitial")):
+        raise ValueError("Lower threshold belongs only to ECDF views")
     definition = one(dataset, chart, iri(CD, "formalDefinition"), required=False)
     expression = one(dataset, chart, iri(CD, "formalExpression"), required=False)
     if definition or expression:
@@ -1179,6 +1255,8 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
     unit=literal(dataset,data_id,iri(CD,"unit"))
     if not unit or literal(dataset,chart,iri(CD,"xAxisUnit"))!=unit:raise ValueError("Histogram dataset and numeric x-axis units must match")
     observations=objects(dataset,data_id,iri(CD,"hasObservation"))
+    counts_head=one(dataset,data_id,iri(CD,"binCounts"),required=False)
+    if counts_head is not None and (two_dimensional or observations):raise ValueError("Published counts require a 1D histogram without raw observations")
     if any(not isinstance(o,URIRef) or not is_resource_type(dataset,o,"Observation") for o in observations):raise ValueError("Histogram requires canonical observations")
     observations.sort(key=lambda o:integer(dataset,o,iri(CD,"position")))
     if [integer(dataset,o,iri(CD,"position")) for o in observations] != list(range(1,len(observations)+1)):raise ValueError("Histogram positions must be contiguous")
@@ -1189,6 +1267,52 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
         "data":[{"id":compact(o),"value":decimal_number(dataset,o,iri(CD,"numericValue")),"source":[source_reference(dataset,o,"cd:numericValue"),source_reference(dataset,data_id,"cd:hasObservation")]} for o in observations]}
     y_unit=literal(dataset,chart,iri(CD,"yAxisUnit"))
     if y_unit:payload["yAxis"]["unit"]=y_unit
+    def published_counts(head):
+        counts=[];seen=set();node=head
+        while node!=RDF.nil:
+            if node in seen or len(counts)>=512:raise ValueError("Invalid published count list")
+            seen.add(node);value=one(dataset,node,RDF.first)
+            if not isinstance(value,Literal) or value.datatype!=XSD.integer:raise ValueError("Published counts must be integers")
+            counts.append(int(value));node=one(dataset,node,RDF.rest)
+        histogram_counts(counts,payload["edges"],literal(dataset,chart,iri(CD,"histogramNormalization")))
+        return counts
+    if counts_head is not None:
+        payload["binCounts"]=published_counts(counts_head)
+    state_ids=objects(dataset,chart,iri(CD,"hasHistogramState"))
+    if state_ids:
+        if two_dimensional or counts_head is None or observations:
+            raise ValueError("Histogram states require published counts on one fixed 1D grid")
+        state_ids.sort(key=lambda s:integer(dataset,s,iri(CD,"position")))
+        if not 2<=len(state_ids)<=20 or [integer(dataset,s,iri(CD,"position")) for s in state_ids]!=list(range(1,len(state_ids)+1)):
+            raise ValueError("Histogram state positions must be contiguous, with 2–20 states")
+        states=[]
+        for state in state_ids:
+            if not isinstance(state,URIRef) or not is_resource_type(dataset,state,"HistogramState"):
+                raise ValueError("Histogram state must be a canonical resource")
+            state_data=one(dataset,state,iri(CD,"usesDataset"))
+            if not isinstance(state_data,URIRef) or not is_resource_type(dataset,state_data,"Dataset") or literal(dataset,state_data,iri(CD,"unit"))!=unit or objects(dataset,state_data,iri(CD,"hasObservation")):
+                raise ValueError("Histogram state datasets require matching units and published counts only")
+            states.append({"id":compact(state),"label":selected_literal(dataset,state,SKOS.prefLabel,"skos:prefLabel",language),
+                "description":selected_literal(dataset,state,iri(CD,"body"),"cd:body",language),
+                "binCounts":published_counts(one(dataset,state_data,iri(CD,"binCounts"))),
+                "source":[source_reference(dataset,chart,"cd:hasHistogramState"),source_reference(dataset,state,"cd:usesDataset"),source_reference(dataset,state_data,"cd:binCounts")]})
+        if states[0]["binCounts"]!=payload["binCounts"]:
+            raise ValueError("First histogram state must match the saved default counts")
+        payload["states"]=states
+    curve_ids = sorted(objects(dataset, chart, DCTERMS.hasPart), key=str)
+    if curve_ids:
+        if two_dimensional or literal(dataset,chart,iri(CD,"histogramNormalization")) != "density" or not y_unit:
+            raise ValueError("Histogram reference curves require a 1D density histogram with density units")
+        if any(not isinstance(c, URIRef) or not is_resource_type(dataset,c,"Dataset") or literal(dataset,c,iri(CD,"unit")) != unit for c in curve_ids):
+            raise ValueError("Histogram reference datasets must have matching measurement units")
+        curves = [line_series_payload(dataset,c,language) for c in curve_ids]
+        point_ids = {p["id"] for p in payload["data"]}
+        for curve in curves:
+            for point in curve["data"]:
+                if point["id"] in point_ids or point["y"] < 0 or not payload["edges"][0] <= point["x"] <= payload["edges"][-1]:
+                    raise ValueError("Invalid histogram reference coordinates or observation identities")
+                point_ids.add(point["id"])
+        payload["curves"] = curves
     if two_dimensional:
         if not y_unit or literal(dataset,data_id,iri(CD,"yMeasurementUnit"))!=y_unit:raise ValueError("2D histogram y units must match")
         payload["yEdges"]=edge_list("yBinEdges")
@@ -1197,8 +1321,9 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
         histogram_cells(payload["data"],payload["edges"],payload["yEdges"])
     else:
         payload["normalization"]=literal(dataset,chart,iri(CD,"histogramNormalization"))
-        histogram_bins([d["value"] for d in payload["data"]],payload["edges"],payload["normalization"])
+        if "binCounts" not in payload:histogram_bins([d["value"] for d in payload["data"]],payload["edges"],payload["normalization"])
         adjust=one(dataset,chart,iri(CD,"allowBinAdjustment"),required=False)
+        if counts_head is not None and adjust is not None:raise ValueError("Published bins cannot be interactively rebinned")
         if adjust is not None:
             if not isinstance(adjust,Literal) or adjust.toPython() is not True:raise ValueError("Bin adjustment requires explicit true")
             minimum,maximum,step=[decimal_number(dataset,chart,iri(CD,p)) for p in ("binWidthMinimum","binWidthMaximum","binWidthStep")]
@@ -1211,6 +1336,28 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
 
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type == iri(CD,"ScientificExperiment"):
+        kind=literal(dataset,chart,iri(CD,"experimentKind"))
+        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson"):raise ValueError("Unknown scientific experiment mechanism")
+        parameter_ids=sorted(objects(dataset,chart,iri(CD,"hasExperimentParameter")),key=lambda p:integer(dataset,p,iri(CD,"position")))
+        parameters=[]
+        for resource in parameter_ids:
+            if not is_resource_type(dataset,resource,"ExperimentParameter"):raise ValueError("Expected authored experiment parameter")
+            adjustable=one(dataset,resource,iri(CD,"adjustableParameter"))
+            if not isinstance(adjustable,Literal) or adjustable.datatype!=XSD.boolean:raise ValueError("Adjustability must be an authored boolean")
+            value,minimum,maximum,step=[decimal_number(dataset,resource,iri(CD,p)) for p in ("numericValue","parameterMinimum","parameterMaximum","parameterStep")]
+            if not minimum<=value<=maximum or step<=0:raise ValueError("Invalid experiment parameter bounds")
+            parameters.append({"id":compact(resource),"key":literal(dataset,resource,iri(CD,"parameterKey")),"label":selected_literal(dataset,resource,SKOS.prefLabel,"skos:prefLabel",language),"value":value,"minimum":minimum,"maximum":maximum,"step":step,"adjustable":adjustable.toPython(),"source":[source_reference(dataset,resource,"cd:numericValue"),source_reference(dataset,chart,"cd:hasExperimentParameter")]})
+        if not parameters or len({p["key"] for p in parameters})!=len(parameters):raise ValueError("Experiment parameter keys must be unique")
+        label,label_path=selected_label_reference(dataset,chart,language)
+        payload={"chartType":"experiment","experimentKind":kind,"label":label,"description":selected_literal(dataset,chart,iri(CD,"body"),"cd:body",language),"parameters":parameters,"xAxis":{"label":selected_literal(dataset,chart,iri(CD,"xAxisLabel"),"cd:xAxisLabel",language)},"yAxis":{"label":selected_literal(dataset,chart,iri(CD,"yAxisLabel"),"cd:yAxisLabel",language)}}
+        data=one(dataset,chart,iri(CD,"usesDataset"),required=False)
+        if data is not None:
+            rows=sorted(objects(dataset,data,iri(CD,"hasObservation")),key=lambda o:integer(dataset,o,iri(CD,"position")))
+            payload["data"]=[{"x":decimal_number(dataset,o,iri(CD,"numericValue")),"y":decimal_number(dataset,o,iri(CD,"pairedValue")),**({"z":decimal_number(dataset,o,iri(CD,"alternativeValue"))} if objects(dataset,o,iri(CD,"alternativeValue")) else {}),"label":selected_literal(dataset,o,SKOS.prefLabel,"skos:prefLabel",language),"source":[source_reference(dataset,o,"cd:numericValue"),source_reference(dataset,data,"cd:hasObservation")]} for o in rows]
+        return payload,label_path
+    if chart_type not in (iri(CD,"BarChart"),iri(CD,"LineChart")) and any(objects(dataset,chart,iri(CD,p)) for p in ("chartPresentation","lineInterpolation","showChartPoints","chartYMinimum","chartYMaximum")):
+        raise ValueError("Authored chart display options require a bar or line chart")
     if chart_type == iri(CD, "ObservationExplorer"):
         return observation_explorer_payload(dataset, chart, language)
     if chart_type == iri(CD, "DotPlot"):
@@ -1238,6 +1385,32 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
     live_update = live_chart_update_payload(dataset, chart)
     if live_update is not None:
         payload["liveUpdate"] = live_update
+    presentation = literal(dataset, chart, iri(CD, "chartPresentation"))
+    if presentation is not None:
+        if presentation not in ("progressive", "complete"):
+            raise ValueError("Invalid authored chart presentation")
+        payload["presentation"] = presentation
+    interpolation = literal(dataset, chart, iri(CD, "lineInterpolation"))
+    show_points = one(dataset, chart, iri(CD, "showChartPoints"), required=False)
+    lower = one(dataset, chart, iri(CD, "chartYMinimum"), required=False)
+    upper = one(dataset, chart, iri(CD, "chartYMaximum"), required=False)
+    if any(value is not None for value in (interpolation, show_points, lower, upper)) and payload["chartType"] != "line":
+        raise ValueError("Line display options require a line chart")
+    if interpolation is not None:
+        if interpolation not in ("linear", "step-after"):
+            raise ValueError("Invalid line interpolation")
+        payload["interpolation"] = interpolation
+    if show_points is not None:
+        if not isinstance(show_points, Literal) or show_points.datatype != XSD.boolean:
+            raise ValueError("showChartPoints must be boolean")
+        payload["showPoints"] = show_points.toPython()
+    if lower is not None or upper is not None:
+        if lower is None or upper is None:
+            raise ValueError("Authored line domain needs both bounds")
+        domain = [decimal_number(dataset, chart, iri(CD, field)) for field in ("chartYMinimum", "chartYMaximum")]
+        if domain[0] >= domain[1] or any(not domain[0] <= point["y"] <= domain[1] for series in payload["series"] for point in series["data"]):
+            raise ValueError("Invalid authored line y domain")
+        payload["yDomain"] = domain
     return payload, relation_path
 
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
@@ -1283,7 +1456,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13,"1.14":14}
     return required if versions[required] > versions[current] else current
 
 
@@ -1297,8 +1470,11 @@ def mathematical_symbol_entries(dataset: Dataset, symbols: set[URIRef], language
         description = selected_literal(dataset, symbol, iri(CD, predicate), f"cd:{predicate}", language)
         if not term or not description: raise ValueError(f"Symbol requires a name and a definition: {symbol}")
         notation = literal(dataset, symbol, iri(CD, "mathNotation")) or term
+        explanation = literal(dataset, symbol, iri(CD, "body"), language) if predicate == "presentationDefinition" else None
         result.append({"id": f"{compact(symbol)}--symbol-entry", "symbol": True, "expression": notation, "term": term, "description": description,
+                       **({"explanation": explanation} if explanation and explanation != description else {}),
                        "source": [source_reference(dataset, symbol, "cd:symbol"), source_reference(dataset, symbol, f"cd:{predicate}")]
+                       + ([source_reference(dataset, symbol, "cd:body")] if explanation and explanation != description else [])
                        + ([source_reference(dataset, symbol, "cd:mathNotation")] if objects(dataset, symbol, iri(CD, "mathNotation")) else [])})
     return result
 
@@ -1437,9 +1613,26 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
 
     document_version = "1.0"
     scenes: list[dict[str, Any]] = []
+    item_occurrences: dict[URIRef, int] = {}
+    for selected_item in selected_path_scene_items(dataset, selected_path):
+        item_occurrences[selected_item] = item_occurrences.get(selected_item, 0) + 1
     for step in steps:
         scene_id = one(dataset, step, iri(CD, "usesScene"))
         focus = one(dataset, scene_id, iri(CD, "focusConcept"))
+        topic = one(dataset, scene_id, DCTERMS.subject, required=False)
+        topic_payload = None
+        if topic is not None:
+            if not isinstance(topic, URIRef) or SKOS.Concept not in objects(dataset, topic, RDF.type) or one(dataset, topic, iri(CD, "authoredResource"), required=False) != Literal(True):
+                raise ValueError("Scene subject must be an authored SKOS concept")
+            topic_language = effective_path_language(dataset, selected_path)
+            topic_label = literal(dataset, topic, SKOS.prefLabel, topic_language)
+            topic_label_path = f"skos:prefLabel@{topic_language}"
+            if topic_label is None:
+                topic_label = deterministic_authored_literal(dataset, topic, SKOS.prefLabel)
+                topic_label_path = "skos:prefLabel"
+            if topic_label is None or not topic_label.strip() or len(topic_label) > 80:
+                raise ValueError("Scene topic label must contain 1 to 80 characters")
+            topic_payload = {"label": topic_label, "source": [source_reference(dataset, scene_id, "dct:subject"), source_reference(dataset, topic, topic_label_path)]}
         items = sorted(objects(dataset, scene_id, iri(CD, "hasSceneItem")), key=lambda item: (integer(dataset, item, iri(CD, "position")), str(item)))
         blocks: list[dict[str, Any]] = []
         selected_blocks: list[tuple[URIRef, dict[str, Any]]] = []
@@ -1449,7 +1642,10 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             role = local_name(one(dataset, item, iri(CD, "communicativeRole")))
             relation_path = literal(dataset, item, iri(CD, "selectionPath"))
             language = literal(dataset, item, iri(CD, "language"))
-            block_id = f"{compact(item)}--block"
+            # One authored item may occur in several scenes. Its projected
+            # occurrence needs its own DOM/runtime identity, not duplicate ids.
+            block_id = (f"{compact(scene_id)}--{compact(item)}--block"
+                        if item_occurrences[item] > 1 else f"{compact(item)}--block")
             selected_is_math_expression = is_resource_type(dataset, selected, "MathExpression")
             selected_is_attribution = is_resource_type(dataset, selected, "Attribution")
             selected_is_diagram = is_diagram_resource(dataset, selected)
@@ -1635,10 +1831,21 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     raise ValueError(f"ChartRole requires ChartDefinition in {compact(item)}")
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = chart_payload(dataset, selected, path_language)
+                if payload["chartType"]=="experiment":document_version=promote_document_version(document_version,"1.14")
                 block_sources = [source_reference(dataset, selected, relation_path)]
+                for predicate in ("chartPresentation", "lineInterpolation", "showChartPoints", "chartYMinimum", "chartYMaximum"):
+                    if one(dataset, selected, iri(CD, predicate), required=False) is not None:
+                        block_sources.append(source_reference(dataset, selected, "cd:" + predicate))
+                        document_version = promote_document_version(document_version, "1.13")
                 if payload["chartType"] in ("histogram","histogram2d"):
                     predicates=("cd:chartType","cd:usesDataset","cd:binEdges","cd:xAxisUnit")+(("cd:yBinEdges","cd:yAxisUnit") if payload["chartType"]=="histogram2d" else ("cd:histogramNormalization",))
                     block_sources.extend(source_reference(dataset,selected,p) for p in predicates)
+                    if "binCounts" in payload:
+                        block_sources.append(source_reference(dataset,one(dataset,selected,iri(CD,"usesDataset")),"cd:binCounts"))
+                        document_version=promote_document_version(document_version,"1.13")
+                    if payload.get("curves"):
+                        block_sources.append(source_reference(dataset,selected,"dct:hasPart"))
+                        document_version=promote_document_version(document_version,"1.13")
                 if payload["chartType"] == "box":
                     block_sources.extend(source_reference(dataset, selected, p) for p in ("cd:chartType", "cd:dependsOn", "cd:fenceMultiplier", "cd:yAxisUnit", "cd:hasChartGroup"))
                 if label_relation_path is not None and label_relation_path != relation_path:
@@ -1665,6 +1872,8 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     )
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = flow_diagram_payload(dataset, selected, path_language)
+                if payload.get("binaryExperiment"):
+                    document_version = promote_document_version(document_version, "1.13")
                 block_sources = [source_reference(dataset, selected, relation_path)]
                 if label_relation_path is not None and label_relation_path != relation_path:
                     block_sources.append(source_reference(dataset, selected, label_relation_path))
@@ -1834,6 +2043,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     block["derivationDetails"] = details
                     block["source"].append(source_reference(dataset, selected, "cd:hasDerivationDetail"))
                     document_version = promote_document_version(document_version, "1.7")
+            expansion_start = len(blocks)
             blocks.append(block)
             # A selected formula retains its explicitly authored definition parts.
             # This is semantic expansion, not a renderer-generated symbol glossary.
@@ -1894,6 +2104,24 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     document_version = promote_document_version(document_version, "1.4")
             if isinstance(selected, URIRef):
                 selected_blocks.append((selected, block))
+            reveal_stage = one(dataset, item, iri(CD, "revealAtStage"), required=False)
+            reveal_on = one(dataset, item, iri(CD, "revealOn"), required=False)
+            optional_code = one(dataset, item, iri(CD, "optionalCode"), required=False)
+            if optional_code is not None:
+                if not isinstance(optional_code, Literal) or optional_code.datatype != XSD.boolean or block["kind"] != "code":
+                    raise ValueError("Optional code requires a boolean on a code scene item")
+                if optional_code.toPython():
+                    if reveal_stage is not None or reveal_on is not None:
+                        raise ValueError("Optional code cannot also be a required reveal stage")
+                    for expanded in blocks[expansion_start:]:
+                        expanded["disclosure"] = {"order": 0, "mode": "optional"}
+                        expanded["source"].append(source_reference(dataset, item, "cd:optionalCode"))
+            if reveal_stage is not None or reveal_on is not None:
+                if not isinstance(reveal_stage, Literal) or reveal_stage.datatype != XSD.integer or not 1 <= int(reveal_stage) <= 10 or not isinstance(reveal_on, URIRef):
+                    raise ValueError("Authored reveal requires a positive stage and a flow resource")
+                for expanded in blocks[expansion_start:]:
+                    expanded["disclosure"] = {"order": 0, "mode": "progressive", "step": int(reveal_stage), "triggerResourceId": compact(reveal_on)}
+                    expanded["source"].extend([source_reference(dataset, item, "cd:revealAtStage"), source_reference(dataset, item, "cd:revealOn")])
 
         blocks_by_resource: dict[URIRef, list[dict[str, Any]]] = {}
         for resource, block in selected_blocks:
@@ -1946,6 +2174,20 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 }
 
         scene_compact = compact(scene_id)
+        explicit_reveals = [b for b in blocks if any(s.get("relationPath") == "cd:revealAtStage" for s in b["source"])]
+        if explicit_reveals:
+            diagram_sources = {compact(r) for r, b in selected_blocks if b["kind"] == "diagram" and b.get("binaryExperiment")}
+            for b in explicit_reveals:
+                if b["disclosure"]["triggerResourceId"] not in diagram_sources:
+                    raise ValueError("Authored reveal trigger must be a selected experiment in the same scene")
+                trigger = next(candidate for resource, candidate in selected_blocks if compact(resource) == b["disclosure"]["triggerResourceId"])
+                stages = trigger.get("binaryExperiment", {}).get("stages")
+                if stages and b["disclosure"]["step"] >= len(stages):
+                    raise ValueError("Authored reveal exceeds the lecture stage count")
+        if explicit_reveals or any(b.get("disclosure", {}).get("mode") == "optional" for b in blocks):
+            for i, b in enumerate(blocks):
+                if "disclosure" in b:
+                    b["disclosure"]["order"] = i
         first_block = blocks[0]
         accessibility_label = (
             first_block.get("text")
@@ -1956,6 +2198,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
         )
         scenes.append({
             "id": f"{scene_compact}--scene",
+            **({"topic": topic_payload} if topic_payload else {}),
             "source": [source_reference(dataset, scene_id), source_reference(dataset, focus)],
             "blocks": blocks,
             "readingOrder": [block["id"] for block in blocks],
@@ -1964,6 +2207,8 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 "source": [source_reference(dataset, scene_id), source_reference(dataset, focus), source_reference(dataset, scene_id, "cd:narration")]}
                if literal(dataset, scene_id, iri(CD, "narration"), language or "en") else {}),
         })
+    if any(scene.get("topic") for scene in scenes):
+        document_version = promote_document_version(document_version,"1.13")
     return {"version": document_version, "id": f"{compact(path)}--scene-document", "sourcePathId": compact(path), "scenes": scenes}
 
 
@@ -2196,6 +2441,7 @@ def definition_list_fallback_markup(block: dict[str, Any], *, scrollable: bool =
         f'<div data-definition-entry-id="{html.escape(entry["id"], quote=True)}"{fallback_attributes(entry["source"])}>'
         f'<dt>{html.escape(entry["term"])}</dt>'
         + (f'<dd>{html.escape(entry["description"])}</dd>' if entry.get("description") else "")
+        + (f'<dd>{html.escape(entry["explanation"])}</dd>' if entry.get("explanation") else "")
         + "</div>"
         for entry in block["entries"]
     )
@@ -2346,8 +2592,17 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                         extra += f'<details><summary>Definition and formula</summary><p>{html.escape(formal["definition"])}</p><pre>{html.escape(formal["expression"])}</pre></details>'
                     body = f'<ol>{rows}</ol>{extra}'
                 elif block["chartType"] in ("histogram","histogram2d"):
-                    records=histogram_cells(block["data"],block["edges"],block["yEdges"]) if block["chartType"]=="histogram2d" else histogram_bins([d["value"] for d in block["data"]],block["edges"],block["normalization"])
-                    body='<p>Bins are [lower, upper), with the final upper edge included. n='+str(len(block["data"]))+'</p><pre>'+html.escape(json.dumps(records,ensure_ascii=False,indent=2))+'</pre>'
+                    records=histogram_cells(block["data"],block["edges"],block["yEdges"]) if block["chartType"]=="histogram2d" else histogram_counts(block["binCounts"],block["edges"],block["normalization"]) if "binCounts" in block else histogram_bins([d["value"] for d in block["data"]],block["edges"],block["normalization"])
+                    body='<p>Bins are [lower, upper), with the final upper edge included. n='+str(sum(block["binCounts"]) if "binCounts" in block else len(block["data"]))+'</p><pre>'+html.escape(json.dumps(records,ensure_ascii=False,indent=2))+'</pre>'
+                    if "binCounts" in block:body+='<p>Published bin counts; original within-bin values are not reconstructed.</p>'
+                    for state in block.get("states", []):
+                        state_bins=histogram_counts(state["binCounts"],block["edges"],block["normalization"])
+                        body+='<h4>'+html.escape(state["label"])+'</h4><p>'+html.escape(state["description"])+f' n={sum(state["binCounts"])}.</p><pre>'+html.escape(json.dumps(state_bins,ensure_ascii=False,indent=2))+'</pre>'
+                    for curve in block.get("curves", []):
+                        body += f'<p{fallback_attributes(curve["source"])}>Reference curve: {html.escape(curve["label"])}. Coordinates are not sample observations.</p><ol>'
+                        body += ''.join(f'<li{fallback_attributes(p["source"])}>{p["x"]}: {p["y"]}</li>' for p in curve["data"]) + '</ol>'
+                elif block["chartType"] == "experiment":
+                    body = '<p>' + html.escape(block['description']) + '</p><dl>' + ''.join('<dt>' + html.escape(p['label']) + '</dt><dd>' + str(p['value']) + '</dd>' for p in block['parameters']) + '</dl><p>Interactive numerical results are calculated from these authored parameters in the browser.</p>'
                 elif block["chartType"] in ("dot", "box"):
                     unit = html.escape(block["yAxis"].get("unit", ""))
                     rows = "".join(
@@ -2408,6 +2663,19 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 )
                 continue
             if block["kind"] == "diagram":
+                if block.get("binaryExperiment"):
+                    experiment = block["binaryExperiment"]
+                    text = (f'{experiment["unitLabel"]}: {experiment["positiveLabel"]} (1) or {experiment["negativeLabel"]} (0). '
+                            f'{experiment["trialName"]}. {experiment["trialCount"]} independent units; '
+                            f'positive-outcome probability {100*experiment["positiveProbability"]:g} percent. '
+                            f'Model simulation: Mulberry32, initial seed {experiment["seed"]}. '
+                            'Show the outcomes, reveal the count and collect exactly one count per series. Not real measurements.')
+                    nodes_text = "".join(f'<li>{html.escape(node["label"])}: {html.escape(node.get("description", ""))}</li>' for node in block["nodes"])
+                    nodes_text += "".join(f'<li>{html.escape(stage["prompt"])}</li>' for stage in experiment.get("stages", []))
+                    if experiment["mode"] not in ("decision", "series"):
+                        text = f'Calculated teaching model: {experiment["trialCount"]} independent trials; constant positive-outcome probability {experiment["positiveProbability"]}. Not real measurements.'
+                    blocks.append(f'<figure{fallback_attributes(block["source"])}><figcaption>{html.escape(block["label"])}</figcaption><p>{html.escape(block["description"])}</p><p>{html.escape(text)}</p><ul>{nodes_text}</ul></figure>')
+                    continue
                 if block["diagramType"] == "sequence":
                     role_labels = {role["id"]: role["label"] for role in block["participantRoles"]}
                     message_labels = {message["id"]: message["label"] for message in block["messages"]}
@@ -2539,6 +2807,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
         articles.append(
             f'<article data-pitch-step="{html.escape(scene["id"], quote=True)}" '
             f'data-source-path-id="{html.escape(document["sourcePathId"], quote=True)}"{fallback_attributes(scene["source"])}>'
+            + (f'<p class="scene-topic"{fallback_attributes(scene["topic"]["source"])}>Topic: {html.escape(scene["topic"]["label"])}</p>' if scene.get("topic") else "")
             + "".join(blocks)
             + "</article>"
         )

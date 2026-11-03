@@ -1,3 +1,19 @@
+/* Authored topic context stays outside the slide's content/composition budget. */
+.reveal .slides section > .scene-topic {
+  position: absolute;
+  inset-inline-start: 1.5rem;
+  inset-inline-end: 11rem;
+  bottom: .55rem;
+  margin: 0;
+  padding-inline-start: .5rem;
+  border-inline-start: 2px solid var(--pcd-accent);
+  color: var(--pcd-foreground);
+  font: 500 .78rem/1.25 Arial, Helvetica, sans-serif;
+  letter-spacing: .015em;
+  text-align: start;
+  white-space: nowrap;
+}
+
 /*
  * Generic native portrait viewport layer.
  *
@@ -5,9 +21,16 @@
  * then uses the real narrow viewport while layout-family styles retain responsibility
  * for component-specific responsive behavior.
  */
-@media (max-width: 700px) and (orientation: portrait) {
+@media screen and (max-width: 700px) and (orientation: portrait) {
   body.pcd-native-mobile .reveal {
     font-size: 16px;
+    --pcd-lecture-heading: clamp(1.7rem, 8.2vw, 2.15rem);
+  }
+
+  body.pcd-native-mobile .reveal .slides section > .scene-topic {
+    inset-inline-start: .8rem;
+    inset-inline-end: 10.5rem;
+    font-size: .7rem;
   }
 
   body.pcd-native-mobile .reveal .slides section {
@@ -18,7 +41,7 @@
   body.pcd-native-mobile .reveal .slides section > h2 {
     margin: 0 0 .48rem !important;
     max-width: none !important;
-    font-size: clamp(1.7rem, 8.2vw, 2.15rem) !important;
+    font-size: var(--pcd-lecture-heading) !important;
     line-height: 1.03 !important;
     text-wrap: balance;
   }
@@ -43,5 +66,28 @@
     font-size: .72rem !important;
     line-height: 1.16 !important;
     letter-spacing: .015em !important;
+  }
+
+  /* A prose/experiment pair cannot honestly retain desktop-sized text and all
+     controls in one phone-height frame. Keep one navigable scene and allow its
+     complete evidence to scroll, rather than clipping or shrinking the plot. */
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] {
+    display:block!important;height:100%!important;overflow-y:auto!important;overflow-x:hidden!important;
+    overscroll-behavior:contain;scrollbar-gutter:stable;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] > .scene-topic {
+    position:static;white-space:normal;margin:0 0 .5rem;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] > .pcd-composition-region {
+    display:block;height:auto;min-height:0;max-height:none;overflow:visible;margin-bottom:1rem;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-component-kind="visual"] {
+    height:auto;min-height:0;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure {
+    height:auto;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > .d3-chart-svg {
+    flex:none;height:auto;min-height:230px;
   }
 }

@@ -1,0 +1,47 @@
+.pcd-screen-controls .pcd-slides-pdf-link { display:inline-flex;align-items:center;min-height:36px;padding:0 .6rem;border:1px solid currentColor;border-radius:.4rem;color:inherit;text-decoration:none;font:inherit;font-size:12px; }
+.pcd-slides-pdf-link:focus-visible,.pcd-slides-pdf-toolbar :is(a,button):focus-visible { outline:3px solid currentColor;outline-offset:3px; }
+.pcd-slides-pdf-toolbar { position:relative;z-index:1000;padding:12px 20px;background:#fff;color:#111;font:16px/1.4 system-ui,sans-serif; }
+.pcd-slides-pdf-toolbar p { margin:0 0 8px;max-width:85ch; }
+body[data-presentation-clean="true"] #view-switch-shell { display:none!important; }
+.pcd-slides-pdf-toolbar :is(button,a) { margin-right:16px; }
+/* Keep the existing slide canvas, formula units and SVG text. No screenshots,
+   script conversion or scene-identity-specific layout rules. */
+html.print-pdf body > :not(.reveal,.pcd-slides-pdf-toolbar) { display:none!important; }
+html.print-pdf .reveal :is(.controls,.progress,.slide-number,.speaker-notes,.pcd-presentation-navigation,.pcd-return-world,.pcd-screen-controls,.code-run-button,.code-reset-button,.code-plot-button) { display:none!important; }
+html.print-pdf .reveal .fragment { opacity:1!important;visibility:visible!important;transform:none!important; }
+html.print-pdf .reveal .fragment.fade-out { display:none!important; }
+html.print-pdf .reveal .histogram-controls { display:none!important; }
+html.print-pdf .reveal .pdf-page { break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact; }
+html.print-pdf .reveal .slides .pdf-page section {
+  display:var(--pcd-pdf-display,block)!important;
+  height:900px!important;
+  overflow:visible!important;
+  /* Paper has no scrolling grid cells. Intrinsic rows keep a tall legend
+     below its heading instead of centering it upward across the title. */
+  grid-template-rows:none!important;
+  grid-auto-rows:max-content!important;
+  align-content:start!important;
+}
+html.print-pdf .reveal .pdf-page :is(.formula-with-legend,.definition-list,.definition-list-entry,.math-display) { overflow:visible!important;max-height:none!important; }
+/* Screen stages may scroll within their grid cell. Paper cannot: let the fitter
+   include overflowing formula rows rather than clipping their final terms. */
+html.print-pdf .reveal .pdf-page .pcd-composition-region { overflow:visible!important;align-self:start!important;align-items:start!important;justify-content:normal!important; }
+/* Screen flex cells deliberately use height:0 for the SVG's flexible remainder.
+   A paper cell has intrinsic height, so that remainder collapses to zero. Restore
+   the actual SVG viewBox ratio rather than printing an empty chart frame. */
+html.print-pdf .reveal .pdf-page [data-chart-block-id] > .d3-chart-figure { height:auto!important; }
+html.print-pdf .reveal .pdf-page [data-chart-block-id] .d3-chart-svg {
+  display:block!important;flex:none!important;width:100%!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+}
+html.print-pdf .reveal .pdf-page .media-reference,
+html.print-pdf .reveal .pdf-page .media-reference img {
+  width:100%!important;height:auto!important;max-height:none!important;min-height:0!important;
+}
+html.print-pdf .reveal .pdf-page .media-reference img { display:block!important;width:100%!important; }
+/* This late-loaded shared composition must also survive Reveal's block reset. */
+html.print-pdf .reveal .slides .pdf-page section[data-composition-profile="visual-formula"] { display:grid!important; }
+@media print {
+  .pcd-slides-pdf-toolbar { display:none!important; }
+  html.print-pdf,html.print-pdf body { margin:0!important;padding:0!important; }
+}

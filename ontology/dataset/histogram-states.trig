@@ -1,0 +1,21 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/ontology/histogram-states> {
+  cd:LearningDomain cdm:definesConcept cd:HistogramState ; cdm:definesRelation cd:hasHistogramState .
+  cd:HistogramState a rdfs:Class, cdm:ConceptDescriptor .
+  cd:hasHistogramState a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:HistogramState .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/histogram-states> {
+  cd:HistogramStatesShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasHistogramState ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:Histogram ] ;
+    sh:property [ sh:path cd:hasHistogramState ; sh:minCount 2 ; sh:maxCount 20 ; sh:class cd:HistogramState ] ;
+    sh:property [ sh:path cd:allowBinAdjustment ; sh:maxCount 0 ] .
+  cd:HistogramStateShape a sh:NodeShape ; sh:targetClass cd:HistogramState ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ] ;
+    sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ] .
+}

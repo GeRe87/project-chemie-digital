@@ -11,3 +11,8 @@ test("missing motif families have vector masks, with reserved supporting-title s
   assert.match(css, /min-block-size: 2\.35rem/);
   assert.ok(css.includes("Unknown decoration must not fall back to a coloured rectangle."));
 });
+
+test("highlight thumbnails precede card titles without scene-specific layout rules", () => {
+  const css = readFileSync(new URL("../src/card-primitives.css", import.meta.url), "utf8");
+  assert.match(css, /\.definition-list-visual-motif\[data-visual-motif-role="highlight"\]\s*\{\s*order:\s*-1;/);
+});

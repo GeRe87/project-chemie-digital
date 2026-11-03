@@ -196,6 +196,22 @@ body[data-diagram-theme="eco-city"] .d3-chart-line {
   stroke: var(--pcd-chart-series-1);
   stroke-width: 4;
 }
+.d3-chart-line-point.d3-chart-step-open { fill: var(--pcd-chart-surface); }
+.d3-chart-line-point[data-step-side="included"] { fill: var(--pcd-chart-series-1); }
+.d3-chart-svg[data-chart-presentation="complete"] .d3-chart-range-label { fill: var(--pcd-foreground); }
+
+/* Complete multi-model comparisons distinguish a third trace without color alone. */
+.d3-chart-line-svg[data-chart-presentation="complete"] .d3-chart-line.d3-chart-series-3 {
+  stroke: var(--pcd-chart-series-3);
+  stroke-dasharray: .004 .0125;
+}
+
+@media screen and (max-width: 700px) {
+  /* Opt-in density comparisons keep their bars and reference readable without
+     inheriting the projection-sized minimum height of legacy charts. */
+  .d3-histogram-figure[data-reference-curves="true"] .d3-chart-svg,
+  .d3-chart-line-svg[data-chart-presentation="complete"] { min-height: 0; }
+}
 
 .d3-chart-range-highlight {
   fill: color-mix(in srgb, var(--pcd-chart-series-4) 32%, transparent);
@@ -223,7 +239,7 @@ body[data-diagram-theme="eco-city"] .d3-chart-line {
 .d3-chart-range-label { fill: var(--pcd-chart-series-4); }
 body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] .d3-chart-range-label { fill: #ffb289; }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .retro-neon-chart-window { width: 96vw; padding-inline: 1rem; }
   .d3-chart-svg { min-height: 500px; }
 }

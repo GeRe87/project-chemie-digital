@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+ <title id="title">Additive analytical effects motivate a candidate normal model</title>
+ <desc id="desc">Preparation, detector and readout each contribute small random deviations to one analytical result. Those deviations add. Many small non-dominant contributions under suitable conditions can motivate a normal approximation; the three illustrated stages do not prove it.</desc>
+ <style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.box{fill:#dfedf2;stroke:#538294;stroke-width:3}.line{fill:none;stroke:#126c82;stroke-width:4}.water{fill:#7ec7d5}.head{fill:#126c82}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.box{fill:#294d59;stroke:#98c7d8}.line{stroke:#7bd9e3}.head{fill:#7bd9e3}.water{fill:#42889c}}</style>
+ <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0 0l10 5-10 5z"/></marker></defs>
+ <rect class="bg" width="1200" height="460" rx="18"/>
+ <g class="box"><rect x="35" y="55" width="230" height="245" rx="12"/><rect x="315" y="55" width="230" height="245" rx="12"/><rect x="595" y="55" width="230" height="245" rx="12"/></g>
+ <g class="ink" text-anchor="middle" font-size="30" font-weight="700"><text x="150" y="100">Preparation</text><text x="430" y="100">Detector</text><text x="710" y="100">Readout</text></g>
+ <path class="line" d="M130 125h40m-31 0v43l-28 52h78l-28-52v-43M383 135h94v70h-94zM393 193l14-15 14 11 16-32 15 13 15-17M663 133h94v70h-94zM676 150h67M676 167h36M676 184h53"/>
+ <path class="water" d="M125 194h50l11 22h-72z"/>
+ <g class="line"><path d="M70 262l21-13 17 20 18-24 19 13 22-13 18 22 17-14 24 8M350 262l18-10 19 13 20-19 18 15 21-12 19 17 19-18 23 13M630 262l23-12 22 15 19-18 22 18 20-11 19 8 23-16 20 16"/></g>
+ <g class="ink" text-anchor="middle" font-size="48"><text x="290" y="193">+</text><text x="570" y="193">+</text></g>
+ <path class="line" marker-end="url(#a)" d="M830 176h38"/>
+ <path class="line" d="M895 110V250h267M900 248c55 0 58-122 124-122s68 122 133 122"/>
+ <text class="ink" font-size="22" text-anchor="middle" transform="translate(882 190) rotate(-90)">Density</text>
+ <g class="ink" text-anchor="middle" font-size="25"><text x="1030" y="85">Candidate normal</text><text x="1030" y="116">result model</text><text x="1030" y="289">Possible results</text><text x="430" y="351">Small random contributions add to the result.</text><text x="600" y="409">Many non-dominant effects can motivate an approximation.</text><text x="600" y="442">Stability, dependence and systematic bias still need checking.</text></g>
+</svg>

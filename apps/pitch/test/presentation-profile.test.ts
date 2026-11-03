@@ -90,6 +90,25 @@ test("readability mode is profile-driven and can be overridden explicitly", () =
   assert.match(invalid.diagnostics.join("\n"), /Unsupported readability 'tiny'/);
 });
 
+test("native portrait can be requested without changing shared profile defaults", () => {
+  const resolved = resolvePresentationAppearance("?viewport=native-portrait", "ex:optional-reserve");
+  assert.equal(resolved.profile.viewportPolicy, "native-portrait");
+  assert.equal(resolved.profile.id, chemometricsPresentationProfile.id);
+  assert.equal(resolved.readability, "lecture");
+  assert.equal(resolved.theme, chemometricsPresentationProfile.defaultTheme);
+  assert.equal(Object.isFrozen(resolved.profile), true);
+  assert.equal(chemometricsPresentationProfile.viewportPolicy, undefined);
+  assert.equal(resolvePresentationAppearance("").profile, chemometricsPresentationProfile);
+  assert.deepEqual(resolved.diagnostics, []);
+});
+
+test("unsupported viewport requests preserve the default profile and report a diagnostic", () => {
+  const resolved = resolvePresentationAppearance("?viewport=tiny");
+  assert.equal(resolved.profile, chemometricsPresentationProfile);
+  assert.match(resolved.diagnostics.join("\n"), /Unsupported viewport 'tiny'/);
+  assert.equal(resolvePresentationAppearance("?viewport=native-portrait", COGNIFLOW_SOURCE_PATH_ID).profile.viewportPolicy, "native-portrait");
+});
+
 test("diagram theme follows the selected background family and disables with background none", () => {
   assert.equal(resolveDiagramThemeId("chemometrics-city", true), "eco-city");
   assert.equal(resolveDiagramThemeId("chemometrics-city", false), "neutral");

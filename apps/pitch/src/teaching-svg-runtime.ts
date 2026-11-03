@@ -1,4 +1,5 @@
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
+import { isPanoramicMedia } from "./media-geometry.ts";
 import type { SceneBlock } from "../../../packages/core/src/scene-document.ts";
 
 /** Only explicit authored media, including media inside semantic groups. */
@@ -55,6 +56,10 @@ export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => voi
       svg.classList.add("teaching-svg");
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", image.alt);
+      const dimensions = svg.getAttribute("viewBox")?.trim().split(/[\s,]+/u).map(Number);
+      if (dimensions?.length === 4 && dimensions[2]! > 0 && dimensions[3]! > 0) {
+        figure.setAttribute("data-media-aspect", isPanoramicMedia(dimensions[2]!, dimensions[3]!) ? "panoramic" : "standard");
+      }
       image.replaceWith(svg);
       cleanup.push(() => { svg.replaceWith(image); });
     } catch {

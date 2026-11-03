@@ -1,0 +1,132 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-lognormal-workup> {
+  ex:lg-process-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-process1, ex:lg-process2 ; cd:authoredResource true .
+  ex:lg-process1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A: repeat the instrument step"@en ; cd:body "Switch to an organic trace analyte by LC-MS/MS, in ng/L, not nitrate in mg/L. Reinject one prepared homogeneous control. Our simplified instrument model has mostly additive error."@en ; cd:authoredResource true .
+  ex:lg-process2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "B: repeat the complete preparation"@en ; cd:body "Split one homogeneous water sample into independent aliquots. Each undergoes extraction, concentration and analysis. Relative step-to-step influences may produce a different result distribution. That is a hypothesis, not a finding from ten values."@en ; cd:authoredResource true .
+  ex:lg-effects a cd:MathExpression ; cd:formulaLabel "Absolute changes and reciprocal factors are different symmetries"@en ; cd:latex "\\begin{gathered}10-2=8,\\quad10+2=12\\\\10\\cdot0.8=8,\\quad10\\cdot1.25=12.5\\\\0.8\\cdot1.25=1\\end{gathered}" ; cd:hasSymbol ex:lg-effects-symbols ; dct:hasPart ex:lg-effects-legend ; cd:authoredResource true .
+  ex:lg-effects-symbols a cd:MathSymbol ; cd:symbol "absolute steps versus ratios" ; cd:mathNotation "+,-,\\cdot,=" ; cd:body "Start at concentration 10 ng/L. Add or subtract an absolute 2 ng/L to obtain 12 or 8. Alternatively multiply by dimensionless reciprocal factors 1.25 and 0.8 to obtain 12.5 or 8 ng/L. Their product is one: one factor undoes the other. The centered absolute distances are unequal for the product model. Dots multiply; plus/minus add/subtract; equality evaluates. Factors describe relative influences, not literal unbounded extraction recoveries."@en ; cd:authoredResource true .
+  ex:lg-effects-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-effects-entry ; cd:authoredResource true .
+  ex:lg-effects-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Concentration units and dimensionless factors"@en ; dct:references ex:lg-effects-symbols ; cd:authoredResource true .
+  ex:lg-log-scale a cd:MathExpression ; cd:formulaLabel "The same three concentrations become equally spaced log ratios"@en ; cd:latex "\\begin{gathered}\\ln(8/10)\\approx-0.22314\\\\\\ln(10/10)=0\\\\\\ln(12.5/10)\\approx+0.22314\\end{gathered}" ; cd:hasSymbol ex:lg-log-scale-symbols ; dct:hasPart ex:lg-log-scale-legend ; cd:authoredResource true .
+  ex:lg-log-scale-symbols a cd:MathSymbol ; cd:symbol "log ratios and reciprocal symmetry" ; cd:mathNotation "\\ln,/,-,+,=,\\approx" ; cd:body "Concentrations 8, 10 and 12.5 and fixed reference 10 are all in ng/L. Divide before taking the natural logarithm, so each argument is dimensionless. Reciprocal ratios 0.8 and 1.25 have opposite log values; negative and positive signs mark direction. Equality gives the center, approximately rounds. Logarithms convert equal multiplicative ratios to equal distances, not arbitrary skewed data into a guaranteed normal law."@en ; cd:authoredResource true .
+  ex:lg-log-scale-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-log-scale-entry ; cd:authoredResource true .
+  ex:lg-log-scale-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Never take a logarithm of an unreferenced dimensional value"@en ; dct:references ex:lg-log-scale-symbols ; cd:authoredResource true .
+  ex:lg-product a cd:MathExpression ; cd:formulaLabel "Products become sums on the logarithmic scale"@en ; cd:latex "\\begin{gathered}X=X_0\\prod_{j=1}^{m}F_j\\\\\\ln(X/X_0)=\\sum_{j=1}^{m}\\ln F_j\\end{gathered}" ; cd:hasSymbol ex:lg-product-symbols ; dct:hasPart ex:lg-product-legend ; cd:authoredResource true .
+  ex:lg-product-symbols a cd:MathSymbol ; cd:symbol "relative analytical influences" ; cd:mathNotation "X,X_0,F_j,j,m,\\prod,\\sum,\\ln,/,=" ; cd:body "X: positive result; X subscript zero: positive starting scale, here 10 ng/L. F indexed by j: positive dimensionless relative influence of step j; j runs one through m steps. Product multiplies factors; sum adds their natural logs. Divide same-unit concentrations to cancel ng/L before logging. Equality uses the logarithm-of-product identity. Normal log factors give an exact normal sum under independence; more general log contributions require suitable CLT conditions for an approximation."@en ; cd:authoredResource true .
+  ex:lg-product-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-product-entry ; cd:authoredResource true .
+  ex:lg-product-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Positive factors, indices and the log-sum argument"@en ; dct:references ex:lg-product-symbols ; cd:authoredResource true .
+  ex:lg-factor-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-factor1, ex:lg-factor2 ; cd:authoredResource true .
+  ex:lg-factor1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A model of relative effects"@en ; cd:body "Factors are relative to a reference process, not literal recovery fractions. Raw recovery is bounded. Additional additive detector noise need not preserve exact lognormality."@en ; cd:authoredResource true .
+  ex:lg-factor2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Multiplication alone does not prove lognormality"@en ; cd:body "Independent normal log factors give an exact lognormal product. Many small finite-variance log contributions may give an approximation. Dominant factors, dependence and other distributions can give different laws."@en ; cd:authoredResource true .
+  ex:lg-definition a cd:MathExpression ; cd:formulaLabel "Normal log ratio, lognormal concentration"@en ; cd:latex "\\begin{gathered}Y=\\ln(X/x_{\\mathrm{ref}})\\sim\\mathcal N(\\mu_L,\\sigma_L^2)\\\\X=x_{\\mathrm{ref}}e^Y\\end{gathered}" ; cd:hasSymbol ex:lg-definition-symbols ; dct:hasPart ex:lg-definition-legend ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:lg-definition-symbols a cd:MathSymbol ; cd:symbol "the transformed normal model" ; cd:mathNotation "X,Y,x_{\\mathrm{ref}},\\mu_L,\\sigma_L,\\ln,e,{}^2,\\mathcal N,\\sim,/,=" ; cd:body "X: positive concentration in ng/L; x subscript ref: fixed positive reference 10 ng/L. Y is its dimensionless natural log ratio. Mu subscript L: log-ratio mean; sigma subscript L: positive log-ratio SD, not concentration SD. The normal law's second parameter is log variance. For the main example mu L is zero and sigma L 0.30, giving median 10 ng/L. Divide, log and exponentiate as shown; e is the exponential base; multiply by the reference to restore units. Equality defines transforms; tilde names the law."@en ; cd:authoredResource true .
+  ex:lg-definition-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-definition-entry ; cd:authoredResource true .
+  ex:lg-definition-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Log parameters are dimensionless and the reference restores units"@en ; dct:references ex:lg-definition-symbols ; cd:authoredResource true .
+  ex:lg-centers a cd:MathExpression ; cd:formulaLabel "Three population centers on the original concentration scale"@en ; cd:latex "\\begin{gathered}\\operatorname{Mode}(X)=x_{\\mathrm{ref}}e^{\\mu_L-\\sigma_L^2}\\\\\\operatorname{Median}(X)=x_{\\mathrm{ref}}e^{\\mu_L}\\\\E[X]=x_{\\mathrm{ref}}e^{\\mu_L+\\sigma_L^2/2}\\end{gathered}" ; cd:hasSymbol ex:lg-centers-symbols ; dct:hasPart ex:lg-centers-legend ; cd:authoredResource true .
+  ex:lg-centers-symbols a cd:MathSymbol ; cd:symbol "mode, median and expectation" ; cd:mathNotation "X,x_{\\mathrm{ref}},\\mu_L,\\sigma_L,\\operatorname{Mode},\\operatorname{Median},E" ; cd:body "X: lognormal concentration; reference 10 ng/L; mu L=0 and sigma L=0.30 are dimensionless log mean and SD. Mode is where the concentration density is maximal; median splits probability in half; E is arithmetic expectation. Exponential e raises the base to each dimensionless expression; subtract or add log variance as shown, divide by two, then multiply by the reference. The resulting concentrations are 9.13931, 10.00 and 10.46028 ng/L. Equality gives population identities, not sample estimates."@en ; cd:authoredResource true .
+  ex:lg-centers-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-centers-entry ; cd:authoredResource true .
+  ex:lg-centers-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Population targets in ng/L"@en ; dct:references ex:lg-centers-symbols ; cd:authoredResource true .
+  ex:lg-centers-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-center1, ex:lg-center2, ex:lg-center3 ; cd:authoredResource true .
+  ex:lg-center1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Mode: 9.14 ng/L"@en ; cd:body "Highest density is left of the median."@en ; cd:authoredResource true .
+  ex:lg-center2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Median: 10.00 ng/L"@en ; cd:body "Half the model probability lies on either side."@en ; cd:authoredResource true .
+  ex:lg-center3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Mean: 10.46 ng/L"@en ; cd:body "The long right tail raises arithmetic expectation."@en ; cd:authoredResource true .
+  ex:lg-geometric a cd:MathExpression ; cd:formulaLabel "Average log ratios, then return to concentration units"@en ; cd:latex "\\begin{gathered}\\bar y=\\frac{1}{n}\\sum_{i=1}^{n}\\ln(x_i/x_{\\mathrm{ref}})\\\\G_n=x_{\\mathrm{ref}}\\exp(\\bar y)\\end{gathered}" ; cd:hasSymbol ex:lg-geometric-symbols ; dct:hasPart ex:lg-geometric-legend ; cd:authoredResource true .
+  ex:lg-geometric-symbols a cd:MathSymbol ; cd:symbol "sample geometric mean" ; cd:mathNotation "G_n,\\bar y,x_i,x_{\\mathrm{ref}},n,i,\\exp,\\ln,\\sum,/,=" ; cd:body "G subscript n: sample geometric mean in ng/L; bar y: dimensionless mean log ratio. x indexed by i: strictly positive observed concentration; reference: fixed positive same-unit concentration. Index i runs one through sample size n. Sum log ratios, divide by n, exponentiate, multiply by reference. Equality defines the statistic, which is reference-invariant. For a lognormal population, population geometric mean equals median; this sample statistic estimates it and is not asserted unbiased."@en ; cd:authoredResource true .
+  ex:lg-geometric-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-geometric-entry ; cd:authoredResource true .
+  ex:lg-geometric-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Positive data, ratio convention and sample versus population"@en ; dct:references ex:lg-geometric-symbols ; cd:authoredResource true .
+  ex:lg-target-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-target1, ex:lg-target2 ; cd:authoredResource true .
+  ex:lg-target1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Which scientific target"@en ; cd:body "Arithmetic expectation is appropriate for a mean concentration or mean amount per equal volume. Median or geometric mean describes a multiplicative center. There is no universally best mean."@en ; cd:authoredResource true .
+  ex:lg-target2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "A median on target is not arithmetic unbiasedness"@en ; cd:body "With median 10 and log SD 0.30, arithmetic expectation is 10.46 ng/L. Matching a target median does not establish unbiased mean response or analytical trueness."@en ; cd:authoredResource true .
+  ex:lg-functions a cd:MathExpression ; cd:formulaLabel "Reuse z, phi and Phi after the logarithmic transformation"@en ; cd:latex "\\begin{gathered}z_L=\\frac{\\ln(x/x_{\\mathrm{ref}})-\\mu_L}{\\sigma_L}\\\\F_X(x)=\\Phi(z_L)\\\\f_X(x)=\\frac{1}{x\\sigma_L}\\varphi(z_L),\\quad x>0\\end{gathered}" ; cd:hasSymbol ex:lg-functions-symbols ; dct:hasPart ex:lg-functions-legend ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:lg-functions-symbols a cd:MathSymbol ; cd:symbol "transformed argument, CDF and PDF" ; cd:mathNotation "x,x_{\\mathrm{ref}},\\mu_L,\\sigma_L,z_L,F_X,f_X,\\Phi,\\varphi,\\ln,-,/,=,>" ; cd:body "x and reference: positive concentrations in ng/L; mu L and sigma L: dimensionless log mean and positive log SD. Lowercase z subscript L is the concrete standardized log-ratio value. F subscript X is the dimensionless concentration CDF; uppercase Phi is standard-normal CDF. Lowercase f subscript X is concentration density in L/ng; lowercase phi is standard-normal density. The chain rule contributes one over x times sigma L. Minus centers; divide and multiply as shown; equality links functions. For x at most zero, both the lognormal CDF and PDF are zero; never evaluate its logarithm there."@en ; cd:authoredResource true .
+  ex:lg-functions-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-functions-entry ; cd:authoredResource true .
+  ex:lg-functions-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "The extra inverse-x scale factor matters"@en ; dct:references ex:lg-functions-symbols ; cd:authoredResource true .
+  ex:lg-tail a cd:MathExpression ; cd:formulaLabel "A hypothetical upper control threshold, not a legal limit"@en ; cd:latex "\\begin{gathered}z_L=\\frac{\\ln(15/10)}{0.30}\\approx1.35155\\\\P(X>15)=1-\\Phi(z_L)\\\\\\approx0.08826\\end{gathered}" ; cd:hasSymbol ex:lg-tail-symbols ; dct:hasPart ex:lg-tail-legend ; cd:authoredResource true .
+  ex:lg-tail-symbols a cd:MathSymbol ; cd:symbol "upper probability under the fixed lognormal model" ; cd:mathNotation "X,z_L,\\ln,\\Phi,P,>,/,=,-,\\approx" ; cd:body "X: concentration in ng/L under median 10 and log SD 0.30. Concentrations 15 and 10 share units, so their ratio is dimensionless; log-ratio mean is zero with reference 10. z L is the concrete standardized log threshold. Natural log, division and subtraction perform the conversion; uppercase Phi accumulates standard-normal probability. Subtract it from one for the upper event selected by P and greater-than. Approximately marks rounding: about 8.83% of individual model results exceed 15 ng/L, not proof of method change or a legal decision."@en ; cd:authoredResource true .
+  ex:lg-tail-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-tail-entry ; cd:authoredResource true .
+  ex:lg-tail-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Same probability operation, different standardized argument"@en ; dct:references ex:lg-tail-symbols ; cd:authoredResource true .
+  ex:lg-quantile a cd:MathExpression ; cd:formulaLabel "A model upper threshold with a five-percent per-result tail"@en ; cd:latex "\\begin{gathered}z_{0.95}=\\Phi^{-1}(0.95)\\approx1.64485\\\\x_{0.95}=x_{\\mathrm{ref}}\\exp(\\mu_L+\\sigma_L z_{0.95})\\\\\\approx16.38\\;\\mathrm{ng/L}\\end{gathered}" ; cd:hasSymbol ex:lg-quantile-symbols ; dct:hasPart ex:lg-quantile-legend ; cd:authoredResource true .
+  ex:lg-quantile-symbols a cd:MathSymbol ; cd:symbol "model quantile and back-transformation" ; cd:mathNotation "z_{0.95},x_{0.95},x_{\\mathrm{ref}},\\mu_L,\\sigma_L,\\Phi^{-1},\\exp,+,=,\\approx" ; cd:body "Lowercase z subscript 0.95: dimensionless standard-normal 95th percentile from inverse Phi, not reciprocal Phi. x subscript 0.95: concentration percentile in ng/L. Reference is 10 ng/L; log mean mu L=0 and log SD sigma L=0.30. Multiply by log SD, add log mean, exponentiate and multiply by reference. Equality defines/calculates; approximately rounds. The unrounded concentration quantile is 16.3796740847 ng/L. Rounding, resolution and estimated parameters affect a real rule; this is per result, not campaign-wide calibration."@en ; cd:authoredResource true .
+  ex:lg-quantile-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-quantile-entry ; cd:authoredResource true .
+  ex:lg-quantile-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Inverse CDF first, exponentiation second"@en ; dct:references ex:lg-quantile-symbols ; cd:authoredResource true .
+  ex:lg-check-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-check1, ex:lg-check2, ex:lg-check3 ; cd:authoredResource true .
+  ex:lg-check1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A new population: river sites"@en ; cd:body "Variation across 100 sampling sites includes inputs, dilution, transport and degradation, not only analytical repeatability. Spatial dependence and mixed sources need separate assessment."@en ; cd:authoredResource true .
+  ex:lg-check2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Right skew is not a diagnosis"@en ; cd:body "Compare the same concentrations on linear and log-ratio scales. A normal Q-Q plot of log ratios can reveal deviations, not prove normality or independence. Positive support alone is insufficient."@en ; cd:authoredResource true .
+  ex:lg-check3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Below the quantification limit"@en ; cd:body "A non-detect contains censored information. Do not replace it by zero and take a logarithm. Dropping non-detects also changes the observed distribution; use a justified censored-data method."@en ; cd:authoredResource true .
+  ex:lg-log-variance a cd:MathExpression ; cd:formulaLabel "Preview: uncertainty of variance on the normal log-ratio scale"@en ; cd:latex "\\frac{(n-1)S_L^2}{\\sigma_L^2}\\sim\\chi^2_{n-1}" ; cd:hasSymbol ex:lg-log-variance-symbols ; dct:hasPart ex:lg-log-variance-legend ; cd:authoredResource true .
+  ex:lg-log-variance-symbols a cd:MathSymbol ; cd:symbol "a reference law to construct next" ; cd:mathNotation "n,S_L^2,\\sigma_L^2,\\chi^2_{n-1},\\sim,-,/,{}^2" ; cd:body "n: number of independent, identically normal uncensored log ratios, at least two. S subscript L squared: random sample variance of those log ratios, using their fitted mean and divisor n minus one. Sigma L squared: true log-ratio variance; both are dimensionless. Multiply sample variance by n minus one and divide by true variance. Tilde names the chi-square law with n minus one degrees of freedom. This preview is derived in the next section. It does not apply directly to raw concentration variance, correlated sites or logs altered by censoring."@en ; cd:authoredResource true .
+  ex:lg-log-variance-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-log-variance-entry ; cd:authoredResource true .
+  ex:lg-log-variance-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Keep the scale and assumptions attached to the variance"@en ; dct:references ex:lg-log-variance-symbols ; cd:authoredResource true .
+  ex:lg-bridge-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:lg-bridge1, ex:lg-bridge2 ; cd:authoredResource true .
+  ex:lg-bridge1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "One shared question"@en ; cd:body "Normal results and normal log ratios both lead to uncertain variance estimates. We need a reference for how much an estimated spread fluctuates."@en ; cd:authoredResource true .
+  ex:lg-bridge2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Return to nitrate IC"@en ; cd:body "Next: a separate six-reading nitrate QC case in mg/L, reference SD 0.10 mg/L. Derive chi-square for normal errors first, not for raw LC-MS/MS concentration variance."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-lognormal-workup> {
+  ex:lg-example-a a cd:Dataset ; skos:prefLabel "Ten illustrative instrument-only results, not paired with preparation results"@en ; cd:unit "ng/L" ; cd:hasObservation ex:lg-a01, ex:lg-a02, ex:lg-a03, ex:lg-a04, ex:lg-a05, ex:lg-a06, ex:lg-a07, ex:lg-a08, ex:lg-a09, ex:lg-a10 ; cd:authoredResource true .
+  ex:lg-example-b a cd:Dataset ; skos:prefLabel "Ten illustrative full-preparation results, sorted for display"@en ; cd:unit "ng/L" ; cd:hasObservation ex:lg-b01, ex:lg-b02, ex:lg-b03, ex:lg-b04, ex:lg-b05, ex:lg-b06, ex:lg-b07, ex:lg-b08, ex:lg-b09, ex:lg-b10 ; cd:authoredResource true .
+  ex:lg-a01 a cd:Observation ; cd:position 1 ; cd:numericValue 9.9 ; cd:authoredResource true .
+  ex:lg-a02 a cd:Observation ; cd:position 2 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:lg-a03 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:lg-a04 a cd:Observation ; cd:position 4 ; cd:numericValue 9.8 ; cd:authoredResource true .
+  ex:lg-a05 a cd:Observation ; cd:position 5 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:lg-a06 a cd:Observation ; cd:position 6 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:lg-a07 a cd:Observation ; cd:position 7 ; cd:numericValue 10.2 ; cd:authoredResource true .
+  ex:lg-a08 a cd:Observation ; cd:position 8 ; cd:numericValue 9.9 ; cd:authoredResource true .
+  ex:lg-a09 a cd:Observation ; cd:position 9 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:lg-a10 a cd:Observation ; cd:position 10 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:lg-b01 a cd:Observation ; cd:position 1 ; cd:numericValue 5.9 ; cd:authoredResource true .
+  ex:lg-b02 a cd:Observation ; cd:position 2 ; cd:numericValue 7.8 ; cd:authoredResource true .
+  ex:lg-b03 a cd:Observation ; cd:position 3 ; cd:numericValue 8.3 ; cd:authoredResource true .
+  ex:lg-b04 a cd:Observation ; cd:position 4 ; cd:numericValue 8.9 ; cd:authoredResource true .
+  ex:lg-b05 a cd:Observation ; cd:position 5 ; cd:numericValue 9.4 ; cd:authoredResource true .
+  ex:lg-b06 a cd:Observation ; cd:position 6 ; cd:numericValue 9.7 ; cd:authoredResource true .
+  ex:lg-b07 a cd:Observation ; cd:position 7 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:lg-b08 a cd:Observation ; cd:position 8 ; cd:numericValue 11.4 ; cd:authoredResource true .
+  ex:lg-b09 a cd:Observation ; cd:position 9 ; cd:numericValue 13.7 ; cd:authoredResource true .
+  ex:lg-b10 a cd:Observation ; cd:position 10 ; cd:numericValue 17.1 ; cd:authoredResource true .
+  ex:lg-count-data a cd:Dataset ; skos:prefLabel "1,000 full-preparation simulation counts, fixed protocol"@en ; cd:unit "ng/L" ; cd:binCounts ex:lg-bc0 ; cd:derivedFromResource ex:lg-compare-code ; cd:authoredResource true .
+  ex:lg-saved-chart a cd:ChartDefinition ; skos:prefLabel "One thousand simulated complete preparations"@en ; cd:body "Positive relative factors, fixed teaching protocol. Counts are not validation data or a fitted distribution. The saved realization has 100 of 1,000 results above 15 ng/L; finite frequency is not the exact model probability."@en ; cd:chartType cd:Histogram ; cd:usesDataset ex:lg-count-data ; cd:binEdges ex:lg-be0 ; cd:histogramNormalization "density" ; cd:xAxisLabel "Full-preparation result"@en ; cd:xAxisUnit "ng/L" ; cd:yAxisLabel "Simulated density"@en ; cd:yAxisUnit "L/ng" ; cd:authoredResource true .
+  ex:lg-be0 rdf:first 0 ; rdf:rest ex:lg-be1 .
+  ex:lg-be1 rdf:first 2 ; rdf:rest ex:lg-be2 .
+  ex:lg-be2 rdf:first 4 ; rdf:rest ex:lg-be3 .
+  ex:lg-be3 rdf:first 6 ; rdf:rest ex:lg-be4 .
+  ex:lg-be4 rdf:first 8 ; rdf:rest ex:lg-be5 .
+  ex:lg-be5 rdf:first 10 ; rdf:rest ex:lg-be6 .
+  ex:lg-be6 rdf:first 12 ; rdf:rest ex:lg-be7 .
+  ex:lg-be7 rdf:first 14 ; rdf:rest ex:lg-be8 .
+  ex:lg-be8 rdf:first 16 ; rdf:rest ex:lg-be9 .
+  ex:lg-be9 rdf:first 18 ; rdf:rest ex:lg-be10 .
+  ex:lg-be10 rdf:first 20 ; rdf:rest ex:lg-be11 .
+  ex:lg-be11 rdf:first 22 ; rdf:rest ex:lg-be12 .
+  ex:lg-be12 rdf:first 24 ; rdf:rest ex:lg-be13 .
+  ex:lg-be13 rdf:first 26 ; rdf:rest ex:lg-be14 .
+  ex:lg-be14 rdf:first 28 ; rdf:rest ex:lg-be15 .
+  ex:lg-be15 rdf:first 30 ; rdf:rest ex:lg-be16 .
+  ex:lg-be16 rdf:first 32 ; rdf:rest ex:lg-be17 .
+  ex:lg-be17 rdf:first 34 ; rdf:rest ex:lg-be18 .
+  ex:lg-be18 rdf:first 36 ; rdf:rest rdf:nil .
+  ex:lg-bc0 rdf:first 0 ; rdf:rest ex:lg-bc1 .
+  ex:lg-bc1 rdf:first 3 ; rdf:rest ex:lg-bc2 .
+  ex:lg-bc2 rdf:first 42 ; rdf:rest ex:lg-bc3 .
+  ex:lg-bc3 rdf:first 179 ; rdf:rest ex:lg-bc4 .
+  ex:lg-bc4 rdf:first 268 ; rdf:rest ex:lg-bc5 .
+  ex:lg-bc5 rdf:first 226 ; rdf:rest ex:lg-bc6 .
+  ex:lg-bc6 rdf:first 149 ; rdf:rest ex:lg-bc7 .
+  ex:lg-bc7 rdf:first 67 ; rdf:rest ex:lg-bc8 .
+  ex:lg-bc8 rdf:first 43 ; rdf:rest ex:lg-bc9 .
+  ex:lg-bc9 rdf:first 18 ; rdf:rest ex:lg-bc10 .
+  ex:lg-bc10 rdf:first 2 ; rdf:rest ex:lg-bc11 .
+  ex:lg-bc11 rdf:first 1 ; rdf:rest ex:lg-bc12 .
+  ex:lg-bc12 rdf:first 2 ; rdf:rest ex:lg-bc13 .
+  ex:lg-bc13 rdf:first 0 ; rdf:rest ex:lg-bc14 .
+  ex:lg-bc14 rdf:first 0 ; rdf:rest ex:lg-bc15 .
+  ex:lg-bc15 rdf:first 0 ; rdf:rest ex:lg-bc16 .
+  ex:lg-bc16 rdf:first 0 ; rdf:rest ex:lg-bc17 .
+  ex:lg-bc17 rdf:first 0 ; rdf:rest rdf:nil .
+}

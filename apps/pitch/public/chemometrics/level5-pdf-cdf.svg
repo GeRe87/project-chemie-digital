@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+ <title id="title">PDF, CDF and inverse CDF</title>
+ <desc id="desc">Three views of Uniform(0,1). PDF: horizontal value, vertical density, rectangle area is probability. CDF: horizontal value, vertical cumulative probability. Inverse CDF: horizontal input probability, vertical output value. No concentration units or measured observations are implied.</desc>
+ <style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.axis{fill:none;stroke:#294f60;stroke-width:3}.curve{fill:none;stroke:#007c91;stroke-width:5}.shade{fill:#8bc8d6}.box{fill:#e0edf2;stroke:#759caa;stroke-width:2}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.axis{stroke:#c0dbe5}.curve{stroke:#7bd9e3}.shade{fill:#315f70}.box{fill:#254752;stroke:#83b2c2}}</style>
+ <rect class="bg" width="1200" height="430" rx="18"/>
+ <g class="ink" text-anchor="middle" font-size="34" font-weight="700"><text x="205" y="55">PDF</text><text x="605" y="55">CDF</text><text x="1005" y="55">Inverse CDF</text></g>
+ <path class="shade" d="M155 300V140H255V300Z"/>
+ <path class="axis" d="M70 95V300H360M470 95V300H760M870 95V300H1160"/>
+ <path class="curve" d="M80 300H105V140H305V300H350M480 300H505L705 140H750M905 300L1105 140"/>
+ <path class="axis" stroke-dasharray="5 5" d="M105 140H70M705 140H470M1105 140H870"/>
+ <g class="ink" font-size="27" text-anchor="middle"><text x="205" y="365">Value x</text><text x="605" y="365">Value x</text><text x="1005" y="365">Probability u</text>
+ <text transform="translate(30 210) rotate(-90)">Density f(x)</text><text transform="translate(430 210) rotate(-90)">Probability F(x)</text><text transform="translate(830 210) rotate(-90)">Value Q(u)</text></g>
+ <g class="ink" font-size="23" text-anchor="middle"><text x="105" y="329">0</text><text x="305" y="329">1</text><text x="505" y="329">0</text><text x="705" y="329">1</text><text x="905" y="329">0</text><text x="1105" y="329">1</text><text x="53" y="148">1</text><text x="453" y="148">1</text><text x="853" y="148">1</text></g>
+</svg>

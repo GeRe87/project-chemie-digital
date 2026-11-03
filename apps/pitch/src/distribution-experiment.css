@@ -1,0 +1,75 @@
+.distribution-experiment { position:relative;display:flex;flex-direction:column;gap:.4rem;height:auto;min-height:0;overflow:visible;font:18px/1.3 Arial,Helvetica,sans-serif;color:var(--pcd-foreground); }
+.experiment-description,.experiment-note,.experiment-feedback { margin:0; }
+.experiment-description { font-weight:400; }
+.experiment-description ul { margin:.1rem 0;padding-left:1.2em; }
+.experiment-description li { margin:.15rem 0; }
+.experiment-note { font-size:16px; }
+.experiment-controls { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem .6rem;align-items:end; }
+.experiment-controls[hidden],.experiment-feedback:empty { display:none!important; }
+.experiment-controls label { display:flex;flex-direction:column;font-size:15px;min-width:0; }
+.experiment-controls input { width:7em;min-height:32px;font:inherit;background:var(--pcd-surface-strong);color:var(--pcd-foreground);border:1px solid currentColor; }
+.experiment-controls button { font:inherit;padding:.3rem .6rem;justify-self:start; }
+.experiment-panels { display:flex;gap:.7rem;flex:none;height:260px;min-height:0; }
+.distribution-experiment[data-panel-count="1"] .experiment-panels { height:280px; }
+@media screen and (min-width:701px) {
+ .reveal section:has(> [data-composition-region-container="secondary"]) .distribution-experiment[data-panel-count="1"] .experiment-panels { height:260px; }
+}
+.experiment-panels figure { margin:0;display:flex;flex:1;flex-direction:column;min-width:0;min-height:0; }
+.experiment-panels svg { width:100%;height:calc(100% - 20px);min-height:0; }
+.distribution-experiment svg .experiment-marker-label { font:14px/1.2 Arial,Helvetica,sans-serif; }
+.experiment-panels figcaption { font-size:14px; }
+.experiment-legend-entry { display:inline-flex;align-items:center;gap:.25rem;margin-right:.6rem; }
+.experiment-legend-entry i { display:inline-block;width:.7em;height:.7em;border:1px solid currentColor;flex:none; }
+.distribution-experiment { --pcd-experiment-reference:#bd102a; }
+body[data-presentation-theme="dark"] .distribution-experiment { --pcd-experiment-reference:#ff5964; }
+.experiment-legend-entry[data-experiment-reference="true"] i { border-radius:50%;border:2px solid var(--pcd-surface-strong);outline:1px solid var(--pcd-experiment-reference); }
+.experiment-readouts { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.15rem .7rem;font-size:17px; }
+.experiment-readouts > span { overflow-wrap:anywhere; }
+.distribution-experiment[data-readout-count="4"] .experiment-readouts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.experiment-source-comparison { font-size:18px;border-block:1px solid currentColor;padding:.35rem 0; }
+.experiment-source-comparison[hidden] { display:none; }
+.experiment-source-comparison p { margin:0 0 .3rem; }
+.experiment-source-row { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.5rem;align-items:center; }
+.experiment-source-track { display:block;background:var(--pcd-surface-strong);height:.7rem;border:1px solid currentColor; }
+.experiment-source-track i { display:block;background:var(--pcd-chart-series-1);height:100%; }
+.experiment-details { font-size:14px; }
+.experiment-actions { display:flex;justify-content:flex-start;align-items:center;gap:1rem; }
+.experiment-actions > button { flex:none;font:14px/1.2 Arial,Helvetica,sans-serif;padding:.2rem .5rem; }
+.experiment-details > summary { cursor:pointer; }
+.experiment-details > summary:focus-visible { outline:2px solid currentColor;outline-offset:3px; }
+.experiment-details[open] { position:absolute;inset:0;z-index:3;box-sizing:border-box;overflow:auto;padding:.7rem;background:var(--pcd-surface-strong);border:2px solid var(--pcd-accent); }
+.experiment-details pre { white-space:pre-wrap;max-height:300px;overflow:auto;font-size:13px; }
+/* A live experiment needs controls + evidence, not the minimum height of a
+   static illustration. Keep its interpretation beside it on desktop. */
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) {
+  grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);
+  align-items:start;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) > [data-composition-region-container] {
+  min-height:0;height:auto;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) [data-component-kind="visual"] {
+  min-height:0;height:auto;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) [data-composition-region-container="secondary"] > .definition-list {
+  display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem;margin:0;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) [data-composition-region-container="secondary"] .definition-list-entry {
+  padding:.65rem .8rem;
+}
+.reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) [data-composition-region-container="secondary"] .definition-list-description {
+  font-size:.78em;line-height:1.25;
+}
+.experiment-panels[hidden] { display:none!important; }
+.distribution-experiment[data-single-trial="true"] .experiment-readouts { font-size:20px;gap:.7rem; }
+.distribution-experiment[data-single-trial="true"] .experiment-readouts span { padding:.5rem;border:1px solid currentColor; }
+html.print-pdf :is(.experiment-controls,.experiment-actions,.experiment-feedback) { display:none!important; }
+html.print-pdf .distribution-experiment { overflow:visible;height:auto; }
+html.print-pdf .experiment-panels { height:280px;flex:none; }
+@media screen and (max-width:700px) { .experiment-panels { flex-direction:column;height:auto;min-height:0; } .experiment-panels svg { height:240px; } .distribution-experiment { height:auto;overflow:visible; } .distribution-experiment[data-readout-count] .experiment-readouts { grid-template-columns:1fr; } }
+@media screen and (max-width:700px) { .distribution-experiment[data-panel-count="1"] .experiment-panels { height:auto; } }
+@media screen and (max-width:700px) { .experiment-controls { grid-template-columns:repeat(2,minmax(0,1fr)); } .experiment-controls input { width:100%;box-sizing:border-box; } }
+@media screen and (max-width:700px) {
+ .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) { grid-template-columns:minmax(0,1fr); }
+ .reveal .slides section[data-composition="learning-stage"][data-composition-profile="info-visual"]:has(.distribution-experiment) > [data-composition-region-container="secondary"] { grid-column:1;grid-row:3; }
+}

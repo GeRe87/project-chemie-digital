@@ -1,0 +1,134 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-lognormal-workup-code> {
+  ex:lg-compare-code a cd:CodeExample ; skos:prefLabel "Instrument-only and independent complete preparations"@en ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:lognormal-concentration-model ; cd:code """# Separate fictional series, not paired validation measurements.
+# Relative factors are NOT literal unbounded extraction recoveries.
+M <- 1000; steps <- 3; factor_model <- 'normal'
+x0 <- 10; sd_instrument <- 0.10; sigma_L <- 0.30; state <- 20261103
+stopifnot(M>=10,M<=10000,steps>=1,steps<=200,
+          factor_model %in% c('normal','binary'))
+A <- numeric(M); B <- numeric(M); log_total <- numeric(M)
+for(j in seq_len(M)) {
+  state <- (16807*state) %% 2147483647
+  A[j] <- x0+sd_instrument*qnorm(state/2147483647)
+  contributions <- numeric(steps)
+  for(i in seq_len(steps)) {
+    state <- (16807*state) %% 2147483647
+    u <- state/2147483647
+    contributions[i] <- sigma_L/sqrt(steps) *
+      if(factor_model=='normal') qnorm(u) else if(u<0.5) -1 else 1
+  }
+  log_total[j] <- sum(contributions)
+  B[j] <- x0*prod(exp(contributions))
+}
+cat('Instrument mean and SD (ng/L):',mean(A),sd(A),'\\n')
+cat('Preparation mean (ng/L):',mean(B),'log SD:',sd(log_total),'\\n')
+cat('Preparation count above 15 ng/L:',sum(B>15),'of',M,'\\n')
+edges_B <- seq(0,max(36,ceiling(max(B)/2)*2),by=2)
+hB <- hist(B,breaks=edges_B,right=FALSE,plot=FALSE)
+cat('Preparation bin counts:',hB$counts,'\\n')
+cat('Normal log factors: exact lognormal. Binary log factors: finite discrete model.\\n')
+old <- par(mfrow=c(1,2),mar=c(5,4,3,1))
+hist(A,breaks=seq(floor(min(A)/.05)*.05,ceiling(max(A)/.05)*.05,by=.05),
+     right=FALSE,probability=TRUE,col='#8ecae6',main='A: instrument only',
+     xlab='Result (ng/L)',ylab='Density (L/ng)')
+plot(hB,freq=FALSE,col='#8ecae6',main='B: complete preparation',
+     xlab='Result (ng/L)',ylab='Density (L/ng)')
+par(old)
+cat('Panel ranges differ; the concentration units are the same.\\n')
+""" ; cd:authoredResource true .
+  ex:lg-factor-code a cd:CodeExample ; skos:prefLabel "Apply reciprocal factors one step at a time"@en ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:lognormal-concentration-model ; cd:code """# Change the sequence: each entry is either 0.8 or 1.25.
+factors <- c(1.25,1.25,1.25); x0 <- 10
+stopifnot(length(factors)>0,length(factors)<=30,
+          all(factors %in% c(0.8,1.25)),x0>0)
+values <- x0*c(1,cumprod(factors))
+logs <- log(values/x0)
+cat('Factors:',factors,'\\n')
+cat('Successive values (ng/L):',values,'\\n')
+cat('Successive log ratios:',logs,'\\n')
+cat('Final value:',tail(values,1),'ng/L\\n')
+old <- par(mfrow=c(1,2),mar=c(5,4,3,1))
+plot(0:length(factors),values,type='b',pch=16,col='#176b90',
+     xlab='Step number',ylab='Concentration (ng/L)',main='Absolute distances change')
+abline(h=x0,lty=2)
+plot(0:length(factors),logs,type='b',pch=16,col='#176b90',
+     xlab='Step number',ylab='Natural log of result / reference',
+     main='Reciprocal factors have opposite log steps')
+abline(h=0,lty=2)
+par(old)
+""" ; cd:authoredResource true .
+  ex:lg-transform-code a cd:CodeExample ; skos:prefLabel "Exponentiate normal log ratios and compare log spreads"@en ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:lognormal-concentration-model ; cd:code """# Fixed median 10 ng/L; log SD changes, not the reference units.
+M <- 10000; x_ref <- 10; mu_L <- 0; sigma_L <- 0.30; state <- 20261103
+stopifnot(M>=100,M<=10000,x_ref>0,sigma_L>0,sigma_L<=1)
+Y <- numeric(M)
+for(i in seq_len(M)) {
+  state <- (16807*state) %% 2147483647
+  Y[i] <- mu_L+sigma_L*qnorm(state/2147483647)
+}
+X <- x_ref*exp(Y)
+model_mode <- x_ref*exp(mu_L-sigma_L^2)
+model_median <- x_ref*exp(mu_L)
+model_mean <- x_ref*exp(mu_L+sigma_L^2/2)
+cat('Population mode, median, mean (ng/L):',model_mode,model_median,model_mean,'\\n')
+cat('Sample geometric mean (ng/L):',x_ref*exp(mean(log(X/x_ref))),'\\n')
+cat('Upper probability above 15 ng/L:',pnorm((log(15/x_ref)-mu_L)/sigma_L,lower.tail=FALSE),'\\n')
+q95 <- x_ref*exp(mu_L+sigma_L*qnorm(.95))
+cat('Population 95th percentile (ng/L):',format(q95,digits=12),'\\n')
+old <- par(mfrow=c(1,3),mar=c(5,4,3,1))
+hist(Y,probability=TRUE,col='#8ecae6',main='Normal log ratios',
+     xlab='Y: natural log ratio',ylab='Density per log-ratio unit')
+curve(dnorm(x,mu_L,sigma_L),add=TRUE,col='#a63d21',lwd=2)
+hist(X,probability=TRUE,col='#8ecae6',main='Exponentiated results',
+     xlab='Concentration (ng/L)',ylab='Density (L/ng)')
+curve(dlnorm(x/x_ref,meanlog=mu_L,sdlog=sigma_L)/x_ref,
+      add=TRUE,col='#a63d21',lwd=2)
+grid <- seq(.01,35,length.out=1000)
+spreads <- c(.15,.30,.60); colors <- c('#176b90','#a63d21','#5c469c')
+densities <- sapply(spreads,function(s) dlnorm(grid/x_ref,mu_L,s)/x_ref)
+matplot(grid,densities,type='l',lty=1,col=colors,lwd=2,
+        xlab='Concentration (ng/L)',ylab='Density (L/ng)',main='Same median, different log SD')
+legend('topright',legend=spreads,col=colors,lty=1,bty='n',title='Log SD')
+par(old)
+cat('The comparison-density window ends at 35; tails and moments are not truncated.\\n')
+""" ; cd:authoredResource true .
+  ex:lg-environment-code a cd:CodeExample ; skos:prefLabel "One hundred river sites: candidate, mixture and censored observations"@en ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:lognormal-concentration-model ; cd:code """# New population: between-site concentrations, NOT technical repeats.
+M <- 100; mode <- 'candidate'; x_ref <- 10; sigma_site <- 0.60
+loq <- 5; state <- 20261103
+stopifnot(mode %in% c('candidate','mixture','censored'))
+log_ratio <- numeric(M)
+for(i in seq_len(M)) {
+  state <- (16807*state) %% 2147483647
+  log_ratio[i] <- sigma_site*qnorm(state/2147483647)
+}
+if(mode=='mixture') {
+  for(i in seq_len(M)) {
+    state <- (16807*state) %% 2147483647
+    if(state/2147483647<.30) log_ratio[i] <- log_ratio[i]+1.2
+  }
+}
+latent <- x_ref*exp(log_ratio)
+observed <- latent
+if(mode=='censored') observed[latent<loq] <- NA_real_
+cat('Mode:',mode,'sites:',M,'censored:',sum(is.na(observed)),'\\n')
+if(mode=='censored') cat('Plots show detections only: selection-biased, NOT model validation.\\n')
+kept <- observed[!is.na(observed)]
+stopifnot(all(kept>0))
+logged <- log(kept/x_ref)
+old <- par(mfrow=c(1,3),mar=c(5,4,3,1))
+hist(kept,probability=TRUE,col='#8ecae6',main=paste(mode,'sites'),
+     xlab='Concentration (ng/L)',ylab='Observed density (L/ng)')
+hist(logged,probability=TRUE,col='#8ecae6',main='Same retained values, log ratios',
+     xlab='Natural log ratio',ylab='Density per log-ratio unit')
+qqnorm(logged,pch=16,cex=.6,col='#176b90',main='Normal Q-Q of log ratios')
+qqline(logged,col='#a63d21',lwd=2)
+par(old)
+cat('A Q-Q plot does not establish independence. No zero substitution or log(0).\\n')
+""" ; cd:authoredResource true .
+  ex:lg-compare-task a cd:Exercise ; cd:body "Optional instructor experiment: compare 1,000 independent instrument readings with 1,000 complete preparations. Panel ranges differ but both use ng/L. The default positive relative factors have independent normal logs. Try binary log factors with 4, 16, 50 and 200 steps: finite products are discrete, and only their standardized log sums approach normality. The following saved histogram is the default normal-log-factor fallback, not fitted validation evidence."@en ; cd:authoredResource true .
+  ex:lg-factor-task a cd:Exercise ; cd:body "Priority experiment: start at 10 ng/L and apply 1.25 three times, giving 19.53125. Replace one or more steps by 0.8. A factor and its reciprocal undo each other; equal log steps need not be equal concentration steps. Change only the factors, not the starting concentration. The next slide supplies the static 8, 10, 12.5 comparison."@en ; cd:authoredResource true .
+  ex:lg-transform-task a cd:Exercise ; cd:body "Optional experiment: create normal log ratios and exponentiate them. Compare log SD 0.15, 0.30 and 0.60 with median fixed at 10 ng/L. Describe positive support, the growing right tail and the separation of mode, median and arithmetic expectation. The density comparison stops at 35 ng/L; the full model extends beyond it. The following static formulas and values remain usable without R."@en ; cd:authoredResource true .
+  ex:lg-environment-task a cd:Exercise ; cd:body "New experiment: 100 river sites, not repeated analyses of one aliquot. Compare concentration and log-ratio histograms and a normal Q-Q plot. Switch candidate to mixture, then censored. A censoring threshold is information, not zero concentration. Detected-only plots are selection-biased and must not certify the full distribution. The site log SD 0.60 is a separate teaching model, not the LC-MS/MS method's 0.30."@en ; cd:authoredResource true .
+}

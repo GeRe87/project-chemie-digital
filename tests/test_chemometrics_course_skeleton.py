@@ -51,6 +51,11 @@ CHEMOMETRICS_ROWS = [
         str(EX["unit-placement-chemometrics-quantiles-moments-shape"]),
         str(EX["learning-unit-quantiles-moments-shape"]),
     ),
+    (
+        60,
+        str(EX["unit-placement-chemometrics-theoretical-distributions"]),
+        str(EX["learning-unit-theoretical-distributions"]),
+    ),
 ]
 
 SECTION_SPECS = [
@@ -76,9 +81,9 @@ SECTION_SPECS = [
     (
         30,
         EX["offering-section-chemometrics-similarity-analysis"],
-        "Similarity Analysis",
-        "Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis.",
-        (),
+        "Theoretical Distributions & Similarity Analysis",
+        "Theoretical distributions: density, cumulative probability and quantiles; normal, lognormal, chi-square, Student-t and F models. Follow-up topics: hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis.",
+        (EX["unit-placement-chemometrics-theoretical-distributions"],),
     ),
     (
         40,
@@ -190,7 +195,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
         self.assertEqual(direct_placements, set(grouped))
         self.assertEqual(len(direct_placements), len(grouped))
         self.assertEqual(
-            [spec[1] for spec in SECTION_SPECS[2:]],
+            [spec[1] for spec in SECTION_SPECS[3:]],
             [
                 section
                 for _position, section, _label, _description, placements in SECTION_SPECS
@@ -219,8 +224,8 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             [section["placementIds"] for section in document["sections"]],
         )
         self.assertEqual(
-            [[], [], [], [], []],
-            [section["placementIds"] for section in document["sections"][2:]],
+            [[], [], [], []],
+            [section["placementIds"] for section in document["sections"][3:]],
         )
 
     def test_section_roadmap_does_not_create_future_learning_units_or_placements(self) -> None:
@@ -340,7 +345,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
                 definitions = list(self.dataset.quads((concept, RDF.type, CD.Concept, None)))
                 self.assertEqual(1, len(definitions), f"Expected one canonical Concept definition for {concept}")
 
-    def test_all_five_chemometrics_units_have_exact_paths(self) -> None:
+    def test_all_six_chemometrics_units_have_exact_paths(self) -> None:
         self.assertEqual(
             {EX["path-chemometrics-introduction"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-chemometrics-introduction"])),
@@ -360,6 +365,10 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
         self.assertEqual(
             {EX["path-chemometrics-level4-distribution-shape-lecture"]},
             set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-quantiles-moments-shape"])),
+        )
+        self.assertEqual(
+            {EX["path-level5-review-complete"]},
+            set(self.graph.subjects(CD.forLearningUnit, EX["learning-unit-theoretical-distributions"])),
         )
 
     def test_course_order_is_independent_of_trig_file_order(self) -> None:

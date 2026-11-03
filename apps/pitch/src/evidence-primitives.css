@@ -426,7 +426,7 @@
   grid-template-columns: minmax(15rem, .78fr) minmax(0, 1.22fr);
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="evidence-stage"]:is([data-composition-profile="data-visual"], [data-composition-profile="list-data"]) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto auto !important;
@@ -754,7 +754,7 @@
   max-height: 11rem;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="evidence-stage"][data-composition-profile="visual-data-flow"] {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;

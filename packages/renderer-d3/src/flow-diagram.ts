@@ -1,4 +1,5 @@
 import type { DiagramBlock, SourceReference, VisualMotifKey } from "../../core/src/index.ts";
+import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 import {
   createD3FlowLayout,
@@ -253,6 +254,7 @@ function validateFlowBlock(block: DiagramBlock): void {
 }
 
 function flowStaticFallback(block: DiagramBlock): string {
+  if(block.binaryExperiment)return binaryDiagramFallback(block);
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
   const groupMembership = new Map<string, string[]>((block.groups ?? []).map((group): [string, string[]] => [
     group.id,

@@ -26,6 +26,12 @@ The Chemometrics Variables path includes consecutive scenes for scalar/vector/ma
 
 Chemometrics Level 1 has twelve active Variables scenes, including a compact purpose card after the definition. Level 2 has thirty-five Mean Values scenes and eight executable R labs with authored function glossaries. Its two-card dice experiment leads to expectation, a theoretical-versus-observed comparison and empirical estimation. The arithmetic formula is followed by a worked substitution (74/5 = 14.8) before the same-case R example. Geometric and harmonic means each follow a case, a comparison of unsuitable summaries for that question, a general formula, a numerical calculation and a same-case R example. The speed calculation finds the harmonic speed first, then total time; the Pb median comparison continues with a same-case R lab. Growth candidates compare directly with the observed 1600 cells; worked applications are marked “Example:”. Redundant footers and two standalone practice selections are omitted, and six concluding discussion questions share a responsive three-column/two-row grid. Selection cards give application examples with concise conditions. Use `npm run pitch:intro` and select a level from the overworld on port 5173; regenerate that course bundle after full tests, which restore the default German pitch transport. Fresh portrait opening remains unresolved; quantitative river/tracer animation is separate. See the [Level 2 visual audit and scientific review](docs/migration/chemometrics-mean-values-level-2.md).
 
+Level 5, **Theoretical Distribution Models**, is available in Region 3,
+**Theoretical Distributions & Similarity Analysis**. It opens the reviewed
+41-scene lecture (plus title), not the retained authoring drafts. Start it from
+the local overworld at `http://127.0.0.1:5173/` after `npm run pitch:intro`.
+See [Level 5 integration and review notes](docs/chemometrics-level5-review-v3.md).
+
 The active Variables presentation currently ends with “Types of variable values” (11 scenes). Later scene definitions and their semantic resources remain authored for reuse but are not selected by this path. The broader learning-unit focus concepts are unchanged.
 
 Shared teaching primitives give Level 2 transparent theme-aware dice/cell and experiment-setup drawings, square text/card surfaces, top-aligned prompt/code columns and larger editor type. All 25 active formulas have authored symbol legends displayed underneath; the compiler preserves their RDF `dct:hasPart` links. Illustrated exercises keep their sketches inside the task column or discussion card. Turbidity shows the arithmetic mean 10.72 NTU as an explicitly authored derived reference alongside the unchanged measurements. The warmup uses a bold instruction and two question bullets; ordinary and emphasized points use distinct reusable markers. Water-analysis results share one intrinsic-height surface. See the Level 2 audit for remaining portrait-navigation/scaling limits and the separately pending river/tracer animation.
@@ -46,6 +52,69 @@ deployment-only Actions policy exception. This work depends on the unaccepted dr
 course stack and does not constitute a release or merge approval.
 
 ## Local validation
+
+The local Level 5 authoring preview now selects a 111-scene analytical lecture:
+
+Use **Slides PDF** in the presentation toolbar for one complete slide per landscape
+PDF page, separate from the narrative script PDF. See [printing slides](docs/slides-pdf.md).
+The current **42-slide review selection** is generated separately with
+`npm run preview:level5:review-complete:generate`. Its [current review response](docs/chemometrics-level5-review-v3.md)
+covers the export repairs, PDF/CDF-first introduction and consistent Z/z notation.
+The historical 111-scene command and extended binomial material remain available.
+This local candidate is not a published or fully validated release.
+The [compact review pilot](docs/chemometrics-level5-compact-pilot-review.md) is
+available separately through `npm run preview:level5:review-normal:generate`:
+nine visible slides including the title, optional R details and the first normal
+simulation experiment. It does not yet replace the complete lecture.
+The [connected t/F revision](docs/chemometrics-level5-tf-story-review.md) follows the
+CRM mean decision through the same device A data to precision and calibration-model
+comparisons. Its focused content/execution validation is still in progress.
+CDF/PDF/PMF/inverse CDF, Normal, Lognormal, chi-square, Student-t and F with worked
+analytical examples, model-fit tests, a relationship map and a live dilution
+Monte Carlo case. Use `npm run preview:level5:generate` and open
+`http://127.0.0.1:5173/authoring.html?preview=authoring-level5-block1`.
+Append `&interactive=1` for the existing browser R workbench; its input models,
+code and saved reference are authored in TriG. The [CDF-first foundations](docs/chemometrics-level5-cdf-first-review.md)
+start with twenty fictional nitrate-standard results: ECDF as an estimate of CDF,
+interval differences, histogram density, a separate conceptual PDF/CDF pair,
+rounding versus exact points, and PMF with a short binomial application. The older
+uniform-function examples remain supporting resources. Generic standardization follows
+the distribution functions. The [new IC normal story](docs/chemometrics-level5-normal-ic-story-review.md)
+continues directly from the binomial example: repeated readings, signed error sums,
+eta (the usual z coordinate), density phi, CDF Phi, upper-tail and inverse-CDF limits,
+central coverage and sample means. It uses known model mean 10.00 and SD 0.10 mg/L,
+not estimates from its six illustrative readings. Optional R experiments and static
+numerical alternatives distinguish assumptions from observations and model limits.
+The [new lognormal preparation story](docs/chemometrics-level5-lognormal-workup-review.md)
+now follows Normal and leads into Chi-square: LC-MS/MS instrument versus complete
+preparation, reciprocal factors, dimensionless log ratios, transformed-normal models,
+population centers, geometric averaging, tails/quantiles and a separate river-site
+model check with censoring cautions. The earlier particle-size case remains supporting
+material. The final bridge explicitly returns from ng/L trace analysis to nitrate IC
+in mg/L; log-scale variance is not raw lognormal concentration variance.
+The [experiment-first IC rebuild](docs/chemometrics-level5-ic-experiment-review.md)
+now selects a new curated path: QC problem, random variance estimates, construction
+from independent squared normals, fitted-mean constraint, decision and sample-size
+effects. Its optional R demonstrations distinguish simulation count from sample size.
+The [depth revision](docs/chemometrics-level5-depth-review.md) adds linked function
+usecases, concrete normal sigma ranges, a six-stage particle-size lognormal case
+and sampling-distribution constructions before the inferential applications.
+The earlier [storyline revision](docs/chemometrics-level5-storyline-review.md) starts
+each distribution with its process picture, puts the data question on quantitative
+slides, introduces degrees of freedom, and links Q-Q/KS examples and critical-value
+table lookups. The earlier [IC precision revision](docs/chemometrics-level5-ic-precision-review.md)
+replaces the chi-square interval example with a six-reading nitrate repeatability
+test, residual construction and a repeated-series simulation. Student-t is explicitly
+introduced as a separate five-reading study, rather than silently changing datasets.
+The historical [inference bridge revision](docs/chemometrics-level5-ic-inference-bridge-review.md)
+makes the distinction between observed spread and a calibrated decision explicit
+before arithmetic and moves the unchanged-method variance experiment before the
+chi-square derivation and test decision.
+The previous 70-scene draft is
+preserved separately with `npm run preview:level5:support:generate` and preview
+key `authoring-level5-support`, not required as a main-lecture prelude. See the
+[implementation and validation review](docs/chemometrics-level5-analytical-lecture-review.md).
+These are unpublished local previews, not changes to the accepted deployment.
 
 For the bounded Level 4 preview, use `npm run preview:level4` and open
 `http://127.0.0.1:5173/authoring.html`. It contains the consolidated opening and

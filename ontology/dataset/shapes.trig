@@ -3,6 +3,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
 
 <https://w3id.org/project-chemie-digital/graph/shapes/core> {
   cd:ConceptShape a sh:NodeShape ;
@@ -304,7 +305,7 @@ SELECT $this WHERE {
     sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ] ;
     sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:authoredResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
-    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart cd:DotPlot cd:BoxPlot cd:ObservationExplorer cd:Histogram cd:Histogram2D ) ] ;
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart cd:DotPlot cd:BoxPlot cd:ObservationExplorer cd:Histogram cd:Histogram2D cd:ScientificExperiment ) ] ;
     sh:property [ sh:path cd:xAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:yAxisUnit ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path cd:liveUpdateIntervalMs ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 250 ] ;
@@ -349,6 +350,7 @@ SELECT $this WHERE {
     sh:property [ sh:path cd:xAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path cd:yAxisLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ] ;
     sh:or (
+      [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ; sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 1 ; sh:class cd:ExperimentParameter ] ]
       [ sh:property [ sh:path cd:chartType ; sh:in ( cd:BarChart cd:LineChart cd:Histogram cd:Histogram2D ) ] ;
         sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:nodeKind sh:IRI ] ;
         sh:property [ sh:path cd:hasChartGroup ; sh:maxCount 0 ] ]
@@ -724,6 +726,8 @@ SELECT $this WHERE {
 
   cd:SceneDefinitionShape a sh:NodeShape ;
     sh:targetClass cd:SceneDefinition ;
+    sh:property [ sh:path dct:subject ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class skos:Concept ;
+      sh:node [ sh:property [ sh:path cd:authoredResource ; sh:hasValue true ] ; sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype rdf:langString ; sh:minLength 1 ; sh:maxLength 80 ] ] ] ;
     sh:property [ sh:path cd:focusConcept ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Concept ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:hasSceneItem ; sh:minCount 1 ; sh:class cd:SceneItem ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path cd:presentationPattern ; sh:maxCount 1 ; sh:in ( cd:DefinitionWithCitation ) ] ;

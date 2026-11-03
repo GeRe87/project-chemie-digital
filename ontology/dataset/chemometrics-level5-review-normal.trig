@@ -1,0 +1,111 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-normal> {
+  ex:rv-growth20 a cd:Dataset ; skos:prefLabel "First 20 draws of the stated normal simulation"@en ; cd:unit "mg/L" ; cd:binCounts ex:rv-g20-0 ; cd:derivedFromResource ex:nn-readings-code ; cd:authoredResource true .
+  ex:rv-growth50 a cd:Dataset ; skos:prefLabel "First 50 draws of the same seeded stream"@en ; cd:unit "mg/L" ; cd:binCounts ex:rv-g50-0 ; cd:derivedFromResource ex:nn-readings-code ; cd:authoredResource true .
+  ex:rv-growth100 a cd:Dataset ; skos:prefLabel "First 100 draws of the same seeded stream"@en ; cd:unit "mg/L" ; cd:binCounts ex:rv-g100-0 ; cd:derivedFromResource ex:nn-readings-code ; cd:authoredResource true .
+  ex:rv-g20-0 rdf:first 0 ; rdf:rest ex:rv-g20-1 .
+  ex:rv-g20-1 rdf:first 0 ; rdf:rest ex:rv-g20-2 .
+  ex:rv-g20-2 rdf:first 0 ; rdf:rest ex:rv-g20-3 .
+  ex:rv-g20-3 rdf:first 0 ; rdf:rest ex:rv-g20-4 .
+  ex:rv-g20-4 rdf:first 1 ; rdf:rest ex:rv-g20-5 .
+  ex:rv-g20-5 rdf:first 4 ; rdf:rest ex:rv-g20-6 .
+  ex:rv-g20-6 rdf:first 1 ; rdf:rest ex:rv-g20-7 .
+  ex:rv-g20-7 rdf:first 3 ; rdf:rest ex:rv-g20-8 .
+  ex:rv-g20-8 rdf:first 7 ; rdf:rest ex:rv-g20-9 .
+  ex:rv-g20-9 rdf:first 4 ; rdf:rest ex:rv-g20-10 .
+  ex:rv-g20-10 rdf:first 0 ; rdf:rest ex:rv-g20-11 .
+  ex:rv-g20-11 rdf:first 0 ; rdf:rest ex:rv-g20-12 .
+  ex:rv-g20-12 rdf:first 0 ; rdf:rest ex:rv-g20-13 .
+  ex:rv-g20-13 rdf:first 0 ; rdf:rest ex:rv-g20-14 .
+  ex:rv-g20-14 rdf:first 0 ; rdf:rest ex:rv-g20-15 .
+  ex:rv-g20-15 rdf:first 0 ; rdf:rest rdf:nil .
+  ex:rv-g50-0 rdf:first 0 ; rdf:rest ex:rv-g50-1 .
+  ex:rv-g50-1 rdf:first 0 ; rdf:rest ex:rv-g50-2 .
+  ex:rv-g50-2 rdf:first 1 ; rdf:rest ex:rv-g50-3 .
+  ex:rv-g50-3 rdf:first 1 ; rdf:rest ex:rv-g50-4 .
+  ex:rv-g50-4 rdf:first 3 ; rdf:rest ex:rv-g50-5 .
+  ex:rv-g50-5 rdf:first 10 ; rdf:rest ex:rv-g50-6 .
+  ex:rv-g50-6 rdf:first 4 ; rdf:rest ex:rv-g50-7 .
+  ex:rv-g50-7 rdf:first 9 ; rdf:rest ex:rv-g50-8 .
+  ex:rv-g50-8 rdf:first 11 ; rdf:rest ex:rv-g50-9 .
+  ex:rv-g50-9 rdf:first 8 ; rdf:rest ex:rv-g50-10 .
+  ex:rv-g50-10 rdf:first 2 ; rdf:rest ex:rv-g50-11 .
+  ex:rv-g50-11 rdf:first 1 ; rdf:rest ex:rv-g50-12 .
+  ex:rv-g50-12 rdf:first 0 ; rdf:rest ex:rv-g50-13 .
+  ex:rv-g50-13 rdf:first 0 ; rdf:rest ex:rv-g50-14 .
+  ex:rv-g50-14 rdf:first 0 ; rdf:rest ex:rv-g50-15 .
+  ex:rv-g50-15 rdf:first 0 ; rdf:rest rdf:nil .
+  ex:rv-g100-0 rdf:first 1 ; rdf:rest ex:rv-g100-1 .
+  ex:rv-g100-1 rdf:first 0 ; rdf:rest ex:rv-g100-2 .
+  ex:rv-g100-2 rdf:first 1 ; rdf:rest ex:rv-g100-3 .
+  ex:rv-g100-3 rdf:first 4 ; rdf:rest ex:rv-g100-4 .
+  ex:rv-g100-4 rdf:first 5 ; rdf:rest ex:rv-g100-5 .
+  ex:rv-g100-5 rdf:first 16 ; rdf:rest ex:rv-g100-6 .
+  ex:rv-g100-6 rdf:first 8 ; rdf:rest ex:rv-g100-7 .
+  ex:rv-g100-7 rdf:first 17 ; rdf:rest ex:rv-g100-8 .
+  ex:rv-g100-8 rdf:first 22 ; rdf:rest ex:rv-g100-9 .
+  ex:rv-g100-9 rdf:first 16 ; rdf:rest ex:rv-g100-10 .
+  ex:rv-g100-10 rdf:first 6 ; rdf:rest ex:rv-g100-11 .
+  ex:rv-g100-11 rdf:first 2 ; rdf:rest ex:rv-g100-12 .
+  ex:rv-g100-12 rdf:first 2 ; rdf:rest ex:rv-g100-13 .
+  ex:rv-g100-13 rdf:first 0 ; rdf:rest ex:rv-g100-14 .
+  ex:rv-g100-14 rdf:first 0 ; rdf:rest ex:rv-g100-15 .
+  ex:rv-g100-15 rdf:first 0 ; rdf:rest rdf:nil .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-review-normal> {
+  ex:rv-n07-title a cd:Interpretation ; skos:prefLabel "What in the IC process can change a repeated result?"@en ; cd:authoredResource true .
+  ex:rv-n07-answer a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rv-n07-answer-entry ; cd:authoredResource true .
+  ex:rv-n07-answer-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "New illustrative vignette: nitrate IC, six repeats, mg/L"@en ; cd:body "10.03, 9.95, 10.08, 9.98, 10.12, 9.94. Small changes in injection, flow, temperature and electronics can combine. Nominal concentration, method expectation, one reading and the sample mean are different quantities. These six values neither prove a normal model nor set its parameters. The preceding twenty-value warm-up and later precision/CRM series remain separate."@en ; cd:authoredResource true .
+  ex:rv-n08-title a cd:Interpretation ; skos:prefLabel "Repeat the simulated method: 20, 50, 100, 1,000 results"@en ; cd:authoredResource true .
+  ex:rv-n08-answer a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**New simulation, not additional laboratory observations.** Hold the generating mean at 10.00 mg/L and SD at 0.10 mg/L. Increase the number of results and describe the histogram before adding a theoretical curve. Most results cluster centrally, but finite samples fluctuate. This generator already assumes independent normal readings: it illustrates that model and does not prove that real IC measurements are normal. The next experiment asks how small effects can compensate."@en ; cd:authoredResource true .
+  ex:rv-growth-chart a cd:ChartDefinition ; skos:prefLabel "More draws from one assumed stable normal method"@en ; cd:body "Saved simulation prefixes, seed 20261102. No real validation data and no theoretical curve overlay."@en ; cd:chartType cd:Histogram ; cd:usesDataset ex:rv-growth20 ; cd:binEdges ex:nn-ge0 ; cd:histogramNormalization "density" ; cd:hasHistogramState ex:rv-growth-state20, ex:rv-growth-state50, ex:rv-growth-state100, ex:rv-growth-state1000 ; cd:xAxisLabel "Individual nitrate result"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Simulated density"@en ; cd:yAxisUnit "L/mg" ; cd:authoredResource true .
+  ex:rv-growth-state20 a cd:HistogramState ; cd:position 1 ; skos:prefLabel "20 results"@en ; cd:body "First twenty draws; initial browser and PDF state."@en ; cd:usesDataset ex:rv-growth20 ; cd:authoredResource true .
+  ex:rv-growth-state50 a cd:HistogramState ; cd:position 2 ; skos:prefLabel "50 results"@en ; cd:body "First fifty draws of the same seeded stream; model parameters unchanged."@en ; cd:usesDataset ex:rv-growth50 ; cd:authoredResource true .
+  ex:rv-growth-state100 a cd:HistogramState ; cd:position 3 ; skos:prefLabel "100 results"@en ; cd:body "First hundred draws of the same seeded stream; model parameters unchanged."@en ; cd:usesDataset ex:rv-growth100 ; cd:authoredResource true .
+  ex:rv-growth-state1000 a cd:HistogramState ; cd:position 4 ; skos:prefLabel "1,000 results"@en ; cd:body "First thousand draws; the same published counts as the extended lecture."@en ; cd:usesDataset ex:nn-growth-data ; cd:authoredResource true .
+  ex:rv-growth-functions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:rv-growth-functions-entry ; cd:authoredResource true .
+  ex:rv-growth-functions-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "R functions and the deterministic stream"@en ; cd:body "c lists allowed result counts; %in% and stopifnot validate M. numeric allocates the result vector; seq_len supplies iteration indices. The Park-Miller recurrence uses multiplication and %% remainder with integer-valued state. qnorm transforms uniform fractions into standard-normal values; scaling and shifting set the stated SD and mean. seq creates fixed bins; hist computes and draws density bins with left-closed edges; cat and sum report count conservation."@en ; cd:authoredResource true .
+  ex:rv-growth-code a cd:CodeExample ; skos:prefLabel "Replay each published normal-simulation prefix"@en ; dct:hasPart ex:rv-growth-functions ; cd:programmingLanguage "r" ; cd:editable true ; cd:executable true ; cd:showsResource ex:normal-measurement-model ; cd:code """# Assumed normal generator, not fitted or measured validation data.
+M <- 20 # Try 20, 50, 100, 1000. The browser uses these saved prefixes.
+stopifnot(M %in% c(20,50,100,1000))
+state <- 20261102; x <- numeric(M)
+for(i in seq_len(M)) {
+  state <- (16807 * state) %% 2147483647
+  x[i] <- 10 + .10 * qnorm(state/2147483647)
+}
+edges <- seq(9.60,10.40,by=.05)
+h <- hist(x,breaks=edges,right=FALSE,plot=FALSE)
+cat('M:',M,'counted:',sum(h$counts),'\\n')
+cat('Counts:',h$counts,'\\n')
+plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
+     ylab='Simulated density (L/mg)',main='Assumed stable normal generator')
+""" ; cd:authoredResource true .
+  ex:rv-n09-title a cd:Interpretation ; skos:prefLabel "Four fair signed effects: sixteen ways to combine"@en ; cd:authoredResource true .
+  ex:rv-n09-answer a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Exact simplified model, not instrument-validation data.** Each of four independent effects contributes a positive or negative amount of equal magnitude a, in mg/L. The horizontal labels give the signed total as a multiple of a. Six of the sixteen equally likely sign combinations cancel; only one gives either extreme. The five combination counts are 1, 4, 6, 4, 1. Their bar heights are counts divided by sixteen, hence probability masses. Many routes reach the center; few reach the extremes."@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-normal> {
+  ex:rv-n07 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; dct:references ex:nn-case, ex:nn-model-scene ; cd:hasSceneItem ex:rv-n07-h, ex:rv-n07-c, ex:rv-n07-v ; cd:narration "N07. Combine the process question with the illustrative readings. Label the dataset change explicitly. Distinguish method expectation from a nominal concentration and a sample average. Several additive contributions are a possible mechanism; the vignette does not establish normality, independence or freedom from bias. The normal simulation on the next scene is a separate hypothetical model, not an expansion of these six results or the earlier twenty fictional readings."@en ; cd:authoredResource true .
+  ex:rv-n07-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:rv-n07-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n07-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rv-n07-answer ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n07-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:nn-process-media ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n08 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; dct:references ex:nn-growth-live, ex:nn-growth-saved ; cd:hasSceneItem ex:rv-n08-h, ex:rv-n08-c, ex:rv-n08-v, ex:rv-n08-r ; cd:narration "N08. Change only the displayed prefix length, from twenty to fifty, one hundred and one thousand. The saved state, n readout, caption and bars update together. All draws remain counted and the physical bin grid and vertical density scale stay fixed. Normality is assumed by the simulator, not inferred from its output. A thousand simulations improve the picture of that assumed model, not the method's physical precision. R independently replays the same seed and prefixes; no R is needed for state changes."@en ; cd:authoredResource true .
+  ex:rv-n08-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:rv-n08-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n08-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rv-n08-answer ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n08-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:rv-growth-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n08-r a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:rv-growth-code ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:optionalCode true ; cd:authoredResource true .
+  ex:rv-n09 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; dct:references ex:nn-four ; cd:hasSceneItem ex:rv-n09-h, ex:rv-n09-c, ex:rv-n09-v ; cd:narration "N09. Explain the five exact binomial masses with sign combinations rather than a density formula. Four equal-magnitude fair independent effects have sixteen equally likely sequences. Keep the distinction between a category's probability mass and a continuous density. Next ask what changes when the number of signed contributions increases while total variance is preserved. The extended path retains the symbolic construction and its complete same-slide legend."@en ; cd:authoredResource true .
+  ex:rv-n09-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:rv-n09-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:rv-n09-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:rv-n09-answer ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+   ex:rv-n09-v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:v3-four-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level5-review-normal> {
+  ex:path-level5-review-normal a cd:LearningPath ; skos:prefLabel "From analytical measurements to distributions, decisions and uncertainty"@en ; cd:forLearningUnit ex:unit-level5-probability-models ; cd:forTopic ex:l5-analytical-distributions ; dct:references ex:path-level5-review-opening, ex:path-level5-multiplicative-story-tf ; cd:hasStep ex:rv-p02, ex:rv-p03, ex:rv-p04, ex:rv-p05, ex:rv-p06, ex:rv-p07, ex:rv-p08, ex:rv-p09 ; cd:authoredResource true .
+  ex:rv-p07 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:rv-n07 ; cd:usesResource ex:nn-process-media ; cd:authoredResource true .
+  ex:rv-p08 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:rv-n08 ; cd:usesResource ex:rv-growth-chart, ex:rv-growth-code ; cd:authoredResource true .
+  ex:rv-p09 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:rv-n09 ; cd:usesResource ex:nn-four-chart ; cd:authoredResource true .
+}

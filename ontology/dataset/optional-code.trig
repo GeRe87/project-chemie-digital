@@ -1,0 +1,19 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/optional-code> {
+  cd:LearningDomain cdm:definesAttribute cd:optionalCode .
+  cd:optionalCode a rdf:Property, cdm:AttributeDescriptor ;
+    rdfs:domain cd:SceneItem ; rdfs:range xsd:boolean ;
+    rdfs:comment "An optional reproducibility example, not required for the scene's main explanation. Its authored function glossary shares this status. Does not make a displayed formula legend optional."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/optional-code> {
+  cd:OptionalCodeShape a sh:NodeShape ; sh:targetSubjectsOf cd:optionalCode ;
+    sh:property [ sh:path cd:optionalCode ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:communicativeRole ; sh:hasValue cd:CodeRole ] ;
+    sh:property [ sh:path cd:selectsResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:CodeExample ] .
+}

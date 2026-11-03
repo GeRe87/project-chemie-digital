@@ -85,6 +85,15 @@ test("annotation-free line charts render their scientific trace initially", () =
   );
 });
 
+test("authored complete presentation and step geometry remain renderer-neutral",()=>{
+  const authored:LineChartBlock={...block,presentation:"complete",interpolation:"step-after",showPoints:false,yDomain:[0,100]};
+  const result=createD3LineChartRenderModel(authored);assert.ok(result.model);
+  assert.equal(result.model.presentation,"complete");assert.equal(result.model.interpolation,"step-after");
+  assert.equal(result.model.showPoints,false);assert.deepEqual(result.model.yDomain,[0,100]);
+  assert.match(result.model.staticFallback,/Right-continuous step function/);
+  assert.deepEqual(lineChartPresentationPlan(result.model.annotations,result.model.presentation),{progressive:false,stepCount:0,traceInitiallyVisible:true});
+});
+
 
 test("generic line chart styling keeps traces unfilled and emphasizes points", () => {
   const source = readFileSync(new URL("../src/line-chart.ts", import.meta.url), "utf8");

@@ -16,3 +16,5 @@ apps/pitch/public/vendor/
 # Disposable bounded authoring preview; canonical content remains TriG.
 apps/pitch/public/authoring-runtime.json
 apps/pitch/public/authoring-static.html
+apps/pitch/public/authoring-*-runtime.json
+apps/pitch/public/authoring-*-static.html

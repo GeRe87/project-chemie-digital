@@ -191,7 +191,7 @@
   text-align: left;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="main-aside-note"] {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
@@ -312,7 +312,7 @@ body[data-presentation-theme="dark"] .reveal .slides
     8px 8px 0 rgb(0 0 0 / .28);
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="statement-support"] {
     padding: 1rem !important;
   }
@@ -352,7 +352,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   text-wrap: balance;
 }
 
-@media (max-width: 700px) and (orientation: portrait) {
+@media screen and (max-width: 700px) and (orientation: portrait) {
   .reveal .slides section[data-composition="stack"][data-composition-main-count="0"]
     > [data-composition-region="heading"] {
     max-width: 100%;

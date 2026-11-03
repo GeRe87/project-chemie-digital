@@ -1,0 +1,62 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/level5-storyline> {
+  ex:path-level5-storyline a cd:LearningPath ; skos:prefLabel "Analytical distributions: process, data question, construction and decision"@en ; cd:forLearningUnit ex:unit-level5-probability-models ; cd:forTopic ex:l5-analytical-distributions, ex:l5-monte-carlo, ex:rev-df, ex:rev-qq ; cd:hasStep ex:rev-s01, ex:rev-s02, ex:rev-s03, ex:rev-s04, ex:rev-s05, ex:rev-s06, ex:rev-s07, ex:rev-s08, ex:rev-s09, ex:rev-s10, ex:rev-s11, ex:rev-s12, ex:rev-s13, ex:rev-s14, ex:rev-s15, ex:rev-s16, ex:rev-s17, ex:rev-s18, ex:rev-s19, ex:rev-s20, ex:rev-s21, ex:rev-s22, ex:rev-s23, ex:rev-s24, ex:rev-s25, ex:rev-s26, ex:rev-s27, ex:rev-s28, ex:rev-s29, ex:rev-s30, ex:rev-s31, ex:rev-s32, ex:rev-s33, ex:rev-s34, ex:rev-s35, ex:rev-s36, ex:rev-s37, ex:rev-s38, ex:rev-s39, ex:rev-s40, ex:rev-s41, ex:rev-s42, ex:rev-s43, ex:rev-s44, ex:rev-s45, ex:rev-s46, ex:rev-s47, ex:rev-s48, ex:rev-s49, ex:rev-s50, ex:rev-s51, ex:rev-s52, ex:rev-s53, ex:rev-s54, ex:rev-s55 ; cd:authoredResource true .
+  ex:rev-s01 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:al-opening ; cd:usesResource ex:al-overview ; cd:authoredResource true .
+  ex:rev-s02 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:rev-functions ; cd:usesResource ex:rev-functions-cards, ex:rev-functions-media ; cd:authoredResource true .
+  ex:rev-s03 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:al-density ; cd:usesResource ex:al-pdf, ex:al-uniform-pdf-chart ; cd:authoredResource true .
+  ex:rev-s04 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:al-area-example ; cd:usesResource ex:al-area-work ; cd:authoredResource true .
+  ex:rev-s05 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:al-cumulative ; cd:usesResource ex:al-cdf ; cd:authoredResource true .
+  ex:rev-s06 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:al-quantile ; cd:usesResource ex:al-inverse ; cd:authoredResource true .
+  ex:rev-s07 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:dep-paired ; cd:usesResource ex:dep-pipette-formula, ex:dep-pair-media ; cd:authoredResource true .
+  ex:rev-s08 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:al-normal-process ; cd:usesResource ex:al-additive-media ; cd:authoredResource true .
+  ex:rev-s09 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:al-normal-story ; cd:usesResource ex:al-normal-cards ; cd:authoredResource true .
+  ex:rev-s10 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:al-normal-model ; cd:usesResource ex:al-normal-law ; cd:authoredResource true .
+  ex:rev-s11 a cd:PathStep ; cd:position 11 ; cd:usesScene ex:al-control-story ; cd:usesResource ex:al-control-cards ; cd:authoredResource true .
+  ex:rev-s12 a cd:PathStep ; cd:position 12 ; cd:usesScene ex:al-normal-probability ; cd:usesResource ex:al-control-probability-formula ; cd:authoredResource true .
+  ex:rev-s13 a cd:PathStep ; cd:position 13 ; cd:usesScene ex:al-normal-inverse ; cd:usesResource ex:al-control-inverse-formula ; cd:authoredResource true .
+  ex:rev-s14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:al-standardization ; cd:usesResource ex:al-standardization-formula ; cd:authoredResource true .
+  ex:rev-s15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:dep-sigma ; cd:usesResource ex:dep-normal-bands ; cd:authoredResource true .
+  ex:rev-s16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:dep-log-process ; cd:usesResource ex:dep-log-process-media ; cd:authoredResource true .
+  ex:rev-s17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:dep-log-story ; cd:usesResource ex:dep-log-cards ; cd:authoredResource true .
+  ex:rev-s18 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:dep-log-model ; cd:usesResource ex:dep-log-law ; cd:authoredResource true .
+  ex:rev-s19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:dep-log-threshold ; cd:usesResource ex:dep-log-tail ; cd:authoredResource true .
+  ex:rev-s20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:dep-log-ranges ; cd:usesResource ex:dep-log-bands ; cd:authoredResource true .
+  ex:rev-s21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:dep-log-reporting ; cd:usesResource ex:dep-log-report ; cd:authoredResource true .
+  ex:rev-s22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:rev-df-start ; cd:usesResource ex:rev-df-media ; cd:authoredResource true .
+  ex:rev-s23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:rev-df-map ; cd:usesResource ex:rev-df-cards ; cd:authoredResource true .
+  ex:rev-s24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:rev-chi-process ; cd:usesResource ex:rev-chi-media ; cd:authoredResource true .
+  ex:rev-s25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:rev-chi-calc ; cd:usesResource ex:l5-s15a-chart, ex:l5-s15a-formula ; cd:authoredResource true .
+  ex:rev-s26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:rev-chi-reference ; cd:usesResource ex:rev-chi-pivot ; cd:authoredResource true .
+  ex:rev-s27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:rev-chi-report ; cd:usesResource ex:rev-chi-interval ; cd:authoredResource true .
+  ex:rev-s28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:rev-t-process ; cd:usesResource ex:rev-t-media ; cd:authoredResource true .
+  ex:rev-s29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:rev-t-normal ; cd:usesResource ex:l5-t16c-formula ; cd:authoredResource true .
+  ex:rev-s30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:rev-t-estimated ; cd:usesResource ex:l5-t16d-formula ; cd:authoredResource true .
+  ex:rev-s31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:rev-t-convergence ; cd:usesResource ex:rev-t-convergence-chart ; cd:authoredResource true .
+  ex:rev-s32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:rev-t-report ; cd:usesResource ex:l5-t16g-formula ; cd:authoredResource true .
+  ex:rev-s33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:rev-f-process ; cd:usesResource ex:rev-f-media ; cd:authoredResource true .
+  ex:rev-s34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:rev-f-story ; cd:usesResource ex:rev-f-data ; cd:authoredResource true .
+  ex:rev-s35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:rev-f-reference ; cd:usesResource ex:l5-f17b-formula ; cd:authoredResource true .
+  ex:rev-s36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:rev-f-decision ; cd:usesResource ex:al-f-work ; cd:authoredResource true .
+  ex:rev-s37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:rev-check-start ; cd:usesResource ex:rev-check-cards ; cd:authoredResource true .
+  ex:rev-s38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:rev-qq-build ; cd:usesResource ex:rev-qq-formula ; cd:authoredResource true .
+  ex:rev-s39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:rev-qq-read ; cd:usesResource ex:rev-qq-media ; cd:authoredResource true .
+  ex:rev-s40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:rev-ks-overlay ; cd:usesResource ex:rev-ks-media, ex:l5-g19b-formula ; cd:authoredResource true .
+  ex:rev-s41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:rev-ks-scale ; cd:usesResource ex:rev-ks-scale-cards ; cd:authoredResource true .
+  ex:rev-s42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:rev-ks-table-scene ; cd:usesResource ex:rev-ks-table, ex:rev-ks-code ; cd:authoredResource true .
+  ex:rev-s43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:rev-pearson-start ; cd:usesResource ex:l5-p20a-formula ; cd:authoredResource true .
+  ex:rev-s44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:rev-pearson-sum ; cd:usesResource ex:l5-p20b-formula ; cd:authoredResource true .
+  ex:rev-s45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:rev-pearson-table-scene ; cd:usesResource ex:rev-chi-table, ex:rev-pearson-code ; cd:authoredResource true .
+  ex:rev-s46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:rev-pearson-pair ; cd:usesResource ex:rev-pearson-compare ; cd:authoredResource true .
+  ex:rev-s47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:al-map ; cd:usesResource ex:al-map-media ; cd:authoredResource true .
+  ex:rev-s48 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:mc-story ; cd:usesResource ex:al-process-media ; cd:authoredResource true .
+  ex:rev-s49 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:mc-model ; cd:usesResource ex:mc-equation ; cd:authoredResource true .
+  ex:rev-s50 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:mc-assumptions ; cd:usesResource ex:mc-inputs ; cd:authoredResource true .
+  ex:rev-s51 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:mc-transform ; cd:usesResource ex:mc-inverse ; cd:authoredResource true .
+  ex:rev-s52 a cd:PathStep ; cd:position 52 ; cd:usesScene ex:mc-trial ; cd:usesResource ex:mc-one ; cd:authoredResource true .
+  ex:rev-s53 a cd:PathStep ; cd:position 53 ; cd:usesScene ex:mc-live ; cd:usesResource ex:mc-code ; cd:authoredResource true .
+  ex:rev-s54 a cd:PathStep ; cd:position 54 ; cd:usesScene ex:mc-result ; cd:usesResource ex:mc-output-chart ; cd:authoredResource true .
+  ex:rev-s55 a cd:PathStep ; cd:position 55 ; cd:usesScene ex:mc-scope ; cd:usesResource ex:mc-limits ; cd:authoredResource true .
+}

@@ -1,5 +1,24 @@
 # Oberwelt als Inselkarte
 
+## Ergänzung: Level 5 in Region 3
+
+„Theoretical Distribution Models“ ergänzt die Oberwelt als Level 5 mit eigener
+Inselgrafik. Region 3 heißt jetzt „Theoretical Distributions & Similarity Analysis“;
+ihre Beschreibung ergänzt theoretische Verteilungen und behält die späteren
+Test- und Ähnlichkeitsthemen bei. Der einzige neue Einstieg öffnet genau die
+41 geprüften Szenen plus Titel. Frühere Entwurfsfassungen bleiben separat erhalten.
+Die sechs Level und sieben Regionen verwenden weiterhin die bestehenden
+RDF-Placement-, Section-, Pfadbindungs- und Thumbnail-Verträge.
+
+Geprüft: drei neue Integrations-/Artwork-Tests, zwölf gezielte Kursstrukturtests
+ohne den langlaufenden Gesamtdataset-SHACL-Test und 14 Node-Oberwelttests.
+Edge und Firefox bestehen Desktop/Mobil und Hell/Dunkel einschließlich
+Tastaturstart, lokaler Grafik, verzögertem Folienladen und Rückkehr zur Oberwelt.
+Nachweise: `C:/Users/PCUser/AppData/Local/Temp/opencode/level5-overworld/`.
+Der komplette `npm test`-Lauf ist noch kein erfolgreicher Gesamtnachweis;
+ein separater Kursstruktur-Lauf inklusive Gesamtdataset-SHACL überschritt 300 s.
+Alle Änderungen bleiben lokal, uncommitted und unveröffentlicht.
+
 ## Ergänzung: Quantiles & Statistical Moments
 
 Für die inzwischen verfügbare fünfte Vorlesung ist jetzt ebenfalls eine eigene

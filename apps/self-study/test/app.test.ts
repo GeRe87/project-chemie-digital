@@ -120,7 +120,7 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       return;
     case "chart":
       if (node.chartType === "box" || node.chartType === "histogram"
-        || node.chartType === "histogram2d" || node.chartType === "observations") {
+        || node.chartType === "histogram2d" || node.chartType === "observations" || node.chartType === "experiment") {
         const chart = node.payload;
         visible(chart.label, `missing scientific chart label ${node.sourceBlockId}`);
         visible(chart.description, `missing scientific chart description ${node.sourceBlockId}`);
@@ -397,7 +397,7 @@ test("generated Chemometrics runtime exposes section-aware 1.1 regions with exac
     documentValue.placements.map((placement) => placement.id).sort(),
   );
   assert.equal(new Set(grouped).size, grouped.length);
-  assert.equal(documentValue.sections.filter((section) => section.placementIds.length === 0).length, 5);
+  assert.equal(documentValue.sections.filter((section) => section.placementIds.length === 0).length, 4);
 });
 
 test("course-world projection stays generic and does not hardcode Chemometrics section labels", async () => {
@@ -421,13 +421,13 @@ test("generated static world renders every authored region, description, member 
   assert.match(index, /class="course-world-sections"/);
   assert.match(index, /class="course-world-region"/);
   for (const section of documentValue.sections) {
-    for (const label of section.labels) assert.ok(index.includes(label.value), `missing static section label ${section.id}`);
+    for (const label of section.labels) assert.ok(index.includes(escapeRenderedText(label.value)), `missing static section label ${section.id}`);
     for (const description of section.descriptions) {
-      assert.ok(index.includes(description.value), `missing static section description ${section.id}`);
+      assert.ok(index.includes(escapeRenderedText(description.value)), `missing static section description ${section.id}`);
     }
   }
   assert.ok(
-    (index.match(/class="course-world-section-empty">In preparation/g) ?? []).length >= 5,
+    (index.match(/class="course-world-section-empty">In preparation/g) ?? []).length === 4,
     "expected all authored empty sections to remain visible",
   );
 });

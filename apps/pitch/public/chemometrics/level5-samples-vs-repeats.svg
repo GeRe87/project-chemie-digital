@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-labelledby="title desc">
+  <title id="title">Ten water samples compared with ten laboratory repeats</title>
+  <desc id="desc">Left: ten distinct numbered water sampling positions. Right: one water sample supplies ten laboratory measurements. A justified environmental selection design can support population inference; technical repeats describe analytical repeatability for one sample. The positions are schematic, not a validated sampling plan.</desc>
+  <defs>
+    <g id="tube" fill="#e3f3f8" stroke="#234b60" stroke-width="3">
+      <path d="M-13-27h26v46a13 13 0 0 1-26 0z"/>
+      <path d="M-12 0h24v19a12 12 0 0 1-24 0z" fill="#56a9c7" stroke="none"/>
+      <path d="M-16-27h32" stroke-width="5"/>
+    </g>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#234b60"/></marker>
+  </defs>
+  <rect x="8" y="8" width="478" height="384" rx="22" fill="#f1f8fb" stroke="#aacbd7" stroke-width="2"/>
+  <rect x="514" y="8" width="478" height="384" rx="22" fill="#f8f6ef" stroke="#cfc5a6" stroke-width="2"/>
+  <g font-family="Arial, sans-serif" fill="#163d50" text-anchor="middle">
+    <text x="247" y="53" font-size="38" font-weight="700">10 water samples</text>
+    <text x="753" y="53" font-size="38" font-weight="700">1 water sample</text>
+    <path d="M83 108Q133 65 205 94T366 97Q442 135 416 199T340 266Q275 290 189 265T70 195Q41 140 83 108Z" fill="#c7e9f3" stroke="#438aa5" stroke-width="4"/>
+    <g fill="#fff" stroke="#234b60" stroke-width="3">
+      <circle cx="127" cy="128" r="22"/><circle cx="231" cy="125" r="22"/><circle cx="341" cy="133" r="22"/>
+      <circle cx="103" cy="185" r="22"/><circle cx="202" cy="180" r="22"/><circle cx="299" cy="184" r="22"/><circle cx="389" cy="187" r="22"/>
+      <circle cx="154" cy="237" r="22"/><circle cx="248" cy="246" r="22"/><circle cx="345" cy="240" r="22"/>
+    </g>
+    <g font-size="25" font-weight="700" dominant-baseline="central">
+      <text x="127" y="128">1</text><text x="231" y="125">2</text><text x="341" y="133">3</text>
+      <text x="103" y="185">4</text><text x="202" y="180">5</text><text x="299" y="184">6</text><text x="389" y="187">7</text>
+      <text x="154" y="237">8</text><text x="248" y="246">9</text><text x="345" y="240">10</text>
+    </g>
+    <g transform="translate(753 108)"><use href="#tube"/></g>
+    <path d="M753 145v25" fill="none" stroke="#234b60" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M583 196v-14h340v14M668 182v14M753 182v14M838 182v14" fill="none" stroke="#234b60" stroke-width="3"/>
+    <g>
+      <use href="#tube" x="583" y="223"/><use href="#tube" x="668" y="223"/><use href="#tube" x="753" y="223"/><use href="#tube" x="838" y="223"/><use href="#tube" x="923" y="223"/>
+      <use href="#tube" x="583" y="284"/><use href="#tube" x="668" y="284"/><use href="#tube" x="753" y="284"/><use href="#tube" x="838" y="284"/><use href="#tube" x="923" y="284"/>
+    </g>
+    <text x="247" y="332" font-size="36" font-weight="700">Water-body findings*</text>
+    <text x="247" y="374" font-size="27">*with a justified selection design</text>
+    <text x="753" y="340" font-size="30">10 lab measurements</text>
+    <text x="753" y="377" font-size="36" font-weight="700">Lab repeatability</text>
+  </g>
+</svg>

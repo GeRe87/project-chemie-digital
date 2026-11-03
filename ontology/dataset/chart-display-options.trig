@@ -1,0 +1,38 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/ontology/chart-display-options> {
+  cd:LearningDomain cdm:definesAttribute cd:chartPresentation, cd:lineInterpolation, cd:showChartPoints, cd:chartYMinimum, cd:chartYMaximum .
+  cd:chartPresentation a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string ; rdfs:comment "Complete shows a chart and all authored annotations immediately; omission retains the existing renderer progression."@en .
+  cd:lineInterpolation a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string ; rdfs:comment "Linear or right-continuous step-after connection of authored line coordinates."@en .
+  cd:showChartPoints a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:boolean .
+  cd:chartYMinimum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+  cd:chartYMaximum a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:decimal .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/chart-display-options> {
+  cd:ChartDisplayShape a sh:NodeShape ; sh:targetSubjectsOf cd:chartPresentation ; sh:targetSubjectsOf cd:lineInterpolation ; sh:targetSubjectsOf cd:showChartPoints ; sh:targetSubjectsOf cd:chartYMinimum ; sh:targetSubjectsOf cd:chartYMaximum ;
+    sh:class cd:ChartDefinition ;
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:BarChart cd:LineChart ) ] ;
+    sh:property [ sh:path cd:chartPresentation ; sh:maxCount 1 ; sh:in ( "progressive" "complete" ) ] ;
+    sh:property [ sh:path cd:lineInterpolation ; sh:maxCount 1 ; sh:in ( "linear" "step-after" ) ] ;
+    sh:property [ sh:path cd:showChartPoints ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path cd:chartYMinimum ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThan cd:chartYMaximum ] ;
+    sh:property [ sh:path cd:chartYMaximum ; sh:maxCount 1 ; sh:datatype xsd:decimal ] .
+  cd:LineDisplayShape a sh:NodeShape ; sh:targetSubjectsOf cd:lineInterpolation ; sh:targetSubjectsOf cd:showChartPoints ; sh:targetSubjectsOf cd:chartYMinimum ; sh:targetSubjectsOf cd:chartYMaximum ;
+    sh:property [ sh:path cd:chartType ; sh:hasValue cd:LineChart ] .
+  cd:LineDomainShape a sh:NodeShape ; sh:targetSubjectsOf cd:chartYMinimum ; sh:targetSubjectsOf cd:chartYMaximum ;
+    sh:property [ sh:path cd:chartYMinimum ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:chartYMaximum ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [ sh:message "An authored line domain must contain every series value." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      PREFIX dct: <http://purl.org/dc/terms/>
+      SELECT $this WHERE {
+        $this cd:chartYMinimum ?lower ; cd:chartYMaximum ?upper ; (cd:usesDataset|dct:hasPart) ?dataset .
+        ?dataset cd:hasObservation ?observation . ?observation cd:numericValue ?value .
+        FILTER (?value < ?lower || ?value > ?upper)
+      }""" ] .
+}
