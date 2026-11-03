@@ -189,3 +189,10 @@ Owner-authorized publication preflight updates that obsolete placement count to
 assertions remain unchanged. A fresh complete `npm test` on the committed result
 is required before merging into `chemometrics` and rebuilding the full Overworld
 site for the existing `gh-pages` domain; `main` is not a publication target.
+
+The first complete follow-up run reaches Self-Study after all earlier phases pass,
+but its two app-level static-content assertions still expect the replaced symbol
+group heading and brief prose. Those assertions now require the complete shared
+authored `dl`/`dt`/`dd` output for definition-row legends, retaining the original
+term/description coverage for ordinary and legacy entries. This changes test
+expectations only; full validation must be repeated on the new committed head.
