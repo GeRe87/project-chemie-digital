@@ -41,13 +41,17 @@ class ICExperimentTests(unittest.TestCase):
                  'ic-reference', 'ic-scale-question', 'ic-squares', 'ic-test',
                  'ix-size-scene', 'ix-size-live', 'ix-outlook']
         self.assertEqual([f'ex:{name}--scene' for name in names], list(self.scenes)[27:46])
-        # No premature abstract df overview, Gamma density or legacy chi-square scene.
+        # Keep the construction order; the requested density belongs to the sum scene.
         self.assertNotIn('ex:rev-df-start--scene', self.scenes)
         self.assertNotIn('ex:rev-chi-report--scene', self.scenes)
         for scene in self.document['scenes']:
             for block in scene['blocks']:
                 if block['kind'] == 'math':
-                    self.assertNotIn(r'\Gamma', json.dumps(block))
+                    if scene['id']=='ex:ix-sum-scene--scene':
+                        self.assertIn(r'\Gamma(k/2)',block['expression'])
+                        self.assertIn(r'\Gamma(a)=\int_0^\infty',block['expression'])
+                    else:
+                        self.assertNotIn(r'\Gamma', json.dumps(block))
         self.assertEqual('ex:mc-scope--scene', list(self.scenes)[-1])
 
     def test_every_new_displayed_formula_has_covered_visible_legend(self):
