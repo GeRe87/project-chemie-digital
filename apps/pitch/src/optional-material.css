@@ -1,0 +1,72 @@
+/* Optional reproducibility material is not a primary stage or another slide.
+   Native details also works without webR or a new client runtime. */
+.reveal .slides section > .pcd-optional-material {
+  position:absolute;right:1.5rem;bottom:1.2rem;z-index:20;
+  max-width:calc(100% - 3rem);font:20px/1.4 Arial,sans-serif;
+  color:var(--pcd-foreground);background:var(--pcd-surface-strong);
+  border:2px solid var(--pcd-accent);border-radius:.4rem;text-align:left;
+}
+.pcd-optional-material > summary { padding:.45rem .8rem;cursor:pointer; }
+.pcd-optional-material > summary:focus-visible { outline:3px solid var(--pcd-accent);outline-offset:3px; }
+.reveal .slides section > .pcd-optional-material[open] {
+  inset:1rem;max-width:none;display:flex;flex-direction:column;box-sizing:border-box;overflow:hidden;
+}
+.pcd-optional-material[open] > summary { flex:none;border-bottom:1px solid var(--pcd-accent); }
+.pcd-optional-material-content { min-height:0;overflow:auto;padding:1rem;overscroll-behavior:contain; }
+.pcd-optional-material[open] > .pcd-optional-material-content { position:absolute;inset:var(--pcd-optional-summary-height,3.4rem) 0 0;box-sizing:border-box; }
+.reveal .pcd-optional-material-content .code-block { height:auto;max-height:none; }
+.reveal .pcd-optional-material-content .code-static-fallback {
+  height:auto;max-height:none;overflow:visible;white-space:pre-wrap;overflow-wrap:anywhere;font:18px/1.5 monospace;
+}
+.reveal .pcd-optional-material-content .definition-list { max-height:none;overflow:visible;font-size:20px; }
+/* Open R labs are bounded workspaces. Only the code and result panes scroll;
+   the close summary and execution toolbar remain outside those scroll areas. */
+.pcd-optional-material-content:has(> .code-block[data-code-layout="split"]) {
+  flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+}
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] {
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);
+  gap:.5rem .8rem;flex:1 1 0;min-width:0;min-height:0;width:100%;height:100%;max-height:100%;max-width:none;margin:0;font-size:18px;
+}
+.code-block[data-code-layout="split"] > .code-source-label { grid-column:1;grid-row:1;font-weight:700;align-self:center; }
+.code-block[data-code-layout="split"] > :is(.code-runtime-controls,.code-runtime-placeholder) {
+  grid-column:2;grid-row:1;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin:0;min-width:0;font-size:16px;
+}
+.code-block[data-code-layout="split"] .code-runtime-placeholder[hidden] { display:none!important; }
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] > :is(.code-static-fallback,.code-editor-host) {
+  grid-column:1;grid-row:2;box-sizing:border-box;width:100%;height:100%;max-height:100%;min-width:0;min-height:0;margin:0;overflow:auto;
+}
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] > .code-static-fallback {
+  white-space:pre;overflow-wrap:normal;font:18px/1.4 "Cascadia Code",Consolas,monospace;
+}
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] > .code-static-fallback[hidden] { display:none!important; }
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] .code-editor-host { overflow:hidden; }
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] .cm-editor { height:100%;min-height:0;font-size:18px; }
+.reveal .pcd-optional-material-content .code-block[data-code-layout="split"] .cm-scroller { height:100%;min-height:0;overflow:auto;overscroll-behavior:contain; }
+.code-block[data-code-layout="split"] > .code-result-pane {
+  grid-column:2;grid-row:2;box-sizing:border-box;min-width:0;min-height:0;height:100%;overflow:auto;overscroll-behavior:contain;
+  border:2px solid var(--pcd-accent);background:var(--pcd-surface-strong);padding:.6rem;
+}
+.reveal .code-block[data-code-layout="split"] .code-output {
+  box-sizing:border-box;min-width:0;min-height:0;height:auto;max-height:none;overflow:visible;margin:0;padding:.3rem;border:0;font:17px/1.4 "Cascadia Code",Consolas,monospace;overflow-wrap:anywhere;
+}
+.code-block[data-code-layout="split"] :is(.code-static-fallback,.code-result-pane):focus-visible { outline:3px solid var(--pcd-accent);outline-offset:-3px; }
+.code-block[data-code-layout="split"] .code-runtime-controls button { padding:.35rem .55rem; }
+.code-block[data-code-layout="split"] .code-runtime-label { font-size:12px; }
+@media screen and (max-width:700px) {
+ .pcd-optional-material-content:has(> .code-block[data-code-layout="split"]) { padding:.5rem; }
+ .reveal .pcd-optional-material-content .code-block[data-code-layout="split"] { grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto minmax(0,1fr); }
+ .code-block[data-code-layout="split"] > :is(.code-runtime-controls,.code-runtime-placeholder) { grid-column:1;grid-row:3; }
+ .code-block[data-code-layout="split"] > .code-result-pane { grid-column:1;grid-row:4; }
+}
+html.print-pdf .pcd-optional-material { display:none!important; }
+.pcd-optional-workspace-portal:empty { display:none; }
+.reveal.pcd-optional-workspace-portal {
+  position:fixed!important;inset:8px;width:auto!important;height:auto!important;z-index:1300!important;text-align:left;
+}
+.pcd-optional-workspace-portal > .pcd-optional-material[open] {
+  position:absolute;inset:0;box-sizing:border-box;overflow:hidden;
+  font:20px/1.4 Arial,sans-serif;color:var(--pcd-foreground);background:var(--pcd-surface-strong);
+  border:2px solid var(--pcd-accent);border-radius:.4rem;
+}
+@media print { .pcd-optional-material { display:none!important; } }

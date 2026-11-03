@@ -1,0 +1,203 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/sources/level5-lognormal> {
+  ex:l5-source-r-lognormal a cd:Source ; dct:title "R stats: The Log-Normal Distribution" ; dct:creator "R Core Team" ; dct:identifier "l5-source-r-lognormal" ; dct:source <https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Lognormal.html> ; cd:supportsResource ex:l5-lognormal-definition, ex:l5-l12b-formula, ex:l5-l12c-formula ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-lognormal> {
+  ex:lognormal-concentration-model a cd:Concept ; skos:prefLabel "Lognormal concentration model"@en ; cd:hasDefinition ex:l5-lognormal-definition ; cd:authoredResource true .
+  ex:l5-lognormal-definition a cd:Definition ; cd:body "A positive concentration follows a lognormal model when the natural logarithm of its ratio to a fixed positive reference concentration is normally distributed. The normal parameters describe the dimensionless log ratio, not the concentration itself. Multiplicative influences can motivate such a model, but positivity, right skew or a log transformation alone does not establish it."@en ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-l12b-formula a cd:MathExpression ; cd:formulaLabel "Normal on the log scale"@en ; cd:body "Define U as the natural logarithm of positive concentration X divided by a reference concentration. U follows a normal model with log-ratio mean m and variance s squared."@en ; cd:latex "\\begin{gathered}U=\\ln(X/c_0)\\sim\\mathcal{N}(m,s^2)\\\\X>0,\\quad s>0\\end{gathered}" ; dct:hasPart ex:l5-l12b-legend ; cd:hasSymbol ex:l5-lb-concentration, ex:l5-lb-log, ex:l5-lb-parameters, ex:l5-lb-notation ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-l12b-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-lb-entry ; cd:authoredResource true .
+  ex:l5-lb-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols, units and convention"@en ; dct:references ex:l5-lb-concentration, ex:l5-lb-log, ex:l5-lb-parameters, ex:l5-lb-notation ; cd:authoredResource true .
+  ex:l5-lb-concentration a cd:MathSymbol ; cd:symbol "X and reference" ; cd:mathNotation "X,\\ c_0" ; cd:body "Positive concentration X in mg/L; fixed reference c with subscript 0 is 1 mg/L. Division cancels units before taking a logarithm."@en ; cd:authoredResource true .
+  ex:l5-lb-log a cd:MathSymbol ; cd:symbol "U and ln" ; cd:mathNotation "U,\\ \\ln" ; cd:body "U is the dimensionless log ratio; ln is the natural logarithm. Negative log ratios are valid for concentrations below the reference."@en ; cd:authoredResource true .
+  ex:l5-lb-parameters a cd:MathSymbol ; cd:symbol "m, s and variance" ; cd:mathNotation "m,\\ s,\\ s^2" ; cd:body "Log-ratio mean m = 0.69315 and SD s = 0.75 here, both dimensionless. The second normal parameter is variance, not concentration SD."@en ; cd:authoredResource true .
+  ex:l5-lb-notation a cd:MathSymbol ; cd:symbol "model and operators" ; cd:mathNotation "=,\\ /,\\ \\sim,\\ \\mathcal{N},\\ >" ; cd:body "Equality defines U; / divides; tilde means distributed as; N denotes normal. Greater than zero requires positive concentration and log SD."@en ; cd:authoredResource true .
+
+  ex:l5-l12c-formula a cd:MathExpression ; cd:formulaLabel "Population median and mean are different"@en ; cd:body "The population median and geometric mean equal the reference concentration times exp of m. The arithmetic expectation equals the reference times exp of m plus half the log variance."@en ; cd:latex "\\begin{gathered}\\operatorname{Median}(X)=G(X)=c_0e^m\\\\E[X]=c_0e^{m+s^2/2}\\end{gathered}" ; dct:hasPart ex:l5-l12c-legend ; cd:hasSymbol ex:l5-lc-concentration, ex:l5-lc-parameters, ex:l5-lc-summaries, ex:l5-lc-operators ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-l12c-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-lc-entry ; cd:authoredResource true .
+  ex:l5-lc-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Symbols, population targets and units"@en ; dct:references ex:l5-lc-concentration, ex:l5-lc-parameters, ex:l5-lc-summaries, ex:l5-lc-operators ; cd:authoredResource true .
+  ex:l5-lc-concentration a cd:MathSymbol ; cd:symbol "X and reference" ; cd:mathNotation "X,\\ c_0" ; cd:body "Random positive concentration X; reference c with subscript 0 is fixed at 1 mg/L. Multiplying by this reference restores concentration units."@en ; cd:authoredResource true .
+  ex:l5-lc-parameters a cd:MathSymbol ; cd:symbol "m and s" ; cd:mathNotation "m,\\ s" ; cd:body "Mean and positive SD of the natural log of X/reference, both dimensionless: m = 0.69315 and s = 0.75. Squaring s gives log variance."@en ; cd:authoredResource true .
+  ex:l5-lc-summaries a cd:MathSymbol ; cd:symbol "Median, G and E" ; cd:mathNotation "\\operatorname{Median},\\ G,\\ E" ; cd:body "Population median and geometric mean G: 2.00 mg/L. Arithmetic expectation E: about 2.65 mg/L. These are model quantities, not sample estimates."@en ; cd:authoredResource true .
+  ex:l5-lc-operators a cd:MathSymbol ; cd:symbol "exponential and arithmetic" ; cd:mathNotation "e,\\ =,\\ +,\\ /,\\ s^2" ; cd:body "e is the natural exponential base. Equality states identities; + adds half the log variance; /2 divides by two. Juxtaposition multiplies; exponents are dimensionless."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level5-lognormal> {
+  ex:unit-level5-probability-models cd:hasFocusConcept ex:lognormal-concentration-model .
+  ex:l5-l12a-title a cd:Interpretation ; skos:prefLabel "Model variation between water samples"@en ; cd:authoredResource true .
+  ex:l5-l12b-title a cd:Interpretation ; skos:prefLabel "Transform values, not our investigation target"@en ; cd:authoredResource true .
+  ex:l5-l12c-title a cd:Interpretation ; skos:prefLabel "For mean concentration, median is not enough"@en ; cd:authoredResource true .
+  ex:l5-l12d-title a cd:Interpretation ; skos:prefLabel "Check which data can support the estimate"@en ; cd:authoredResource true .
+  ex:l5-l12a-context a cd:Interpretation ; cd:body "Factors motivate a lognormal candidate. Use 20 new constructed values to illustrate it; these are not the preceding site data or a fitted model."@en ; cd:authoredResource true .
+  ex:l5-l12a-chart a cd:ChartDefinition ; skos:prefLabel "20 constructed positive concentrations"@en ; cd:body "Bars: 20 constructed values. Line: specified lognormal model, median 2 mg/L. Its right tail continues beyond 10 mg/L."@en ; cd:chartType cd:Histogram ; cd:histogramNormalization "density" ; cd:usesDataset ex:l5-lognormal-values ; dct:hasPart ex:l5-lognormal-density ; cd:binEdges ex:l5-lre-0 ; cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-l12b-chart a cd:ChartDefinition ; skos:prefLabel "The same 20 values after a natural-log transformation"@en ; cd:body "Bars: the same 20 values, now logged relative to 1 mg/L. Line: specified normal model on this dimensionless scale, not a fitted result."@en ; cd:chartType cd:Histogram ; cd:histogramNormalization "density" ; cd:usesDataset ex:l5-lognormal-log-values ; dct:hasPart ex:l5-lognormal-log-density ; cd:binEdges ex:l5-lte-0 ; cd:xAxisLabel "Log concentration ratio"@en ; cd:xAxisUnit "1" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "1" ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-l12c-chart a cd:ChartDefinition ; skos:prefLabel "Population summaries on the original concentration scale"@en ; cd:body "Model median/geometric mean: 2.00 mg/L; arithmetic expectation: 2.65 mg/L. These are not sample estimates."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "linear" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 0.4 ; cd:usesDataset ex:l5-lognormal-density ; cd:hasChartAnnotation ex:l5-lmedian-mark, ex:l5-lmean-mark ; cd:xAxisLabel "Concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "L/mg" ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:l5-lmedian-mark a cd:ChartPointAnnotation ; cd:position 1 ; cd:targetObservation ex:l5-ld-8 ; cd:body "Median"@en ; cd:authoredResource true .
+  ex:l5-lmean-mark a cd:ChartPointAnnotation ; cd:position 2 ; cd:targetObservation ex:l5-ld-10 ; cd:body "Mean"@en ; cd:authoredResource true .
+
+  ex:l5-lognormal-values a cd:Dataset ; skos:prefLabel "20 constructed concentrations for a log-scale comparison"@en ; cd:body "A new teaching example, not the forty site values from N11. Seven log-spaced levels have multiplicities 1, 2, 4, 6, 4, 2, 1. Values are twice exp of offsets -1.5, -1, -0.5, 0, 0.5, 1, 1.5, in mg/L. Deliberately constructed, not measured or randomly simulated. The reference model has log-ratio mean ln(2) and SD 0.75; it is specified, not fitted."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l5-lraw-1, ex:l5-lraw-2, ex:l5-lraw-3, ex:l5-lraw-4, ex:l5-lraw-5, ex:l5-lraw-6, ex:l5-lraw-7, ex:l5-lraw-8, ex:l5-lraw-9, ex:l5-lraw-10, ex:l5-lraw-11, ex:l5-lraw-12, ex:l5-lraw-13, ex:l5-lraw-14, ex:l5-lraw-15, ex:l5-lraw-16, ex:l5-lraw-17, ex:l5-lraw-18, ex:l5-lraw-19, ex:l5-lraw-20 ; cd:authoredResource true .
+  ex:l5-lraw-1 a cd:Observation ; cd:position 1 ; cd:numericValue 0.446260320296860 ; cd:authoredResource true .
+  ex:l5-lraw-2 a cd:Observation ; cd:position 2 ; cd:numericValue 0.735758882342885 ; cd:authoredResource true .
+  ex:l5-lraw-3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.735758882342885 ; cd:authoredResource true .
+  ex:l5-lraw-4 a cd:Observation ; cd:position 4 ; cd:numericValue 1.213061319425267 ; cd:authoredResource true .
+  ex:l5-lraw-5 a cd:Observation ; cd:position 5 ; cd:numericValue 1.213061319425267 ; cd:authoredResource true .
+  ex:l5-lraw-6 a cd:Observation ; cd:position 6 ; cd:numericValue 1.213061319425267 ; cd:authoredResource true .
+  ex:l5-lraw-7 a cd:Observation ; cd:position 7 ; cd:numericValue 1.213061319425267 ; cd:authoredResource true .
+  ex:l5-lraw-8 a cd:Observation ; cd:position 8 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-9 a cd:Observation ; cd:position 9 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-10 a cd:Observation ; cd:position 10 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-11 a cd:Observation ; cd:position 11 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-12 a cd:Observation ; cd:position 12 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-13 a cd:Observation ; cd:position 13 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l5-lraw-14 a cd:Observation ; cd:position 14 ; cd:numericValue 3.297442541400256 ; cd:authoredResource true .
+  ex:l5-lraw-15 a cd:Observation ; cd:position 15 ; cd:numericValue 3.297442541400256 ; cd:authoredResource true .
+  ex:l5-lraw-16 a cd:Observation ; cd:position 16 ; cd:numericValue 3.297442541400256 ; cd:authoredResource true .
+  ex:l5-lraw-17 a cd:Observation ; cd:position 17 ; cd:numericValue 3.297442541400256 ; cd:authoredResource true .
+  ex:l5-lraw-18 a cd:Observation ; cd:position 18 ; cd:numericValue 5.436563656918090 ; cd:authoredResource true .
+  ex:l5-lraw-19 a cd:Observation ; cd:position 19 ; cd:numericValue 5.436563656918090 ; cd:authoredResource true .
+  ex:l5-lraw-20 a cd:Observation ; cd:position 20 ; cd:numericValue 8.963378140676129 ; cd:authoredResource true .
+
+  ex:l5-lognormal-log-values a cd:Dataset ; skos:prefLabel "Natural logs of the same 20 concentration/reference ratios"@en ; cd:body "Each transformed value has an explicit derivation link to its original concentration. The reference is 1 mg/L, so log ratios are dimensionless. The observations are transformed, not redrawn; ties and order remain. This is a histogram of transformed values, not merely relabelled ticks on the original density."@en ; cd:unit "1" ; cd:derivedFromResource ex:l5-lognormal-values, ex:l5-l12b-formula ; cd:hasObservation ex:l5-llog-1, ex:l5-llog-2, ex:l5-llog-3, ex:l5-llog-4, ex:l5-llog-5, ex:l5-llog-6, ex:l5-llog-7, ex:l5-llog-8, ex:l5-llog-9, ex:l5-llog-10, ex:l5-llog-11, ex:l5-llog-12, ex:l5-llog-13, ex:l5-llog-14, ex:l5-llog-15, ex:l5-llog-16, ex:l5-llog-17, ex:l5-llog-18, ex:l5-llog-19, ex:l5-llog-20 ; cd:authoredResource true .
+  ex:l5-llog-1 a cd:Observation ; cd:position 1 ; cd:numericValue -0.806852819440055 ; cd:derivedFromResource ex:l5-lraw-1 ; cd:authoredResource true .
+  ex:l5-llog-2 a cd:Observation ; cd:position 2 ; cd:numericValue -0.306852819440055 ; cd:derivedFromResource ex:l5-lraw-2 ; cd:authoredResource true .
+  ex:l5-llog-3 a cd:Observation ; cd:position 3 ; cd:numericValue -0.306852819440055 ; cd:derivedFromResource ex:l5-lraw-3 ; cd:authoredResource true .
+  ex:l5-llog-4 a cd:Observation ; cd:position 4 ; cd:numericValue 0.193147180559945 ; cd:derivedFromResource ex:l5-lraw-4 ; cd:authoredResource true .
+  ex:l5-llog-5 a cd:Observation ; cd:position 5 ; cd:numericValue 0.193147180559945 ; cd:derivedFromResource ex:l5-lraw-5 ; cd:authoredResource true .
+  ex:l5-llog-6 a cd:Observation ; cd:position 6 ; cd:numericValue 0.193147180559945 ; cd:derivedFromResource ex:l5-lraw-6 ; cd:authoredResource true .
+  ex:l5-llog-7 a cd:Observation ; cd:position 7 ; cd:numericValue 0.193147180559945 ; cd:derivedFromResource ex:l5-lraw-7 ; cd:authoredResource true .
+  ex:l5-llog-8 a cd:Observation ; cd:position 8 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-8 ; cd:authoredResource true .
+  ex:l5-llog-9 a cd:Observation ; cd:position 9 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-9 ; cd:authoredResource true .
+  ex:l5-llog-10 a cd:Observation ; cd:position 10 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-10 ; cd:authoredResource true .
+  ex:l5-llog-11 a cd:Observation ; cd:position 11 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-11 ; cd:authoredResource true .
+  ex:l5-llog-12 a cd:Observation ; cd:position 12 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-12 ; cd:authoredResource true .
+  ex:l5-llog-13 a cd:Observation ; cd:position 13 ; cd:numericValue 0.693147180559945 ; cd:derivedFromResource ex:l5-lraw-13 ; cd:authoredResource true .
+  ex:l5-llog-14 a cd:Observation ; cd:position 14 ; cd:numericValue 1.193147180559945 ; cd:derivedFromResource ex:l5-lraw-14 ; cd:authoredResource true .
+  ex:l5-llog-15 a cd:Observation ; cd:position 15 ; cd:numericValue 1.193147180559945 ; cd:derivedFromResource ex:l5-lraw-15 ; cd:authoredResource true .
+  ex:l5-llog-16 a cd:Observation ; cd:position 16 ; cd:numericValue 1.193147180559945 ; cd:derivedFromResource ex:l5-lraw-16 ; cd:authoredResource true .
+  ex:l5-llog-17 a cd:Observation ; cd:position 17 ; cd:numericValue 1.193147180559945 ; cd:derivedFromResource ex:l5-lraw-17 ; cd:authoredResource true .
+  ex:l5-llog-18 a cd:Observation ; cd:position 18 ; cd:numericValue 1.693147180559945 ; cd:derivedFromResource ex:l5-lraw-18 ; cd:authoredResource true .
+  ex:l5-llog-19 a cd:Observation ; cd:position 19 ; cd:numericValue 1.693147180559945 ; cd:derivedFromResource ex:l5-lraw-19 ; cd:authoredResource true .
+  ex:l5-llog-20 a cd:Observation ; cd:position 20 ; cd:numericValue 2.193147180559945 ; cd:derivedFromResource ex:l5-lraw-20 ; cd:authoredResource true .
+
+  ex:l5-lognormal-density a cd:Dataset ; skos:prefLabel "Specified lognormal density: log-ratio mean ln(2), SD 0.75"@en ; cd:body "Theoretical concentration-density coordinates with reference 1 mg/L. The support is strictly positive. The value at zero is the limiting density, not an observed zero or point mass. Linear segments approximate the curve, which continues beyond 10 mg/L; about 1.594% probability lies above that plot limit. Median is 2 mg/L and arithmetic expectation is 2.649569517457731 mg/L."@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:l5-lognormal-definition, ex:l5-l12c-formula ; cd:hasObservation ex:l5-ld-0, ex:l5-ld-1, ex:l5-ld-2, ex:l5-ld-3, ex:l5-ld-4, ex:l5-ld-5, ex:l5-ld-6, ex:l5-ld-7, ex:l5-ld-8, ex:l5-ld-9, ex:l5-ld-10, ex:l5-ld-11, ex:l5-ld-12, ex:l5-ld-13, ex:l5-ld-14, ex:l5-ld-15, ex:l5-ld-16, ex:l5-ld-17, ex:l5-ld-18, ex:l5-ld-19, ex:l5-ld-20 ; cd:authoredResource true .
+  ex:l5-ld-0 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l5-ld-1 a cd:Observation ; cd:position 2 ; cd:xValue 0.25 ; cd:numericValue 0.045566330064 ; cd:authoredResource true .
+  ex:l5-ld-2 a cd:Observation ; cd:position 3 ; cd:xValue 0.5 ; cd:numericValue 0.192745104892 ; cd:authoredResource true .
+  ex:l5-ld-3 a cd:Observation ; cd:position 4 ; cd:xValue 0.75 ; cd:numericValue 0.301583415888 ; cd:authoredResource true .
+  ex:l5-ld-4 a cd:Observation ; cd:position 5 ; cd:xValue 1.0 ; cd:numericValue 0.347036330226 ; cd:authoredResource true .
+  ex:l5-ld-5 a cd:Observation ; cd:position 6 ; cd:xValue 1.25 ; cd:numericValue 0.349672386974 ; cd:authoredResource true .
+  ex:l5-ld-6 a cd:Observation ; cd:position 7 ; cd:xValue 1.5 ; cd:numericValue 0.329464430825 ; cd:authoredResource true .
+  ex:l5-ld-7 a cd:Observation ; cd:position 8 ; cd:xValue 1.75 ; cd:numericValue 0.299176463700 ; cd:authoredResource true .
+  ex:l5-ld-8 a cd:Observation ; cd:position 9 ; cd:xValue 2.0 ; cd:numericValue 0.265961520268 ; cd:authoredResource true .
+  ex:l5-ld-9 a cd:Observation ; cd:position 10 ; cd:xValue 2.5 ; cd:numericValue 0.203557313156 ; cd:authoredResource true .
+  ex:l5-ld-10 a cd:Observation ; cd:position 11 ; cd:xValue 2.649569517457731 ; cd:numericValue 0.187127300703 ; cd:authoredResource true .
+  ex:l5-ld-11 a cd:Observation ; cd:position 12 ; cd:xValue 3.0 ; cd:numericValue 0.153201103370 ; cd:authoredResource true .
+  ex:l5-ld-12 a cd:Observation ; cd:position 13 ; cd:xValue 3.5 ; cd:numericValue 0.115049522651 ; cd:authoredResource true .
+  ex:l5-ld-13 a cd:Observation ; cd:position 14 ; cd:xValue 4.0 ; cd:numericValue 0.086759082557 ; cd:authoredResource true .
+  ex:l5-ld-14 a cd:Observation ; cd:position 15 ; cd:xValue 4.5 ; cd:numericValue 0.065883046074 ; cd:authoredResource true .
+  ex:l5-ld-15 a cd:Observation ; cd:position 16 ; cd:xValue 5.0 ; cd:numericValue 0.050438755323 ; cd:authoredResource true .
+  ex:l5-ld-16 a cd:Observation ; cd:position 17 ; cd:xValue 6.0 ; cd:numericValue 0.030322676389 ; cd:authoredResource true .
+  ex:l5-ld-17 a cd:Observation ; cd:position 18 ; cd:xValue 7.0 ; cd:numericValue 0.018831915520 ; cd:authoredResource true .
+  ex:l5-ld-18 a cd:Observation ; cd:position 19 ; cd:xValue 8.0 ; cd:numericValue 0.012046569056 ; cd:authoredResource true .
+  ex:l5-ld-19 a cd:Observation ; cd:position 20 ; cd:xValue 9.0 ; cd:numericValue 0.007912045973 ; cd:authoredResource true .
+  ex:l5-ld-20 a cd:Observation ; cd:position 21 ; cd:xValue 10.0 ; cd:numericValue 0.005319787586 ; cd:authoredResource true .
+
+  ex:l5-lognormal-log-density a cd:Dataset ; skos:prefLabel "Specified normal density of the dimensionless log ratio"@en ; cd:body "Theoretical normal coordinates with mean ln(2) and SD 0.75, not a fit to the constructed observations. Display covers four log-scale SDs either side; tails continue beyond it. This density has a different scale and units from the concentration density."@en ; cd:unit "1" ; cd:derivedFromResource ex:l5-l12b-formula ; cd:hasObservation ex:l5-ltd-0, ex:l5-ltd-1, ex:l5-ltd-2, ex:l5-ltd-3, ex:l5-ltd-4, ex:l5-ltd-5, ex:l5-ltd-6, ex:l5-ltd-7, ex:l5-ltd-8, ex:l5-ltd-9, ex:l5-ltd-10, ex:l5-ltd-11, ex:l5-ltd-12, ex:l5-ltd-13, ex:l5-ltd-14, ex:l5-ltd-15, ex:l5-ltd-16, ex:l5-ltd-17, ex:l5-ltd-18, ex:l5-ltd-19, ex:l5-ltd-20, ex:l5-ltd-21, ex:l5-ltd-22, ex:l5-ltd-23, ex:l5-ltd-24 ; cd:authoredResource true .
+  ex:l5-ltd-0 a cd:Observation ; cd:position 1 ; cd:xValue -2.306852819440055 ; cd:numericValue 0.000178440301 ; cd:authoredResource true .
+  ex:l5-ltd-1 a cd:Observation ; cd:position 2 ; cd:xValue -2.056852819440055 ; cd:numericValue 0.000640360869 ; cd:authoredResource true .
+  ex:l5-ltd-2 a cd:Observation ; cd:position 3 ; cd:xValue -1.806852819440055 ; cd:numericValue 0.002056371995 ; cd:authoredResource true .
+  ex:l5-ltd-3 a cd:Observation ; cd:position 4 ; cd:xValue -1.556852819440055 ; cd:numericValue 0.005909131216 ; cd:authoredResource true .
+  ex:l5-ltd-4 a cd:Observation ; cd:position 5 ; cd:xValue -1.306852819440055 ; cd:numericValue 0.015194648032 ; cd:authoredResource true .
+  ex:l5-ltd-5 a cd:Observation ; cd:position 6 ; cd:xValue -1.056852819440055 ; cd:numericValue 0.034962518792 ; cd:authoredResource true .
+  ex:l5-ltd-6 a cd:Observation ; cd:position 7 ; cd:xValue -0.806852819440055 ; cd:numericValue 0.071987955351 ; cd:authoredResource true .
+  ex:l5-ltd-7 a cd:Observation ; cd:position 8 ; cd:xValue -0.556852819440055 ; cd:numericValue 0.132636185057 ; cd:authoredResource true .
+  ex:l5-ltd-8 a cd:Observation ; cd:position 9 ; cd:xValue -0.306852819440055 ; cd:numericValue 0.218680099568 ; cd:authoredResource true .
+  ex:l5-ltd-9 a cd:Observation ; cd:position 10 ; cd:xValue -0.056852819440055 ; cd:numericValue 0.322627632692 ; cd:authoredResource true .
+  ex:l5-ltd-10 a cd:Observation ; cd:position 11 ; cd:xValue 0.193147180559945 ; cd:numericValue 0.425930674030 ; cd:authoredResource true .
+  ex:l5-ltd-11 a cd:Observation ; cd:position 12 ; cd:xValue 0.443147180559945 ; cd:numericValue 0.503177636924 ; cd:authoredResource true .
+  ex:l5-ltd-12 a cd:Observation ; cd:position 13 ; cd:xValue 0.693147180559945 ; cd:numericValue 0.531923040535 ; cd:authoredResource true .
+  ex:l5-ltd-13 a cd:Observation ; cd:position 14 ; cd:xValue 0.943147180559945 ; cd:numericValue 0.503177636924 ; cd:authoredResource true .
+  ex:l5-ltd-14 a cd:Observation ; cd:position 15 ; cd:xValue 1.193147180559945 ; cd:numericValue 0.425930674030 ; cd:authoredResource true .
+  ex:l5-ltd-15 a cd:Observation ; cd:position 16 ; cd:xValue 1.443147180559945 ; cd:numericValue 0.322627632692 ; cd:authoredResource true .
+  ex:l5-ltd-16 a cd:Observation ; cd:position 17 ; cd:xValue 1.693147180559945 ; cd:numericValue 0.218680099568 ; cd:authoredResource true .
+  ex:l5-ltd-17 a cd:Observation ; cd:position 18 ; cd:xValue 1.943147180559945 ; cd:numericValue 0.132636185057 ; cd:authoredResource true .
+  ex:l5-ltd-18 a cd:Observation ; cd:position 19 ; cd:xValue 2.193147180559945 ; cd:numericValue 0.071987955351 ; cd:authoredResource true .
+  ex:l5-ltd-19 a cd:Observation ; cd:position 20 ; cd:xValue 2.443147180559945 ; cd:numericValue 0.034962518792 ; cd:authoredResource true .
+  ex:l5-ltd-20 a cd:Observation ; cd:position 21 ; cd:xValue 2.693147180559945 ; cd:numericValue 0.015194648032 ; cd:authoredResource true .
+  ex:l5-ltd-21 a cd:Observation ; cd:position 22 ; cd:xValue 2.943147180559945 ; cd:numericValue 0.005909131216 ; cd:authoredResource true .
+  ex:l5-ltd-22 a cd:Observation ; cd:position 23 ; cd:xValue 3.193147180559945 ; cd:numericValue 0.002056371995 ; cd:authoredResource true .
+  ex:l5-ltd-23 a cd:Observation ; cd:position 24 ; cd:xValue 3.443147180559945 ; cd:numericValue 0.000640360869 ; cd:authoredResource true .
+  ex:l5-ltd-24 a cd:Observation ; cd:position 25 ; cd:xValue 3.693147180559945 ; cd:numericValue 0.000178440301 ; cd:authoredResource true .
+
+  ex:l5-lre-0 rdf:first 0.0 ; rdf:rest ex:l5-lre-1 .
+  ex:l5-lre-1 rdf:first 0.5 ; rdf:rest ex:l5-lre-2 .
+  ex:l5-lre-2 rdf:first 1.0 ; rdf:rest ex:l5-lre-3 .
+  ex:l5-lre-3 rdf:first 1.5 ; rdf:rest ex:l5-lre-4 .
+  ex:l5-lre-4 rdf:first 2.0 ; rdf:rest ex:l5-lre-5 .
+  ex:l5-lre-5 rdf:first 2.5 ; rdf:rest ex:l5-lre-6 .
+  ex:l5-lre-6 rdf:first 3.0 ; rdf:rest ex:l5-lre-7 .
+  ex:l5-lre-7 rdf:first 3.5 ; rdf:rest ex:l5-lre-8 .
+  ex:l5-lre-8 rdf:first 4.0 ; rdf:rest ex:l5-lre-9 .
+  ex:l5-lre-9 rdf:first 4.5 ; rdf:rest ex:l5-lre-10 .
+  ex:l5-lre-10 rdf:first 5.0 ; rdf:rest ex:l5-lre-11 .
+  ex:l5-lre-11 rdf:first 5.5 ; rdf:rest ex:l5-lre-12 .
+  ex:l5-lre-12 rdf:first 6.0 ; rdf:rest ex:l5-lre-13 .
+  ex:l5-lre-13 rdf:first 6.5 ; rdf:rest ex:l5-lre-14 .
+  ex:l5-lre-14 rdf:first 7.0 ; rdf:rest ex:l5-lre-15 .
+  ex:l5-lre-15 rdf:first 7.5 ; rdf:rest ex:l5-lre-16 .
+  ex:l5-lre-16 rdf:first 8.0 ; rdf:rest ex:l5-lre-17 .
+  ex:l5-lre-17 rdf:first 8.5 ; rdf:rest ex:l5-lre-18 .
+  ex:l5-lre-18 rdf:first 9.0 ; rdf:rest ex:l5-lre-19 .
+  ex:l5-lre-19 rdf:first 9.5 ; rdf:rest ex:l5-lre-20 .
+  ex:l5-lre-20 rdf:first 10.0 ; rdf:rest rdf:nil .
+  ex:l5-lte-0 rdf:first -2.556852819440055 ; rdf:rest ex:l5-lte-1 .
+  ex:l5-lte-1 rdf:first -2.056852819440055 ; rdf:rest ex:l5-lte-2 .
+  ex:l5-lte-2 rdf:first -1.556852819440055 ; rdf:rest ex:l5-lte-3 .
+  ex:l5-lte-3 rdf:first -1.056852819440055 ; rdf:rest ex:l5-lte-4 .
+  ex:l5-lte-4 rdf:first -0.556852819440055 ; rdf:rest ex:l5-lte-5 .
+  ex:l5-lte-5 rdf:first -0.056852819440055 ; rdf:rest ex:l5-lte-6 .
+  ex:l5-lte-6 rdf:first 0.443147180559945 ; rdf:rest ex:l5-lte-7 .
+  ex:l5-lte-7 rdf:first 0.943147180559945 ; rdf:rest ex:l5-lte-8 .
+  ex:l5-lte-8 rdf:first 1.443147180559945 ; rdf:rest ex:l5-lte-9 .
+  ex:l5-lte-9 rdf:first 1.943147180559945 ; rdf:rest ex:l5-lte-10 .
+  ex:l5-lte-10 rdf:first 2.443147180559945 ; rdf:rest ex:l5-lte-11 .
+  ex:l5-lte-11 rdf:first 2.943147180559945 ; rdf:rest ex:l5-lte-12 .
+  ex:l5-lte-12 rdf:first 3.443147180559945 ; rdf:rest ex:l5-lte-13 .
+  ex:l5-lte-13 rdf:first 3.943147180559945 ; rdf:rest rdf:nil .
+
+  ex:l5-l12d-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l5-l12d-zero, ex:l5-l12d-limits, ex:l5-l12d-mixtures, ex:l5-l12d-return ; cd:authoredResource true .
+  ex:l5-l12d-zero a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Real zeros"@en ; cd:body "A real zero cannot be logged. Do not add an arbitrary constant just to make a lognormal model usable."@en ; cd:authoredResource true .
+  ex:l5-l12d-limits a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Below a limit"@en ; cd:body "Below detection or quantification is censored information, not a known zero. Missing values are not zeros either."@en ; cd:authoredResource true .
+  ex:l5-l12d-mixtures a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Different groups"@en ; cd:body "Mixtures and censoring can create apparent skewness. Check the process, groups and dependence before choosing a model."@en ; cd:authoredResource true .
+  ex:l5-l12d-return a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Return to the right target"@en ; cd:body "Back-transforming a log mean gives a geometric mean, not an arithmetic mean. A log transform does not guarantee normality."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level5-binomial-opening> {
+  ex:path-level5-binomial-opening cd:forTopic ex:lognormal-concentration-model ; cd:hasStep ex:l5-l12a-step, ex:l5-l12b-step, ex:l5-l12c-step, ex:l5-l12d-step .
+  ex:l5-l12a-step a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l5-l12a-scene ; cd:usesResource ex:l5-l12a-title, ex:l5-l12a-context, ex:l5-l12a-chart ; cd:authoredResource true .
+  ex:l5-l12b-step a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l5-l12b-scene ; cd:usesResource ex:l5-l12b-title, ex:l5-l12b-chart, ex:l5-l12b-formula ; cd:authoredResource true .
+  ex:l5-l12c-step a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l5-l12c-scene ; cd:usesResource ex:l5-l12c-title, ex:l5-l12c-chart, ex:l5-l12c-formula ; cd:authoredResource true .
+  ex:l5-l12d-step a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l5-l12d-scene ; cd:usesResource ex:l5-l12d-title, ex:l5-l12d-cards ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-lognormal> {
+  ex:l5-l12a-scene a cd:SceneDefinition ; cd:focusConcept ex:lognormal-concentration-model ; cd:hasSceneItem ex:l5-l12a-heading, ex:l5-l12a-text, ex:l5-l12a-plot ; cd:narration "The dilution story introduced concentration changes by factors. Products of positive factors become sums after taking logarithms; this motivates examining a lognormal candidate, but an arbitrary product is not automatically lognormal. We now use twenty new deliberately constructed concentrations to illustrate that model and the upcoming log transformation. They are not field measurements and not the forty site values from N11, and they are not a fit to those values. Seven log-spaced levels have frequencies one, two, four, six, four, two, one; ties are intentional. The specified reference has median 2 mg/L and log-ratio SD 0.75. Its positive support and long right tail express the candidate model, not evidence that our environmental story establishes it. Histogram areas sum to one and theoretical curve coordinates are connected approximately. The zero-density endpoint is a limiting value, not an observed zero or point mass; the tail continues above 10 mg/L, with about 1.594% probability beyond that boundary. Keep these same twenty values for the next step: take their log ratios to show precisely how the lognormal model connects to a normal one."@en ; cd:authoredResource true .
+  ex:l5-l12b-scene a cd:SceneDefinition ; cd:focusConcept ex:lognormal-concentration-model ; cd:hasSceneItem ex:l5-l12b-heading, ex:l5-l12b-plot, ex:l5-l12b-math ; cd:narration "L12b. Transform exactly the same twenty values, without resampling, dropping observations or removing ties. Every transformed observation links to its original concentration. To avoid taking a logarithm of a dimensional quantity, divide concentration by a fixed reference of 1 mg/L and take the natural logarithm of that dimensionless ratio. A different reporting unit requires converting the reference too; it does not change the ratio. Negative log ratios are allowed and mean a positive concentration below the reference, not a negative concentration. The graph is a histogram of transformed values, not merely a logarithmic set of ticks on the original concentration-density plot. Its bin widths and density heights are on a new, dimensionless scale, so heights cannot be compared directly with the previous slide; area remains the sample fraction. The specified normal reference has mean ln(2), about 0.693147, and standard deviation 0.75 on the log-ratio scale. Its second normal parameter is variance. These parameters are not the arithmetic mean and standard deviation of concentration. The deliberately symmetric transformed illustration makes the relation visible but establishes no fit to real data; a logarithm does not generally make arbitrary skewed data normal. The displayed normal curve has finite drawing limits but extends over the full real log-ratio axis."@en ; cd:authoredResource true .
+  ex:l5-l12c-scene a cd:SceneDefinition ; cd:focusConcept ex:lognormal-concentration-model ; cd:hasSceneItem ex:l5-l12c-heading, ex:l5-l12c-plot, ex:l5-l12c-math ; cd:narration "L12c. Return to the original concentration scale and keep the specified lognormal population, not the empirical histogram. Symmetry on the log-ratio scale places the median at the reference concentration times exp(m). The population geometric mean has the same value when the log expectation exists; here normality guarantees that existence. Both equal 2 mg/L. The arithmetic expectation instead includes half the log variance inside the exponential and is about 2.6495695 mg/L, rounded to 2.65 mg/L. The upper tail pulls the arithmetic mean above the median. The curve markers locate those concentration summaries; their vertical positions are density heights, not probabilities and not alternative definitions of the summaries. The parameters used numerically are m = ln(2) and s = 0.75; displayed m = 0.69315 is rounded. The twenty constructed sample values have arithmetic mean about 2.589815 mg/L and geometric mean 2 mg/L, so population expectation and sample mean must not be confused. Exponentiating an arithmetic mean of observed log ratios and multiplying by the reference gives the sample geometric mean, not generally the sample arithmetic mean. The expectation formula here is exact under the lognormal population model, not a universal correction for every fitted log-scale regression or arbitrary data transformation."@en ; cd:authoredResource true .
+  ex:l5-l12d-scene a cd:SceneDefinition ; cd:focusConcept ex:lognormal-concentration-model ; cd:hasSceneItem ex:l5-l12d-heading, ex:l5-l12d-list ; cd:narration "L12d. Check support, reporting and mechanism before taking logarithms. A true zero is not in a lognormal population and has no finite natural logarithm. Adding an arbitrary constant changes the variable and does not justify a lognormal model for the original concentration. A zero-containing process may require a different or mixed model; that choice depends on the process, not on making the software accept a log. Results below detection or quantification limits are censored information, not known exact zeros. Missing observations are different again. Preserve reporting limits and use a justified analysis rather than silently deleting or replacing values. Mixtures of populations, censoring and dependent observations can create apparent skewness or invalidate a simple model. A log transform is a candidate analytical representation, not a guarantee of normality. Back-transformation must retain the intended target: a geometric mean is not an arithmetic mean. No real environmental dataset or formal goodness-of-fit result has been established here. Later sections will distinguish a distribution of individual concentrations from a distribution of sample means; this four-slide increment does not introduce that sampling simulation yet."@en ; cd:authoredResource true .
+  ex:l5-l12a-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-l12a-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12a-text a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-l12a-context ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12a-plot a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-l12a-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12b-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-l12b-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12b-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-l12b-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12b-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-l12b-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12c-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-l12c-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12c-plot a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-l12c-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12c-math a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l5-l12c-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12d-heading a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l5-l12d-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l5-l12d-list a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l5-l12d-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}

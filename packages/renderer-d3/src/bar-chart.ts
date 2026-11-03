@@ -55,6 +55,7 @@ export interface D3BarChartRenderModel {
   readonly data: readonly D3BarDatum[];
   readonly annotations: readonly D3BarPointAnnotation[];
   readonly staticFallback: string;
+  readonly presentation?: "progressive" | "complete";
 }
 export interface D3BarChartDiagnostic {
   readonly code: "INVALID_BAR_CHART_BLOCK" | "INVALID_BAR_CHART_HOST";
@@ -120,6 +121,7 @@ export function createD3BarChartRenderModel(block: ChartBlock): D3BarChartRender
       ...(block.yAxis.unit ? { yAxisUnit: block.yAxis.unit } : {}),
       data: block.data.map(({ id, category, group, value }) => ({ id, category, ...(group ? { group } : {}), value })),
       annotations: (block.annotations ?? []).map(({ id, datumId, label }) => ({ id, datumId, label })),
+      ...(block.presentation!==undefined?{presentation:block.presentation}:{}),
       staticFallback: fallback(block),
     },
     diagnostics: [],
@@ -179,6 +181,7 @@ export interface D3BarChartPresentation {
 }
 
 export function barChartPresentation(model: D3BarChartRenderModel): D3BarChartPresentation {
+  if(model.presentation==="complete")return {stepCount:0,showBarsImmediately:true,showValueLabels:false};
   // Unannotated grouped data is intended to be compared as a whole, not
   // gradually disclosed or cluttered with repeated numeric value labels.
   const staticGrouped = barChartGrouping(model) !== undefined && model.annotations.length === 0;
@@ -236,7 +239,7 @@ export function mountD3BarChart(
     for (const rect of chartSvg.querySelectorAll<SVGRectElement>(".d3-chart-bar")) {
       const datumId = rect.dataset.datumId ?? "";
       const visible = presentation.showBarsImmediately || currentStep >= 1;
-      const focused = currentStep >= 3;
+      const focused = currentStep >= 3 || model.presentation==="complete"&&emphasizedDatumIds.size>0;
       const emphasized = focused && emphasizedDatumIds.has(datumId);
       rect.style.transform = visible ? "scaleY(1)" : "scaleY(0)";
       rect.style.opacity = focused ? (emphasized ? "1" : "0.28") : (visible ? "1" : "0");
@@ -244,7 +247,7 @@ export function mountD3BarChart(
     }
     for (const label of chartSvg.querySelectorAll<SVGTextElement>(".d3-chart-value-label")) {
       const datumId = label.dataset.datumId ?? "";
-      const focused = currentStep >= 3;
+      const focused = currentStep >= 3 || model.presentation==="complete"&&emphasizedDatumIds.size>0;
       const emphasized = focused && emphasizedDatumIds.has(datumId);
       label.style.opacity = currentStep >= 2 ? (focused ? (emphasized ? "1" : "0.22") : "1") : "0";
       label.classList.toggle("d3-chart-emphasis", emphasized);
@@ -357,7 +360,9 @@ export function mountD3BarChart(
       const bw = grouping && categoryX ? categoryX.bandwidth() : (x?.bandwidth() ?? 0);
       const bh = Math.max(0, margin.top + plotHeight - by);
       const categoryIndex = grouping ? Math.max(0, grouping.categories.indexOf(datum.category)) : index;
-      const seriesIndex = (categoryIndex % 5) + 1;
+      // Annotated single-series charts compare outcomes, not colored categories.
+      // The existing semantic emphasis marks the selected outcome separately.
+      const seriesIndex = !grouping && model.annotations.length ? 1 : (categoryIndex % 5) + 1;
 
       const rect = svg("rect");
       rect.classList.add("d3-chart-bar", `d3-chart-series-${seriesIndex}`);
@@ -417,7 +422,13 @@ export function mountD3BarChart(
 
       const legend = svg("g");
       legend.classList.add("d3-chart-legend");
-      const itemWidth = Math.min(132, plotWidth / Math.max(1, grouping.categories.length));
+      let labelWidth = 0;
+      if (typeof chartSvg.getBBox === "function") {
+        const probe = svg("text");probe.classList.add("d3-chart-legend-label");probe.setAttribute("visibility", "hidden");chartSvg.append(probe);
+        for (const category of grouping.categories) { probe.textContent = category;labelWidth = Math.max(labelWidth, probe.getBBox().width); }
+        probe.remove();
+      }
+      const itemWidth = Math.min(Math.max(132, labelWidth + 43), plotWidth / Math.max(1, grouping.categories.length));
       const totalWidth = itemWidth * grouping.categories.length;
       const startX = margin.left + Math.max(0, (plotWidth - totalWidth) / 2);
       grouping.categories.forEach((category, categoryIndex) => {

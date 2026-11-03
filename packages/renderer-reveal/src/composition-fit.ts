@@ -43,6 +43,7 @@ function tableDimensions(block: Extract<SceneBlock, { kind: "table" }>): {
 }
 
 function chartDatumCount(block: Extract<SceneBlock, { kind: "chart" }>): number {
+  if(block.chartType==='experiment')return 32;
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return block.edges.length-1;
   if (block.chartType === "dot" || block.chartType === "box") return block.groups.reduce((total, group) => total + group.data.length, 0);
   return block.chartType === "bar"
@@ -203,7 +204,7 @@ function orderedBlocks(scene: Scene): readonly SceneBlock[] {
   const byId = new Map(scene.blocks.map((block) => [block.id, block]));
   return scene.readingOrder
     .map((id) => byId.get(id))
-    .filter((block): block is SceneBlock => block !== undefined);
+    .filter((block): block is SceneBlock => block !== undefined && block.disclosure?.mode !== "optional");
 }
 
 function densityForScore(totalScore: number): RevealCompositionDensity {

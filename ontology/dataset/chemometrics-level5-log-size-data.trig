@@ -1,0 +1,28 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-log-size> {
+  ex:dep-log-size a cd:Concept ; skos:prefLabel "Lognormal particle diameter model"@en ; cd:hasDefinition ex:dep-log-size-definition ; cd:authoredResource true .
+  ex:dep-log-size-definition a cd:Definition ; cd:body "A positive particle diameter is lognormal when the natural log of its ratio to a fixed positive length reference is normal. Multiplicative growth can motivate this model, provided log contributions and their dependence justify it. It describes number-weighted sizes, not particle counts. Multimodality, agglomeration, truncation and detection bias can defeat it."@en ; cd:hasSource ex:l5-source-r-lognormal ; cd:authoredResource true .
+  ex:unit-level5-probability-models cd:hasFocusConcept ex:dep-log-size .
+  ex:dep-log-size-chart a cd:ChartDefinition ; skos:prefLabel "Specified size model, not fitted microscopy data"@en ; cd:body "Log mean ln(2), log SD 0.75; diameter in µm. Positive tails continue beyond the drawing."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 0.40 ; cd:usesDataset ex:dep-size-density ; cd:xAxisLabel "Particle diameter"@en ; cd:xAxisUnit "µm" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "per µm" ; cd:authoredResource true .
+  ex:dep-log-tail-chart a cd:ChartDefinition ; skos:prefLabel "Fraction above 5 µm under the model"@en ; cd:body "Full upper-tail probability: 11.09%. Shading stops at the 20 µm drawing boundary, not at infinity."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 0.40 ; cd:usesDataset ex:dep-size-density ; cd:hasChartAnnotation ex:dep-size-tail-mark ; cd:xAxisLabel "Particle diameter"@en ; cd:xAxisUnit "µm" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "per µm" ; cd:authoredResource true .
+  ex:dep-size-tail-mark a cd:ChartRangeAnnotation ; cd:position 1 ; cd:startObservation ex:dep-size9 ; cd:endObservation ex:dep-size14 ; cd:body "Above 5 µm"@en ; cd:authoredResource true .
+  ex:dep-size-density a cd:Dataset ; skos:prefLabel "Evaluated lognormal diameter density"@en ; cd:unit "µm" ; cd:derivedFromResource ex:dep-log-law ; cd:hasObservation ex:dep-size0, ex:dep-size1, ex:dep-size2, ex:dep-size3, ex:dep-size4, ex:dep-size5, ex:dep-size6, ex:dep-size7, ex:dep-size8, ex:dep-size9, ex:dep-size10, ex:dep-size11, ex:dep-size12, ex:dep-size13, ex:dep-size14 ; cd:authoredResource true .
+  ex:dep-size0 a cd:Observation ; cd:position 1 ; cd:xValue 0.1 ; cd:numericValue 0.001825454376 ; cd:authoredResource true .
+  ex:dep-size1 a cd:Observation ; cd:position 2 ; cd:xValue 0.2 ; cd:numericValue 0.023882319379 ; cd:authoredResource true .
+  ex:dep-size2 a cd:Observation ; cd:position 3 ; cd:xValue 0.4 ; cd:numericValue 0.132994689639 ; cd:authoredResource true .
+  ex:dep-size3 a cd:Observation ; cd:position 4 ; cd:xValue 0.6 ; cd:numericValue 0.244407055762 ; cd:authoredResource true .
+  ex:dep-size4 a cd:Observation ; cd:position 5 ; cd:xValue 1.0 ; cd:numericValue 0.347036330226 ; cd:authoredResource true .
+  ex:dep-size5 a cd:Observation ; cd:position 6 ; cd:xValue 1.5 ; cd:numericValue 0.329464430825 ; cd:authoredResource true .
+  ex:dep-size6 a cd:Observation ; cd:position 7 ; cd:xValue 2.0 ; cd:numericValue 0.265961520268 ; cd:authoredResource true .
+  ex:dep-size7 a cd:Observation ; cd:position 8 ; cd:xValue 3.0 ; cd:numericValue 0.153201103370 ; cd:authoredResource true .
+  ex:dep-size8 a cd:Observation ; cd:position 9 ; cd:xValue 4.0 ; cd:numericValue 0.086759082557 ; cd:authoredResource true .
+  ex:dep-size9 a cd:Observation ; cd:position 10 ; cd:xValue 5.0 ; cd:numericValue 0.050438755323 ; cd:authoredResource true .
+  ex:dep-size10 a cd:Observation ; cd:position 11 ; cd:xValue 6.0 ; cd:numericValue 0.030322676389 ; cd:authoredResource true .
+  ex:dep-size11 a cd:Observation ; cd:position 12 ; cd:xValue 8.0 ; cd:numericValue 0.012046569056 ; cd:authoredResource true .
+  ex:dep-size12 a cd:Observation ; cd:position 13 ; cd:xValue 10.0 ; cd:numericValue 0.005319787586 ; cd:authoredResource true .
+  ex:dep-size13 a cd:Observation ; cd:position 14 ; cd:xValue 15.0 ; cd:numericValue 0.000960508086 ; cd:authoredResource true .
+  ex:dep-size14 a cd:Observation ; cd:position 15 ; cd:xValue 20.0 ; cd:numericValue 0.000238823194 ; cd:authoredResource true .
+}

@@ -1,0 +1,88 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-illustrated-cases> {
+  # Existing card SVG motifs, selected in RDF; no renderer-owned scene lookup.
+  ex:al-o1 cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" .
+  ex:al-o2 cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:al-o3 cd:visualMotif "multiple-inputs" ; cd:visualMotifRole "highlight" .
+  ex:al-n1 cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:al-n2 cd:visualMotif "multiple-inputs" ; cd:visualMotifRole "highlight" .
+  ex:al-n3 cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" .
+  ex:al-l1 cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:al-l2 cd:visualMotif "multiple-inputs" ; cd:visualMotifRole "highlight" .
+  ex:al-l3 cd:visualMotif "nonlinear-curve" ; cd:visualMotifRole "highlight" .
+  ex:al-t1 cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:al-t2 cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" .
+  ex:al-t3 cd:visualMotif "inference" ; cd:visualMotifRole "highlight" .
+  ex:al-f1 cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:al-f2 cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" .
+  ex:al-f3 cd:visualMotif "inference" ; cd:visualMotifRole "highlight" .
+  ex:al-test1 cd:visualMotif "nonlinear-curve" ; cd:visualMotifRole "highlight" .
+  ex:al-test2 cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" .
+  ex:al-test3 cd:visualMotif "inference" ; cd:visualMotifRole "highlight" .
+  ex:mc-input-a cd:visualMotif "regression" ; cd:visualMotifRole "highlight" .
+  ex:mc-input-p cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+  ex:mc-input-f cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" .
+
+  ex:al-additive-media a cd:MediaAsset ; cd:uri "/chemometrics/level5-additive-process.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A homogeneous sample passes through preparation, detector and readout. Small random contributions from these stages add to the result. A candidate bell-shaped model appears at the end. Three pictured stages stand for many possible contributions; the picture does not prove normality. Many small non-dominant contributions with suitable variance and dependence conditions can motivate a normal approximation; drift and systematic bias need separate assessment."@en ; cd:authoredResource true .
+
+  ex:al-normal-law a cd:MathExpression ; cd:formulaLabel "Normal notation and its density"@en ; cd:latex "\\begin{gathered}X\\sim\\mathcal N(\\mu,\\sigma^2)\\\\f(x)=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\!\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)\\end{gathered}" ; dct:hasPart ex:al-normal-law-legend ; cd:hasSymbol ex:al-normal-law-quantity, ex:al-normal-law-density, ex:al-normal-law-ops ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:al-normal-law-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:al-normal-law-entry ; cd:authoredResource true .
+  ex:al-normal-law-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Normal model notation, density and units"@en ; dct:references ex:al-normal-law-quantity, ex:al-normal-law-density, ex:al-normal-law-ops ; cd:authoredResource true .
+  ex:al-normal-law-quantity a cd:MathSymbol ; cd:symbol "normal distribution notation" ; cd:mathNotation "X,\\ \\sim,\\ \\mathcal N,\\ \\mu,\\ \\sigma^2" ; cd:body "X: result in mg/L; tilde: distributed as; calligraphic capital N: normal family. First parameter mu is mean 10.0 mg/L. Positive SD sigma is 0.30 mg/L; second parameter sigma squared is variance in (mg/L) squared, not SD."@en ; cd:authoredResource true .
+  ex:al-normal-law-density a cd:MathSymbol ; cd:symbol "density and constants" ; cd:mathNotation "f(x),\\ x,\\ \\pi,\\ \\exp" ; cd:body "x: possible concentration; f(x): density in L/mg. Pi is the circle constant, exp the natural exponential, and the root the positive square root. Constants 1 and 2 are dimensionless. Areas, not heights, are probabilities."@en ; cd:authoredResource true .
+  ex:al-normal-law-ops a cd:MathSymbol ; cd:symbol "density arithmetic" ; cd:mathNotation "=,\\ -,\\ (\\ )^2,\\ /" ; cd:body "Equals defines density. Subtract mean, square, divide by twice the variance and negate: the exponent is dimensionless. Fractions divide; juxtaposition multiplies. The prefactor makes total area one."@en ; cd:authoredResource true .
+
+  ex:al-standardization-formula a cd:MathExpression ; cd:formulaLabel "Express distance from the mean in SD units"@en ; cd:latex "\\begin{gathered}Z=\\frac{X-\\mu}{\\sigma}\\sim\\mathcal N(0,1)\\\\z=\\frac{10.30-10.00}{0.30}=1\\end{gathered}" ; dct:hasPart ex:al-standardization-legend ; cd:hasSymbol ex:al-standard-quantity, ex:al-standard-law, ex:al-standard-ops ; cd:authoredResource true .
+  ex:al-standardization-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:al-standardization-entry ; cd:authoredResource true .
+  ex:al-standardization-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Standardization symbols and example"@en ; dct:references ex:al-standard-quantity, ex:al-standard-law, ex:al-standard-ops ; cd:authoredResource true .
+  ex:al-standard-quantity a cd:MathSymbol ; cd:symbol "original and standardized values" ; cd:mathNotation "X,\\ \\mu,\\ \\sigma,\\ Z,\\ z" ; cd:body "X is a normal concentration result. Mean mu=10.00 and positive SD sigma=0.30 have mg/L units. Uppercase Z is the standardized random quantity; lowercase z is one value, here for 10.30 mg/L. Concentration units cancel, so z=1 means one SD above the mean."@en ; cd:authoredResource true .
+  ex:al-standard-law a cd:MathSymbol ; cd:symbol "standard normal" ; cd:mathNotation "\\sim,\\ \\mathcal N(0,1)" ; cd:body "Tilde means distributed as. Capital calligraphic N is normal; zero is mean and one is variance, both dimensionless. This transformation gives an exact normal law only when the original model is normal; standardizing arbitrary data does not make them normal."@en ; cd:authoredResource true .
+  ex:al-standard-ops a cd:MathSymbol ; cd:symbol "transform arithmetic" ; cd:mathNotation "=,\\ -,\\ /" ; cd:body "Equality defines the transformed quantity and evaluates the example. Minus subtracts the mean; a fraction divides by SD. Changing coordinates preserves event probabilities, not density heights or physical units."@en ; cd:authoredResource true .
+  ex:al-standardization-chart a cd:ChartDefinition ; skos:prefLabel "The standard-normal coordinate system"@en ; cd:body "x-axis: SD units, not mg/L. Density rescales, while corresponding probabilities stay unchanged."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 0.42 ; cd:usesDataset ex:l5-c14-standard-normal ; cd:xAxisLabel "Standardized value z"@en ; cd:xAxisUnit "1" ; cd:yAxisLabel "Density"@en ; cd:yAxisUnit "per z-unit" ; cd:authoredResource true .
+
+  ex:al-control-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:al-control1, ex:al-control2, ex:al-control3 ; cd:authoredResource true .
+  ex:al-control1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Control material"@en ; cd:body "- Repeat a homogeneous nitrate control.\n\n- Stable model: mean 10.0, SD 0.30 mg/L."@en ; cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:al-control2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Internal review flag"@en ; cd:body "- Flag a result above 10.45 mg/L.\n\n- An illustrative laboratory rule, not a safety limit."@en ; cd:visualMotif "inference" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:al-control3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Why calculate probability"@en ; cd:body "- Quantify flags while the model is in control.\n\n- Then choose a threshold for a 5% upper flag rate."@en ; cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:al-control-probability-formula a cd:MathExpression ; cd:formulaLabel "Use the concentration model's CDF directly"@en ; cd:latex "\\begin{gathered}P(X>10.45)=1-F_X(10.45)\\\\\\approx1-0.9331928=0.0668072\\end{gathered}" ; dct:hasPart ex:al-control-legend ; cd:hasSymbol ex:al-control-model, ex:al-control-probabilities, ex:al-control-ops ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:al-control-inverse-formula a cd:MathExpression ; cd:formulaLabel "Use the normal inverse CDF for the desired flag rate"@en ; cd:latex "\\begin{gathered}q_{0.95}=F_X^{-1}(0.95)\\\\\\approx10.49346\\;\\mathrm{mg/L}\\end{gathered}" ; dct:hasPart ex:al-control-legend ; cd:hasSymbol ex:al-control-model, ex:al-control-probabilities, ex:al-control-ops ; cd:hasSource ex:l5-source-r-normal ; cd:authoredResource true .
+  ex:al-control-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:al-control-entry ; cd:authoredResource true .
+  ex:al-control-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Control-model probabilities and quantiles"@en ; dct:references ex:al-control-model, ex:al-control-probabilities, ex:al-control-ops ; cd:authoredResource true .
+  ex:al-control-model a cd:MathSymbol ; cd:symbol "control-result model" ; cd:mathNotation "X,\\ F_X,\\ q_{0.95}" ; cd:body "X: one control result in mg/L. Normal mean 10.0, SD 0.30 mg/L. F subscript X is its CDF; F inverse returns concentration quantiles, not reciprocals. q with subscript 0.95 is the 95th-percentile concentration."@en ; cd:authoredResource true .
+  ex:al-control-probabilities a cd:MathSymbol ; cd:symbol "thresholds and probabilities" ; cd:mathNotation "10.45,\\ 0.95" ; cd:body "Threshold 10.45 mg/L has CDF about 0.9331928; complement 0.0668072 means 6.68% upper flags. Probability 0.95 leaves 5% above its quantile, about 10.49346 mg/L. Probabilities are dimensionless."@en ; cd:authoredResource true .
+  ex:al-control-ops a cd:MathSymbol ; cd:symbol "probability arithmetic" ; cd:mathNotation "P,\\ >,\\ =,\\ -,\\ \\approx" ; cd:body "P: probability; greater than: upper event; one: total probability; minus: complement. Equals states identities; approximately flags rounding. Concentration units are mg/L. A review flag does not prove failure."@en ; cd:authoredResource true .
+
+  ex:al-chi-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:al-chi-case1, ex:al-chi-case2, ex:al-chi-case3 ; cd:authoredResource true .
+  ex:al-chi-case1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeatability study"@en ; cd:body "- Five lab measurements of one sample.\n\n- Estimate the method's variance."@en ; cd:visualMotif "calibration-flasks" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:al-chi-case2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "The estimate fluctuates"@en ; cd:body "- Another series gives another variance.\n\n- Precision itself is estimated with uncertainty."@en ; cd:visualMotif "statistics" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+  ex:al-chi-case3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Reference and use"@en ; cd:body "- Independent normal observations give an exact reference.\n\n- Use chi-square quantiles for a variance interval."@en ; cd:visualMotif "inference" ; cd:visualMotifRole "highlight" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level5-analytical-distributions> {
+  ex:path-level5-analytical-distributions cd:hasStep ex:al-step-normal-process, ex:al-step-normal-usecase .
+  ex:al-step-normal-process a cd:PathStep ; cd:position 8 ; cd:usesScene ex:al-normal-process ; cd:usesResource ex:al-additive-media ; cd:authoredResource true .
+  ex:al-step-normal-usecase a cd:PathStep ; cd:position 10 ; cd:usesScene ex:al-control-story ; cd:usesResource ex:al-control-cards ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-illustrated-cases> {
+  ex:al-normal-process a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; cd:hasSceneItem ex:al-normal-process-h, ex:al-normal-process-v ; cd:narration "Follow one analytical result through preparation, detector and readout. Each can contribute small random deviations; in an additive error model those contributions add rather than multiply. The three pictured stages stand for many possible influences, not three measured error distributions. Many small non-dominant contributions with suitable finite-variance and dependence conditions can motivate an approximately normal total error. This is not a universal guarantee, and merely adding arbitrary processes does not force a normal distribution. A common bias can move the centre, drift can violate stability, and strong dependence or a dominant heavy-tailed contribution can defeat the approximation. The next slide states the resulting candidate model explicitly using calligraphic capital N, then shows its density."@en ; cd:authoredResource true .
+  ex:al-normal-process-title a cd:Interpretation ; skos:prefLabel "From additive analytical effects to a model"@en ; cd:authoredResource true .
+  ex:al-normal-process-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:al-normal-process-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-normal-process-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:al-additive-media ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:al-standardization a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-z ; cd:hasSceneItem ex:al-standardization-h, ex:al-standardization-v, ex:al-standardization-f ; cd:narration "Apply standardization to a normal measurement model. Subtract the population mean and divide by positive population SD. For example, 10.30 mg/L is one SD above mean 10.00 when SD is 0.30. Uppercase Z is the random standardized quantity; lowercase z is one realized value. Under the normal model, Z follows a standard normal with mean zero and variance one. Standardizing an arbitrary distribution does not make it normal. Density heights rescale, while corresponding event probabilities stay unchanged. This coordinate tool will recur when constructing chi-square, t and F references. The control example uses SD 0.30 mg/L, not the later IC reference SD 0.10 mg/L."@en ; cd:authoredResource true .
+  ex:al-standardization-title a cd:Interpretation ; skos:prefLabel "A reusable tool: distance in standard-deviation units"@en ; cd:authoredResource true .
+  ex:al-standardization-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:al-standardization-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-standardization-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:al-standardization-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-standardization-f a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:al-standardization-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+
+  ex:al-control-story a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; cd:hasSceneItem ex:al-control-story-h, ex:al-control-story-c ; cd:narration "Give the probability calculation an analytical purpose. A laboratory monitors a homogeneous nitrate control material. In this constructed in-control scenario, individual results have specified analytical mean 10.0 mg/L and SD 0.30 mg/L under a normal model. These parameters are supplied for teaching, not inferred from five values. The laboratory considers an illustrative internal review rule: flag an individual result above 10.45 mg/L. This is not a legal or safety threshold. Even an in-control process can exceed the flag threshold because of random analytical variation. We want the model upper flag rate, not a probability that a particular flag proves method failure. After calculating it, we reverse the problem and choose a threshold for a five-percent upper flag rate. This is a one-sided single-result rule, not a full validated control chart or a mean confidence interval."@en ; cd:authoredResource true .
+  ex:al-control-story-title a cd:Interpretation ; skos:prefLabel "Usecase: how often does a control result trigger review"@en ; cd:authoredResource true .
+  ex:al-control-story-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:al-control-story-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:al-control-story-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:al-control-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}

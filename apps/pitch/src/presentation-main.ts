@@ -31,7 +31,14 @@ import "./mathematical-derivation.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";
 import "./script-view.css";
+import "./slides-pdf.css";
+import "./optional-material.css";
+import "./distribution-experiment.css";
+import { mountOptionalMaterial } from "./optional-material.ts";
+import { installMediaGeometryHints } from "./media-geometry.ts";
+import { isSlidesPdf, prepareSlidesPdf, mountSlidesPdfLink, mountSlidesPdfToolbar } from "./slides-pdf.ts";
 import "./observation-explorer.css";
+import "./interactive-primitives.css";
 import "./summary-comparison.css";
 import { mountCodeOutputZoom } from "./code-output-zoom.ts";
 import { mountPresentationPageMotion, presentationBackgroundProgress } from "./presentation-page-motion.ts";
@@ -50,6 +57,7 @@ import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntime
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-poll-runtime.ts";
 import { mountPitchDiagrams } from "./flow-runtime.ts";
+import "./binary-experiment.css";
 import { mountPitchCharts } from "./chart-runtime.ts";
 import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
@@ -97,6 +105,7 @@ shellRoot.id = "view-switch-shell";
 presentation.before(shellRoot);
 
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
+const slidesPdf = isSlidesPdf(window.location.search);
 const documents = artifact.sceneDocuments;
 const localSvgUris = documents.flatMap(document => document.scenes.flatMap(scene => authoredSvgUris(scene.blocks)));
 const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window, window.location.href, localSvgUris);
@@ -109,6 +118,8 @@ try {
   removeNetworkGuard();
   throw error;
 }
+
+const removeMediaGeometryHints = installMediaGeometryHints(root);
 
 if (courseWorldModel) {
   const selected = new Set(documents.map(d => d.id));
@@ -166,8 +177,8 @@ const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities
 
 // Interactive observation decks require real-sized form controls on portrait
 // screens rather than a scaled-down desktop canvas. Capability, not scene ID.
-const hasObservationExplorer = documents.some(document => document.scenes.some(scene => scene.blocks.some(block => block.kind === "chart" && block.chartType === "observations")));
-const nativePortraitViewport = (appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer)
+const hasObservationExplorer = documents.some(document => document.scenes.some(scene => scene.blocks.some(block => block.kind === "chart" && block.chartType === "observations" || block.kind === "diagram" && !!block.binaryExperiment)));
+const nativePortraitViewport = !slidesPdf && (appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer)
   && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
 document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
 const nativeViewportWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
@@ -268,11 +279,22 @@ const deck = new Reveal({
   width: nativePortraitViewport ? nativeViewportWidth : 1440,
   height: nativePortraitViewport ? nativeViewportHeight : 900,
   margin: nativePortraitViewport ? 0 : 0.04,
-  ...(appearance.view === "scroll"
+  ...(slidesPdf
+    ? { view: "print", pdfSeparateFragments: false, pdfMaxPagesPerSlide: 1, pdfPageHeightOffset: 0, showNotes: false, scrollActivationWidth: 0 }
+    : appearance.view === "scroll"
     ? { view: "scroll", scrollProgress: true, scrollSnap: "mandatory", scrollLayout: "full" }
     : { scrollActivationWidth: 0 }),
 });
+const pdfLayoutReady = slidesPdf ? new Promise<void>(resolve => deck.on("pdf-ready", () => resolve())) : undefined;
+if (slidesPdf) { await document.fonts.ready; prepareSlidesPdf(root); }
 await deck.initialize();
+if (slidesPdf) {
+  await pdfLayoutReady;
+  prepareSlidesPdf(root);
+  await mountTeachingSvgMedia(root);
+  mountSlidesPdfToolbar(root);
+  return;
+}
 let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeViewportHeight}`;
 const syncNativeViewport = () => {
   if (!hasObservationExplorer && appearance.profile.viewportPolicy !== "native-portrait") return;
@@ -453,11 +475,13 @@ if (connectedInteractive) {
 
 const unmountCodeOutputZoom=mountCodeOutputZoom(root);
 const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
+const unmountSlidesPdfLink=mountSlidesPdfLink(document.querySelector<HTMLElement>(".pcd-screen-controls")!);
 
 const refreshInteractiveRuntime = (): void => {
   codeRuntime?.refresh();
   void pollRuntime?.refresh();
 };
+const unmountOptionalMaterial = mountOptionalMaterial(root, refreshInteractiveRuntime);
 deck.on("slidechanged", refreshInteractiveRuntime);
 
 const graphShellRoot=document.createElement("div");shellRoot.append(graphShellRoot);
@@ -472,8 +496,9 @@ const unmountShell = mountGraphSummaryShell({
 window.addEventListener("pagehide", () => {
   window.removeEventListener("resize", syncNativeViewport);
   deck.off("slidechanged",syncBackgroundPage);
-  unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
+  unmountSlidesPdfLink();unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
   deck.off("slidechanged", refreshInteractiveRuntime);
+  unmountOptionalMaterial();
   pollRuntime?.destroy();
   localPollRuntime?.destroy();
   codeRuntime?.destroy();
@@ -511,6 +536,7 @@ window.addEventListener("pagehide", () => {
   void deck.destroy();
   unmountShell();
   shellRoot.remove();
+  removeMediaGeometryHints();
   unmountScenes();
   removeNetworkGuard();
 }, { once: true });

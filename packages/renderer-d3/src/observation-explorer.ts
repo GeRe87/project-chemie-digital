@@ -35,16 +35,18 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
   if (block.view === "summary") return mountSummaryComparison(host, block);
   if (block.view === "moments") return mountMomentMatrix(host,block);
   let threshold = block.threshold?.initial ?? 0;
+  let lowerThreshold = block.threshold?.lowerInitial;
+  let interval = lowerThreshold !== undefined;
   let sorted = false;
   let activeId: string | undefined;
   let variant = 0;
-  const shell = element("div", "observation-explorer");
+  const shell = element("div", "observation-explorer pcd-interactive");
   shell.dataset.view = block.view;
   const interactive=block.interactive!==false;
   shell.dataset.compact=String(!!block.compact);
   if(interactive)shell.dataset.presentationInteractive="true";
   const description = element("p", "oe-description", block.description);
-  const controls = element("div", "oe-controls");
+  const controls = element("div", "oe-controls pcd-interactive-controls");
   const stage = element("div", "oe-stage");
   const readout = element("output", "oe-readout");
   readout.setAttribute("aria-live", "polite"); readout.setAttribute("aria-atomic", "true");
@@ -55,6 +57,8 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
   let range: HTMLInputElement | undefined;
   let number: HTMLInputElement | undefined;
   let sort: HTMLButtonElement | undefined;
+  let lowerRange: HTMLInputElement | undefined;
+  let intervalToggle: HTMLInputElement | undefined;
   const feedback = element("span", "oe-validation"); feedback.setAttribute("aria-live", "polite");
 
   const choose = (id: string) => { activeId = activeId === id ? undefined : id; render(); };
@@ -109,6 +113,7 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
     const x = (v: number) => left + (v - t.minimum) / (t.maximum - t.minimum) * (right-left);
     const y = (v: number) => bottom - v * (bottom-top);
     const graph = svg("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `${block.label}. Open circles are excluded left limits; filled circles are the value at each jump. Dashed vertical segments only mark jumps.` });
+    if (interval && lowerThreshold !== undefined) graph.append(svg("rect", {x:x(lowerThreshold),y:top,width:x(threshold)-x(lowerThreshold),height:bottom-top,fill:"var(--pcd-chart-series-2)",opacity:.12}));
     for (const q of [0, .25, .5, .75, 1]) {
       graph.append(svg("line", {x1:left,x2:right,y1:y(q),y2:y(q),class:"oe-grid"}), svg("text", {x:left-12,y:y(q)+5,"text-anchor":"end",class:"oe-tick"},format(q)));
     }
@@ -128,6 +133,7 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
       const result=cumulativeCount(series.data,threshold);append(svg("circle",{cx:x(threshold),cy:y(result.fraction),r:7,class:"oe-current"}));graph.append(g);
     });
     graph.append(svg("line",{x1:x(threshold),x2:x(threshold),y1:top,y2:bottom,class:"oe-threshold"}));
+    if (interval && lowerThreshold !== undefined) graph.append(svg("line",{x1:x(lowerThreshold),x2:x(lowerThreshold),y1:top,y2:bottom,class:"oe-threshold","stroke-dasharray":"5 4"}));
     if(block.series.length>1)stage.append(legend);
     stage.append(graph);
   };
@@ -139,9 +145,21 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
     if (block.threshold) {
       readout.replaceChildren(...block.series.map(series=>{const r=cumulativeCount(series.data,threshold);return element("span","oe-count",`${block.series.length>1?series.label+": ":""}${r.count} / ${r.total} = ${format(100*r.fraction)}%`);}),element("span","oe-condition",`observations ≤ ${format(threshold)} ${block.xAxis.unit??""}`));
       if(block.series.length===1){const r=cumulativeCount(block.series[0].data,threshold);readout.replaceChildren(element("span","oe-count",`${r.count} / ${r.total}`),element("span","oe-fraction",`≈ ${format(r.fraction)} · ${format(100*r.fraction)}%`),element("span","oe-condition",`observations ≤ ${format(threshold)} ${block.xAxis.unit??""}`));}
+      if (interval && lowerThreshold !== undefined) {
+        const lowerValue = lowerThreshold;
+        readout.replaceChildren(...block.series.map(series => {
+          const upper = cumulativeCount(series.data, threshold), lower = cumulativeCount(series.data, lowerValue);
+          return element("span", "oe-count", `${block.series.length > 1 ? series.label+": " : ""}${upper.count} − ${lower.count}: ${upper.count-lower.count} / ${upper.total} · ${format(100*(upper.count-lower.count)/upper.total)}%`);
+        }), element("span", "oe-condition", `${format(lowerValue)} < result ≤ ${format(threshold)} ${block.xAxis.unit ?? ""}. Lower excluded; upper included.`));
+      }
       if(range)range.value = String(threshold);
       if(number)number.value = String(threshold);
       range?.setAttribute("aria-valuetext", `${threshold} ${block.xAxis.unit ?? ""}: ${readout.textContent}`);
+      if (lowerRange) {
+        lowerRange.value = String(lowerThreshold);
+        lowerRange.disabled = !interval;
+        lowerRange.setAttribute("aria-valuetext", `${lowerThreshold} ${block.xAxis.unit ?? ""}: ${readout.textContent}`);
+      }
     } else if (block.view === "order") {
       const s = block.series[0]; const ordered = orderedObservations(s.data);
       const d = s.data.find(d => d.id === activeId);
@@ -160,13 +178,31 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
     range.setAttribute("aria-label", `Threshold x (${block.xAxis.unit ?? ""})`);
     const update = (input: HTMLInputElement) => {
       const value = input.valueAsNumber;
-      if (!Number.isFinite(value) || value<t.minimum || value>t.maximum) {
-        input.setAttribute("aria-invalid","true"); feedback.textContent=`Enter a number from ${t.minimum} to ${t.maximum}.`; return;
+      if (!Number.isFinite(value) || value<t.minimum || value>t.maximum || interval && lowerThreshold !== undefined && value < lowerThreshold) {
+        input.setAttribute("aria-invalid","true"); feedback.textContent=`Enter an upper threshold from ${interval ? lowerThreshold : t.minimum} to ${t.maximum}.`; return;
       }
       number!.removeAttribute("aria-invalid"); range!.removeAttribute("aria-invalid"); feedback.textContent=""; threshold=value; render();
     };
     range.oninput=()=>update(range!); number.oninput=()=>update(number!);
     controls.append(range);
+    if (lowerThreshold !== undefined) {
+      const toggleLabel = element("label", "", "Compare two thresholds");
+      intervalToggle = element("input"); intervalToggle.type = "checkbox"; intervalToggle.checked = true;
+      toggleLabel.prepend(intervalToggle); controls.append(toggleLabel);
+      const lowerLabel = element("label", "", `Lower threshold (${block.xAxis.unit ?? ""})`);
+      lowerRange = element("input"); lowerRange.type = "range";
+      lowerRange.min = String(t.minimum); lowerRange.max = String(t.maximum); lowerRange.step = String(t.step);
+      lowerRange.setAttribute("aria-label", `Lower threshold (${block.xAxis.unit ?? ""})`);
+      lowerLabel.append(lowerRange); controls.append(lowerLabel);
+      lowerRange.oninput = () => {
+        const value = lowerRange!.valueAsNumber;
+        if (!Number.isFinite(value) || value < t.minimum || value > threshold) {
+          lowerRange!.setAttribute("aria-invalid", "true"); feedback.textContent = "The lower threshold must not exceed the upper threshold."; return;
+        }
+        lowerRange!.removeAttribute("aria-invalid"); feedback.textContent = ""; lowerThreshold = value; render();
+      };
+      intervalToggle.onchange = () => { interval = intervalToggle!.checked; lowerThreshold = Math.min(lowerThreshold!, threshold); feedback.textContent = ""; render(); };
+    }
   }
   if (block.view === "order") {
     sort = element("button"); sort.type="button"; sort.onclick=()=>{ sorted=!sorted; render(); }; controls.append(sort);
@@ -179,6 +215,9 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
     reset.onclick=()=>{ variant=0; activeId=undefined; reveal.textContent="Reveal modified measurements"; reveal.setAttribute("aria-expanded","false"); render(); };
   } else reset.onclick=()=>{
     threshold=block.threshold?.initial ?? 0; sorted=false; activeId=undefined; feedback.textContent="";
+    lowerThreshold=block.threshold?.lowerInitial; interval=lowerThreshold!==undefined;
+    if(intervalToggle)intervalToggle.checked=interval;
+    lowerRange?.removeAttribute("aria-invalid"); range?.removeAttribute("aria-invalid");
     number?.removeAttribute("aria-invalid"); formalDialog?.close(); render();
   };
   controls.append(reset,feedback);
@@ -186,7 +225,7 @@ export function mountObservationExplorer(host: unknown, chart: ChartBlock) {
   if(interactive)shell.addEventListener("keydown",stopKeys);
   if(interactive)shell.append(description);
   if(interactive)shell.append(controls);
-  if (block.threshold && interactive) shell.append(readout);
+  if (block.threshold) shell.append(readout);
   if (block.view === "ecdf") shell.append(stage);
   shell.append(rows);
   if (block.view === "order") shell.append(readout);

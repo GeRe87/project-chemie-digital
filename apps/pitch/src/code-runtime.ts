@@ -160,6 +160,9 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       if (initialCode.length === 0) continue;
 
       const editable = shell.dataset.editable === "true";
+      const split = shell.dataset.codeLayout === "split";
+      const resultPane = split ? shell.querySelector<HTMLElement>(".code-result-pane") : null;
+      const placeholder = shell.querySelector<HTMLElement>(".code-runtime-placeholder");
       const stopDeckKeyboard = (event: KeyboardEvent): void => event.stopPropagation();
       shell.addEventListener("keydown", stopDeckKeyboard);
 
@@ -176,10 +179,18 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
 
       const editorHost = document.createElement("div");
       editorHost.className = "code-editor-host";
-      editorHost.setAttribute("aria-label", `Code-Editor (${shell.dataset.language ?? "code"})`);
+      editorHost.setAttribute("aria-label", `Code editor (${shell.dataset.language ?? "code"})`);
 
       const controls = document.createElement("div");
       controls.className = "code-runtime-controls";
+      controls.setAttribute("role", "group");
+      controls.setAttribute("aria-label", "R execution and output controls");
+      if (split) {
+        const outputLabel = document.createElement("strong");
+        outputLabel.className = "code-output-label";
+        outputLabel.textContent = "Output";
+        controls.append(outputLabel);
+      }
       const run = document.createElement("button");
       run.type = "button";
       run.className = "code-run-button";
@@ -191,21 +202,36 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
       const showPlots=document.createElement("button");showPlots.type="button";showPlots.className="code-plot-button";
       showPlots.hidden=true;showPlots.textContent="Show plots";showPlots.setAttribute("aria-haspopup","dialog");
       const plots=document.createElement("div");plots.className="code-plot-gallery";
-      const openPlots=()=>plotModal.open("R graphics",plots,showPlots);showPlots.addEventListener("click",openPlots);
+      const openPlots=()=>{
+        if(!split){plotModal.open("R graphics",plots,showPlots);return;}
+        const enlarged=document.createElement("div");enlarged.className="code-plot-gallery";
+        for(const source of plots.querySelectorAll("canvas")){
+          const canvas=document.createElement("canvas");canvas.width=source.width;canvas.height=source.height;
+          canvas.setAttribute("role","img");canvas.setAttribute("aria-label",source.getAttribute("aria-label")??"R plot");
+          canvas.getContext("2d")?.drawImage(source,0,0);enlarged.append(canvas);
+        }
+        plotModal.open("R graphics",enlarged,showPlots);
+      };showPlots.addEventListener("click",openPlots);
       const runtimeLabel = document.createElement("span");
       runtimeLabel.className = "code-runtime-label";
       runtimeLabel.textContent = "R · webR";
       controls.append(run, reset, showPlots, runtimeLabel);
 
-      const output = document.createElement("pre");
+      const existingOutput = resultPane?.querySelector<HTMLPreElement>(".code-output");
+      const output = existingOutput ?? document.createElement("pre");
       output.className = "code-output";
-      output.tabIndex = 0;
+      output.tabIndex = split ? -1 : 0;
       output.setAttribute("aria-live", "polite");
       output.setAttribute("aria-label", "R output");
       output.textContent = "Output will appear here.";
 
       fallback?.setAttribute("hidden", "");
-      shell.append(editorHost, controls, output);
+      placeholder?.setAttribute("hidden", "");
+      if(split && resultPane){
+        shell.insertBefore(editorHost,fallback??null);
+        shell.insertBefore(controls,resultPane);
+        resultPane.append(plots);
+      }else shell.append(editorHost, controls, output);
 
       let editor: EditorHandle | undefined;
       let disposed = false;
@@ -215,7 +241,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
           changes: { from: 0, to: editor.state.doc.length, insert: initialCode },
         });
         output.textContent = "Output will appear here.";
-        if(plotModal.body.contains(plots))plotModal.dialog.close();
+        if(plotModal.dialog.open)plotModal.dialog.close();
         plots.replaceChildren();showPlots.hidden=true;
         editor.requestMeasure();
       };
@@ -223,7 +249,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
         if (disposed || !editor) return;
         run.disabled = true;
         output.textContent = "Loading R runtime …";
-        if(plotModal.body.contains(plots))plotModal.dialog.close();
+        if(plotModal.dialog.open)plotModal.dialog.close();
         plots.replaceChildren();showPlots.hidden=true;
         try {
           const result = await executor.execute(editor.state.doc.toString());
@@ -236,7 +262,7 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
                 canvas.getContext("2d")?.drawImage(image,0,0);plots.append(canvas);
               }finally{image.close();}
             }
-            showPlots.hidden=result.images.length===0;showPlots.textContent=`Show plots (${result.images.length})`;
+            showPlots.hidden=result.images.length===0;showPlots.textContent=`${split?'Enlarge plots':'Show plots'} (${result.images.length})`;
           } else for(const image of result.images)image.close();
         } catch (error) {
           if (!disposed) output.textContent = `Error: ${error instanceof Error ? error.message : String(error)}`;
@@ -251,11 +277,12 @@ export async function mountExecutableCodeBlocks(root: ParentNode): Promise<CodeR
         glossary?.removeEventListener("keydown",scrollGlossary);
         run.removeEventListener("click", execute);
         reset.removeEventListener("click", resetEditor);
-        showPlots.removeEventListener("click",openPlots);plots.replaceChildren();
+        showPlots.removeEventListener("click",openPlots);plots.replaceChildren();plots.remove();
         editor?.destroy();
         editorHost.remove();
         controls.remove();
-        output.remove();
+        if(existingOutput){output.textContent="Output will appear here. Local R editor unavailable; the complete source remains readable on the left.";}else output.remove();
+        placeholder?.removeAttribute("hidden");
         fallback?.removeAttribute("hidden");
       });
 

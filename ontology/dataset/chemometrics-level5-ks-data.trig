@@ -1,0 +1,37 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+<https://w3id.org/project-chemie-digital/graph/specifications/level5-ks-data> {
+  ex:l5-g19-ecdf a cd:Dataset ; skos:prefLabel "Right-continuous empirical CDF of five constructed concentrations"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:l5-g19-protocol ; cd:hasObservation ex:l5-g19-e0, ex:l5-g19-e1, ex:l5-g19-e2, ex:l5-g19-e3, ex:l5-g19-e4, ex:l5-g19-e5, ex:l5-g19-e6 ; cd:authoredResource true .
+  ex:l5-g19-e0 a cd:Observation ; cd:position 1 ; cd:xValue 9.0 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l5-g19-e1 a cd:Observation ; cd:position 2 ; cd:xValue 9.4 ; cd:numericValue 0.2 ; cd:authoredResource true .
+  ex:l5-g19-e2 a cd:Observation ; cd:position 3 ; cd:xValue 9.8 ; cd:numericValue 0.4 ; cd:authoredResource true .
+  ex:l5-g19-e3 a cd:Observation ; cd:position 4 ; cd:xValue 10.0 ; cd:numericValue 0.6 ; cd:authoredResource true .
+  ex:l5-g19-e4 a cd:Observation ; cd:position 5 ; cd:xValue 10.2 ; cd:numericValue 0.8 ; cd:authoredResource true .
+  ex:l5-g19-e5 a cd:Observation ; cd:position 6 ; cd:xValue 10.6 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:l5-g19-e6 a cd:Observation ; cd:position 7 ; cd:xValue 11.0 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:l5-g19-model a cd:Dataset ; skos:prefLabel "Analytic fixed normal CDF, mean 10 and SD 0.50 mg/L"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:l5-g19-protocol ; cd:hasObservation ex:l5-g19-m0, ex:l5-g19-m1, ex:l5-g19-m2, ex:l5-g19-m3, ex:l5-g19-m4, ex:l5-g19-m5, ex:l5-g19-m6, ex:l5-g19-m7, ex:l5-g19-m8, ex:l5-g19-m9, ex:l5-g19-m10 ; cd:authoredResource true .
+  ex:l5-g19-m0 a cd:Observation ; cd:position 1 ; cd:xValue 9.0 ; cd:numericValue 0.022750131948 ; cd:authoredResource true .
+  ex:l5-g19-m1 a cd:Observation ; cd:position 2 ; cd:xValue 9.2 ; cd:numericValue 0.054799291700 ; cd:authoredResource true .
+  ex:l5-g19-m2 a cd:Observation ; cd:position 3 ; cd:xValue 9.4 ; cd:numericValue 0.115069670222 ; cd:authoredResource true .
+  ex:l5-g19-m3 a cd:Observation ; cd:position 4 ; cd:xValue 9.6 ; cd:numericValue 0.211855398583 ; cd:authoredResource true .
+  ex:l5-g19-m4 a cd:Observation ; cd:position 5 ; cd:xValue 9.8 ; cd:numericValue 0.344578258390 ; cd:authoredResource true .
+  ex:l5-g19-m5 a cd:Observation ; cd:position 6 ; cd:xValue 10.0 ; cd:numericValue 0.500000000000 ; cd:authoredResource true .
+  ex:l5-g19-m6 a cd:Observation ; cd:position 7 ; cd:xValue 10.2 ; cd:numericValue 0.655421741610 ; cd:authoredResource true .
+  ex:l5-g19-m7 a cd:Observation ; cd:position 8 ; cd:xValue 10.4 ; cd:numericValue 0.788144601417 ; cd:authoredResource true .
+  ex:l5-g19-m8 a cd:Observation ; cd:position 9 ; cd:xValue 10.6 ; cd:numericValue 0.884930329778 ; cd:authoredResource true .
+  ex:l5-g19-m9 a cd:Observation ; cd:position 10 ; cd:xValue 10.8 ; cd:numericValue 0.945200708300 ; cd:authoredResource true .
+  ex:l5-g19-m10 a cd:Observation ; cd:position 11 ; cd:xValue 11.0 ; cd:numericValue 0.977249868052 ; cd:authoredResource true .
+  ex:l5-g19-plus a cd:Dataset ; skos:prefLabel "Empirical right minus fixed model at each jump"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:l5-g19-protocol ; cd:hasObservation ex:l5-g19-p1, ex:l5-g19-p2, ex:l5-g19-p3, ex:l5-g19-p4, ex:l5-g19-p5 ; cd:authoredResource true .
+  ex:l5-g19-p1 a cd:Observation ; cd:position 1 ; cd:xValue 9.4 ; cd:numericValue 0.08493032977829157 ; cd:authoredResource true .
+  ex:l5-g19-p2 a cd:Observation ; cd:position 2 ; cd:xValue 9.8 ; cd:numericValue 0.05542174161032365 ; cd:authoredResource true .
+  ex:l5-g19-p3 a cd:Observation ; cd:position 3 ; cd:xValue 10.0 ; cd:numericValue 0.09999999999999998 ; cd:authoredResource true .
+  ex:l5-g19-p4 a cd:Observation ; cd:position 4 ; cd:xValue 10.2 ; cd:numericValue 0.14457825838967642 ; cd:authoredResource true .
+  ex:l5-g19-p5 a cd:Observation ; cd:position 5 ; cd:xValue 10.6 ; cd:numericValue 0.11506967022170844 ; cd:authoredResource true .
+  ex:l5-g19-minus a cd:Dataset ; skos:prefLabel "Fixed model minus empirical left at each jump"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:l5-g19-protocol ; cd:hasObservation ex:l5-g19-n1, ex:l5-g19-n2, ex:l5-g19-n3, ex:l5-g19-n4, ex:l5-g19-n5 ; cd:authoredResource true .
+  ex:l5-g19-n1 a cd:Observation ; cd:position 1 ; cd:xValue 9.4 ; cd:numericValue 0.11506967022170844 ; cd:authoredResource true .
+  ex:l5-g19-n2 a cd:Observation ; cd:position 2 ; cd:xValue 9.8 ; cd:numericValue 0.14457825838967636 ; cd:authoredResource true .
+  ex:l5-g19-n3 a cd:Observation ; cd:position 3 ; cd:xValue 10.0 ; cd:numericValue 0.09999999999999998 ; cd:authoredResource true .
+  ex:l5-g19-n4 a cd:Observation ; cd:position 4 ; cd:xValue 10.2 ; cd:numericValue 0.05542174161032365 ; cd:authoredResource true .
+  ex:l5-g19-n5 a cd:Observation ; cd:position 5 ; cd:xValue 10.6 ; cd:numericValue 0.08493032977829151 ; cd:authoredResource true .
+}

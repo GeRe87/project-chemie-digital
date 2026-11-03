@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 350" role="img" aria-labelledby="title desc">
+<title id="title">z is a coordinate, phi is density, Phi is accumulated probability</title>
+<desc id="desc">Schematic standard-normal density and CDF over z minus four to four. At z two, density is 0.053991 per z-unit, left probability 97.725 percent and upper probability 2.275 percent. The CDF ordinate equals the left density area. The drawing is schematic and truncated; probabilities are computed from the full law.</desc>
+<style>text{font-family:system-ui,sans-serif;fill:#17354b;font-size:19px}.axis{stroke:#38596a;stroke-width:2;fill:none}.curve{stroke:#086a91;stroke-width:3;fill:none}.left{fill:#1689ab;fill-opacity:.25}.tail{fill:#cc6a29;fill-opacity:.45}.mark{stroke:#a23c20;stroke-width:2;stroke-dasharray:5 4}.small{font-size:16px}@media(prefers-color-scheme:dark){text{fill:#e5f1fa}.axis{stroke:#b8cedd}.curve{stroke:#69ceef}.left{fill:#69ceef}.tail{fill:#ffba87}.mark{stroke:#ffba87}}</style>
+<text x="45" y="27">Lowercase phi: density</text><text x="490" y="27">Uppercase Phi: left probability</text>
+<text class="small" x="45" y="57">Density per z-unit</text><text class="small" x="490" y="57">Cumulative probability, unit 1</text>
+<path class="axis" d="M45 230H415 M225 230V67 M490 230H860 M500 230V67"/>
+<path class="left" d="M50 230C99 230 125 219 151 190S196 71 225 70S281 152 313 208L313 230Z"/>
+<path class="tail" d="M313 230V208C335 226 365 230 400 230Z"/>
+<path class="curve" d="M50 230C99 230 125 219 151 190S196 71 225 70S281 152 313 208S365 230 400 230 M500 230C544 230 562 230 588 226.36S614 219 631 204.61S657 173 675 150S700 109 719 95.39S744 77 763 73.64S823 70 850 70"/>
+<path class="mark" d="M313 70V230 M763 70V230 M500 74H763"/>
+<text class="small" x="113" y="136">97.725%</text><text class="small" x="328" y="183">2.275%</text><text class="small" x="748" y="60">0.97725</text>
+<text class="small" x="43" y="255">-4</text><text class="small" x="218" y="255">0</text><text class="small" x="307" y="255">2</text><text class="small" x="395" y="255">4</text>
+<text class="small" x="493" y="255">-4</text><text class="small" x="669" y="255">0</text><text class="small" x="757" y="255">2</text><text class="small" x="845" y="255">4</text>
+<text class="small" x="100" y="287">Standardized threshold z</text><text class="small" x="550" y="287">Standardized threshold z</text>
+<text class="small" x="45" y="326">Schematic curves, finite drawing window. Numerical probabilities use the complete normal distribution.</text>
+</svg>

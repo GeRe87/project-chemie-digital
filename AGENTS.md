@@ -68,11 +68,16 @@ The worker must:
 
 ### Teaching authoring invariant
 
-Every displayed formula must have a visible, authored symbol legend on the same
-slide. Explain every symbol, index, operator, unit and relevant convention; prior
-slides or prose elsewhere do not replace that legend. Link the legend to its
-`cd:MathExpression` with `dct:hasPart` and reuse the shared formula/legend renderer.
-Check legend presence and completeness when adding or changing any formula.
+Every displayed formula must have a complete, authored symbol legend available
+on the same slide. In interactive presentations the legend may start collapsed
+under a visible, keyboard-accessible “Symbols ▸” control; opening it must reveal
+the full legend without navigating to another slide. Explain every symbol,
+index, operator, unit and relevant convention; prior slides or prose elsewhere
+do not replace that legend. Script, static and PDF views must show the complete
+legend without requiring interaction. Link the legend to its `cd:MathExpression`
+with `dct:hasPart` and reuse the shared formula/legend renderer. Check legend
+presence, completeness and disclosure accessibility when adding or changing any
+formula.
 
 Both workflows use the local exact-head validator at `GeRe87/agent-workflow-validator` with required context `agent-validator/project-chemie-digital`. GitHub Actions are prohibited and are not valid evidence. Agents must not create, restore, invoke or depend on `.github/workflows` for validation.
 

@@ -1,6 +1,7 @@
 import type { DiagramBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { mountD3Diagram, type D3DiagramComponent, type D3DiagramMountResult } from "../../../packages/renderer-d3/src/diagram.ts";
 import type { D3FlowOptions } from "../../../packages/renderer-d3/src/flow-diagram.ts";
+import {applySemanticDisclosure} from "./presentation-step-runtime.ts";
 
 export interface PitchFlowHost {
   getAttribute(name: string): string | null;
@@ -130,6 +131,14 @@ export function mountPitchDiagrams(
         throw new Error(`Unable to mount pitch flow ${blockId}: ${message || "unknown renderer failure"}`);
       }
       components.push(result);
+      if(block.binaryExperiment&&!block.binaryExperiment.stages&&typeof HTMLElement!=="undefined"&&host instanceof HTMLElement){
+        const stage:EventListener=(event)=>{
+          const step=(event as CustomEvent<{step:number}>).detail?.step;
+          if(Number.isInteger(step)&&step>=0)applySemanticDisclosure(host,step);
+        };
+        host.addEventListener("pcd-semantic-stage",stage);
+        removePresentationStateListeners.push(()=>host.removeEventListener("pcd-semantic-stage",stage));
+      }
       removeKeyboardListeners.push(bindKeyboardTraversal(host, result, options));
       removeAccessibilityListeners.push(bindDiagramAccessibility(host, result));
       removePresentationStateListeners.push(bindPresentationState(host, result, (stateId) => updateDiagramAccessibility(host, result, stateId)));

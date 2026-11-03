@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+<title id="title">Five residuals, four independent directions</title><desc id="desc">Results 9.6, 9.8, 10.0, 10.2, 10.4 mg/L have fitted mean 10.0. Deviations minus 0.4, minus 0.2, zero, plus 0.2 and plus 0.4 sum to zero. Specify the first four residuals and the fitted-mean constraint forces the fifth. Original independent results are not the same as dependent centered residuals.</desc>
+<style>.bg{fill:#f3f8fa}.ink{fill:#143d4b;font-family:Arial,sans-serif}.box{fill:#dfedf2;stroke:#538294;stroke-width:3}.forced{fill:#f2dfc6;stroke:#a25920;stroke-width:4}.line{fill:none;stroke:#126c82;stroke-width:4}@media(prefers-color-scheme:dark){.bg{fill:#152f3a}.ink{fill:#f0f7fa}.box{fill:#294d59;stroke:#98c7d8}.forced{fill:#59412e;stroke:#ffc083}.line{stroke:#7bd9e3}}</style>
+<rect class="bg" width="1200" height="430" rx="18"/>
+<g class="ink" text-anchor="middle" font-size="30"><text x="600" y="45">Five repeats (mg/L): 9.6, 9.8, 10.0, 10.2, 10.4</text><text x="600" y="95">Fit mean 10.0 mg/L, then calculate deviations:</text></g>
+<g class="box"><rect x="40" y="140" width="190" height="100" rx="14"/><rect x="270" y="140" width="190" height="100" rx="14"/><rect x="500" y="140" width="190" height="100" rx="14"/><rect x="730" y="140" width="190" height="100" rx="14"/></g><rect class="forced" x="960" y="140" width="200" height="100" rx="14"/>
+<g class="ink" text-anchor="middle" font-size="34"><text x="135" y="201">−0.4</text><text x="365" y="201">−0.2</text><text x="595" y="201">0.0</text><text x="825" y="201">+0.2</text><text x="1060" y="201">+0.4</text></g>
+<path class="line" d="M40 258V276H920V258M1060 258V276"/>
+<g class="ink" text-anchor="middle" font-size="29"><text x="480" y="320">Specify four deviations</text><text x="1060" y="320">Fifth is forced</text><text x="600" y="378">The deviations must sum to zero: four independent directions remain.</text><text x="600" y="418">A constraint after fitting, not a reason to remove a measured result.</text></g>
+</svg>

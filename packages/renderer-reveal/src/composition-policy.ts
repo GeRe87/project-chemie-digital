@@ -83,7 +83,8 @@ export type RevealLearningProfile =
   | "scenario-data-visual"
   | "process-matrix"
   | "compact-list"
-  | "formula-deck";
+  | "formula-deck"
+  | "visual-formula";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -140,7 +141,7 @@ function orderedBlocks(scene: Scene): readonly SceneBlock[] {
   const byId = new Map(scene.blocks.map((block) => [block.id, block]));
   return scene.readingOrder
     .map((id) => byId.get(id))
-    .filter((block): block is SceneBlock => block !== undefined);
+    .filter((block): block is SceneBlock => block !== undefined && block.disclosure?.mode !== "optional");
 }
 
 function isHeading(block: SceneBlock | undefined): boolean {
@@ -633,9 +634,12 @@ export function resolveFormulaLegendUnits(scene: Scene): readonly (readonly Scen
     const legend = blocks[i + 1]!;
     if (formula.kind !== "math" || !isAuthoredPartLegend(formula, legend)) continue;
     const context = blocks[i - 1];
+    const precedingVisual = blocks[i - 2];
+    const contextDescribesVisual = precedingVisual?.kind === "chart"
+      || precedingVisual?.kind === "diagram" || precedingVisual?.kind === "media-reference";
     // A preceding formula's supporting legend is not a new context card.
     // Otherwise adjacent formula/legend pairs overlap and one formula vanishes.
-    units.push(context?.kind === "definition-list" && context.entries.length === 1 && context.emphasis !== "supporting"
+    units.push(!contextDescribesVisual && context?.kind === "definition-list" && context.entries.length === 1 && context.emphasis !== "supporting"
       ? [context, formula, legend] : [formula, legend]);
     i++;
   }
@@ -731,13 +735,33 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[0], "main", 0), placement(body[1], "footer", 0));
     return { kind: "learning-stage", profile: "definition-deck", mainCount: 1, placements };
   }
-  if (body.length === 2 && body[0]?.kind === "list" && body[1]?.kind === "media-reference") {
+  if (body.length === 2 && ((body[0]?.kind === "list" && body[1]?.kind === "media-reference")
+      || (body[0]?.kind === "definition-list" && (body[1]?.kind === "media-reference" || body[1]?.kind === "chart")))) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body[0], "primary", 0), placement(body[1], "secondary", 0));
     return { kind: "learning-stage", profile: "info-visual", mainCount: 2, placements };
   }
 
+  // An interactive experiment and its interpretation are peer surfaces, not a
+  // full-width widget followed by cards below the visible presentation area.
+  if (body.length === 2 && body[0]?.kind === "chart" && body[0].chartType === "experiment"
+      && (body[1]?.kind === "definition-list" || body[1]?.kind === "prose")) {
+    return { kind: "learning-stage", profile: "info-visual", mainCount: 2,
+      placements: [...placementsWithHeading(heading), placement(body[0], "primary", 0), placement(body[1], "secondary", 0)] };
+  }
   const formulaUnits = resolveFormulaLegendUnits(scene);
+  // A visual and one complete formula/legend unit share two teaching surfaces.
+  // Do not demote an interactive visual into the formula deck's short prelude.
+  if(formulaUnits.length===1){
+    const unitIds=new Set(formulaUnits[0]!.map(block=>block.id));
+    const other=body.filter(block=>!unitIds.has(block.id));
+    const visuals=other.filter(block=>block.kind==="diagram"||block.kind==="chart"||block.kind==="media-reference");
+    const contexts=other.filter(block=>block.kind==="definition-list"&&block.entries.length===1&&block.emphasis!=="supporting");
+    if(visuals.length===1&&other.length===visuals.length+contexts.length&&contexts.length<=1){
+      return {kind:"learning-stage",profile:"visual-formula",mainCount:2,placements:[...placementsWithHeading(heading),
+        ...body.map((block,index)=>placement(block,unitIds.has(block.id)?"secondary":"primary",index))]};
+    }
+  }
   // A single unaccompanied formula is a visual explanation alongside prose.
   // Formula/legend collections continue to use the existing formula deck.
   if(body.length===2 && body[0]?.kind==="prose" && body[1]?.kind==="math" && !formulaUnits.length){

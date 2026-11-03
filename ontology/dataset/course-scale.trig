@@ -26,7 +26,8 @@
       ex:unit-placement-chemometrics-random-variables,
       ex:unit-placement-chemometrics-mean-values,
       ex:unit-placement-chemometrics-variance-dispersion,
-      ex:unit-placement-chemometrics-quantiles-moments-shape ;
+      ex:unit-placement-chemometrics-quantiles-moments-shape,
+      ex:unit-placement-chemometrics-theoretical-distributions ;
     cd:hasOfferingSection
       ex:offering-section-chemometrics-getting-started,
       ex:offering-section-chemometrics-data-characterization,
@@ -54,8 +55,9 @@
 
   ex:offering-section-chemometrics-similarity-analysis a cd:OfferingSection ;
     cd:position 30 ;
-    skos:prefLabel "Similarity Analysis"@en ;
-    dct:description "Hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."@en .
+    skos:prefLabel "Theoretical Distributions & Similarity Analysis"@en ;
+    dct:description "Theoretical distributions: density, cumulative probability and quantiles; normal, lognormal, chi-square, Student-t and F models. Follow-up topics: hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis."@en ;
+    cd:groupsUnitPlacement ex:unit-placement-chemometrics-theoretical-distributions .
 
   ex:offering-section-chemometrics-data-modeling a cd:OfferingSection ;
     cd:position 40 ;
@@ -129,6 +131,19 @@
   ex:unit-placement-chemometrics-quantiles-moments-shape a cd:UnitPlacement ;
     cd:position 50 ;
     cd:placesLearningUnit ex:learning-unit-quantiles-moments-shape .
+
+  # The reviewed lecture is distinct from the retained experimental authoring unit.
+  ex:learning-unit-theoretical-distributions a cd:LearningUnit ;
+    skos:prefLabel "Theoretical Distribution Models"@en ;
+    cd:hasFocusConcept ex:l5-analytical-distributions,
+      ex:probability-density-function, ex:cumulative-distribution-function,
+      ex:theoretical-quantile, ex:normal-measurement-model,
+      ex:lognormal-concentration-model, ex:al-chi-square,
+      ex:l5-student-t, ex:l5-f-distribution .
+
+  ex:unit-placement-chemometrics-theoretical-distributions a cd:UnitPlacement ;
+    cd:position 60 ;
+    cd:placesLearningUnit ex:learning-unit-theoretical-distributions .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/standard-deviation> {

@@ -1,0 +1,64 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/level5-monte-carlo-reference> {
+  ex:mc-output-chart a cd:ChartDefinition ; skos:prefLabel "10,000 simulated dilution results"@en ; cd:body "Seed 20261101; all 10,000 outputs retained. Saved default reference, not measured data."@en ; cd:chartType cd:Histogram ; cd:histogramNormalization "density" ; cd:usesDataset ex:mc-output-counts ; cd:binEdges ex:mc-edge0 ; cd:xAxisLabel "Collected-sample concentration"@en ; cd:xAxisUnit "mg/L" ; cd:yAxisLabel "Simulated density"@en ; cd:yAxisUnit "L/mg" ; cd:authoredResource true .
+  ex:mc-output-counts a cd:Dataset ; skos:prefLabel "Published counts from the authored Monte Carlo protocol"@en ; cd:unit "mg/L" ; cd:binCounts ex:mc-count0 ; cd:derivedFromResource ex:mc-code, ex:mc-equation, ex:mc-inverse ; cd:authoredResource true .
+  ex:mc-count0 rdf:first 0 ; rdf:rest ex:mc-count1 .
+  ex:mc-count1 rdf:first 0 ; rdf:rest ex:mc-count2 .
+  ex:mc-count2 rdf:first 4 ; rdf:rest ex:mc-count3 .
+  ex:mc-count3 rdf:first 9 ; rdf:rest ex:mc-count4 .
+  ex:mc-count4 rdf:first 19 ; rdf:rest ex:mc-count5 .
+  ex:mc-count5 rdf:first 62 ; rdf:rest ex:mc-count6 .
+  ex:mc-count6 rdf:first 162 ; rdf:rest ex:mc-count7 .
+  ex:mc-count7 rdf:first 322 ; rdf:rest ex:mc-count8 .
+  ex:mc-count8 rdf:first 615 ; rdf:rest ex:mc-count9 .
+  ex:mc-count9 rdf:first 945 ; rdf:rest ex:mc-count10 .
+  ex:mc-count10 rdf:first 1328 ; rdf:rest ex:mc-count11 .
+  ex:mc-count11 rdf:first 1557 ; rdf:rest ex:mc-count12 .
+  ex:mc-count12 rdf:first 1535 ; rdf:rest ex:mc-count13 .
+  ex:mc-count13 rdf:first 1339 ; rdf:rest ex:mc-count14 .
+  ex:mc-count14 rdf:first 935 ; rdf:rest ex:mc-count15 .
+  ex:mc-count15 rdf:first 598 ; rdf:rest ex:mc-count16 .
+  ex:mc-count16 rdf:first 318 ; rdf:rest ex:mc-count17 .
+  ex:mc-count17 rdf:first 158 ; rdf:rest ex:mc-count18 .
+  ex:mc-count18 rdf:first 72 ; rdf:rest ex:mc-count19 .
+  ex:mc-count19 rdf:first 12 ; rdf:rest ex:mc-count20 .
+  ex:mc-count20 rdf:first 6 ; rdf:rest ex:mc-count21 .
+  ex:mc-count21 rdf:first 3 ; rdf:rest ex:mc-count22 .
+  ex:mc-count22 rdf:first 1 ; rdf:rest ex:mc-count23 .
+  ex:mc-count23 rdf:first 0 ; rdf:rest rdf:nil .
+  ex:mc-edge0 rdf:first 18.5 ; rdf:rest ex:mc-edge1 .
+  ex:mc-edge1 rdf:first 18.625 ; rdf:rest ex:mc-edge2 .
+  ex:mc-edge2 rdf:first 18.75 ; rdf:rest ex:mc-edge3 .
+  ex:mc-edge3 rdf:first 18.875 ; rdf:rest ex:mc-edge4 .
+  ex:mc-edge4 rdf:first 19.0 ; rdf:rest ex:mc-edge5 .
+  ex:mc-edge5 rdf:first 19.125 ; rdf:rest ex:mc-edge6 .
+  ex:mc-edge6 rdf:first 19.25 ; rdf:rest ex:mc-edge7 .
+  ex:mc-edge7 rdf:first 19.375 ; rdf:rest ex:mc-edge8 .
+  ex:mc-edge8 rdf:first 19.5 ; rdf:rest ex:mc-edge9 .
+  ex:mc-edge9 rdf:first 19.625 ; rdf:rest ex:mc-edge10 .
+  ex:mc-edge10 rdf:first 19.75 ; rdf:rest ex:mc-edge11 .
+  ex:mc-edge11 rdf:first 19.875 ; rdf:rest ex:mc-edge12 .
+  ex:mc-edge12 rdf:first 20.0 ; rdf:rest ex:mc-edge13 .
+  ex:mc-edge13 rdf:first 20.125 ; rdf:rest ex:mc-edge14 .
+  ex:mc-edge14 rdf:first 20.25 ; rdf:rest ex:mc-edge15 .
+  ex:mc-edge15 rdf:first 20.375 ; rdf:rest ex:mc-edge16 .
+  ex:mc-edge16 rdf:first 20.5 ; rdf:rest ex:mc-edge17 .
+  ex:mc-edge17 rdf:first 20.625 ; rdf:rest ex:mc-edge18 .
+  ex:mc-edge18 rdf:first 20.75 ; rdf:rest ex:mc-edge19 .
+  ex:mc-edge19 rdf:first 20.875 ; rdf:rest ex:mc-edge20 .
+  ex:mc-edge20 rdf:first 21.0 ; rdf:rest ex:mc-edge21 .
+  ex:mc-edge21 rdf:first 21.125 ; rdf:rest ex:mc-edge22 .
+  ex:mc-edge22 rdf:first 21.25 ; rdf:rest ex:mc-edge23 .
+  ex:mc-edge23 rdf:first 21.375 ; rdf:rest ex:mc-edge24 .
+  ex:mc-edge24 rdf:first 21.5 ; rdf:rest rdf:nil .
+
+  ex:mc-output-summary a cd:DefinitionList ; cd:hasDefinitionListEntry ex:mc-summary1, ex:mc-summary2, ex:mc-summary3 ; cd:authoredResource true .
+  ex:mc-output-info a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Default simulation, 10,000 trials**\n\n- Mean: **19.999 mg/L**\n- Output SD: **0.317 mg/L**\n- Central 95%: **19.371 to 20.627 mg/L**\n\nNominal calculation: 20.000 mg/L. Conditional simulated coverage, not automatically a confidence interval. Output SD is not the SE of the simulated mean."@en ; cd:derivedFromResource ex:mc-code, ex:mc-output-counts ; cd:authoredResource true .
+  ex:mc-summary1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Mean: 19.999 mg/L"@en ; cd:body "Nominal calculation: 20.000 mg/L."@en ; cd:authoredResource true .
+  ex:mc-summary2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Output SD: 0.317 mg/L"@en ; cd:body "Spread of outputs, not SE of their simulated mean."@en ; cd:authoredResource true .
+  ex:mc-summary3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "95%: 19.371-20.627 mg/L"@en ; cd:body "Equal-tail simulated quantiles, not a confidence interval."@en ; cd:authoredResource true .
+}

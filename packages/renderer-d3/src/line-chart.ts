@@ -1,5 +1,5 @@
 import { scaleLinear } from "d3-scale";
-import { area, line } from "d3-shape";
+import { area, line, curveLinear, curveStepAfter } from "d3-shape";
 import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } from "../../core/src/scene-document.ts";
 
 export interface D3LineChartOptions {
@@ -18,6 +18,10 @@ export interface D3LineChartRenderModel {
   readonly series: LineChartBlock["series"];
   readonly annotations: readonly LineChartAnnotation[];
   readonly staticFallback: string;
+  readonly presentation?: LineChartBlock["presentation"];
+  readonly interpolation?: LineChartBlock["interpolation"];
+  readonly showPoints?: boolean;
+  readonly yDomain?: readonly [number,number];
 }
 export interface D3LineChartDiagnostic {
   readonly code: "INVALID_LINE_CHART_BLOCK" | "INVALID_LINE_CHART_HOST";
@@ -41,8 +45,8 @@ export interface D3LineChartPresentationPlan {
   readonly traceInitiallyVisible: boolean;
 }
 
-export function lineChartPresentationPlan(annotations: readonly LineChartAnnotation[]): D3LineChartPresentationPlan {
-  const progressive = annotations.length > 0;
+export function lineChartPresentationPlan(annotations: readonly LineChartAnnotation[], mode?:LineChartBlock["presentation"]): D3LineChartPresentationPlan {
+  const progressive = mode!=="complete"&&annotations.length > 0;
   return {
     progressive,
     stepCount: progressive ? 1 + annotations.length : 0,
@@ -60,6 +64,7 @@ function fallback(block: LineChartBlock): string {
   return [
     block.label,
     block.description,
+    ...(block.interpolation==="step-after"?["Right-continuous step function: each listed value applies until the next x coordinate."]:[]),
     ...block.series.flatMap((series) => [
       `Series: ${series.label}`,
       ...series.data.map((datum) => `- x=${datum.x}${xu}, y=${datum.y}${yu}`),
@@ -86,6 +91,10 @@ export function createD3LineChartRenderModel(block: ChartBlock): D3LineChartRend
       series: block.series,
       annotations: block.annotations ?? [],
       staticFallback: fallback(block),
+      ...(block.presentation!==undefined?{presentation:block.presentation}:{}),
+      ...(block.interpolation!==undefined?{interpolation:block.interpolation}:{}),
+      ...(block.showPoints!==undefined?{showPoints:block.showPoints}:{}),
+      ...(block.yDomain!==undefined?{yDomain:block.yDomain}:{}),
     },
     diagnostics: [],
   };
@@ -114,7 +123,7 @@ export function mountD3LineChart(
   }
 
   const model = result.model;
-  const presentation = lineChartPresentationPlan(model.annotations);
+  const presentation = lineChartPresentationPlan(model.annotations,model.presentation);
   const stepCount = presentation.stepCount;
   let currentStep = 0;
   let destroyed = false;
@@ -132,6 +141,7 @@ export function mountD3LineChart(
   figure.className = "d3-chart-figure d3-chart-figure-line";
   const chartSvg = svg("svg");
   chartSvg.classList.add("d3-chart-svg", "d3-chart-line-svg");
+  if(model.presentation)chartSvg.setAttribute("data-chart-presentation",model.presentation);
   chartSvg.setAttribute("role", "img");
   chartSvg.setAttribute("aria-label", `${model.label}. ${model.description}`);
   const caption = document.createElement("figcaption");
@@ -154,7 +164,7 @@ export function mountD3LineChart(
     }
     for (const group of chartSvg.querySelectorAll<SVGGElement>("[data-annotation-step]")) {
       const requiredStep = Number(group.dataset.annotationStep ?? "999");
-      const visible = currentStep >= requiredStep;
+      const visible = model.presentation==="complete"||currentStep >= requiredStep;
       group.style.opacity = visible ? "1" : "0";
       group.style.transform = visible ? "translateY(0)" : "translateY(8px)";
     }
@@ -175,11 +185,12 @@ export function mountD3LineChart(
     const maxX = Math.max(...allData.map((datum) => datum.x));
     const maxY = Math.max(0, ...allData.map((datum) => datum.y));
     const x = scaleLinear().domain([minX, maxX]).range([margin.left, margin.left + plotWidth]);
-    const authoredYDomain = options.yDomain;
+    const authoredYDomain = model.yDomain??options.yDomain;
     const yDomain = authoredYDomain && Number.isFinite(authoredYDomain[0]) && Number.isFinite(authoredYDomain[1]) && authoredYDomain[1] > authoredYDomain[0]
       ? [authoredYDomain[0], authoredYDomain[1]] as const
       : [0, maxY * 1.14 || 1] as const;
-    const y = scaleLinear().domain(yDomain).nice(5).range([margin.top + plotHeight, margin.top]);
+    const y = scaleLinear().domain(yDomain).range([margin.top + plotHeight, margin.top]);
+    if(!model.yDomain)y.nice(5);
 
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");
@@ -215,6 +226,7 @@ export function mountD3LineChart(
     lines.classList.add("d3-chart-line-layer");
     model.series.forEach((series, index) => {
       const pathData = line<LineChartDatum>()
+        .curve(model.interpolation==="step-after"?curveStepAfter:curveLinear)
         .x((datum) => x(datum.x))
         .y((datum) => y(datum.y))(series.data);
       if (pathData) {
@@ -231,13 +243,21 @@ export function mountD3LineChart(
           : "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease";
         lines.append(node);
       }
-      for (const datum of series.data) {
+      for (const [datumIndex,datum] of series.data.entries()) {
+        if(model.showPoints===false)continue;
+        const previous=series.data[datumIndex-1];
+        if(model.interpolation==="step-after"&&previous&&previous.y!==datum.y){
+          const open=svg("circle");open.classList.add("d3-chart-line-point","d3-chart-step-open");
+          open.setAttribute("cx",String(x(datum.x)));open.setAttribute("cy",String(y(previous.y)));open.setAttribute("r","7");
+          open.setAttribute("data-step-side","left-limit");lines.append(open);
+        }
         const point = svg("circle");
         point.classList.add("d3-chart-line-point");
         point.setAttribute("cx", String(x(datum.x)));
         point.setAttribute("cy", String(y(datum.y)));
         point.setAttribute("r", "7");
         point.setAttribute("data-datum-id", datum.id);
+        if(model.interpolation==="step-after")point.setAttribute("data-step-side","included");
         point.style.opacity = presentation.traceInitiallyVisible ? "0.9" : "0";
         point.style.transition = options.reducedMotion || presentation.traceInitiallyVisible
           ? "none"
@@ -253,9 +273,9 @@ export function mountD3LineChart(
       group.dataset.annotationStep = String(annotationIndex + 2);
       group.dataset.annotationIndex = String(annotationIndex);
       group.dataset.annotationId = annotation.id;
-      group.style.opacity = "0";
-      group.style.transform = "translateY(8px)";
-      group.style.transition = options.reducedMotion ? "none" : "opacity 360ms ease, transform 360ms cubic-bezier(.2,.8,.2,1)";
+      group.style.opacity = model.presentation==="complete"?"1":"0";
+      group.style.transform = model.presentation==="complete"?"translateY(0)":"translateY(8px)";
+      group.style.transition = options.reducedMotion || model.presentation==="complete" ? "none" : "opacity 360ms ease, transform 360ms cubic-bezier(.2,.8,.2,1)";
 
       const series = model.series.find((candidate) => candidate.id === annotation.seriesId);
       if (!series) return;
@@ -266,6 +286,7 @@ export function mountD3LineChart(
         if (startIndex < 0 || endIndex < startIndex) return;
         const selectedData = series.data.slice(startIndex, endIndex + 1);
         const areaPath = area<LineChartDatum>()
+          .curve(model.interpolation==="step-after"?curveStepAfter:curveLinear)
           .x((datum) => x(datum.x))
           .y0(y(0))
           .y1((datum) => y(datum.y))(selectedData);
@@ -274,6 +295,11 @@ export function mountD3LineChart(
           areaNode.classList.add("d3-chart-range-highlight");
           areaNode.setAttribute("d", areaPath);
           group.append(areaNode);
+        }
+        if(model.presentation==="complete")for(const datum of [selectedData[0]!,selectedData[selectedData.length-1]!]){
+          const boundary=svg("line");boundary.classList.add("d3-chart-annotation-connector");boundary.setAttribute("data-range-boundary",datum.id);
+          boundary.setAttribute("x1",String(x(datum.x)));boundary.setAttribute("x2",String(x(datum.x)));
+          boundary.setAttribute("y1",String(y(0)));boundary.setAttribute("y2",String(y(datum.y)));group.append(boundary);
         }
         const label = svg("text");
         label.classList.add("d3-chart-annotation-label", "d3-chart-range-label");

@@ -35,6 +35,13 @@ test("semantic bar annotation overrides numeric maximum as the final emphasis", 
   assert.match(result.model.staticFallback, /Authored analytical focus/);
 });
 
+test("complete bar presentation preserves authored emphasis without native reveal stages",()=>{
+  const result=createD3BarChartRenderModel({...block,presentation:"complete",annotations:[{id:"focus",kind:"point",datumId:"a",label:"Direct focus",source:[{resourceId:"focus"}]}]});
+  assert.ok(result.model);assert.equal(result.model.presentation,"complete");
+  assert.deepEqual([...barChartEmphasisDatumIds(result.model)],["a"]);
+  assert.deepEqual(barChartPresentation(result.model),{stepCount:0,showBarsImmediately:true,showValueLabels:false});
+});
+
 test("bar emphasis retains maximum fallback when no semantic annotation exists", () => {
   const result = createD3BarChartRenderModel(block);
   assert.ok(result.model);

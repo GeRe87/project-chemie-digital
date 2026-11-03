@@ -1,0 +1,36 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-uniform-foundations> {
+  ex:al-uniform-model a cd:Concept ; skos:prefLabel "A uniform input model for distribution functions"@en ; cd:hasDefinition ex:al-uniform-definition ; cd:authoredResource true .
+  ex:al-uniform-definition a cd:Definition ; cd:body "A continuous uniform model assigns equal density within fixed bounds and zero density outside. Its interval probabilities are rectangle areas. A dimensionless Uniform(0,1) input is also the starting point for inverse-transform Monte Carlo simulation. A density height is not probability at an exact value."@en ; cd:hasSource ex:al-source-uniform ; cd:authoredResource true .
+  ex:al-uniform-pdf-chart a cd:ChartDefinition ; skos:prefLabel "Uniform input: equal density from 0 to 1"@en ; cd:body "x-axis: value. y-axis: density per value unit. The shaded rectangle has probability 0.50."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:lineInterpolation "step-after" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.2 ; cd:usesDataset ex:al-uniform-pdf-data ; cd:hasChartAnnotation ex:al-uniform-area ; cd:xAxisLabel "Value x"@en ; cd:xAxisUnit "1" ; cd:yAxisLabel "Density f(x)"@en ; cd:yAxisUnit "per value unit" ; cd:authoredResource true .
+  ex:al-uniform-area a cd:ChartRangeAnnotation ; cd:position 1 ; cd:startObservation ex:al-up2 ; cd:endObservation ex:al-up3 ; cd:body "Area = probability: 0.50"@en ; cd:authoredResource true .
+  ex:al-uniform-pdf-data a cd:Dataset ; skos:prefLabel "Specified uniform density, not observed frequencies"@en ; cd:unit "1" ; cd:derivedFromResource ex:al-uniform-definition ; cd:hasObservation ex:al-up0, ex:al-up1, ex:al-up2, ex:al-up3, ex:al-up4, ex:al-up5 ; cd:authoredResource true .
+  ex:al-up0 a cd:Observation ; cd:position 1 ; cd:xValue -0.1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:al-up1 a cd:Observation ; cd:position 2 ; cd:xValue 0.0 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:al-up2 a cd:Observation ; cd:position 3 ; cd:xValue 0.25 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:al-up3 a cd:Observation ; cd:position 4 ; cd:xValue 0.75 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:al-up4 a cd:Observation ; cd:position 5 ; cd:xValue 1.0 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:al-up5 a cd:Observation ; cd:position 6 ; cd:xValue 1.1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+
+  ex:al-uniform-cdf-chart a cd:ChartDefinition ; skos:prefLabel "CDF: value in, cumulative probability out"@en ; cd:body "F(0.25) = 0.25; F(0.75) = 0.75. Subtract y-values to get probability 0.50."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.0 ; cd:usesDataset ex:al-uniform-cdf-data ; cd:hasChartAnnotation ex:al-uniform-cdf-low, ex:al-uniform-cdf-high ; cd:xAxisLabel "Value threshold x"@en ; cd:xAxisUnit "1" ; cd:yAxisLabel "Cumulative probability F(x)"@en ; cd:yAxisUnit "1" ; cd:authoredResource true .
+  ex:al-uniform-cdf-low a cd:ChartPointAnnotation ; cd:position 1 ; cd:targetObservation ex:al-uc2 ; cd:body "F(0.25)"@en ; cd:authoredResource true .
+  ex:al-uniform-cdf-high a cd:ChartPointAnnotation ; cd:position 2 ; cd:targetObservation ex:al-uc3 ; cd:body "F(0.75)"@en ; cd:authoredResource true .
+  ex:al-uniform-cdf-data a cd:Dataset ; skos:prefLabel "Exact uniform cumulative probabilities"@en ; cd:unit "1" ; cd:derivedFromResource ex:al-uniform-definition ; cd:hasObservation ex:al-uc0, ex:al-uc1, ex:al-uc2, ex:al-uc3, ex:al-uc4, ex:al-uc5 ; cd:authoredResource true .
+  ex:al-uc0 a cd:Observation ; cd:position 1 ; cd:xValue -0.1 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:al-uc1 a cd:Observation ; cd:position 2 ; cd:xValue 0.0 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:al-uc2 a cd:Observation ; cd:position 3 ; cd:xValue 0.25 ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:al-uc3 a cd:Observation ; cd:position 4 ; cd:xValue 0.75 ; cd:numericValue 0.75 ; cd:authoredResource true .
+  ex:al-uc4 a cd:Observation ; cd:position 5 ; cd:xValue 1.0 ; cd:numericValue 1.0 ; cd:authoredResource true .
+  ex:al-uc5 a cd:Observation ; cd:position 6 ; cd:xValue 1.1 ; cd:numericValue 1.0 ; cd:authoredResource true .
+
+  ex:al-uniform-inverse-chart a cd:ChartDefinition ; skos:prefLabel "Inverse CDF: probability in, value out"@en ; cd:body "Input probability 0.75 gives value 0.75. The axes have different roles, despite equal numbers in this model."@en ; cd:chartType cd:LineChart ; cd:chartPresentation "complete" ; cd:showChartPoints false ; cd:chartYMinimum 0.0 ; cd:chartYMaximum 1.0 ; cd:usesDataset ex:al-uniform-inverse-data ; cd:hasChartAnnotation ex:al-uniform-inverse-mark ; cd:xAxisLabel "Input probability u"@en ; cd:xAxisUnit "1" ; cd:yAxisLabel "Output quantile value Q(u)"@en ; cd:yAxisUnit "1" ; cd:authoredResource true .
+  ex:al-uniform-inverse-mark a cd:ChartPointAnnotation ; cd:position 1 ; cd:targetObservation ex:al-ui2 ; cd:body "Q(0.75)"@en ; cd:authoredResource true .
+  ex:al-uniform-inverse-data a cd:Dataset ; skos:prefLabel "Uniform quantile function; endpoints show one-sided limits"@en ; cd:unit "1" ; cd:derivedFromResource ex:al-inverse ; cd:hasObservation ex:al-ui0, ex:al-ui1, ex:al-ui2, ex:al-ui3 ; cd:authoredResource true .
+  ex:al-ui0 a cd:Observation ; cd:position 1 ; cd:xValue 0.0 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:al-ui1 a cd:Observation ; cd:position 2 ; cd:xValue 0.25 ; cd:numericValue 0.25 ; cd:authoredResource true .
+  ex:al-ui2 a cd:Observation ; cd:position 3 ; cd:xValue 0.75 ; cd:numericValue 0.75 ; cd:authoredResource true .
+  ex:al-ui3 a cd:Observation ; cd:position 4 ; cd:xValue 1.0 ; cd:numericValue 1.0 ; cd:authoredResource true .
+}

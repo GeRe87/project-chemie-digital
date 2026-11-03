@@ -1,6 +1,10 @@
 import { validateObservationExplorer, type ObservationExplorerBlock } from "./observation-explorer.ts";
+import {validateBinaryExperiment,type BinaryExperiment} from "./binary-experiment.ts";
+export const SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION = "1.13" as const;
 import { boxPlotSummary, type BoxPlotBlock } from "./box-plot.ts";
 import { validateHistogram, type HistogramBlock, type Histogram2DBlock } from "./histogram.ts";
+import {validateExperiment,type ExperimentBlock} from "./distribution-experiment.ts";
+export const SCENE_DOCUMENT_EXPERIMENT_VERSION = "1.14" as const;
 export const SCENE_DOCUMENT_HISTOGRAM_VERSION = "1.10" as const;
 export const SCENE_DOCUMENT_EXPLORATION_VERSION = "1.11" as const;
 export const SCENE_DOCUMENT_MOMENT_VERSION = "1.12" as const;
@@ -16,6 +20,7 @@ export const SCENE_DOCUMENT_DOT_PLOT_VERSION = "1.6" as const;
 export const SCENE_DOCUMENT_DERIVATION_VERSION = "1.7" as const;
 
 export type SceneDocumentVersion =
+  | typeof SCENE_DOCUMENT_EXPERIMENT_VERSION
   | typeof SCENE_DOCUMENT_VERSION
   | typeof SCENE_DOCUMENT_FLOW_VERSION
   | typeof SCENE_DOCUMENT_CHART_VERSION
@@ -28,7 +33,8 @@ export type SceneDocumentVersion =
   | typeof SCENE_DOCUMENT_BOX_PLOT_VERSION
   | typeof SCENE_DOCUMENT_HISTOGRAM_VERSION
   | typeof SCENE_DOCUMENT_EXPLORATION_VERSION
-  | typeof SCENE_DOCUMENT_MOMENT_VERSION;
+  | typeof SCENE_DOCUMENT_MOMENT_VERSION
+  | typeof SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION;
 
 export const VISUAL_MOTIF_KEYS = [
   "discussion",
@@ -79,7 +85,7 @@ export interface Disclosure {
   readonly triggerResourceId?: string;
 }
 
-interface SceneBlockBase {
+export interface SceneBlockBase {
   readonly id: string;
   readonly source: readonly SourceReference[];
   readonly disclosure?: Disclosure;
@@ -178,7 +184,7 @@ export function mathematicalDerivationText(section: MathematicalDerivationSectio
   return [section.steps[0]!.from.expression, ...section.steps.flatMap(step => [step.operation,
     step.rule.formula.expression, step.to.expression, step.rule.description,
     step.explanation.application.expression, step.explanation.text, ...step.assumptions.map(a => a.description)]),
-    ...section.legend.map(e => `${e.term}: ${e.description ?? ""}`)].join("\n");
+    ...section.legend.map(e => `${e.term}: ${e.description ?? ""}${e.explanation ? `\n${e.explanation}` : ""}`)].join("\n");
 }
 
 export function validateMathematicalDerivation(section: MathematicalDerivationSection): void {
@@ -251,6 +257,8 @@ export interface DefinitionListEntry {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  /** Optional expanded prose; the complete authored symbol definition stays visible. */
+  readonly explanation?: string;
   readonly visualMotif?: VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
@@ -386,6 +394,7 @@ export interface InteractionMessage {
 }
 
 export interface DiagramBlock extends SceneBlockBase {
+  readonly binaryExperiment?:BinaryExperiment;
   readonly kind: "diagram";
   readonly diagramType: "flow" | "network" | "sequence";
   readonly label: string;
@@ -471,6 +480,7 @@ export interface BarChartBlock extends SceneBlockBase {
   readonly data: readonly BarChartDatum[];
   readonly annotations?: readonly BarChartPointAnnotation[];
   readonly liveUpdate?: LiveChartUpdate;
+  readonly presentation?: "progressive" | "complete";
 }
 
 export interface LineChartBlock extends SceneBlockBase {
@@ -483,6 +493,10 @@ export interface LineChartBlock extends SceneBlockBase {
   readonly series: readonly LineChartSeries[];
   readonly annotations?: readonly LineChartAnnotation[];
   readonly liveUpdate?: LiveChartUpdate;
+  readonly presentation?: "progressive" | "complete";
+  readonly interpolation?: "linear" | "step-after";
+  readonly showPoints?: boolean;
+  readonly yDomain?: readonly [number, number];
 }
 
 export interface DotPlotGroup {
@@ -523,7 +537,7 @@ export interface DotPlotBlock extends SceneBlockBase {
   readonly liveUpdate?: never;
 }
 
-export type ChartBlock = BarChartBlock | LineChartBlock | DotPlotBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
+export type ChartBlock = ExperimentBlock | BarChartBlock | LineChartBlock | DotPlotBlock | ((HistogramBlock | Histogram2DBlock | BoxPlotBlock | ObservationExplorerBlock) & SceneBlockBase);
 
 export function dotPlotStaticFallback(block: DotPlotBlock): string {
   const unit = block.yAxis.unit ? ` ${block.yAxis.unit}` : "";
@@ -556,6 +570,8 @@ export interface Scene {
   readonly readingOrder: readonly string[];
   readonly narration?: string;
   readonly accessibility?: AccessibilityMetadata;
+  /** Optional authored primary subject for orientation, independent of block layout. */
+  readonly topic?: { readonly label: string; readonly source: readonly SourceReference[] };
 }
 
 export interface SceneDocument {
@@ -627,6 +643,7 @@ function validateDefinitionListEntries(entries: readonly DefinitionListEntry[], 
     if (entry.expression !== undefined) requireNonEmpty(entry.expression, `${label} entry ${entry.id} symbol expression`);
     if (entry.symbol !== undefined && typeof entry.symbol !== "boolean") throw new SceneContractError(`${label} symbol flag must be boolean`);
     if (entry.description !== undefined) requireNonEmpty(entry.description, `${label} entry ${entry.id} description`);
+    if (entry.explanation !== undefined) requireNonEmpty(entry.explanation, `${label} entry ${entry.id} explanation`);
     if (entry.visualMotifRole !== undefined && entry.visualMotifRole !== "supporting" && entry.visualMotifRole !== "highlight") {
       throw new SceneContractError(`${label} entry ${entry.id} visualMotifRole must be supporting or highlight`);
     }
@@ -815,6 +832,7 @@ function validateChart(block: ChartBlock, label: string): void {
   requireNonEmpty(block.yAxis.label, `${label} chart y-axis label`);
   if (block.xAxis.unit !== undefined) requireNonEmpty(block.xAxis.unit, `${label} chart x-axis unit`);
   if (block.yAxis.unit !== undefined) requireNonEmpty(block.yAxis.unit, `${label} chart y-axis unit`);
+  if(block.chartType==='experiment'){try{validateExperiment(block);}catch(error){throw new SceneContractError(String(error));}return;}
   if(block.chartType==="histogram"||block.chartType==="histogram2d"){
     try{validateHistogram(block);}catch(error){throw new SceneContractError(String(error));}return;
   }
@@ -846,6 +864,7 @@ function validateChart(block: ChartBlock, label: string): void {
   }
 
   if (block.chartType === "bar") {
+    if(block.presentation!==undefined&&!["progressive","complete"].includes(block.presentation))throw new SceneContractError("Invalid chart presentation");
     if (block.data.length === 0) throw new SceneContractError(`${label} bar chart must contain at least one datum`);
     const ids = new Set<string>();
     for (const datum of block.data) {
@@ -943,6 +962,10 @@ function validateChart(block: ChartBlock, label: string): void {
     return;
   }
   if (block.chartType !== "line") throw new SceneContractError(`${label} chart type must be bar, line or dot`);
+  if(block.presentation!==undefined&&!["progressive","complete"].includes(block.presentation))throw new SceneContractError("Invalid chart presentation");
+  if(block.interpolation!==undefined&&!["linear","step-after"].includes(block.interpolation))throw new SceneContractError("Invalid line interpolation");
+  if(block.showPoints!==undefined&&typeof block.showPoints!=="boolean")throw new SceneContractError("Line point display must be boolean");
+  if(block.yDomain!==undefined&&(!Array.isArray(block.yDomain)||block.yDomain.length!==2||!block.yDomain.every(Number.isFinite)||block.yDomain[0]>=block.yDomain[1]||block.series.some(s=>s.data.some(d=>d.y<block.yDomain![0]||d.y>block.yDomain![1]))))throw new SceneContractError("Invalid authored line y domain");
   if (block.series.length === 0) throw new SceneContractError(`${label} line chart must contain at least one series`);
 
   const seriesIds = new Set<string>();
@@ -1002,8 +1025,18 @@ function validateChart(block: ChartBlock, label: string): void {
 }
 
 function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
+  const schemaVersion=declaredVersion;
+  if(declaredVersion===SCENE_DOCUMENT_EXPERIMENT_VERSION)declaredVersion=SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION;
+  for(const block of blocks)if(block.kind==='chart'&&block.chartType==='experiment'&&schemaVersion!==SCENE_DOCUMENT_EXPERIMENT_VERSION)throw new SceneContractError('Scientific experiments require SceneDocument 1.14');
+  for(const block of blocks)if(block.kind==="chart"&&block.chartType==="histogram"&&(block.curves!==undefined||block.binCounts!==undefined)&&declaredVersion!==SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION)throw new SceneContractError("Histogram reference curves and published bin counts require SceneDocument 1.13");
+  for(const block of blocks)if(block.kind==="chart"&&(block.chartType==="bar"||block.chartType==="line")&&(block.presentation!==undefined||block.chartType==="line"&&(block.interpolation!==undefined||block.showPoints!==undefined||block.yDomain!==undefined))&&declaredVersion!==SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION)throw new SceneContractError("Authored chart display options require SceneDocument 1.13");
+  for(const block of blocks)if(block.kind==="diagram"&&block.binaryExperiment){
+    if(declaredVersion!==SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION)throw new SceneContractError("Binary experiments require SceneDocument 1.13");
+    if(block.diagramType!=="flow"||block.states?.length)throw new SceneContractError("Binary experiment diagrams use their own progression on an un-staged flow");
+    try{validateBinaryExperiment(block.binaryExperiment);}catch(error){throw new SceneContractError(String(error));}
+  }
   // 1.8 is additive to 1.7; retain the declared version through nested groups.
-  const version = declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
+  const version = declaredVersion === SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION || declaredVersion === SCENE_DOCUMENT_OBSERVATION_VERSION || declaredVersion === SCENE_DOCUMENT_BOX_PLOT_VERSION || declaredVersion === SCENE_DOCUMENT_HISTOGRAM_VERSION || declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION || declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION ? SCENE_DOCUMENT_DERIVATION_VERSION : declaredVersion;
   const ids = blocks.map((block) => block.id);
   if (new Set(ids).size !== ids.length) throw new SceneContractError(`${label} contains duplicate block ids`);
   validateDisclosureOrders(blocks, label);
@@ -1029,7 +1062,7 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       requireNonEmpty(block.disclosure.triggerResourceId, `${label} block ${block.id} disclosure triggerResourceId`);
     }
     if (block.kind === "group") {
-      validateBlocks(block.children, `${label} group ${block.id}`, declaredVersion);
+      validateBlocks(block.children, `${label} group ${block.id}`, schemaVersion);
       validateOrderedIds(block.readingOrder, block.children.map((child) => child.id), `${label} group ${block.id} readingOrder`);
     }
     if (block.kind === "list") {
@@ -1113,8 +1146,8 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       validateDiagram(block, `${label} block ${block.id}`);
     }
     if (block.kind === "chart") {
-      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION;
-      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
+      const exploration=declaredVersion===SCENE_DOCUMENT_EXPLORATION_VERSION||declaredVersion===SCENE_DOCUMENT_MOMENT_VERSION||declaredVersion===SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION;
+      if(block.chartType==="observations"&&block.view==="moments"&&declaredVersion!==SCENE_DOCUMENT_MOMENT_VERSION&&declaredVersion!==SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION)throw new SceneContractError("Moment views require SceneDocument 1.12");
       if(!exploration&&((block.chartType==="histogram"&&block.binAdjustment)||(block.chartType==="dot"&&block.groups.some(g=>g.interval))||(block.chartType==="observations"&&(block.compact!==undefined||block.interactive!==undefined||block.view==="ecdf"&&block.series.length>1))))throw new SceneContractError("Exploration options require SceneDocument 1.11");
       if ((block.chartType==="histogram"||block.chartType==="histogram2d")&&declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration)throw new SceneContractError("Histograms require SceneDocument 1.10");
       if (block.chartType === "box" && declaredVersion !== SCENE_DOCUMENT_BOX_PLOT_VERSION && declaredVersion!==SCENE_DOCUMENT_HISTOGRAM_VERSION&&!exploration) throw new SceneContractError("Box plots require SceneDocument 1.9");
@@ -1145,6 +1178,8 @@ export function validateSceneDocument(document: SceneDocument): void {
     && document.version !== SCENE_DOCUMENT_HISTOGRAM_VERSION
     && document.version !== SCENE_DOCUMENT_EXPLORATION_VERSION
     && document.version !== SCENE_DOCUMENT_MOMENT_VERSION
+    && document.version !== SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION
+    && document.version !== SCENE_DOCUMENT_EXPERIMENT_VERSION
   ) {
     throw new SceneContractError(`Unsupported scene document version: ${document.version}`);
   }
@@ -1155,6 +1190,12 @@ export function validateSceneDocument(document: SceneDocument): void {
   if (new Set(sceneIds).size !== sceneIds.length) throw new SceneContractError("SceneDocument contains duplicate scene ids");
 
   for (const scene of document.scenes) {
+    if (scene.topic !== undefined) {
+      if (document.version !== SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION && document.version !== SCENE_DOCUMENT_EXPERIMENT_VERSION) throw new SceneContractError("Scene topics require SceneDocument 1.13 or later");
+      if (!scene.topic || typeof scene.topic.label !== "string" || !scene.topic.label.trim() || scene.topic.label.length > 80) throw new SceneContractError("Scene topic label must be non-empty authored text of at most 80 characters");
+      if (!Array.isArray(scene.topic.source)) throw new SceneContractError("Scene topic must retain source references");
+      validateSource(scene.topic.source, `Scene ${scene.id} topic source`);
+    }
     if (scene.narration !== undefined && (typeof scene.narration !== "string" || !scene.narration.trim())) throw new SceneContractError("Scene narration must be non-empty authored text");
     requireNonEmpty(scene.id, "Scene id");
     validateSource(scene.source, `Scene ${scene.id} source`);

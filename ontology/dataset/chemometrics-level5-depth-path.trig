@@ -1,0 +1,58 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/level5-analytical-distributions-depth> {
+  ex:path-level5-analytical-distributions-depth a cd:LearningPath ; skos:prefLabel "Analytical distributions: origins, applications and reporting ranges"@en ; cd:forLearningUnit ex:unit-level5-probability-models ; cd:forTopic ex:l5-analytical-distributions, ex:l5-monte-carlo ; cd:hasStep ex:dep-s01, ex:dep-s02, ex:dep-s03, ex:dep-s04, ex:dep-s05, ex:dep-s06, ex:dep-s07, ex:dep-s08, ex:dep-s09, ex:dep-s10, ex:dep-s11, ex:dep-s12, ex:dep-s13, ex:dep-s14, ex:dep-s15, ex:dep-s16, ex:dep-s17, ex:dep-s18, ex:dep-s19, ex:dep-s20, ex:dep-s21, ex:dep-s22, ex:dep-s23, ex:dep-s24, ex:dep-s25, ex:dep-s26, ex:dep-s27, ex:dep-s28, ex:dep-s29, ex:dep-s30, ex:dep-s31, ex:dep-s32, ex:dep-s33, ex:dep-s34, ex:dep-s35, ex:dep-s36, ex:dep-s37, ex:dep-s38, ex:dep-s39, ex:dep-s40, ex:dep-s41, ex:dep-s42, ex:dep-s43, ex:dep-s44, ex:dep-s45, ex:dep-s46, ex:dep-s47, ex:dep-s48, ex:dep-s49, ex:dep-s50, ex:dep-s51 ; cd:authoredResource true .
+  ex:dep-s01 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:al-opening ; cd:usesResource ex:al-overview ; cd:authoredResource true .
+  ex:dep-s02 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:dep-functions ; cd:usesResource ex:dep-functions-cards ; cd:authoredResource true .
+  ex:dep-s03 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:al-functions ; cd:usesResource ex:al-functions-media ; cd:authoredResource true .
+  ex:dep-s04 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:al-density ; cd:usesResource ex:al-pdf, ex:al-uniform-pdf-chart ; cd:authoredResource true .
+  ex:dep-s05 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:al-area-example ; cd:usesResource ex:al-area-work, ex:al-uniform-pdf-chart ; cd:authoredResource true .
+  ex:dep-s06 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:al-cumulative ; cd:usesResource ex:al-cdf, ex:al-uniform-cdf-chart ; cd:authoredResource true .
+  ex:dep-s07 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:al-quantile ; cd:usesResource ex:al-inverse, ex:al-uniform-inverse-chart ; cd:authoredResource true .
+  ex:dep-s08 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:dep-paired ; cd:usesResource ex:dep-pair-media, ex:dep-pipette-formula ; cd:authoredResource true .
+  ex:dep-s09 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:al-normal-story ; cd:usesResource ex:al-normal-cards ; cd:authoredResource true .
+  ex:dep-s10 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:al-normal-process ; cd:usesResource ex:al-additive-media ; cd:authoredResource true .
+  ex:dep-s11 a cd:PathStep ; cd:position 11 ; cd:usesScene ex:al-normal-model ; cd:usesResource ex:al-normal-law, ex:l5-n09a-chart ; cd:authoredResource true .
+  ex:dep-s12 a cd:PathStep ; cd:position 12 ; cd:usesScene ex:al-control-story ; cd:usesResource ex:al-control-cards ; cd:authoredResource true .
+  ex:dep-s13 a cd:PathStep ; cd:position 13 ; cd:usesScene ex:al-normal-probability ; cd:usesResource ex:al-control-probability-formula, ex:l5-n10a-chart ; cd:authoredResource true .
+  ex:dep-s14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:al-normal-inverse ; cd:usesResource ex:al-control-inverse-formula, ex:l5-n10b-chart ; cd:authoredResource true .
+  ex:dep-s15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:al-standardization ; cd:usesResource ex:al-standardization-formula, ex:al-standardization-chart ; cd:authoredResource true .
+  ex:dep-s16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:dep-sigma ; cd:usesResource ex:dep-normal-bands-media, ex:dep-normal-bands ; cd:authoredResource true .
+  ex:dep-s17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:dep-log-story ; cd:usesResource ex:dep-log-cards ; cd:authoredResource true .
+  ex:dep-s18 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:dep-log-process ; cd:usesResource ex:dep-log-process-media ; cd:authoredResource true .
+  ex:dep-s19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:dep-log-model ; cd:usesResource ex:dep-log-law, ex:dep-log-size-chart ; cd:authoredResource true .
+  ex:dep-s20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:dep-log-threshold ; cd:usesResource ex:dep-log-tail, ex:dep-log-tail-chart ; cd:authoredResource true .
+  ex:dep-s21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:dep-log-ranges ; cd:usesResource ex:dep-log-bands, ex:dep-log-bands-media ; cd:authoredResource true .
+  ex:dep-s22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:dep-log-reporting ; cd:usesResource ex:dep-log-report ; cd:authoredResource true .
+  ex:dep-s23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:dep-origins ; cd:usesResource ex:dep-origins-media ; cd:authoredResource true .
+  ex:dep-s24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:al-chi-story ; cd:usesResource ex:al-chi-cards ; cd:authoredResource true .
+  ex:dep-s25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:dep-chi-construction ; cd:usesResource ex:dep-chi-build ; cd:authoredResource true .
+  ex:dep-s26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:al-chi-model ; cd:usesResource ex:l5-t16a-formula, ex:l5-t16b-chart ; cd:authoredResource true .
+  ex:dep-s27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:al-chi-example ; cd:usesResource ex:al-chi-work ; cd:authoredResource true .
+  ex:dep-s28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:al-t-story ; cd:usesResource ex:al-t-cards ; cd:authoredResource true .
+  ex:dep-s29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:dep-t-construction ; cd:usesResource ex:dep-t-build ; cd:authoredResource true .
+  ex:dep-s30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:al-t-model ; cd:usesResource ex:l5-t16d-formula, ex:l5-t16d-chart ; cd:authoredResource true .
+  ex:dep-s31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:al-t-example ; cd:usesResource ex:l5-t16g-formula ; cd:authoredResource true .
+  ex:dep-s32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:al-f-story ; cd:usesResource ex:al-f-cards ; cd:authoredResource true .
+  ex:dep-s33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:dep-f-construction ; cd:usesResource ex:dep-f-build ; cd:authoredResource true .
+  ex:dep-s34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:al-f-model ; cd:usesResource ex:l5-f17b-formula, ex:l5-f17b-chart ; cd:authoredResource true .
+  ex:dep-s35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:al-f-example ; cd:usesResource ex:al-f-work ; cd:authoredResource true .
+  ex:dep-s36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:al-test-story ; cd:usesResource ex:al-tests ; cd:authoredResource true .
+  ex:dep-s37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l5-g19a-scene ; cd:usesResource ex:l5-g19a-formula, ex:l5-g19a-chart ; cd:authoredResource true .
+  ex:dep-s38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l5-g19c-scene ; cd:usesResource ex:l5-g19c-formula, ex:l5-g19c-chart ; cd:authoredResource true .
+  ex:dep-s39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l5-g19d-scene ; cd:usesResource ex:l5-g19d-cards ; cd:authoredResource true .
+  ex:dep-s40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l5-p20a-scene ; cd:usesResource ex:l5-p20a-formula, ex:l5-p20a-chart ; cd:authoredResource true .
+  ex:dep-s41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l5-p20b-scene ; cd:usesResource ex:l5-p20b-formula, ex:l5-p20b-chart ; cd:authoredResource true .
+  ex:dep-s42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l5-p20d-scene ; cd:usesResource ex:l5-p20d-cards ; cd:authoredResource true .
+  ex:dep-s43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:al-map ; cd:usesResource ex:al-map-media ; cd:authoredResource true .
+  ex:dep-s44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:mc-story ; cd:usesResource ex:al-process-media ; cd:authoredResource true .
+  ex:dep-s45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:mc-model ; cd:usesResource ex:mc-equation ; cd:authoredResource true .
+  ex:dep-s46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:mc-assumptions ; cd:usesResource ex:mc-inputs ; cd:authoredResource true .
+  ex:dep-s47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:mc-transform ; cd:usesResource ex:mc-inverse ; cd:authoredResource true .
+  ex:dep-s48 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:mc-trial ; cd:usesResource ex:mc-one ; cd:authoredResource true .
+  ex:dep-s49 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:mc-live ; cd:usesResource ex:mc-lab, ex:mc-code ; cd:authoredResource true .
+  ex:dep-s50 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:mc-result ; cd:usesResource ex:mc-output-chart, ex:mc-output-info ; cd:authoredResource true .
+  ex:dep-s51 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:mc-scope ; cd:usesResource ex:mc-limits ; cd:authoredResource true .
+}

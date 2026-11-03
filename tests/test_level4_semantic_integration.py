@@ -24,7 +24,9 @@ class SemanticIntegrationTests(unittest.TestCase):
 
     def test_placements_use_their_own_relation_not_annotation_targeting(self):
         placements = set(self.union.subjects(RDF.type, CD.ObservationPlacement))
-        self.assertEqual(474, len(placements))
+        # The independent twenty-reading review warm-up adds twenty explicit
+        # placements without changing the original 474 observation bindings.
+        self.assertEqual(494, len(placements))
         for placement in placements:
             self.assertEqual(1, len(list(self.union.objects(placement, CD.placedObservation))))
             self.assertFalse(list(self.union.objects(placement, CD.targetObservation)))

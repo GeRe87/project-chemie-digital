@@ -15,7 +15,9 @@
   line-height: .98;
   letter-spacing: -.025em;
   text-wrap: balance;
+  text-transform: none;
 }
+
 
 .reveal .slides section[data-composition="visual-stage"]
   > [data-composition-region-container="main"] {
@@ -34,6 +36,11 @@
   min-height: 0;
   margin: .15rem auto 0;
   padding-top: 2rem;
+}
+
+/* Interactive visuals use the same stage, with content-sized hosts. */
+.reveal .slides section[data-composition="visual-stage"] [data-component-kind="visual"][data-interactive-surface="true"] {
+  height: auto; min-height: 0; max-height: none; overflow: visible;
 }
 
 .reveal .slides section[data-composition="visual-stage"]
@@ -237,7 +244,7 @@ body[data-diagram-theme="eco-city"] .reveal
   paint-order: stroke fill;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="visual-stage"] {
     padding: 1.4rem 1rem 1.2rem !important;
   }
@@ -279,6 +286,11 @@ body[data-diagram-theme="eco-city"] .reveal
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: .15rem;
   padding: 1rem 1.6rem .75rem !important;
+}
+/* Topic-bearing visual stages reserve a distinct bottom strip for orientation
+   and remote-navigation controls, including when the takeaway wraps on phones. */
+.reveal .slides section[data-composition="visual-stage"]:has(> .scene-topic):has(> [data-composition-region-container="footer"]) {
+  padding-bottom: 3rem !important;
 }
 .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"])
   > [data-composition-region="heading"] {

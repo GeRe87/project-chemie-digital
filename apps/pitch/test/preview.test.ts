@@ -20,6 +20,41 @@ class FakeElement implements MinimalElement {
   setAttribute(name: string, value: string): void { this.attributes.set(name, value); }
 }
 
+test("symbol legends start collapsed under one keyboard-native Symbols control", () => {
+  const source=[{resourceId:"urn:symbol",relationPath:"cd:presentationDefinition"}];
+  const block={id:"legend",kind:"definition-list" as const,source,entries:[{id:"z",symbol:true,expression:"z",term:"standardized value",description:"- z: concrete standardized value.\n- Unitless; not a probability.",explanation:"Longer authored context, kept separately.",source}]};
+  const heading={id:"heading",kind:"prose" as const,text:"Symbols",intent:{kind:"introduce" as const},source};
+  const root=new FakeElement();
+  mountSceneDocuments({root,createElement:()=>new FakeElement()},[{version:"1.14",id:"doc",sourcePathId:"urn:path",scenes:[{id:"scene",source,blocks:[heading,block],readingOrder:[heading.id,block.id]}]}]);
+  const all=(e:FakeElement):FakeElement[]=>[e,...e.children.flatMap(all)];
+   const details=all(root).find(e=>e.className==="symbol-legend-disclosure")!;
+  assert.ok(details);assert.equal(details.attributes.has("open"),false);
+   assert.equal(details.children[0]!.textContent,"Symbols");
+   assert.equal(details.children[1]!.className,"definition-list");
+   const explanation=all(details).find(e=>e.className==="symbol-explanation")!;
+   assert.match(explanation.innerHTML,/Longer authored context/);
+  const visible=all(root).find(e=>e.className==="definition-list-description")!;
+  assert.match(visible.innerHTML,/<ul\b/);assert.match(visible.innerHTML,/not a probability/);
+  assert.equal(details.attributes.get("data-presentation-interactive"),"true");
+});
+
+test("authored topic is stable source-linked context outside content composition", () => {
+  const block = { id: "heading", kind: "prose" as const, text: "A specific step", intent: { kind: "introduce" as const }, source: [{ resourceId: "urn:heading" }] };
+  const scene = { id: "generic-scene", source: [{ resourceId: "urn:scene" }], blocks: [block], readingOrder: [block.id] };
+  const root = new FakeElement();
+  const topic = { label: "Sampling · Student-t", source: [{ resourceId: "urn:subject", relationPath: "dct:subject" }] };
+  mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{ version: "1.13", id: "doc", sourcePathId: "urn:path", scenes: [{ ...scene, topic }] }]);
+  const section = root.children[0]!;
+  const context = section.children.find(child => child.className === "scene-topic")!;
+  assert.equal(context.textContent, topic.label);
+  assert.equal(context.attributes.get("data-relation-path"), "dct:subject");
+  assert.equal(section.attributes.get("aria-describedby"), "generic-scene-topic");
+  assert.equal(section.children.filter(child => child.attributes.get("data-component-kind") === "heading").length, 1);
+  mountSceneDocuments({ root, createElement: () => new FakeElement() }, [{ version: "1.0", id: "doc", sourcePathId: "urn:path", scenes: [scene] }]);
+  assert.equal(root.children[0]!.children.some(child => child.className === "scene-topic"), false);
+  assert.equal(root.children[0]!.attributes.has("aria-describedby"), false);
+});
+
 test("generic formula cards preserve paired source-linked text and independent KaTeX expressions", () => {
   const [document] = compilePitchSceneDocuments();
   assert.ok(document);

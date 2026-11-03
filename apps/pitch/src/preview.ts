@@ -1,6 +1,8 @@
 import katex from "katex";
+import {binaryDiagramFallback} from "../../../packages/core/src/binary-experiment.ts";
 import { boxPlotStaticFallback } from "../../../packages/core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../../packages/core/src/histogram.ts";
+import {experimentFallback} from '../../../packages/core/src/distribution-experiment.ts';
 import { observationExplorerFallback } from "../../../packages/core/src/observation-explorer.ts";
 import { teachingTextMarkup, teachingInlineMarkup, symbolLegendMarkup } from "./teaching-text.ts";
 import { renderMathematicalDerivation, renderDerivationDetailButtons } from "../../../packages/renderer-reveal/src/mathematical-derivation.ts";
@@ -66,6 +68,7 @@ function blockPresentationAttributes(
 }
 
 function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): string {
+  if(block.chartType==='experiment')return experimentFallback(block);
   if(block.chartType==="histogram"||block.chartType==="histogram2d")return histogramStaticFallback(block);
   if (block.chartType === "box") return boxPlotStaticFallback(block);
   if (block.chartType === "observations") return observationExplorerFallback(block);
@@ -98,6 +101,7 @@ function chartStaticFallback(block: Extract<SceneBlock, { kind: "chart" }>): str
 }
 
 function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  if(block.binaryExperiment)return binaryDiagramFallback(block);
   const labels = new Map(block.nodes.map((node) => [node.id, node.label]));
   return [
     block.label,
@@ -174,6 +178,31 @@ function appendBlock(
     code.textContent = block.fallback;
     pre.appendChild(code);
     shell.appendChild(pre);
+    if (block.language.toLowerCase() === "r" && block.executable && block.disclosure?.mode === "optional") {
+      shell.setAttribute("data-code-layout", "split");
+      pre.setAttribute("tabindex", "0");
+      pre.setAttribute("aria-label", "R source code");
+      const sourceLabel = dom.createElement("div");
+      sourceLabel.className = "code-source-label";
+      sourceLabel.textContent = "R code";
+      shell.appendChild(sourceLabel);
+      const toolbar = dom.createElement("div");
+      toolbar.className = "code-runtime-placeholder";
+      toolbar.textContent = "Output";
+      shell.appendChild(toolbar);
+      const results = dom.createElement("div");
+      results.className = "code-result-pane";
+      results.setAttribute("role", "region");
+      results.setAttribute("aria-label", "R results");
+      results.setAttribute("tabindex", "0");
+      const output = dom.createElement("pre");
+      output.className = "code-output";
+      output.setAttribute("aria-label", "R output");
+      output.setAttribute("aria-live", "polite");
+      output.textContent = "Output will appear here. If the local R editor is unavailable, the complete source remains readable on the left.";
+      results.appendChild(output);
+      shell.appendChild(results);
+    }
     parent.appendChild(shell);
     return;
   }
@@ -268,7 +297,7 @@ function appendBlock(
           .map((point) => point.trim())
           .filter((point) => point.length > 0);
 
-        if (/\n\s*\n/u.test(entry.description) && /^-\s+/mu.test(entry.description)) {
+        if (/^-\s+/mu.test(entry.description)) {
           // Explicit paragraph/list authoring uses the same safe rich-text
           // subset as prose cards. Legacy line-wise point spacing stays intact.
           description.innerHTML = teachingTextMarkup(entry.description);
@@ -300,6 +329,12 @@ function appendBlock(
           description.innerHTML = teachingInlineMarkup(entry.description,true);
         }
 
+        if (entry.explanation) {
+          const content = dom.createElement("div");
+          content.className = "symbol-explanation";
+          content.innerHTML = teachingTextMarkup(entry.explanation);
+          description.appendChild(content);
+        }
         entryShell.appendChild(description);
       }
       if (entryFormula) {
@@ -309,7 +344,19 @@ function appendBlock(
       }
       list.appendChild(entryShell);
     });
-    if (!definitionCollection) parent.appendChild(list);
+    if (!definitionCollection) {
+      if (block.entries.length && block.entries.every(entry => entry.symbol)) {
+        const disclosure = dom.createElement("details");
+        disclosure.className = "symbol-legend-disclosure";
+        disclosure.setAttribute("data-presentation-interactive", "true");
+        sourceAttributes(disclosure, block.source);
+        const summary = dom.createElement("summary");
+        summary.textContent = "Symbols";
+        disclosure.appendChild(summary);
+        disclosure.appendChild(list);
+        parent.appendChild(disclosure);
+      } else parent.appendChild(list);
+    }
     return list;
   }
   if (block.kind === "table") {
@@ -460,6 +507,7 @@ function appendBlock(
     shell.setAttribute("data-diagram-block-id", block.id);
     shell.setAttribute("data-flow-block-id", block.id);
     shell.setAttribute("data-diagram-type", block.diagramType);
+    if(block.binaryExperiment){shell.setAttribute("data-binary-experiment","true");if(!block.binaryExperiment.stages)shell.setAttribute("data-presentation-interactive","true");shell.setAttribute("data-interactive-surface","true");shell.setAttribute("data-presentation-step-resource-id",block.source.map(s=>s.resourceId).join(" "));}
     shell.setAttribute("role", "group");
     shell.setAttribute("aria-label", block.label);
     sourceAttributes(shell, block.source);
@@ -484,8 +532,9 @@ function appendBlock(
     blockPresentationAttributes(shell, block, compositionDensity, compositionPlacement);
     shell.setAttribute("data-chart-block-id", block.id);
     shell.setAttribute("data-chart-type", block.chartType);
-    if (staticDistribution || block.chartType === "box" || block.chartType === "histogram" || block.chartType === "histogram2d") shell.setAttribute("data-chart-renderer", "dot");
+    if (staticDistribution || block.chartType === "experiment" || block.chartType === "box" || block.chartType === "histogram" || block.chartType === "histogram2d") shell.setAttribute("data-chart-renderer", "dot");
     if (block.chartType === "observations" && !staticDistribution && block.interactive!==false) {
+      shell.setAttribute("data-interactive-surface","true");
       shell.setAttribute("data-presentation-interactive", "true");
       shell.setAttribute("tabindex", "0");
     }
@@ -554,6 +603,17 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
 
+    if (scene.topic) {
+      const topic = dom.createElement("p");
+      topic.className = "scene-topic";
+      topic.setAttribute("id", `${scene.id}-topic`);
+      topic.setAttribute("data-topic-context", "true");
+      topic.textContent = scene.topic.label;
+      sourceAttributes(topic, scene.topic.source);
+      section.setAttribute("aria-describedby", `${scene.id}-topic`);
+      section.appendChild(topic);
+    }
+
     const compositionRegions = new Map<string, MinimalElement>();
     const definitionPairs = resolveDefinitionFormulaPairs(scene);
     const formulaUnits = resolveFormulaLegendUnits(scene);
@@ -579,6 +639,21 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       }
       return region;
     };
+    let optionalContent: MinimalElement | undefined;
+    const optionalParent = (): MinimalElement => {
+      if (optionalContent) return optionalContent;
+      const details = dom.createElement("details");
+      details.className = "pcd-optional-material";
+      details.setAttribute("data-presentation-interactive", "true");
+      const summary = dom.createElement("summary");
+      summary.textContent = "Experiment details / R";
+      details.appendChild(summary);
+      optionalContent = dom.createElement("div");
+      optionalContent.className = "pcd-optional-material-content";
+      details.appendChild(optionalContent);
+      section.appendChild(details);
+      return optionalContent;
+    };
     const placementParent = (placement: RevealCompositionPlacement | undefined, block: SceneBlock): MinimalElement => {
       const region = compositionParent(placement);
       if (composition.profile !== "evidence-practice-grid" || placement?.region !== "main") return region;
@@ -593,6 +668,10 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     for (const blockId of scene.readingOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
+      if (block.disclosure?.mode === "optional") {
+        appendBlock(optionalParent(), dom, block, headingId);
+        continue;
+      }
       if (embeddedFormulaIds.has(blockId)) continue;
       if (formulaUnitChildren.has(blockId)) continue;
       if (codeFunctionLegendIds.has(blockId)) continue;

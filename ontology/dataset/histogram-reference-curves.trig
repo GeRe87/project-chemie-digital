@@ -1,0 +1,17 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+<https://w3id.org/project-chemie-digital/graph/shapes/histogram-reference-curves> {
+  cd:HistogramReferenceShape a sh:NodeShape ; sh:targetClass cd:ChartDefinition ;
+    sh:sparql [ sh:message "Histogram reference curves require a one-dimensional density chart, density units and Dataset references with matching measurement units." ; sh:select """
+      PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      PREFIX dct: <http://purl.org/dc/terms/>
+      SELECT $this WHERE {
+        $this cd:chartType ?type ; dct:hasPart ?curve .
+        FILTER (?type IN (cd:Histogram, cd:Histogram2D))
+        FILTER NOT EXISTS {
+          $this cd:chartType cd:Histogram ; cd:histogramNormalization "density" ; cd:xAxisUnit ?unit ; cd:yAxisUnit ?densityUnit .
+          ?curve a cd:Dataset ; cd:unit ?unit .
+          FILTER (STRLEN(STR(?densityUnit)) > 0)
+        }
+      }""" ] .
+}

@@ -145,7 +145,14 @@ function resolveProfile(sourcePathId?: string): PresentationProfile {
 export function resolvePresentationAppearance(search: string, sourcePathId?: string): ResolvedPresentationAppearance {
   const params = new URLSearchParams(search);
   const diagnostics: string[] = [];
-  const profile = resolveProfile(sourcePathId);
+  const defaultProfile = resolveProfile(sourcePathId);
+  const requestedViewport = params.get("viewport");
+  const profile = requestedViewport === "native-portrait"
+    ? Object.freeze({ ...defaultProfile, viewportPolicy: "native-portrait" as const })
+    : defaultProfile;
+  if (requestedViewport && requestedViewport !== "native-portrait") {
+    diagnostics.push(`Unsupported viewport '${requestedViewport}', using the profile default.`);
+  }
 
   const requestedView = params.get("view");
   const view: PresentationView = requestedView === "deck" || requestedView === "scroll" ? requestedView : profile.defaultView;

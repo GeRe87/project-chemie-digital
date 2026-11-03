@@ -1,0 +1,24 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+<https://w3id.org/project-chemie-digital/graph/ontology/histogram-published-counts> {
+  cd:LearningDomain cdm:definesRelation cd:binCounts .
+  cd:binCounts a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:Dataset ; rdfs:range rdf:List ; rdfs:comment "Published counts aligned with a histogram's authored bin edges. No artificial within-bin observation values are implied."@en .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/histogram-published-counts> {
+  cd:PublishedCountsShape a sh:NodeShape ; sh:targetSubjectsOf cd:binCounts ; sh:class cd:Dataset ;
+    sh:property [ sh:path cd:binCounts ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:hasObservation ; sh:maxCount 0 ] ;
+    sh:property [ sh:path (cd:binCounts [ sh:zeroOrMorePath rdf:rest ] rdf:first) ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 9007199254740991 ] ;
+    sh:sparql [ sh:message "Published counts require a positive total." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      SELECT $this WHERE { $this cd:binCounts ?head . FILTER NOT EXISTS { ?head rdf:rest*/rdf:first ?count . FILTER (?count > 0) } }""" ] .
+  cd:PublishedCountChartShape a sh:NodeShape ; sh:targetClass cd:ChartDefinition ;
+    sh:sparql [ sh:message "Published counts require a fixed one-dimensional histogram." ; sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+      SELECT $this WHERE { $this cd:usesDataset/cd:binCounts ?head .
+        { FILTER NOT EXISTS { $this cd:chartType cd:Histogram } } UNION { $this cd:allowBinAdjustment ?adjust }
+      }""" ] .
+}

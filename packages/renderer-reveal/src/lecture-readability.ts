@@ -18,7 +18,7 @@ function orderedBlocks(scene: Scene): readonly SceneBlock[] {
   const byId = new Map(scene.blocks.map((block) => [block.id, block]));
   return scene.readingOrder
     .map((id) => byId.get(id))
-    .filter((block): block is SceneBlock => block !== undefined);
+    .filter((block): block is SceneBlock => block !== undefined && block.disclosure?.mode !== "optional");
 }
 
 function isHeading(block: SceneBlock): boolean {

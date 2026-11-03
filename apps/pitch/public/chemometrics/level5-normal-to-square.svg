@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-labelledby="title desc">
+<title id="title">Squaring a standard-normal draw folds both signs onto a nonnegative axis</title>
+<desc id="desc">Two schematic density shapes. Left: a symmetric standard-normal bell with horizontal z axis in SD units, centered at zero. Right: the density of its square, only on nonnegative y, with a long right tail and an unbounded height as y approaches zero. Signed example values minus two and plus two both map to four; minus one half and plus one half both map to one quarter. Curves are schematic, not coordinate tables. All axes are dimensionless; density is per axis unit.</desc>
+<style>
+text{font-family:system-ui,sans-serif;fill:#17354b;font-size:20px}.axis{stroke:#38596a;stroke-width:2;fill:none}.curve{stroke:#086a91;stroke-width:4;fill:none}.accent{fill:#a23c20}.small{font-size:17px}
+@media(prefers-color-scheme:dark){text{fill:#e5f1fa}.axis{stroke:#b8cedd}.curve{stroke:#69ceef}.accent{fill:#ffba87}}
+</style>
+<text x="45" y="30">Before: signed normal distance</text><text x="490" y="30">After: squared distance</text>
+<path class="axis" d="M45 220H415 M230 220V57 M490 220H860 M490 220V57"/>
+<path class="curve" d="M50 219C100 218 125 209 151 181S197 83 230 82S284 151 309 182S361 217 410 219"/>
+<path class="curve" d="M494 58C499 103 507 133 521 152S554 183 590 198S676 215 855 220"/>
+<text class="small" x="54" y="64">Density per z-unit</text><text class="small" x="573" y="64">Density per y-unit</text>
+<text x="125" y="246">-2</text><text x="224" y="246">0</text><text x="320" y="246">+2</text><text x="477" y="246">0</text><text x="754" y="246">4</text>
+<text class="small" x="125" y="274">z: standard-normal value</text><text class="small" x="535" y="274">y: squared value (nonnegative)</text>
+<text class="accent" x="45" y="311">-2 and +2 both become 4</text><text class="accent" x="490" y="311">-0.5 and +0.5 both become 0.25</text>
+<text class="small" x="45" y="344">Schematic shapes. Squaring changes the law; it does not merely relabel a linear axis.</text>
+</svg>

@@ -1,5 +1,8 @@
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
+import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
+import {SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION} from "../../core/src/scene-document.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
+import {experimentFallback} from '../../core/src/distribution-experiment.ts';
 import {
   SCENE_DOCUMENT_OBSERVATION_VERSION,
   SCENE_DOCUMENT_BOX_PLOT_VERSION,
@@ -115,6 +118,7 @@ export interface RevealDefinitionListEntryPlan {
   readonly id: string;
   readonly term: string;
   readonly description?: string;
+  readonly explanation?: string;
   readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
   readonly source: readonly SourceReference[];
@@ -241,6 +245,7 @@ export interface RevealSectionPlan {
   readonly sourceSceneId: string;
   readonly source: readonly SourceReference[];
   readonly semanticLabel: string;
+  readonly topic?: SceneDocument["scenes"][number]["topic"];
   readonly narration?: string;
   readonly accessibility?: AccessibilityMetadata;
   readonly nodes: readonly RevealNodePlan[];
@@ -299,6 +304,7 @@ function baseFor(block: SceneBlock, position: number, options: RevealAdapterOpti
 }
 
 function diagramStaticFallback(block: Extract<SceneBlock, { kind: "diagram" }>): string {
+  if(block.binaryExperiment)return binaryDiagramFallback(block);
   if (block.diagramType === "sequence") {
     const roleLabels = new Map((block.participantRoles ?? []).map((role) => [role.id, role.label]));
     const messageLabels = new Map((block.messages ?? []).map((message) => [message.id, message.label]));
@@ -402,6 +408,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
           id: entry.id,
           term: entry.term,
           ...(entry.description ? { description: entry.description } : {}),
+          ...(entry.explanation ? { explanation: entry.explanation } : {}),
           ...(entry.visualMotif ? { visualMotif: entry.visualMotif } : {}),
           ...(entry.visualMotifRole ? { visualMotifRole: entry.visualMotifRole } : {}),
           source: sourceCopy(entry.source),
@@ -459,6 +466,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         interactive: options.interactionPolicy === "interactive-when-supported",
       };
     case "chart":
+      if(block.chartType==='experiment')return {...baseFor(block,position,options,experimentFallback(block)),kind:'prose',text:experimentFallback(block),format:'plain'};
       if(block.chartType==="histogram"||block.chartType==="histogram2d")return {...baseFor(block,position,options,histogramStaticFallback(block)),kind:"prose",text:histogramStaticFallback(block),format:"plain"};
       if (block.chartType === "box") return { ...baseFor(block, position, options, boxPlotStaticFallback(block)), kind: "prose", text: boxPlotStaticFallback(block), format: "plain" };
       if (block.chartType !== "observations") throw new AdapterError("UNSUPPORTED_PRIMITIVE", "Use the chart renderer for this chart", block.id);
@@ -525,7 +533,7 @@ function validatePlan(plan: RevealRenderPlan): void {
 }
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
-  const version = (document as { version?: unknown }).version;
+  const version = document.version===SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION||document.version==='1.14'?SCENE_DOCUMENT_MOMENT_VERSION:(document as { version?: unknown }).version;
   if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
@@ -550,6 +558,7 @@ export function createRevealRenderPlan(document: SceneDocument, options: RevealA
         sourceSceneId: scene.id,
         source: sourceCopy(scene.source),
         semanticLabel: scene.accessibility?.label ?? scene.id,
+        ...(scene.topic ? { topic: scene.topic } : {}),
         ...(scene.narration ? { narration: scene.narration } : {}),
         ...(scene.accessibility ? { accessibility: { ...scene.accessibility } } : {}),
         nodes: scene.blocks.map((block, blockIndex) => mapBlock(block, blockIndex, options)),

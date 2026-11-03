@@ -47,7 +47,7 @@ export interface ObservationExplorerBlock {
   /** False renders a fixed ECDF with no threshold controls. Defaults to true. */
   readonly interactive?: boolean;
   readonly series: readonly ObservationSeries[];
-  readonly threshold?: { readonly minimum: number; readonly maximum: number; readonly initial: number; readonly step: number };
+  readonly threshold?: { readonly minimum: number; readonly maximum: number; readonly initial: number; readonly step: number; readonly lowerInitial?: number };
   readonly formal?: { readonly definition: string; readonly expression: string; readonly spokenText: string; readonly source: readonly SourceReference[] };
   readonly liveUpdate?: never;
   readonly comparison?: SummaryComparison;
@@ -73,6 +73,7 @@ export function validateObservationExplorer(block: ObservationExplorerBlock): vo
     if (!t || ![t.minimum, t.maximum, t.initial, t.step].every(Number.isFinite) || t.minimum >= t.maximum || t.step <= 0 || t.initial < t.minimum || t.initial > t.maximum) throw new Error("Invalid threshold domain");
     const values = block.series.flatMap(s=>s.data.map(d => d.value));
     if (t.minimum >= Math.min(...values) || t.maximum <= Math.max(...values)) throw new Error("Domain must include both empirical tails");
+    if (t.lowerInitial !== undefined && (block.view !== "ecdf" || !Number.isFinite(t.lowerInitial) || t.lowerInitial < t.minimum || t.lowerInitial > t.initial)) throw new Error("Invalid lower ECDF threshold");
   } else if (block.threshold) throw new Error("Threshold belongs only to count or ECDF views");
   if (block.formal && (block.view !== "ecdf" || !block.formal.definition || !block.formal.expression || !block.formal.spokenText || !block.formal.source.length)) throw new Error("Invalid ECDF formalization");
   if (block.view === "summary") {
@@ -105,6 +106,10 @@ export function observationExplorerFallback(block: ObservationExplorerBlock): st
   if (block.threshold) {
     for(const series of block.series){const result = cumulativeCount(series.data, block.threshold.initial);
       lines.push(`${series.label}: at x = ${block.threshold.initial}: ${result.count}/${result.total} = ${result.fraction}`);
+      if (block.threshold.lowerInitial !== undefined) {
+        const lower = cumulativeCount(series.data, block.threshold.lowerInitial);
+        lines.push(`Interval (${block.threshold.lowerInitial}, ${block.threshold.initial}]: ${result.count}-${lower.count} = ${result.count-lower.count} of ${result.total}. Lower endpoint excluded, upper included; ties retained.`);
+      }
       lines.push("Right-continuous counts (all tied observations enter together):",...empiricalSteps(series.data).map(s => `x = ${s.value}: left limit ${s.left}; F_n(x) = ${s.right}; jump ${s.multiplicity}/${result.total}`),"Below the minimum: 0; at and above the maximum: 1.");}
   }
   if (block.formal) lines.push(block.formal.definition, block.formal.expression, block.formal.spokenText);

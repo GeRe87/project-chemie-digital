@@ -346,7 +346,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   stroke: #0b2533;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="cards-only"], [data-composition-profile="cards-with-footer"], [data-composition-profile="cards-to-visual"]) {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto auto auto auto auto !important;
@@ -561,7 +561,7 @@ body[data-presentation-theme="dark"] .reveal .slides
   stroke: #b18cff;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .reveal .slides section[data-composition="progression-stage"]:is([data-composition-profile="compact-linear"], [data-composition-profile="wide-process"]) {
     grid-template-rows: auto auto minmax(24rem, auto) auto;
     padding: 1rem !important;

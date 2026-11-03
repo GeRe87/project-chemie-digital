@@ -1,0 +1,64 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level5-review-p1-scenes> {
+ ex:p1-route a cd:DefinitionList ; cd:hasDefinitionListEntry ex:p1-route1, ex:p1-route2, ex:p1-route3, ex:p1-route4, ex:p1-route5, ex:p1-route6 ; cd:authoredResource true .
+ ex:p1-route1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Why do measurements vary?"@en ; cd:body "Session I: observe repeated results."@en ; cd:authoredResource true .
+ ex:p1-route2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Why a bell-shaped model?"@en ; cd:body "Session I: add small independent effects."@en ; cd:authoredResource true .
+ ex:p1-route3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Why a long right tail?"@en ; cd:body "Session I: multiply relative effects and compare log scales."@en ; cd:authoredResource true .
+ ex:p1-route4 a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "How random is estimated spread?"@en ; cd:body "Session II: construct chi-square and Student references."@en ; cd:authoredResource true .
+ ex:p1-route5 a cd:DefinitionListEntry ; cd:position 5 ; skos:prefLabel "How can we compare methods?"@en ; cd:body "Session II, split if needed: F and calibration."@en ; cd:authoredResource true .
+ ex:p1-route6 a cd:DefinitionListEntry ; cd:position 6 ; skos:prefLabel "How do we check our models?"@en ; cd:body "Separate follow-up, Session III: checks and Monte Carlo."@en ; cd:authoredResource true .
+ ex:p1-population-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:p1-mix, ex:p1-censor, ex:p1-sites ; cd:authoredResource true .
+ ex:p1-mix a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Mixtures: define the population"@en ; cd:body "- **Multiple sources:** pooling can create skewness or several peaks.\n- ==Positive values alone do not establish lognormality.==\n- **Before fitting:** identify the sampling population."@en ; cd:authoredResource true .
+ ex:p1-censor a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Censoring: respect the reporting limit"@en ; cd:body "- ==A non-detect is not a measured zero.==\n- **Replacing all low results by one value:** creates an artificial pile-up.\n- **Model explicitly:** observation process and reporting threshold."@en ; cd:authoredResource true .
+ ex:p1-sites a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Sites: environmental variation"@en ; cd:body "- **Different sites:** genuine environmental variation and possible spatial dependence.\n- ==One vial's repeatability does not describe this population.==\n- **Reporting target:** arithmetic expectation and a typical log-scale center answer different questions."@en ; cd:authoredResource true .
+ ex:p1-spread-question a cd:DefinitionList ; cd:hasDefinitionListEntry ex:p1-spread-q, ex:p1-spread-next ; cd:authoredResource true .
+ ex:p1-spread-q a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "How variable is an estimated spread?"@en ; cd:body "A new independent sample gives a new estimated log SD, even if the method is unchanged. Which sampling reference could separate that fluctuation from a genuine loss of precision? We construct the answer next."@en ; cd:authoredResource true .
+ ex:p1-spread-next a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "New IC study, original concentration scale"@en ; cd:body "Return to nitrate and a fixed precision reference. This is a new six-reading QC series, not the LC-MS/MS preparations or the later CRM experiment. Lognormality is a parallel modeling branch, not a prerequisite for the next construction."@en ; cd:authoredResource true .
+ ex:p1-series-chart a cd:ChartDefinition ; skos:prefLabel "Three illustrative series, one common concentration axis"@en ; cd:body "Six results per constructed series, all with mean 10.000 mg/L. Sample variances A 0.00316, B 0.00748, C 0.01648 (mg/L) squared; corresponding sample SDs about 0.056, 0.086 and 0.128 mg/L. These are illustrative possible outcomes, not measured validation evidence. Their variance markers appear in the next simulation."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Complete illustrative series"@en ; cd:yAxisLabel "Nitrate result"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:p1-series-A, ex:p1-series-B, ex:p1-series-C ; cd:authoredResource true .
+ ex:p1-series-A a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "A: sample SD 0.056"@en ; cd:usesDataset ex:p1-data-A ; cd:authoredResource true .
+ ex:p1-series-B a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "B: sample SD 0.086"@en ; cd:usesDataset ex:p1-data-B ; cd:authoredResource true .
+ ex:p1-series-C a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "C: sample SD 0.128"@en ; cd:usesDataset ex:p1-data-C ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-p1-scenes> {
+ ex:p1-n12 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-z ; dct:references ex:nn-eta-scene ; cd:hasSceneItem ex:nn-eta-h, ex:p1-n12-v, ex:v3-n12-f ; cd:narration "N12. Uppercase Z is the standardized random variable; lowercase z is one observed standardized value. The marked result 10.20 mg/L has z two under known mean ten and SD 0.10. z is dimensionless, not a probability. Leave the probability question open for the CDF and upper-tail scenes. Standardizing a nonnormal variable does not make it normal."@en ; cd:authoredResource true .
+ ex:p1-n12-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:v3-normal-coordinate ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n13 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-z ; dct:references ex:nn-devices-scene ; cd:hasSceneItem ex:nn-devices-h, ex:p1-n13-v, ex:nn-devices-f ; cd:narration "N13. Compare two assumed known-parameter device models on one concentration axis before reading the calculation. The same 10.20 mg/L is two SDs from the narrower expectation and one from the wider. These known SDs 0.10 and 0.20 are not the estimated SDs from the later device comparison."@en ; cd:authoredResource true .
+ ex:p1-n13-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:p1-normal-devices ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n18 a cd:SceneDefinition ; cd:focusConcept ex:normal-measurement-model ; dct:subject ex:l5-topic-normal ; dct:references ex:nn-bands-scene ; cd:hasSceneItem ex:nn-bands-h, ex:p1-n18-v, ex:nn-bands-f ; cd:narration "N18. Compare a one-percent upper event with two symmetric tails outside one, two or three SD. Compute central coverage from the accumulated probabilities rather than learning the 68-95-99.7 values as unrelated rules. This concerns individual readings, not confidence intervals for a population mean."@en ; cd:authoredResource true .
+ ex:p1-n18-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:p1-normal-bands ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n33 a cd:SceneDefinition ; cd:focusConcept ex:al-chi-square ; dct:subject ex:l5-topic-chi ; dct:references ex:ix-new-series ; cd:hasSceneItem ex:ix-series-h, ex:p1-n33-v ; cd:narration "N33. Plot all six results from each of the same three illustrative series. Their constructed means coincide, but spreads differ. In genuinely repeated sampling, means would generally vary too. The next slide places these three estimated variances in a distribution of complete-series variance estimates."@en ; cd:authoredResource true .
+ ex:p1-n33-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:p1-series-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n47 a cd:SceneDefinition ; cd:focusConcept ex:l5-student-t ; dct:subject ex:l5-topic-t ; dct:references ex:tf-t-decision-scene ; cd:hasSceneItem ex:tf-t-decision-h, ex:p1-n47-v, ex:p1-n47-c ; cd:narration "N47. Observed t root six is inside the two-sided five-df critical bounds, so do not reject at five percent. Contrast Student p 0.05797 with the inappropriate known-SD normal reference p 0.01431. A p-value is a null-model tail probability, not a posterior probability that the method is unbiased. Reliable bias detection requires prospective power and precision planning."@en ; cd:authoredResource true .
+ ex:p1-n47-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:p1-student-decision ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n47-c a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:tf-t-decision ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n48 a cd:SceneDefinition ; cd:focusConcept ex:l5-student-t ; dct:subject ex:l5-topic-t ; dct:references ex:tf-ci-scene ; cd:hasSceneItem ex:tf-ci-h, ex:p1-n48-v, ex:p1-n48-f ; cd:narration "N48. Change from the Student axis to a concentration axis. The same two-sided test corresponds to the mean confidence interval 9.99506 to 10.20494 mg/L. The reference ten is just inside. Coverage refers to repeated use of this procedure for a fixed true mean, not a probability assigned to this observed interval or a prediction range for individual results."@en ; cd:authoredResource true .
+ ex:p1-n48-v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:p1-student-ci ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+ ex:p1-n48-f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:tf-ci ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/data/level5-review-p1-scenes> {
+ ex:p1-data-A a cd:Dataset ; skos:prefLabel "Original illustrative series A"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:ix-series-cards ; cd:hasObservation ex:p1-a1, ex:p1-a2, ex:p1-a3, ex:p1-a4, ex:p1-a5, ex:p1-a6 ; cd:authoredResource true .
+ ex:p1-data-B a cd:Dataset ; skos:prefLabel "Original illustrative series B"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:ix-series-cards ; cd:hasObservation ex:p1-b1, ex:p1-b2, ex:p1-b3, ex:p1-b4, ex:p1-b5, ex:p1-b6 ; cd:authoredResource true .
+ ex:p1-data-C a cd:Dataset ; skos:prefLabel "Original illustrative series C"@en ; cd:unit "mg/L" ; cd:derivedFromResource ex:ix-series-cards ; cd:hasObservation ex:p1-c1, ex:p1-c2, ex:p1-c3, ex:p1-c4, ex:p1-c5, ex:p1-c6 ; cd:authoredResource true .
+ ex:p1-a1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.97 ; cd:authoredResource true .
+ ex:p1-a2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.04 ; cd:authoredResource true .
+ ex:p1-a3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.08 ; cd:authoredResource true .
+ ex:p1-a4 a cd:Observation ; cd:position 4 ; cd:numericValue 9.93 ; cd:authoredResource true .
+ ex:p1-a5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.02 ; cd:authoredResource true .
+ ex:p1-a6 a cd:Observation ; cd:position 6 ; cd:numericValue 9.96 ; cd:authoredResource true .
+ ex:p1-b1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.86 ; cd:authoredResource true .
+ ex:p1-b2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.05 ; cd:authoredResource true .
+ ex:p1-b3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.01 ; cd:authoredResource true .
+ ex:p1-b4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.12 ; cd:authoredResource true .
+ ex:p1-b5 a cd:Observation ; cd:position 5 ; cd:numericValue 9.98 ; cd:authoredResource true .
+ ex:p1-b6 a cd:Observation ; cd:position 6 ; cd:numericValue 9.98 ; cd:authoredResource true .
+ ex:p1-c1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.84 ; cd:authoredResource true .
+ ex:p1-c2 a cd:Observation ; cd:position 2 ; cd:numericValue 10.19 ; cd:authoredResource true .
+ ex:p1-c3 a cd:Observation ; cd:position 3 ; cd:numericValue 9.93 ; cd:authoredResource true .
+ ex:p1-c4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.11 ; cd:authoredResource true .
+ ex:p1-c5 a cd:Observation ; cd:position 5 ; cd:numericValue 9.99 ; cd:authoredResource true .
+ ex:p1-c6 a cd:Observation ; cd:position 6 ; cd:numericValue 9.94 ; cd:authoredResource true .
+}
