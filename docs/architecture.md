@@ -26,9 +26,10 @@ Retired Turtle and JSON-LD inputs are not active sources.
 
 `scripts/rdf_dataset.py` owns assembly, deterministic N-Quads export and the Dataset
 fingerprint. Blank-node identity is scoped across the logical Dataset, including
-nodes shared by named graphs. Export and fingerprinting use the same representation
-so a lossy export cannot pass its own revision check. This is a project-specific
-canonical representation, not a claim of W3C RDFC-1.0 interoperability.
+nodes shared by named graphs. Export and fingerprinting use the same Dataset-wide
+representation. Independent round-trip tests verify preservation of quads, graph
+contexts and shared blank-node identity. This is a project-specific canonical
+representation, not a claim of W3C RDFC-1.0 interoperability.
 
 `scripts/generate_canonical_runtime.py` compiles validated selections and snapshots.
 The compiler does not own the static output implementation:
