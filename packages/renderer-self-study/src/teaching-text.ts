@@ -3,4 +3,4 @@ export {
   escapeInlineText as escapeStudyText,
   renderInlineMath as renderStudyMath,
   renderInlineText as renderStudyInline,
-} from "../../renderer-reveal/src/inline-math.ts";
+} from "../../renderer-shared/src/inline-math.ts";

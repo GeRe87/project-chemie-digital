@@ -1,0 +1,14 @@
+{
+  "name": "@project-chemie-digital/renderer-shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Renderer-independent HTML/text/math projections shared by presentation and self-study adapters.",
+  "dependencies": {
+    "@project-chemie-digital/core": "0.0.0",
+    "katex": "0.18.2"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

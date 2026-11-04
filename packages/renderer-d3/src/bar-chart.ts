@@ -1,8 +1,10 @@
 import { scaleBand, scaleLinear } from "d3-scale";
+import { validNumericDomain, zeroInclusiveDomain } from "./numeric-domain.ts";
 import type { ChartBlock } from "../../core/src/scene-document.ts";
 
 export interface D3BarChartOptions {
   readonly reducedMotion: boolean;
+  readonly yDomain?: readonly [number, number];
   readonly density?: "comfortable" | "dense" | "compact";
 }
 export interface D3BarChartGeometry {
@@ -70,6 +72,7 @@ export interface D3BarChartComponent {
   readonly staticFallback: string;
   readonly stepCount: number;
   setStep(step: number): void;
+  updateValues(values: readonly number[]): void;
   destroy(): void;
 }
 
@@ -209,7 +212,9 @@ export function mountD3BarChart(
     };
   }
 
-  const model = result.model;
+  if (block.chartType !== "bar") return result;
+  let model = result.model;
+  const valueUpdaters: Array<() => void> = [];
   const presentation = barChartPresentation(model);
   const stepCount = presentation.stepCount;
   let currentStep = 0;
@@ -257,6 +262,7 @@ export function mountD3BarChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
+    valueUpdaters.length = 0;
     const geometry = barChartGeometryForDensity(options.density);
     const { minimumWidth, minimumHeight, heightRatio } = geometry;
     let margin = geometry.margin;
@@ -265,8 +271,12 @@ export function mountD3BarChart(
     const plotHeight = Math.max(100, height - margin.top - margin.bottom);
     chartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
-    const maximum = Math.max(0, ...model.data.map((datum) => datum.value));
-    const y = scaleLinear().domain([0, maximum * 1.15 || 1]).nice(5).range([margin.top + plotHeight, margin.top]);
+    const domain = validNumericDomain(options.yDomain)
+      ? [Math.min(0, options.yDomain[0]), Math.max(0, options.yDomain[1])]
+      : zeroInclusiveDomain(model.data.map(datum => datum.value));
+    const y = scaleLinear().domain(domain).range([margin.top + plotHeight, margin.top]);
+    if (!validNumericDomain(options.yDomain)) y.nice(5);
+    const baseline = y(0);
     const yAxisTitle = model.yAxisUnit ? `${model.yAxisLabel} (${model.yAxisUnit})` : model.yAxisLabel;
     const tickGap = 16;
     const titleX = 24;
@@ -348,17 +358,17 @@ export function mountD3BarChart(
     xAxis.classList.add("d3-chart-axis");
     xAxis.setAttribute("x1", String(margin.left));
     xAxis.setAttribute("x2", String(margin.left + plotWidth));
-    xAxis.setAttribute("y1", String(margin.top + plotHeight));
-    xAxis.setAttribute("y2", String(margin.top + plotHeight));
+    xAxis.setAttribute("y1", String(baseline));
+    xAxis.setAttribute("y2", String(baseline));
     axis.append(xAxis);
 
     model.data.forEach((datum, index) => {
       const bx = grouping && groupX && categoryX
         ? (groupX(datum.group!) ?? margin.left) + (categoryX(datum.category) ?? 0)
         : (x?.(datum.id) ?? margin.left);
-      const by = y(datum.value);
+      const by = Math.min(baseline, y(datum.value));
       const bw = grouping && categoryX ? categoryX.bandwidth() : (x?.bandwidth() ?? 0);
-      const bh = Math.max(0, margin.top + plotHeight - by);
+      const bh = Math.abs(baseline - y(datum.value));
       const categoryIndex = grouping ? Math.max(0, grouping.categories.indexOf(datum.category)) : index;
       // Annotated single-series charts compare outcomes, not colored categories.
       // The existing semantic emphasis marks the selected outcome separately.
@@ -375,9 +385,16 @@ export function mountD3BarChart(
       rect.setAttribute("width", String(bw));
       rect.setAttribute("height", String(bh));
       rect.style.transformBox = "fill-box";
-      rect.style.transformOrigin = "center bottom";
+      rect.style.transformOrigin = datum.value < 0 ? "center top" : "center bottom";
       rect.style.transition = (options.reducedMotion || presentation.showBarsImmediately) ? "none" : "transform 520ms cubic-bezier(.2,.8,.2,1), opacity 320ms ease, filter 320ms ease";
       bars.append(rect);
+      valueUpdaters.push(() => {
+        const value = model.data[index]!.value;
+        rect.setAttribute("y", String(Math.min(baseline, y(value))));
+        rect.setAttribute("height", String(Math.abs(baseline - y(value))));
+        rect.dataset.value = String(value);
+        rect.style.transformOrigin = value < 0 ? "center top" : "center bottom";
+      });
 
       if (presentation.showValueLabels) {
         const valueText = svg("text");
@@ -385,11 +402,17 @@ export function mountD3BarChart(
         valueText.dataset.datumId = datum.id;
         valueText.dataset.value = String(datum.value);
         valueText.setAttribute("x", String(bx + bw / 2));
-        valueText.setAttribute("y", String(by - 14));
+        valueText.setAttribute("y", String(y(datum.value) + (datum.value < 0 ? 26 : -14)));
         valueText.setAttribute("text-anchor", "middle");
         valueText.textContent = String(datum.value);
         valueText.style.transition = options.reducedMotion ? "none" : "opacity 320ms ease, filter 320ms ease";
         labels.append(valueText);
+        valueUpdaters.push(() => {
+          const value = model.data[index]!.value;
+          valueText.dataset.value = String(value);
+          valueText.setAttribute("y", String(y(value) + (value < 0 ? 26 : -14)));
+          valueText.textContent = String(value);
+        });
       }
 
       if (!grouping) {
@@ -487,10 +510,22 @@ export function mountD3BarChart(
   resizeObserver?.observe(host);
 
   return {
-    model,
-    staticFallback: model.staticFallback,
+    get model() { return model; },
+    get staticFallback() { return model.staticFallback; },
     stepCount,
     setStep,
+    updateValues(values: readonly number[]): void {
+      if (destroyed) return;
+      if (values.length !== model.data.length || values.some(value => !Number.isFinite(value))) {
+        throw new Error("Bar chart updates require one finite value per datum");
+      }
+      const data = block.data.map((datum, index) => ({ ...datum, value: values[index]! }));
+      model = { ...model, data, staticFallback: fallback({ ...block, data }) };
+      fallbackNode.textContent = model.staticFallback;
+      // A fixed live domain lets every frame update the existing SVG elements.
+      if (!validNumericDomain(options.yDomain)) render();
+      else { for (const update of valueUpdaters) update(); applyStep(); }
+    },
     destroy(): void {
       if (destroyed) return;
       destroyed = true;

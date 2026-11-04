@@ -1,33 +1,20 @@
+import { isSceneDocumentVersion } from "../../core/src/scene-version.ts";
 import { renderStudyInline, renderStudyMath } from "./teaching-text.ts";
-import {renderSymbolDefinitions} from "../../renderer-reveal/src/symbol-definitions.ts";
+import {renderSymbolDefinitions} from "../../renderer-shared/src/symbol-definitions.ts";
 import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
-import {SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION} from "../../core/src/scene-document.ts";
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
 import {experimentFallback} from '../../core/src/distribution-experiment.ts';
 import { observationExplorerFallback } from "../../core/src/observation-explorer.ts";
 import {empiricalMoments} from "../../core/src/moments.ts";
-import { renderDerivationDetail } from "../../renderer-reveal/src/mathematical-derivation.ts";
+import { renderDerivationDetail } from "../../renderer-shared/src/mathematical-derivation.ts";
 import {
-  SCENE_DOCUMENT_OBSERVATION_VERSION,
-  SCENE_DOCUMENT_BOX_PLOT_VERSION,
-  SCENE_DOCUMENT_HISTOGRAM_VERSION,
-  SCENE_DOCUMENT_EXPLORATION_VERSION,
-  SCENE_DOCUMENT_MOMENT_VERSION,
   dotPlotStaticFallback,
   type DotPlotBlock,
   type ChartBlock,
-  SCENE_DOCUMENT_FLOW_VERSION,
-  SCENE_DOCUMENT_CHART_VERSION,
-  SCENE_DOCUMENT_SEQUENCE_VERSION,
-  SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
-  SCENE_DOCUMENT_TABLE_VERSION,
-  SCENE_DOCUMENT_DOT_PLOT_VERSION,
-  SCENE_DOCUMENT_DERIVATION_VERSION,
   mathematicalDerivationText,
   type MathematicalDerivationSection,
   type MathematicalDerivationDetail,
-  SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
   type AccessibilityMetadata,
@@ -241,6 +228,14 @@ export interface SelfStudyScientificChartPlan extends SelfStudyNodeBase {
   readonly payload:Exclude<ChartBlock,{chartType:"bar"|"line"|"dot"}>;
 }
 export type SelfStudyChartPlan = SelfStudyBarChartPlan | SelfStudyLineChartPlan | SelfStudyDotChartPlan | SelfStudyScientificChartPlan;
+
+function isScientificChart(block: ChartBlock): block is SelfStudyScientificChartPlan["payload"] {
+  return block.chartType !== "bar" && block.chartType !== "line" && block.chartType !== "dot";
+}
+
+function isScientificChartPlan(node: SelfStudyChartPlan): node is SelfStudyScientificChartPlan {
+  return node.chartType !== "bar" && node.chartType !== "line" && node.chartType !== "dot";
+}
 
 export interface SelfStudyGroupPlan extends SelfStudyNodeBase {
   readonly kind: "group";
@@ -584,7 +579,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         fallback: block.fallback,
       };
     case "chart":
-      if(["experiment","histogram","histogram2d","box","observations"].includes(block.chartType))return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block} as SelfStudyScientificChartPlan;
+      if (isScientificChart(block)) return {...baseFor(block,position,chartStaticFallback(block)),kind:"chart",chartType:block.chartType,payload:block};
       if (block.chartType === "dot") return { ...baseFor(block,position,dotPlotStaticFallback(block)),kind:"chart",chartType:"dot",payload:block };
       if (block.chartType === "bar") {
         return {
@@ -707,8 +702,8 @@ function validatePlan(plan: SelfStudyRenderPlan): void {
 }
 
 export function createSelfStudyRenderPlan(document: SceneDocument): SelfStudyPlanResult {
-  const version = document.version===SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION||document.version==='1.14'?SCENE_DOCUMENT_MOMENT_VERSION:(document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
+  const version: unknown = document.version;
+  if (!isSceneDocumentVersion(version)) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 
@@ -799,7 +794,7 @@ function renderDiagram(node: SelfStudyDiagramPlan): string {
 }
 
 function renderChart(node: SelfStudyChartPlan): string {
-  if(node.chartType==="experiment"||node.chartType==="box"||node.chartType==="histogram"||node.chartType==="histogram2d"||node.chartType==="observations"){
+  if (isScientificChartPlan(node)) {
     const p=node.payload;
     let table="";
     if(p.chartType==="observations"&&p.view==="moments"){

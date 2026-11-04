@@ -1,10 +1,10 @@
 /* Local-only R workspace geometry, scrolling, keyboard and execution QA. */
-const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'../.local/browser-tools/node_modules/playwright');
+const {launchBrowser}=require('./browser-tools.cjs');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/public/authoring-level5-review-complete-runtime.json'),'utf8'));
 (async()=>{
- const output=process.argv[2],engine=process.argv[3]||'edge',execute=process.argv.includes('--execute');assert(output);fs.mkdirSync(output,{recursive:true});
- const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));const report={engine,errors:[],configurations:[],execution:null};
+ const output=process.argv[2],engine=process.argv[3]||'chromium',execute=process.argv.includes('--execute');assert(output);fs.mkdirSync(output,{recursive:true});
+ const browser=await launchBrowser(engine);const report={engine,errors:[],configurations:[],execution:null};
  try{
   for(const [width,height,theme]of [[1731,1006,'light'],[1280,720,'dark'],[390,844,'light']]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce',colorScheme:theme});page.on('pageerror',e=>report.errors.push(e.message));

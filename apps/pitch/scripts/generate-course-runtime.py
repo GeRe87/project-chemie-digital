@@ -14,6 +14,7 @@ if str(SCRIPTS) not in sys.path:
 import generate_canonical_runtime as RUNTIME  # noqa: E402
 from media_scene_projection import enrich_scene_documents_with_media  # noqa: E402
 import generate_canonical_runtime_media as MEDIA  # noqa: E402
+from course_runtime_transport import build_course_transport, replace_transport_directory  # noqa: E402
 
 OUTPUT = ROOT / "apps" / "pitch" / "src" / "generated" / "canonical-runtime.json"
 CHEMOMETRICS_OFFERING = (
@@ -22,7 +23,7 @@ CHEMOMETRICS_OFFERING = (
 )
 
 
-def generate_course(offering_id: str, *, language: str = "en") -> dict:
+def generate_course(offering_id: str, *, language: str = "en", public_root: Path | None = None) -> dict:
     base_artifact = RUNTIME.build_offering_artifact(
         offering_id,
         snapshot_language=language,
@@ -35,20 +36,11 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     )
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(RUNTIME.canonical_json(artifact), encoding="utf-8", newline="\n")
-    # Disposable per-level transports. The world manifest contains identities,
-    # labels and bindings, never scene bodies or the semantic dataset snapshot.
-    import hashlib
-    public = ROOT / "apps/pitch/public/course-runtime"
-    public.mkdir(parents=True, exist_ok=True)
-    documents = []
-    for document in artifact["sceneDocuments"]:
-        key = hashlib.sha256(document["id"].encode()).hexdigest()[:16]
-        single = {**artifact, "sceneDocuments": [document], "sceneDocumentBindings": [b for b in artifact["sceneDocumentBindings"] if b["sceneDocumentId"] == document["id"]]}
-        (public / f"{key}.json").write_text(RUNTIME.canonical_json(single), encoding="utf-8", newline="\n")
-        documents.append({"id": document["id"], "pathId": document["sourcePathId"], "sceneIds": [s["id"] for s in document["scenes"]], "runtime": f"course-runtime/{key}.json"})
-    manifest = {"offering": artifact["teachingOfferingDocuments"][0], "documents": documents, "bindings": artifact["sceneDocumentBindings"]}
+    # Keep the complete canonical artifact for standalone consumers/validation.
+    # Browser transports carry only each level's complete scene neighborhood.
+    public = (public_root if public_root is not None else ROOT / "apps/pitch/public") / "course-runtime"
+    manifest, transport_files = build_course_transport(artifact)
     (OUTPUT.parent / "course-manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
-    (public / "manifest.json").write_text(RUNTIME.canonical_json(manifest), encoding="utf-8", newline="\n")
     offering = artifact["teachingOfferingDocuments"][0]["offering"]
     labels = offering["labels"]
     label = next((item["value"] for item in labels if item.get("language") == language),
@@ -70,7 +62,8 @@ def generate_course(offering_id: str, *, language: str = "en") -> dict:
     static = re.sub(r'<script\b[^>]*>.*?</script>', '', shell, flags=re.DOTALL)
     static = static.replace('<noscript>', '').replace('</noscript>', '')
     static = re.sub(r'(src|href)="/(?!/)', r'\1="../', static)
-    (public / "static-course.html").write_text(static, encoding="utf-8", newline="\n")
+    transport_files["static-course.html"] = static.encode("utf-8")
+    replace_transport_directory(public, transport_files)
     shell = re.sub(r"(<!-- canonical-runtime-fallback:start -->).*?(<!-- canonical-runtime-fallback:end -->)",
                    lambda match: match[1] + '\n<p><a href="./course-runtime/static-course.html">Open static course content</a></p>\n' + match[2], shell, flags=re.DOTALL)
     RUNTIME.PITCH_INDEX.write_text(shell, encoding="utf-8", newline="\n")

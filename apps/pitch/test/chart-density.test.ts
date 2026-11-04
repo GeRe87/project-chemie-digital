@@ -76,3 +76,19 @@ test("does not invent density when the host has no fit marker", () => {
 
   assert.equal(receivedDensity, undefined);
 });
+
+test("mounts charts nested inside multiple semantic groups and detects duplicate nested identities", () => {
+  const group = {
+    kind: "group" as const, id: "group:outer", source: block.source, readingOrder: ["group:inner"],
+    children: [{ kind: "group" as const, id: "group:inner", source: block.source, readingOrder: [block.id], children: [block] }],
+  };
+  const grouped: SceneDocument = { ...document, scenes: [{ ...document.scenes[0]!, blocks: [group], readingOrder: [group.id] }] };
+  const host = { getAttribute: (name: string) => name === "data-chart-block-id" ? block.id : null };
+  let mounts = 0, destroys = 0;
+  const cleanup = mountPitchCharts([host], [grouped], { reducedMotion: true }, (_host, actual) => {
+    assert.equal(actual, block); mounts++; return { destroy: () => { destroys++; } };
+  });
+  assert.equal(mounts, 1); cleanup(); cleanup(); assert.equal(destroys, 1);
+  const duplicate = { ...grouped, scenes: [{ ...grouped.scenes[0]!, blocks: [group, block] }] };
+  assert.throws(() => mountPitchCharts([host], [duplicate], { reducedMotion: true }), /Duplicate pitch chart block id/);
+});

@@ -1136,6 +1136,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   if (
     body.length >= 4
     && isContextProse(leading)
+    && trailing !== undefined
     && isContextProse(trailing)
     && middle.length >= 2
     && middlePrimary.length === middle.length

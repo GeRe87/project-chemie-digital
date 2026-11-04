@@ -82,7 +82,7 @@ export function validateHistogram(block: HistogramBlock|Histogram2DBlock): void 
         if(!state.id||stateIds.has(state.id)||!state.label||!state.description||!state.source.length)throw new Error("Histogram states need unique identities, labels, descriptions and provenance");
         stateIds.add(state.id);histogramBlockBins({...block,binCounts:state.binCounts});
       }
-      if(block.states[0].binCounts.some((c,i)=>c!==block.binCounts![i]))throw new Error("First histogram state must match the saved default counts");
+      if(block.states[0].binCounts.some((c: number, i: number)=>c!==block.binCounts![i]))throw new Error("First histogram state must match the saved default counts");
     }
     if(block.curves!==undefined){
       if(!Array.isArray(block.curves)||!block.curves.length||block.normalization!=="density"||!block.yAxis.unit)throw new Error("Histogram reference curves require density normalization and density units");

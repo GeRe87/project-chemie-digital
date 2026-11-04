@@ -42,7 +42,7 @@ Shared teaching primitives give Level 2 transparent theme-aware dice/cell and ex
 generic Pitch application, validates SHACL/selection/pinned runtime dependencies,
 and emits a checked static site in `dist/chemometrics/` with base `/`.
 `npm run check:chemometrics-build` verifies the emitted transport/assets/hash evidence.
-Use `npm ci` and the production pins in `scripts/requirements-static-build.txt`;
+Use Node.js 22.12+, `npm ci --no-audit` and the production pins in `scripts/requirements-static-build.txt`;
 `--offline` requires an already prepared verified vendor tree. No deployment is
 performed. Nested project-path hosting remains blocked by existing generic R-runtime
 paths; a `./` bundle is supported only at a domain root. See
@@ -97,7 +97,27 @@ The local project command is:
 npm test
 ```
 
-The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm test` performs JSON checks, SHACL semantic validation, Python semantic tests, core tests and renderer tests.
+The host requires Python 3.11+, the pinned dependencies in
+`scripts/requirements-static-build.txt`, Node.js 22.12+ and npm. Run `npm run doctor`
+to check the local toolchain. `npm test` performs JSON checks, strict TypeScript
+checking, SHACL semantic validation, Python semantic tests, core tests and renderer
+and application tests.
+
+For an end-to-end local release check, install Chromium with
+`npx playwright install chromium`, prepare the pinned editor/R assets once with
+`npm run prepare:interactive-runtime`, then run:
+
+```bash
+npm run verify:release -- --offline
+```
+
+This command runs the complete test suite, builds and verifies the static course,
+then starts a temporary local server for browser checks. It does not deploy.
+The build isolates production assets from authoring previews; content-addressed
+level payloads contain only their required RDF neighborhood, with one separately
+available shared graph. See [technical verification](docs/technical-verification.md)
+for environment setup, browser configuration, evidence and limits, and the
+[current architecture](docs/architecture.md) for package and transport boundaries.
 
 ## Offline course/unit/path selection
 

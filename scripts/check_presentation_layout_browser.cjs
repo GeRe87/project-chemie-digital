@@ -1,10 +1,10 @@
 /* Local screen-layout audit, deliberately separate from the PDF fitter. */
-const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'../.local/browser-tools/node_modules/playwright');
+const {launchBrowser}=require('./browser-tools.cjs');
 const fs=require('node:fs'),path=require('node:path');
 const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/public/authoring-level5-review-complete-runtime.json'),'utf8'));
 (async()=>{
- const output=process.argv[2],engine=process.argv[3]||'edge';if(!output)throw Error('Specify an output directory');fs.mkdirSync(output,{recursive:true});
- const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));const report={engine,configurations:[],errors:[]};
+ const output=process.argv[2],engine=process.argv[3]||'chromium';if(!output)throw Error('Specify an output directory');fs.mkdirSync(output,{recursive:true});
+ const browser=await launchBrowser(engine);const report={engine,configurations:[],errors:[]};
  try{
    for(const [view,width,height]of [['deck',1731,1006],['deck',1280,720],['scroll',1731,1006],['scroll',1280,720]]){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(e.message));

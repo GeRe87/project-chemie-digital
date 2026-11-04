@@ -64,6 +64,8 @@ import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-
 import { mountPitchDiagrams } from "./flow-runtime.ts";
 import "./binary-experiment.css";
 import { mountPitchCharts } from "./chart-runtime.ts";
+import { mountPageLifecycle } from "./page-lifecycle.ts";
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import { mountLiveChartUpdates } from "./live-chart-runtime.ts";
 import { mountPitchKnowledgeNetworks } from "./knowledge-network-runtime.ts";
 import { mountSemanticSourceSteps } from "./semantic-source-runtime.ts";
@@ -81,7 +83,7 @@ import {
   mountPresentationStepRuntime,
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
-import { installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
+import { createBrowserPitchDomPort, installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
 import { resolvePublicAssetPath, resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { mountBackgroundRuntime } from "../../../packages/renderer-reveal/src/background/background-runtime.ts";
 import {
@@ -116,7 +118,7 @@ const localSvgUris = documents.flatMap(document => document.scenes.flatMap(scene
 const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNetworkGuard(window, window.location.href, localSvgUris);
 let unmountScenes: () => void;
 try {
-  unmountScenes = mountSceneDocuments({ root, createElement: (tag) => document.createElement(tag) }, documents);
+  unmountScenes = mountSceneDocuments(createBrowserPitchDomPort(root), documents);
 } catch (error) {
   root.textContent = "Szeneninhalte konnten nicht geladen werden.";
   root.setAttribute("role", "alert");
@@ -148,7 +150,7 @@ const unmountCharts = mountPitchCharts(
   documents,
   { reducedMotion },
 );
-const unmountLiveCharts = mountLiveChartUpdates(root, documents, { reducedMotion });
+const liveCharts = mountLiveChartUpdates(root, documents, { reducedMotion });
 const unmountSemanticMultiViews = mountSemanticMultiViews(
   root,
   documents,
@@ -182,7 +184,7 @@ const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities
 
 // Interactive observation decks require real-sized form controls on portrait
 // screens rather than a scaled-down desktop canvas. Capability, not scene ID.
-const hasObservationExplorer = documents.some(document => document.scenes.some(scene => scene.blocks.some(block => block.kind === "chart" && block.chartType === "observations" || block.kind === "diagram" && !!block.binaryExperiment)));
+const hasObservationExplorer = documents.some(document => document.scenes.some(scene => [...walkSceneBlocks(scene.blocks)].some(block => block.kind === "chart" && block.chartType === "observations" || block.kind === "diagram" && !!block.binaryExperiment)));
 const nativePortraitViewport = !slidesPdf && (appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer)
   && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
 document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
@@ -297,8 +299,33 @@ await deck.initialize();
 if (slidesPdf) {
   await pdfLayoutReady;
   prepareSlidesPdf(root);
-  await mountTeachingSvgMedia(root);
-  mountSlidesPdfToolbar(root);
+  liveCharts.pause();
+  const destroyTeachingMedia = await mountTeachingSvgMedia(root);
+  const unmountPdfToolbar = mountSlidesPdfToolbar(root);
+  mountPageLifecycle(window, { destroy() {
+    unmountPdfToolbar();
+    destroyTeachingMedia();
+    unmountLectureTitles.forEach(unmount => unmount());
+    unmountSceneViewTabs();
+    unmountMathematicalDerivations();
+    unmountPresentationProjection();
+    unmountPresentationLaserPointer();
+    unmountPresentationClock();
+    unmountSemanticSourceSteps();
+    unmountKnowledgeNetworks();
+    unmountAnalyticalProofSteps();
+    unmountSemanticMultiViews();
+    liveCharts.destroy();
+    unmountCharts();
+    unmountDiagrams();
+    appearanceControls.destroy();
+    backgroundRuntime.destroy();
+    void deck.destroy();
+    shellRoot.remove();
+    removeMediaGeometryHints();
+    unmountScenes();
+    removeNetworkGuard();
+  } });
   return;
 }
 let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeViewportHeight}`;
@@ -414,8 +441,8 @@ function createProgressSource(): BackgroundProgressSource {
         window.addEventListener("scroll", listener, options);
         viewport?.addEventListener("scroll", listener, options);
         return () => {
-          window.removeEventListener("scroll", listener, options);
-          viewport?.removeEventListener("scroll", listener, options);
+          window.removeEventListener("scroll", listener);
+          viewport?.removeEventListener("scroll", listener);
         };
       },
       requestAnimationFrame: (callback) => window.requestAnimationFrame(callback),
@@ -484,11 +511,13 @@ const unmountScriptView=mountScriptView(root,presentation,document.querySelector
 const unmountSlidesPdfLink=mountSlidesPdfLink(document.querySelector<HTMLElement>(".pcd-screen-controls")!);
 
 const refreshInteractiveRuntime = (): void => {
+  liveCharts.refresh();
   codeRuntime?.refresh();
   void pollRuntime?.refresh();
 };
 const unmountOptionalMaterial = mountOptionalMaterial(root, refreshInteractiveRuntime);
 deck.on("slidechanged", refreshInteractiveRuntime);
+refreshInteractiveRuntime();
 
 const graphShellRoot=document.createElement("div");shellRoot.append(graphShellRoot);
 const unmountShell = mountGraphSummaryShell({
@@ -499,7 +528,19 @@ const unmountShell = mountGraphSummaryShell({
   currentSceneId: () => deck.getCurrentSlide()?.id ?? null,
 });
 
-window.addEventListener("pagehide", () => {
+mountPageLifecycle(window, {
+ pause() {
+  liveCharts.pause();
+  for (const video of presentationVideos) video.pause();
+ },
+ resume() {
+  syncNativeViewport();
+  deck.layout();
+  syncPresentationVideos();
+  liveCharts.resume();
+  refreshInteractiveRuntime();
+ },
+ destroy() {
   window.removeEventListener("resize", syncNativeViewport);
   deck.off("slidechanged",syncBackgroundPage);
   unmountSlidesPdfLink();unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
@@ -534,7 +575,7 @@ window.addEventListener("pagehide", () => {
   unmountKnowledgeNetworks();
   unmountAnalyticalProofSteps();
   unmountSemanticMultiViews();
-  unmountLiveCharts();
+  liveCharts.destroy();
   unmountCharts();
   unmountDiagrams();
   stopBackgroundProgress();
@@ -546,5 +587,6 @@ window.addEventListener("pagehide", () => {
   removeMediaGeometryHints();
   unmountScenes();
   removeNetworkGuard();
-}, { once: true });
+ },
+});
 }

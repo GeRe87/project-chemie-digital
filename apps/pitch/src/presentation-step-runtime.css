@@ -85,7 +85,7 @@ body.pcd-stage-lock-active .reveal {
 
 body.pcd-stage-lock-active .reveal-viewport,
 body.pcd-stage-lock-active .reveal {
-  touch-action: none;
+  touch-action: pinch-zoom;
 }
 
 #pitch-slides > section[data-stage-lock="true"] {

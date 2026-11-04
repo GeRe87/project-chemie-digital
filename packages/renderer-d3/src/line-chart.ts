@@ -1,4 +1,5 @@
 import { scaleLinear } from "d3-scale";
+import { validNumericDomain, zeroInclusiveDomain } from "./numeric-domain.ts";
 import { area, line, curveLinear, curveStepAfter } from "d3-shape";
 import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } from "../../core/src/scene-document.ts";
 
@@ -36,6 +37,7 @@ export interface D3LineChartComponent {
   readonly staticFallback: string;
   readonly stepCount: number;
   setStep(step: number): void;
+  updateValues(values: readonly number[]): void;
   destroy(): void;
 }
 
@@ -77,7 +79,10 @@ export function createD3LineChartRenderModel(block: ChartBlock): D3LineChartRend
   if (block.chartType !== "line") {
     return invalid("renderer-d3 line charts require a canonical line ChartBlock");
   }
-  if (!block.series.length) return invalid("line chart series must not be empty");
+  if (!block.series.length || block.series.some(series => !series.data.length)) return invalid("line chart series must not be empty");
+  if (block.series.some(series => series.data.some(datum => !Number.isFinite(datum.x) || !Number.isFinite(datum.y)))) {
+    return invalid("line chart coordinates must be finite");
+  }
   return {
     model: {
       version: "1.0",
@@ -122,7 +127,9 @@ export function mountD3LineChart(
     };
   }
 
-  const model = result.model;
+  if (block.chartType !== "line") return result;
+  let model = result.model;
+  const valueUpdaters: Array<() => void> = [];
   const presentation = lineChartPresentationPlan(model.annotations,model.presentation);
   const stepCount = presentation.stepCount;
   let currentStep = 0;
@@ -173,6 +180,7 @@ export function mountD3LineChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
+    valueUpdaters.length = 0;
     const width = Math.max(680, Math.round(host.clientWidth || host.getBoundingClientRect().width || 1000));
     const naturalHeight = width >= 1000 ? 360 : Math.max(480, Math.round(width * 0.52));
     const fill = typeof getComputedStyle !== 'undefined' && getComputedStyle(host).getPropertyValue('--pcd-chart-fill-stage').trim() === '1';
@@ -185,14 +193,13 @@ export function mountD3LineChart(
     const allData = model.series.flatMap((series) => series.data);
     const minX = Math.min(...allData.map((datum) => datum.x));
     const maxX = Math.max(...allData.map((datum) => datum.x));
-    const maxY = Math.max(0, ...allData.map((datum) => datum.y));
     const x = scaleLinear().domain([minX, maxX]).range([margin.left, margin.left + plotWidth]);
     const authoredYDomain = model.yDomain??options.yDomain;
-    const yDomain = authoredYDomain && Number.isFinite(authoredYDomain[0]) && Number.isFinite(authoredYDomain[1]) && authoredYDomain[1] > authoredYDomain[0]
-      ? [authoredYDomain[0], authoredYDomain[1]] as const
-      : [0, maxY * 1.14 || 1] as const;
+    const yDomain = validNumericDomain(authoredYDomain)
+      ? authoredYDomain
+      : zeroInclusiveDomain(allData.map(datum => datum.y), 0.14);
     const y = scaleLinear().domain(yDomain).range([margin.top + plotHeight, margin.top]);
-    if(!model.yDomain)y.nice(5);
+    if (!validNumericDomain(authoredYDomain)) y.nice(5);
 
     const grid = svg("g");
     grid.classList.add("d3-chart-grid");
@@ -244,14 +251,27 @@ export function mountD3LineChart(
           ? "none"
           : "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease";
         lines.append(node);
+        valueUpdaters.push(() => {
+          const data = line<LineChartDatum>()
+            .curve(model.interpolation === "step-after" ? curveStepAfter : curveLinear)
+            .x(datum => x(datum.x)).y(datum => y(datum.y))(model.series[index]!.data);
+          node.setAttribute("d", data ?? "");
+        });
       }
       for (const [datumIndex,datum] of series.data.entries()) {
         if(model.showPoints===false)continue;
         const previous=series.data[datumIndex-1];
-        if(model.interpolation==="step-after"&&previous&&previous.y!==datum.y){
+        if(model.interpolation==="step-after"&&previous){
           const open=svg("circle");open.classList.add("d3-chart-line-point","d3-chart-step-open");
           open.setAttribute("cx",String(x(datum.x)));open.setAttribute("cy",String(y(previous.y)));open.setAttribute("r","7");
           open.setAttribute("data-step-side","left-limit");lines.append(open);
+          const updateOpen = () => {
+            const current = model.series[index]!.data[datumIndex]!;
+            const before = model.series[index]!.data[datumIndex - 1]!;
+            open.setAttribute("cy", String(y(before.y)));
+            open.style.display = before.y === current.y ? "none" : "";
+          };
+          updateOpen(); valueUpdaters.push(updateOpen);
         }
         const point = svg("circle");
         point.classList.add("d3-chart-line-point");
@@ -265,6 +285,7 @@ export function mountD3LineChart(
           ? "none"
           : "opacity 300ms ease 360ms";
         lines.append(point);
+        valueUpdaters.push(() => point.setAttribute("cy", String(y(model.series[index]!.data[datumIndex]!.y))));
       }
     });
     chartSvg.append(lines);
@@ -297,11 +318,22 @@ export function mountD3LineChart(
           areaNode.classList.add("d3-chart-range-highlight");
           areaNode.setAttribute("d", areaPath);
           group.append(areaNode);
+          valueUpdaters.push(() => {
+            const current = model.series.find(candidate => candidate.id === annotation.seriesId)!;
+            const data = area<LineChartDatum>()
+              .curve(model.interpolation === "step-after" ? curveStepAfter : curveLinear)
+              .x(datum => x(datum.x)).y0(y(0)).y1(datum => y(datum.y))(current.data.slice(startIndex, endIndex + 1));
+            areaNode.setAttribute("d", data ?? "");
+          });
         }
         if(model.presentation==="complete")for(const datum of [selectedData[0]!,selectedData[selectedData.length-1]!]){
           const boundary=svg("line");boundary.classList.add("d3-chart-annotation-connector");boundary.setAttribute("data-range-boundary",datum.id);
           boundary.setAttribute("x1",String(x(datum.x)));boundary.setAttribute("x2",String(x(datum.x)));
           boundary.setAttribute("y1",String(y(0)));boundary.setAttribute("y2",String(y(datum.y)));group.append(boundary);
+          valueUpdaters.push(() => {
+            const current = model.series.find(candidate => candidate.id === annotation.seriesId)!.data.find(candidate => candidate.id === datum.id)!;
+            boundary.setAttribute("y2", String(y(current.y)));
+          });
         }
         const label = svg("text");
         label.classList.add("d3-chart-annotation-label", "d3-chart-range-label");
@@ -339,6 +371,13 @@ export function mountD3LineChart(
         label.setAttribute("text-anchor", dx > 0 ? "start" : "end");
         label.textContent = annotation.label;
         group.append(label);
+        valueUpdaters.push(() => {
+          const current = model.series.find(candidate => candidate.id === annotation.seriesId)!.data.find(candidate => candidate.id === annotation.datumId)!;
+          const currentY = y(current.y);
+          focus.setAttribute("cy", String(currentY));
+          connector.setAttribute("d", `M ${px} ${currentY} L ${px + dx * 0.55} ${currentY + dy * 0.55} L ${px + dx} ${currentY + dy}`);
+          label.setAttribute("y", String(currentY + dy));
+        });
       }
       chartSvg.append(group);
     });
@@ -395,10 +434,23 @@ export function mountD3LineChart(
   observer?.observe(host);
 
   return {
-    model,
-    staticFallback: model.staticFallback,
+    get model() { return model; },
+    get staticFallback() { return model.staticFallback; },
     stepCount,
     setStep,
+    updateValues(values: readonly number[]): void {
+      if (destroyed) return;
+      if (values.length !== model.series[0]!.data.length || values.some(value => !Number.isFinite(value))) {
+        throw new Error("Line chart updates require one finite value per datum in the first series");
+      }
+      const series = model.series.map((item, index) => index === 0
+        ? { ...item, data: item.data.map((datum, valueIndex) => ({ ...datum, y: values[valueIndex]! })) }
+        : item);
+      model = { ...model, series, staticFallback: fallback({ ...block, series }) };
+      fallbackNode.textContent = model.staticFallback;
+      if (!validNumericDomain(model.yDomain ?? options.yDomain)) render();
+      else { for (const update of valueUpdaters) update(); }
+    },
     destroy(): void {
       if (destroyed) return;
       destroyed = true;

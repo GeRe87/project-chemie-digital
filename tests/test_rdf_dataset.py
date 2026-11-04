@@ -151,6 +151,94 @@ class RdfDatasetTests(unittest.TestCase):
             set(parsed.quads((subject, datatype_predicate, None, graph))),
         )
 
+    def test_canonical_nquads_does_not_merge_disjoint_shape_nodes(self) -> None:
+        dataset = Dataset(default_union=False)
+        predicate = URIRef("https://example.invalid/property")
+        a = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}disjoint-a")
+        b = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}disjoint-b")
+        dataset.graph(a).add((BNode("a"), predicate, Literal("same structure")))
+        dataset.graph(b).add((BNode("b"), predicate, Literal("same structure")))
+        MODULE.validate_dataset_contract(dataset)
+
+        parsed = Dataset(default_union=False)
+        serialized = MODULE.canonical_nquads(dataset)
+        parsed.parse(data=serialized, format="nquads")
+        self.assertNotEqual(next(parsed.graph(a).subjects()), next(parsed.graph(b).subjects()))
+        self.assertNotIn("urn:project-chemie-digital:canonical-quad:", serialized)
+        self.assertEqual(2, len(list(parsed.quads((None, None, None, None)))))
+
+    def test_canonical_nquads_preserves_shared_nodes_across_graphs_and_positions(self) -> None:
+        dataset = Dataset(default_union=False)
+        a = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}shared-a")
+        b = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}shared-b")
+        c = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}shared-c")
+        p = URIRef("https://example.invalid/property")
+        anchor = URIRef("https://example.invalid/anchor")
+        shared, peer = BNode("shared"), BNode("peer")
+        dataset.graph(a).add((anchor, p, shared))
+        dataset.graph(b).add((shared, p, peer))
+        dataset.graph(c).add((peer, p, shared))
+        dataset.graph(c).add((shared, p, Literal("shared across all three")))
+        MODULE.validate_dataset_contract(dataset)
+
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=MODULE.canonical_nquads(dataset), format="nquads")
+        restored_shared = next(parsed.graph(a).objects(anchor, p))
+        restored_peer = next(parsed.graph(b).objects(restored_shared, p))
+        self.assertIn((restored_peer, p, restored_shared), parsed.graph(c))
+        self.assertIn((restored_shared, p, Literal("shared across all three")), parsed.graph(c))
+        self.assertNotEqual(restored_peer, restored_shared)
+        self.assertEqual(MODULE.dataset_fingerprint(dataset), MODULE.dataset_fingerprint(parsed))
+
+    def test_fingerprint_distinguishes_shared_and_disjoint_blank_node_topology(self) -> None:
+        shared = Dataset(default_union=False)
+        disjoint = Dataset(default_union=False)
+        predicate = URIRef("https://example.invalid/property")
+        for name in ("a", "b"):
+            graph = URIRef(f"{MODULE.SHAPES_GRAPH_BASE}topology-{name}")
+            shared.graph(graph).add((BNode("shared"), predicate, Literal(name)))
+            disjoint.graph(graph).add((BNode(name), predicate, Literal(name)))
+        # Each individual named graph is isomorphic; only dataset-wide identity differs.
+        self.assertNotEqual(MODULE.dataset_fingerprint(shared), MODULE.dataset_fingerprint(disjoint))
+
+    def test_shared_node_canonicalization_ignores_labels_insertion_order_and_graph_order(self) -> None:
+        predicate = URIRef("https://example.invalid/property")
+        graphs = [URIRef(f"{MODULE.SHAPES_GRAPH_BASE}order-{name}") for name in ("a", "b", "c")]
+        results = set()
+        for index in range(4):
+            dataset = Dataset(default_union=False)
+            a, b, c = [BNode(f"parse-{index}-{name}") for name in ("a", "b", "c")]
+            quads = [(a, predicate, b, graphs[0]), (b, predicate, a, graphs[1]),
+                     (a, predicate, Literal("context", lang="de"), graphs[1]),
+                     (c, predicate, Literal("unrelated"), graphs[2]),
+                     (a, predicate, b, graphs[1])]
+            for quad in quads if index % 2 else reversed(quads):
+                dataset.add(quad)
+            results.add(MODULE.canonical_nquads(dataset))
+        self.assertEqual(1, len(results))
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=next(iter(results)), format="nquads")
+        self.assertEqual(5, len(list(parsed.quads((None, None, None, None)))))
+
+    def test_canonical_corpus_roundtrip_preserves_blank_node_graph_memberships(self) -> None:
+        from collections import Counter
+
+        def memberships(dataset: Dataset) -> Counter:
+            graphs_by_node: dict[BNode, set[str]] = {}
+            for subject, _predicate, obj, graph in dataset.quads((None, None, None, None)):
+                for node in (subject, obj):
+                    if isinstance(node, BNode):
+                        graphs_by_node.setdefault(node, set()).add(str(graph))
+            return Counter(tuple(sorted(graphs)) for graphs in graphs_by_node.values())
+
+        source = MODULE.assemble_dataset()
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=MODULE.canonical_nquads(source), format="nquads")
+        self.assertEqual(memberships(source), memberships(parsed))
+        self.assertEqual(len(list(source.quads((None, None, None, None)))),
+                         len(list(parsed.quads((None, None, None, None)))))
+        self.assertEqual(MODULE.dataset_fingerprint(source), MODULE.dataset_fingerprint(parsed))
+
     def test_non_project_graph_is_rejected(self) -> None:
         dataset = Dataset()
         dataset.graph(URIRef("https://example.invalid/graph")).add((URIRef("https://example.invalid/s"), RDF.type, URIRef("https://example.invalid/T")))

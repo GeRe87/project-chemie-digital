@@ -1,5 +1,5 @@
-/* Optional integration probe: install Playwright separately; no build/server dependency. */
-const { chromium } = require('../.local/browser-tools/node_modules/playwright');
+/* Full optional integration probe; start the static server before running. */
+const { launchBrowser, readCourseMetadata } = require('./browser-tools.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -8,8 +8,9 @@ const path = require('node:path');
   const artifactDir = process.argv[3] || 'dist/chemometrics';
   const reportName = process.argv[4] || 'production';
   if (!/^[a-z0-9-]+$/.test(reportName)) throw Error('Report name must be a safe basename');
-  const artifact = JSON.parse(fs.readFileSync(path.join(artifactDir, 'course-runtime.json'), 'utf8'));
-  const browser = await chromium.launch({ channel: 'msedge', headless: true });
+  const artifact = readCourseMetadata(artifactDir);
+  const browser = await launchBrowser();
+  fs.mkdirSync('.local', { recursive: true });
   const report = { url, errors: [], failed: [], remote: [], levels: [], labs: [] };
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
   page.on('pageerror', error => report.errors.push(error.message));
@@ -27,7 +28,7 @@ const path = require('node:path');
       await page.keyboard.press('Enter');
       await page.waitForTimeout(700);
       if (await page.locator('.pitch-course-world').isVisible()) throw Error('Level did not open: ' + binding.sceneDocumentId);
-      const sections = page.locator(`section[data-scene-document-id="${binding.sceneDocumentId}"]:not([data-course-level-buffer]):not([data-course-return-sentinel])`);
+      const sections = page.locator(`section[data-scene-document-id="${binding.sceneDocumentId}"]:not([data-course-level-buffer]):not([data-course-return-sentinel]):not([data-lecture-title])`);
       const expected = artifact.sceneDocuments.find(d => d.id === binding.sceneDocumentId);
       if (await sections.count() !== expected.scenes.length) throw Error('Scene coverage changed');
       for (const scene of await sections.all()) {

@@ -4,6 +4,7 @@ import unittest
 import importlib.util
 import tempfile
 import shutil
+import subprocess
 from unittest.mock import patch
 from pathlib import Path
 
@@ -21,6 +22,7 @@ class PitchLazyTransportTests(unittest.TestCase):
         generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
         with patch.object(generator,'ROOT',temporary),patch.object(generator,'OUTPUT',temporary/'apps/pitch/src/generated/canonical-runtime.json'),patch.object(generator.RUNTIME,'PITCH_INDEX',cls.shell):
             cls.full=generator.generate_course(generator.CHEMOMETRICS_OFFERING)
+        cls.artifact_path=temporary/'apps/pitch/src/generated/canonical-runtime.json'
         cls.public=temporary/'apps/pitch/public/course-runtime'
         cls.manifest=json.loads((cls.public/'manifest.json').read_text(encoding='utf-8'))
 
@@ -43,6 +45,19 @@ class PitchLazyTransportTests(unittest.TestCase):
             self.assertEqual(payload['sceneDocuments'][0],next(d for d in self.full['sceneDocuments'] if d['id']==entry['id']))
             self.assertEqual([b['sceneDocumentId'] for b in payload['sceneDocumentBindings']],[entry['id']])
             self.assertEqual(payload['datasetFingerprint'],self.full['datasetFingerprint'])
+
+    def test_shared_snapshot_is_separate_and_scoped_graph_consumers_are_equivalent(self):
+        shared=self.manifest['sharedGraph']
+        snapshot=json.loads((self.public/Path(shared['path']).name).read_text(encoding='utf-8'))
+        self.assertEqual(snapshot['datasetSnapshot'],self.full['datasetSnapshot'])
+        completed=subprocess.run(['node','--experimental-strip-types',str(ROOT/'scripts/check_course_graph_projection.mts'),
+                                  str(self.artifact_path),str(self.public.parent)],cwd=ROOT,text=True,capture_output=True,check=True)
+        evidence=json.loads(completed.stdout)
+        self.assertGreater(evidence['projected'],0)
+        for entry in self.manifest['documents']:
+            payload=json.loads((self.public/Path(entry['runtime']).name).read_text(encoding='utf-8'))
+            self.assertEqual(payload['transport']['sharedGraph'],shared)
+            self.assertLess(len(payload['datasetSnapshot']['entities']),len(self.full['datasetSnapshot']['entities']))
 
     def test_html_world_does_not_embed_full_static_lectures(self):
         shell=self.shell.read_text(encoding='utf-8')

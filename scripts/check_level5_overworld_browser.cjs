@@ -1,9 +1,9 @@
 /* Local integration QA: lazy world -> reviewed Level 5 -> world. */
-const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'../.local/browser-tools/node_modules/playwright');
+const {launchBrowser}=require('./browser-tools.cjs');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 (async()=>{
- const output=process.argv[2],engine=process.argv[3]||'edge';assert(output);fs.mkdirSync(output,{recursive:true});
- const browser=await(engine==='firefox'?firefox.launch():chromium.launch({channel:'msedge'}));
+ const output=process.argv[2],engine=process.argv[3]||'chromium';assert(output);fs.mkdirSync(output,{recursive:true});
+ const browser=await launchBrowser(engine);
  const report={engine,checks:[],errors:[]};
  try{
   for(const [width,height]of [[1440,900],[390,844]])for(const theme of ['light','dark']){

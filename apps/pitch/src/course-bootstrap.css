@@ -1,0 +1,20 @@
+.pcd-bootstrap-status {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: #081a20;
+  color: #f0f7f5;
+  font: 1rem/1.6 system-ui, sans-serif;
+}
+.pcd-bootstrap-card { width: min(100%, 36rem); }
+.pcd-bootstrap-card h1 { margin: 0 0 1rem; font-size: clamp(1.5rem, 5vw, 2rem); line-height: 1.25; }
+.pcd-bootstrap-card p { overflow-wrap: anywhere; }
+.pcd-bootstrap-card a { display: inline-block; color: #8ce7cf; margin: .75rem 0; text-decoration: underline; }
+.pcd-bootstrap-card button { display: block; margin: 1.25rem 0 .5rem; padding: .65rem 1rem; border: 2px solid #8ce7cf; border-radius: .4rem; background: #123b3e; color: inherit; font: inherit; cursor: pointer; }
+.pcd-bootstrap-card button[hidden] { display: none; }
+.pcd-bootstrap-card a:focus-visible, .pcd-bootstrap-card button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.pcd-bootstrap-status[data-state="error"] { position: relative; min-height: 100dvh; box-sizing: border-box; }
+@media print { .pcd-bootstrap-status { display: none; } }

@@ -533,3 +533,26 @@ test("canonical runtime accepts the two authored variation card motifs and rejec
     /visualMotif is not supported/,
   );
 });
+
+test("raw scene variants fail at the transport boundary with their exact field path", () => {
+  const source = [{ resourceId: "ex:source" }];
+  const malformed = [
+    [{ kind: "unknown-widget" }, /\.kind is unsupported/],
+    [{ kind: "prose", text: 123 }, /\.text must be a string/],
+    [{ kind: "prose", text: "Valid", disclosure: { order: 0, mode: "misspelled" } }, /\.disclosure\.mode/],
+    [{ kind: "media-reference", uri: 42, alternativeText: "A description" }, /\.uri must be a string/],
+    [{ kind: "math", spokenText: "x" }, /\.expression must be a string/],
+    [{ kind: "prompt", prompt: null, responseMode: "reflection", fallback: "Reflect" }, /\.prompt must be a string/],
+    [{ kind: "code", language: "js", code: "1", fallback: "1", editable: "true", executable: false }, /\.editable must be boolean/],
+    [{ kind: "group", children: [{ id: "nested", source, kind: "prose", text: false }], readingOrder: ["nested"] }, /children\[0\]\.text/],
+  ] as const;
+  for (const [fields, expected] of malformed) {
+    const value = artifact();
+    value.sceneDocuments[0].scenes = [{
+      id: "scene", source, blocks: [{ id: "block", source, ...fields }], readingOrder: ["block"],
+    }];
+    assert.throws(() => validateCanonicalRuntimeArtifact(value), (error: unknown) =>
+      error instanceof CanonicalRuntimeContractError
+      && error.message.includes("sceneDocuments[0]") && expected.test(error.message));
+  }
+});

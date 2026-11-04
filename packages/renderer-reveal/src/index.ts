@@ -1,25 +1,12 @@
+import { isSceneDocumentVersion } from "../../core/src/scene-version.ts";
 import { boxPlotStaticFallback } from "../../core/src/box-plot.ts";
 import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
-import {SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION} from "../../core/src/scene-document.ts";
 import { histogramStaticFallback } from "../../core/src/histogram.ts";
 import {experimentFallback} from '../../core/src/distribution-experiment.ts';
 import {
-  SCENE_DOCUMENT_OBSERVATION_VERSION,
-  SCENE_DOCUMENT_BOX_PLOT_VERSION,
-  SCENE_DOCUMENT_HISTOGRAM_VERSION,
-  SCENE_DOCUMENT_EXPLORATION_VERSION,
-  SCENE_DOCUMENT_MOMENT_VERSION,
-  SCENE_DOCUMENT_FLOW_VERSION,
-  SCENE_DOCUMENT_CHART_VERSION,
-  SCENE_DOCUMENT_SEQUENCE_VERSION,
-  SCENE_DOCUMENT_DEFINITION_LIST_VERSION,
-  SCENE_DOCUMENT_TABLE_VERSION,
-  SCENE_DOCUMENT_DOT_PLOT_VERSION,
-  SCENE_DOCUMENT_DERIVATION_VERSION,
   mathematicalDerivationText,
   type MathematicalDerivationSection,
   type MathematicalDerivationDetail,
-  SCENE_DOCUMENT_VERSION,
   SceneContractError,
   validateSceneDocument,
   type AccessibilityMetadata,
@@ -533,8 +520,8 @@ function validatePlan(plan: RevealRenderPlan): void {
 }
 
 export function createRevealRenderPlan(document: SceneDocument, options: RevealAdapterOptions): RevealPlanResult {
-  const version = document.version===SCENE_DOCUMENT_BINARY_EXPERIMENT_VERSION||document.version==='1.14'?SCENE_DOCUMENT_MOMENT_VERSION:(document as { version?: unknown }).version;
-  if (version !== SCENE_DOCUMENT_VERSION && version !== SCENE_DOCUMENT_FLOW_VERSION && version !== SCENE_DOCUMENT_CHART_VERSION && version !== SCENE_DOCUMENT_SEQUENCE_VERSION && version !== SCENE_DOCUMENT_DEFINITION_LIST_VERSION && version !== SCENE_DOCUMENT_TABLE_VERSION && version !== SCENE_DOCUMENT_DOT_PLOT_VERSION && version !== SCENE_DOCUMENT_DERIVATION_VERSION && version !==SCENE_DOCUMENT_OBSERVATION_VERSION && version !== SCENE_DOCUMENT_BOX_PLOT_VERSION && version !== SCENE_DOCUMENT_HISTOGRAM_VERSION && version!==SCENE_DOCUMENT_EXPLORATION_VERSION && version!==SCENE_DOCUMENT_MOMENT_VERSION) {
+  const version: unknown = document.version;
+  if (!isSceneDocumentVersion(version)) {
     return diagnostic("UNSUPPORTED_SCENE_DOCUMENT_VERSION", `Unsupported scene document version: ${String(version)}`);
   }
 

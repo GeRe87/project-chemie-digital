@@ -87,6 +87,7 @@
 
 .reveal .code-runtime-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.8rem;
   margin: 0.65rem 0;
@@ -94,6 +95,8 @@
 
 .reveal .code-run-button,
 .reveal .code-plot-button,
+.reveal .code-stop-button,
+.reveal .code-restart-button,
 .reveal .code-reset-button {
   border: 2px solid var(--pcd-accent);
   border-radius: 0.35rem;
@@ -112,9 +115,20 @@
   opacity: 0.65;
 }
 
-.reveal .code-reset-button {
+.reveal .code-reset-button,
+.reveal .code-restart-button {
   background: transparent;
   color: var(--pcd-accent);
+}
+
+.reveal .code-stop-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.reveal .code-runtime-controls button:focus-visible {
+  outline: 3px solid var(--pcd-foreground);
+  outline-offset: 3px;
 }
 
 .reveal .code-runtime-label {

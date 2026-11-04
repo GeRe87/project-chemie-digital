@@ -650,3 +650,21 @@ test("real runtime mount preserves the aria-live region and accessibility update
     restoreDom();
   }
 });
+
+test("nested semantic groups preserve the exact diagram source during runtime mounting", () => {
+  const group = { kind: "group" as const, id: "group:outer", source, readingOrder: ["group:inner"], children: [
+    { kind: "group" as const, id: "group:inner", source, readingOrder: [diagram.id], children: [diagram] },
+  ] };
+  const grouped: SceneDocument = { ...document, scenes: [{ ...document.scenes[0]!, blocks: [group], readingOrder: [group.id] }] };
+  const host = new FakeElement(); host.setAttribute("data-flow-block-id", diagram.id);
+  let mounts = 0, destroys = 0;
+  const mount: PitchFlowMount = (_host, actual, rendererOptions) => {
+    assert.equal(actual, diagram); mounts++;
+    const rendered = createD3FlowRenderModel(actual, rendererOptions); assert.ok(rendered.model);
+    const model = rendered.model, layout = createD3FlowLayout(model, 1200);
+    return { model, layout, staticFallback: model.staticFallback, activeNodeId: model.focusNodeId,
+      focusNode() {}, handleKey() { return false; }, resize() { return layout; }, destroy() { destroys++; } };
+  };
+  const cleanup = mountPitchFlowDiagrams([host], [grouped], options, mount);
+  assert.equal(mounts, 1); cleanup(); cleanup(); assert.equal(destroys, 1);
+});

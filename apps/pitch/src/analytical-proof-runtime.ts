@@ -1,3 +1,4 @@
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import type {
   DiagramBlock,
   LineChartBlock,
@@ -55,10 +56,11 @@ export function linearFlowNodeOrder(block: DiagramBlock): readonly string[] | un
 }
 
 export function analyticalProofProjection(scene: Scene): AnalyticalProofProjection | undefined {
-  const charts = scene.blocks.filter(
+  const blocks = [...walkSceneBlocks(scene.blocks)];
+  const charts = blocks.filter(
     (block): block is LineChartBlock => block.kind === "chart" && block.chartType === "line",
   );
-  const flows = scene.blocks.filter(
+  const flows = blocks.filter(
     (block): block is DiagramBlock => block.kind === "diagram" && block.diagramType === "flow",
   );
 

@@ -1,3 +1,4 @@
+import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import type { ChartBlock, SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import { mountD3Chart, type D3ChartOptions } from "../../../packages/renderer-d3/src/chart.ts";
 
@@ -26,7 +27,7 @@ function chartBlocks(documents: readonly SceneDocument[]): Map<string, ChartBloc
   const blocks = new Map<string, ChartBlock>();
   for (const document of documents) {
     for (const scene of document.scenes) {
-      for (const block of scene.blocks) {
+      for (const block of walkSceneBlocks(scene.blocks)) {
         if (block.kind !== "chart") continue;
         if (blocks.has(block.id)) {
           throw new Error(`Duplicate pitch chart block id ${block.id}`);
