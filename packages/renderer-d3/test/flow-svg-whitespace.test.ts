@@ -151,6 +151,9 @@ test("concrete SVG runtime preserves authored leading and repeated whitespace in
     assert.equal(edgeText.getAttribute("xml:space"), "preserve");
     assert.equal(nodeText.children.map((child) => child.textContent ?? "").join(""), block.nodes[0]!.label);
     assert.equal(edgeText.children.map((child) => child.textContent ?? "").join(""), block.edges[0]!.label);
+    assert.equal(host.findByClass("d3-flow-card-header-panel").length,model.nodes.length);
+    assert.equal(host.findByClass("d3-flow-card-number-badge").length,model.nodes.length);
+    assert.deepEqual(host.findByClass("d3-flow-card-number").map(node=>node.children.map(child=>child.textContent??'').join('')),['01','02']);
 
     mounted.destroy();
     assert.equal(host.children.length, 0);
@@ -295,7 +298,8 @@ test("SVG renders source-linked mathematical notation separately from descriptio
     const titleY = Number(card.findByClass("d3-flow-node-title")[0]!.getAttribute("y"));
     const dividerY = Number(card.findByClass("d3-flow-node-title-divider")[0]!.getAttribute("y1"));
     const bodyY = Number(descriptions.find((node) => node.parent?.className.includes("body-group"))!.getAttribute("y"));
-    assert.ok(titleY - iconY >= 42, "the two-line icon band stays above the title even for a one-line title");
+    assert.equal(card.getAttribute("data-flow-card-style"),"numbered");
+    assert.ok(iconY > dividerY && bodyY > iconY, "notation has a reserved band between the numbered header and explanation");
     assert.ok(dividerY > titleY && bodyY > dividerY, "the outer card is ordered as header, divider, body");
     assert.ok(host.findByClass("d3-flow-node").some((node) => node.getAttribute("data-node-has-notation") === "true"));
     mounted.destroy();
@@ -323,7 +327,11 @@ test("flow-card notation header remains in bounds for one-line and wrapped title
         const title = card.findByClass("d3-flow-node-title")[0]!;
         const divider = card.findByClass("d3-flow-node-title-divider")[0]!;
         const body = card.findByClass("d3-flow-node-body")[0]!;
-        if (icon) assert.ok(Number(title.getAttribute("y")) - Number(icon.getAttribute("y")) >= 42);
+        if (icon) {
+          assert.equal(card.getAttribute("data-flow-card-style"),"numbered");
+          assert.ok(Number(icon.getAttribute("y")) > Number(divider.getAttribute("y1")));
+          assert.ok(Number(body.getAttribute("y")) > Number(icon.getAttribute("y")));
+        }
         assert.ok(Number(divider.getAttribute("y1")) > Number(title.getAttribute("y")));
         assert.ok(Number(body.getAttribute("y")) > Number(divider.getAttribute("y1")));
         assert.equal(card.findByClass("d3-flow-node-header").length, 1);
@@ -362,6 +370,8 @@ test("generic process fixture displays mathematical notation without replacing a
     assert.equal(layout.strategy, "process-system");
     const host = new FakeHTMLElement("div");
     const mounted = createSvgD3FlowRuntime().mount(host, result.model!, layout);
+    assert(host.findByClass('d3-flow-node').every(card=>card.getAttribute('data-flow-card-style')==='numbered'));
+    assert.equal(host.findByClass('d3-flow-node-part').length,2,'composite process parts remain present inside the shared card design');
     const node = host.findByClass("d3-flow-node").find((item) => item.getAttribute("data-node-id") === "process");
     assert.ok(node);
     const formula = node.findByClass("d3-flow-node-notation");

@@ -1,0 +1,142 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level4-shape> {
+ ex:l4-thematic-script a cd:ThematicScript ; cd:authoredResource true ; dct:title "Distribution shape adds structure to location and spread"@en ;
+   cd:scriptForPath ex:path-chemometrics-level4-distribution-shape-lecture ;
+   cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture> ;
+   cd:hasScriptSection ex:l4-script-order, ex:l4-script-spread, ex:l4-script-box, ex:l4-script-histogram, ex:l4-script-density, ex:l4-script-ecdf, ex:l4-script-moments .
+
+ ex:l4-script-order a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ; dct:title "Ordering observations reveals where the data accumulate"@en ;
+   cd:relatedScene ex:l4-scene-summary-gap, ex:l4-scene-data-concept, ex:l4-scene-order-notation-concept,
+     ex:l4-scene-range-concept, ex:l4-scene-range-applications, ex:l4-scene-range-limits,
+     ex:l4-scene-quartiles-concept, ex:l4-scene-quartiles-applications, ex:l4-scene-quartiles-limits,
+     ex:l4-scene-quantiles-concept, ex:l4-scene-quantiles-applications, ex:l4-scene-quantiles-limits ;
+   dct:references ex:l4-sm-gap, ex:l4-sm-data, ex:l4-sm-order, ex:l4-sm-range, ex:l4-sm-quartiles, ex:l4-sm-quantiles, ex:l4-sm-quantile-example ;
+   cd:hasScriptMaterial ex:l4-sm-gap, ex:l4-sm-data, ex:l4-sm-order, ex:l4-sm-range, ex:l4-sm-quartiles, ex:l4-sm-quantiles, ex:l4-sm-quantile-example ;
+   cd:body """Location and spread each compress a collection into a small set of numbers. The comparison in [[ref:ex:l4-sm-gap]] shows why we also inspect the arrangement of the observations: different patterns can share similar summaries. Grouping, asymmetry and long tails carry information about the process that produced the measurements.
+
+The data notation in [[ref:ex:l4-sm-data]] identifies the sample, and the order-statistic notation in [[ref:ex:l4-sm-order]] assigns ranks after sorting. The range ([[ref:ex:l4-sm-range]]) describes the distance between the observed endpoints. Because those endpoints are individual observations, their behaviour depends strongly on sample size and on extreme values. This makes the range useful as an observed extent with an explicitly stated sampling context.
+
+Quartiles and other quantiles describe locations within the ordered collection. The quartile construction in [[ref:ex:l4-sm-quartiles]] and the interpolation rule in [[ref:ex:l4-sm-quantiles]] make the chosen finite-sample convention reproducible. The application in [[ref:ex:l4-sm-quantile-example]] connects a selected probability level with a concentration threshold. Reporting the convention is particularly useful for small samples, where alternative accepted definitions can give visibly different answers."""@en .
+ ex:l4-sm-gap a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-gap-chart ; dct:title "Authored data patterns illustrating the additional information carried by distribution shape."@en .
+ ex:l4-sm-data a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-data-formula ; dct:title "Sample notation with observation identity, sample size and quantity conventions."@en .
+ ex:l4-sm-order a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-order-notation-formula ; dct:title "Ordered-observation notation with rank and tie conventions explained."@en .
+ ex:l4-sm-range a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-formula-range ; dct:title "Observed range as the difference between the largest and smallest values."@en .
+ ex:l4-sm-quartiles a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-formula-quartile-positions ; dct:title "Authored quartile-position convention and its interpolation notation."@en .
+ ex:l4-sm-quantiles a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:l4-formula-quantile-interpolation ; dct:title "Finite-sample quantile interpolation with the complete probability, rank and endpoint conventions."@en .
+ ex:l4-sm-quantile-example a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:l4-na-chart ; dct:title "Authored quantile application linking an ordered concentration sample with selected cumulative levels."@en .
+
+ ex:l4-script-spread a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ; dct:title "Choose a spread summary for the part of the distribution of interest"@en ;
+   cd:relatedScene ex:l4-scene-iqr-concept, ex:l4-scene-iqr-applications, ex:l4-scene-iqr-limits,
+     ex:l4-scene-mad-concept, ex:l4-scene-mad-applications, ex:l4-scene-mad-limits,
+     ex:l4-scene-spread-normal, ex:l4-scene-spread-skewed ;
+   dct:references ex:l4-sm-iqr, ex:l4-sm-iqr-example, ex:l4-sm-iqr-tail, ex:l4-sm-mad, ex:l4-sm-mad-example, ex:l4-sm-normal-spread, ex:l4-sm-skew-spread ;
+   cd:hasScriptMaterial ex:l4-sm-iqr, ex:l4-sm-iqr-example, ex:l4-sm-iqr-tail, ex:l4-sm-mad, ex:l4-sm-mad-example, ex:l4-sm-normal-spread, ex:l4-sm-skew-spread ;
+   cd:body """A spread measure emphasizes particular features of the observations. The interquartile range in [[ref:ex:l4-sm-iqr]] measures the distance from the lower quartile to the upper quartile. Its application in [[ref:ex:l4-sm-iqr-example]] describes the central half of the ordered data using the authored quantile convention. The tail comparison in [[ref:ex:l4-sm-iqr-tail]] shows why we retain tail observations alongside this central summary.
+
+The median absolute deviation first measures absolute distance from the median and then takes the median of those distances ([[ref:ex:l4-sm-mad]]). The worked application in [[ref:ex:l4-sm-mad-example]] makes this two-stage ordering explicit. The raw quantity has the original measurement unit. A scaled version additionally specifies the scaling constant and its reference distribution, so the reported name and convention identify which quantity was calculated.
+
+Comparisons under the authored Normal and skewed examples ([[ref:ex:l4-sm-normal-spread]], [[ref:ex:l4-sm-skew-spread]]) connect robust central spread with the overall shape. Standard deviation emphasizes squared departures; IQR emphasizes quartile separation; MAD emphasizes the typical absolute departure from the median. Choosing among them starts with the analytical question and the part of the distribution that carries the relevant information."""@en .
+ ex:l4-sm-iqr a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-formula-interquartile-range ; dct:title "Interquartile range in the original measurement unit, using the authored quartile convention."@en .
+ ex:l4-sm-iqr-example a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-ia-chart ; dct:title "Authored IQR application showing the separation of the lower and upper quartiles."@en .
+ ex:l4-sm-iqr-tail a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-il-chart ; dct:title "Tail comparison accompanying the IQR: central quartile separation is read together with the extreme observations."@en .
+ ex:l4-sm-mad a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-formula-median-absolute-deviation ; dct:title "Median absolute deviation with its centring, absolute-value and scaling conventions."@en .
+ ex:l4-sm-mad-example a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-ma-chart ; dct:title "Authored MAD example illustrating absolute distances from the sample median."@en .
+ ex:l4-sm-normal-spread a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:l4-spread-normal-chart ; dct:title "Spread summaries in the authored Normal reference example."@en .
+ ex:l4-sm-skew-spread a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:l4-spread-skewed-chart ; dct:title "Spread summaries in the authored skewed example, with the asymmetric distribution retained."@en .
+
+ ex:l4-script-box a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ; dct:title "A boxplot compresses ordered structure into a comparison view"@en ;
+   cd:relatedScene ex:l4-scene-box-construction, ex:l4-scene-box-applications, ex:l4-scene-box-limits,
+     ex:l4-scene-box-extremes, ex:l4-scene-box-symmetric, ex:l4-scene-box-skewed,
+     ex:l4-scene-box-bimodal, ex:l4-scene-box-uniform, ex:l4-scene-box-lab ;
+   dct:references ex:l4-sm-box-construction, ex:l4-sm-box-comparison, ex:l4-sm-box-bimodal, ex:l4-sm-box-extremes, ex:l4-sm-box-code ;
+   cd:hasScriptMaterial ex:l4-sm-box-construction, ex:l4-sm-box-comparison, ex:l4-sm-box-bimodal, ex:l4-sm-box-extremes, ex:l4-sm-box-code ;
+   cd:body """A boxplot places the median and quartiles on the measurement axis. Its box therefore provides a compact view of location and central spread. The construction in [[ref:ex:l4-sm-box-construction]] connects the ordered observations with those graphical elements. Whiskers and individually displayed extreme points follow the authored convention, which belongs with the plot's interpretation.
+
+The grouped comparison in [[ref:ex:l4-sm-box-comparison]] uses this compression to compare several data sets on a common scale. The extreme-value view in [[ref:ex:l4-sm-box-extremes]] keeps unusual observations visible. A flagged observation invites investigation of its measurement and sampling context; the flag is an operational feature of the plotting convention.
+
+Compression also motivates a complementary view. The bimodal example in [[ref:ex:l4-sm-box-bimodal]] retains its underlying observations so that grouping within the box can be examined. Dot plots or histograms can show that internal structure directly. The optional source in [[ref:ex:l4-sm-box-code]] allows the same data and plotting convention to be reproduced and compared with fuller distribution views."""@en .
+ ex:l4-sm-box-construction a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-order-boxes-one ; dct:title "Boxplot construction from the authored ordered observations, quartiles and whisker convention."@en .
+ ex:l4-sm-box-comparison a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-ba-chart ; dct:title "Authored grouped boxplot application on a common measurement scale."@en .
+ ex:l4-sm-box-bimodal a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-box-bimodal-chart ; dct:title "Boxplot and underlying bimodal observations, retaining the two-group structure for comparison."@en .
+ ex:l4-sm-box-extremes a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-box-extremes-chart ; dct:title "Extreme observations displayed according to the authored boxplot convention."@en .
+ ex:l4-sm-box-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-box-code ; dct:title "Optional R source for reproducing the boxplot data and comparison views."@en .
+
+ ex:l4-script-histogram a cd:ScriptSection ; cd:authoredResource true ; cd:position 4 ; dct:title "Histogram bins determine the resolution of the observed shape"@en ;
+   cd:relatedScene ex:l4-scene-histogram-intro, ex:l4-scene-histogram-reading, ex:l4-scene-histogram-skewed,
+     ex:l4-scene-histogram-bimodal, ex:l4-scene-histogram-too-coarse, ex:l4-scene-histogram-too-fine,
+     ex:l4-scene-histogram-sensible-width, ex:l4-scene-histogram-origin,
+     ex:l4-scene-histogram-rules, ex:l4-scene-histogram-rule-example ;
+   dct:references ex:l4-sm-hist-normal, ex:l4-sm-hist-skew, ex:l4-sm-hist-bimodal, ex:l4-sm-hist-coarse, ex:l4-sm-hist-fine, ex:l4-sm-hist-origin, ex:l4-sm-bin-rules, ex:l4-sm-bin-adjust ;
+   cd:hasScriptMaterial ex:l4-sm-hist-normal, ex:l4-sm-hist-skew, ex:l4-sm-hist-bimodal, ex:l4-sm-hist-coarse, ex:l4-sm-hist-fine, ex:l4-sm-hist-origin, ex:l4-sm-bin-rules, ex:l4-sm-bin-adjust ;
+   cd:body """A histogram groups numerical observations into intervals. The authored Normal, skewed and bimodal examples ([[ref:ex:l4-sm-hist-normal]], [[ref:ex:l4-sm-hist-skew]], [[ref:ex:l4-sm-hist-bimodal]]) show how the resulting bars describe concentration, asymmetry and grouping. Each view is an empirical summary at a selected resolution.
+
+Bin width changes that resolution. The coarse and fine views in [[ref:ex:l4-sm-hist-coarse]] and [[ref:ex:l4-sm-hist-fine]] trade broad smoothing against sensitivity to small-scale sampling variation. The origin comparison in [[ref:ex:l4-sm-hist-origin]] adds a second choice: moving the interval boundaries changes which nearby observations share a bin. Comparing several reasonable settings helps distinguish stable structure from the particular partition.
+
+The rules in [[ref:ex:l4-sm-bin-rules]] provide reproducible starting widths, using the sample size and the authored spread summaries. The adjustable example in [[ref:ex:l4-sm-bin-adjust]] supports checking those choices against the observations. A reported histogram therefore identifies the quantity, units, vertical-axis normalization and interval construction. Its interpretation can then focus on features that remain meaningful at the chosen resolution."""@en .
+ ex:l4-sm-hist-normal a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-hist-normal-chart ; dct:title "Histogram of the authored Normal example with its fixed bins and axis normalization."@en .
+ ex:l4-sm-hist-skew a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-hist-skewed-chart ; dct:title "Histogram of the authored right-skewed observations."@en .
+ ex:l4-sm-hist-bimodal a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-hist-bimodal-chart ; dct:title "Histogram of the authored bimodal observations at the selected reference binning."@en .
+ ex:l4-sm-hist-coarse a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-hist-coarse-chart ; dct:title "Coarse-bin view of the authored comparison data."@en .
+ ex:l4-sm-hist-fine a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-hist-fine-chart ; dct:title "Fine-bin view of the same authored comparison data."@en .
+ ex:l4-sm-hist-origin a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:l4-hist-origin-chart ; dct:title "Histogram-origin comparison retaining the same observations while shifting bin boundaries."@en .
+ ex:l4-sm-bin-rules a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:l4-hist-rules-formula ; dct:title "Authored histogram-width rules with sample-size, spread and unit conventions."@en .
+ ex:l4-sm-bin-adjust a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:l4-hist-adjustable-chart ; dct:title "Adjustable histogram at its authored reference settings; the interactive view retains the available parameters."@en .
+
+ ex:l4-script-density a cd:ScriptSection ; cd:authoredResource true ; cd:position 5 ; dct:title "For unequal widths, area carries the relative frequency"@en ;
+   cd:relatedScene ex:l4-scene-histogram-variable-width, ex:l4-scene-unequal-sort, ex:l4-scene-unequal-interpolate,
+     ex:l4-scene-unequal-density, ex:l4-scene-histogram-variable-construction, ex:l4-scene-histogram-variable-use,
+     ex:l4-scene-histogram-2d-intro, ex:l4-scene-histogram-2d-reading, ex:l4-scene-histogram-lab ;
+   dct:references ex:l4-sm-density, ex:l4-sm-unequal, ex:l4-sm-adaptive, ex:l4-sm-two-dimensional, ex:l4-sm-hist-code ;
+   cd:hasScriptMaterial ex:l4-sm-density, ex:l4-sm-unequal, ex:l4-sm-adaptive, ex:l4-sm-two-dimensional, ex:l4-sm-hist-code ;
+   cd:body """Unequal-width intervals make the distinction between bar height and bar area essential. The density-height formula in [[ref:ex:l4-sm-density]] divides relative frequency by interval width. Multiplying that height by its width recovers the fraction of observations in the bin. Density consequently has reciprocal measurement units, while relative frequency is dimensionless.
+
+The unequal-bin construction in [[ref:ex:l4-sm-unequal]] and the adaptive example in [[ref:ex:l4-sm-adaptive]] retain the authored boundaries and observations. A narrow interval containing the same fraction as a wider interval requires a taller density bar. This relationship explains why reading the vertical-axis label is part of reading the distribution.
+
+The two-dimensional histogram in [[ref:ex:l4-sm-two-dimensional]] extends grouping to pairs of variables and a grid of cells. Its normalization follows the authored count or density convention. The optional R source in [[ref:ex:l4-sm-hist-code]] reproduces the histogram examples and their settings. Together these views support a consistent question: which proportion of the observed sample occupies a specified region of the measurement space?"""@en .
+ ex:l4-sm-density a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-hist-density-formula ; dct:title "Density normalization for unequal-width histogram intervals: bar area equals observed relative frequency."@en .
+ ex:l4-sm-unequal a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-unequal-chart ; dct:title "Authored unequal-width bins with density heights corresponding to their observed fractions."@en .
+ ex:l4-sm-adaptive a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-hist-adaptive-chart ; dct:title "Adaptive-width histogram at the authored interval settings and density normalization."@en .
+ ex:l4-sm-two-dimensional a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-hist-2d-chart ; dct:title "Two-dimensional histogram of the authored paired observations and cell-normalization convention."@en .
+ ex:l4-sm-hist-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-hist-lab-code ; dct:title "Optional R source for the histogram laboratory, including the authored data and bin choices."@en .
+
+ ex:l4-script-ecdf a cd:ScriptSection ; cd:authoredResource true ; cd:position 6 ; dct:title "An empirical CDF answers cumulative threshold questions directly"@en ;
+   cd:relatedScene ex:l4-scene-ecdf-question, ex:l4-scene-ecdf-concept, ex:l4-scene-ecdf-worked,
+     ex:l4-scene-ecdf-river, ex:l4-scene-ecdf-shapes, ex:l4-scene-ecdf-crossing, ex:l4-scene-ecdf-inverse ;
+   dct:references ex:l4-sm-ecdf, ex:l4-sm-ecdf-small, ex:l4-sm-ecdf-river, ex:l4-sm-ecdf-shapes ;
+   cd:hasScriptMaterial ex:l4-sm-ecdf, ex:l4-sm-ecdf-small, ex:l4-sm-ecdf-river, ex:l4-sm-ecdf-shapes ;
+   cd:body """Many analytical questions ask what fraction of observations is at or below a concentration threshold. The empirical cumulative distribution function in [[ref:ex:l4-sm-ecdf]] calculates that fraction for every threshold. Each observed value adds its share to the cumulative total, and tied values produce a combined jump. The definition specifies the inclusive threshold convention.
+
+The small worked example in [[ref:ex:l4-sm-ecdf-small]] makes the counting operation visible. The river example in [[ref:ex:l4-sm-ecdf-river]] gives it an analytical interpretation: read horizontally from a concentration to obtain the observed fraction, or start from a cumulative level to locate an empirical threshold under the stated quantile convention. The observations remain the basis for both readings.
+
+The shape comparison in [[ref:ex:l4-sm-ecdf-shapes]] uses cumulative curves to compare complete empirical distributions. A curve lying higher at a fixed concentration represents a larger observed fraction below that concentration. Crossing curves show that the ordering depends on the threshold. Generalizing these empirical comparisons to populations additionally requires an inferential model and a sampling design appropriate to the question."""@en .
+ ex:l4-sm-ecdf a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-formula-empirical-cdf ; dct:title "Empirical CDF with the inclusive threshold, indicator, sample-size and tie conventions."@en .
+ ex:l4-sm-ecdf-small a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-ecdf-small-chart ; dct:title "Worked empirical cumulative steps for the authored small sample."@en .
+ ex:l4-sm-ecdf-river a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-ecdf-river-chart ; dct:title "River-concentration ECDF for cumulative-threshold and empirical-quantile readings."@en .
+ ex:l4-sm-ecdf-shapes a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-ecdf-shapes-chart ; dct:title "Empirical cumulative comparison of the authored distribution shapes, including threshold-dependent curve orderings."@en .
+
+ ex:l4-script-moments a cd:ScriptSection ; cd:authoredResource true ; cd:position 7 ; dct:title "Moment summaries describe complementary aspects of shape"@en ;
+   cd:relatedScene ex:l4-scene-applied-mean, ex:l4-scene-mean-matrix, ex:l4-scene-applied-variance,
+     ex:l4-scene-variance-matrix, ex:l4-scene-applied-skewness, ex:l4-scene-skewness-matrix,
+     ex:l4-scene-applied-kurtosis, ex:l4-scene-kurtosis-matrix, ex:l4-scene-skew-zero, ex:l4-scene-moment-lab ;
+   dct:references ex:l4-sm-mean, ex:l4-sm-mean-matrix, ex:l4-sm-variance, ex:l4-sm-variance-matrix,
+     ex:l4-sm-skewness, ex:l4-sm-skewness-matrix, ex:l4-sm-kurtosis, ex:l4-sm-kurtosis-matrix, ex:l4-sm-moment-code ;
+   cd:hasScriptMaterial ex:l4-sm-mean, ex:l4-sm-mean-matrix, ex:l4-sm-variance, ex:l4-sm-variance-matrix,
+     ex:l4-sm-skewness, ex:l4-sm-skewness-matrix, ex:l4-sm-kurtosis, ex:l4-sm-kurtosis-matrix, ex:l4-sm-moment-code ;
+   cd:body """Moments summarize a distribution through powers of its values or centred departures. The authored mean calculation in [[ref:ex:l4-sm-mean]] and comparison matrix in [[ref:ex:l4-sm-mean-matrix]] concern location. The variance calculation and matrix ([[ref:ex:l4-sm-variance]], [[ref:ex:l4-sm-variance-matrix]]) concern squared distance from the centre. Their finite-sample conventions are stated in the attached legends.
+
+Standardized third-order departures describe the signed asymmetry represented by the chosen skewness statistic ([[ref:ex:l4-sm-skewness]], [[ref:ex:l4-sm-skewness-matrix]]). Standardized fourth-order departures emphasize large magnitudes relative to scale ([[ref:ex:l4-sm-kurtosis]], [[ref:ex:l4-sm-kurtosis-matrix]]). The authored convention distinguishes kurtosis from excess kurtosis and specifies the denominator and sample correction used. These conventions matter when comparing software outputs.
+
+A moment is one summary of the observations. Interpreting it alongside a dot plot, histogram or ECDF reveals which observations and patterns produce its value. A zero third moment, for example, expresses cancellation of the signed cubic contributions; symmetry is a stronger structural property to examine in the full distribution. The optional source in [[ref:ex:l4-sm-moment-code]] reproduces the comparisons. These empirical descriptions prepare the transition to probability models, where a distribution's assumptions and parameters make statements about future or repeated observations."""@en .
+ ex:l4-sm-mean a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l4-applied-mean-formula ; dct:title "Authored mean calculation and its observation, unit and averaging conventions."@en .
+ ex:l4-sm-mean-matrix a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l4-mean-matrix ; dct:title "Authored distribution comparisons organized by their mean summaries."@en .
+ ex:l4-sm-variance a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l4-applied-variance-formula ; dct:title "Authored variance calculation with its explicit finite-sample denominator and squared units."@en .
+ ex:l4-sm-variance-matrix a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l4-variance-matrix ; dct:title "Authored distribution comparisons organized by their variance summaries."@en .
+ ex:l4-sm-skewness a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l4-applied-skewness-formula ; dct:title "Authored standardized third-moment statistic with its complete centring, scaling and correction conventions."@en .
+ ex:l4-sm-skewness-matrix a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:l4-skewness-matrix ; dct:title "Authored shape comparisons accompanying the skewness calculations."@en .
+ ex:l4-sm-kurtosis a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:l4-applied-kurtosis-formula ; dct:title "Authored fourth-moment statistic with the kurtosis or excess-kurtosis convention stated explicitly."@en .
+ ex:l4-sm-kurtosis-matrix a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:l4-kurtosis-matrix ; dct:title "Authored shape comparisons accompanying the fourth-moment calculations."@en .
+ ex:l4-sm-moment-code a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:l4-moment-code ; dct:title "Optional R reproduction of the moment calculations and distribution comparisons."@en .
+}

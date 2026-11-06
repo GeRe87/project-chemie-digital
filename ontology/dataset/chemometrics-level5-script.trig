@@ -1,0 +1,254 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level5-theoretical-distributions> {
+  ex:l5-thematic-script a cd:ThematicScript ; cd:authoredResource true ;
+    dct:title "Theoretical Distribution Models"@en ;
+    cd:scriptForPath ex:path-level5-review-complete ;
+    cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level5-review-complete> ;
+    cd:hasScriptSection ex:l5-script-model, ex:l5-script-probability, ex:l5-script-normal,
+      ex:l5-script-lognormal, ex:l5-script-sampling, ex:l5-script-chi,
+      ex:l5-script-student, ex:l5-script-f, ex:l5-script-map, ex:l5-script-checking .
+
+  ex:l5-script-model a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ;
+    dct:title "What a probability model describes"@en ;
+    dct:subject ex:l5-analytical-distributions ;
+    dct:references ex:al-definition, ex:pc-process-info, ex:pc-growth-info ;
+    cd:relatedScene ex:rv-n02, ex:pc-n03, ex:pc-n07, ex:pc-n08 ;
+    cd:body """Repeated measurements of the same homogeneous nitrate sample vary because injection, flow, temperature and electronics contribute to each result. The measurement path in [[ref:ex:l5-sm-process]] makes that repeated experiment explicit. A probability model describes this variation under specified measurement conditions. The observed results form a finite sample from the population represented by that model.
+
+Increasing sample size makes a generating distribution easier to recognize. It improves the empirical description of the population while the population's own standard deviation remains a property of the measurement model. The simulation in [[ref:ex:l5-sm-growth]] illustrates this distinction with successive samples from an unchanged method.
+
+A model becomes useful when it answers a specified analytical question. We may want the probability that a result falls within an interval, the probability below a concentration limit, or the limit corresponding to a chosen probability. Each calculation starts by identifying the random quantity, its population or measurement conditions, and the assumptions behind its distribution. Individual injections, sample means and concentrations from environmental sites each have their own sampling context.
+
+The optional R source in [[ref:ex:l5-sm-growth-code]] makes the simulation reproducible. The following chapters develop the analytical questions from common probability tools to particular distribution families. The simulated examples illustrate consequences of the stated models. Assessing a laboratory method's model additionally draws on observations from the measurement process and the conditions under which they were collected."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-growth, ex:l5-sm-growth-code, ex:l5-sm-process .
+  ex:l5-sm-growth a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:rv-growth-chart ; dct:title "Successive prefixes of one simulated nitrate sequence: 20, 50, 100 and 1,000 results. All histograms use the same bin edges and Normal model with expectation 10.00 mg/L and SD 0.10 mg/L."@en .
+  ex:l5-sm-growth-code a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:rv-growth-code ; dct:title "R reproduction of the fixed-seed nitrate simulation and its histogram prefixes."@en .
+
+  ex:l5-script-probability a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ;
+    dct:title "From density areas to cumulative probabilities and quantiles"@en ;
+    dct:subject ex:probability-density-function, ex:cumulative-distribution-function, ex:theoretical-quantile ;
+    dct:references ex:l5-pdf-definition, ex:l5-cdf-definition, ex:l5-quantile-definition ;
+    cd:relatedScene ex:pc-n09, ex:pc-n10, ex:rv-n16, ex:rv-n17 ;
+    cd:body """Once a probability model has been specified, we can ask how likely an individual result is to fall within a chosen concentration interval. For a model with a probability density, the answer depends on both the curve's height and the interval's width. A high, narrow region can contain less probability than a lower, wider region. The area combines height and width into the probability for the complete interval.
+
+Integrating the density over the interval calculates this area. In the nitrate example, concentration is measured in mg/L and density in L/mg; multiplying density by a concentration increment gives a dimensionless probability. Each exact concentration has zero point probability in this continuous model. A rounded laboratory report represents a concentration interval at the stated measurement resolution.
+
+The observed fraction of simulated results inside an interval summarizes the finite sample. Its variation from run to run shows how sampling affects the empirical result. Comparing this fraction with the density area connects the observed sample with its generating model ([[ref:ex:l5-sm-density-sample]]). The ECDF in [[ref:ex:l5-sm-ecdf-plot]] makes the distinction between a finite sample and a smooth population model visible on the cumulative scale.
+
+Many analytical questions concern everything at or below a limit. The cumulative distribution function, or CDF, answers that question directly. For a model with a density, its value at a threshold is the area accumulated up to that threshold. The PDF and CDF describe the same model, but their vertical axes mean different things: density height in the PDF and accumulated probability in the CDF. The probability between two bounds is consequently the upper CDF value minus the lower one.
+
+Where density is high, accumulated probability increases rapidly and the CDF rises steeply. Where the derivative relation holds, the CDF's slope equals the density. Every distribution has a CDF. For absolutely continuous models, accumulated probability can be expressed as density area; for discrete distributions, probability masses produce jumps. An empirical CDF accumulates observed sample fractions in steps.
+
+We can now reverse the threshold question: choose a cumulative probability and seek its corresponding concentration. A model quantile supplies this threshold. In the continuous Normal and bounded uniform examples, the 0.95 quantile leaves 95% of the model probability at or below it. The observed fraction below that fixed threshold varies between finite samples.
+
+More generally, a quantile is the lowest threshold at which the CDF reaches or exceeds the chosen probability. At a probability jump, the accumulated probability can exceed the requested value. This construction is the generalized inverse of the CDF. Density, CDF and quantile are complementary descriptions: integrate over an interval, accumulate up to a threshold, or find a threshold for a chosen accumulated probability.
+
+The interval identity in [[ref:ex:l5-sm-area]] and the function relationships in [[ref:ex:l5-sm-functions]] provide equivalent tools for choosing limits. Their equivalence also has a graphical interpretation ([[ref:ex:l5-sm-linked]]). Reversing the calculation gives a model-based concentration limit for a prescribed upper-tail rate ([[ref:ex:l5-sm-quantile]]). Finite-sample fractions vary around their fixed model probabilities; the optional R example in [[ref:ex:l5-sm-ecdf-code]] allows this sampling variation to be explored."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-area, ex:l5-sm-functions, ex:l5-sm-linked, ex:l5-sm-quantile, ex:l5-sm-ecdf-code, ex:l5-sm-density-sample, ex:l5-sm-ecdf-plot .
+  ex:l5-sm-area a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:pc-area ; dct:title "Interval probability as an area under the model density."@en .
+  ex:l5-sm-functions a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:pc-functions ; dct:title "Density, cumulative probability and the generalized quantile function."@en .
+  ex:l5-sm-linked a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:pc-linked ; dct:title "The density panel's shaded area and the CDF panel's marked height represent the same accumulated probability, about 84.13%. Both panels use a concentration threshold of 10.1 mg/L under the Normal model with expectation 10.00 mg/L and SD 0.10 mg/L. The model's 95% quantile is about 10.16 mg/L."@en .
+  ex:l5-sm-quantile a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:nn-decision ; dct:title "A concentration threshold obtained from a prescribed upper-tail probability."@en .
+  ex:l5-sm-ecdf-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:nn-ecdf-code ; dct:title "R comparison of empirical sample fractions and fixed model probabilities."@en .
+
+  ex:l5-script-normal a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ;
+    dct:title "The Normal model: location, spread and standardized distance"@en ;
+    dct:subject ex:normal-measurement-model ;
+    cd:relatedScene ex:pc-n11, ex:p1-n12, ex:p1-n13, ex:rv-n14, ex:rv-n15, ex:p1-n18 ;
+    cd:body """The Normal family is a model for variation that can arise when many small additive influences combine under suitable central-limit conditions. Its symmetric density is characterized by a location and a spread. The standard-Normal shape is shown in [[ref:ex:l5-sm-normal-density]]. The measurement process and its sampling conditions provide the context for assessing this model.
+
+Within this family, location sets the centre and the standard deviation sets the concentration scale. Subtracting the model mean and dividing by the model standard deviation expresses a result as a dimensionless standardized distance. This transformation allows probabilities from different concentration scales to be read using the same standard-Normal distribution. A concentration difference only acquires a probability meaning after its model spread has been specified.
+
+The standard-Normal density is denoted by $\\varphi$, and its cumulative probability by $\\Phi$. Integrating $\\varphi$ produces $\\Phi$; the displayed error-function identity expresses the same accumulation. In the fixed example, 10.20 mg/L is two standard deviations above the mean, giving cumulative probability about 0.97725 and an upper tail about 0.02275.
+
+Changing spread while retaining the same centre changes the probability beyond a fixed concentration limit ([[ref:ex:l5-sm-device-densities]]). For a limit above the mean, a broader Normal model places more probability in the upper tail. The familiar coverage of standard-deviation bands follows from the Normal model; [[ref:ex:l5-sm-band-areas]] contrasts a central band with a one-sided limit. Interpreting such a band as an analytical decision limit additionally requires a stated decision rule and its assumptions.
+
+The density in [[ref:ex:l5-sm-phi]] and standardization in [[ref:ex:l5-sm-eta]] supply the common reference. Applying it to two specified model spreads in [[ref:ex:l5-sm-devices]] gives different standardized distances for a common concentration. The CDF identity in [[ref:ex:l5-sm-cdf]] leads to the upper-tail calculation in [[ref:ex:l5-sm-tail]], while [[ref:ex:l5-sm-bands]] gives central band coverage. A one-sided limit and a central band answer different analytical questions even when they use the same model ([[ref:ex:l5-sm-normal-plot]]). The optional source in [[ref:ex:l5-sm-threshold-code]] makes the probabilities and limits reproducible in R."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-phi, ex:l5-sm-eta, ex:l5-sm-devices, ex:l5-sm-cdf, ex:l5-sm-tail, ex:l5-sm-bands, ex:l5-sm-normal-plot, ex:l5-sm-threshold-code, ex:l5-sm-normal-density, ex:l5-sm-device-densities, ex:l5-sm-band-areas .
+  ex:l5-sm-phi a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:nn-phi ; dct:title "The standard-Normal density $\\varphi$ as a function of standardized distance."@en .
+  ex:l5-sm-eta a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:v3-eta ; dct:title "Normal measurement results expressed through location, scale and standardized distance."@en .
+  ex:l5-sm-devices a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:nn-devices ; dct:title "Standardizing a common concentration with two specified model standard deviations."@en .
+  ex:l5-sm-cdf a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:nn-cdf ; dct:title "The standard-Normal CDF $\\Phi$ and its error-function representation."@en .
+  ex:l5-sm-tail a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:nn-tail ; dct:title "Upper-tail probability for a fixed concentration limit under a known Normal model."@en .
+  ex:l5-sm-bands a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:nn-bands ; dct:title "Normal-model probability within one, two and three standard deviations of the mean."@en .
+  ex:l5-sm-normal-plot a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:p1-normal-tail ; dct:title "The shaded area lies above 10.20 mg/L, two SD above the expectation, in a Normal model with expectation 10.00 mg/L and SD 0.10 mg/L. It contains about 2.275% of the model probability; about 97.72% lies at or below the limit."@en .
+  ex:l5-sm-threshold-code a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:nn-threshold-code ; dct:title "R calculations of known-model Normal tail probabilities and quantiles."@en .
+
+  ex:l5-script-lognormal a cd:ScriptSection ; cd:authoredResource true ; cd:position 4 ;
+    dct:title "Multiplicative variation and the lognormal model"@en ;
+    cd:relatedScene ex:lg-process, ex:rv-n22, ex:lg-log-scale-scene, ex:rv-n25, ex:rv-n28 ;
+    cd:body """Dilution, recovery and relative response factors can act multiplicatively. Repeating a complete preparation introduces different sources of variation from reinjecting one prepared solution ([[ref:ex:l5-sm-preparation]]). Taking logarithms turns a product of positive relative factors into a sum, which motivates a Normal model on the log scale under suitable conditions. Exponentiating that Normal quantity then produces a lognormal model on the original positive scale; the simulated preparation results in [[ref:ex:l5-sm-logsample]] illustrate its long right tail.
+
+Because a logarithm requires a dimensionless argument, the construction uses a concentration ratio relative to a fixed positive reference concentration. The reference is restored when converting back to concentration. This keeps the model meaningful when concentration units change. The log-scale mean and standard deviation describe the dimensionless log ratio; the original-scale results retain their concentration unit.
+
+On the original scale, equal multiplicative changes occupy unequal additive distances. The resulting distribution can have a long upper tail, with an arithmetic mean above its median. The median describes a typical multiplicative centre, while the arithmetic expectation is relevant for additive totals such as expected load. The analytical question determines which summary is useful.
+
+On a logarithmic horizontal axis, equal relative changes occupy equal distances ([[ref:ex:l5-sm-ratio-scales]]). Expressing the density itself on the log scale additionally uses the change-of-variable factor, which accounts for how concentration intervals are stretched. Axis scale and density units together determine how the displayed curve is read.
+
+Model-based tail probabilities and quantiles follow from the same positive log-scale construction. The paired questions in [[ref:ex:l5-sm-logtasks]] distinguish finding a probability from finding a limit. The accompanying formulas retain the reference concentration and distinguish the two scales. Assessing the lognormal model brings together the measurement process, observed variation, possible mixtures and the treatment of nondetects.
+
+The construction in [[ref:ex:l5-sm-logscale]] uses a dimensionless log ratio; [[ref:ex:l5-sm-logdefinition]] gives the resulting concentration density and its mean and median. Tail probabilities and concentration limits follow from [[ref:ex:l5-sm-logquantile]]. The transformation changes symmetry and density units together ([[ref:ex:l5-sm-logplot]]). Optional R examples compare additive and multiplicative models in [[ref:ex:l5-sm-logcompare-code]], reproduce the transformation in [[ref:ex:l5-sm-logtransform-code]] and examine environmental summaries in [[ref:ex:l5-sm-logenvironment-code]]."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-logscale, ex:l5-sm-logdefinition, ex:l5-sm-logquantile, ex:l5-sm-logplot, ex:l5-sm-logcompare-code, ex:l5-sm-logtransform-code, ex:l5-sm-logenvironment-code, ex:l5-sm-preparation, ex:l5-sm-logsample, ex:l5-sm-ratio-scales, ex:l5-sm-logtasks .
+  ex:l5-sm-logscale a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:lg-log-scale ; dct:title "A dimensionless Normal log ratio transformed to positive concentration."@en .
+  ex:l5-sm-logdefinition a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:lg-definition ; dct:title "Lognormal density, cumulative probability, expectation and median on the concentration scale."@en .
+  ex:l5-sm-logquantile a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:lg-quantile ; dct:title "Lognormal concentration quantiles and upper-tail probabilities."@en .
+  ex:l5-sm-logplot a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:p1-log-transform ; dct:title "The left panel shows the Normal density of the dimensionless log ratio with mean 0 and SD 0.30. The right panel shows its exponential concentration transform relative to 10 ng/L, giving a lognormal distribution with median 10 ng/L."@en .
+  ex:l5-sm-logcompare-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:lg-compare-code ; dct:title "R comparison of additive and multiplicative measurement models."@en .
+  ex:l5-sm-logtransform-code a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:lg-transform-code ; dct:title "R transformation between dimensionless log ratios and concentration."@en .
+  ex:l5-sm-logenvironment-code a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:lg-environment-code ; dct:title "R illustration of lognormal environmental concentration summaries."@en .
+
+  ex:l5-script-sampling a cd:ScriptSection ; cd:authoredResource true ; cd:position 5 ;
+    dct:title "Why a sample variance changes between repetitions"@en ;
+    cd:relatedScene ex:rv-n29, ex:rv-n31, ex:rv-n32, ex:p1-n33, ex:rv-n34, ex:rv-n41 ;
+    cd:body """A statistic calculated from a complete sample is itself a random quantity: a new sample produces a new mean, variance or ratio. To understand uncertainty in a variance estimate, we repeatedly collect an entire sample of measurements and calculate one estimate from each sample. The nitrate precision experiment in [[ref:ex:l5-sm-precision-process]] specifies the sample and its independently known reference.
+
+For a concrete sample, deviations are measured about its fitted sample mean. The six nitrate results in [[ref:ex:l5-sm-deviation-table]] have squared deviations summing to 0.12 (mg/L) squared. Dividing by five gives sample variance 0.024 (mg/L) squared, and taking its square root gives sample SD about 0.155 mg/L, as calculated in [[ref:ex:l5-sm-spread]]. This SD is roughly 55% above the known reference of 0.10 mg/L. The separate illustrative six-result series in [[ref:ex:l5-sm-series]] share a mean and have different spreads, showing how sample variance captures variation around the centre. Their sample variances provide the A, B and C reference markers in the repeated-sampling experiment.
+
+The repeated-sampling experiment holds the population model fixed while generating many complete samples. Each sample contributes one variance estimate to the histogram, which displays the estimator's sampling distribution. Its spread describes the variation among estimates obtained from the same method.
+
+Increasing the number of measurements within each sample concentrates the variance estimates more closely around their target, as compared on the same scale in [[ref:ex:l5-sm-size-comparison]]. Increasing the number of repeated simulated samples reveals the sampling distribution more clearly. Sample size controls the estimation uncertainty; the number of simulated repetitions controls how clearly that uncertainty is displayed.
+
+An unchanged population model therefore produces a distribution of variance estimates ([[ref:ex:l5-sm-sampling-plot]]). The relative uncertainty in [[ref:ex:l5-sm-size]] quantifies the sample-size effect, and [[ref:ex:l5-sm-sampling-code]] reproduces the repeated-sampling calculation in R. Under independent Normal sampling, scaled sample variances have a chi-square distribution. This relationship provides a mathematical reference for evaluating precision and, later, for comparing two estimated variances. Its justification follows from the stated population model and the independence of the measurements."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-deviation-table, ex:l5-sm-spread, ex:l5-sm-size, ex:l5-sm-sampling-plot, ex:l5-sm-sampling-code, ex:l5-sm-precision-process, ex:l5-sm-series, ex:l5-sm-size-comparison .
+  ex:l5-sm-deviation-table a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:ic-deviation-table ; dct:title "Six nitrate results, their deviations from the sample mean 10.05 mg/L and their squared deviations."@en .
+  ex:l5-sm-spread a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:ic-spread ; dct:title "Sample variance and standard deviation calculated from the six-result nitrate series."@en .
+  ex:l5-sm-size a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:ix-size ; dct:title "Relative sampling uncertainty of the variance estimate under independent Normal sampling."@en .
+  ex:l5-sm-sampling-plot a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:rx-variance ; dct:title "Each histogram entry is the variance of one complete six-result Normal sample, calculated about that sample's fitted mean. All 1,000 repetitions use population SD 0.10 mg/L. The estimated variances average 0.009792 (mg/L) squared, with empirical relative SD 61.79%, compared with the theoretical 63.25%. In this simulation, 2.9% of estimates reach or exceed the observed variance of 0.024 (mg/L) squared."@en .
+  ex:l5-sm-sampling-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:ix-simulation ; dct:title "R reproduction of repeated complete samples and their variance estimates."@en .
+
+  ex:l5-script-chi a cd:ScriptSection ; cd:authoredResource true ; cd:position 6 ;
+    dct:title "Squared Normal components and the chi-square reference"@en ;
+    cd:relatedScene ex:ix-square-scene, ex:rv-n36, ex:ic-squares, ex:ic-test ;
+    cd:body """Squaring a standard-Normal value turns positive and negative deviations into nonnegative squared distances ([[ref:ex:l5-sm-square-transform]]). This produces a chi-square variable with one degree of freedom. Large original deviations become especially large squares, producing a long right tail.
+
+Adding independent squared standard-Normal components gives a chi-square variable whose degrees of freedom count those independent components. The displayed density and gamma-function definition express this family mathematically. The construction matters because it explains the model's nonnegative range and its changing shape as the number of components increases.
+
+Sample variance has a closely related structure. Centring the observations about a fitted mean imposes a zero-sum constraint on their residuals and removes one degree of freedom. The six-residual calculation in [[ref:ex:l5-sm-residual-squares]] connects the nitrate sample to this construction. Under independent Normal sampling, an orthogonal representation supplies the remaining independent components that justify the chi-square reference for the scaled residual sum of squares.
+
+This connection turns repeated-sampling variation into a precision question. A sample variance is compared with a fixed reference variance through the displayed scaled statistic. An upper-tail decision asks whether the observed spread is unusually large under that reference model ([[ref:ex:l5-sm-precision-tail]]). The sample degrees of freedom and the chosen tail probability determine the cutoff.
+
+The squared component in [[ref:ex:l5-sm-square]] and the independent-component sum in [[ref:ex:l5-sm-sum]] explain the chi-square construction; the repeated sums in [[ref:ex:l5-sm-chiplot]] show its shape. For the precision check, [[ref:ex:l5-sm-q]] scales the observed sample spread, and [[ref:ex:l5-sm-decision]] compares it with the upper-tail cutoff. The calculation quantifies compatibility with the stated reference variance under the sampling assumptions. An unusually large value provides a reason to investigate the method's precision using the measurement conditions and analytical records."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-square, ex:l5-sm-sum, ex:l5-sm-q, ex:l5-sm-decision, ex:l5-sm-chiplot, ex:l5-sm-square-transform, ex:l5-sm-residual-squares, ex:l5-sm-precision-tail .
+  ex:l5-sm-square a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:ix-square ; dct:title "A squared standard-Normal component follows a one-degree-of-freedom chi-square distribution."@en .
+  ex:l5-sm-sum a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:ix-sum ; dct:title "Independent squared Normal components, chi-square density and gamma-function normalization."@en .
+  ex:l5-sm-q a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:ic-q ; dct:title "The sample residual sum of squares scaled by an independently known reference variance."@en .
+  ex:l5-sm-decision a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:ic-decision ; dct:title "An upper-tail chi-square precision decision with five degrees of freedom."@en .
+  ex:l5-sm-chiplot a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:p1-five-squares ; dct:title "The histogram contains 1,000 repeated sums of two independent squared standard-Normal components. Their simulated mean is 1.993, close to the theoretical mean of 2. The overlaid chi-square density has two degrees of freedom, matching the component count."@en .
+
+  ex:l5-script-student a cd:ScriptSection ; cd:authoredResource true ; cd:position 7 ;
+    dct:title "Estimating the standard error leads to Student's t"@en ;
+    cd:relatedScene ex:dist-t-intro-scene, ex:rv-n44, ex:rv-n46 ;
+    cd:body """A standardized mean would use the population standard deviation if that quantity were known. In practice, spread is often estimated from the same sample as the mean. The repeated experiment in [[ref:ex:l5-sm-student-flow]] shows what is estimated from each complete sample. The denominator then varies between complete repetitions as well as the numerator, so replacing a known standard deviation by a sample estimate changes the reference distribution.
+
+Under independent, identically distributed Normal sampling, the mean is independent of the sample variance. Dividing the centred sample mean by its estimated standard error produces Student's t statistic with sample count minus one degrees of freedom. Each complete sample contributes one standardized mean to the resulting distribution.
+
+The t distribution is symmetric and has heavier tails than the standard Normal for finite degrees of freedom. The additional tail probability reflects uncertainty introduced by estimating spread. The repeated-sample histogram in [[ref:ex:l5-sm-student-simulation]] illustrates this distribution of standardized means.
+
+As the degrees of freedom increase, the estimated denominator becomes more stable and the t reference approaches the standard Normal ([[ref:ex:l5-sm-student-plot]]). The construction in [[ref:ex:l5-sm-student-law]] identifies how the sample mean and estimated standard error enter the statistic. The sampling assumptions justify this reference."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-student-law, ex:l5-sm-student-plot, ex:l5-sm-student-flow, ex:l5-sm-student-simulation .
+  ex:l5-sm-student-law a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:dist-t-intro-formula ; dct:title "Studentizing a Normal sample mean using its estimated standard error."@en .
+  ex:l5-sm-student-plot a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:dist-t-compare ; dct:title "Student densities for samples of 4 and 30 measurements, corresponding to 3 and 29 degrees of freedom, share a standardized axis with the standard-Normal reference. The 29-degree-of-freedom curve lies closer to the Normal curve."@en .
+
+  ex:l5-script-f a cd:ScriptSection ; cd:authoredResource true ; cd:position 8 ;
+    dct:title "Comparing independent variance estimates with an F ratio"@en ;
+    cd:relatedScene ex:dist-f-intro-scene, ex:rv-n49, ex:rv-n50, ex:tf-f-construction-scene ;
+    cd:body """Comparing the spreads of two groups brings together two estimated variances. The two measurement groups in [[ref:ex:l5-sm-device-results]] make that comparison concrete. If the groups are independent and each follows the stated Normal model, their appropriately scaled sample variances provide independent chi-square quantities. Dividing each by its degrees of freedom and taking their ratio gives the F construction; [[ref:ex:l5-sm-f-flow]] follows one complete pair of samples through those operations.
+
+The numerator and denominator play different roles. Reversing their order reciprocates the ratio and exchanges the associated degrees of freedom. A pre-specified right-tail comparison therefore names the numerator group and the direction of the question before interpreting the observed variances.
+
+When the true population variances are equal, they cancel in the normalized construction, leaving the corresponding sample-variance ratio as an F reference statistic. With unequal true variances, their true variance ratio scales the sample ratio. The displayed normalization makes this dependence explicit.
+
+The normalized construction in [[ref:ex:l5-sm-fintro]] leads to the concrete ordered ratio in [[ref:ex:l5-sm-fratio]]. The relation in [[ref:ex:l5-sm-flaw]] identifies the role of the true variance ratio, while [[ref:ex:l5-sm-fplot]] shows repeated sample-variance ratios under equal true variances. Changing the sample sizes changes the two degrees-of-freedom parameters. Under the population and independence assumptions, the reference distribution describes variation in estimated spreads. Understanding this construction connects the F curve directly to the analytical comparison."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-fintro, ex:l5-sm-fratio, ex:l5-sm-flaw, ex:l5-sm-fplot, ex:l5-sm-f-flow, ex:l5-sm-device-results .
+  ex:l5-sm-fintro a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:dist-f-intro-formula ; dct:title "An F variable constructed from two independent Normal-sample variance estimates."@en .
+  ex:l5-sm-fratio a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:tf-ratio ; dct:title "The observed ordered sample-variance ratio for the two measurement groups."@en .
+  ex:l5-sm-flaw a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:tf-f-law ; dct:title "Normalization by the true variance ratio and the resulting ordered F reference."@en .
+  ex:l5-sm-fplot a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:dist-f ; dct:title "The histogram contains variance ratios B/A from 1,000 independent Normal sample pairs, with six measurements per group and equal true variances. The overlaid F density uses five numerator and five denominator degrees of freedom."@en .
+
+  ex:l5-script-map a cd:ScriptSection ; cd:authoredResource true ; cd:position 9 ;
+    dct:title "Connecting distribution families through their constructions"@en ;
+    cd:relatedScene ex:map-mechanisms-scene ;
+    cd:body """The five families can now be connected through the operations that generate their random quantities. Additive contributions motivate a Normal approximation under suitable conditions; multiplicative positive factors motivate a Normal log ratio and hence a lognormal concentration. Squared independent standard-Normal components yield chi-square quantities. Standardizing a Normal sample mean by an estimated standard error yields t, while ratios of independent normalized variance estimates yield F.
+
+These constructions connect the model assumptions with the quantity being studied. A Normal model for individual results and a chi-square model for their scaled sample variance describe different aspects of the same repeated experiment. The t reference describes the standardized sample mean when its standard error is estimated.
+
+The compact formula collection keeps these relationships together with their complete symbol definitions. The additive construction in [[ref:ex:l5-sm-mapnormal]] and multiplicative construction in [[ref:ex:l5-sm-maplog]] describe individual results. The scaled variance in [[ref:ex:l5-sm-mapchi]], studentized mean in [[ref:ex:l5-sm-mapt]] and normalized variance ratio in [[ref:ex:l5-sm-mapf]] describe statistics of complete samples. To choose a reference, first identify what is random and what has been estimated, then establish the assumptions that justify the construction. This leads to the final task: checking how closely observed data agree with a proposed model."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-mapnormal, ex:l5-sm-maplog, ex:l5-sm-mapchi, ex:l5-sm-mapt, ex:l5-sm-mapf .
+  ex:l5-sm-mapnormal a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:map-normal-formula ; dct:title "Additive contributions and the Normal approximation under central-limit conditions."@en .
+  ex:l5-sm-maplog a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:map-log-formula ; dct:title "Multiplicative positive factors represented by a Normal log ratio."@en .
+  ex:l5-sm-mapchi a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:map-chi-formula ; dct:title "The scaled Normal-sample variance and its chi-square reference."@en .
+  ex:l5-sm-mapt a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:map-t-formula ; dct:title "A sample mean standardized with its estimated standard error and the Student t reference."@en .
+  ex:l5-sm-mapf a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:map-f-formula ; dct:title "Independent variance estimates normalized to form an F variable."@en .
+
+  ex:l5-script-checking a cd:ScriptSection ; cd:authoredResource true ; cd:position 10 ;
+    dct:title "Assessing agreement between observations and a model"@en ;
+    cd:relatedScene ex:rv-n60, ex:rv-n61, ex:rv-n62, ex:rv-n63 ;
+    cd:body """Model assessment compares observed results with the patterns predicted by a proposed distribution. Quantile-quantile plots compare the ordered observations with theoretical quantiles. The resulting pattern helps identify agreement and departures in location, spread or shape, interpreted in the context of sample size and measurement conditions.
+
+The two constructed five-result examples use the same Normal model fixed in advance. Their Q-Q comparison is shown in [[ref:ex:l5-sm-qq-panels]]. The graphical comparisons and the following Kolmogorov-Smirnov calculation therefore address one consistent reference. The KS distance is the largest vertical difference between the empirical and theoretical CDFs, evaluated on both sides of every empirical jump; [[ref:ex:l5-sm-ks-panels]] shows where those distances occur.
+
+For a continuous null model fixed before observing the data, the exact five-observation two-sided cutoff at the stated significance level is about 0.563275. The first example falls below this cutoff and the deliberately skewed second example exceeds it. Estimating location or spread from the observations requires a calibration suited to that fitted-model setup, such as an applicable Lilliefors procedure or a correctly refitted bootstrap.
+
+Pearson's goodness-of-fit calculation takes a grouped view. Expected bin counts come from model probabilities at the actual bin boundaries, including the specified tails. Observed and expected particle counts are compared directly in [[ref:ex:l5-sm-particle-counts]]. Each bin contributes a squared observed-minus-expected difference divided by its expected count. Their sum is the test statistic, and the contribution plot shows how each group contributes to the overall discrepancy.
+
+Its chi-square reference is an approximation with conditions on expected counts and degrees of freedom. Estimating model parameters or choosing bins adaptively can change the calibration. The authored example uses its stated grouping and four-degree-of-freedom reference, with cutoff about 9.487729 and p-value about 0.020587. The optional R calculation reproduces these values under the same assumptions.
+
+The Q-Q coordinates in [[ref:ex:l5-sm-qq]] specify how observed and theoretical quantiles are paired. The optional R source in [[ref:ex:l5-sm-ks-code]] reproduces the fixed-model KS comparisons. For the grouped assessment, [[ref:ex:l5-sm-pearson-sum]] calculates the Pearson contributions and their sum; [[ref:ex:l5-sm-pearson-plot]] shows which groups contribute most. The reference density in [[ref:ex:l5-sm-pearson-density]] and the optional R calculation in [[ref:ex:l5-sm-pearson-code]] complete that stated model check.
+
+Each assessment relates a particular observed pattern to the chosen model and testing conditions. Values beyond a calibrated cutoff provide evidence of incompatibility and guide investigation of the model, measurement context and data provenance. Values within that cutoff remain compatible with the model at the stated testing level. Together, the graphical and numerical views support an explicit assessment of how the proposed model describes variation."""@en ;
+    cd:hasScriptMaterial ex:l5-sm-qq, ex:l5-sm-pearson-density, ex:l5-sm-pearson-sum, ex:l5-sm-pearson-plot, ex:l5-sm-ks-code, ex:l5-sm-pearson-code, ex:l5-sm-qq-panels, ex:l5-sm-ks-panels, ex:l5-sm-particle-counts .
+  ex:l5-sm-qq a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:rev-qq-formula ; dct:title "Normal-model quantiles paired with ordered observations for Q-Q assessment."@en .
+  ex:l5-sm-pearson-density a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l5-p20a-formula ; dct:title "The chi-square reference density used for the stated grouped goodness-of-fit calculation."@en .
+  ex:l5-sm-pearson-sum a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:v3-pearson-sum ; dct:title "Pearson contributions from observed and expected group counts and their sum."@en .
+  ex:l5-sm-pearson-plot a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:p1-pearson-contributions ; dct:title "The bars show weighted count discrepancies for five fixed particle-diameter categories and 100 classified particles. Their sum, 11.6, exceeds the approximate four-degree-of-freedom upper 5% cutoff of 9.49. The reference upper-tail probability is about 2.059%, indicating a departure from the stated proportions at the 5% level."@en .
+  ex:l5-sm-ks-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:rev-ks-code ; dct:title "R reproduction of the fixed-model Kolmogorov-Smirnov checks."@en .
+  ex:l5-sm-pearson-code a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:rev-pearson-code ; dct:title "R reproduction of expected group counts and the Pearson decision."@en .
+  # Occurrence links authorize the corresponding inline resource markers.
+  ex:l5-script-model dct:references ex:l5-sm-growth, ex:l5-sm-growth-code .
+  ex:l5-script-probability dct:references ex:l5-sm-area, ex:l5-sm-functions, ex:l5-sm-linked, ex:l5-sm-quantile, ex:l5-sm-ecdf-code .
+  ex:l5-script-normal dct:references ex:l5-sm-phi, ex:l5-sm-eta, ex:l5-sm-devices, ex:l5-sm-cdf, ex:l5-sm-tail, ex:l5-sm-bands, ex:l5-sm-normal-plot, ex:l5-sm-threshold-code .
+  ex:l5-script-lognormal dct:references ex:l5-sm-logscale, ex:l5-sm-logdefinition, ex:l5-sm-logquantile, ex:l5-sm-logplot, ex:l5-sm-logcompare-code, ex:l5-sm-logtransform-code, ex:l5-sm-logenvironment-code .
+  ex:l5-script-sampling dct:references ex:l5-sm-deviation-table, ex:l5-sm-spread, ex:l5-sm-size, ex:l5-sm-sampling-plot, ex:l5-sm-sampling-code .
+  ex:l5-script-chi dct:references ex:l5-sm-square, ex:l5-sm-sum, ex:l5-sm-q, ex:l5-sm-decision, ex:l5-sm-chiplot .
+  ex:l5-script-student dct:references ex:l5-sm-student-law, ex:l5-sm-student-plot .
+  ex:l5-script-f dct:references ex:l5-sm-fintro, ex:l5-sm-fratio, ex:l5-sm-flaw, ex:l5-sm-fplot .
+  ex:l5-script-map dct:references ex:l5-sm-mapnormal, ex:l5-sm-maplog, ex:l5-sm-mapchi, ex:l5-sm-mapt, ex:l5-sm-mapf .
+  ex:l5-script-checking dct:references ex:l5-sm-qq, ex:l5-sm-pearson-density, ex:l5-sm-pearson-sum, ex:l5-sm-pearson-plot, ex:l5-sm-ks-code, ex:l5-sm-pearson-code .
+  # Additional illustrations selected by thematic need, not by slide position.
+  ex:l5-sm-process a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:nn-process-media ; dct:title "One homogeneous nitrate control passes repeatedly through injection, separation, detection and reporting. The measurement path locates the contributions to variation."@en .
+  ex:l5-sm-density-sample a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:pc-density ; dct:title "A histogram of 1,000 simulated nitrate results and its generating Normal density share concentration axes. Between 9.9 and 10.1 mg/L, the observed sample fraction is 66.7%, compared with a model probability of about 68.27%."@en .
+  ex:l5-sm-ecdf-plot a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:p1-ecdf-start ; dct:title "The empirical CDF of 20 simulated nitrate results is compared with the generating Normal CDF. All 20 observations lie at or below 10.20 mg/L, giving empirical fraction 1 at that threshold; the model probability there is about 97.72%. Steps accumulate observed fractions, while the smooth curve accumulates model probability."@en .
+  ex:l5-sm-normal-density a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:pc-phi-chart ; dct:title "The standard-Normal density is symmetric about zero, where it reaches its maximum. The horizontal coordinate is standardized distance and the vertical coordinate is density per standardized unit."@en .
+  ex:l5-sm-device-densities a cd:ScriptMaterial ; cd:position 10 ; cd:scriptResource ex:p1-normal-devices ; dct:title "Two Normal models share expectation 10.00 mg/L and the marked result 10.20 mg/L. Known SDs of 0.10 and 0.20 mg/L put that result two SD above the expectation for A and one SD above it for B."@en .
+  ex:l5-sm-band-areas a cd:ScriptMaterial ; cd:position 11 ; cd:scriptResource ex:p1-normal-bands ; dct:title "The panels compare a one-sided upper 1% limit, about 10.233 mg/L, with a central two-SD band under the Normal model with expectation 10.00 mg/L and SD 0.10 mg/L. The central band contains about 95.45% of the probability, leaving about 4.550% across both tails."@en .
+  ex:l5-sm-preparation a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:lg-process-media ; dct:title "Path A reinjects one prepared control; path B repeats extraction, concentration and analysis on independent aliquots. The paths define different repeat experiments."@en .
+  ex:l5-sm-logsample a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:lg-saved-chart ; dct:title "The simulated complete-preparation sample contains 1,000 positive concentrations. Its long right tail includes 100 results above 15 ng/L; this is an observed fraction of this finite simulation."@en .
+  ex:l5-sm-ratio-scales a cd:ScriptMaterial ; cd:position 10 ; cd:scriptResource ex:lg-scales-media ; dct:title "The concentrations 8, 10 and 12.5 ng/L have unequal linear gaps. Relative to 10 ng/L their natural log ratios have equal gaps on either side of zero."@en .
+  ex:l5-sm-logtasks a cd:ScriptMaterial ; cd:position 11 ; cd:scriptResource ex:p1-log-tasks ; dct:title "The left panel shades the probability above 15 ng/L, about 8.826%; the right finds the concentration for an upper-tail rate of 5%, about 16.38 ng/L. Both use median 10 ng/L and dimensionless log SD 0.30."@en .
+  ex:l5-sm-precision-process a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:ic-process-media ; dct:title "The precision experiment repeats six independent nitrate measurements of one homogeneous sample. The reference repeatability SD, 0.10 mg/L, is known independently."@en .
+  ex:l5-sm-series a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:p1-series-chart ; dct:title "Three constructed six-result series share mean 10.000 mg/L. Their sample variances are A: 0.00316, B: 0.00748 and C: 0.01648 (mg/L) squared. Small horizontal offsets separate individual results within each group, including ties."@en .
+  ex:l5-sm-size-comparison a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:p1-variance-compare ; dct:title "The histograms compare variance estimates from 1,000 Normal series of 6 measurements with 1,000 series of 30 measurements on the same scale. Population SD remains 0.10 mg/L in both experiments. Increasing series size reduces the theoretical relative SD of the variance estimate from 63.25% to 26.26%; the simulated six-result series give 61.79%."@en .
+  ex:l5-sm-square-transform a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:ix-square-media ; dct:title "Squaring maps both signs of a standard-Normal value to the same nonnegative squared distance. The symmetric Normal density becomes a one-degree-of-freedom chi-square density."@en .
+  ex:l5-sm-residual-squares a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:ic-residual-media ; dct:title "The six nitrate residuals are divided by the independently known reference SD, squared and added. Their squared standardized values sum to 12; estimating the mean leaves five degrees of freedom."@en .
+  ex:l5-sm-precision-tail a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:ic-tail-media ; dct:title "The five-degree-of-freedom chi-square curve marks the upper 5% cutoff at 11.07 and the observed statistic at 12. The shaded upper probability beyond 12 is about 3.48%."@en .
+  ex:l5-sm-student-flow a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:dist-t-intro-flow ; dct:title "One complete Normal sample supplies both its mean and estimated standard error. The process contributes one studentized value per repetition."@en .
+  ex:l5-sm-student-simulation a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:dist-t ; dct:title "Studentized means from 1,000 repeated two-result Normal samples form the histogram. The Student reference has one degree of freedom; the standard-Normal curve gives a known-spread comparison."@en .
+  ex:l5-sm-f-flow a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:dist-f-intro-flow ; dct:title "Two independent Normal samples supply two estimated variances. Normalizing by the true variances and taking B/A contributes one F variable per sample pair."@en .
+  ex:l5-sm-device-results a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:rx-devices ; dct:title "Two independent constructed groups each contain six nitrate results. Sample SDs of 0.10 mg/L for A and 0.30 mg/L for B give the ordered sample-variance ratio B/A = 9. Small horizontal offsets separate individual results, including ties."@en .
+  ex:l5-sm-qq-panels a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:rev-qq-media ; dct:title "Both Q-Q panels use the Normal model with expectation 10 mg/L and SD 0.50 mg/L fixed before observing either five-result sample. Sample A lies close to the identity line; sample B bends toward its extreme upper observation."@en .
+  ex:l5-sm-ks-panels a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:rev-ks-media ; dct:title "The ECDFs and fixed Normal CDF (expectation 10 mg/L, SD 0.50 mg/L) use common concentration axes. Vertical gaps include both sides of each empirical jump; maximum distances are 0.144578 for A and 0.725747 for B."@en .
+  ex:l5-sm-particle-counts a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:rx-pearson ; dct:title "Observed counts for 100 particles in five fixed diameter categories are compared with expected counts 10, 20, 40, 20 and 10. The highlighted reference points show the fixed expectations."@en .
+  ex:l5-script-model dct:references ex:l5-sm-process .
+  ex:l5-script-probability dct:references ex:l5-sm-density-sample, ex:l5-sm-ecdf-plot .
+  ex:l5-script-normal dct:references ex:l5-sm-normal-density, ex:l5-sm-device-densities, ex:l5-sm-band-areas .
+  ex:l5-script-lognormal dct:references ex:l5-sm-preparation, ex:l5-sm-logsample, ex:l5-sm-ratio-scales, ex:l5-sm-logtasks .
+  ex:l5-script-sampling dct:references ex:l5-sm-precision-process, ex:l5-sm-series, ex:l5-sm-size-comparison .
+  ex:l5-script-chi dct:references ex:l5-sm-square-transform, ex:l5-sm-residual-squares, ex:l5-sm-precision-tail .
+  ex:l5-script-student dct:references ex:l5-sm-student-flow, ex:l5-sm-student-simulation .
+  ex:l5-script-f dct:references ex:l5-sm-f-flow, ex:l5-sm-device-results .
+  ex:l5-script-checking dct:references ex:l5-sm-qq-panels, ex:l5-sm-ks-panels, ex:l5-sm-particle-counts .
+}

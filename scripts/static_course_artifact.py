@@ -29,7 +29,7 @@ def inventory(directory: Path) -> dict[str, str]:
 
 
 def is_generated_public_path(relative: Path) -> bool:
-    return (relative.parts[0] == "course-runtime" or relative.as_posix() == "course-runtime.json"
+    return (relative.parts[0] in {"course-runtime", "script-pdf"} or relative.as_posix() == "course-runtime.json"
             or bool(re.fullmatch(r"authoring(?:-[\w-]+)?-(?:runtime\.json|static\.html)", relative.as_posix())))
 
 
@@ -86,6 +86,8 @@ def read_split_artifact(directory: Path) -> dict:
     artifact.update({"datasetSnapshot": graph["datasetSnapshot"],
                      "sceneDocuments": [level["sceneDocuments"][0] for level in levels],
                      "sceneDocumentBindings": manifest["bindings"]})
+    if any("thematicScripts" in level for level in levels):
+        artifact["thematicScripts"] = sorted([script for level in levels for script in level.get("thematicScripts", [])],key=lambda script:script["id"])
     return artifact
 
 
@@ -226,6 +228,13 @@ def validate_files(directory: Path, offering: str, base: str, public: Path, *, e
         artifact = json.loads(runtime.read_text(encoding="utf-8"))
     if expected_artifact is not None and artifact != expected_artifact:
         raise ValueError("Split transports do not reconstruct the generated canonical artifact")
+    if artifact.get("thematicScripts"):
+        with tempfile.TemporaryDirectory(prefix="verify-script-pdf-") as temporary:
+            script_runtime = Path(temporary) / "runtime.json"
+            script_runtime.write_text(json.dumps(artifact, ensure_ascii=False), encoding="utf-8")
+            subprocess.run(["node", "--experimental-strip-types", str(ROOT / "scripts/build_script_pdf.mts"),
+                            "--runtime", str(script_runtime), "--out-dir", str(directory / "script-pdf"), "--public-root", str(directory), "--check"],
+                           cwd=ROOT, check=True)
     index = directory / "index.html"
     parser = AssetReferences()
     markup = index.read_text(encoding="utf-8")

@@ -6,8 +6,10 @@ import {
 } from "../../../packages/core/src/canonical-runtime.ts";
 import { validateSceneDocument, type SceneDocument } from "../../../packages/core/src/scene-document.ts";
 import type { RdfDatasetSnapshot } from "../../../packages/core/src/knowledge-network.ts";
+import type {ThematicScript} from '../../../packages/core/src/thematic-script.ts';
 
 export interface CanonicalRuntimeArtifact {
+  readonly thematicScripts?:readonly ThematicScript[];
   readonly artifactVersion: string;
   readonly datasetFingerprint: string;
   readonly datasetSnapshot: RdfDatasetSnapshot;

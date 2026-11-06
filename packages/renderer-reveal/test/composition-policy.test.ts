@@ -1208,6 +1208,19 @@ test("teaching visual and media are adjacent surfaces without hero treatment", (
   ]);
 });
 
+test("a worked table and complete calculation share peer regions with an authored answer", () => {
+  const legend: SceneBlock = {...definitions("symbols"), emphasis: "supporting",
+    source: [{resourceId: "resource:formula", relationPath: "dct:hasPart"}]};
+  const blocks = [prose("question", "introduce"), dataTable("data"), math("formula"), legend, prose("answer")];
+  const scene: Scene = {id: "opaque:calculation", source: [], blocks, readingOrder: blocks.map(b => b.id)};
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "worked-calculation");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["question", "heading"], ["data", "primary"], ["formula", "secondary"], ["symbols", "secondary"], ["answer", "footer"],
+  ]);
+  assert.deepEqual(inferRevealCompositionPlan({...scene, id: "unrelated"}), plan);
+});
+
 test("supporting definition parts stay immediately below their formula with no identity selector", () => {
   const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting",
     source: [{ resourceId: "resource:formula", relationPath: "dct:hasPart" }] };
@@ -1227,6 +1240,17 @@ test("one visual and its complete formula unit share standard surfaces, independ
   assert.equal(plan.profile,"visual-formula");
   assert.deepEqual(plan.placements.map(p=>[p.blockId,p.region]),[["heading","heading"],["visual","primary"],["formula","secondary"],["symbols","secondary"]]);
   assert.deepEqual(inferRevealCompositionPlan({...scene,id:"unrelated"}),plan);
+});
+
+test('one authored question or answer keeps the visual/formula stage and gets a footer',()=>{
+  const legend:SceneBlock={...definitions('symbols'),emphasis:'supporting',source:[{resourceId:'resource:formula',relationPath:'dct:hasPart'}]};
+  const blocks=[prose('heading','introduce'),barChart('visual'),math('formula'),legend,prose('closing-question','explain')];
+  const scene:Scene={id:'opaque:teaching-step',source:[],blocks,readingOrder:blocks.map(b=>b.id)};
+  const plan=inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile,'visual-formula');
+  assert.equal(plan.placements.find(p=>p.blockId==='closing-question')?.region,'footer');
+  assert.equal(plan.placements.find(p=>p.blockId==='visual')?.region,'primary');
+  assert.deepEqual(inferRevealCompositionPlan({...scene,id:'renamed'}),plan);
 });
 
 test("adjacent singleton formula legends remain separate comparison units", () => {
@@ -1261,15 +1285,25 @@ test("a media illustration shares the existing visual-formula surfaces with its 
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), plan);
 });
 
-test("authored infocards and one illustration reuse the standard info-visual columns", () => {
+test("concise infocards and one illustration use a visual-first single column", () => {
   const blocks = [prose("heading", "introduce"), definitions("questions"), mediaReference("diagram")];
   const scene: Scene = { id: "opaque:questions-and-visual", source: [], blocks, readingOrder: blocks.map(b => b.id) };
   const plan = inferRevealCompositionPlan(scene);
-  assert.equal(plan.profile, "info-visual");
+  assert.equal(plan.profile, "visual-cards");
   assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
-    ["heading", "heading"], ["questions", "primary"], ["diagram", "secondary"],
+    ["heading", "heading"], ["diagram", "primary"], ["questions", "main"],
   ]);
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), plan);
+});
+
+test("visual-first cards keep dense explanations and symbol legends in their existing profiles", () => {
+  const cards = definitions("cards");
+  assert.ok(cards.kind === "definition-list");
+  for (const entries of [cards.entries.map(e => ({...e, description: "x".repeat(421)})),
+    cards.entries.map(e => ({...e, symbol: true}))]) {
+    const blocks = [prose("heading", "introduce"), {...cards, entries}, mediaReference("diagram")];
+    assert.equal(inferRevealCompositionPlan({id: "unrelated", source: [], blocks, readingOrder: blocks.map(b => b.id)}).profile, "info-visual");
+  }
 });
 
 test("a visible data question stays with its preceding visual, not inside the symbol legend column", () => {

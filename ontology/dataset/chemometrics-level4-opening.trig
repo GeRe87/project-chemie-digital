@@ -26,7 +26,7 @@
   ex:l4-opening-data-sd-guide a cd:KeyPoint ; cd:position 1 ; cd:body "Bars: mean ± one sample SD, not a confidence interval or the data range."@en ; dct:references ex:sample-sd-formula ; cd:authoredResource true .
 
   ex:l4-gap-chart a cd:ChartDefinition ; cd:chartType cd:ObservationExplorer ; cd:observationView "summary" ;
-    skos:prefLabel "Same summaries, four different empirical shapes"@en ; cd:body "Four constructed sets · 100 observations each · mean 50 and sample SD 10 a.u. (within decimal precision). Vertical stacking only separates points; it is not a second measured variable."@en ;
+    skos:prefLabel "Same summaries, four different empirical shapes"@en ; cd:body "Four deterministic synthetic sets each contain 100 responses with mean 50 and sample SD 10 a.u. (within decimal precision). Uniform, normal-like, right-skewed and two-cluster patterns differ despite these shared summaries. These are not measurements or fitted population models. Vertical stacking only separates points; it is not a second measured variable."@en ;
     cd:xAxisLabel "Value"@en ; cd:xAxisUnit "a.u." ; cd:yAxisLabel "Synthetic set"@en ;
     cd:hasObservationSeries ex:l4-shapes-uniform-series, ex:l4-shapes-normal-series, ex:l4-shapes-skewed-series, ex:l4-shapes-bimodal-series ; cd:comparisonMinimum "20"^^xsd:decimal ; cd:comparisonMaximum "100"^^xsd:decimal ; cd:intervalLower "40"^^xsd:decimal ; cd:intervalUpper "60"^^xsd:decimal ;
     cd:hasComparisonStage ex:l4-shapes-overview ;

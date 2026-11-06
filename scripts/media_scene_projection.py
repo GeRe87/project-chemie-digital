@@ -26,6 +26,7 @@ HAS_MEDIA = URIRef(CD + "hasMedia")
 MEDIA_URI = URIRef(CD + "uri")
 MEDIA_TYPE = URIRef(CD + "mediaType")
 ALTERNATIVE_TEXT = URIRef(CD + "alternativeText")
+DESCRIPTION = URIRef("http://purl.org/dc/terms/description")
 
 
 def compact(value: URIRef | str) -> str:
@@ -118,6 +119,7 @@ def media_payload(dataset: Dataset, media: URIRef) -> dict[str, Any]:
         "uri": uri,
         "mediaType": media_type,
         "alternativeText": alternative,
+        "caption": literal(dataset, media, DESCRIPTION, "en"),
     }
 
 
@@ -227,6 +229,9 @@ def enrich_scene_documents_with_media(
                     }
                     if binding["mediaType"]:
                         media_block["mediaType"] = binding["mediaType"]
+                    if binding["caption"]:
+                        media_block["caption"] = binding["caption"]
+                        media_sources.append(source_reference(dataset, binding["media"], "dct:description"))
                     children.append(media_block)
                     group_sources.extend(media_sources)
 

@@ -1,0 +1,48 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level0-introduction> {
+  ex:l0-thematic-script a cd:ThematicScript ; cd:authoredResource true ;
+    dct:title "From an analytical question to a supported conclusion"@en ;
+    cd:scriptForPath ex:path-chemometrics-introduction ;
+    cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction> ;
+    cd:hasScriptSection ex:l0-script-question, ex:l0-script-evidence, ex:l0-script-route .
+
+  ex:l0-script-question a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ;
+    dct:title "Start with the decision the measurement should support"@en ;
+    cd:relatedScene ex:scene-chemometrics-introduction-title, ex:scene-chemometrics-introduction-definition ;
+    cd:body """A laboratory receives three water samples and measures their nitrate concentrations. The practical question concerns the water: which sample has the higher concentration, and how clearly do the measurements distinguish the samples? Answering that question connects chemical knowledge, sampling, measurement and interpretation.
+
+Chemometrics provides mathematical and statistical tools for this connection. A useful analysis begins by identifying the quantity of interest, the population or material to which the conclusion should apply, and the observations available. A concentration measured repeatedly from one bottle and concentrations collected from several sites answer different questions because they represent different sources of variation.
+
+The analytical question also determines what a useful result looks like. Comparing samples calls for a description of both their typical concentrations and their variation. Establishing a calibration calls for a relationship between known concentrations and measured signals. Planning an experiment calls for observations that distinguish the effects under study. Each task gives the later calculation a concrete purpose."""@en .
+
+  ex:l0-script-evidence a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ;
+    dct:title "Read repeated results as evidence about location and variation"@en ;
+    cd:relatedScene ex:scene-chemometrics-introduction-overview ;
+    dct:references ex:l0-sm-replicates, ex:l0-sm-means ;
+    cd:hasScriptMaterial ex:l0-sm-replicates, ex:l0-sm-means ;
+    cd:body """Repeated measurements make the distinction between a sample and a single reported number visible. The nitrate results in [[ref:ex:l0-sm-replicates]] retain every repeat together with its sample identity and concentration unit. Reading the rows first establishes what was actually observed and which results belong together.
+
+An average then gives each sample a compact location summary. The comparison in [[ref:ex:l0-sm-means]] makes the differences between those summaries easier to see. To judge how clearly the samples are separated, we also examine how the repeated results vary within each sample. A difference between averages becomes informative through its relationship to that variation and to the measurement design.
+
+The scope of a conclusion follows the scope of the observations. Repeats from a prepared sample describe variation at the stages repeated in that procedure. Extending a statement to a lake, production batch or future sampling day calls for a sampling design that represents that target. Recording the preparation, measurement conditions and units keeps the numerical result connected to its chemical meaning."""@en .
+  ex:l0-sm-replicates a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:table-chemometrics-nitrate-replicates ;
+    dct:title "Four nitrate measurements for each of three water samples, with concentrations in the authored measurement unit. Sample identities preserve the grouping of the repeats."@en .
+  ex:l0-sm-means a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:chart-chemometrics-nitrate-means ;
+    dct:title "Mean nitrate concentrations are 2.200 mg/L for upstream water, 4.950 mg/L for tap water and 18.925 mg/L for runoff, each from four observations. The replicate table retains the within-sample variation."@en .
+
+  ex:l0-script-route a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ;
+    dct:title "Build the analysis from description to modelling"@en ;
+    cd:relatedScene ex:scene-chemometrics-introduction-lecturer, ex:scene-chemometrics-introduction-format,
+      ex:scene-chemometrics-introduction-roadmap, ex:scene-chemometrics-introduction-round ;
+    dct:references ex:l0-sm-roadmap ; cd:hasScriptMaterial ex:l0-sm-roadmap ;
+    cd:body """The course develops an analysis by adding tools to the same reasoning process. We first describe variables and observed values. We then summarize location, variation and distribution shape. Probability models connect these descriptions with questions about repeated sampling. Later methods use those foundations to compare groups, explain relationships and design informative experiments.
+
+The roadmap in [[ref:ex:l0-sm-roadmap]] organizes these connections. Its steps are a route through related questions: what was measured, what pattern is present, how much variation is expected, and what conclusion does the evidence support? Earlier descriptions remain useful when a later model introduces additional assumptions.
+
+Worked examples, discussion and executable calculations support complementary forms of learning. An example connects a calculation to a chemical situation. Discussion makes the choice of method and the interpretation explicit. Reproducing a calculation allows the observations and assumptions to be varied deliberately. A productive starting exercise is to name one analytical decision from your own work and list the measurements that would support it."""@en .
+  ex:l0-sm-roadmap a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:diagram-chemometrics-course-roadmap ;
+    dct:title "Course roadmap connecting descriptive summaries, inference and modelling with analytical applications. Each step supplies tools for a different part of the measurement-to-decision process."@en .
+}

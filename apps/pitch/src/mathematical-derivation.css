@@ -8,11 +8,11 @@
 .reveal .slides section[data-composition-profile="formula-deck"] [data-derivation-block-id] {
   font-size: 1em; padding: 0; margin: 0; text-align: left; box-sizing: border-box;
 }
-.mathematical-derivation { display: flex; flex-direction: column; justify-content: space-evenly; gap: .65rem; width: 100%; min-width: 0; min-height: 0; }
-.derivation-work { display: grid; grid-template-columns: minmax(0,1.9fr) minmax(22rem,1.1fr); gap: 1.3rem 1.6rem; align-items: center; flex: 1 0 auto; min-height: min-content; }
+.mathematical-derivation { box-sizing:border-box;display: flex; flex-direction: column; justify-content: flex-start; gap: .65rem; width: 100%; height:100%; min-width: 0; min-height: 0; }
+.derivation-work { display: grid; grid-template-columns: minmax(0,1.9fr) minmax(22rem,1.1fr); gap: .7rem 1.6rem; align-items: center; flex: 1 1 auto; min-height: 0; }
 .derivation-work > .derivation-formula { grid-column: 1; }
 .derivation-formula { font-size: 1.35em; min-width: 0; text-align: center; }
-.derivation-formula .katex-display { margin: .4em 0; }
+.derivation-formula .katex-display { margin: .2em 0; }
 .derivation-operation { grid-column: 2; align-self: center; display: flex; flex-direction: column; gap: .5rem; min-width: 0; max-width: 100%;
   padding: .8rem 1rem; text-align: left; font: inherit; color: var(--pcd-foreground); cursor: pointer;
   border: 2px solid var(--pcd-accent); border-left: .35rem solid var(--pcd-chart-series-3);
@@ -52,6 +52,7 @@
 .pcd-rule-dialog-body .derivation-formula { font-size: 1.05em; overflow-x: auto; }
 @media (max-height: 760px) { .pcd-rule-dialog { font-size: 20px; } }
 @media print {
+  .mathematical-derivation { height:auto; }
   .pcd-rule-dialog,.pcd-rule-dialog::backdrop { display: none !important; }
   .mathematical-derivation [data-presentation-disclosure-mode="progressive"] { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
   .derivation-open-hint { display: none; }

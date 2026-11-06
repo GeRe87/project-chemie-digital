@@ -1,0 +1,121 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level3-variation> {
+ ex:l3-thematic-script a cd:ThematicScript ; cd:authoredResource true ; dct:title "Variation connects repeated measurements with uncertainty"@en ;
+   cd:scriptForPath ex:path-chemometrics-variance-dispersion-lecture ;
+   cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> ;
+   cd:hasScriptSection ex:l3-script-departures, ex:l3-script-estimation, ex:l3-script-correction, ex:l3-script-precision, ex:l3-script-components, ex:l3-script-average .
+
+ ex:l3-script-departures a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ; dct:title "Describe spread through departures from a centre"@en ;
+   cd:relatedScene ex:scene-chemometrics-variance-dispersion-title, ex:scene-vr02, ex:scene-vr03, ex:scene-vr04,
+     ex:scene-vr05, ex:scene-cv-zero, ex:scene-vr07, ex:scene-vr08 ;
+   dct:references ex:l3-sm-values, ex:l3-sm-chart, ex:l3-sm-deviation, ex:l3-sm-zero, ex:l3-sm-squares, ex:l3-sm-msd ;
+   cd:hasScriptMaterial ex:l3-sm-values, ex:l3-sm-chart, ex:l3-sm-deviation, ex:l3-sm-zero, ex:l3-sm-squares, ex:l3-sm-msd ;
+   cd:body """An average describes location, while the individual measurements show how consistently the procedure produces that location. The observations in [[ref:ex:l3-sm-values]] and their plot in [[ref:ex:l3-sm-chart]] establish the finite data set. Each result contributes both to the average and to the observed spread around it.
+
+A deviation subtracts the observed average from an individual value ([[ref:ex:l3-sm-deviation]]). Its sign identifies the side of the centre, and its magnitude gives the distance in the original measurement unit. The signed deviations sum to zero ([[ref:ex:l3-sm-zero]]), an algebraic consequence of centring on the arithmetic mean. Squaring retains information about magnitude when the positive and negative departures balance.
+
+The sum of squared deviations in [[ref:ex:l3-sm-squares]] therefore describes aggregate departure. Dividing it by the number of observations gives the empirical mean squared deviation ([[ref:ex:l3-sm-msd]]), a descriptive summary of this finite data set. Squaring the original measurement unit is part of its meaning. Taking a square root later returns a spread summary to the original scale."""@en .
+ ex:l3-sm-values a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:vr-values ; dct:title "Authored repeated measurement values used to construct deviations and squared deviations."@en .
+ ex:l3-sm-chart a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:vr-chart ; dct:title "Repeated observations and their centre, retaining the observed spread around the mean."@en .
+ ex:l3-sm-deviation a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:vr-dev-formula ; dct:title "Deviation of an observed value from its sample mean, in the original measurement unit."@en .
+ ex:l3-sm-zero a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:md-sum-zero ; dct:title "The signed deviations from the arithmetic mean sum to zero."@en .
+ ex:l3-sm-squares a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:vr-ss-formula ; dct:title "Sum of squared deviations from the observed mean, with squared units."@en .
+ ex:l3-sm-msd a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:vr-msd-formula ; dct:title "Empirical mean squared deviation: squared departures averaged over the observed data."@en .
+
+ ex:l3-script-estimation a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ; dct:title "A finite-data description and a population estimate answer different questions"@en ;
+   cd:relatedScene ex:scene-cv-compare, ex:scene-bf-e-rules, ex:scene-cv-rules, ex:scene-lake,
+     ex:scene-cv-question, ex:scene-vb-mc, ex:scene-vs-mc ;
+   dct:references ex:l3-sm-empirical, ex:l3-sm-population, ex:l3-sm-fixed-e, ex:l3-sm-linear-e, ex:l3-sm-fixed-v, ex:l3-sm-joint-v,
+     ex:l3-sm-random-msd, ex:l3-sm-estimation-question, ex:l3-sm-mc ;
+   cd:hasScriptMaterial ex:l3-sm-empirical, ex:l3-sm-population, ex:l3-sm-fixed-e, ex:l3-sm-linear-e, ex:l3-sm-fixed-v, ex:l3-sm-joint-v,
+     ex:l3-sm-random-msd, ex:l3-sm-estimation-question, ex:l3-sm-mc ;
+   cd:body """Describing the recorded values and estimating variation in a generating population require different reference objects. The empirical quantity in [[ref:ex:l3-sm-empirical]] summarizes the fixed observations. The population quantity in [[ref:ex:l3-sm-population]] describes variation under the probability model. To study an estimator, we imagine repeatedly drawing new samples from that model and recalculating the statistic each time.
+
+Expectation rules express the average behaviour over those repeated samples. Fixed-factor and linearity rules appear in [[ref:ex:l3-sm-fixed-e]] and [[ref:ex:l3-sm-linear-e]]. Variance rules additionally account for dependence: [[ref:ex:l3-sm-fixed-v]] handles fixed transformations, and [[ref:ex:l3-sm-joint-v]] retains covariance contributions. Independence is a sufficient condition for the relevant covariance terms to vanish; the assumptions must match the sampling design.
+
+The random-sample expression in [[ref:ex:l3-sm-random-msd]] makes the empirical calculation into an estimator. Its target question is stated in [[ref:ex:l3-sm-estimation-question]]. The repeated-sampling simulation in [[ref:ex:l3-sm-mc]] illustrates how the resulting estimates vary. Averaging estimates over many simulated samples investigates the estimator's expectation under the chosen model; the spread of those estimates describes a second, sampling-level source of variation."""@en .
+ ex:l3-sm-empirical a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:cv-empirical-msd ; dct:title "Empirical squared-deviation summary of a fixed observed sample."@en .
+ ex:l3-sm-population a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:cv-population-summary ; dct:title "Population variance as an expectation under the specified probability model."@en .
+ ex:l3-sm-fixed-e a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:se-expectation-fixed ; dct:title "Expectation rule for fixed terms, with the full authored conventions."@en .
+ ex:l3-sm-linear-e a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:se-expectation-linearity ; dct:title "Linearity of expectation for the authored random quantities."@en .
+ ex:l3-sm-fixed-v a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:se-variance-fixed ; dct:title "Variance under fixed shifts and scaling."@en .
+ ex:l3-sm-joint-v a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:se-variance-joint ; dct:title "Variance of combined random quantities, including covariance and its conditions."@en .
+ ex:l3-sm-random-msd a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:cv-random-msd ; dct:title "Mean squared deviation calculated from a random sample and its random sample mean."@en .
+ ex:l3-sm-estimation-question a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:cv-question-equation ; dct:title "Expectation question connecting the random squared-deviation summary with population variance."@en .
+ ex:l3-sm-mc a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:vv-mc-chart ; dct:title "Repeated-sampling simulation of the variance calculation under the authored model and parameters."@en .
+
+ ex:l3-script-correction a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ; dct:title "Estimating the centre changes the variance estimator's expectation"@en ;
+   cd:relatedScene ex:scene-cv-algebra, ex:scene-cv-expect, ex:scene-cv-helper, ex:scene-cv-bias,
+     ex:scene-cv-correction, ex:scene-cv-practical, ex:scene-vm-recap ;
+   dct:references ex:l3-sm-algebra, ex:l3-sm-expectation, ex:l3-sm-mean-variance, ex:l3-sm-bias, ex:l3-sm-correction, ex:l3-sm-practical, ex:l3-sm-corrected ;
+   cd:hasScriptMaterial ex:l3-sm-algebra, ex:l3-sm-expectation, ex:l3-sm-mean-variance, ex:l3-sm-bias, ex:l3-sm-correction, ex:l3-sm-practical, ex:l3-sm-corrected ;
+   cd:body """The sample mean is calculated from the same observations whose departures are being squared. This shared origin matters: a fitted centre follows the sample and reduces its aggregate squared departure relative to using the population centre. The algebra in [[ref:ex:l3-sm-algebra]] separates those contributions before any expectation is taken.
+
+Applying the stated sampling assumptions gives the expectation calculation in [[ref:ex:l3-sm-expectation]]. The variance of the sample mean ([[ref:ex:l3-sm-mean-variance]]) supplies the term that accounts for estimating the centre. For independent observations with a common finite variance, dividing the squared-deviation sum by the sample size yields an expectation reduced by the factor shown in [[ref:ex:l3-sm-bias]]. This identifies the estimator's average relationship to its target.
+
+Bessel's correction compensates for that factor ([[ref:ex:l3-sm-correction]]). For at least two observations under the stated common-variance, uncorrelated sampling conditions, the practical formula in [[ref:ex:l3-sm-practical]] is unbiased for population variance. The simulation in [[ref:ex:l3-sm-corrected]] compares this expectation behaviour across repeated samples. Unbiasedness describes an average over sampling; a particular sample still supplies an estimate with its own sampling variation."""@en .
+ ex:l3-sm-algebra a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:cv-main-algebra-section ; dct:title "Stepwise squared-deviation decomposition, retaining the authored operations, explanations and symbol legend."@en .
+ ex:l3-sm-expectation a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:cv-expectation-section ; dct:title "Expectation of the decomposition under the authored sampling assumptions."@en .
+ ex:l3-sm-mean-variance a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:cv-mean-result ; dct:title "Variance of the sample mean under the stated common-variance sampling model."@en .
+ ex:l3-sm-bias a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:bf-section6 ; dct:title "Expectation factor for the squared-deviation estimator divided by sample size."@en .
+ ex:l3-sm-correction a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:cv-correction-section ; dct:title "Bessel correction derived from the estimator's expectation factor."@en .
+ ex:l3-sm-practical a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:bf-practical ; dct:title "Practical sample-variance estimator with denominator sample size minus one and complete authored notation."@en .
+ ex:l3-sm-corrected a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:uq-corrected-chart ; dct:title "Repeated-sampling behaviour of the corrected variance estimator under the authored simulation conditions."@en .
+
+ ex:l3-script-precision a cd:ScriptSection ; cd:authoredResource true ; cd:position 4 ; dct:title "Standard deviation describes precision on the measurement scale"@en ;
+   cd:relatedScene ex:scene-vr19, ex:scene-vr21, ex:scene-vr22, ex:scene-vr23, ex:scene-vr24,
+     ex:scene-vr25, ex:scene-vr26, ex:scene-vr27, ex:scene-vb-quality, ex:scene-vr29 ;
+   dct:references ex:l3-sm-sd, ex:l3-sm-read-sd, ex:l3-sm-summary, ex:l3-sm-r-var, ex:l3-sm-r-sd, ex:l3-sm-qc, ex:l3-sm-targets, ex:l3-sm-shift ;
+   cd:hasScriptMaterial ex:l3-sm-sd, ex:l3-sm-read-sd, ex:l3-sm-summary, ex:l3-sm-r-var, ex:l3-sm-r-sd, ex:l3-sm-qc, ex:l3-sm-targets, ex:l3-sm-shift ;
+   cd:body """Taking the square root of sample variance gives the sample standard deviation ([[ref:ex:l3-sm-sd]]). Its unit matches the original observations, so the interpretation in [[ref:ex:l3-sm-read-sd]] can be expressed directly on the measurement scale. The summary table in [[ref:ex:l3-sm-summary]] keeps variance and standard deviation connected while distinguishing their units.
+
+The optional sources in [[ref:ex:l3-sm-r-var]] and [[ref:ex:l3-sm-r-sd]] reproduce the calculations. For quality-control repeats, the observations in [[ref:ex:l3-sm-qc]] describe precision under the repeated conditions. The target illustration in [[ref:ex:l3-sm-targets]] contrasts narrower and wider scatter around a deliberately chosen reference centre. Assessing trueness additionally requires evidence connecting the method's expectation with an appropriate reference value.
+
+The shifted-data comparison in [[ref:ex:l3-sm-shift]] clarifies that location and spread are complementary. A common shift changes the mean while preserving distances between observations and their centre. Consequently, a precision statement identifies the measurement conditions and the variation it summarizes; a broader quality statement also addresses calibration, reference values and possible systematic effects."""@en .
+ ex:l3-sm-sd a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:uq-sd-section ; dct:title "Sample standard deviation as the square root of sample variance, in the original measurement unit."@en .
+ ex:l3-sm-read-sd a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:vr-read-sd ; dct:title "Authored interpretation of standard deviation on the observed measurement scale."@en .
+ ex:l3-sm-summary a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:vr-summary ; dct:title "Location and dispersion summaries with their respective units."@en .
+ ex:l3-sm-r-var a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:vr24-code ; dct:title "Optional R reproduction of the variance calculation."@en .
+ ex:l3-sm-r-sd a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:vr25-code ; dct:title "Optional R reproduction of the standard-deviation calculation."@en .
+ ex:l3-sm-qc a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:vb-qc-table ; dct:title "Five quality-control repeats per method, with their means and sample standard deviations in mg/L."@en .
+ ex:l3-sm-targets a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:uq-target-media ; dct:title "Illustrative target patterns centred by construction: crosses have smaller spread and open circles have larger spread. The coordinates are schematic."@en .
+ ex:l3-sm-shift a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:vb-shift-chart ; dct:title "A common shift changes the location of the authored observations while retaining their spread."@en .
+
+ ex:l3-script-components a cd:ScriptSection ; cd:authoredResource true ; cd:position 5 ; dct:title "Match the spread estimate to the repeated stage of the procedure"@en ;
+   cd:relatedScene ex:scene-vr30, ex:scene-vr31, ex:scene-uq-components, ex:scene-uq-component-sd,
+     ex:scene-uq-matrix, ex:scene-vr32, ex:scene-vr33, ex:scene-vr34 ;
+   dct:references ex:l3-sm-process, ex:l3-sm-components, ex:l3-sm-component-sd, ex:l3-sm-design, ex:l3-sm-sites, ex:l3-sm-rsd, ex:l3-sm-rsd-table ;
+   cd:hasScriptMaterial ex:l3-sm-process, ex:l3-sm-components, ex:l3-sm-component-sd, ex:l3-sm-design, ex:l3-sm-sites, ex:l3-sm-rsd, ex:l3-sm-rsd-table ;
+   cd:body """A measurement result can vary because of several stages: collection, preparation and instrument reading. The process diagram in [[ref:ex:l3-sm-process]] identifies the authored stages. Repeating a reading of one preparation represents a different experiment from preparing new portions or returning to new sampling sites.
+
+The component model in [[ref:ex:l3-sm-components]] describes how the relevant variance contributions combine under its stated assumptions. Converting the combined variance to standard deviation gives [[ref:ex:l3-sm-component-sd]]. Variances add for the specified uncorrelated components; standard deviations combine through the corresponding square-root calculation. A design with dependence requires its covariance structure to be included.
+
+The replication matrix in [[ref:ex:l3-sm-design]] connects repeated stages with the variation they can reveal. The site comparison in [[ref:ex:l3-sm-sites]] adds the spatial context. Relative standard deviation ([[ref:ex:l3-sm-rsd]]) expresses spread relative to the mean; the authored comparison in [[ref:ex:l3-sm-rsd-table]] retains both absolute and relative information. A useful relative comparison requires a meaningful ratio scale and a reference mean sufficiently separated from zero."""@en .
+ ex:l3-sm-process a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:v39-flow ; dct:title "Measurement-process stages used to identify the scope of replication and variation components."@en .
+ ex:l3-sm-components a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:uq-components-section1 ; dct:title "Variance-component combination with the complete authored assumptions and notation."@en .
+ ex:l3-sm-component-sd a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:uq-components-section2 ; dct:title "Standard deviation corresponding to the combined component variance."@en .
+ ex:l3-sm-design a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:uq-matrix ; dct:title "Replication design matrix connecting repeated procedural stages with the variation represented."@en .
+ ex:l3-sm-sites a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:v40-chart ; dct:title "Site-level measurement comparison under the authored sampling and replication design."@en .
+ ex:l3-sm-rsd a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:vr-rsd-formula ; dct:title "Relative standard deviation, including the ratio-scale and denominator conventions."@en .
+ ex:l3-sm-rsd-table a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:uq-rsd-table ; dct:title "Absolute and relative spread summaries for the authored comparison data."@en .
+
+ ex:l3-script-average a cd:ScriptSection ; cd:authoredResource true ; cd:position 6 ; dct:title "Independent repetition improves the precision of an average"@en ;
+   cd:relatedScene ex:scene-vr35, ex:scene-vr36, ex:scene-vr37, ex:scene-se-return, ex:scene-se-sem,
+     ex:scene-se-rate, ex:scene-se-example, ex:scene-vr39 ;
+   dct:references ex:l3-sm-sem-known, ex:l3-sm-sem-estimated, ex:l3-sm-rate, ex:l3-sm-example, ex:l3-sm-replication, ex:l3-sm-replication-code ;
+   cd:hasScriptMaterial ex:l3-sm-sem-known, ex:l3-sm-sem-estimated, ex:l3-sm-rate, ex:l3-sm-example, ex:l3-sm-replication, ex:l3-sm-replication-code ;
+   cd:body """The standard deviation of individual results and the standard deviation of their average refer to different random quantities. Under independent sampling with a common finite variance, the sample-mean variance derived earlier gives the population standard error in [[ref:ex:l3-sm-sem-known]]. Replacing the population standard deviation by its sample estimate gives [[ref:ex:l3-sm-sem-estimated]].
+
+The square-root rate in [[ref:ex:l3-sm-rate]] explains why improving mean precision through repetition has diminishing returns: reducing the standard error by a given factor requires increasing the independent sample size by that factor squared. The worked example in [[ref:ex:l3-sm-example]] keeps the authored units and sample size visible. The individual-result spread remains a property of the measurement conditions while the average becomes more stable.
+
+The replication comparison in [[ref:ex:l3-sm-replication]] and optional source in [[ref:ex:l3-sm-replication-code]] connect this rate with design choices. Shared preparation effects or correlated readings change the effective information gained by repetition. Reporting an uncertainty for an average therefore identifies the repeated unit and its dependence assumptions. The next descriptive step examines distribution shape, because equal centres and spreads can still accompany different patterns of observations."""@en .
+ ex:l3-sm-sem-known a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:ui-sem-population ; dct:title "Population standard error of an average under the stated independent common-variance sampling model."@en .
+ ex:l3-sm-sem-estimated a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:ui-sem-estimated ; dct:title "Estimated standard error using the sample standard deviation."@en .
+ ex:l3-sm-rate a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:se-rate-formula ; dct:title "Square-root sample-size relationship for mean precision under the authored assumptions."@en .
+ ex:l3-sm-example a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:ui-example-formula ; dct:title "Worked standard-error calculation with the authored sample size and measurement units."@en .
+ ex:l3-sm-replication a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:v29-chart ; dct:title "Authored replication comparison illustrating the information gained by the specified repeated measurements."@en .
+ ex:l3-sm-replication-code a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:vr37-code ; dct:title "Optional R reproduction of the replication comparison."@en .
+}

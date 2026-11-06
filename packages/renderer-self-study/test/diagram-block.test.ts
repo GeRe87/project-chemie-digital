@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import type { SceneDocument } from "../../core/src/scene-document.ts";
-import { createSelfStudyRenderPlan, renderSelfStudyHtml } from "../src/index.ts";
+import { createSelfStudyRenderPlan, renderSelfStudyHtml, renderSelfStudyBlocks } from "../src/index.ts";
 
 const document: SceneDocument = {
   version: "1.1",
@@ -104,6 +104,24 @@ test("legacy SceneDocument 1.0 remains self-study compatible", () => {
   const result = createSelfStudyRenderPlan(legacy);
   assert.deepEqual(result.diagnostics, []);
   assert.equal(result.plan?.sections[0]?.nodes[0]?.kind, "prose");
+});
+
+test("graphical Script diagrams keep connections in one optional complete text alternative",()=>{
+  const diagram=document.scenes[0]!.blocks[0]!;
+  if(diagram.kind!=='diagram')throw new Error('Expected diagram');
+  const source=diagram.source;
+  const block={...diagram,nodes:diagram.nodes.map((node,index)=>index?node:{...node,notation:'cᵢ',parts:[{id:'part:preparation',label:'Preparation',description:'A recorded sample preparation',source}]})};
+  const html=renderSelfStudyBlocks([block],{captioned:true,graphical:true});
+  assert.match(html,/class="self-study-diagram-host" data-diagram-block-id="block:flow"/);
+  assert.match(html,/<details class="self-study-diagram-text-alternative" open><summary>Diagram as text<\/summary>[\s\S]*data-diagram-edge-id="edge:data"[\s\S]*<\/details>/);
+  assert.match(html,/cᵢ/);
+  assert.match(html,/data-diagram-part-id="part:preparation"/);
+  assert.match(html,/A recorded sample preparation/);
+  assert.doesNotMatch(html,/<\/details>[\s\S]*self-study-diagram-edges/);
+  assert.doesNotMatch(html,/<figcaption>/,'The authored Script occurrence supplies the caption');
+  const fallback=renderSelfStudyBlocks([block]);
+  assert.doesNotMatch(fallback,/self-study-diagram-host/);
+  assert.match(fallback,/Measurement: produces data for → Data processing/);
 });
 
 test("self-study 1.2 exposes authored shared-edge states in its fallback HTML", () => {

@@ -89,7 +89,7 @@ function blockFootprint(block: SceneBlock): RevealBlockFootprint {
       };
     }
     case "media-reference": {
-      const text = textUnits(block.alternativeText);
+      const text = textUnits(block.alternativeText)+textUnits(block.caption??'');
       return {
         blockId: block.id,
         score: 3.5 + text * 0.35,

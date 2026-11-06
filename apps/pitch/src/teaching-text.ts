@@ -1,3 +1,5 @@
+import {renderInlineText} from '../../../packages/renderer-shared/src/inline-math.ts';
+
 export function escapeTeachingText(text: string): string {
   return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 }
@@ -14,8 +16,15 @@ export function symbolLegendMarkup(text:string):string {
 }
 
 export function teachingInlineMarkup(text: string, symbols=false): string {
-  return (symbols?symbolLegendMarkup(text):escapeTeachingText(text)).replace(/\*\*([^*]+)\*\*/gu, "<strong>$1</strong>")
+  const prose=(value:string)=>(symbols?symbolLegendMarkup(value):escapeTeachingText(value)).replace(/\*\*([^*]+)\*\*/gu, "<strong>$1</strong>")
     .replace(/==([^=]+)==/gu, '<span class="pcd-marker-highlight pcd-marker-highlight--cyan">$1</span>');
+  // Explicit math/code tokens bypass prose emphasis and colour heuristics.
+  let result='',end=0;
+  for(const match of text.matchAll(/`[^`\n]+`|\$[^$\n]+\$|\\\([\s\S]*?\\\)/gu)){
+    result+=prose(text.slice(end,match.index))+renderInlineText(match[0]);
+    end=match.index!+match[0].length;
+  }
+  return result+prose(text.slice(end));
 }
 
 /** A deliberately small safe Markdown subset. List purpose uses explicit [!] / [?] markers. */

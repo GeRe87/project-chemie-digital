@@ -42,7 +42,7 @@ function chartBlocks(documents: readonly SceneDocument[]): Map<string, ChartBloc
 export function mountPitchCharts(
   hosts: readonly PitchChartHost[],
   documents: readonly SceneDocument[],
-  options: D3ChartOptions,
+  options: D3ChartOptions & { readonly readingView?: boolean },
   mount: PitchChartMount = mountD3Chart,
 ): () => void {
   const blocks = chartBlocks(documents);
@@ -68,7 +68,8 @@ export function mountPitchCharts(
       const density = host.getAttribute("data-composition-density");
       const result = mount(
         host,
-        block,
+        options.readingView && (block.chartType === "bar" || block.chartType === "line")
+          ? { ...block, presentation: "complete" } : block,
         density === "comfortable" || density === "dense" || density === "compact"
           ? { ...options, density }
           : options,

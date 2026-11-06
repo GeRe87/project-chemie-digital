@@ -70,6 +70,8 @@ export type RevealLearningProfile =
   | "prompt-code"
   | "info-code"
   | "info-visual"
+  | "visual-cards"
+  | "worked-calculation"
   | "formula-visual"
   | "single-prompt"
   | "prompt-grid"
@@ -735,6 +737,17 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     placements.push(placement(body[0], "main", 0), placement(body[1], "footer", 0));
     return { kind: "learning-stage", profile: "definition-deck", mainCount: 1, placements };
   }
+  // A single illustration and 2–3 concise explanation cards read as one
+  // full-width visual followed by interpretation, not two narrow columns.
+  // Keep dense text and symbol legends on their existing bounded profiles.
+  const explanationCards = body.find(block => block.kind === "definition-list");
+  const illustration = body.find(block => block.kind === "media-reference" && block.mediaType.startsWith("image/"));
+  if (body.length === 2 && explanationCards?.kind === "definition-list" && illustration
+      && explanationCards.entries.length >= 2 && explanationCards.entries.length <= 3
+      && explanationCards.entries.every(entry => !entry.symbol && (entry.term.length + (entry.description?.length ?? 0)) <= 420)) {
+    return { kind: "learning-stage", profile: "visual-cards", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(illustration, "primary", 0), placement(explanationCards, "main", 0)] };
+  }
   if (body.length === 2 && ((body[0]?.kind === "list" && body[1]?.kind === "media-reference")
       || (body[0]?.kind === "definition-list" && (body[1]?.kind === "media-reference" || body[1]?.kind === "chart")))) {
     const placements = placementsWithHeading(heading);
@@ -750,6 +763,19 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       placements: [...placementsWithHeading(heading), placement(body[0], "primary", 0), placement(body[1], "secondary", 0)] };
   }
   const formulaUnits = resolveFormulaLegendUnits(scene);
+  // Data, one complete calculation and an optional authored interpretation
+  // share top-aligned peer surfaces. Preserve formula/legend ownership.
+  if (formulaUnits.length === 1) {
+    const unitIds = new Set(formulaUnits[0]!.map(block => block.id));
+    const others = body.filter(block => !unitIds.has(block.id));
+    const table = others.find(block => block.kind === "table");
+    const conclusions = others.filter(block => block.kind === "prose" && body.indexOf(block) > body.findIndex(b => unitIds.has(b.id)));
+    if (table && conclusions.length <= 1 && others.length === 1 + conclusions.length) {
+      return {kind: "learning-stage", profile: "worked-calculation", mainCount: 2,
+        placements: [...placementsWithHeading(heading), ...body.map((block, index) =>
+          placement(block, block === table ? "primary" : unitIds.has(block.id) ? "secondary" : "footer", index))]};
+    }
+  }
   // A visual and one complete formula/legend unit share two teaching surfaces.
   // Do not demote an interactive visual into the formula deck's short prelude.
   if(formulaUnits.length===1){
@@ -757,9 +783,11 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
     const other=body.filter(block=>!unitIds.has(block.id));
     const visuals=other.filter(block=>block.kind==="diagram"||block.kind==="chart"||block.kind==="media-reference");
     const contexts=other.filter(block=>block.kind==="definition-list"&&block.entries.length===1&&block.emphasis!=="supporting");
-    if(visuals.length===1&&other.length===visuals.length+contexts.length&&contexts.length<=1){
+    const lastFormula=Math.max(...body.map((block,index)=>unitIds.has(block.id)?index:-1));
+    const conclusions=other.filter(block=>block.kind==="prose"&&body.indexOf(block)>lastFormula);
+    if(visuals.length===1&&other.length===visuals.length+contexts.length+conclusions.length&&contexts.length<=1&&conclusions.length<=1){
       return {kind:"learning-stage",profile:"visual-formula",mainCount:2,placements:[...placementsWithHeading(heading),
-        ...body.map((block,index)=>placement(block,unitIds.has(block.id)?"secondary":"primary",index))]};
+        ...body.map((block,index)=>placement(block,conclusions.includes(block)?"footer":unitIds.has(block.id)?"secondary":"primary",index))]};
     }
   }
   // A single unaccompanied formula is a visual explanation alongside prose.

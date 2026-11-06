@@ -507,7 +507,11 @@ if (connectedInteractive) {
 }
 
 const unmountCodeOutputZoom=mountCodeOutputZoom(root);
-const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0]);
+const thematicScripts=new Map((artifact.thematicScripts??[]).map(script=>{
+  const binding=artifact.sceneDocumentBindings!.find(b=>b.pathId===script.pathId&&b.pathGraphId===script.pathGraphId)!;
+  return [binding.sceneDocumentId,script] as const;
+}));
+const unmountScriptView=mountScriptView(root,presentation,document.querySelector<HTMLElement>(".pcd-screen-controls")!,documents,deck,lectureTitles[0],thematicScripts);
 const unmountSlidesPdfLink=mountSlidesPdfLink(document.querySelector<HTMLElement>(".pcd-screen-controls")!);
 
 const refreshInteractiveRuntime = (): void => {

@@ -262,6 +262,10 @@ function appendBlock(
       fallback.textContent = block.alternativeText;
       figure.appendChild(fallback);
     }
+    if(block.caption){
+      const caption=dom.createElement('figcaption');caption.className='media-caption';
+      caption.textContent=block.caption;figure.appendChild(caption);
+    }
     parent.appendChild(figure);
     return;
   }
@@ -298,11 +302,17 @@ function appendBlock(
       const term = dom.createElement("dt");
       term.className = "definition-list-term";
       term.setAttribute("data-card-number", String(index + 1).padStart(2, "0"));
+      const title = dom.createElement("span");
+      title.className = "definition-list-title";
       const symbolDefinitions=entry.symbol?renderSymbolDefinitions(entry.explanation??entry.description??""):undefined;
-      if(symbolDefinitions)term.textContent=entry.term;
-      else if (entry.symbol) term.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
-      else if (/^[^\s]+(?:[, ]+(?:and )?[^\s]+)*$/u.test(entry.term)&&/[₀-₉ₐ-ₜᵢ-ᵥⱼΣ√\p{M}]|^[a-zA-Z]$/u.test(entry.term))term.innerHTML=symbolLegendMarkup(entry.term);
-      else term.textContent = entry.term;
+      if(symbolDefinitions)title.textContent=entry.term;
+      else if (entry.symbol) title.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
+      else if (/^[^\s]+(?:[, ]+(?:and )?[^\s]+)*$/u.test(entry.term)&&/[₀-₉ₐ-ₜᵢ-ᵥⱼΣ√\p{M}]|^[a-zA-Z]$/u.test(entry.term))title.innerHTML=symbolLegendMarkup(entry.term);
+      else if (/\$|\\\(/u.test(entry.term)) title.innerHTML = teachingInlineMarkup(entry.term);
+      else title.textContent = entry.term;
+      // Rich inline mathematics can have several text/span siblings. The header
+      // grid needs one title item beside its generated number, not one per token.
+      term.appendChild(title);
       term.setAttribute("data-definition-entry-id", entry.id);
       sourceAttributes(term, entry.source);
       entryShell.appendChild(term);
@@ -375,7 +385,8 @@ function appendBlock(
       list.appendChild(entryShell);
     });
     if (!definitionCollection) {
-      if (block.entries.length && block.entries.every(entry => entry.symbol)) {
+      if (block.entries.length && (block.entries.every(entry => entry.symbol)
+        || block.source.some(ref => ref.relationPath === "cd:latex") && block.source.some(ref => ref.relationPath === "dct:hasPart"))) {
         const disclosure = dom.createElement("details");
         disclosure.className = "symbol-legend-disclosure";
         disclosure.setAttribute("data-presentation-interactive", "true");
@@ -593,7 +604,8 @@ function appendBlock(
   const node = dom.createElement(tag);
   blockPresentationAttributes(node, block, compositionDensity, compositionPlacement);
   if (tag === "h2") node.setAttribute("id", headingId);
-  if (tag !== "h2" && block.format === "markdown") node.innerHTML = teachingTextMarkup(block.text);
+  if (tag === "h2" && /\$|\\\(/u.test(block.text)) node.innerHTML = teachingInlineMarkup(block.text);
+  else if (tag !== "h2" && block.format === "markdown") node.innerHTML = teachingTextMarkup(block.text);
   else node.textContent = block.text;
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
   sourceAttributes(node, block.source);
@@ -695,7 +707,13 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       return cell;
     };
 
-    for (const blockId of scene.readingOrder) {
+    // Match DOM/keyboard reading order to the visual-first composition. The
+    // canonical scene and its independent script reading order stay untouched.
+    const displayOrder = composition.profile === "visual-cards"
+      ? [...composition.placements.map(placement => placement.blockId),
+        ...scene.readingOrder.filter(id => !compositionByBlockId.has(id))]
+      : scene.readingOrder;
+    for (const blockId of displayOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       if (block.disclosure?.mode === "optional") {
@@ -808,7 +826,13 @@ export function installNoNetworkGuard(
     let rawUrl = "";
     try { rawUrl = typeof input === "string" ? new URL(input, baseHref).href : input instanceof URL ? input.href : ""; } catch { /* Denied below. */ }
     const isAuthoredSvgRead = svgUrls.has(rawUrl) && (!init?.method || init.method === "GET");
-    if (originalFetch && baseHref && (isAllowedLocalRuntimeRequest(input, baseHref) || isAuthoredSvgRead)) {
+    let isScriptPdfRead=false;
+    try{
+      const url=new URL(rawUrl),base=new URL(baseHref),prefix=new URL('script-pdf/',base).pathname;
+      isScriptPdfRead=url.origin===base.origin&&!url.search&&!url.hash&&url.pathname.startsWith(prefix)
+        &&/^(?:manifest\.json|[a-f0-9]{64}\.pdf)$/u.test(url.pathname.slice(prefix.length))&&(!init?.method||init.method==='GET');
+    }catch{/* Not a generated local PDF read. */}
+    if (originalFetch && baseHref && (isAllowedLocalRuntimeRequest(input, baseHref) || isAuthoredSvgRead || isScriptPdfRead)) {
       return originalFetch(input, init);
     }
     return deny();

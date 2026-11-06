@@ -1,0 +1,135 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level2-location> {
+ ex:l2-thematic-script a cd:ThematicScript ; cd:authoredResource true ; dct:title "Choose a location summary from the process being measured"@en ;
+   cd:scriptForPath ex:path-chemometrics-mean-values-lecture ;
+   cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture> ;
+   cd:hasScriptSection ex:l2-script-expectation, ex:l2-script-addition, ex:l2-script-growth, ex:l2-script-rates, ex:l2-script-order .
+
+ ex:l2-script-expectation a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ; dct:title "Distinguish a model expectation from an observed average"@en ;
+   cd:relatedScene ex:scene-chemometrics-mean-values-title, ex:scene-chemometrics-mean-values-purpose,
+     ex:scene-chemometrics-mean-values-dice-flow, ex:scene-chemometrics-mean-values-dice-warmup,
+     ex:scene-chemometrics-mean-values-dice-sums, ex:scene-chemometrics-mean-values-expected-value,
+     ex:scene-chemometrics-mean-values-dice-expectation, ex:scene-chemometrics-mean-values-real-world,
+     ex:scene-chemometrics-mean-values-lln-practice ;
+   dct:references ex:l2-sm-dice-flow, ex:l2-sm-expectation, ex:l2-sm-one-die, ex:l2-sm-five-dice, ex:l2-sm-warmup, ex:l2-sm-lln, ex:l2-sm-dice-sketch ;
+   cd:hasScriptMaterial ex:l2-sm-dice-flow, ex:l2-sm-expectation, ex:l2-sm-one-die, ex:l2-sm-five-dice, ex:l2-sm-warmup, ex:l2-sm-lln, ex:l2-sm-dice-sketch ;
+   cd:body """An average is meaningful through the experiment it summarizes. Rolling five dice produces five face values and their sum; repeating the experiment produces a sequence of sums. The process in [[ref:ex:l2-sm-dice-flow]] and sketch in [[ref:ex:l2-sm-dice-sketch]] keep these levels separate. The optional source in [[ref:ex:l2-sm-warmup]] makes the individual simulation steps reproducible.
+
+A model expectation combines possible outcomes with their probabilities ([[ref:ex:l2-sm-expectation]]). For one fair die the expected face value is 3.5 ([[ref:ex:l2-sm-one-die]]). Adding the expectations of five dice gives an expected sum of 17.5 ([[ref:ex:l2-sm-five-dice]]). These values describe the probability model. An observed average summarizes the particular outcomes that were obtained.
+
+Repeating an independent experiment more often improves the stability of its average under the assumptions of the law of large numbers. The optional calculation in [[ref:ex:l2-sm-lln]] compares averages based on different numbers of five-dice experiments. Individual sums continue to vary; increasing the number of experiments supplies more information about their common expectation. This distinction becomes essential when we later separate variation of individual measurements from variation of their average."""@en .
+ ex:l2-sm-dice-flow a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:mean-five-dice-flow ; dct:title "Five dice produce one experiment sum; repetition produces a collection of sums to summarize."@en .
+ ex:l2-sm-expectation a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:discrete-expected-value-formula ; dct:title "Discrete expectation as a probability-weighted sum, including all symbol and probability conventions."@en .
+ ex:l2-sm-one-die a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:mean-one-die-formula ; dct:title "Fair-die expectation: the six equally probable faces give 3.5."@en .
+ ex:l2-sm-five-dice a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:mean-five-dice-formula ; dct:title "Expected sum of five fair dice: five times 3.5 gives 17.5."@en .
+ ex:l2-sm-warmup a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:mean-dice-warmup-r ; dct:title "Optional R source for the five-dice warm-up experiment."@en .
+ ex:l2-sm-lln a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:mean-lln-practice-r ; dct:title "Optional fixed-seed R comparison of averages from 5, 50 and 50,000 repeated five-dice experiments."@en .
+ ex:l2-sm-dice-sketch a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:mean-five-dice-sketch ; dct:title "Five dice contribute one face value each to one experiment sum; complete throws are the repeated units."@en .
+
+ ex:l2-script-addition a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ; dct:title "The arithmetic mean preserves an additive total"@en ;
+   cd:relatedScene ex:scene-chemometrics-mean-values-arithmetic-mean, ex:scene-chemometrics-mean-values-arithmetic-calculation,
+     ex:scene-chemometrics-mean-values-dice-practice, ex:scene-chemometrics-mean-values-water,
+     ex:scene-chemometrics-mean-values-discussion-additive ;
+   dct:references ex:l2-sm-arithmetic, ex:l2-sm-dice-average, ex:l2-sm-dice-practice, ex:l2-sm-water, ex:l2-sm-water-code, ex:l2-sm-replicates, ex:l2-sm-sensors, ex:l2-sm-loads ;
+   cd:hasScriptMaterial ex:l2-sm-arithmetic, ex:l2-sm-dice-average, ex:l2-sm-dice-practice, ex:l2-sm-water, ex:l2-sm-water-code, ex:l2-sm-replicates, ex:l2-sm-sensors, ex:l2-sm-loads ;
+   cd:body """For equally weighted observations of an additive quantity, the arithmetic mean divides the observed total equally among the observations. Its definition in [[ref:ex:l2-sm-arithmetic]] expresses that conservation of the total. The worked dice calculation in [[ref:ex:l2-sm-dice-average]] connects the general rule with a finite observed set; [[ref:ex:l2-sm-dice-practice]] supplies the optional executable example.
+
+The water measurements in [[ref:ex:l2-sm-water]] transfer this reasoning to analytical concentrations. Each recorded value retains its unit and observation identity. If the observations have the same scientific role and equal weights, their arithmetic mean summarizes their concentration level. Pooling physical samples with different volumes instead calls for weights that represent those volumes, because the chemical total being conserved is analyte amount.
+
+The optional calculation in [[ref:ex:l2-sm-water-code]] reproduces the authored water example. Before using its result, state what the observations represent and why equal weighting is appropriate. The same numerical operation can summarize repeated readings, independent sample preparations or distinct water collections, but each design gives the resulting mean a different scope.
+
+The replicate measurements in [[ref:ex:l2-sm-replicates]] and sensor readings in [[ref:ex:l2-sm-sensors]] invite this design check. Combining sensor outputs requires comparable calibration; an uncertainty calculation additionally accounts for shared and independent errors. The simultaneous loads in [[ref:ex:l2-sm-loads]] instead contribute separate amounts to one total. Their sum describes the combined phosphorus input, while their arithmetic mean describes the average input per stream."""@en .
+ ex:l2-sm-arithmetic a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:arithmetic-mean-formula ; dct:title "Arithmetic mean of equally weighted observations, with the sample-size and unit conventions."@en .
+ ex:l2-sm-dice-average a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:mean-dice-average-formula ; dct:title "Worked arithmetic average of the authored dice results."@en .
+ ex:l2-sm-dice-practice a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:mean-dice-practice-r ; dct:title "Optional R source for arithmetic averages of repeated dice experiments."@en .
+ ex:l2-sm-water a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:mean-water-table ; dct:title "Authored water measurements used for the arithmetic-mean example, with their concentration units."@en .
+ ex:l2-sm-water-code a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:mean-fe-r ; dct:title "Optional R reproduction of the water-concentration summary."@en .
+ ex:l2-sm-replicates a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:mean-replicates-sketch ; dct:title "Three comparable nitrate replicate measurements: 4.8, 5.0 and 5.2 mg/L, with arithmetic mean 5.0 mg/L."@en .
+ ex:l2-sm-sensors a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:mean-sensors-sketch ; dct:title "Three conductivity readings of 480, 500 and 520 µS/cm, with arithmetic mean 500 µS/cm."@en .
+ ex:l2-sm-loads a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:mean-loads-sketch ; dct:title "Three simultaneous phosphorus inputs of 200, 300 and 200 g/s contribute a total of 700 g/s."@en .
+
+ ex:l2-script-growth a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ; dct:title "The geometric mean preserves a product of positive factors"@en ;
+   cd:relatedScene ex:scene-chemometrics-mean-values-growth, ex:scene-chemometrics-mean-values-growth-comparison,
+     ex:scene-chemometrics-mean-values-geometric-mean, ex:scene-chemometrics-mean-values-growth-calculation,
+     ex:scene-chemometrics-mean-values-growth-r, ex:scene-chemometrics-mean-values-log,
+     ex:scene-chemometrics-mean-values-microbial, ex:scene-chemometrics-mean-values-ratios ;
+   dct:references ex:l2-sm-growth-flow, ex:l2-sm-growth-arithmetic, ex:l2-sm-geometric, ex:l2-sm-growth-result, ex:l2-sm-log,
+     ex:l2-sm-growth-code, ex:l2-sm-microbial-a, ex:l2-sm-microbial-g, ex:l2-sm-ratios-a, ex:l2-sm-ratios-g, ex:l2-sm-growth-sketch, ex:l2-sm-microplastics, ex:l2-sm-pesticides ;
+   cd:hasScriptMaterial ex:l2-sm-growth-flow, ex:l2-sm-growth-arithmetic, ex:l2-sm-geometric, ex:l2-sm-growth-result, ex:l2-sm-log,
+     ex:l2-sm-growth-code, ex:l2-sm-microbial-a, ex:l2-sm-microbial-g, ex:l2-sm-ratios-a, ex:l2-sm-ratios-g, ex:l2-sm-growth-sketch, ex:l2-sm-microplastics, ex:l2-sm-pesticides ;
+   cd:body """Successive growth factors combine by multiplication. The process in [[ref:ex:l2-sm-growth-flow]] therefore asks for a constant factor that reproduces the final product over the same number of steps. The arithmetic comparison in [[ref:ex:l2-sm-growth-arithmetic]] answers a sum-preservation question; the geometric mean in [[ref:ex:l2-sm-geometric]] answers the product-preservation question posed by growth.
+
+The worked result in [[ref:ex:l2-sm-growth-result]] gives the equivalent constant growth factor for the authored sequence. Taking logarithms turns products of positive factors into sums, which explains the log-scale formulation in [[ref:ex:l2-sm-log]]. Positivity is part of this real-valued logarithmic construction. The optional R source in [[ref:ex:l2-sm-growth-code]] reproduces both the factors and their summaries.
+
+The microbial examples ([[ref:ex:l2-sm-microbial-a]], [[ref:ex:l2-sm-microbial-g]]) and ratio examples ([[ref:ex:l2-sm-ratios-a]], [[ref:ex:l2-sm-ratios-g]]) make the choice consequential. An arithmetic summary concerns the level on the original additive scale; a geometric summary concerns the level on the logarithmic scale or an equivalent multiplicative factor. State the intended meaning before selecting a summary, and preserve the measurement units or dimensionless ratio convention in the report.
+
+The growth sketch in [[ref:ex:l2-sm-growth-sketch]] represents successive populations schematically. The microplastic and pesticide comparisons ([[ref:ex:l2-sm-microplastics]], [[ref:ex:l2-sm-pesticides]]) instead contain separate positive sample values. A geometric mean can summarize their log-scale centre. Assigning a population distribution such as a Lognormal model is an additional modelling step that draws on sampling evidence and the measurement process."""@en .
+ ex:l2-sm-growth-flow a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:mean-growth-diagram ; dct:title "Successive growth stages combine through their multiplicative factors."@en .
+ ex:l2-sm-growth-arithmetic a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:mean-growth-arithmetic-formula ; dct:title "Arithmetic comparison for the authored growth factors."@en .
+ ex:l2-sm-geometric a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:geometric-mean-product-formula ; dct:title "Geometric mean of positive values as a product-preserving constant factor."@en .
+ ex:l2-sm-growth-result a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:mean-growth-geometric-formula ; dct:title "Worked geometric growth factor for the authored sequence."@en .
+ ex:l2-sm-log a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:geometric-mean-log-formula ; dct:title "Logarithmic formulation of the geometric mean, with its positive-domain and logarithm conventions."@en .
+ ex:l2-sm-growth-code a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:mean-growth-r ; dct:title "Optional R reproduction of the growth-factor comparison."@en .
+ ex:l2-sm-microbial-a a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:mean-microbial-arithmetic-formula ; dct:title "Arithmetic summary of the authored microbial measurements."@en .
+ ex:l2-sm-microbial-g a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:mean-microbial-geometric-formula ; dct:title "Geometric summary of the same positive microbial measurements."@en .
+ ex:l2-sm-ratios-a a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:mean-ratios-arithmetic-formula ; dct:title "Arithmetic summary of the authored dimensionless ratios."@en .
+ ex:l2-sm-ratios-g a cd:ScriptMaterial ; cd:position 10 ; cd:scriptResource ex:mean-ratios-geometric-formula ; dct:title "Geometric summary of the same dimensionless ratios."@en .
+ ex:l2-sm-growth-sketch a cd:ScriptMaterial ; cd:position 11 ; cd:scriptResource ex:mean-cell-growth-sketch ; dct:title "Illustrative populations of 100, 200 and 1600 over equal periods correspond to successive factors 2 and 8."@en .
+ ex:l2-sm-microplastics a cd:ScriptMaterial ; cd:position 12 ; cd:scriptResource ex:mean-microplastics-sketch ; dct:title "Separate samples containing 100, 1000 and 10000 particles/kg illustrate three multiplicative concentration levels."@en .
+ ex:l2-sm-pesticides a cd:ScriptMaterial ; cd:position 13 ; cd:scriptResource ex:mean-sites-sketch ; dct:title "Pesticide concentrations of 0.01, 0.1 and 1.0 µg/L at three sampling sites are successive tenfold levels."@en .
+
+ ex:l2-script-rates a cd:ScriptSection ; cd:authoredResource true ; cd:position 4 ; dct:title "Equal amounts make reciprocal rates the additive quantities"@en ;
+   cd:relatedScene ex:scene-chemometrics-mean-values-speed, ex:scene-chemometrics-mean-values-speed-comparison,
+     ex:scene-chemometrics-mean-values-harmonic-mean, ex:scene-chemometrics-mean-values-speed-solution,
+     ex:scene-chemometrics-mean-values-speed-r, ex:scene-chemometrics-mean-values-harmonic-practice,
+     ex:scene-chemometrics-mean-values-layers ;
+   dct:references ex:l2-sm-speed-a, ex:l2-sm-speed-g, ex:l2-sm-harmonic, ex:l2-sm-speed-h, ex:l2-sm-time, ex:l2-sm-speed-code,
+     ex:l2-sm-pump-code, ex:l2-sm-layers, ex:l2-sm-layer-flow, ex:l2-sm-journey, ex:l2-sm-pumping, ex:l2-sm-reactors ;
+   cd:hasScriptMaterial ex:l2-sm-speed-a, ex:l2-sm-speed-g, ex:l2-sm-harmonic, ex:l2-sm-speed-h, ex:l2-sm-time, ex:l2-sm-speed-code,
+     ex:l2-sm-pump-code, ex:l2-sm-layers, ex:l2-sm-layer-flow, ex:l2-sm-journey, ex:l2-sm-pumping, ex:l2-sm-reactors ;
+   cd:body """A journey over equal distances provides a rate question with a clear conserved quantity. Total distance is the sum of the distances; total travel time is the sum of each distance divided by its speed. The arithmetic and geometric comparisons ([[ref:ex:l2-sm-speed-a]], [[ref:ex:l2-sm-speed-g]]) motivate calculating the whole journey from these totals.
+
+For equal distances and positive speeds, this calculation produces the harmonic mean ([[ref:ex:l2-sm-harmonic]]). The worked speed result in [[ref:ex:l2-sm-speed-h]] and total-time check in [[ref:ex:l2-sm-time]] express the same journey in complementary ways. The optional source in [[ref:ex:l2-sm-speed-code]] reproduces the calculation. Equal-duration segments instead give time weights, so the weighting follows the design of the journey.
+
+Pumping equal volumes uses the same reciprocal-rate reasoning; [[ref:ex:l2-sm-pump-code]] retains the executable practice example. Transport through equal-thickness layers supplies a second chemical application ([[ref:ex:l2-sm-layers]], [[ref:ex:l2-sm-layer-flow]]). Here resistances add in series under the authored steady-state assumptions, with common area, continuity of transport and the specified reaction and partition conditions. These physical assumptions determine when the harmonic construction describes the effective transport property.
+
+The journey and pumping sketches ([[ref:ex:l2-sm-journey]], [[ref:ex:l2-sm-pumping]]) retain the equal distances and equal volumes that justify the reciprocal weighting. The reactor sequence in [[ref:ex:l2-sm-reactors]] poses a further modelling question. Deriving an effective reaction rate requires the reactor volumes, residence times and an appropriate kinetic and transport model. The ordering of the tanks supplies the process context; the physical model supplies the combination rule."""@en .
+ ex:l2-sm-speed-a a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:mean-speed-arithmetic-formula ; dct:title "Arithmetic comparison of the speeds in the equal-distance journey."@en .
+ ex:l2-sm-speed-g a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:mean-speed-geometric-formula ; dct:title "Geometric comparison of the same journey speeds."@en .
+ ex:l2-sm-harmonic a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:harmonic-mean-formula ; dct:title "Harmonic mean of positive rates for equally weighted amounts."@en .
+ ex:l2-sm-speed-h a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:mean-speed-harmonic-calculation ; dct:title "Worked overall speed for the equal-distance journey."@en .
+ ex:l2-sm-time a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:mean-speed-total-time-calculation ; dct:title "Total-distance divided by total-time check of the harmonic speed."@en .
+ ex:l2-sm-speed-code a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:mean-speed-r ; dct:title "Optional R reproduction of the journey calculation."@en .
+ ex:l2-sm-pump-code a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:mean-harmonic-r ; dct:title "Optional R practice for successive equal-volume pumping batches."@en .
+ ex:l2-sm-layers a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:mean-layers-formula ; dct:title "Effective transport through equal-thickness layers in series under the authored steady-state model."@en .
+ ex:l2-sm-layer-flow a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:mean-layers-diagram ; dct:title "Layer sequence and transport context for the series-resistance calculation."@en .
+ ex:l2-sm-journey a cd:ScriptMaterial ; cd:position 10 ; cd:scriptResource ex:mean-journey-sketch ; dct:title "Two 100 m sections at 10 and 2 m/s take 10 and 50 seconds, giving 200 m in 60 seconds."@en .
+ ex:l2-sm-pumping a cd:ScriptMaterial ; cd:position 11 ; cd:scriptResource ex:mean-pumping-sketch ; dct:title "Three 10 L batches at 10, 2 and 5 L/min take 1, 5 and 2 minutes: 30 L in 8 minutes."@en .
+ ex:l2-sm-reactors a cd:ScriptMaterial ; cd:position 12 ; cd:scriptResource ex:mean-reactors-sketch ; dct:title "Ordered reactor stages with rate constants 0.5, 1.0 and 2.0 per hour; the process model determines how their effects combine."@en .
+
+ ex:l2-script-order a cd:ScriptSection ; cd:authoredResource true ; cd:position 5 ; dct:title "The median locates the centre of the ordered observations"@en ;
+   cd:relatedScene ex:scene-chemometrics-mean-values-turbidity, ex:scene-chemometrics-mean-values-median,
+     ex:scene-chemometrics-mean-values-order, ex:scene-chemometrics-mean-values-lead,
+     ex:scene-chemometrics-mean-values-median-r, ex:scene-chemometrics-mean-values-summary ;
+   dct:references ex:l2-sm-turbidity-mean, ex:l2-sm-order, ex:l2-sm-turbidity, ex:l2-sm-median, ex:l2-sm-odd, ex:l2-sm-even,
+     ex:l2-sm-lead-mean, ex:l2-sm-lead-median, ex:l2-sm-median-code ;
+   cd:hasScriptMaterial ex:l2-sm-turbidity-mean, ex:l2-sm-order, ex:l2-sm-turbidity, ex:l2-sm-median, ex:l2-sm-odd, ex:l2-sm-even,
+     ex:l2-sm-lead-mean, ex:l2-sm-lead-median, ex:l2-sm-median-code ;
+   cd:body """A location summary can also be defined through rank. The turbidity example contains four observations around 2.0–2.3 NTU and an event at 45.0 NTU. Its arithmetic mean ([[ref:ex:l2-sm-turbidity-mean]]) includes the magnitude of that event. The observation-order and sorted-order table in [[ref:ex:l2-sm-order]] distinguishes the time sequence from the rank sequence, while [[ref:ex:l2-sm-turbidity]] retains the event in its observational context.
+
+The sample median in [[ref:ex:l2-sm-median]] uses the middle of the ordered observations. The odd- and even-size calculations in [[ref:ex:l2-sm-odd]] and [[ref:ex:l2-sm-even]] specify the convention explicitly. This gives a summary resistant to changes in a few extreme magnitudes while preserving the full observations for interpretation. An extreme result remains scientifically relevant: its origin can be investigated alongside the central summary.
+
+The lead example compares arithmetic and median summaries of the same observations ([[ref:ex:l2-sm-lead-mean]], [[ref:ex:l2-sm-lead-median]]); [[ref:ex:l2-sm-median-code]] supplies the optional reproduction. The chapter's unifying choice is therefore scientific: preserve an additive total, a multiplicative factor, an equal-amount rate calculation, or an ordered centre. Reporting that choice and its rationale makes the summary useful. The next level adds a description of how widely the observations vary around their centre."""@en .
+ ex:l2-sm-turbidity-mean a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:mean-turbidity-average-formula ; dct:title "Arithmetic mean of the five turbidity observations, including the 45.0 NTU event."@en .
+ ex:l2-sm-order a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:mean-turbidity-order-table ; dct:title "The same turbidity values in observation order and sorted order; day and rank are distinct indices."@en .
+ ex:l2-sm-turbidity a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:mean-turbidity-chart ; dct:title "Turbidity by observation day: the 45.0 NTU event remains visible alongside four values near 2 NTU."@en .
+ ex:l2-sm-median a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:sample-median-formula ; dct:title "Sample median with explicit odd- and even-sample conventions and complete rank notation."@en .
+ ex:l2-sm-odd a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:mean-odd-formula ; dct:title "Worked middle-ranked value for an odd number of observations."@en .
+ ex:l2-sm-even a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:mean-even-formula ; dct:title "Worked midpoint of the two central observations for an even sample size."@en .
+ ex:l2-sm-lead-mean a cd:ScriptMaterial ; cd:position 7 ; cd:scriptResource ex:mean-lead-arithmetic-formula ; dct:title "Arithmetic concentration summary for the authored lead observations."@en .
+ ex:l2-sm-lead-median a cd:ScriptMaterial ; cd:position 8 ; cd:scriptResource ex:mean-lead-median-formula ; dct:title "Median of the same lead observations, obtained from their ordered centre."@en .
+ ex:l2-sm-median-code a cd:ScriptMaterial ; cd:position 9 ; cd:scriptResource ex:mean-lead-median-r ; dct:title "Optional R reproduction of the lead mean and median comparison."@en .
+}

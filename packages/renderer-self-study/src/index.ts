@@ -84,6 +84,7 @@ export interface SelfStudyMediaPlan extends SelfStudyNodeBase {
   readonly version?: string;
   readonly integrity?: string;
   readonly alternativeText: string;
+  readonly caption?: string;
 }
 
 export interface SelfStudyListItemPlan {
@@ -255,8 +256,11 @@ export interface SelfStudyPromptPlan extends SelfStudyNodeBase {
 export interface SelfStudyDiagramNodePlan {
   readonly id: string;
   readonly label: string;
+  readonly description?: string;
   readonly source: readonly SourceReference[];
   readonly emphasis?: "normal" | "supporting" | "primary";
+  readonly notation?: string;
+  readonly parts?: readonly { readonly id:string; readonly label:string; readonly description?:string; readonly source:readonly SourceReference[] }[];
   readonly visualRole?: string;
   readonly visualMotif?: import("../../core/src/scene-document.ts").VisualMotifKey;
   readonly visualMotifRole?: "supporting" | "highlight";
@@ -501,6 +505,7 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         ...(block.version ? { version: block.version } : {}),
         ...(block.integrity ? { integrity: block.integrity } : {}),
         alternativeText: block.alternativeText,
+        ...(block.caption ? {caption:block.caption} : {}),
       };
     case "list":
       return {
@@ -656,8 +661,11 @@ function mapBlock(block: SceneBlock, position: number): SelfStudyNodePlan {
         label: block.label,
         description: block.binaryExperiment?binaryDiagramFallback(block):block.description,
         nodes: block.nodes.map((node) => ({
+          ...(node.description?{description:node.description}:{}),
           id: node.id,
           label: node.label,
+          ...(node.notation ? { notation: node.notation } : {}),
+          ...(node.parts ? { parts: node.parts.map(part=>({...part,source:sourceCopy(part.source)})) } : {}),
           source: sourceCopy(node.source),
           ...(node.emphasis ? { emphasis: node.emphasis } : {}),
           ...(node.visualRole ? { visualRole: node.visualRole } : {}),
@@ -781,19 +789,23 @@ function renderPrompt(node: SelfStudyPromptPlan, interactive: boolean): string {
   return `<fieldset class="self-study-prompt"><legend>${escapeHtml(node.prompt)}</legend>${options}<p class="self-study-fallback">${escapeHtml(node.fallback)}</p>${answer}</fieldset>`;
 }
 
-function renderDiagram(node: SelfStudyDiagramPlan): string {
+function renderDiagram(node: SelfStudyDiagramPlan,captioned=false,graphical=false): string {
   const labels = new Map(node.nodes.map((item) => [item.id, item.label]));
   const roleLabels = new Map((node.participantRoles ?? []).map((role) => [role.id, role.label]));
   const messageLabels = new Map((node.messages ?? []).map((message) => [message.id, message.label]));
-  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.label)}</li>`).join("");
+  const nodes = node.nodes.map((item) => `<li data-diagram-node-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}><strong>${escapeHtml(item.label)}</strong>${item.notation?` <span>${renderStudyInline(item.notation)}</span>`:''}${item.description?`<p>${renderStudyInline(item.description)}</p>`:''}${item.parts?.length?`<ul>${item.parts.map(part=>`<li data-diagram-part-id="${escapeHtml(part.id)}"${sourceAttributes(part.source)}><strong>${escapeHtml(part.label)}</strong>${part.description?` ${renderStudyInline(part.description)}`:''}</li>`).join('')}</ul>`:''}</li>`).join("");
   const edges = node.edges.map((edge) => `<li data-diagram-edge-id="${escapeHtml(edge.id)}"${sourceAttributes(edge.source)}>${escapeHtml(labels.get(edge.sourceNodeId) ?? edge.sourceNodeId)}: ${escapeHtml(edge.label)} → ${escapeHtml(labels.get(edge.targetNodeId) ?? edge.targetNodeId)}</li>`).join("");
   const states = (node.states ?? []).map((state) => `<section class="self-study-diagram-state" data-diagram-state-id="${escapeHtml(state.id)}"${state.activeNodeIds ? ` data-active-node-ids="${escapeHtml(state.activeNodeIds.join(" "))}"` : ""}${state.activeEdgeIds ? ` data-active-edge-ids="${escapeHtml(state.activeEdgeIds.join(" "))}"` : ""}${state.activeGroupIds ? ` data-active-group-ids="${escapeHtml(state.activeGroupIds.join(" "))}"` : ""}${state.focusNodeId ? ` data-focus-node-id="${escapeHtml(state.focusNodeId)}"` : ""}${state.focusGroupId ? ` data-focus-group-id="${escapeHtml(state.focusGroupId)}"` : ""}${state.contextGroupIds ? ` data-context-group-ids="${escapeHtml(state.contextGroupIds.join(" "))}"` : ""}${state.activeMessageIds ? ` data-active-message-ids="${escapeHtml(state.activeMessageIds.join(" "))}"` : ""}${sourceAttributes(state.source)}><strong>${escapeHtml(state.label)}</strong>${state.activeMessageIds ? `<p class="self-study-sequence-active-messages">Active messages: ${escapeHtml(state.activeMessageIds.map((id) => messageLabels.get(id) ?? id).join(", "))}</p>` : ""}${state.participantBindings?.length ? `<ul class="self-study-sequence-participant-bindings">${state.participantBindings.map((binding) => `<li data-participant-binding-role-id="${escapeHtml(binding.roleId)}" data-participant-id="${escapeHtml(binding.participantId)}"${sourceAttributes(binding.source)}>${escapeHtml(roleLabels.get(binding.roleId) ?? binding.roleId)}: ${escapeHtml(binding.label)}</li>`).join("")}</ul>` : ""}${state.sharedEdgeAnnotations.map((annotation) => `<p data-shared-edge-annotation-id="${escapeHtml(annotation.id)}" data-edge-ids="${escapeHtml(annotation.edgeIds.join(" "))}"${sourceAttributes(annotation.source)}>${escapeHtml(annotation.label)}</p>`).join("")}</section>`).join("");
   const participants = (node.participantRoles ?? []).map((role) => `<li data-participant-role-id="${escapeHtml(role.id)}"${sourceAttributes(role.source)}>${escapeHtml(role.label)}</li>`).join("");
   const messages = (node.messages ?? []).map((message) => `<li data-interaction-message-id="${escapeHtml(message.id)}" data-source-role-id="${escapeHtml(message.sourceRoleId)}" data-target-role-id="${escapeHtml(message.targetRoleId)}"${sourceAttributes(message.source)}>${escapeHtml(roleLabels.get(message.sourceRoleId) ?? message.sourceRoleId)}: ${escapeHtml(message.label)} → ${escapeHtml(roleLabels.get(message.targetRoleId) ?? message.targetRoleId)}</li>`).join("");
-  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption><ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}</figure>`;
+  const text=`<ol class="self-study-diagram-nodes">${nodes}</ol><ol class="self-study-diagram-edges">${edges}</ol>${participants ? `<ol class="self-study-sequence-participants">${participants}</ol>` : ""}${messages ? `<ol class="self-study-sequence-messages">${messages}</ol>` : ""}${states}`;
+  // With JavaScript this becomes one graphical figure plus an optional complete
+  // text alternative. Until mounting succeeds, the fallback stays open/usable.
+  const body=graphical?`<div class="self-study-diagram-host" data-diagram-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-diagram-text-alternative" open><summary>Diagram as text</summary>${text}</details>`:text;
+  return `<figure class="self-study-diagram" data-diagram-type="${escapeHtml(node.diagramType)}">${captioned?'':`<figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>`}${body}</figure>`;
 }
 
-function renderChart(node: SelfStudyChartPlan): string {
+function renderChart(node: SelfStudyChartPlan, captioned=false, graphical=false): string {
   if (isScientificChartPlan(node)) {
     const p=node.payload;
     let table="";
@@ -801,7 +813,7 @@ function renderChart(node: SelfStudyChartPlan): string {
       const rows=p.series.map(s=>{const m=empiricalMoments(s.data.map(d=>d.value));const number=(v:number|null)=>v===null?"undefined":Number(v.toFixed(4)).toString();return `<tr><th scope="row">${escapeHtml(s.label)}</th>${[m.n,m.mean,m.m2,m.sampleVariance,m.skewness,m.kurtosis].map(v=>`<td>${number(v)}</td>`).join("")}</tr>`;}).join("");
       table=`<table class="self-study-moment-table"><caption>Empirical descriptors; variances use squared measurement units</caption><thead><tr><th>Series</th><th>n</th><th>Mean</th><th>m₂ (n)</th><th>s² (n−1)</th><th>g₁</th><th>K</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
-    return `<figure class="self-study-scientific-chart" data-chart-type="${escapeHtml(p.chartType)}"><figcaption>${escapeHtml(p.label)}</figcaption><p>${escapeHtml(p.description)}</p>${table}<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Data and numerical description</summary><pre>${escapeHtml(chartStaticFallback(p))}</pre></details></figure>`;
+    return `<figure class="self-study-scientific-chart" data-chart-type="${escapeHtml(p.chartType)}">${captioned?'':`<figcaption><strong>${escapeHtml(p.label)}</strong> ${escapeHtml(p.description)}</figcaption>`}${table}<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Data and numerical description</summary><pre>${escapeHtml(chartStaticFallback(p))}</pre></details></figure>`;
   }
   if(node.chartType==="dot"){
     const p=node.payload;
@@ -809,7 +821,7 @@ function renderChart(node: SelfStudyChartPlan): string {
     const summary=references.map(r=>`<p${sourceAttributes(r.source)}>${escapeHtml(r.label)}: ${r.value} ${escapeHtml(p.yAxis.unit??"")}</p>`).join("");
     const rows=p.groups.flatMap(g=>g.data.map((d,i)=>`<tr data-chart-datum-id="${escapeHtml(d.id)}"${sourceAttributes(d.source)}><th scope="row">${escapeHtml(g.label)}</th><td>${escapeHtml(d.label??String(i+1))}</td><td>${d.value}</td></tr>`)).join("");
     const curves=(p.curves??[]).map(c=>`<details><summary>${escapeHtml(c.label)}</summary><table><thead><tr><th>${escapeHtml(chartAxisLabel(p.xAxis))}</th><th>${escapeHtml(chartAxisLabel(p.yAxis))}</th></tr></thead><tbody>${c.data.map(d=>`<tr${sourceAttributes(d.source)}><td>${d.x}</td><td>${d.y}</td></tr>`).join("")}</tbody></table></details>`).join("");
-    return `<figure class="self-study-dot-plot"><figcaption>${escapeHtml(p.label)}</figcaption><p>${escapeHtml(p.description)}</p><div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Show values for this figure</summary>${summary}<table><thead><tr><th>${escapeHtml(p.xAxis.label)}</th><th>Observation</th><th>${escapeHtml(chartAxisLabel(p.yAxis))}</th></tr></thead><tbody>${rows}</tbody></table>${curves}</details></figure>`;
+    return `<figure class="self-study-dot-plot">${captioned?'':`<figcaption><strong>${escapeHtml(p.label)}</strong> ${escapeHtml(p.description)}</figcaption>`}<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Show values for this figure</summary>${summary}<table><thead><tr><th>${escapeHtml(p.xAxis.label)}</th><th>Observation</th><th>${escapeHtml(chartAxisLabel(p.yAxis))}</th></tr></thead><tbody>${rows}</tbody></table>${curves}</details></figure>`;
   }
   const xAxis = chartAxisLabel(node.xAxis);
   const yAxis = chartAxisLabel(node.yAxis);
@@ -830,7 +842,9 @@ function renderChart(node: SelfStudyChartPlan): string {
     const head = grouped
       ? `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">Replicate</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`
       : `<tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr>`;
-    return `<figure class="self-study-chart" data-chart-type="bar"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}<table><thead>${head}</thead><tbody>${rows}</tbody></table>${annotations}</figure>`;
+    const data=`${axes}<table><thead>${head}</thead><tbody>${rows}</tbody></table>${annotations}`;
+    const caption=captioned?'':`<figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>`;
+    return `<figure class="self-study-chart" data-chart-type="bar">${caption}${captioned||graphical?`<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Show values for this figure</summary>${data}</details>`:data}</figure>`;
   }
 
   const series = node.series.map((seriesItem) => {
@@ -840,14 +854,15 @@ function renderChart(node: SelfStudyChartPlan): string {
     return `<section class="self-study-chart-series" data-chart-series-id="${escapeHtml(seriesItem.id)}"${sourceAttributes(seriesItem.source)}><h3>${escapeHtml(seriesItem.label)}</h3><table><thead><tr><th scope="col">${escapeHtml(node.xAxis.label)}</th><th scope="col">${escapeHtml(node.yAxis.label)}</th></tr></thead><tbody>${rows}</tbody></table></section>`;
   }).join("");
 
-  return `<figure class="self-study-chart" data-chart-type="line"><figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>${axes}${series}${annotations}</figure>`;
+  const caption=captioned?'':`<figcaption><strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.description)}</span></figcaption>`;
+  return `<figure class="self-study-chart" data-chart-type="line">${caption}${captioned||graphical?`<div class="self-study-chart-host" data-chart-block-id="${escapeHtml(node.sourceBlockId)}"></div><details class="self-study-chart-data"><summary>Show values for this figure</summary>${axes}${series}${annotations}</details>`:`${axes}${series}${annotations}`}</figure>`;
 }
 
 function renderMathDetails(details: readonly MathematicalDerivationDetail[] = []): string {
   return details.map(d => `<details class="self-study-proof"><summary>${escapeHtml(d.label)}</summary>${renderDerivationDetail(d,e=>renderStudyMath(e,true))}</details>`).join("");
 }
 
-function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
+function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan, captioned=false, graphical=false): string {
   switch (node.kind) {
     case "prose":
       return `<div class="self-study-prose">${renderStudyInline(node.text)}</div>`;
@@ -856,13 +871,13 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
         const math = (expression: string) => `<div class="self-study-math">${renderStudyMath(expression,true)}</div>`;
         return `<section class="self-study-derivation" aria-label="${escapeHtml(node.spokenText)}">${math(node.derivation.steps[0]!.from.expression)}${node.derivation.steps.map(step =>
           `<section><h3>${escapeHtml(step.operation)}</h3>${math(step.rule.formula.expression)}${math(step.to.expression)}<details><summary>${escapeHtml(step.rule.label)}</summary><p>${escapeHtml(step.rule.description)}</p>${math(step.explanation.application.expression)}<p>${escapeHtml(step.explanation.text)}</p>${step.assumptions.map(a => `<p>${escapeHtml(a.description)}</p>`).join("")}</details></section>`
-         ).join("")}<dl>${node.derivation.legend.map(e => `<dt>${e.expression ? renderStudyMath(e.expression) : renderStudyInline(e.term)}</dt><dd>${renderStudyInline(e.description ?? "")}</dd>`).join("")}</dl></section>` + renderMathDetails(node.derivationDetails);
+         ).join("")}<dl>${node.derivation.legend.map(e => `<dt>${e.expression ? renderStudyMath(e.expression) : renderStudyInline(e.term)}</dt><dd>${renderStudyInline(e.explanation ?? e.description ?? "")}</dd>`).join("")}</dl></section>` + renderMathDetails(node.derivationDetails);
       }
       return `<div class="self-study-math" role="math" aria-label="${escapeHtml(node.spokenText)}">${renderStudyMath(node.expression,true)}<span class="visually-hidden"><code>${escapeHtml(node.expression)}</code>${escapeHtml(node.spokenText)}</span></div>` + renderMathDetails(node.derivationDetails);
     case "code":
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
-      return `<p class="self-study-media"><a href="${escapeHtml(node.uri)}" rel="noreferrer noopener">${escapeHtml(node.alternativeText)}</a></p>`;
+      return `<figure class="self-study-media">${node.mediaType?.startsWith('image/')?`<img src="${escapeHtml(node.uri.startsWith('/')&&!node.uri.startsWith('//')?'.'+node.uri:node.uri)}" alt="${escapeHtml(node.alternativeText)}" loading="lazy">`:`<a href="${escapeHtml(node.uri)}" rel="noreferrer noopener">${escapeHtml(node.alternativeText)}</a>`}${node.caption&&!captioned?`<figcaption>${renderStudyInline(node.caption)}</figcaption>`:''}</figure>`;
     case "list": {
       const tag = node.listStyle === "ordered" ? "ol" : "ul";
       const items = node.items.map((item) => `<li data-list-item-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.text)}</li>`).join("");
@@ -883,18 +898,18 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
       return `<table class="self-study-table"${description}>${caption}${head}${body}</table>`;
     }
     case "group":
-      return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive)).join("")}</div>`;
+      return `<div class="self-study-group">${node.children.map((child) => renderNode(child, interactive, undefined, captioned, graphical)).join("")}</div>`;
     case "prompt":
       return renderPrompt(node, interactive);
     case "chart":
-      return renderChart(node);
+      return renderChart(node,captioned,graphical);
     case "diagram":
-      return renderDiagram(node);
+      return renderDiagram(node,captioned,graphical);
   }
 }
 
-function renderNode(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan): string {
-  const body = renderNodeBody(node, interactive, entryFormula);
+function renderNode(node: SelfStudyNodePlan, interactive: boolean, entryFormula?: SelfStudyNodePlan, captioned=false, graphical=false): string {
+  const body = renderNodeBody(node, interactive, entryFormula,captioned,graphical);
   const attributes = `${sourceAttributes(node.source)} data-source-block-id="${escapeHtml(node.sourceBlockId)}" data-disclosure-mode="${node.disclosureMode}"`;
   if (!interactive || node.disclosureMode === "always") {
     return `<section class="self-study-block"${attributes}>${body}</section>`;
@@ -904,7 +919,11 @@ function renderNode(node: SelfStudyNodePlan, interactive: boolean, entryFormula?
   return `<details class="self-study-block self-study-disclosure"${attributes} data-disclosure-order="${order}"><summary>${summary}</summary>${body}</details>`;
 }
 
-function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: boolean): string {
+export function renderSelfStudyBlocks(blocks:readonly SceneBlock[], options:{captioned?:boolean;graphical?:boolean}={}):string {
+  return renderSectionNodes(blocks.map((block,index)=>mapBlock(block,index)),false,options.captioned,options.graphical);
+}
+
+function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: boolean, captioned=false, graphical=false): string {
   const heading = nodes[0]?.kind === "prose" && nodes[0].intent?.kind === "introduce" ? nodes[0] : undefined;
   const body = heading ? nodes.slice(1) : nodes;
   const context = body.length % 2 === 1 && body[0]?.kind === "prose" && body[0].intent?.kind === "explain" ? body[0] : undefined;
@@ -920,13 +939,13 @@ function renderSectionNodes(nodes: readonly SelfStudyNodePlan[], interactive: bo
     const node=nodes[i]!,next=nodes[i+1];
     const linked=node.kind==="math"&&next?.kind==="definition-list"&&next.source.some(s=>s.relationPath==="dct:hasPart"&&node.source.some(m=>m.resourceId===s.resourceId));
     if(linked){output.push(`<div class="self-study-formula-unit">${renderNode(node,interactive)}${renderNode(next!,interactive)}</div>`);i++;}
-    else output.push(renderNode(node,interactive));
+    else output.push(renderNode(node,interactive,undefined,captioned,graphical));
   }
   return output.join("");
 }
 
 export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readonly interactive: boolean; readonly narrative?: boolean }): string {
-  const navigation = `<nav class="self-study-navigation" aria-label="Lernabschnitte"><ol>${plan.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${escapeHtml(section.semanticLabel)}</a></li>`).join("")}</ol></nav>`;
+  const navigation = `<nav class="self-study-navigation" aria-label="Lernabschnitte"><ol>${plan.sections.map((section) => `<li><a href="#${escapeHtml(section.id)}">${renderStudyInline(section.semanticLabel)}</a></li>`).join("")}</ol></nav>`;
   const sections = plan.sections.map((section, index) => {
     const narrative=options.narrative&&section.narration;
     const prose=narrative?`<div class="self-study-narration">${section.narration!.split(/\n\s*\n/u).map(p=>`<p>${renderStudyInline(p)}</p>`).join("")}</div>`:"";
@@ -936,7 +955,7 @@ export function renderSelfStudyHtml(plan: SelfStudyRenderPlan, options: { readon
         ? {...entry,description:entry.explanation,explanation:undefined}:entry)};
     }):section.nodes;
     const topic = section.topic ? `<p class="self-study-topic"${sourceAttributes(section.topic.source)}>Topic: ${escapeHtml(section.topic.label)}</p>` : "";
-    return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}>${topic}<h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${escapeHtml(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive)}</section>`;
+    return `<section id="${escapeHtml(section.id)}" data-source-scene-id="${escapeHtml(section.sourceSceneId)}" class="self-study-section" aria-labelledby="${escapeHtml(section.id)}-title"${sourceAttributes(section.source)}>${topic}<h2 id="${escapeHtml(section.id)}-title"><span class="self-study-section-index">${index + 1}.</span> ${renderStudyInline(section.semanticLabel)}</h2>${section.accessibility?.description ? `<p>${escapeHtml(section.accessibility.description)}</p>` : ""}${prose}${renderSectionNodes(nodes, options.interactive, false, !!options.narrative)}</section>`;
   }).join("");
   return `${navigation}${sections}`;
 }

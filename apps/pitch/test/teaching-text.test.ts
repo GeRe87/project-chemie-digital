@@ -31,3 +31,12 @@ test("existing short teaching lists retain semantic task and question markers", 
   assert.match(result, /data-marker-purpose="task"/);
   assert.match(result, /pcd-marker-highlight--cyan/);
 });
+test('explicit inline mathematics shares KaTeX in teaching text and remains separate from code and prose emphasis',()=>{
+ const html=teachingInlineMarkup('$\\varphi$ describes density; **area** gives probability.');
+ assert.match(html,/class="katex"/u);
+ assert.match(html,/<strong>area<\/strong>/u);
+ assert.match(html,/application\/x-tex/u);
+ assert.doesNotMatch(html,/katex-error/u);
+ assert.doesNotMatch(teachingInlineMarkup('`$x$`'),/class="katex"/u);
+ assert.match(teachingInlineMarkup('<script>unsafe</script> $z$'),/&lt;script&gt;/u);
+});

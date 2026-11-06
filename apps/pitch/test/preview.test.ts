@@ -77,7 +77,9 @@ test("generic formula cards preserve paired source-linked text and independent K
   main.children[0]!.children.forEach((card, index) => {
     assert.equal(card.className, "definition-list-entry");
     assert.equal(card.attributes.get("data-definition-entry-index"), String(index));
-    assert.equal(card.children[0]!.textContent, `CASE ${index}`);
+    assert.equal(card.children[0]!.children.length,1);
+    assert.equal(card.children[0]!.children[0]!.className,"definition-list-title");
+    assert.equal(card.children[0]!.children[0]!.textContent, `CASE ${index}`);
     const formula = card.children.at(-1)!.children[0]!;
     assert.equal(formula.attributes.get("data-resource-id"), `ex:math-${index}`);
     assert.match(formula.innerHTML, /<math/u);

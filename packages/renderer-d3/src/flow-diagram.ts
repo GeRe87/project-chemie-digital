@@ -877,6 +877,9 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
         svg.setAttribute("height", String(layout.height));
         svg.setAttribute("data-orientation", layout.orientation);
         svg.setAttribute("data-layout-strategy", layout.strategy);
+        svg.setAttribute("data-numbered-card-row", String(model.diagramType === "flow" && layout.strategy === "layered-flow"
+          && layout.orientation === "horizontal" && model.nodes.every(node => !node.notation && !node.visualMotif && !node.parts?.length)
+          && layout.nodes.every(node => node.y === layout.nodes[0]?.y)));
         svg.setAttribute("data-diagram-type", model.diagramType);
         svg.setAttribute("data-reduced-motion", String(model.reducedMotion));
 
@@ -1084,6 +1087,11 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             group.setAttribute("data-visual-motif-role", modelNode.visualMotifRole ?? "supporting");
           }
           if (layout.strategy === "concentric-network" && modelNode.id === model.focusNodeId) group.setAttribute("data-concentric-focus", "true");
+          const numberedCard = model.diagramType === "flow";
+          if (numberedCard) {
+            group.setAttribute("data-flow-card-style", "numbered");
+            group.style.setProperty("--d3-flow-card-hue", String((205 + modelNode.readingIndex * 58) % 360));
+          }
           if (modelNode.groupIds?.some((groupId) => resolvedState.contextGroupIds.has(groupId))) group.setAttribute("data-diagram-state-context", "true");
           if (resolvedState.focusNodeIds.has(modelNode.id)) group.setAttribute("data-diagram-state-focus", "true");
           group.setAttribute("aria-label", [
@@ -1110,7 +1118,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             shape.setAttribute("y", String(-layoutNode.height / 2));
             shape.setAttribute("width", String(layoutNode.width));
             shape.setAttribute("height", String(layoutNode.height));
-            shape.setAttribute("rx", model.diagramType === "flow" ? "0"
+            shape.setAttribute("rx", numberedCard ? "7" : model.diagramType === "flow" ? "0"
               : layout.strategy === "space-filling-flow" ? "3"
                 : layout.strategy === "radial-network" || layout.strategy === "triadic-network" ? "6" : "8");
           }
@@ -1128,7 +1136,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             const informationCard = model.diagramType === "flow";
             if (informationCard) {
               group.setAttribute("data-node-presentation", "information-card");
-              if (layout.strategy === "space-filling-flow") {
+              if (layout.strategy === "space-filling-flow" && !numberedCard) {
                 addInformationCardNodeChrome(group, layoutNode.width, layoutNode.height, modelNode.readingIndex);
               }
             } else {
@@ -1142,12 +1150,77 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               ? layoutNode.width / 2 - 22
               : layoutNode.width / 2 - 18;
             const contentX = (contentLeft + contentRight) / 2;
-            if (modelNode.parts?.length && layout.strategy === "process-system") {
+            if (numberedCard) {
+              const top = -layoutNode.height / 2;
+              const peers = layout.strategy === "space-filling-flow" ? layout.nodes
+                : layout.nodes.filter(node => node.y === layoutNode.y);
+              const titleRows = Math.max(...peers.map(node => node.labelLines.length));
+              const titleHeight = Math.max(1, titleRows) * 28;
+              const hasContent = layoutNode.bodyLines.length || modelNode.notation || modelNode.visualMotif || modelNode.parts?.length;
+              const headerHeight = hasContent ? Math.max(68, 32 + titleHeight) : layoutNode.height;
+              const panel = document.createElementNS(namespace, "rect");
+              panel.setAttribute("class", "d3-flow-card-header-panel");
+              panel.setAttribute("x", String(-layoutNode.width / 2 + 1));
+              panel.setAttribute("y", String(top + 1));
+              panel.setAttribute("width", String(layoutNode.width - 2));
+              panel.setAttribute("height", String(headerHeight));
+              // The outer rounded card clips its colored header at the top.
+              panel.setAttribute("rx", "6");
+              panel.setAttribute("aria-hidden", "true");
+              group.append(panel);
+              const badge = document.createElementNS(namespace, "rect");
+              badge.setAttribute("class", "d3-flow-card-number-badge");
+              badge.setAttribute("x", String(-layoutNode.width / 2 + 16));
+              badge.setAttribute("y", String(top + 17));
+              badge.setAttribute("width", "34");
+              badge.setAttribute("height", "24");
+              badge.setAttribute("rx", "4");
+              badge.setAttribute("aria-hidden", "true");
+              group.append(badge);
+              addTextLines(group, [String(modelNode.readingIndex + 1).padStart(2, "0")], -layoutNode.width / 2 + 33, top + 29, "d3-flow-card-number", 16);
+              const header = document.createElementNS(namespace, "g");
+              header.setAttribute("class", "d3-flow-node-header");
+              header.setAttribute("aria-hidden", "true");
+              addTextLines(header, layoutNode.labelLines, -layoutNode.width / 2 + 64,
+                top + 33 + (layoutNode.labelLines.length - 1) * 14,
+                layoutNode.bodyLines.length ? "d3-flow-node-title" : "d3-flow-node-label", 28).setAttribute("text-anchor", "start");
+              group.append(header);
+              const decorationHeight = peers.some(peer => {
+                const node = model.nodes.find(node => node.id === peer.id);
+                return node?.notation || node?.visualMotif;
+              }) ? 72 : 0;
+              if (modelNode.notation) {
+                group.setAttribute("data-node-has-notation", "true");
+                addTextLines(group, [modelNode.notation], contentX, top + headerHeight + 38, "d3-flow-node-notation");
+              }
+              if (modelNode.visualMotif) {
+                addFlowVisualMotif(group, modelNode.visualMotif,
+                  modelNode.notation ? contentRight - 24 : contentX,
+                  top + headerHeight + 36, 48, modelNode.visualMotifRole ?? "supporting");
+              }
+              if (layoutNode.bodyLines.length) {
+                group.setAttribute("data-structured-node", "true");
+                const divider = document.createElementNS(namespace, "line");
+                divider.setAttribute("class", "d3-flow-node-title-divider");
+                divider.setAttribute("x1", String(contentLeft));
+                divider.setAttribute("x2", String(contentRight));
+                divider.setAttribute("y1", String(top + headerHeight));
+                divider.setAttribute("y2", String(top + headerHeight));
+                divider.setAttribute("aria-hidden", "true");
+                group.append(divider);
+                const body = document.createElementNS(namespace, "g");
+                body.setAttribute("class", "d3-flow-node-body-group");
+                body.setAttribute("aria-hidden", "true");
+                addTextLines(body, layoutNode.bodyLines, contentLeft,
+                  top + headerHeight + decorationHeight + 30 + (layoutNode.bodyLines.length - 1) * 23 / 2,
+                  "d3-flow-node-body", 23).setAttribute("text-anchor", "start");
+                group.append(body);
+              }
+              if (modelNode.parts?.length) {
               group.setAttribute("data-structured-node", "true");
               group.setAttribute("data-composite-node", "columns");
-              const headerY = -layoutNode.height / 2 + 30;
-              const dividerY = -layoutNode.height / 2 + 56;
-              addTextLines(group, layoutNode.labelLines, contentX, headerY, "d3-flow-node-title", 24);
+              const dividerY = top + headerHeight + decorationHeight
+                + (layoutNode.bodyLines.length ? 46 + layoutNode.bodyLines.length * 23 : 0);
               const headerDivider = document.createElementNS(namespace, "line");
               headerDivider.setAttribute("class", "d3-flow-node-title-divider");
               headerDivider.setAttribute("x1", String(contentLeft));
@@ -1157,6 +1230,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               group.append(headerDivider);
               const count = modelNode.parts.length;
               const partitionWidth = layoutNode.width / count;
+              const partTitleRows = Math.max(...modelNode.parts.map(part=>wrapFlowText(part.label,partitionWidth-36).length));
               for (const [partIndex, part] of modelNode.parts.entries()) {
                 const centerX = -layoutNode.width / 2 + partitionWidth * (partIndex + .5);
                 if (partIndex > 0) {
@@ -1175,12 +1249,13 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
                 partGroup.setAttribute("data-part-id", part.id);
                 partGroup.setAttribute("aria-label", part.description ? `${part.label}: ${part.description}` : part.label);
                 const partLines = wrapFlowText(part.label, partitionWidth - 36);
-                addTextLines(partGroup, partLines, centerX, dividerY + 37, "d3-flow-node-part-title", 19);
+                addTextLines(partGroup, partLines, centerX, dividerY + 24 + (partLines.length-1)*19/2, "d3-flow-node-part-title", 19);
                 if (part.description) {
                   const descriptionLines = wrapFlowText(part.description, partitionWidth - 36);
-                  addTextLines(partGroup, descriptionLines, centerX, dividerY + 75, "d3-flow-node-part-body", 16);
+                  addTextLines(partGroup, descriptionLines, centerX, dividerY + 24 + partTitleRows*19 + 16 + (descriptionLines.length-1)*8, "d3-flow-node-part-body", 16);
                 }
                 group.append(partGroup);
+              }
               }
             } else if (informationCard && (modelNode.notation
               || (modelNode.visualMotif && modelNode.visualMotifRole !== "highlight"))) {

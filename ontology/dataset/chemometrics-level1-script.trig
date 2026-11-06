@@ -1,0 +1,77 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level1-variables> {
+  ex:l1-thematic-script a cd:ThematicScript ; cd:authoredResource true ;
+    dct:title "Variables connect chemical questions with observations"@en ;
+    cd:scriptForPath ex:path-chemometrics-random-variables-lecture ;
+    cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture> ;
+    cd:hasScriptSection ex:l1-script-observation, ex:l1-script-sampling, ex:l1-script-model, ex:l1-script-representation .
+
+  ex:l1-script-observation a cd:ScriptSection ; cd:authoredResource true ; cd:position 1 ;
+    dct:title "Give every observed value a variable, unit and role"@en ;
+    cd:relatedScene ex:scene-chemometrics-variables-title, ex:scene-chemometrics-variable-definition,
+      ex:scene-chemometrics-variables-purpose, ex:scene-chemometrics-variables-values-observations ;
+    dct:references ex:l1-sm-flasks, ex:l1-sm-calibration-table, ex:l1-sm-calibration-chart ;
+    cd:hasScriptMaterial ex:l1-sm-flasks, ex:l1-sm-calibration-table, ex:l1-sm-calibration-chart ;
+    cd:body """A variable identifies a property that can take different values. An observation records a value of that property for a specified object or occasion. In a calibration, concentration and absorbance are different variables; a prepared standard has a concentration, and an instrument reading supplies an observed absorbance. Their units and roles make the relationship interpretable.
+
+The dilution series in [[ref:ex:l1-sm-flasks]] gives this distinction a chemical setting. Preparing standards establishes a planned set of concentrations. Measuring them adds instrument responses. The table in [[ref:ex:l1-sm-calibration-table]] keeps the controlled concentrations, observed responses and observation identities connected. These roles determine which quantity a calibration model will use to explain or predict another quantity.
+
+The response plot in [[ref:ex:l1-sm-calibration-chart]] then displays the relationship between the two numerical variables. Reading the axes is the first interpretation step: each point represents an observation with a concentration coordinate and an absorbance coordinate. A model can summarize the pattern while repeated readings reveal how much response varies at a given concentration."""@en .
+  ex:l1-sm-flasks a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:media-uvvis-dilution-series ;
+    dct:title "UV/Vis dilution series: prepared concentration levels provide the controlled values for the calibration measurements."@en .
+  ex:l1-sm-calibration-table a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:table-uvvis-calibration-roles ;
+    dct:title "Calibration observations with explicit roles for standard identity, concentration and measured absorbance."@en .
+  ex:l1-sm-calibration-chart a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:chart-uvvis-calibration-response ;
+    dct:title "Observed absorbance against prepared concentration in the UV/Vis calibration example. The point coordinates pair the two variables for each observation."@en .
+
+  ex:l1-script-sampling a cd:ScriptSection ; cd:authoredResource true ; cd:position 2 ;
+    dct:title "The repeated unit determines which variation is observed"@en ;
+    cd:relatedScene ex:scene-chemometrics-lake-sampling-replicates, ex:scene-chemometrics-why-values-differ,
+      ex:scene-chemometrics-variation-sources ;
+    dct:references ex:l1-sm-sites, ex:l1-sm-site-table, ex:l1-sm-site-chart, ex:l1-sm-variation ;
+    cd:hasScriptMaterial ex:l1-sm-sites, ex:l1-sm-site-table, ex:l1-sm-site-chart, ex:l1-sm-variation ;
+    cd:body """A lake study adds a second level of organization. A sampling site identifies where water was collected, while a repeated reading identifies a measurement of that collected material. The map in [[ref:ex:l1-sm-sites]] establishes the spatial setting; the observation table in [[ref:ex:l1-sm-site-table]] retains the site and replicate grouping.
+
+The grouped plot in [[ref:ex:l1-sm-site-chart]] lets us compare variation within sites with differences between sites. Repeated instrument readings characterize the part of the procedure that was repeated. Collecting independent water samples additionally represents sampling variation. A design that repeats both stages allows their contributions to be studied separately.
+
+This reasoning also applies inside an instrument. The variation-source diagram in [[ref:ex:l1-sm-variation]] organizes contributions along the UV/Vis measurement process. Preparation, measurement conditions and electronics can each affect the response. Identifying those stages helps us choose what to hold stable, what to vary deliberately and what to record as context for interpretation."""@en .
+  ex:l1-sm-sites a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:media-lake-sampling-sites ; dct:title "Lake sampling locations used to identify the spatial origin of the analyte observations."@en .
+  ex:l1-sm-site-table a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:table-lake-analyte-a-replicates ; dct:title "Analyte A observations grouped by lake site and measurement replicate, preserving the authored units and values."@en .
+  ex:l1-sm-site-chart a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:chart-lake-analyte-a-replicates ; dct:title "Analyte A replicate results grouped by sampling site. Within-site spread and between-site location are read at their respective design levels."@en .
+  ex:l1-sm-variation a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:diagram-uvvis-variation-sources ; dct:title "Sources of response variation along the UV/Vis measurement process, with the authored process stages retained."@en .
+
+  ex:l1-script-model a cd:ScriptSection ; cd:authoredResource true ; cd:position 3 ;
+    dct:title "Separate the systematic response from remaining variation"@en ;
+    cd:relatedScene ex:scene-chemometrics-additive-response-model, ex:scene-chemometrics-general-additive-model,
+      ex:scene-chemometrics-model-function-families ;
+    dct:references ex:l1-sm-uvvis-model, ex:l1-sm-general-model, ex:l1-sm-families ;
+    cd:hasScriptMaterial ex:l1-sm-uvvis-model, ex:l1-sm-general-model, ex:l1-sm-families ;
+    cd:body """A response model describes how an observed signal relates to explanatory quantities under stated conditions. In the additive UV/Vis model ([[ref:ex:l1-sm-uvvis-model]]), the systematic concentration-dependent contribution and the remaining contribution together describe the measured response. The attached symbol legend states the role and unit of every term.
+
+The general form in [[ref:ex:l1-sm-general-model]] makes the same organization available for other analytical relationships. Choosing the systematic function is a scientific modelling decision: a straight-line response can be suitable over one concentration range, while curvature can become relevant over another. The remaining term describes departures at the model's chosen level of detail. Its interpretation depends on the recorded conditions and on what the function already represents.
+
+The function families in [[ref:ex:l1-sm-families]] provide several possible shapes for that systematic relationship. Selection draws on chemical mechanism, experimental design and the pattern of observations. After fitting, the departures help assess whether the chosen shape adequately describes the conditions of use. This creates a cycle: formulate a relationship, compare it with observations, and refine its scope or structure."""@en .
+  ex:l1-sm-uvvis-model a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:uvvis-additive-response-equation ; dct:title "Additive UV/Vis response model with its complete authored symbol legend."@en .
+  ex:l1-sm-general-model a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:general-additive-response-equation ; dct:title "General additive response model: systematic function and remaining contribution, with units and conventions in the attached legend."@en .
+  ex:l1-sm-families a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:diagram-model-function-families ; dct:title "Function families for systematic responses. The authored notation and visual motifs distinguish their response shapes."@en .
+
+  ex:l1-script-representation a cd:ScriptSection ; cd:authoredResource true ; cd:position 4 ;
+    dct:title "Choose a data representation that preserves meaning"@en ;
+    cd:relatedScene ex:scene-chemometrics-variable-value-shapes, ex:scene-chemometrics-variable-value-types ;
+    dct:references ex:l1-sm-scalar, ex:l1-sm-vector, ex:l1-sm-matrix, ex:l1-sm-number, ex:l1-sm-category, ex:l1-sm-boolean ;
+    cd:hasScriptMaterial ex:l1-sm-scalar, ex:l1-sm-vector, ex:l1-sm-matrix, ex:l1-sm-number, ex:l1-sm-category, ex:l1-sm-boolean ;
+    cd:body """The shape of a recorded value describes its organization. A scalar is one value, a vector is an ordered collection, and a matrix arranges values along two indices. The examples in [[ref:ex:l1-sm-scalar]], [[ref:ex:l1-sm-vector]] and [[ref:ex:l1-sm-matrix]] connect these shapes with the authored notation. Index meanings determine what a position in the collection represents, such as an observation or a measured channel.
+
+Value type answers a different question: which distinctions and operations are meaningful? Numerical values support quantitative operations in their defined scale and units ([[ref:ex:l1-sm-number]]). Categories identify classes ([[ref:ex:l1-sm-category]]). Boolean values record whether a specified statement holds ([[ref:ex:l1-sm-boolean]]). Numerical storage codes for categories retain their meaning through the category labels and coding convention.
+
+Before analysis, therefore, document both organization and meaning: observation identity, variable name, unit, value type and index convention. These choices make later summaries interpretable and reproducible. They also prepare the next question: which summary of a set of values corresponds to the chemical process and decision under study?"""@en .
+  ex:l1-sm-scalar a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:value-shape-scalar-formula ; dct:title "Scalar value notation and its authored interpretation."@en .
+  ex:l1-sm-vector a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:value-shape-vector-formula ; dct:title "Vector notation with ordered components and the complete index legend."@en .
+  ex:l1-sm-matrix a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:value-shape-matrix-formula ; dct:title "Matrix notation with both index roles explained in the attached legend."@en .
+  ex:l1-sm-number a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:value-type-numbers-formula ; dct:title "Numerical value examples with the authored quantity and unit conventions."@en .
+  ex:l1-sm-category a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:value-type-categories-formula ; dct:title "Categorical values interpreted through their class labels."@en .
+  ex:l1-sm-boolean a cd:ScriptMaterial ; cd:position 6 ; cd:scriptResource ex:value-type-boolean-formula ; dct:title "Boolean values interpreted as the truth values of a specified statement."@en .
+}

@@ -50,7 +50,14 @@ class OrderStatisticsTests(unittest.TestCase):
             elif "lab" in scene["id"]:
                 self.assertEqual(["prose","prompt","code","definition-list"],kinds)
             elif any(b["kind"]=="table" for b in scene["blocks"]):self.assertEqual(["prose","definition-list","table","list","chart"],kinds)
-            elif any(b["kind"]=="chart" for b in scene["blocks"]):self.assertEqual(["prose","prose","prose","prose","chart"],kinds)
+            elif any(b["kind"]=="chart" for b in scene["blocks"]):
+                caption_owned = {"box-extremes", "box-symmetric", "box-skewed", "box-bimodal", "box-uniform",
+                                 "histogram-reading", "histogram-skewed", "histogram-bimodal", "histogram-2d-reading",
+                                 "histogram-too-coarse", "histogram-too-fine", "histogram-sensible-width"}
+                reviewed = scene["id"] in {"ex:l4-scene-"+name+"--scene" for name in caption_owned}
+                self.assertEqual(["prose","prose","chart"] if reviewed else ["prose","prose","prose","prose","chart"],kinds)
+                if reviewed:
+                    self.assertTrue(scene["blocks"][-1]["description"].strip())
             else:self.assertEqual(["prose","prose"],kinds)
 
     def datasets(self):

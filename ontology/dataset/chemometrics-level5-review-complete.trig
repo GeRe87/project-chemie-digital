@@ -85,11 +85,14 @@
     cd:usesResource ex:rv-growth-chart ;
     cd:usesScene ex:pc-n08 .
   ex:rc09 rdf:type cd:PathStep ;
+    cd:guidingQuestion ex:l5-interval-question ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:position "5"^^xsd:integer ;
     cd:usesResource ex:pc-density ;
     cd:usesScene ex:pc-n09 .
   ex:rc10 rdf:type cd:PathStep ;
+    cd:answersGuidingQuestion ex:l5-interval-question ;
+    cd:answerResource ex:l5-quantile-answer ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:position "6"^^xsd:integer ;
     cd:usesResource ex:pc-linked ;

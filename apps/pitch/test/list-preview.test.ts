@@ -287,15 +287,33 @@ test("pitch preview renders definition-list semantic markup without lexical pars
   assert.equal(list.children[0]?.attributes.get("data-definition-entry-index"), "0");
   assert.match(list.children[0]?.attributes.get("style") ?? "", /--definition-entry-hue:/);
   assert.equal(list.children[0]?.children[0]?.className, "definition-list-term");
-  assert.equal(list.children[0]?.children[0]?.textContent, "purpose");
+  assert.equal(list.children[0]?.children[0]?.children[0]?.className, "definition-list-title");
+  assert.equal(list.children[0]?.children[0]?.children[0]?.textContent, "purpose");
   assert.equal(list.children[0]?.children[1]?.className, "definition-list-description");
   assert.equal(list.children[0]?.children[1]?.textContent, "quantify signal");
   assert.equal(list.children[1]?.className, "definition-list-entry");
   assert.equal(list.children[1]?.children[0]?.className, "definition-list-term");
-  assert.equal(list.children[1]?.children[0]?.textContent, "version");
+  assert.equal(list.children[1]?.children[0]?.children[0]?.textContent, "version");
   destroy();
 });
 
+
+test("rich mathematical card titles occupy one header item beside the number",()=>{
+  const document=structuredClone(definitionListDocument);
+  for(const scene of document.scenes)for(const block of scene.blocks)if(block.kind==='definition-list'){
+    Object.assign(block,{entries:block.entries.map(entry=>({...entry,term:'f(cᵢ)'}))});
+  }
+  const root=new FakeElement();
+  mountSceneDocuments({root,createElement:()=>new FakeElement()},[document]);
+  const walk=(node:FakeElement):FakeElement[]=>[node,...node.children.flatMap(walk)];
+  const terms=walk(root).filter(node=>node.className==='definition-list-term');
+  assert(terms.length);
+  for(const term of terms){
+    assert.equal(term.children.length,1);
+    assert.equal(term.children[0]!.className,'definition-list-title');
+    assert.match(term.children[0]!.innerHTML,/f[\s\S]*\([\s\S]*cᵢ[\s\S]*\)/u);
+  }
+});
 
 const tableDocumentPreview: SceneDocument = {
   version: "1.5",

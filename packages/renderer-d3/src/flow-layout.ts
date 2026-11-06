@@ -341,6 +341,10 @@ function candidateEdgeLabelPositions(
   const edgeMidX = midpoint(edge.x1, edge.x2);
   const edgeMidY = midpoint(edge.y1, edge.y2);
   const candidates: Array<{ x: number; y: number }> = [];
+  if (strategy === "layered-flow" && orientation === "horizontal"
+      && Math.abs(source.y - target.y) < 1 && Math.abs(edge.x2 - edge.x1) >= panel.width + 20) {
+    candidates.push({x: edge.labelX, y: edge.labelY});
+  }
 
   if (strategy === "triadic-network" && Math.abs(source.y - target.y) < 1) {
     const below = Math.max(
@@ -724,11 +728,12 @@ function spaceFillingLinearFlowLayout(
   const cardNodes = linearOrder.map((id) => {
     const original = preparedById.get(id)!;
     const contentWidth = Math.max(180, cardWidth - 48);
-    const { labelLines, bodyLines } = structuredNodeText(
+    const { bodyLines } = structuredNodeText(
       original.label,
       original.description,
       contentWidth,
     );
+    const labelLines = wrapFlowText(original.label, Math.max(64,cardWidth-86), structuredTitleTextMeasure);
     const titleHeight = Math.max(labelLines.length, 1) * 28;
     const bodyHeight = Math.max(bodyLines.length, 1) * 24;
     const highlightMotifHeight = original.visualMotifRole === "highlight" ? 92 : 0;
@@ -770,9 +775,9 @@ function spaceFillingLinearFlowLayout(
       id,
       x: point.x,
       y: point.y,
-      width: node.width,
-      height: node.height,
-      labelLines: node.labelLines,
+       width: node.width,
+       height: maxCardHeight,
+       labelLines: node.labelLines,
       bodyLines: node.bodyLines,
     });
   });
@@ -817,7 +822,13 @@ function horizontalLayeredLayout(
     && layers.every((layer) => layer.length === 1)
     && hostWidth >= COMPACT_LINEAR_HORIZONTAL_BREAKPOINT
     && hostWidth < FLOW_HORIZONTAL_BREAKPOINT;
-  const layerGap = compactLinear ? 28 : 56;
+  const plainLinear = input.diagramType === "flow" && layers.every(layer => layer.length === 1)
+    && prepared.every(node => !node.parts?.length);
+  // A transition label belongs beside its arrow, with an actual reserved gutter
+  // rather than a floating callout and a long dotted leader above the cards.
+  const layerGap = plainLinear && !compactLinear
+    ? Math.max(56, ...input.edges.map(edge => Math.max(48, ...wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH).map(deterministicFlowTextMeasure)) + 52))
+    : compactLinear ? 28 : 56;
   const siblingGap = 54;
   const nodeById = new Map(prepared.map((node) => [node.id, node]));
   const compactNodeWidth = compactLinear
@@ -831,17 +842,32 @@ function horizontalLayeredLayout(
     const original = nodeById.get(id)!;
     if (!compactNodeWidth) return original;
     const contentWidth = Math.max(108, compactNodeWidth - 42);
-    const { labelLines, bodyLines } = structuredNodeText(original.label, original.description, contentWidth);
+    const text = structuredNodeText(original.label, original.description, contentWidth);
+    const labelLines = input.diagramType === "flow" && !original.parts?.length
+      ? wrapFlowText(original.label, Math.max(64, compactNodeWidth - 86), structuredTitleTextMeasure) : text.labelLines;
+    const bodyLines = text.bodyLines;
     return {
       ...original,
       labelLines,
       bodyLines,
       width: compactNodeWidth,
-      height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
+      height: Math.max(nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif)),
+        82 + labelLines.length * 28 + bodyLines.length * 23 + (original.notation || original.visualMotif ? 72 : 0)),
     };
   };
 
   const fittedById = new Map(prepared.map((node) => [node.id, fittedNode(node.id)]));
+  // Ordinary linear process cards share top/bottom edges and header baselines.
+  // Size from the independent largest title and body, not an arbitrary node.
+  if (input.diagramType === "flow" && layers.every(layer => layer.length === 1)
+      && prepared.every(node => !node.parts?.length)) {
+    const fitted = [...fittedById.values()];
+    const height = Math.max(...fitted.map(node => node.height),
+      82 + Math.max(...fitted.map(node => node.labelLines.length)) * 28
+        + Math.max(...fitted.map(node => node.bodyLines.length)) * 23
+        + (prepared.some(node=>node.notation||node.visualMotif)?72:0));
+    for (const [id, node] of fittedById) fittedById.set(id, {...node, height});
+  }
   const layerWidths = layers.map((layer) => Math.max(...layer.map((id) => fittedById.get(id)?.width ?? HORIZONTAL_NODE_MIN_WIDTH)));
   const layerGapFor = (layer: readonly string[]): number => {
     if (layer.length < 2) return siblingGap;
@@ -916,17 +942,21 @@ function verticalLayeredLayout(
     const layerNodes = layer.map((id) => {
       const original = nodeById.get(id)!;
       const contentWidth = Math.max(120, nodeWidth - 64);
-      const { labelLines, bodyLines } = structuredNodeText(
+      const text = structuredNodeText(
         original.label,
         original.description,
         contentWidth,
       );
+      const labelLines = !original.parts?.length
+        ? wrapFlowText(original.label, Math.max(64, nodeWidth - 86), structuredTitleTextMeasure) : text.labelLines;
+      const bodyLines = text.bodyLines;
       return {
         ...original,
         labelLines,
         bodyLines,
         width: nodeWidth,
-        height: nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif && original.visualMotifRole !== "highlight")),
+        height: Math.max(nodeHeight(labelLines, bodyLines, original.notation, Boolean(original.visualMotif)),
+          82 + labelLines.length * 28 + bodyLines.length * 23 + (original.notation || original.visualMotif ? 72 : 0)),
       };
     });
     const layerHeight = Math.max(112, ...layerNodes.map((node) => node.height));
@@ -1515,19 +1545,37 @@ function processSystemLayout(
 ): { readonly width: number; readonly height: number; readonly nodes: readonly D3FlowLayoutNode[] } {
   const width = 1200;
   const middle = width / 2;
+  const textFor=(id:string,w:number)=>{
+    const node=prepared.find(node=>node.id===id)!;
+    return {...structuredNodeText(node.label,node.description,w-44),
+      labelLines:wrapFlowText(node.label,Math.max(64,w-86),structuredTitleTextMeasure)};
+  };
+  const rowIds=[selection.input,selection.process,selection.output];
+  const rowText=rowIds.map(id=>textFor(id,328));
+  const rowHeight=82+Math.max(...rowText.map(t=>t.labelLines.length))*28+72+Math.max(...rowText.map(t=>t.bodyLines.length))*23;
+  const influence=prepared.find(node=>node.id===selection.influences)!;
+  const influenceText=textFor(selection.influences,790);
+  const partitionWidth=790/Math.max(1,influence.parts?.length??1);
+  const partsHeight=Math.max(0,...(influence.parts??[]).map(part=>
+    wrapFlowText(part.label,partitionWidth-36).length*19+wrapFlowText(part.description??'',partitionWidth-36).length*16+52));
+  const influenceHeight=Math.max(174,32+influenceText.labelLines.length*28+partsHeight+influenceText.bodyLines.length*23);
+  const residualText=textFor(selection.residual,490);
+  const residualHeight=82+residualText.labelLines.length*28+72+residualText.bodyLines.length*23;
+  const rowY=32+rowHeight/2,influenceY=32+rowHeight+64+influenceHeight/2;
+  const residualY=influenceY+influenceHeight/2+64+residualHeight/2;
   const specs = new Map<string, { x: number; y: number; width: number; height: number }>([
-    [selection.input, { x: 195, y: 145, width: 328, height: 188 }],
-    [selection.process, { x: middle, y: 145, width: 328, height: 188 }],
-    [selection.output, { x: width - 195, y: 145, width: 328, height: 188 }],
-    [selection.influences, { x: middle, y: 395, width: 790, height: 174 }],
-    [selection.residual, { x: middle, y: 600, width: 490, height: 146 }],
+    [selection.input, { x: 195, y: rowY, width: 328, height: rowHeight }],
+    [selection.process, { x: middle, y: rowY, width: 328, height: rowHeight }],
+    [selection.output, { x: width - 195, y: rowY, width: 328, height: rowHeight }],
+    [selection.influences, { x: middle, y: influenceY, width: 790, height: influenceHeight }],
+    [selection.residual, { x: middle, y: residualY, width: 490, height: residualHeight }],
   ]);
   return {
     width,
-    height: 700,
+    height: residualY+residualHeight/2+32,
     nodes: prepared.map((node) => {
       const spec = specs.get(node.id)!;
-      const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, spec.width - 56);
+      const { labelLines, bodyLines } = textFor(node.id,spec.width);
       return { id: node.id, ...spec, labelLines, bodyLines };
     }),
   };
@@ -1561,8 +1609,11 @@ function hierarchyFanoutLayout(
   const width = Math.max(FLOW_MIN_WIDTH, hostWidth);
   const gap = 24;
   const margin = 24;
-  const columns = Math.max(1, Math.min(selection.childIds.length, Math.floor((width - margin * 2 + gap) / (280 + gap))));
-  const cardWidth = Math.min(280, width - margin * 2);
+  const titleMeasure = (value: string): number => structuredTitleTextMeasure(value) * (24 / 23);
+  const wordWidth = Math.max(0,...prepared.flatMap(node=>node.label.split(/\s+/u).map(titleMeasure)));
+  const preferredWidth = Math.max(280, Math.min(420,wordWidth+90));
+  const columns = Math.max(1, Math.min(selection.childIds.length, Math.floor((width - margin * 2 + gap) / (preferredWidth + gap))));
+  const cardWidth = Math.min(preferredWidth, width - margin * 2);
   const gridWidth = columns * cardWidth + (columns - 1) * gap;
   const gridLeft = (width - gridWidth) / 2;
   const rootX = width / 2;
@@ -1571,12 +1622,12 @@ function hierarchyFanoutLayout(
     const root = node.id === selection.rootId;
     const w = root ? Math.min(380, width - margin * 2) : cardWidth;
     // Hierarchy titles use 24px rather than the standard 23px card type.
-    const titleMeasure = (value: string): number => structuredTitleTextMeasure(value) * (24 / 23);
-    const { labelLines, bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
+    const { bodyLines } = structuredNodeText(node.label, node.description, w - 56, titleMeasure);
+    const labelLines = wrapFlowText(node.label, Math.max(64,w-86), titleMeasure);
     const motifSize = node.visualMotifRole === "highlight" ? Math.min(88, Math.max(72, w * .24)) : 0;
     const height = Math.max(root ? 154 : 324,
       nodeHeight(labelLines, bodyLines, node.notation, Boolean(node.visualMotif && node.visualMotifRole !== "highlight")),
-      motifSize ? 42 + labelLines.length * 28 + 11 + 20 + motifSize + 20 + bodyLines.length * 23 + 24 : 0);
+      82 + labelLines.length * 28 + bodyLines.length * 23 + (node.notation || motifSize || node.visualMotif ? 72 : 0));
     return { ...node, width: w, height, labelLines, bodyLines };
   });
   const rootHeight = fitted.find((node) => node.id === selection.rootId)!.height;
@@ -1610,13 +1661,20 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       description,
       HORIZONTAL_LABEL_WIDTH,
     );
-    const width = horizontalNodeWidth(initialText.labelLines, initialText.bodyLines);
+    let width = horizontalNodeWidth(initialText.labelLines, initialText.bodyLines);
+    if (input.diagramType === "flow" && !node.parts?.length) {
+      const longestWord = Math.max(0, ...node.label.split(/\s+/u).map(structuredTitleTextMeasure));
+      width = Math.max(width, Math.min(STRUCTURED_NODE_MAX_WIDTH, longestWord + 86));
+    }
     // Wide flow cards have no legacy index strip in their content area. Reuse
     // the actual card width rather than leaving its text in a 178px column.
-    const {labelLines,bodyLines} = description && input.diagramType === "flow"
+    const fittedText = description && input.diagramType === "flow"
       && orientation === "horizontal" && hostWidth >= FLOW_HORIZONTAL_BREAKPOINT
       ? structuredNodeText(node.label,description,width-44)
       : initialText;
+    const labelLines = input.diagramType === "flow" && !node.parts?.length
+      ? wrapFlowText(node.label, Math.max(64, width - 86), structuredTitleTextMeasure) : fittedText.labelLines;
+    const bodyLines = fittedText.bodyLines;
     return {
       ...node,
       ...(description ? { description } : {}),
@@ -1739,6 +1797,10 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       const forward = target.x >= source.x;
       const x1 = source.x + (forward ? source.width / 2 : -source.width / 2);
       const x2 = target.x + (forward ? -target.width / 2 : target.width / 2);
+      const labelLines = wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH);
+      const labelWidth = Math.max(48, ...labelLines.map(deterministicFlowTextMeasure)) + 26;
+      const inlineLabel = Math.abs(source.y - target.y) < 1 && Math.abs(x2 - x1) >= labelWidth + 12
+        && input.nodes.every(node => !node.notation && !node.visualMotif && !node.parts?.length);
       return {
         id: edge.id,
         sourceNodeId: edge.sourceNodeId,
@@ -1748,8 +1810,8 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
         x2,
         y2: target.y,
         labelX: midpoint(x1, x2),
-        labelY: midpoint(source.y, target.y) - HORIZONTAL_EDGE_LABEL_CLEARANCE,
-        labelLines: wrapFlowText(edge.label, EDGE_LABEL_MAX_WIDTH),
+        labelY: midpoint(source.y, target.y) - (inlineLabel ? Math.max(34, labelLines.length * 22 + 12) / 2 + 10 : HORIZONTAL_EDGE_LABEL_CLEARANCE),
+        labelLines,
         ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
       };
     }

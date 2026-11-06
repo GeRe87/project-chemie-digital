@@ -37,5 +37,5 @@
   ex:uq-sd-section a cd:MathematicalDerivationSection ; cd:partOfDerivation ex:uq-sd-derivation ; cd:firstDerivationStep ex:uq-sd-step ; cd:lastDerivationStep ex:uq-sd-step ; cd:usesLegend ex:uq-sd-legend ; cd:authoredResource true .
   ex:uq-sd-cue a cd:Interpretation ; cd:hasKeyPoint ex:uq-sd-k1, ex:uq-sd-k2 ; cd:authoredResource true .
   ex:uq-sd-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "Concentration → Variance → Standard deviation: mg/L → (mg/L)² → mg/L."@en ; cd:authoredResource true .
-  ex:uq-sd-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "SD restores the measurement scale. It is not the mean absolute deviation from the sample mean."@en ; cd:authoredResource true .
+  ex:uq-sd-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "SD takes the square root of variance and restores the original measurement unit. Its calculation retains the squared-departure definition."@en ; cd:authoredResource true .
 }

@@ -59,7 +59,7 @@ const assert=require('node:assert/strict');
      const visual=await slide.locator('[data-scene-view-active="true"] > [data-component-kind="visual"]').boundingBox();
      assert(visual&&Math.abs(visual.height-panel.height)<4,'Single-column visual must fill the remaining stage height');
      const canvases=await slide.locator('.experiment-panels > figure > svg,.d3-chart-svg').evaluateAll(es=>es.filter(e=>e.clientHeight>0).map(e=>({canvas:e.viewBox.baseVal.height,cell:e.clientHeight})));
-     assert(canvases.every(({canvas,cell})=>Math.abs(canvas-cell)<3),'Plot coordinates must follow the allocated height without scaling the type');
+     assert(canvases.every(({canvas,cell})=>Math.abs(canvas-cell)<3),`${id}: plot coordinates must follow allocated height: ${JSON.stringify(canvases)}`);
      const flows=await slide.locator('.d3-flow-svg').evaluateAll(es=>es.map(e=>({width:e.clientWidth,titles:[...e.querySelectorAll('.d3-flow-node-title')].map(title=>title.querySelectorAll('tspan').length)})));
      const logicalSlideWidth=await slide.evaluate(e=>e.clientWidth);
      assert(flows.every(flow=>flow.width>=logicalSlideWidth*.9),'Flow must use the full stage width');

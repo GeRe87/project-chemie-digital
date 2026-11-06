@@ -32,7 +32,7 @@
   ex:vr-a1 skos:prefLabel "A₁"@en . ex:vr-a2 skos:prefLabel "A₂"@en . ex:vr-a3 skos:prefLabel "A₃"@en .
   ex:vr-b1 skos:prefLabel "B₁"@en . ex:vr-b2 skos:prefLabel "B₂"@en . ex:vr-b3 skos:prefLabel "B₃"@en .
   ex:vs-deviation-chart a cd:ChartDefinition ; skos:prefLabel "Signed distances from the shared mean"@en ;
-    cd:body "Stems connect the common mean 32/3 mg/L to each observation. Labels show signed deviations in mg/L, rounded to two decimals."@en ;
+    cd:body "Stems connect the common mean 32/3 mg/L to each observation. Series A is more tightly clustered than Series B. Labels show signed deviations in mg/L, rounded to two decimals."@en ;
     cd:chartType cd:DotPlot ; cd:drawStems true ; cd:xAxisLabel "Individual observation"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ;
     cd:hasChartGroup ex:vr-ga, ex:vr-gb ; cd:hasChartAnnotation ex:vs-exact-mean-line ; cd:markerRadius 6.0 ; cd:authoredResource true .
   ex:vs-exact-mean-line a cd:ChartReferenceLine ; cd:position 1 ; cd:body "Mean = 32/3 mg/L"@en ; cd:referenceResult ex:vr-mean ; cd:authoredResource true .
@@ -54,8 +54,8 @@
   ex:lake-s2 a cd:KeyPoint ; cd:position 2 ; cd:body "Independent normal observations; μ = 10 mg/L; σ² = 5 (mg/L)²."@en ; cd:authoredResource true .
   ex:lake-s3 a cd:KeyPoint ; cd:position 3 ; cd:body "One sample (n = 5, seed 1904): 9.425, 9.268, 7.229, 10.304, 11.291 mg/L."@en ; cd:authoredResource true .
   ex:lake-interpretation a cd:Interpretation ; cd:hasKeyPoint ex:lake-i1, ex:lake-i2, ex:lake-i3 ; cd:authoredResource true .
-  ex:lake-i1 a cd:KeyPoint ; cd:position 1 ; cd:body "One sample generally does not reproduce the population parameters exactly."@en ; cd:authoredResource true .
-  ex:lake-i2 a cd:KeyPoint ; cd:position 2 ; cd:body "One sample cannot establish systematic bias. We need repeated sampling."@en ; cd:authoredResource true .
+  ex:lake-i1 a cd:KeyPoint ; cd:position 1 ; cd:body "A sample provides estimates that vary across repetitions of the sampling procedure."@en ; cd:authoredResource true .
+  ex:lake-i2 a cd:KeyPoint ; cd:position 2 ; cd:body "Systematic estimator bias concerns its expectation over repeated sampling. Compare that expectation with the population target."@en ; cd:authoredResource true .
   ex:lake-i3 a cd:KeyPoint ; cd:position 3 ; cd:body "How does sample size influence the quality of our estimates?"@en ; cd:authoredResource true .
   ex:lake-table a cd:TableDefinition ; skos:prefLabel "One sample versus the known population"@en ; cd:hasTableColumn ex:lake-c1, ex:lake-c2, ex:lake-c3 ; cd:hasTableRow ex:lake-r1, ex:lake-r2 ; dct:source ex:lake-mean, ex:lake-msd, ex:vs-model ; cd:authoredResource true .
   ex:lake-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Quantity"@en ; cd:authoredResource true .

@@ -27,11 +27,11 @@ artifact=r.build_artifact(r.CourseUnitPathSelectionRequest(
  requested_path_graph_id=base+'graph/paths/chemometrics-level4-distribution-shape-lecture'))
 print(r.canonical_json(artifact))
 `],{cwd:fileURLToPath(new URL("../../../",import.meta.url)),encoding:"utf8",maxBuffer:32*1024*1024}));
-const artifact={...fullArtifact,sceneDocuments:fullArtifact.sceneDocuments.map(d=>({
+const artifact={...fullArtifact,thematicScripts:[],sceneDocuments:fullArtifact.sceneDocuments.map(d=>({
   ...d,scenes:d.scenes.filter(s=>s.blocks.some(b=>b.chartType==="observations"&&b.view==="ecdf"))
 }))};
 test("opening projects one static four-shape comparison before any ECDF",()=>{
-  const intro={...fullArtifact,sceneDocuments:fullArtifact.sceneDocuments.map(d=>({...d,scenes:d.scenes.slice(0,1)}))};
+  const intro={...fullArtifact,thematicScripts:[],sceneDocuments:fullArtifact.sceneDocuments.map(d=>({...d,scenes:d.scenes.slice(0,1)}))};
   validateCanonicalRuntimeArtifact(intro);
   const root=new Element();mountSceneDocuments({root,createElement:()=>new Element()},intro.sceneDocuments);
   assert.equal(root.children.length,1);

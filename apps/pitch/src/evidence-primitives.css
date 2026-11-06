@@ -120,7 +120,7 @@
   box-sizing: border-box;
   flex: 0 0 auto;
   width: 100%;
-  max-height: 10.5rem;
+  max-height: none;
   margin: 0;
   padding: .3rem;
   overflow: hidden;
@@ -132,9 +132,11 @@
   > [data-composition-region-container="prelude"]
   [data-component-kind="media"] img {
   display: block;
+  flex: none;
   width: 100%;
   height: auto;
-  max-height: 9.8rem;
+  min-height: 5rem;
+  max-height: 7rem;
   object-fit: contain;
 }
 
@@ -155,7 +157,7 @@
 /* Shared structured data surface. */
 /* Tables keep their intrinsic row height. Forcing a table to the evidence-row height
    stretches every row and can push the caption/table box beyond the slide boundary. */
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] {
   box-sizing: border-box;
   align-self: flex-start;
@@ -175,7 +177,7 @@
   overflow: hidden;
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] caption {
   caption-side: top;
   box-sizing: border-box;
@@ -189,7 +191,7 @@
   text-align: left;
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] thead th {
   padding: .56rem .65rem;
   border-bottom: 2px solid color-mix(in srgb, var(--pcd-accent) 54%, transparent);
@@ -200,12 +202,12 @@
   vertical-align: middle;
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] :is(th, td) + :is(th, td) {
   border-left: 1px solid color-mix(in srgb, var(--pcd-accent) 20%, transparent);
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] tbody td {
   padding: .56rem .65rem;
   border-bottom: 1px solid color-mix(in srgb, var(--pcd-accent) 18%, transparent);
@@ -217,12 +219,12 @@
   overflow-wrap: break-word;
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--pcd-accent) 7%, var(--pcd-surface-strong));
 }
 
-.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"])
+.reveal .slides section:is([data-composition="evidence-stage"], [data-composition="stack"], [data-composition-profile="formula-deck"], [data-composition-profile="process-matrix"], [data-composition-profile="worked-calculation"])
   [data-component-kind="data-surface"] tbody tr:last-child td {
   border-bottom: 0;
 }

@@ -114,8 +114,11 @@ Three water samples are measured four times for nitrate. Which sample is clearly
   ex:table-cell-nitrate-c-4 a cd:TableCell ; cd:position 5 ; cd:body "19.1"@en ; cd:authoredResource true .
 
   ex:chart-chemometrics-nitrate-means a cd:ChartDefinition ;
+    # The figure-specific finding is owned by the chart; the discussion keeps
+    # the independent reasoning about location and variation.
+    cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest ;
     skos:prefLabel "Mean nitrate concentration"@en ;
-    cd:body "Bars: mean nitrate concentration. Sample SD (mg/L): A 0.18 · B 0.13 · C 0.31."@en ;
+    cd:body "Bars show mean nitrate concentration from four replicates per water sample. Sample C has a much higher mean than A and B in this illustrative dataset. Sample SDs are 0.18 mg/L for A, 0.13 mg/L for B and 0.31 mg/L for C."@en ;
     cd:chartType cd:BarChart ;
     cd:xAxisLabel "Water sample"@en ;
     cd:yAxisLabel "Mean nitrate concentration"@en ;
@@ -151,8 +154,7 @@ Three water samples are measured four times for nitrate. Which sample is clearly
   ex:chemometrics-nitrate-case-discussion a cd:Interpretation ;
     cd:body "The result is useful only when level and variation are interpreted together."@en ;
     cd:interpretsResource ex:annotation-chemometrics-nitrate-runoff-high ;
-    cd:hasKeyPoint ex:chemometrics-nitrate-discussion-c-highest,
-      ex:chemometrics-nitrate-discussion-variation ;
+    cd:hasKeyPoint ex:chemometrics-nitrate-discussion-variation ;
     cd:authoredResource true .
 
   ex:chemometrics-nitrate-discussion-c-highest a cd:KeyPoint ;
@@ -161,7 +163,7 @@ Three water samples are measured four times for nitrate. Which sample is clearly
     cd:authoredResource true .
 
   ex:chemometrics-nitrate-discussion-variation a cd:KeyPoint ;
-    cd:position 2 ;
+    cd:position 1 ;
     cd:body "Replicates reveal spread: a defensible conclusion needs both concentration level and variation."@en ;
     cd:authoredResource true .
 
@@ -394,7 +396,7 @@ Principles · problem solving · calculations · programming"""@en ;
   ex:chemometrics-introduction-round-programming a cd:DefinitionListEntry ;
     cd:position 3 ;
     skos:prefLabel "PROGRAMMING"@en ;
-    cd:body "Python · R · MATLAB · another language · no programming experience"@en ;
+    cd:body "Python · R · MATLAB · another language · starting to learn programming"@en ;
     cd:authoredResource true .
 
   # Retained long-form exercise for self-study/accessibility reuse -----------

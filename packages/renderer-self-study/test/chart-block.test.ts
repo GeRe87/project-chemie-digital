@@ -49,6 +49,12 @@ test("bar charts remain structured and render as semantic static tables", () => 
   assert.match(html, /data-chart-datum-id="datum:b"/);
   assert.match(html, /Response/);
   assert.match(html, /Largest response/);
+  assert.doesNotMatch(html, /self-study-chart-host/);
+  const script=renderSelfStudyHtml(result.plan!, {interactive:false,narrative:true});
+  assert.match(script, /self-study-chart-host/);
+  assert.match(script, /<figcaption><strong>Measured response<\/strong> <span>Three observations<\/span><\/figcaption>/);
+  assert.match(script, /<details class="self-study-chart-data">/);
+  assert.match(script, /data-chart-datum-id="datum:b"/);
 });
 
 test("line charts preserve series, points and range annotations in static output", () => {
@@ -104,4 +110,12 @@ test("line charts preserve series, points and range annotations in static output
   assert.match(html, /data-chart-series-id="series:calibration"/);
   assert.match(html, /data-chart-datum-id="point:2"/);
   assert.match(html, /Working range/);
+  const script=renderSelfStudyHtml(result.plan!, {interactive:false,narrative:true});
+  assert.match(script, /self-study-chart-host/);
+  assert.match(script, /<figcaption><strong>Calibration<\/strong> <span>Illustrative response curve<\/span><\/figcaption>/);
+  assert.match(script, /data-chart-datum-id="point:2"/);
+  const groupDocument:SceneDocument={...document,scenes:document.scenes.map(scene=>({...scene,blocks:[{id:'block:group',kind:'group',children:scene.blocks,readingOrder:scene.blocks.map(block=>block.id),source:[{resourceId:'resource:group'}]}],readingOrder:['block:group']}))};
+  const grouped=createSelfStudyRenderPlan(groupDocument);
+  assert.deepEqual(grouped.diagnostics,[]);
+  assert.match(renderSelfStudyHtml(grouped.plan!,{interactive:false,narrative:true}),/self-study-group[\s\S]*self-study-chart-host/);
 });

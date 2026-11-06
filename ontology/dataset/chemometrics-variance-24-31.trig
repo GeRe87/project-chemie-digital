@@ -112,7 +112,7 @@
   ex:v29-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.1 ; cd:authoredResource true .
   ex:v29-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 9.9 ; cd:authoredResource true .
   ex:v29-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 15.2 ; cd:authoredResource true .
-  ex:v29-chart a cd:ChartDefinition ; skos:prefLabel "Before and after one extreme value"@en ; cd:body "Illustrative comparison on the same unshifted concentration scale."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Dataset version"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v29-g1, ex:v29-g2 ; cd:authoredResource true .
+  ex:v29-chart a cd:ChartDefinition ; skos:prefLabel "Before and after one extreme value"@en ; cd:body "Replacing only QC A's 10.2 mg/L result by 15.2 mg/L increases its mean, sample variance and SD. The other four observations and the concentration scale are unchanged. This is an illustrative modification, not a new observed QC dataset."@en ; cd:chartType cd:DotPlot ; cd:xAxisLabel "Dataset version"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:v29-g1, ex:v29-g2 ; cd:authoredResource true .
   ex:v29-g1 a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Original"@en ; cd:usesDataset ex:dataset-qc-method-a ; cd:authoredResource true .
   ex:v29-g2 a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "One extreme value"@en ; cd:usesDataset ex:v29-data ; cd:authoredResource true .
 

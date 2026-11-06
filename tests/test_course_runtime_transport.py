@@ -66,6 +66,21 @@ class CourseRuntimeTransportTests(unittest.TestCase):
         self.assertEqual(payload["transport"]["sharedGraph"], shared)
         self.assertLess(len(payload["datasetSnapshot"]["entities"]), len(artifact["datasetSnapshot"]["entities"]))
 
+    def test_thematic_scripts_stay_with_their_exact_level_and_reassemble(self):
+        artifact=self.artifact()
+        second={**artifact['sceneDocuments'][0], 'id':'document:second','sourcePathId':'path:second'}
+        artifact['sceneDocuments'].append(second)
+        artifact['sceneDocumentBindings'].append({'sceneDocumentId':'document:second','pathId':'path:second','pathGraphId':'graph:second'})
+        script={'id':'script:second','pathId':'path:second','pathGraphId':'graph:second','sections':[]}
+        artifact['thematicScripts']=[script]
+        manifest,files=TRANSPORT.build_course_transport(artifact)
+        payloads=[json.loads(files[Path(r['runtime']).name]) for r in manifest['documents']]
+        self.assertEqual([],payloads[0]['thematicScripts'])
+        self.assertEqual([script],payloads[1]['thematicScripts'])
+        with tempfile.TemporaryDirectory() as temporary:
+            output=Path(temporary);TRANSPORT.replace_transport_directory(output/'course-runtime',files)
+            self.assertEqual(artifact,STATIC.read_split_artifact(output))
+
     def test_generated_directory_replacement_removes_retired_files_only(self):
         with tempfile.TemporaryDirectory() as temporary:
             public = Path(temporary)
@@ -81,6 +96,8 @@ class CourseRuntimeTransportTests(unittest.TestCase):
             self.assertEqual({path.name for path in course.iterdir()}, set(files))
 
     def test_production_staging_uses_versioned_assets_and_pinned_vendor_only(self):
+        self.assertTrue(STATIC.is_generated_public_path(Path('script-pdf/manifest.json')))
+        self.assertTrue(STATIC.is_generated_public_path(Path('script-pdf/stale.pdf')))
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             public = root / "apps/pitch/public"

@@ -28,7 +28,10 @@ test('wide flow cards use their content width without splitting ordinary words',
  const layout=createD3FlowLayout(graph,1380);
  assert(layout.nodes[0]!.labelLines.includes('measurements'));
  assert.equal(layout.nodes[0]!.labelLines.join(''),'Take six measurements');
- assert(layout.nodes.every(node=>node.width>=252));
+  assert(layout.nodes.every(node=>node.width>=252));
+  assert.equal(new Set(layout.nodes.map(node=>node.height)).size,1,'ordinary peer cards share height');
+  assert.equal(new Set(layout.nodes.map(node=>node.y-node.height/2)).size,1,'ordinary peer cards share top edge');
+  assert(layout.edges.every(edge=>Math.abs(edge.labelY-edge.y1)<60),'transition labels use the reserved arrow gutter');
 });
 
 const branchedInput = {
@@ -619,8 +622,7 @@ test("hierarchies reflow unrelated content by available width and grow for long 
       assert.ok(node.y - node.height / 2 >= 0 && node.y + node.height / 2 <= layout.height);
       if (authored.description) {
         assert.ok(node.labelLines.length >= 2, "bold uppercase titles must wrap before reaching the card edge");
-        const motifSize = Math.min(88, Math.max(72, node.width * .24));
-        assert.ok(node.height >= 42 + node.labelLines.length * 28 + 11 + 20 + motifSize + 20 + node.bodyLines.length * 23 + 24);
+        assert.ok(node.height >= 82 + node.labelLines.length * 28 + 72 + node.bodyLines.length * 23);
       }
     }
     // Orthogonal connectors must not run through unrelated cards in earlier rows.

@@ -20,7 +20,7 @@
   ex:vv-pop-card a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A known population"@en ; cd:body "Independent normal observations. Mean μ = 10 mg/L; variance σ² = 5 (mg/L)²; SD σ = √5 mg/L."@en ; cd:authoredResource true .
   ex:vv-samples-card a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Five fresh samples at each size"@en ; cd:body "n = 2, 3, 5, 10, 25, 50, 100. Fit each sample mean, then calculate MSD with divisor n. Seed 1901."@en ; cd:authoredResource true .
   ex:vv-scatter-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-scatter-point ; dct:source ex:vb-mc-task ; cd:authoredResource true .
-  ex:vv-scatter-point a cd:KeyPoint ; cd:position 1 ; cd:body "Small samples fluctuate more. Five realizations per size cannot reliably establish bias."@en ; cd:authoredResource true .
+  ex:vv-scatter-point a cd:KeyPoint ; cd:position 1 ; cd:body "The five realizations per size illustrate sampling fluctuation. Estimator bias is assessed through its repeated-sampling expectation."@en ; cd:authoredResource true .
   ex:vv-mc-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-mc-point ; dct:source ex:vs-mc-task ; cd:authoredResource true .
   ex:vv-mc-point a cd:KeyPoint ; cd:position 1 ; cd:body "Prepared demonstration: average 5,000 independent samples per size, then compare with the known variance."@en ; cd:authoredResource true .
   ex:vv-centers-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-centers-1, ex:vv-centers-2 ; dct:source ex:vb-centers-cards ; cd:authoredResource true .
@@ -59,7 +59,7 @@
   ex:vv-ep2 a cd:KeyPoint ; cd:position 2 ; cd:body "5,000 independent samples per size; seed 1903. These averages approximate expectations."@en ; cd:authoredResource true .
   ex:vv-ep3 a cd:KeyPoint ; cd:position 3 ; cd:body "Bias concerns expectation, not each realization. Why does fitting the mean reduce squared deviations?"@en ; cd:authoredResource true .
   ex:vv-recap-cue a cd:Interpretation ; cd:hasKeyPoint ex:vv-rp1 ; dct:source ex:vm-recap ; cd:authoredResource true .
-  ex:vv-rp1 a cd:KeyPoint ; cd:position 1 ; cd:body "Theory explains average bias. Monte Carlo means approximate the curve; they need not lie exactly on it."@en ; cd:authoredResource true .
+  ex:vv-rp1 a cd:KeyPoint ; cd:position 1 ; cd:body "Theory gives the expectation curve. Finite Monte Carlo averages approximate it with simulation variation."@en ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture> {

@@ -1,6 +1,9 @@
 /* Component internals only. Typography and actions use the shared interactive
    contract; no scene selector, outer slide layout or viewport-sized type. */
-.distribution-experiment { position:relative;display:flex;flex-direction:column;gap:.5rem;min-width:0;min-height:0;color:var(--pcd-foreground); }
+.distribution-experiment { position:relative;display:flex;flex-direction:column;gap:.5rem;min-width:0;min-height:0;margin:0;color:var(--pcd-foreground); }
+.distribution-experiment > .experiment-caption { margin:0;font:inherit;line-height:1.35;white-space:pre-line;text-align:left; }
+.distribution-experiment > .experiment-caption > .experiment-caption-text { margin:0;padding:0;border:0;background:none;font:inherit; }
+.distribution-experiment > .experiment-caption > .experiment-readouts { margin-top:.5rem; }
 .experiment-description,.experiment-note,.experiment-feedback { margin:0;font:inherit; }
 .experiment-description { font-weight:700; }
 .experiment-model-description { white-space:pre-line; }

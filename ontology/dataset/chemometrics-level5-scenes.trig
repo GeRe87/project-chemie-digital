@@ -16,7 +16,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:al-map-title .
   ex:al-map-title rdf:type cd:Interpretation ;
-    skos:prefLabel "How the five distribution families connect"@en ;
+    skos:prefLabel "Each distribution family has a characteristic construction"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
@@ -29,7 +29,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ix-series-title .
   ex:ix-series-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Same method, different spreads"@en ;
+    skos:prefLabel "Samples with equal means can have different spreads"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ix-size-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -46,7 +46,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ix-size-title .
   ex:ix-size-title rdf:type cd:Interpretation ;
-    skos:prefLabel "What changes when six repeats become thirty"@en ;
+    skos:prefLabel "Larger samples concentrate the variance estimates"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ix-square-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -71,7 +71,7 @@
     cd:hasSceneItem ex:ix-square-v ;
     cd:narration "Squaring a standard-normal value folds both tails onto the nonnegative axis. The result follows a chi-square distribution with one degree of freedom and a long right tail. As for every continuous variable, probabilities describe intervals; each exact value has probability zero."@en .
   ex:ix-square-title rdf:type cd:Interpretation ;
-    skos:prefLabel "From one normal draw to one squared distance"@en ;
+    skos:prefLabel "Squaring a standard-Normal draw creates a chi-square quantity"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ix-square-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -115,7 +115,7 @@
     cd:selectionPath "cd:hasTableRow" ;
     cd:selectsResource ex:ic-deviation-table .
   ex:ic-deviations-title rdf:type cd:Interpretation ;
-    skos:prefLabel "First describe today's spread; judge its rarity afterward"@en ;
+    skos:prefLabel "How much do the six nitrate results vary?"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ic-repeated-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -125,7 +125,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ic-repeated-title .
   ex:ic-repeated-title rdf:type cd:Interpretation ;
-    skos:prefLabel "What variance estimates would an unchanged method produce"@en ;
+    skos:prefLabel "An unchanged method still produces varying variance estimates"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ic-squares dct:subject ex:l5-topic-chi ;
     rdf:type cd:SceneDefinition ;
@@ -158,7 +158,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ic-squares-title .
   ex:ic-squares-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Scale, square and add: the observed statistic is 12"@en ;
+    skos:prefLabel "Scaled squared deviations make sample spread comparable"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ic-squares-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -198,7 +198,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ic-test-title .
   ex:ic-test-title rdf:type cd:Interpretation ;
-    skos:prefLabel "12 exceeds 11.07: evidence of poorer IC repeatability"@en ;
+    skos:prefLabel "An upper-tail comparison checks the reference precision"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:ic-test-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -218,7 +218,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:ic-question-title .
   ex:ic-question-title rdf:type cd:Interpretation ;
-    skos:prefLabel "A larger sample SD is not yet a test decision"@en ;
+    skos:prefLabel "Compare sample spread with a reference distribution"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
@@ -231,7 +231,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:lg-checks-title .
   ex:lg-checks-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Positive and right-skewed does not prove lognormal"@en ;
+    skos:prefLabel "Match the lognormal model to the measurement process"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:lg-definition-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -266,7 +266,7 @@
     cd:hasSceneItem ex:lg-log-scale-v ;
     cd:narration "The same three concentrations have linear gaps of 2 and 2.5 ng/L. Their natural log ratios to 10 ng/L are symmetric around zero, at about -0.22314 and 0.22314.\n\nLogarithms express relative changes. Their arguments are dimensionless, and concentrations below the reference give negative log ratios."@en .
   ex:lg-log-scale-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Same concentrations, different distance scales"@en ;
+    skos:prefLabel "A log axis displays relative concentration changes"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:lg-log-scale-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -298,7 +298,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:lg-process-title .
   ex:lg-process-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Two different repeat experiments"@en ;
+    skos:prefLabel "Multiplicative factors motivate a different model"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:lg-process-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -315,7 +315,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:lg-saved-title .
   ex:lg-saved-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Why the long right tail"@en ;
+    skos:prefLabel "Positive relative factors can produce a long right tail"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:lg-saved-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -332,7 +332,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:lg-tail-title .
   ex:lg-tail-title rdf:type cd:Interpretation ;
-    skos:prefLabel "How often would a stable model exceed 15 ng/L"@en ;
+    skos:prefLabel "Lognormal tail probabilities retain the concentration scale"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
@@ -345,7 +345,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:rev-ks-overlay-title .
   ex:rev-ks-overlay-title rdf:type cd:Interpretation ;
-    skos:prefLabel "KS: overlay ECDF and CDF, find the largest vertical gap"@en ;
+    skos:prefLabel "KS checks the largest ECDF–model gap, including jump sides"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:rev-pearson-start-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -355,7 +355,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:rev-pearson-start-title .
   ex:rev-pearson-start-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Pearson: do 100 particle counts match five stated proportions"@en ;
+    skos:prefLabel "Pearson compares observed counts with model expectations"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:rev-pearson-table-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -365,7 +365,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:rev-pearson-table-title .
   ex:rev-pearson-table-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Pearson decision: read 4 df and the 5% column"@en ;
+    skos:prefLabel "Pearson combines bin discrepancies into one model check"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:rev-qq-read-c rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -382,7 +382,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:rev-qq-read-title .
   ex:rev-qq-read-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Q-Q comparison: near the line versus a clear bend"@en ;
+    skos:prefLabel "Q-Q plots compare observed and theoretical quantiles"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:rev-qq-read-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -409,7 +409,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-bands-title .
   ex:nn-bands-title rdf:type cd:Interpretation ;
-    skos:prefLabel "One tail or two: derive the central coverage"@en ;
+    skos:prefLabel "Central coverage accounts for both tails"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-cdf-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -426,7 +426,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-cdf-title .
   ex:nn-cdf-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Uppercase Phi turns density area into probability"@en ;
+    skos:prefLabel "$\\Phi$ gives cumulative standard-Normal probability"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-decision-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -443,7 +443,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-decision-title .
   ex:nn-decision-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Where should an upper one-percent limit lie"@en ;
+    skos:prefLabel "The model quantile sets an upper-tail concentration limit"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-devices-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -460,7 +460,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-devices-title .
   ex:nn-devices-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Compare Methods on a Standardized Scale"@en ;
+    skos:prefLabel "The same concentration gap can mean different tail probabilities"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-ecdf-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -470,7 +470,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-ecdf-title .
   ex:nn-ecdf-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Why does the ECDF not exactly follow the model"@en ;
+    skos:prefLabel "The ECDF accumulates observed sample fractions"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-eta-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -480,7 +480,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-eta-title .
   ex:nn-eta-title rdf:type cd:Interpretation ;
-    skos:prefLabel "z-score: distance from expectation in SD units"@en ;
+    skos:prefLabel "Standardization expresses distance in model SD units"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-phi-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -497,7 +497,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-phi-title .
   ex:nn-phi-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Lowercase phi describes density, not point probability"@en ;
+    skos:prefLabel "$\\varphi$ describes the standard-Normal density"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:nn-tail-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -514,7 +514,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:nn-tail-title .
   ex:nn-tail-title rdf:type cd:Interpretation ;
-    skos:prefLabel "How often does a stable method exceed 10.20 mg/L"@en ;
+    skos:prefLabel "A fixed limit's exceedance probability depends on model spread"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
@@ -722,6 +722,7 @@
     cd:hasSceneItem ex:ic-deviations-h ;
     cd:hasSceneItem ex:ic-deviations-t ;
     cd:hasSceneItem ex:rv-n32-f ;
+    cd:hasSceneItem ex:ic-spread-answer-item ;
     cd:narration "Subtract the sample mean, 10.05 mg/L, from each QC result. The squared residuals sum to 0.12 (mg/L) squared. Dividing by five gives sample variance 0.024 (mg/L) squared; its positive square root gives sample SD about 0.155 mg/L."@en .
   ex:rv-n32-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -730,6 +731,17 @@
     cd:position "3"^^xsd:integer ;
     cd:selectionPath "cd:latex" ;
     cd:selectsResource ex:ic-spread .
+  ex:ic-spread-answer-item rdf:type cd:SceneItem ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:communicativeRole cd:StatementRole ;
+    cd:language "en" ;
+    cd:position "4"^^xsd:integer ;
+    cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:ic-spread-answer .
+  ex:ic-spread-answer rdf:type cd:Interpretation ;
+    cd:authoredResource "true"^^xsd:boolean ;
+    cd:bodyFormat "markdown" ;
+    cd:body "**The sample SD is about 0.155 mg/L, roughly 55% above the known reference SD of 0.10 mg/L.** The table supplies the squared deviations; dividing their sum by five gives the sample variance. A repeated-sampling model assesses how unusual this increase is under the reference method."@en .
   ex:rv-n34 dct:subject ex:l5-topic-chi ;
     rdf:type cd:SceneDefinition ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1152,6 +1164,7 @@
     cd:hasSceneItem ex:pc-n09-f ;
     cd:hasSceneItem ex:pc-n09-h ;
     cd:hasSceneItem ex:pc-n09-v ;
+    cd:hasSceneItem ex:l5-interval-question-item ;
     cd:narration "The histogram summarizes 1,000 simulated results; the smooth curve represents the model density. Probability over an interval is the area under that curve, obtained by integrating the density. Comparing the shaded area with the observed interval fraction connects population-model probability with a finite sample."@en .
   ex:pc-n09-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1183,6 +1196,7 @@
     cd:hasSceneItem ex:pc-n10-f ;
     cd:hasSceneItem ex:pc-n10-h ;
     cd:hasSceneItem ex:pc-n10-v ;
+    cd:hasSceneItem ex:l5-quantile-answer-item ;
     cd:narration "The CDF gives the density area to the left of a threshold. Where the derivative relation holds, its slope equals the PDF. High density therefore produces a steep CDF.\n\nThe quantile function reverses this question: choosing cumulative probability 0.95 gives the threshold with 95% probability at or below it. These tools apply to both the Normal and bounded flat examples."@en .
   ex:pc-n10-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1249,7 +1263,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:tf-denominator-title .
   ex:tf-denominator-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Where do the heavier tails come from?"@en ;
+    skos:prefLabel "An estimated denominator gives t its heavier tails"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:tf-df-live-h rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1259,7 +1273,7 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:tf-df-live-title .
   ex:tf-df-live-title rdf:type cd:Interpretation ;
-    skos:prefLabel "What changes when we collect more results?"@en ;
+    skos:prefLabel "More degrees of freedom bring t closer to Normal"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:tf-f-construction-f rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1293,6 +1307,19 @@
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:tf-f-live-title .
   ex:tf-f-live-title rdf:type cd:Interpretation ;
-    skos:prefLabel "What if the true device variances were equal?"@en ;
+    skos:prefLabel "Equal true variances give a reference for the sample ratio"@en ;
     cd:authoredResource "true"^^xsd:boolean .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level5-review-pdf-cdf> {
+  ex:l5-interval-question a cd:Interpretation ; cd:authoredResource true ;
+    cd:body "Next question: which concentration leaves 95% of model probability at or below it?"@en .
+  ex:l5-quantile-answer a cd:Interpretation ; cd:authoredResource true ;
+    cd:body "Answer: the model's 0.95 quantile (95% reference example; controls explore other probabilities)."@en .
+  ex:l5-interval-question-item a cd:SceneItem ; cd:authoredResource true ;
+    cd:communicativeRole cd:StatementRole ; cd:language "en" ; cd:position 4 ;
+    cd:selectionPath "cd:body" ; cd:selectsResource ex:l5-interval-question .
+  ex:l5-quantile-answer-item a cd:SceneItem ; cd:authoredResource true ;
+    cd:communicativeRole cd:StatementRole ; cd:language "en" ; cd:position 4 ;
+    cd:selectionPath "cd:body" ; cd:selectsResource ex:l5-quantile-answer .
 }

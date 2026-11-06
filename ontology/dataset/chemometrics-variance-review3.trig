@@ -14,7 +14,7 @@
   ex:vs-calc06 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc06-k ; dct:source ex:vr06 ; cd:authoredResource true .
   ex:vs-calc06-k a cd:KeyPoint ; cd:position 1 ; cd:body "Deviations sum to zero: a fundamental property of the arithmetic mean."@en ; cd:authoredResource true .
   ex:vs-calc07 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc07-k ; dct:source ex:vr07 ; cd:authoredResource true .
-  ex:vs-calc07-k a cd:KeyPoint ; cd:position 1 ; cd:body "Squared deviations do not cancel and therefore preserve information about spread."@en ; cd:authoredResource true .
+  ex:vs-calc07-k a cd:KeyPoint ; cd:position 1 ; cd:body "Squaring gives every departure a nonnegative contribution, so their sum describes the aggregate spread."@en ; cd:authoredResource true .
   ex:vs-calc08 a cd:Interpretation ; cd:hasKeyPoint ex:vs-calc08-k ; dct:source ex:vr08 ; cd:authoredResource true .
   ex:vs-calc08-k a cd:KeyPoint ; cd:position 1 ; cd:body "MSD describes the average squared deviation per observation."@en ; cd:authoredResource true .
   ex:vs-dev-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:vs-dev-l1, ex:vs-dev-l2 ; cd:authoredResource true .

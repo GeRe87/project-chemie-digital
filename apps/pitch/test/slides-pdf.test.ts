@@ -64,13 +64,18 @@ test("print retains the renderer's composition and excludes screen-only responsi
 test('paper charts have an intrinsic SVG viewport rather than a zero-height flex remainder',()=>{
  const css=readFileSync(new URL('../src/slides-pdf.css',import.meta.url),'utf8');
  assert.match(css,/html\.print-pdf[^{}]*\[data-chart-block-id\] \.d3-chart-svg\s*\{[^}]*flex:none!important[^}]*height:auto!important/s);
- assert.match(css,/\.media-reference img[^}]*height:auto!important/s);
+  assert.match(css,/\.media-reference img[^}]*height:auto!important/s);
+  assert.match(css,/section:is\([^{}]*\[data-composition-profile="scenario-data-visual"\]\) \{ display:grid!important/);
  const audit=readFileSync(new URL('../../../scripts/check_slides_pdf_browser.cjs',import.meta.url),'utf8');
  assert.match(audit,/missing or collapsed core graphic/);assert.match(audit,/colliding formula comparison/);
 });
-test('multiple complete formula units form stacked comparison cards',()=>{
+test('multiple complete formula units form a responsive comparison matrix without hiding later cards',()=>{
  const css=readFileSync(new URL('../src/teaching-primitives.css',import.meta.url),'utf8');
- assert.match(css,/:has\(> \.formula-with-legend ~ \.formula-with-legend\):not\(:has\(> \.formula-with-legend:nth-child\(4\)\)\)\s*\{\s*display:grid;grid-template-columns:minmax\(0,1fr\)/);
+  assert.match(css,/:has\(> \.formula-with-legend ~ \.formula-with-legend\):not\(:has\(> \.formula-with-legend:nth-child\(4\)\)\)\s*\{\s*display:grid;grid-template-columns:repeat\(auto-fit,minmax\(min\(100%,24rem\),1fr\)\);grid-auto-rows:minmax\(0,1fr\)/);
+  assert.match(css,/\.formula-with-legend:has\(> \.symbol-legend-disclosure\)[^{]*\{[^}]*max-height:100%/);
+  const audit=readFileSync(new URL('../../../scripts/check_level4_visual_alignment_browser.cjs',import.meta.url),'utf8');
+  assert.match(audit,/for\(const overflow of geometry\.overflow\)report\.failures\.push/);
+  assert.match(audit,/legend-end\.png/);
 });
 
 test('dense paper overviews reclaim card padding without reducing symbol typography',()=>{

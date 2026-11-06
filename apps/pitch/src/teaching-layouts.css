@@ -45,6 +45,74 @@
 .reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="prelude"] { grid-column:1;grid-row:2; }
 .reveal .slides section[data-composition-profile="formula-deck"]:has(> [data-composition-region-container="prelude"] > [data-component-kind="data-surface"]) > [data-composition-region-container="main"] { grid-column:2;grid-row:2; }
 /* Ordinary cards and formula overview cards use the same responsive matrix. */
+@media screen and (min-width: 701px) {
+  /* Diagram/experiment columns consume the available teaching stage. Controls
+     keep intrinsic height; spare height belongs to the actual plot. */
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="info-visual"]:has(.distribution-experiment) {
+    box-sizing: border-box;
+    height: 840px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="info-visual"] > .pcd-composition-region:has(.distribution-experiment) {
+    align-self: stretch;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="info-visual"] > .pcd-composition-region > [data-component-kind="visual"]:has(.distribution-experiment) {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .distribution-experiment {
+    --pcd-experiment-fill-stage: 1;
+    box-sizing: border-box;
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
+  }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .distribution-experiment > :not(.experiment-panels) { flex-shrink: 0; }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .experiment-panels { flex: 1 1 160px; min-height: 160px; }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .experiment-panels > figure { display: flex; flex-direction: column; height: 100%; }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .experiment-panels > figure > svg { flex: 1 1 0; height: 0; min-height: 160px; }
+  .reveal .slides section:is([data-composition-profile="info-visual"], [data-composition="stack"][data-composition-main-count="1"]) .experiment-panels figcaption { flex: none; min-height: var(--pcd-experiment-legend-height, 0px); }
+}
+/* A worked calculation has one shared top edge for data and formula, followed
+   by its authored answer. Never vertically center a peer calculation surface. */
+.reveal .slides section[data-composition-profile="worked-calculation"] {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  align-items: start;
+}
+.reveal .slides section[data-composition-profile="worked-calculation"] > [data-composition-region="heading"] { grid-column: 1 / -1; grid-row: 1; }
+.reveal .slides section[data-composition-profile="worked-calculation"] > [data-composition-region-container="primary"] { grid-column: 1; grid-row: 2; }
+.reveal .slides section[data-composition-profile="worked-calculation"] > [data-composition-region-container="secondary"] { grid-column: 2; grid-row: 2; }
+.reveal .slides section[data-composition-profile="worked-calculation"] > [data-composition-region-container="footer"] { grid-column: 1 / -1; grid-row: 3; }
+.reveal .slides section[data-composition-profile="worked-calculation"] > .pcd-composition-region { align-self: start; }
+.reveal .slides section[data-composition-profile="worked-calculation"] .formula-with-legend { container-type: inline-size; }
+.reveal .slides section[data-composition-profile="worked-calculation"] .math-display {
+  font-size: clamp(1em, 2.4cqi, 1.2em);
+  max-width: 100%;
+  overflow-x: auto;
+}
+.reveal .slides section[data-composition-profile="worked-calculation"] [data-composition-region="footer"] {
+  margin: 0;
+  text-align: left;
+  font: 400 .8em/1.35 Arial, Helvetica, sans-serif;
+}
+@media screen and (max-width: 700px) {
+  .reveal .slides section[data-composition-profile="worked-calculation"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(4, max-content);
+    height: auto !important;
+  }
+  .reveal .slides section[data-composition-profile="worked-calculation"] > [data-composition-region-container] { grid-column: 1; grid-row: auto; }
+}
+
 .reveal :is([data-component-kind="card-collection"][data-composition-region="main"], .pcd-composition-region:has(> .formula-with-legend:nth-child(4))) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
@@ -103,4 +171,19 @@
     max-height: none;
   }
   html:not(.print-pdf) .reveal .slides section[data-composition="stack"][data-composition-main-count="1"] .d3-chart-figure > :not(.d3-chart-svg) { flex: none; }
+}
+/* Authored media descriptions belong to the figure, not a detached prose box. */
+.reveal .media-reference:has(> .media-caption) { display:flex;flex-direction:column;gap:.4rem;min-height:0; }
+.reveal .media-reference > .media-caption { flex:none;font:inherit;font-size:max(22px,.7em);line-height:1.35;text-align:left;margin:0; }
+.reveal .media-reference:has(> .media-caption) > img { min-height:0;flex:1 1 auto;object-fit:contain; }
+@media screen and (min-width:701px) {
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="visual-formula"]:has(.media-caption) {
+    box-sizing:border-box;height:840px;grid-template-rows:auto minmax(0,1fr) auto;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="visual-formula"]:has(.media-caption) > [data-composition-region-container="primary"] {
+    display:flex;flex-direction:column;min-height:0;height:100%;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="visual-formula"]:has(.media-caption) > [data-composition-region-container="primary"] > :not(.media-reference) { flex:none; }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="visual-formula"] .media-reference:has(> .media-caption) { flex:1 1 0;min-height:0;margin:0; }
+  html:not(.print-pdf) .reveal .slides section[data-composition-profile="visual-formula"] .media-reference:has(> .media-caption) > img { flex:1 1 0;min-height:0;height:0; }
 }

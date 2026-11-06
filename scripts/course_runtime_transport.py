@@ -94,6 +94,9 @@ def build_course_transport(artifact: dict[str, Any]) -> tuple[dict[str, Any], di
             **artifact,
             "datasetSnapshot": level_snapshot(artifact["datasetSnapshot"], document),
             "sceneDocuments": [document],
+            **({"thematicScripts": [script for script in artifact["thematicScripts"] if any(
+                binding["sceneDocumentId"] == document["id"] and binding["pathId"] == script["pathId"]
+                and binding["pathGraphId"] == script["pathGraphId"] for binding in artifact["sceneDocumentBindings"])]} if "thematicScripts" in artifact else {}),
             "sceneDocumentBindings": [binding for binding in artifact["sceneDocumentBindings"]
                                       if binding["sceneDocumentId"] == document["id"]],
             "transport": {"version": TRANSPORT_VERSION, "snapshotScope": "scene-neighborhood",

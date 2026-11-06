@@ -1,0 +1,40 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/schema/thematic-script> {
+  cd:ThematicScript a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource .
+  cd:ScriptSection a rdfs:Class, cdm:ConceptDescriptor ; rdfs:subClassOf cd:LearningResource ;
+    rdfs:comment "An authored section occurrence in one script, with context-specific prose and local position; shared scientific resources are referenced separately."@en .
+  cd:ScriptMaterial a rdfs:Class, cdm:ConceptDescriptor ;
+    rdfs:comment "A captioned occurrence of shared material in one script. Inline [[ref:IRI]] markers resolve through explicit dct:references links to this occurrence; publication numbers are generated from script order."@en .
+  cd:scriptForPath a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ThematicScript ; rdfs:range cd:LearningPath .
+  cd:scriptPathGraph a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ThematicScript .
+  cd:hasScriptSection a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ThematicScript ; rdfs:range cd:ScriptSection .
+  cd:hasScriptMaterial a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ScriptSection ; rdfs:range cd:ScriptMaterial .
+  cd:scriptResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ScriptMaterial ; rdfs:range cd:LearningResource .
+  cd:relatedScene a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ScriptSection ; rdfs:range cd:SceneDefinition .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/thematic-script> {
+  cd:ThematicScriptShape a sh:NodeShape ; sh:targetClass cd:ThematicScript ;
+    sh:property [ sh:path cd:scriptForPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class cd:LearningPath ] ;
+    sh:property [ sh:path cd:scriptPathGraph ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dct:title ; sh:minCount 1 ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:hasScriptSection ; sh:minCount 1 ; sh:class cd:ScriptSection ] .
+  cd:ScriptSectionShape a sh:NodeShape ; sh:targetClass cd:ScriptSection ;
+    sh:property [ sh:path [ sh:inversePath cd:hasScriptSection ] ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path dct:title ; sh:minCount 1 ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:body ; sh:minCount 1 ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
+    sh:property [ sh:path cd:hasScriptMaterial ; sh:class cd:ScriptMaterial ] ;
+    sh:property [ sh:path cd:relatedScene ; sh:class cd:SceneDefinition ] .
+  cd:ScriptMaterialShape a sh:NodeShape ; sh:targetClass cd:ScriptMaterial ;
+    sh:property [ sh:path dct:title ; sh:minCount 1 ; sh:datatype rdf:langString ; sh:uniqueLang true ] ;
+    sh:property [ sh:path [ sh:inversePath cd:hasScriptMaterial ] ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cd:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+    sh:property [ sh:path cd:scriptResource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class cd:LearningResource ] .
+}

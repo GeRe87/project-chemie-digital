@@ -87,6 +87,7 @@ export interface RevealMediaPlan extends RevealNodeBase {
   readonly version?: string;
   readonly integrity?: string;
   readonly alternativeText: string;
+  readonly caption?: string;
 }
 
 export interface RevealListItemPlan {
@@ -374,6 +375,7 @@ function mapBlock(block: SceneBlock, position: number, options: RevealAdapterOpt
         ...(block.version ? { version: block.version } : {}),
         ...(block.integrity ? { integrity: block.integrity } : {}),
         alternativeText: block.alternativeText,
+        ...(block.caption ? {caption:block.caption} : {}),
       };
     case "list":
       return {

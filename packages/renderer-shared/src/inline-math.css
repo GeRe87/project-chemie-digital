@@ -1,0 +1,7 @@
+/* Preserve mathematical glyphs while matching the surrounding heading/navigation
+   type size. KaTeX owns baseline alignment and the accessible MathML alternative. */
+:is(h1,h2,h3,h4,nav) .katex {
+  font-size:1em;
+  letter-spacing:normal;
+  text-transform:none;
+}

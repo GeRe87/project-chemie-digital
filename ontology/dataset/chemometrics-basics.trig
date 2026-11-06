@@ -958,10 +958,11 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:variables-values-observations-intro a cd:Interpretation ;
-    cd:body "We prepare five calibration standards with chosen concentrations and measure their absorbance. Concentration and absorbance are variables. Each row is one observation of a calibration standard and each cell contains one variable value. The plot shows the same concentration–absorbance observations graphically."@en ;
+    cd:body "Concentration and absorbance are variables. A calibration standard is the observational unit; its assigned concentration and measured absorbance are variable values recorded together as one observation."@en ;
     cd:authoredResource true .
 
   ex:media-uvvis-dilution-series a cd:MediaAsset ;
+    dct:description "Five calibration standards have assigned concentrations of 0, 1, 2, 5 and 10 mg/L. Increasing colour schematically illustrates the dilution series; absorbance values come from the instrument measurements."@en ;
     cd:uri "/chemometrics/uvvis-dilution-series.svg"^^xsd:anyURI ;
     cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Five volumetric flasks with increasingly coloured calibration standards at assigned concentrations of 0, 1, 2, 5 and 10 milligrams per litre."@en ;
@@ -978,10 +979,11 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:lake-sampling-replicates-intro a cd:Interpretation ;
-    cd:body "We sample one lake at five locations and take three replicate samples at each site. All 15 samples contain approximately the same concentration of analyte A. Each measurement is one observed concentration value, while the sampling site provides the grouping context."@en ;
+    cd:body "Each observation records a concentration at a sampled site and occasion. Site identity groups the replicate samples."@en ;
     cd:authoredResource true .
 
   ex:media-lake-sampling-sites a cd:MediaAsset ;
+    dct:description "Five sites each supply three replicate samples: 15 illustrative analyte-A concentrations, approximately equal. The schematic maps sampling locations; the table supplies the values."@en ;
     cd:uri "/chemometrics/lake-sampling-sites.svg"^^xsd:anyURI ;
     cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Schematic lake with five labeled sampling locations distributed across the water body."@en ;
@@ -1126,7 +1128,7 @@ Constant: aliquot volume"""@en ;
   ex:observed-variation-card a cd:DefinitionListEntry ;
     cd:position 2 ;
     skos:prefLabel "OBSERVED VARIATION"@en ;
-    cd:body """We measure differences rather than assign them. A variable's role depends on the study design.
+    cd:body """We observe how values differ under the study's sampling and measurement conditions. A variable's role depends on the design.
 |> Lake samples: concentration may vary with the environment, sampling and measurement."""@en ;
     cd:visualMotif "sampling-lake" ;
     cd:visualMotifRole "highlight" ;
@@ -1228,10 +1230,11 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:def-uvvis-additive-response-model a cd:Definition ;
-    cd:body "The observed absorbance can be written as a modelled concentration-dependent response plus a residual. Residual effects are relative to the chosen model and may include systematic as well as random influences. The model equation alone does not assume mean-zero or normally distributed residuals."@en ;
+    cd:body "The observed absorbance is decomposed into a modelled concentration-dependent response and a residual. The residual is defined relative to the chosen function and can contain systematic and random influences. A mean-zero condition or a Normal residual distribution is an additional assumption to specify and assess for the intended application."@en ;
     cd:authoredResource true .
 
   ex:uvvis-additive-response-equation a cd:MathExpression ;
+    dct:hasPart ex:uvvis-additive-response-legend ;
     cd:latex "A_i = f(c_i) + \\varepsilon_i" ;
     cd:authoredResource true .
 
@@ -1243,17 +1246,17 @@ Constant: aliquot volume"""@en ;
 
   ex:uvvis-response-legend-absorbance a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "Aᵢ"@en ;
-    cd:body "Observed absorbance of measurement i"@en ;
+    cd:body "Aᵢ is the observed absorbance of measurement i. Absorbance is dimensionless; i identifies the observation. The equals sign states the model decomposition, and + adds contributions on the absorbance scale."@en ;
     cd:authoredResource true .
 
   ex:uvvis-response-legend-function a cd:DefinitionListEntry ;
     cd:position 2 ; skos:prefLabel "f(cᵢ)"@en ;
-    cd:body "Modelled response for the chosen concentration cᵢ"@en ;
+    cd:body "f(cᵢ) is the modelled absorbance for concentration cᵢ of observation i. cᵢ uses the concentration unit declared for the calibration; f maps that concentration to dimensionless absorbance. Parentheses denote function evaluation."@en ;
     cd:authoredResource true .
 
   ex:uvvis-response-legend-residual a cd:DefinitionListEntry ;
     cd:position 3 ; skos:prefLabel "εᵢ"@en ;
-    cd:body "Combined effects not explained by the chosen model"@en ;
+    cd:body "εᵢ is the residual: observed absorbance minus modelled absorbance for observation i, on the same dimensionless absorbance scale. Its distribution and expectation require additional modelling assumptions."@en ;
     cd:authoredResource true .
 
 
@@ -1266,10 +1269,11 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:def-general-additive-response-model a cd:Definition ;
-    cd:body "An observed response y_i can be expressed as a modelled function f(x_i) of an explanatory input x_i plus a residual epsilon_i. The response function need not be linear; x_i can represent several explanatory variables. The residual is defined relative to the chosen model and is not necessarily normally distributed or mean-zero without further assumptions."@en ;
+    cd:body "An observed response is decomposed into a function of its explanatory input and a residual. The function can be linear or curved, and the input can contain several explanatory quantities with declared units. Residual expectation and distribution are additional model properties to specify under the intended measurement conditions."@en ;
     cd:authoredResource true .
 
   ex:general-additive-response-equation a cd:MathExpression ;
+    dct:hasPart ex:general-additive-response-legend ;
     cd:latex "y_i = f(x_i) + \\varepsilon_i" ;
     cd:authoredResource true .
 
@@ -1281,17 +1285,17 @@ Constant: aliquot volume"""@en ;
 
   ex:general-response-legend-output a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "yᵢ"@en ;
-    cd:body "Observed response of observation i"@en ;
+    cd:body "yᵢ is the observed response for observation i, in the response quantity's declared unit. i identifies the observation. The equals sign states the decomposition, and + adds contributions in the response unit."@en ;
     cd:authoredResource true .
 
   ex:general-response-legend-model a cd:DefinitionListEntry ;
     cd:position 2 ; skos:prefLabel "f(xᵢ)"@en ;
-    cd:body "Modelled response for the explanatory input xᵢ"@en ;
+    cd:body "f(xᵢ) is the modelled response for explanatory input xᵢ of observation i. xᵢ may contain several explanatory quantities with their own declared units. f maps those inputs to the response unit; parentheses denote evaluation."@en ;
     cd:authoredResource true .
 
   ex:general-response-legend-residual a cd:DefinitionListEntry ;
     cd:position 3 ; skos:prefLabel "εᵢ"@en ;
-    cd:body "Difference between the observed and modelled response; may combine several unmodelled influences"@en ;
+    cd:body "εᵢ is observed response minus modelled response for observation i, in the response unit. It combines the remaining influences relative to the selected function. Its expectation and distribution are specified by additional model assumptions."@en ;
     cd:authoredResource true .
 
 
@@ -1325,9 +1329,10 @@ Constant: aliquot volume"""@en ;
     cd:hasDefinitionListEntry ex:value-shape-scalar-card ; cd:authoredResource true .
   ex:value-shape-scalar-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "SCALAR"@en ;
-    cd:body "One number: nitrate in sample A."@en ;
+    cd:body "x is the nitrate concentration in sample A, 2.55 mg/L. = assigns the illustrated value; ∈ means belongs to; ℝ denotes the real numbers. The numerical value is expressed in mg/L."@en ;
     cd:authoredResource true .
   ex:value-shape-scalar-formula a cd:MathExpression ;
+    dct:hasPart ex:value-shape-scalar-cards ;
     cd:latex "\\begin{aligned}x &= 2.55\\\\ x &\\in \\mathbb{R}\\end{aligned}" ;
     cd:body "Scalar x equals 2.55 milligrams per litre: the nitrate concentration in sample A. x is a real number."@en ;
     cd:authoredResource true .
@@ -1336,9 +1341,10 @@ Constant: aliquot volume"""@en ;
     cd:hasDefinitionListEntry ex:value-shape-vector-card ; cd:authoredResource true .
   ex:value-shape-vector-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "VECTOR"@en ;
-    cd:body "One quantity across three samples: nitrate in A, B and C."@en ;
+    cd:body "The arrow over x denotes the ordered nitrate-concentration vector for samples A, B and C. Its entries are 2.55, 3.14 and 4.20 mg/L. Parentheses collect the components; = gives the illustrated vector; ∈ means belongs to; ℝ³ is the set of real vectors with three components, in the stated sample order."@en ;
     cd:authoredResource true .
   ex:value-shape-vector-formula a cd:MathExpression ;
+    dct:hasPart ex:value-shape-vector-cards ;
     cd:latex "\\begin{aligned}\\vec{x} &= \\begin{pmatrix}2.55\\\\3.14\\\\4.20\\end{pmatrix}\\\\ \\vec{x} &\\in \\mathbb{R}^{3}\\end{aligned}" ;
     cd:body "Vector x contains the nitrate concentrations 2.55, 3.14 and 4.20 milligrams per litre, in sample order A, B, C. It has three real components."@en ;
     cd:authoredResource true .
@@ -1347,9 +1353,10 @@ Constant: aliquot volume"""@en ;
     cd:hasDefinitionListEntry ex:value-shape-matrix-card ; cd:authoredResource true .
   ex:value-shape-matrix-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "MATRIX"@en ;
-    cd:body "Rows: samples A, B, C.\nColumns: nitrate, phosphate."@en ;
+    cd:body "Bold X denotes the data matrix. Rows represent samples A, B and C; columns represent nitrate and phosphate. Every entry uses mg/L. Parentheses collect the entries; = gives the illustrated matrix; ∈ means belongs to; ℝ denotes real numbers; 3 × 2 specifies three rows and two columns. The first column is the preceding nitrate vector."@en ;
     cd:authoredResource true .
   ex:value-shape-matrix-formula a cd:MathExpression ;
+    dct:hasPart ex:value-shape-matrix-cards ;
     cd:latex "\\begin{aligned}\\mathbf{X} &= \\begin{pmatrix}2.55 & 0.80\\\\3.14 & 1.10\\\\4.20 & 1.60\\end{pmatrix}\\\\ \\mathbf{X} &\\in \\mathbb{R}^{3\\times2}\\end{aligned}" ;
     cd:body "Matrix X has three rows for samples A, B, C and two columns for nitrate and phosphate. Its rows are 2.55 and 0.80; 3.14 and 1.10; 4.20 and 1.60 milligrams per litre. Its first column is the displayed nitrate vector."@en ;
     cd:authoredResource true .
@@ -1377,16 +1384,17 @@ Constant: aliquot volume"""@en ;
     cd:authoredResource true .
 
   ex:variable-value-types-intro a cd:Interpretation ;
-    cd:body "The value type describes the entries, not the shape of their collection."@en ;
+    cd:body "Value type describes the meaning and allowed values of the entries; collection shape describes their organization."@en ;
     cd:authoredResource true .
 
   ex:value-type-numbers-cards a cd:DefinitionList ;
     cd:hasDefinitionListEntry ex:value-type-numbers-card ; cd:authoredResource true .
   ex:value-type-numbers-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "NUMBERS"@en ;
-    cd:body "Real: concentration in mg/L\nInteger: replicate count\nComplex: impedance in ohms"@en ;
+    cd:body "∈ means belongs to. ℝ, ℤ and ℂ denote the real, integer and complex number sets. The examples are concentration 2.55 mg/L, replicate count 3 (dimensionless), and impedance 2 + 3i Ω. Here i is the imaginary unit with i² = −1; + combines real and imaginary parts and 3i means three times i. This i denotes the imaginary unit, while an observation index is defined separately where used."@en ;
     cd:authoredResource true .
   ex:value-type-numbers-formula a cd:MathExpression ;
+    dct:hasPart ex:value-type-numbers-cards ;
     cd:latex "\\begin{aligned}2.55 &\\in \\mathbb{R}\\\\3 &\\in \\mathbb{Z}\\\\2+3i &\\in \\mathbb{C}\\end{aligned}" ;
     cd:body "2.55 is a real number, illustrated by a concentration in milligrams per litre. 3 is an integer, illustrated by a replicate count. 2 plus 3 times the imaginary unit i is a complex number, illustrated by an impedance in ohms."@en ;
     cd:authoredResource true .
@@ -1395,9 +1403,10 @@ Constant: aliquot volume"""@en ;
     cd:hasDefinitionListEntry ex:value-type-categories-card ; cd:authoredResource true .
   ex:value-type-categories-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "CATEGORIES"@en ;
-    cd:body "Sample classes: tap, lake, runoff\nLabels identify groups, not amounts."@en ;
+    cd:body "c denotes the sample-class variable; = assigns its illustrated value, lake. Allowed labels are tap, lake and runoff. These are dimensionless class identities; their names preserve the categorical meaning."@en ;
     cd:authoredResource true .
   ex:value-type-categories-formula a cd:MathExpression ;
+    dct:hasPart ex:value-type-categories-cards ;
     cd:latex "c=\\text{lake}" ;
     cd:body "Category c is lake, one of the allowed sample-class labels tap, lake and runoff. The label is not a numerical amount."@en ;
     cd:authoredResource true .
@@ -1406,9 +1415,10 @@ Constant: aliquot volume"""@en ;
     cd:hasDefinitionListEntry ex:value-type-boolean-card ; cd:authoredResource true .
   ex:value-type-boolean-card a cd:DefinitionListEntry ;
     cd:position 1 ; skos:prefLabel "BOOLEAN"@en ;
-    cd:body "Quality check: passed or failed\nA condition is true or false."@en ;
+    cd:body "b denotes the Boolean result of the stated quality check. true records that the condition holds; false records its alternative truth value. = assigns the illustrated result; ∈ means belongs to; braces enclose the allowed set and the comma separates its two elements. Truth values are dimensionless logical values."@en ;
     cd:authoredResource true .
   ex:value-type-boolean-formula a cd:MathExpression ;
+    dct:hasPart ex:value-type-boolean-cards ;
     cd:latex "\\begin{aligned}b&=\\mathrm{true}\\\\b&\\in\\{\\mathrm{true},\\mathrm{false}\\}\\end{aligned}" ;
     cd:body "Boolean b is true because the illustrated quality check passed. Its allowed truth values are true and false."@en ;
     cd:authoredResource true .

@@ -77,6 +77,17 @@ test("does not invent density when the host has no fit marker", () => {
   assert.equal(receivedDensity, undefined);
 });
 
+test("reading views complete progressive charts without changing the shared scientific block", () => {
+  const host={getAttribute:(name:string)=>name==='data-chart-block-id'?block.id:null};
+  mountPitchCharts([host],[document],{readingView:true},(_host,actual)=>{
+    if(actual.chartType!=='bar')throw new Error('Expected bar chart');
+    assert.equal('presentation' in actual?actual.presentation:undefined,'complete');
+    assert.equal(actual.data,block.data);
+    return {destroy(){}};
+  })();
+  assert.equal('presentation' in block,false);
+});
+
 test("mounts charts nested inside multiple semantic groups and detects duplicate nested identities", () => {
   const group = {
     kind: "group" as const, id: "group:outer", source: block.source, readingOrder: ["group:inner"],

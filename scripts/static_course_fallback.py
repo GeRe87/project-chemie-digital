@@ -59,9 +59,10 @@ def media_fallback_markup(block: dict[str, Any]) -> str:
     else:
         content = f'<span>{html.escape(block["alternativeText"])}</span>'
     type_attribute = f' data-media-type="{html.escape(media_type, quote=True)}"' if media_type else ""
+    caption = f'<figcaption>{html.escape(block["caption"])}</figcaption>' if block.get("caption") else ""
     return (
         f'<figure class="media-reference-fallback" data-media-block-id="{html.escape(block["id"], quote=True)}"'
-        f'{type_attribute}{fallback_attributes(block["source"])}>{content}</figure>'
+        f'{type_attribute}{fallback_attributes(block["source"])}>{content}{caption}</figure>'
     )
 
 

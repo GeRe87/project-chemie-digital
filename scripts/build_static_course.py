@@ -92,6 +92,11 @@ def build(offering: str, output: Path, base: str, offline: bool = False) -> dict
         public = workspace / "public"
         stage_public_assets(ROOT / "apps/pitch/public", public)
         artifact = generator.generate_course(offering, public_root=public)
+        if artifact.get("thematicScripts"):
+            script_runtime = workspace / "script-runtime.json"
+            script_runtime.write_text(json.dumps(artifact, ensure_ascii=False), encoding="utf-8")
+            run(["node", "--experimental-strip-types", str(ROOT / "scripts/build_script_pdf.mts"),
+                 "--runtime", str(script_runtime), "--out-dir", str(public / "script-pdf"), "--public-root", str(public)])
         stage = workspace / "site"
         # This compile-time flag removes the standalone fallback's complete
         # dataset chunk from a course-only deployment. Development/standalone

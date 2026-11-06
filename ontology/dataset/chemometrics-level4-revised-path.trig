@@ -60,20 +60,20 @@
   ex:l4-revised-72 a cd:PathStep ; cd:position 72 ; cd:usesScene ex:l4-scene-skew-zero ; cd:usesResource ex:l4-skew-zero ; cd:authoredResource true .
   ex:l4-revised-73 a cd:PathStep ; cd:position 73 ; cd:usesScene ex:l4-scene-kurt-use ; cd:usesResource ex:l4-kurt-use, ex:l4-hist-bimodal-chart ; cd:authoredResource true .
   ex:l4-revised-74 a cd:PathStep ; cd:position 74 ; cd:usesScene ex:l4-scene-moment-lab ; cd:usesResource ex:l4-moment-lab, ex:l4-moment-code, ex:l4-moment-lab-title ; cd:authoredResource true .
-  ex:l4-revised-24 cd:usesResource ex:l4-box-extremes-intro, ex:l4-box-extremes-reading-1, ex:l4-box-extremes-reading-2 .
-  ex:l4-revised-25 cd:usesResource ex:l4-box-symmetric-intro, ex:l4-box-symmetric-reading-1, ex:l4-box-symmetric-reading-2 .
-  ex:l4-revised-26 cd:usesResource ex:l4-box-skewed-intro, ex:l4-box-skewed-reading-1, ex:l4-box-skewed-reading-2 .
-  ex:l4-revised-27 cd:usesResource ex:l4-box-bimodal-intro, ex:l4-box-bimodal-reading-1, ex:l4-box-bimodal-reading-2 .
-  ex:l4-revised-28 cd:usesResource ex:l4-box-uniform-intro, ex:l4-box-uniform-reading-1, ex:l4-box-uniform-reading-2 .
+  ex:l4-revised-24 cd:usesResource ex:l4-box-extremes-reading-2 .
+  ex:l4-revised-25 cd:usesResource ex:l4-box-symmetric-reading-2 .
+  ex:l4-revised-26 cd:usesResource ex:l4-box-skewed-reading-2 .
+  ex:l4-revised-27 cd:usesResource ex:l4-box-bimodal-reading-2 .
+  ex:l4-revised-28 cd:usesResource ex:l4-box-uniform-reading-2 .
   ex:l4-revised-30 cd:usesResource ex:l4-histogram-intro-intro, ex:l4-histogram-intro-reading-1, ex:l4-histogram-intro-reading-2 .
-  ex:l4-revised-31 cd:usesResource ex:l4-histogram-reading-intro, ex:l4-histogram-reading-reading-1, ex:l4-histogram-reading-reading-2 .
-  ex:l4-revised-32 cd:usesResource ex:l4-histogram-skewed-intro, ex:l4-histogram-skewed-reading-1, ex:l4-histogram-skewed-reading-2 .
-  ex:l4-revised-33 cd:usesResource ex:l4-histogram-bimodal-intro, ex:l4-histogram-bimodal-reading-1, ex:l4-histogram-bimodal-reading-2 .
+  ex:l4-revised-31 cd:usesResource ex:l4-histogram-reading-reading-2 .
+  ex:l4-revised-32 cd:usesResource ex:l4-histogram-skewed-reading-2 .
+  ex:l4-revised-33 cd:usesResource ex:l4-histogram-bimodal-reading-2 .
   ex:l4-revised-34 cd:usesResource ex:l4-histogram-2d-intro-intro, ex:l4-histogram-2d-intro-reading-1, ex:l4-histogram-2d-intro-reading-2 .
-  ex:l4-revised-35 cd:usesResource ex:l4-histogram-2d-reading-intro, ex:l4-histogram-2d-reading-reading-1, ex:l4-histogram-2d-reading-reading-2 .
-  ex:l4-revised-36 cd:usesResource ex:l4-histogram-too-coarse-intro, ex:l4-histogram-too-coarse-reading-1, ex:l4-histogram-too-coarse-reading-2 .
-  ex:l4-revised-37 cd:usesResource ex:l4-histogram-too-fine-intro, ex:l4-histogram-too-fine-reading-1, ex:l4-histogram-too-fine-reading-2 .
-  ex:l4-revised-38 cd:usesResource ex:l4-histogram-sensible-width-intro, ex:l4-histogram-sensible-width-reading-1, ex:l4-histogram-sensible-width-reading-2 .
+  ex:l4-revised-35 cd:usesResource ex:l4-histogram-2d-reading-reading-2 .
+  ex:l4-revised-36 cd:usesResource ex:l4-histogram-too-coarse-reading-2 .
+  ex:l4-revised-37 cd:usesResource ex:l4-histogram-too-fine-reading-2 .
+  ex:l4-revised-38 cd:usesResource ex:l4-histogram-sensible-width-reading-2 .
   ex:l4-revised-39 cd:usesResource ex:l4-histogram-origin-intro, ex:l4-histogram-origin-reading-1, ex:l4-histogram-origin-reading-2 .
   ex:l4-revised-41 cd:usesResource ex:l4-histogram-rule-example-intro, ex:l4-histogram-rule-example-reading-1, ex:l4-histogram-rule-example-reading-2 .
   ex:l4-revised-42 cd:usesResource ex:l4-histogram-variable-width-intro, ex:l4-histogram-variable-width-points .

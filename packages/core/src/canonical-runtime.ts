@@ -1,4 +1,5 @@
 import { validateSceneDocument, type SceneDocument } from "./scene-document.ts";
+import {validateThematicScript,type ThematicScript} from './thematic-script.ts';
 
 export const CANONICAL_RUNTIME_ARTIFACT_VERSION = "1.0" as const;
 export const TEACHING_OFFERING_RUNTIME_DOCUMENT_LEGACY_VERSION = "1.0" as const;
@@ -75,6 +76,7 @@ export interface CanonicalRuntimeSceneDocumentBinding {
 }
 
 export interface CanonicalRuntimeArtifact {
+  readonly thematicScripts?:readonly ThematicScript[];
   readonly artifactVersion: typeof CANONICAL_RUNTIME_ARTIFACT_VERSION;
   readonly datasetFingerprint: string;
   readonly datasetSnapshot: unknown;
@@ -441,5 +443,19 @@ export function validateCanonicalRuntimeArtifact(value: unknown): CanonicalRunti
     }
   }
 
+  if(root.thematicScripts!==undefined){
+    const scripts=requireArray(root.thematicScripts,'CanonicalRuntimeArtifact.thematicScripts');
+    const pairs=new Set<string>();
+    for(const script of scripts){
+      validateThematicScript(script);
+      const key=script.pathId+'\u0000'+script.pathGraphId;
+      if(pairs.has(key))fail('Duplicate thematic script exact path');pairs.add(key);
+      const binding=(root.sceneDocumentBindings as CanonicalRuntimeSceneDocumentBinding[]|undefined)?.find(b=>b.pathId===script.pathId&&b.pathGraphId===script.pathGraphId);
+      if(!binding)fail('Thematic script has no exact selected path binding');
+      const doc=(root.sceneDocuments as SceneDocument[]).find(d=>d.id===binding.sceneDocumentId)!;
+      const sceneIds=new Set(doc.scenes.map(s=>s.id));
+      if(script.sections.some(s=>s.relatedSceneIds.some(id=>!sceneIds.has(id))))fail('Thematic script references an unknown selected scene');
+    }
+  }
   return value as CanonicalRuntimeArtifact;
 }

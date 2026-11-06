@@ -194,6 +194,7 @@ export interface MediaReferenceBlock extends SceneBlockBase {
   readonly version?: string;
   readonly integrity?: string;
   readonly alternativeText: string;
+  readonly caption?: string;
 }
 
 export interface ListItem {
@@ -974,6 +975,7 @@ function validateChart(block: ChartBlock, label: string): void {
   }
 }
 
+export {validateBlocks as validateSceneBlocks};
 function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
   for (const block of blocks) {
     if (block.kind === "chart" && block.chartType === "experiment" && !supportsSceneCapability(declaredVersion, "experiments")) {
@@ -1055,7 +1057,10 @@ function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVe
       requireNonEmpty(block.code, `${label} code ${block.id} code`);
       requireNonEmpty(block.fallback, `${label} code ${block.id} fallback`);
     }
-    if (block.kind === "media-reference") requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+    if (block.kind === "media-reference") {
+      requireNonEmpty(block.alternativeText, `${label} media ${block.id} alternativeText`);
+      if(block.caption!==undefined)requireNonEmpty(block.caption, `${label} media ${block.id} caption`);
+    }
     if (block.kind === "prompt") {
       requireNonEmpty(block.fallback, `${label} prompt ${block.id} fallback`);
       if (block.options !== undefined) {

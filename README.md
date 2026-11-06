@@ -60,6 +60,12 @@ Earlier, unselected drafts and their preview commands have been removed; their
 history remains in Git. See the [current Level 5 guide](docs/chemometrics-level5-review-v3.md).
 Use **Slides PDF** for complete slide pages, or the separate script view for a
 continuous narrative. See [printing slides](docs/slides-pdf.md).
+In the thematic Script view, **PDF** opens the precompiled LaTeX document.
+Build it locally with `npm run script:level5:pdf` (LuaLaTeX required), then reload;
+`npm run preview:level5` also builds it before starting the server. A missing or
+out-of-date PDF is unavailable rather than silently printing HTML. See
+[LaTeX script export](docs/latex-script-export.md) for dependencies, source downloads
+and exact-content verification.
 
 For the bounded Level 4 preview, use `npm run preview:level4` and open
 `http://127.0.0.1:5173/authoring.html`. It contains the consolidated opening and

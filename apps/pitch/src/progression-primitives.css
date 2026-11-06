@@ -273,16 +273,6 @@ body[data-presentation-theme="dark"] .reveal .slides
   min-height: 18rem;
 }
 
-.reveal .slides section[data-composition="progression-stage"][data-composition-profile="cards-to-visual"]
-  > [data-composition-region-container="secondary"]
-  .d3-flow-caption {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-}
-
 /* Compact relational networks keep a lighter visual grammar than process flows. */
 .reveal .slides section[data-composition="progression-stage"][data-composition-profile="cards-to-visual"]
   .d3-flow-svg:is([data-layout-strategy="radial-network"], [data-layout-strategy="triadic-network"]) .d3-flow-node {
@@ -502,12 +492,6 @@ body[data-presentation-theme="dark"] .reveal .slides
   > [data-composition-region-container="main"]
   [data-component-kind="visual"] {
   width: min(780px, 78%);
-}
-
-.reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]
-  > [data-composition-region-container="main"]
-  .d3-flow-caption {
-  display: none;
 }
 
 .reveal .slides section[data-composition="progression-stage"][data-composition-profile="compact-linear"]

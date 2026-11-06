@@ -37,7 +37,7 @@ class ReviewCompleteTests(unittest.TestCase):
         self.assertEqual('ex:rv-n63--scene', self.document['scenes'][-1]['id'])
         self.assertTrue(all(b['disclosure']['mode']=='optional' for s in self.document['scenes']
                             for b in s['blocks'] if b['kind']=='code'))
-        self.assertEqual('Compare Methods on a Standardized Scale',self.scene(13)['blocks'][0]['text'])
+        self.assertEqual('The same concentration gap can mean different tail probabilities',self.scene(13)['blocks'][0]['text'])
 
     def test_all_scientific_mechanisms_have_authored_inputs_and_fallback(self):
         blocks = [b for s in self.document['scenes'] for b in s['blocks']
@@ -121,6 +121,12 @@ class ReviewCompleteTests(unittest.TestCase):
         self.assertIn('0.155',formula['expression'])
         legend=next(b for b in self.scene(32)['blocks'] if b['kind']=='definition-list')
         self.assertTrue(any('known independently' in e['description'] for e in legend['entries']))
+        scene=self.scene(32)
+        self.assertIn('six nitrate results',scene['blocks'][0]['text'])
+        answer=next(b for b in scene['blocks'] if b['id']=='ex:ic-spread-answer-item--block')
+        for term in ('0.155 mg/L','55%','0.10 mg/L','dividing their sum by five','repeated-sampling model'):
+            self.assertIn(term,answer['text'])
+        self.assertEqual(answer['id'],scene['readingOrder'][-1])
 
     def test_chi_square_construction_includes_general_density_and_gamma_definition(self):
         scene=self.scene(36)
@@ -129,7 +135,7 @@ class ReviewCompleteTests(unittest.TestCase):
             self.assertIn(term,formula['expression'])
         legend=next(b for b in scene['blocks'] if b['kind']=='definition-list')
         text=' '.join(e['description'] for e in legend['entries'])
-        for term in ('**x**','positive real','integration variable','no point mass','dimensionless'):
+        for term in ('**x**','positive real','integration variable','probability of exactly zero is zero','dimensionless'):
             self.assertIn(term,text)
 
     def test_distribution_introductions_show_the_repeated_experiment_before_the_live_views(self):
@@ -157,7 +163,7 @@ class ReviewCompleteTests(unittest.TestCase):
             self.assertIn(fragment,formula['expression'])
         legend=next(b for b in self.scene(14)['blocks'] if b['kind']=='definition-list')
         self.assertEqual(2,len(legend['entries']))
-        self.assertTrue(any('no elementary antiderivative' in e['description'].lower() for e in legend['entries']))
+        self.assertTrue(any('special-function representation' in e['description'].lower() for e in legend['entries']))
         script="""
 import fs from 'node:fs';import assert from 'node:assert/strict';
 import {normalCdf} from './packages/core/src/distribution-math.ts';
@@ -207,7 +213,7 @@ const flat=runExperiment(block(10),{family:1,view:2,probability:.25});close(valu
 close(value(flat,'Shared threshold (mg/L)'),10-Math.sqrt(3)*.1/2);
 for(const family of [0,1]){const at=x=>runExperiment(block(10),{family,threshold:x});const h=1e-5;
  const slope=(value(at(10+h),'Accumulated probability F(x)')-value(at(10-h),'Accumulated probability F(x)'))/(2*h);
- close(slope,value(at(10),'Density f(x), not probability'),1e-6);
+  close(slope,value(at(10),'Model density f(x)'),1e-6);
  for(const probability of [.01,.25,.5,.95,.99])close(value(runExperiment(block(10),{family,view:2,probability}),'Accumulated probability F(x)'),probability,1e-10);
 }
 close(value(run(13),'Device B standardized distance'),1);

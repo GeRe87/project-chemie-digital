@@ -320,6 +320,7 @@
     cd:body "0.12"@en ;
     cd:position "3"^^xsd:integer .
   ex:ic-tail-media dct:references ex:ic-case ;
+    dct:description "The dashed line marks the upper 5% chi-square cutoff of 11.07 with five degrees of freedom. The observed statistic 12 is marked in orange; the shaded area to its right is about 3.48%."@en ;
     dct:references ex:ic-chi5-density ;
     rdf:type cd:MediaAsset ;
     cd:alternativeText "Chi-square reference with five degrees of freedom at true SD equal to 0.10 mg/L. Dashed line: upper 5% critical value 11.0704977. Solid orange line: observed statistic 12. Orange area to its right is the upper tail, about 3.47878%; the theoretical tail continues beyond the drawing at 32. Observed 12 exceeds the cutoff, so reject the no-deterioration null at 5% under the stated assumptions."@en ;
@@ -467,7 +468,7 @@
     skos:prefLabel "One thousand simulated complete preparations"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:binEdges ex:lg-be0 ;
-    cd:body "Positive relative factors, fixed teaching protocol. Counts are not validation data or a fitted distribution. The saved realization has 100 of 1,000 results above 15 ng/L; finite frequency is not the exact model probability."@en ;
+    cd:body "The histogram shows a simulation of positive relative factors under a fixed teaching model. This realization contains 100 of 1,000 results above 15 ng/L. The observed fraction describes this finite simulated sample."@en ;
     cd:chartType cd:Histogram ;
     cd:histogramNormalization "density" ;
     cd:usesDataset ex:lg-count-data ;

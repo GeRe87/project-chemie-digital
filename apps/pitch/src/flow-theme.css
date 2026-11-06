@@ -556,16 +556,11 @@ body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-svg {
   overflow: visible;
 }
 
-body[data-diagram-theme="eco-city"] .reveal .d3-flow-host .d3-flow-caption {
-  display: none;
-}
-
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-host .d3-sequence-svg {
   background: linear-gradient(var(--pcd-flow-pixel-grid) 1px, transparent 1px), linear-gradient(90deg, var(--pcd-flow-pixel-grid) 1px, transparent 1px);
   background-size: 32px 32px;
   image-rendering: pixelated;
 }
-body[data-diagram-theme="eco-city"] .reveal .d3-sequence-caption { display: none; }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant-card { fill: var(--pcd-flow-pixel-surface); stroke: var(--pcd-flow-pixel-ink-deep); stroke-width: 4; shape-rendering: crispEdges; filter: drop-shadow(0 3px 0 var(--pcd-flow-pixel-ink)); }
 body[data-diagram-theme="eco-city"] .reveal .d3-sequence-participant {
   fill: var(--pcd-flow-pixel-text); font-family: var(--pcd-flow-pixel-font); font-size: 17px; font-weight: 900;
@@ -972,4 +967,53 @@ body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="
 body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="hierarchy-fanout"]
   .d3-flow-node[data-visual-role="hierarchy-option"] .d3-flow-node-motif {
   color: hsl(var(--d3-flow-card-hue, 205) 68% 72%);
+}
+
+/* Ordinary flow and hierarchy cards share numbered headers. Notation and motifs
+   remain in their reserved content band; composite/process/network semantics
+   retain their specialized renderer. Metadata specificity beats legacy families. */
+:is(.reveal,.pcd-script-view) .d3-flow-svg[data-diagram-type="flow"] .d3-flow-node[data-flow-card-style="numbered"] {
+  --pcd-flow-card-header: hsl(var(--d3-flow-card-hue, 205) 65% 25%);
+  filter: none;
+}
+:is(.reveal,.pcd-script-view) .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy] .d3-flow-node[data-node-presentation][data-flow-card-style="numbered"] .d3-flow-node-shape {
+  fill: color-mix(in srgb, var(--pcd-flow-card-header) 6%, var(--pcd-surface-strong));
+  stroke: color-mix(in srgb, var(--pcd-flow-card-header) 50%, var(--pcd-border));
+  stroke-width: 2;
+  filter: none;
+  clip-path: none;
+  rx: 7px;
+  ry: 7px;
+  shape-rendering: geometricPrecision;
+}
+:is(.reveal,.pcd-script-view) .d3-flow-card-header-panel { fill: var(--pcd-flow-card-header); stroke: none; }
+:is(.reveal,.pcd-script-view) .d3-flow-card-number-badge { fill: rgb(255 255 255 / .14); stroke: rgb(255 255 255 / .5); }
+:is(.reveal,.pcd-script-view) .d3-flow-card-number { fill: #fff; font: 700 14px Arial, Helvetica, sans-serif; stroke: none; }
+:is(.reveal,.pcd-script-view) .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy] .d3-flow-node[data-node-presentation][data-flow-card-style="numbered"] :is(.d3-flow-node-title,.d3-flow-node-label) {
+  fill: #fff;
+  font: 700 23px Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+  stroke: none;
+  filter: none;
+  paint-order: normal;
+}
+:is(.reveal,.pcd-script-view) .d3-flow-svg[data-diagram-type="flow"][data-layout-strategy] .d3-flow-node[data-node-presentation][data-flow-card-style="numbered"] .d3-flow-node-body {
+  fill: var(--pcd-foreground);
+  font: 400 18px Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+  stroke: none;
+}
+.reveal .d3-flow-svg[data-numbered-card-row="true"] .d3-flow-edge-label-stem { display: none; }
+.reveal .d3-flow-svg[data-numbered-card-row="true"] .d3-flow-edge-label-panel {
+  fill: var(--pcd-surface-strong);
+  stroke: none;
+  filter: none;
+  clip-path: none;
+}
+.reveal .d3-flow-svg[data-numbered-card-row="true"] .d3-flow-edge-label {
+  fill: var(--pcd-foreground);
+  font: 400 18px Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+  stroke: none;
+  filter: none;
 }

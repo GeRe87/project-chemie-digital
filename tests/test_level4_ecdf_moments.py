@@ -118,7 +118,8 @@ class RevisedLectureTests(unittest.TestCase):
     def test_script_has_independent_continuous_prose_and_expectations_keep_empirical_counterparts(self):
         for scene in self.document["scenes"]:
             self.assertTrue(scene.get("narration"),scene["id"])
-            self.assertGreater(len(scene["narration"]),180)
+            # Figure descriptions now live in captions; independent prose may be concise.
+            self.assertGreater(len(scene["narration"]),100)
             self.assertFalse(any(line.startswith(("- ","• ")) for line in scene["narration"].splitlines()))
             self.assertTrue(any(s.get("relationPath")=="cd:narration" for s in scene["source"]))
         ids=[s["id"] for s in self.document["scenes"]]

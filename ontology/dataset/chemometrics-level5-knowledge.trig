@@ -178,7 +178,7 @@ par(old)
 - **Multiplication, /, −**: Adjacent factors multiply; fractions divide; minus subtracts or negates.
 - **>, =**: Greater than; equality defining the density.
 
-Domain: x > 0. Density is zero for x < 0, with no point mass at zero. The independent-square construction uses integer k. Parentheses group function arguments; total density area is one."""@en ;
+Domain: x > 0. Density is zero for x < 0, and the probability of exactly zero is zero. The independent-square construction uses integer k. Parentheses group function arguments; total density area is one."""@en ;
     cd:mathNotation "X,x,f_k(x),k,e,\\Gamma(k/2),>,=,/,{}^{}" ;
     cd:symbol "chi-square density" .
   ex:ix-gamma-entry dct:references ex:ix-gamma-symbols ;
@@ -221,7 +221,7 @@ All quantities are dimensionless. For a positive integer m, Γ(m) = (m − 1) fa
   ex:ix-size dct:hasPart ex:ix-size-legend ;
     rdf:type cd:MathExpression ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:formulaLabel "More repeats stabilize the variance estimate, not the unscaled Q value"@en ;
+    cd:formulaLabel "More repeats stabilize the sample-variance estimate"@en ;
     cd:hasSymbol ex:ix-size-symbols ;
     cd:latex "\\begin{gathered}E(Q)=n-1,\\quad\\operatorname{Var}(Q)=2(n-1)\\\\\\operatorname{Var}(S^2)=\\frac{2\\sigma^4}{n-1},\\quad\\frac{\\operatorname{SD}(S^2)}{E(S^2)}=\\sqrt{\\frac{2}{n-1}}\\end{gathered}" .
   ex:ix-size-entry dct:references ex:ix-size-symbols ;
@@ -262,7 +262,8 @@ SD(S²) / E(S²) is a dimensionless relative SD, displayed as a percentage. The 
     cd:authoredResource "true"^^xsd:boolean ;
     cd:hasDefinitionListEntry ex:ix-square-entry .
   ex:ix-square-media rdf:type cd:MediaAsset ;
-    cd:alternativeText "Schematic densities before and after squaring. A symmetric standard-normal variable has signed SD-unit values. Its square is nonnegative, strongly right-skewed and has density unbounded near zero. Minus two and plus two both give four; minus one half and plus one half both give one quarter. Density axes are per dimensionless axis unit. The graphic illustrates shapes, not sampled coordinates."@en ;
+    dct:description "The left density describes signed standard-Normal values; the right density describes their squares. Both -2 and +2 map to 4, folding the two tails onto one nonnegative axis."@en ;
+    cd:alternativeText "Schematic densities before and after squaring. A symmetric standard-normal variable has signed SD-unit values. Its square is nonnegative, strongly right-skewed and has density unbounded near zero. Minus two and plus two both give four; minus one half and plus one half both give one quarter. Density axes are per dimensionless axis unit."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-normal-to-square.svg"^^xsd:anyURI .
@@ -400,7 +401,8 @@ The comparison concerns repeatability spread."""@en ;
     cd:mathNotation "Q,n,S^2,\\sigma,\\sigma_0" ;
     cd:symbol "random series statistic" .
   ex:ic-process-media rdf:type cd:MediaAsset ;
-    cd:alternativeText "Known-reference IC precision check: previous repeatability SD 0.10 mg/L, then six independent nitrate measurements on the same homogeneous water sample. Estimate today's spread and ask whether its increase could arise by chance. Chi-square compares the scaled squared-deviation sum against repeated-series variation. This checks precision, not accuracy or the cause of deterioration."@en ;
+    dct:description "Six independent nitrate measurements of one homogeneous sample form the precision check. The independently known reference SD is 0.10 mg/L."@en ;
+    cd:alternativeText "Known-reference IC precision check: reference repeatability SD 0.10 mg/L and six independent nitrate measurements on the same homogeneous water sample. Chi-square compares the scaled squared-deviation sum with repeated-series variation to assess the observed precision."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-ic-precision-process.svg"^^xsd:anyURI .
@@ -417,7 +419,7 @@ The comparison concerns repeatability spread."""@en ;
   ex:ic-q-context1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Put the observed spread on the reference scale"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Scale deviations by 0.10 mg/L, square and add: Q = 12, dimensionless. Estimating the mean links the six residuals and leaves five degrees of freedom."@en ;
+    cd:body "Scaling by an independently known reference SD makes squared residuals comparable across concentration units. Estimating one mean links the residuals and leaves five independent degrees of freedom in a six-result sample."@en ;
     cd:position "1"^^xsd:integer .
   ex:ic-q-entry dct:references ex:ic-q-ops ;
     dct:references ex:ic-q-values ;
@@ -459,7 +461,8 @@ The squared-deviation sum is 0.12 (mg/L)². Dividing by (0.10 mg/L)² cancels th
     cd:hasObservation ex:ic-x6 ;
     cd:unit "mg/L" .
   ex:ic-residual-media rdf:type cd:MediaAsset ;
-    cd:alternativeText "In original measurement order, subtract fitted mean 10.05 mg/L and divide by fixed reference SD 0.10 mg/L. Scaled residuals are -1, 1, -2, 2, -1, 1; their squares are 1, 1, 4, 4, 1, 1, summing to 12. These centered residuals are constrained, not six independent standard normals."@en ;
+    dct:description "The six residuals are divided by the reference SD of 0.10 mg/L, squared and added in measurement order. Their squared standardized values sum to 12."@en ;
+    cd:alternativeText "In original measurement order, subtract fitted mean 10.05 mg/L and divide by fixed reference SD 0.10 mg/L. Scaled residuals are -1, 1, -2, 2, -1, 1; their squares are 1, 1, 4, 4, 1, 1, summing to 12. The centered residuals satisfy a zero-sum constraint."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-ic-residual-squares.svg"^^xsd:anyURI .
@@ -959,11 +962,13 @@ cat('The comparison-density window ends at 35; tails and moments are not truncat
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/level5-lognormal-workup-visuals> {
   ex:lg-process-media rdf:type cd:MediaAsset ;
-    cd:alternativeText "Two distinct repeat experiments for an organic trace analyte in ng/L by LC-MS/MS. A reinjects one already prepared homogeneous control solution. B splits a homogeneous water sample into independent aliquots, each undergoing extraction, concentration and instrumental analysis. Relative influences in B motivate a multiplicative candidate model but do not prove lognormality."@en ;
+    dct:description "Path A reinjects one prepared control; path B repeats extraction, concentration and analysis on independent aliquots. The paths distinguish instrument variation from variation of the complete preparation."@en ;
+    cd:alternativeText "Two repeat experiments for an organic trace analyte in ng/L by LC-MS/MS. A reinjects one prepared homogeneous control solution. B splits a homogeneous water sample into independent aliquots, each undergoing extraction, concentration and instrumental analysis. Relative influences in B motivate a multiplicative candidate model."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-lognormal-workup-process.svg"^^xsd:anyURI .
   ex:lg-scales-media rdf:type cd:MediaAsset ;
+    dct:description "The concentrations 8, 10 and 12.5 ng/L have unequal gaps on the linear axis. Relative to 10 ng/L, their natural log ratios have equal gaps on either side of zero."@en ;
     cd:alternativeText "Concentrations 8, 10 and 12.5 ng/L on a linear axis have gaps 2 and 2.5 ng/L. On a natural-log-ratio axis relative to 10 ng/L they lie at minus 0.22314, zero and plus 0.22314, with equal gaps. Reciprocal factors 0.8 and 1.25 become opposite additive log steps."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
@@ -1170,7 +1175,7 @@ Condition: the sum of natural-log factors is Normal; independent Normal log fact
 - **+**: Addition.
 - **…, =**: Continuation of the finite sum; equality defining Y.
 
-Independent Normal contributions give an exact Normal sum. A central-limit approximation requires suitable conditions, including finite variances and no dominating contribution."""@en ;
+Independent Normal contributions give an exact Normal sum. A central-limit approximation requires suitable conditions, including finite variances and control of the individual contributions relative to the total variation."""@en ;
     cd:mathNotation "Y,X_1,X_2,X_3,+,\\cdots,=" ;
     cd:symbol "additive contributions" .
   ex:map-normal-symbol-entry dct:references ex:map-normal-symbol ;
@@ -1246,10 +1251,11 @@ uniroot(function(d) tail(d)-a, c(.500001,.999999), tol=1e-12)$root
     cd:programmingLanguage "r" ;
     cd:showsResource ex:l5-kolmogorov-smirnov .
   ex:rev-ks-media dct:references ex:rev-check-protocol ;
+    dct:description "The ECDFs and fixed Normal CDF use common concentration axes. Marked vertical gaps include both sides of each jump: the largest gaps are 0.144578 for A and 0.725747 for B."@en ;
     dct:references ex:rev-qq-a ;
     dct:references ex:rev-qq-b ;
     rdf:type cd:MediaAsset ;
-    cd:alternativeText "ECDF steps and the same fixed normal CDF overlaid on common concentration and cumulative-probability axes. A's largest vertical gap is 0.144578. B's largest gap is 0.725747 just before its first observation 10.3 mg/L. Vertical segments mark discrepancies; open and filled points distinguish left limits and included values. No estimated standardization was used."@en ;
+    cd:alternativeText "ECDF steps and the same fixed normal CDF overlaid on common concentration and cumulative-probability axes. A's largest vertical gap is 0.144578. B's largest gap is 0.725747 just before its first observation 10.3 mg/L. Vertical segments mark discrepancies; open and filled points distinguish left limits and included values. Both samples use their original concentration scale."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-ks-overlay-pair.svg"^^xsd:anyURI .
@@ -1358,9 +1364,10 @@ pchisq(11.6, df = 4, lower.tail = FALSE)  # 0.02058737
     cd:authoredResource "true"^^xsd:boolean ;
     cd:hasDefinitionListEntry ex:rev-qq-entry .
   ex:rev-qq-media dct:references ex:rev-qq-a ;
+    dct:description "Both Q-Q panels compare ordered concentrations with quantiles of the same fixed Normal model. A stays close to the identity line; B bends strongly toward its extreme upper observation."@en ;
     dct:references ex:rev-qq-b ;
     rdf:type cd:MediaAsset ;
-    cd:alternativeText "Two normal Q-Q plots on common concentration axes. Each x coordinate is the fixed normal-model quantile at a midpoint rank probability; y is sorted observed concentration. Sample A follows the identity line closely. Sample B has four nearly equal values and one extreme upper value, producing a pronounced bend and disagreement with the fixed model. Five values cannot establish a population distribution."@en ;
+    cd:alternativeText "Two normal Q-Q plots on common concentration axes. Each x coordinate is the fixed normal-model quantile at a midpoint rank probability; y is sorted observed concentration. Sample A follows the identity line closely. Sample B has four nearly equal values and one extreme upper value, producing a pronounced bend and departure from the fixed model."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-qq-pair.svg"^^xsd:anyURI .
@@ -1370,7 +1377,7 @@ pchisq(11.6, df = 4, lower.tail = FALSE)  # 0.02058737
   ex:rev-qq-reading1 rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Read the pattern before calculating a test"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "A follows the fixed model's identity line; B bends. Fitting a straight line instead adjusts location and scale to inspect shape. With five observations, either comparison provides limited evidence about the distribution."@en ;
+    cd:body "Comparison with a fixed model assesses location, scale and shape together. Fitting a straight line adjusts location and scale to inspect shape. Five observations provide limited evidence about a population distribution."@en ;
     cd:position "1"^^xsd:integer .
   ex:rev-qq-symbol1 rdf:type cd:MathSymbol ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -1565,7 +1572,7 @@ par(old)
     cd:programmingLanguage "r" ;
     cd:showsResource ex:normal-measurement-model .
   ex:nn-threshold-code rdf:type cd:CodeExample ;
-    skos:prefLabel "z, lowercase phi, uppercase Phi and an upper limit"@en ;
+    skos:prefLabel "$z$, $\\varphi$, $\\Phi$ and an upper limit"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:code """# Fixed known model. Change limit, mu or sigma; no parameter estimation.
 mu <- 10.00; sigma <- 0.10; limit <- 10.20; alpha <- 0.01
@@ -1653,7 +1660,7 @@ Subtract the lower CDF from the upper. Symmetry gives central coverage 2Φ(k) �
 - **z**: Concrete standardized threshold, 2 here (dimensionless).
 - **t**: Dimensionless integration variable.
 - **P, ≤**: Probability; at or below the threshold.
-- **∫, −∞, dt**: Integrate over all t up to z, with no finite lower bound; dt is the increment of t.
+- **∫, −∞, dt**: Integrate from minus infinity up to z; dt is the increment of t.
 - **=, ≈**: Equality and approximate equality.
 
 The CDF slope equals the density where the derivative exists. All quantities use the standardized, dimensionless scale."""@en ;
@@ -1729,7 +1736,7 @@ Both Normal models have known expectation 10.00 mg/L and result 10.20 mg/L. Thei
 - **½, 1, +**: Multiply the grouped expression by one half after adding one.
 - **( ), [ ]**: Group the stated operations.
 
-All quantities here are dimensionless. There is no elementary antiderivative of the standard-normal density; erf provides its special-function representation. Integrating from minus infinity fixes the CDF normalization."""@en ;
+All quantities here are dimensionless. The error function erf provides the special-function representation of the standard-normal density's antiderivative. Integrating from minus infinity fixes the CDF normalization."""@en ;
     cd:mathNotation "\\operatorname{erf},u,t,e,{}^2,\\pi,\\sqrt{},\\frac12,1,+,0,2,\\int,dt" ;
     cd:symbol "error function" .
   ex:nn-eta dct:hasPart ex:nn-eta-legend ;
@@ -1754,7 +1761,7 @@ All quantities here are dimensionless. There is no elementary antiderivative of 
   ex:nn-phi dct:hasPart ex:nn-phi-legend ;
     rdf:type cd:MathExpression ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:formulaLabel "Lowercase phi is the standard-normal density"@en ;
+    cd:formulaLabel "$\\varphi$ is the standard-Normal density"@en ;
     cd:hasSymbol ex:nn-phi-symbols ;
     cd:latex "\\varphi(z)=\\frac{1}{\\sqrt{2\\pi}}e^{-z^2/2}" .
   ex:nn-phi-entry dct:references ex:nn-phi-symbols ;
@@ -1786,7 +1793,7 @@ The density is symmetric around zero, where it is maximal, and has total area on
     cd:latex "\\begin{gathered}\\varphi(2)\\approx0.05399\\\\P(X>10.20)=1-\\Phi(2)\\\\\\approx0.02275\\end{gathered}" .
   ex:nn-tail-entry dct:references ex:nn-tail-symbols ;
     rdf:type cd:DefinitionListEntry ;
-    skos:prefLabel "2.28% upper tail is not 5.40% density"@en ;
+    skos:prefLabel "Upper-tail probability: 2.28%"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:position "1"^^xsd:integer .
   ex:nn-tail-legend rdf:type cd:DefinitionList ;
@@ -1808,7 +1815,8 @@ Subtracting Φ(2) from total probability one gives the upper-tail probability, a
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/level5-normal-ic-visuals> {
   ex:nn-process-media rdf:type cd:MediaAsset ;
-    cd:alternativeText "One homogeneous nitrate control passes repeatedly through injection, an IC separation column, detector and concentration reporting. Small variations in injection, flow, temperature and electronics can change a result. A repeated sample does not by itself imply identical results, normal errors or zero bias."@en ;
+    dct:description "One homogeneous nitrate control passes repeatedly through injection, separation, detection and concentration reporting. The arrows locate contributions to variation along the same measurement path."@en ;
+    cd:alternativeText "One homogeneous nitrate control passes repeatedly through injection, an IC separation column, detector and concentration reporting. Small variations in injection, flow, temperature and electronics contribute to variation in the reported results."@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:mediaType "image/svg+xml" ;
     cd:uri "/chemometrics/level5-normal-ic-process.svg"^^xsd:anyURI .
@@ -1967,7 +1975,7 @@ The five fixed probabilities are 0.10, 0.20, 0.40, 0.20 and 0.10; their sum is o
   ex:rx-devices rdf:type cd:ChartDefinition ;
     skos:prefLabel "The retained CRM device A and an independent device B"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Every fictional measurement result is shown, including ties. A: mean 10.10, sample SD 0.10 mg/L. B: mean 10.00, sample SD 0.30 mg/L. The groups are independent, not paired observations. Variance ratio B/A is nine; closeness of means is a different question."@en ;
+    cd:body "Every fictional measurement result is shown, including ties. A: mean 10.10, sample SD 0.10 mg/L. B: mean 10.00, sample SD 0.30 mg/L. The two groups are independent. The sample-variance ratio B/A is nine."@en ;
     cd:chartType cd:DotPlot ;
     cd:hasChartGroup ex:rx-device-a ;
     cd:hasChartGroup ex:rx-device-b ;
@@ -2127,7 +2135,7 @@ The five fixed probabilities are 0.10, 0.20, 0.40, 0.20 and 0.10; their sum is o
   ex:rx-variance rdf:type cd:ChartDefinition ;
     skos:prefLabel "New complete series, new sample variance"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Assumed stable normal method with true SD 0.10 mg/L. Each simulated series estimates its own mean and variance. Hold six measurements fixed before comparing larger series."@en ;
+    cd:body "Each histogram entry is a variance estimated about the mean of one complete simulated Normal series. The selected series size varies while the generating SD remains 0.10 mg/L."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "variance" ;
     cd:hasExperimentParameter ex:rx-M ;
@@ -2144,7 +2152,7 @@ The five fixed probabilities are 0.10, 0.20, 0.40, 0.20 and 0.10; their sum is o
     skos:prefLabel "More draws from one assumed stable normal method"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:binEdges ex:nn-ge0 ;
-    cd:body "Saved simulation prefixes, seed 20261102. No real validation data and no theoretical curve overlay."@en ;
+    cd:body "The histograms use successive prefixes of one simulated Normal sequence with expectation 10.00 mg/L and SD 0.10 mg/L. Bin edges and the generating model remain fixed."@en ;
     cd:chartType cd:Histogram ;
     cd:hasHistogramState ex:rv-growth-state1000 ;
     cd:hasHistogramState ex:rv-growth-state100 ;
@@ -2185,43 +2193,47 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:rv-growth-functions-entry rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "R functions and the deterministic stream"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "c lists allowed result counts; %in% and stopifnot validate M. numeric allocates the result vector; seq_len supplies iteration indices. The Park-Miller recurrence uses multiplication and %% remainder with integer-valued state. qnorm transforms uniform fractions into standard-normal values; scaling and shifting set the stated SD and mean. seq creates fixed bins; hist computes and draws density bins with left-closed edges; cat and sum report count conservation."@en ;
+    cd:body """- **Choose the sample size.** `c` lists the allowed result counts. `%in%` checks whether `M` belongs to that list, and `stopifnot` enforces this choice.
+- **Prepare the simulation.** `numeric` allocates the result vector; `seq_len` supplies the iteration indices.
+- **Generate reproducible results.** The Park–Miller recurrence updates an integer-valued state using multiplication and the remainder operator `%%`. `qnorm` transforms the resulting uniform fractions into standard-normal values. Scaling and shifting set the stated SD and mean.
+- **Build the histogram.** `seq` creates fixed bin edges. `hist` computes and draws density bins whose left edges belong to the bin.
+- **Check the counts.** `sum` totals the bin counts; `cat` reports that total alongside `M` so that count conservation can be checked."""@en ;
     cd:position "1"^^xsd:integer .
   ex:rv-growth-state100 rdf:type cd:HistogramState ;
     skos:prefLabel "100 results"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "First hundred draws of the same seeded stream; model parameters unchanged."@en ;
+    cd:body "The first 100 results from the same simulated sequence."@en ;
     cd:position "3"^^xsd:integer ;
     cd:usesDataset ex:rv-growth100 .
   ex:rv-growth-state1000 rdf:type cd:HistogramState ;
     skos:prefLabel "1,000 results"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "First thousand draws; the same published counts as the extended lecture."@en ;
+    cd:body "The first 1,000 results from the same simulated sequence."@en ;
     cd:position "4"^^xsd:integer ;
     cd:usesDataset ex:nn-growth-data .
   ex:rv-growth-state20 rdf:type cd:HistogramState ;
     skos:prefLabel "20 results"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "First twenty draws; initial browser and PDF state."@en ;
+    cd:body "The first 20 results from the same simulated sequence."@en ;
     cd:position "1"^^xsd:integer ;
     cd:usesDataset ex:rv-growth20 .
   ex:rv-growth-state50 rdf:type cd:HistogramState ;
     skos:prefLabel "50 results"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "First fifty draws of the same seeded stream; model parameters unchanged."@en ;
+    cd:body "The first 50 results from the same simulated sequence."@en ;
     cd:position "2"^^xsd:integer ;
     cd:usesDataset ex:rv-growth50 .
   ex:rv-n07-title rdf:type cd:Interpretation ;
-    skos:prefLabel "What in the IC process can change a repeated result?"@en ;
+    skos:prefLabel "One unchanged sample can produce different results"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:rv-n08-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Repeat the simulated method: 20, 50, 100, 1,000 results"@en ;
+    skos:prefLabel "More results reveal the assumed distribution more clearly"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/level5-review-opening> {
   ex:rv-n02-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Our route: observations, mechanisms and decisions"@en ;
+    skos:prefLabel "Start with the random quantity, then choose its model"@en ;
     cd:authoredResource "true"^^xsd:boolean .
 }
 
@@ -2237,7 +2249,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:parameterStep "10.0"^^xsd:decimal ;
     cd:position "8"^^xsd:integer .
   ex:p1-Mreference rdf:type cd:ExperimentParameter ;
-    skos:prefLabel "Fixed reference replay count, not the observed sample size"@en ;
+    skos:prefLabel "Fixed reference replay count"@en ;
     cd:adjustableParameter "false"^^xsd:boolean ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:numericValue "1000.0"^^xsd:decimal ;
@@ -2279,7 +2291,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-ecdf-start rdf:type cd:ChartDefinition ;
     skos:prefLabel "A short seeded prefix visibly differs from its generating model"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "20 simulated measurement results from the same seeded stream used for the normal-growth example. Empirical steps fluctuate around the fixed generating CDF. Increasing to 1,000 results gives 978/1,000 at 10.20 mg/L, not proof of normality."@en ;
+    cd:body "The steps accumulate observed fractions from the selected prefix of the nitrate simulation. The smooth curve is its fixed generating CDF; both are evaluated at the selected concentration threshold."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "ecdf" ;
     cd:hasExperimentParameter ex:p1-M20 ;
@@ -2292,7 +2304,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-five-squares rdf:type cd:ChartDefinition ;
     skos:prefLabel "Add independent squared standard normals"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Start with two independent squared components: a chi-square distribution with two degrees of freedom. Change the component count to compare shapes. Arbitrary dependent residuals do not count as independent components."@en ;
+    cd:body "The histogram contains repeated sums of the selected number of independent squared standard-Normal components. The overlaid chi-square density uses that component count as its degrees of freedom."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "squares" ;
     cd:hasExperimentParameter ex:p1-df2 ;
@@ -2313,9 +2325,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-log-tasks rdf:type cd:ChartDefinition ;
     skos:prefLabel "Forward probability and inverse threshold are different questions"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Left: probability above the chosen concentration.
-- Right: concentration for a chosen upper-tail rate.
-- Same assumed model: median 10 ng/L; dimensionless log SD initially 0.30."""@en ;
+    cd:body "The left panel shades the probability above the selected concentration. The right panel shades the chosen upper-tail probability and marks its corresponding concentration limit. Both use the same lognormal model."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "lognormal" ;
     cd:hasExperimentParameter ex:p1-view3 ;
@@ -2329,7 +2339,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-log-transform rdf:type cd:ChartDefinition ;
     skos:prefLabel "Normal log ratios become skewed concentrations by exponentiation"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Read left to right: a normal dimensionless log ratio, then its exponential concentration transform. Products become sums on the log scale; approximate normality of that sum is a model motivation, not a guarantee from sample preparation alone."@en ;
+    cd:body "The left panel shows the Normal density of the dimensionless log ratio; the right panel shows the associated lognormal concentration density. Both panels describe the same model on their respective scales."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "lognormal" ;
     cd:hasExperimentParameter ex:p1-view1 ;
@@ -2351,9 +2361,9 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:parameterStep "1.0"^^xsd:decimal ;
     cd:position "1"^^xsd:integer .
   ex:p1-normal-bands rdf:type cd:ChartDefinition ;
-    skos:prefLabel "A one-sided rate is not a two-sided outside probability"@en ;
+    skos:prefLabel "Central coverage accounts for both tails"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Compare an upper 1% limit with both tails outside two SD on the same concentration scale. The latter leave 95.45% centrally, not 99%. Bands of one, two and three SD give the 68/95/99.7 rule."@en ;
+    cd:body "The panels compare an upper-tail limit with a symmetric central band on the same concentration scale. The central band leaves a tail on each side; the selected band width determines their combined probability."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:p1-band ;
@@ -2368,7 +2378,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-normal-cdf rdf:type cd:ChartDefinition ;
     skos:prefLabel "Left and right areas correspond to one CDF ordinate"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Threshold 10.20 mg/L: two SD above the known model expectation. The two colored areas sum to one; the left area equals the CDF ordinate. Density height is not probability."@en ;
+    cd:body "The selected concentration divides the density into two colored areas whose sum is one. The left area and the marked CDF ordinate show the same cumulative probability."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:p1-view1 ;
@@ -2382,9 +2392,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-normal-devices rdf:type cd:ChartDefinition ;
     skos:prefLabel "Same concentration, different known population SDs"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Hypothetical known SDs: A 0.10; B 0.20 mg/L.
-- Compare one measurement result on both models.
-- Not the later observed device series."""@en ;
+    cd:body "The two Normal densities share expectation 10.00 mg/L and the selected concentration threshold. Method A has known SD 0.10 mg/L; method B uses the comparison SD. The marker locates the same result in both models."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:p1-sigmaB ;
@@ -2399,7 +2407,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-normal-inverse rdf:type cd:ChartDefinition ;
     skos:prefLabel "Choose the upper rate first, then find the concentration limit"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "A 1% upper-tail rate places the threshold at 10.232635 mg/L, not at 10.20. This concerns one measurement from the assumed known-parameter normal model, not a legal limit."@en ;
+    cd:body "The shaded upper tail has the selected probability under the known-parameter Normal model. Its lower boundary marks the corresponding concentration quantile."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:p1-inverse-on ;
@@ -2411,9 +2419,9 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     cd:xAxisLabel "Nitrate concentration (mg/L)"@en ;
     cd:yAxisLabel "Density and selected upper rate"@en .
   ex:p1-normal-tail rdf:type cd:ChartDefinition ;
-    skos:prefLabel "A right-tail event, not density at one point"@en ;
+    skos:prefLabel "Probability in the right tail"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "A stable known-parameter method exceeds 10.20 mg/L in about 2.275% of individual results. Only the upper area is emphasized here. An exceedance alone does not diagnose a fault."@en ;
+    cd:body "The shaded density area lies above the selected concentration threshold. Its area gives the upper-tail probability under the stated known-parameter Normal model."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:p1-view2 ;
@@ -2427,9 +2435,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-pearson-contributions rdf:type cd:ChartDefinition ;
     skos:prefLabel "From category counts to weighted discrepancies and a decision"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Initial counts: 11.6 exceeds the four-df 5% cutoff of 9.49.
-- Therefore these counts differ significantly from the stated proportions.
-- Switching outcomes keeps categories, expectations and the decision rule fixed."""@en ;
+    cd:body "The bars show each category's weighted contribution to the Pearson statistic for the selected outcome. Their sum is compared with the four-degree-of-freedom reference; categories, expected counts and the decision rule stay fixed when outcomes change."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "pearson" ;
     cd:hasExperimentParameter ex:p1-view1 ;
@@ -2460,9 +2466,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-variance-compare rdf:type cd:ChartDefinition ;
     skos:prefLabel "Six and thirty measurements: one common sample-variance scale"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Repeated normal series; true SD fixed at 0.10 mg/L.
-- More measurements per series improve variance precision.
-- More simulated series only smooth the picture."""@en ;
+    cd:body "The two histograms compare sample-variance estimates from complete Normal series of the selected sizes on a common variance scale. The generating SD stays fixed at 0.10 mg/L."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "variance" ;
     cd:hasExperimentParameter ex:p1-comp30 ;
@@ -2520,7 +2524,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-censor rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Censoring: respect the reporting limit"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- ==A non-detect is not a measured zero.==
+    cd:body """- ==A non-detect locates the result below a reporting threshold.==
 - **Replacing all low results by one value:** creates an artificial pile-up.
 - **Model explicitly:** observation process and reporting threshold."""@en ;
     cd:position "2"^^xsd:integer .
@@ -2528,7 +2532,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     skos:prefLabel "Mixtures: define the population"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:body """- **Multiple sources:** pooling can create skewness or several peaks.
-- ==Positive values alone do not establish lognormality.==
+- ==Assess the model for the defined sampling population.==
 - **Before fitting:** identify the sampling population."""@en ;
     cd:position "1"^^xsd:integer .
   ex:p1-population-cards rdf:type cd:DefinitionList ;
@@ -2592,7 +2596,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
   ex:p1-series-chart rdf:type cd:ChartDefinition ;
     skos:prefLabel "Three illustrative series, one common concentration axis"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Six results per constructed series, all with mean 10.000 mg/L. Sample variances A 0.00316, B 0.00748, C 0.01648 (mg/L) squared; corresponding sample SDs about 0.056, 0.086 and 0.128 mg/L. These are illustrative possible outcomes, not measured validation evidence. Their variance markers appear in the next simulation."@en ;
+    cd:body "Six results per constructed teaching series, all with mean 10.000 mg/L. Sample variances A 0.00316, B 0.00748, C 0.01648 (mg/L) squared; corresponding sample SDs about 0.056, 0.086 and 0.128 mg/L. Their variance markers appear in the repeated-sampling simulation."@en ;
     cd:chartType cd:DotPlot ;
     cd:hasChartGroup ex:p1-series-A ;
     cd:hasChartGroup ex:p1-series-B ;
@@ -2604,7 +2608,7 @@ plot(h,freq=FALSE,col='#8ecae6',xlab='Nitrate result (mg/L)',
     skos:prefLabel "Sites: environmental variation"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:body """- **Different sites:** genuine environmental variation and possible spatial dependence.
-- ==One vial's repeatability does not describe this population.==
+- ==Define the population of sites and sampling conditions.==
 - **Reporting target:** arithmetic expectation and a typical log-scale center answer different questions."""@en ;
     cd:position "3"^^xsd:integer .
 }
@@ -2647,7 +2651,7 @@ The density is nonnegative and has total area one. Integrating density times con
   ex:pc-density rdf:type cd:ChartDefinition ;
     skos:prefLabel "Finite histogram versus an assumed population density"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Nitrate illustration: 1,000 simulated results under a stated model, not laboratory measurements. The smooth curve is a model PDF. Narrow the selected interval and compare area, not height. The bounded flat alternative shows that the tools are not specific to a bell curve."@en ;
+    cd:body "The histogram summarizes the simulated nitrate sample; the smooth curve is the selected model density. The shaded interval uses the selected bounds, so its area can be compared with the observed sample fraction."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "distribution" ;
     cd:hasExperimentParameter ex:p1-Mreference ;
@@ -2662,7 +2666,7 @@ The density is nonnegative and has total area one. Integrating density times con
     cd:xAxisLabel "Nitrate result (mg/L)"@en ;
     cd:yAxisLabel "Empirical and model density"@en .
   ex:pc-density-title rdf:type cd:Interpretation ;
-    skos:prefLabel "From a histogram to a probability density"@en ;
+    skos:prefLabel "Area under the density gives interval probability"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:pc-family rdf:type cd:ExperimentParameter ;
     skos:prefLabel "Model: 0 smooth bell, 1 bounded flat"@en ;
@@ -2707,11 +2711,11 @@ Conditions: the integral representation uses an absolutely continuous model. The
     cd:presentationDefinition """- X: random concentration; x: threshold; t: integration coordinate (mg/L).
 - f: density (L/mg); F and P: unitless probabilities at or below x.
 - Integral: accumulate from unbounded lower limit to x; dt: concentration increment.
-- For an absolutely continuous model, prime means derivative with respect to x; equals links the expressions. The density relation holds where defined, not automatically at discontinuities."""@en ;
+- For an absolutely continuous model, prime means derivative with respect to x; equals links the expressions. The density relation applies where the CDF has the stated derivative."""@en ;
     cd:symbol "general PDF and CDF" .
   ex:pc-growth-info rdf:type cd:Interpretation ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Simulate 20, 50, 100 and 1,000 Normal results with fixed expectation 10.00 mg/L and SD 0.10 mg/L. More results reveal the assumed shape more clearly."@en .
+    cd:body "A larger simulated sample reveals the generating distribution more clearly while the method's population spread stays unchanged."@en .
   ex:pc-inverse rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Which limit gives a chosen probability?"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -2720,9 +2724,7 @@ Conditions: the integral representation uses an absolutely continuous model. The
   ex:pc-linked rdf:type cd:ChartDefinition ;
     skos:prefLabel "One shared threshold links area and accumulation"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Move one threshold in both plots.
-- PDF: shaded area. CDF: the same probability as a height.
-- Reverse the question: choose p, then find its concentration limit."""@en ;
+    cd:body "The density and CDF panels share the selected concentration threshold. The shaded density area and the marked CDF height represent the same accumulated probability."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "distribution" ;
     cd:hasExperimentParameter ex:p1-Mreference ;
@@ -2737,7 +2739,7 @@ Conditions: the integral representation uses an absolutely continuous model. The
     cd:xAxisLabel "Shared threshold (mg/L)"@en ;
     cd:yAxisLabel "Probability density and cumulative probability"@en .
   ex:pc-linked-title rdf:type cd:Interpretation ;
-    skos:prefLabel "PDF and CDF: two views of the same distribution"@en ;
+    skos:prefLabel "A quantile turns probability into a threshold"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:pc-location rdf:type cd:ExperimentParameter ;
     skos:prefLabel "Assumed model expectation (mg/L)"@en ;
@@ -2752,7 +2754,7 @@ Conditions: the integral representation uses an absolutely continuous model. The
   ex:pc-phi-chart rdf:type cd:ChartDefinition ;
     skos:prefLabel "The standard-normal density is one particular PDF"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Generic f becomes lowercase phi for the standard-normal family. Many small independent additive influences may motivate a bell-shaped approximation under suitable conditions. This is not a universal measurement law or proof from a histogram."@en ;
+    cd:body "The standard-Normal density is symmetric about zero and reaches its maximum there. The horizontal coordinate is standardized distance; the vertical coordinate is density per standardized unit."@en ;
     cd:chartPresentation "complete" ;
     cd:chartType cd:LineChart ;
     cd:chartYMaximum "0.42"^^xsd:decimal ;
@@ -2761,7 +2763,7 @@ Conditions: the integral representation uses an absolutely continuous model. The
     cd:usesDataset ex:l5-c14-standard-normal ;
     cd:xAxisLabel "Standardized coordinate z"@en ;
     cd:xAxisUnit "1" ;
-    cd:yAxisLabel "Standard-normal PDF phi"@en ;
+    cd:yAxisLabel "Standard-normal density φ"@en ;
     cd:yAxisUnit "per z-unit" .
   ex:pc-probability rdf:type cd:ExperimentParameter ;
     skos:prefLabel "Chosen cumulative probability p"@en ;
@@ -2785,7 +2787,7 @@ Conditions: the integral representation uses an absolutely continuous model. The
     cd:position "5"^^xsd:integer .
   ex:pc-process-info rdf:type cd:Interpretation ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Repeated measurements of one homogeneous nitrate sample vary through injection, flow, temperature and electronics. A process model describes how these contributions combine."@en .
+    cd:body "A measurement model connects the reported result with the contributions of injection, flow, temperature and electronics. Repetition under the same conditions reveals their combined variation."@en .
   ex:pc-quantile-entry dct:references ex:pc-quantile-symbol ;
     rdf:type cd:DefinitionListEntry ;
     skos:prefLabel "Cumulative probability to concentration"@en ;
@@ -2801,7 +2803,7 @@ The generalized inverse is the greatest lower bound of thresholds whose cumulati
     cd:mathNotation "x_p,F^{-1},p" ;
     cd:presentationDefinition """- p: chosen probability strictly between zero and one.
 - Subscript p labels concentration quantile x p (mg/L).
-- F inverse: quantile function, not reciprocal F; usual inverse for continuous strictly increasing F.
+- F inverse: quantile function; the usual inverse for continuous strictly increasing F.
 - In these continuous models, p=0.95 means 95% at or below the limit."""@en ;
     cd:symbol "quantile as the reversed cumulative question" .
   ex:pc-questions rdf:type cd:DefinitionList ;
@@ -3083,7 +3085,7 @@ Subtracting μ and dividing by σ cancels concentration units. Standardization p
   ex:v3-normal-coordinate rdf:type cd:ChartDefinition ;
     skos:prefLabel "First locate the result in known SD units"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Where is 10.20 mg/L relative to expectation 10.00 and known SD 0.10 mg/L? It is two SD above the expectation. How often should that happen? Keep this probability question open."@en ;
+    cd:body "The marker places the selected nitrate result on the Normal density with expectation 10.00 mg/L and known SD 0.10 mg/L. Its standardized distance is shown alongside the plot."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "normal" ;
     cd:hasExperimentParameter ex:rx-alpha01 ;
@@ -3152,14 +3154,12 @@ In the first category O = 4 and E = 10. A fixed total of 100 and fixed category 
     cd:selectionPath "skos:prefLabel@en" ;
     cd:selectsResource ex:dist-devices-title .
   ex:dist-devices-title rdf:type cd:Interpretation ;
-    skos:prefLabel "Two independent groups, two sample variances"@en ;
+    skos:prefLabel "A variance comparison needs two independent groups"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:dist-f rdf:type cd:ChartDefinition ;
     skos:prefLabel "Independent variance estimates form a random ratio"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Independent normal groups; equal true variances.
-- Sample variances differ randomly, so their ratio varies.
-- Reverse the ratio to exchange the ordered degrees of freedom."""@en ;
+    cd:body "The histogram contains variance ratios from independent Normal sample pairs with equal true variances. The F curve uses numerator and denominator degrees of freedom in the displayed group order."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "f-ratio" ;
     cd:hasExperimentParameter ex:dist-f-view ;
@@ -3219,7 +3219,7 @@ In the first category O = 4 and E = 10. A fixed total of 100 and fixed category 
   ex:dist-f-intro-flow rdf:type cd:FlowDiagram ;
     skos:prefLabel "Repeat two independent variance-estimation experiments"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body "Each independent pair of samples produces two variance estimates and one normalized ratio. Repeat the complete pair, not just one denominator."@en ;
+    cd:body "Each independent pair of complete samples produces two variance estimates and one normalized ratio. Repeating the pair reveals the ratio's sampling distribution."@en ;
     cd:hasDiagramEdge ex:dist-f-edge1 ;
     cd:hasDiagramEdge ex:dist-f-edge2 ;
     cd:hasDiagramEdge ex:dist-f-edge3 ;
@@ -3265,7 +3265,7 @@ Conditions: measurements are independent and identically Normal within each grou
     cd:mathNotation "F,S_B^2,\\sigma_B^2,S_A^2,\\sigma_A^2" ;
     cd:symbol "normalized variance ratio" .
   ex:dist-f-intro-title rdf:type cd:Interpretation ;
-    skos:prefLabel "From two sample variances to a random ratio"@en ;
+    skos:prefLabel "Independent normalized variance estimates form an F ratio"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:dist-f-intro-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -3292,9 +3292,7 @@ Conditions: measurements are independent and identically Normal within each grou
   ex:dist-t rdf:type cd:ChartDefinition ;
     skos:prefLabel "A random estimated denominator creates heavier tails"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Simulate independent normal series; true SD stays 0.10 mg/L.
-- Divide each standardized mean by its own estimated SD factor.
-- Compare the resulting Student density with the normal density."""@en ;
+    cd:body "Each histogram entry comes from one complete Normal sample with true SD 0.10 mg/L."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "student" ;
     cd:hasExperimentParameter ex:dist-t-n2 ;
@@ -3312,9 +3310,7 @@ Conditions: measurements are independent and identically Normal within each grou
   ex:dist-t-compare rdf:type cd:ChartDefinition ;
     skos:prefLabel "More degrees of freedom approach the normal density"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
-    cd:body """- Compare two Student densities with the standard normal.
-- More measurements stabilize the estimated denominator.
-- Shape comparison only; no observed sample is changed."""@en ;
+    cd:body "The two Student densities use the selected sample sizes, each with sample count minus one degrees of freedom. The standard-Normal curve provides their common reference on the same standardized axis."@en ;
     cd:chartType cd:ScientificExperiment ;
     cd:experimentKind "student" ;
     cd:hasExperimentParameter ex:dist-t-view ;
@@ -3415,7 +3411,7 @@ Condition: independent, identically distributed Normal measurement results. Samp
     cd:mathNotation "T,\\bar X,\\mu,S,n" ;
     cd:symbol "standardized sample mean" .
   ex:dist-t-intro-title rdf:type cd:Interpretation ;
-    skos:prefLabel "From a sample mean to a standardized random quantity"@en ;
+    skos:prefLabel "Estimating the standard error changes the reference to t"@en ;
     cd:authoredResource "true"^^xsd:boolean .
   ex:dist-t-intro-v rdf:type cd:SceneItem ;
     cd:authoredResource "true"^^xsd:boolean ;
@@ -3529,10 +3525,10 @@ Condition: independent, identically distributed Normal measurement results. Samp
 - True generating SD stays fixed."""@en ;
     cd:position "1"^^xsd:integer .
   ex:tf-denom2 rdf:type cd:DefinitionListEntry ;
-    skos:prefLabel "Heavier tails, not biased means"@en ;
+    skos:prefLabel "Heavier tails from an estimated standard error"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:body """- Symmetric t density: lower peak, heavier tails than normal.
-- Studentized means, not individual concentrations.
+- Each complete sample contributes one studentized mean.
 - Normal sampling makes mean and variance independent."""@en ;
     cd:position "2"^^xsd:integer .
   ex:tf-denominator rdf:type cd:DefinitionList ;
@@ -3594,7 +3590,7 @@ The Normal samples and groups are independent, making $Q_A$ and $Q_B$ independen
     cd:position "1"^^xsd:integer .
   ex:tf-pair-data dct:references ex:tf-data ;
     rdf:type cd:TableDefinition ;
-    skos:prefLabel "Independent groups, not paired rows; concentrations in mg/L"@en ;
+    skos:prefLabel "Independent groups; concentrations in mg/L"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:hasTableColumn ex:tf-col-b ;
     cd:hasTableColumn ex:tf-col-pa ;
@@ -3638,7 +3634,7 @@ The Normal samples and groups are independent, making $Q_A$ and $Q_B$ independen
     rdf:type cd:MathExpression ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:body "A retains mean 10.10 and SD 0.10 mg/L. B has mean 10.00 and SD 0.30 mg/L. B's observed mean is closer to the CRM, while A's observed spread is smaller. Trueness and precision are different properties; six results do not establish either population property."@en ;
-    cd:formulaLabel "Nine times the observed variance, not necessarily the true variance"@en ;
+    cd:formulaLabel "The observed sample-variance ratio is nine"@en ;
     cd:hasSymbol ex:tf-ratio-symbol ;
     cd:latex "f=\\frac{s_B^2}{s_A^2}=\\frac{0.090}{0.010}=9" .
   ex:tf-ratio-entry dct:references ex:tf-ratio-symbol ;
@@ -3856,7 +3852,7 @@ Each group contains six independent results, with independent groups. Each varia
     cd:position "10"^^xsd:integer ;
     cd:xValue "-1.5"^^xsd:decimal .
   ex:l5-c14-standard-normal rdf:type cd:Dataset ;
-    skos:prefLabel "Standard normal reference, not fitted to the simulation"@en ;
+    skos:prefLabel "Fixed standard-Normal reference"@en ;
     cd:authoredResource "true"^^xsd:boolean ;
     cd:body "Exact standard-normal density samples rounded for drawing, connected approximately. Full normal support extends outside the plotted -6 to 6 interval."@en ;
     cd:derivedFromResource ex:l5-c14d-formula ;

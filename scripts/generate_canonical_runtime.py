@@ -957,7 +957,9 @@ def media_asset_payload(dataset: Dataset, media: URIRef, language: str | None) -
     alternative = deterministic_authored_literal(dataset, media, iri(CD, "alternativeText"), language)
     if uri_value is None or media_type is None or alternative is None:
         raise ValueError(f"Incomplete MediaAsset {compact(media)}")
-    return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative}
+    caption = deterministic_authored_literal(dataset, media, DCTERMS.description, language)
+    return {"uri": uri_value, "mediaType": media_type, "alternativeText": alternative,
+            **({"caption": caption} if caption else {})}
 
 def dot_plot_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     """Project ordered dataset references; never manufacture observations or statistics."""
@@ -1815,6 +1817,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         source_reference(dataset, selected, "cd:uri"),
                         source_reference(dataset, selected, "cd:mediaType"),
                         source_reference(dataset, selected, "cd:alternativeText"),
+                        *([source_reference(dataset, selected, "dct:description")] if payload.get("caption") else []),
                     ],
                     **payload,
                     "disclosure": {"order": position - 1, "mode": "initial"},
@@ -2024,14 +2027,17 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                 if media_parts:
                     children = [{**block, "disclosure": {"order": 0, "mode": "initial"}}]
                     for media_index, media in enumerate(media_parts, 1):
+                        caption = deterministic_authored_literal(dataset, media, DCTERMS.description, language)
                         children.append({
                             "id": f"{block_id}--{compact(media)}", "kind": "media-reference",
                             "uri": selected_literal(dataset, media, iri(CD, "uri"), "cd:uri", None),
                             "mediaType": selected_literal(dataset, media, iri(CD, "mediaType"), "cd:mediaType", None),
                             "alternativeText": selected_literal(dataset, media, iri(CD, "alternativeText"), "cd:alternativeText", language),
+                            **({"caption": caption} if caption else {}),
                             "source": [source_reference(dataset, selected, "dct:hasPart"),
                                        source_reference(dataset, media, "cd:uri"),
-                                       source_reference(dataset, media, "cd:alternativeText")],
+                                       source_reference(dataset, media, "cd:alternativeText"),
+                                       *([source_reference(dataset, media, "dct:description")] if caption else [])],
                             "disclosure": {"order": media_index, "mode": "initial"},
                             "emphasis": "supporting", "intent": {"kind": "explain"},
                         })
@@ -2064,6 +2070,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     blocks.append({
                         "id": f'{block_id}--{compact(legend)}', "kind": "definition-list",
                         "source": [source_reference(dataset, selected, "dct:hasPart"),
+                                   source_reference(dataset, selected, "cd:latex"),
                                    source_reference(dataset, legend, "cd:hasDefinitionListEntry")],
                         "entries": [{
                             "id": f"{compact(entry)}--definition-entry", "term": term,
@@ -2132,6 +2139,22 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     expanded["disclosure"] = {"order": 0, "mode": "progressive", "step": int(reveal_stage), "triggerResourceId": compact(reveal_on)}
                     expanded["source"].extend([source_reference(dataset, item, "cd:revealAtStage"), source_reference(dataset, item, "cd:revealOn")])
 
+        # An explicitly selected legend can also arrive through its formula's
+        # authored hasPart relation. Keep one complete attached unit and retain
+        # the direct selection provenance instead of displaying it twice.
+        attached_legends = {ref['resourceId']: block for block in blocks
+                            if block['kind'] == 'definition-list'
+                            and any(ref.get('relationPath') == 'dct:hasPart' for ref in block['source'])
+                            for ref in block['source'] if ref.get('relationPath') == 'cd:hasDefinitionListEntry'}
+        duplicates = set()
+        for resource, selected_block in selected_blocks:
+            attached = attached_legends.get(compact(resource))
+            if attached is not None and attached is not selected_block and selected_block['kind'] == 'definition-list':
+                if [e['id'] for e in attached['entries']] == [e['id'] for e in selected_block['entries']]:
+                    attached['source'].extend(ref for ref in selected_block['source'] if ref not in attached['source'])
+                    duplicates.add(selected_block['id'])
+        blocks = [block for block in blocks if block['id'] not in duplicates]
+        selected_blocks = [(resource, block) for resource, block in selected_blocks if block['id'] not in duplicates]
         blocks_by_resource: dict[URIRef, list[dict[str, Any]]] = {}
         for resource, block in selected_blocks:
             blocks_by_resource.setdefault(resource, []).append(block)
@@ -2354,6 +2377,7 @@ def build_offering_artifact(
         bindings.append(scene_document_binding(reference, document))
 
     bindings.sort(key=lambda item: (item["pathId"], item["pathGraphId"]))
+    from thematic_script import compile_thematic_scripts
     return {
         "artifactVersion": "1.0",
         "datasetFingerprint": fingerprint_identity,
@@ -2361,6 +2385,7 @@ def build_offering_artifact(
         "teachingOfferingDocuments": [offering_document],
         "sceneDocuments": scene_documents,
         "sceneDocumentBindings": bindings,
+        "thematicScripts": compile_thematic_scripts(dataset, scene_documents, bindings),
     }
 
 
@@ -2374,6 +2399,7 @@ def build_artifact(
     fingerprint = dataset_fingerprint(dataset)
     fingerprint_identity = f"sha256:{fingerprint}"
     document = compile_scene_document(dataset, selection.path)
+    from thematic_script import compile_thematic_scripts
     return {
         "artifactVersion": "1.0", "datasetFingerprint": fingerprint_identity,
         "datasetSnapshot": dataset_snapshot(dataset, fingerprint, language),
@@ -2386,6 +2412,7 @@ def build_artifact(
         ],
         "sceneDocuments": [document],
         "sceneDocumentBindings": [scene_document_binding(selection.path, document)],
+        "thematicScripts": compile_thematic_scripts(dataset, [document], [scene_document_binding(selection.path, document)]),
     }
 
 

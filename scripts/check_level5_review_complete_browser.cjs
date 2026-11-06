@@ -21,6 +21,11 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
     await page.waitForFunction(id=>document.querySelector('section.present')?.id===id,scene.id);
      if(reviewNumber!==37)await page.evaluate(()=>document.querySelectorAll('section.present .fragment').forEach(e=>e.classList.add('visible')));
      const current=page.locator('section.present');assert.equal(await current.locator('.katex-error').count(),0);
+      for(const media of scene.blocks.filter(b=>b.kind==='media-reference'&&b.caption)){
+        const caption=current.locator(`[data-media-block-id="${media.id}"] > figcaption.media-caption`);
+        assert.equal(await caption.innerText(),media.caption);
+        if(width>700){const box=await caption.boundingBox();assert(box&&box.y>=0&&box.y+box.height<=height+2,`${scene.id}: media caption outside viewport`);}
+      }
      if(reviewNumber===29){assert.equal(await current.locator('.definition-list-description ul').count(),3);assert.equal(await current.locator('.definition-list-description .pcd-marker-highlight').count(),3);assert.ok(await current.locator('.definition-list-description strong').count()>=3);}
      if(['ex:lg-log-scale-scene--scene','ex:ix-square-scene--scene'].includes(scene.id)){await current.locator('.media-reference[data-media-aspect="panoramic"]').waitFor();if(width>700){const illustration=await current.locator('.media-reference').boundingBox(),formula=await current.locator('.formula-with-legend').boundingBox(),slide=await current.boundingBox();assert(illustration&&formula&&slide);assert(illustration.y+illustration.height<=formula.y+2,'Panoramic illustration must precede its formula vertically');assert(illustration.width>=slide.width*.8,'Illustration must use the available slide width');}}
      if(scene.id==='ex:map-mechanisms-scene--scene'){assert.equal(await current.locator('.formula-with-legend').count(),5);const legends=current.locator('details.symbol-legend-disclosure');assert.equal(await legends.count(),5);for(const legend of await legends.all()){assert.equal(await legend.getAttribute('open'),null);await legend.locator('summary').click();assert.notEqual(await legend.getAttribute('open'),null);assert.equal(await current.getAttribute('id'),scene.id);await legend.locator('summary').press('Enter');assert.equal(await legend.getAttribute('open'),null);}}
@@ -28,7 +33,12 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
     const checks=[];
      if(hasExperiment){
        await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-      assert.ok(await experiment.locator('svg').count());assert.ok((await experiment.locator('.experiment-readouts').innerText()).length>20,`${scene.id}: missing teaching results`);
+       assert.ok(await experiment.locator('svg').count());assert.ok((await experiment.locator('.experiment-readouts').innerText()).length>20,`${scene.id}: missing teaching results`);
+       assert.equal(await experiment.locator(':scope > figcaption.experiment-caption').count(),1);
+       assert.equal(await experiment.locator(':scope > figcaption.experiment-caption').isVisible(),true);
+       assert.equal(await experiment.locator('details .experiment-caption').count(),0);
+       assert.equal(await experiment.locator(':scope > .experiment-readouts').count(),0);
+       assert.equal(await experiment.locator(':scope > figcaption.experiment-caption > .experiment-readouts').count(),1);
       const assertWidgetFits=async()=>{if(width<=700)return;const box=await experiment.boundingBox();assert(box&&box.x>=0&&box.y>=0&&box.x+box.width<=width+2&&box.y+box.height<=height+2,`${scene.id}: widget outside ${width}x${height} viewport`);};
        await assertWidgetFits();
        assert.ok(await experiment.locator(':scope > .experiment-controls > label').count()<=2,`${scene.id}: too many primary controls`);
@@ -90,8 +100,12 @@ const runtime=JSON.parse(fs.readFileSync(path.join(__dirname,'../apps/pitch/publ
    if(width===1731){
     await page.getByRole('button',{name:'Switch to script',exact:true}).click();
     const script=page.getByRole('main',{name:'Course script',exact:true});await script.waitFor();
-      assert.equal(await script.locator('[data-source-scene-id]').count(),41);
-    assert.ok(await script.locator('.distribution-experiment').count()>10);
+      assert.equal(await script.locator('[data-source-scene-id]').count(),0);
+      const thematic=runtime.thematicScripts[0];
+      assert.equal(await script.locator('.pcd-script-section').count(),thematic.sections.length);
+      const expectedExperiments=thematic.sections.flatMap(s=>s.materials).flatMap(m=>m.blocks).filter(b=>b.kind==='chart'&&b.chartType==='experiment').length;
+      assert.equal(await script.locator('.distribution-experiment').count(),expectedExperiments);
+      assert.equal(await script.locator('.distribution-experiment input:enabled').count(),0,'Reference figures cannot be changed independently of their authored captions');
       assert.equal(await script.locator('.authored-symbol-definitions').count(),43);
       assert.equal(await script.locator('.self-study-symbol-explanation').count(),0);
       const scriptText=await script.innerText();assert.match(scriptText,/Fixed true population mean/);assert.match(scriptText,/Random normalized variance ratio/);assert.doesNotMatch(scriptText,/Live case: from dilution|Simulated concentration uncertainty/);

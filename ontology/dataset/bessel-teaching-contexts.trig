@@ -35,8 +35,8 @@
   ex:bf-definition-entry a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Distribution quantities"@en ; cd:body "Finite second moment is assumed for variance."@en ; dct:references ex:vs-X-symbol, ex:vr-E-symbol, ex:mu-symbol, ex:vm-var-symbol, ex:vr-sigma2-symbol ; cd:authoredResource true .
 
   ex:bf-e-rules a cd:Interpretation ; skos:prefLabel "Calculation Rules for Expected Values"@en ; cd:hasKeyPoint ex:bf-e-k1, ex:bf-e-k2 ; cd:authoredResource true .
-  ex:bf-e-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Finite sum:** all expectations exist; coefficients and n are fixed. ==No independence needed== for linearity."@en ; cd:authoredResource true .
-  ex:bf-e-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Long-run mean:** for iid observations with E[|X|] < ∞, the sample average converges to E[X] as n grows. A finite average need not equal it."@en ; cd:authoredResource true .
+  ex:bf-e-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "**Finite sum:** all expectations exist; coefficients and n are fixed. ==Linearity applies to dependent and independent terms.=="@en ; cd:authoredResource true .
+  ex:bf-e-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "**Long-run mean:** for iid observations with E[|X|] < ∞, the sample average converges to E[X] as n grows. Finite-sample averages retain sampling variation."@en ; cd:authoredResource true .
   ex:bf-v-rules a cd:Interpretation ; skos:prefLabel "Calculation Rules for Variances"@en ; cd:hasKeyPoint ex:bf-v-k1, ex:bf-v-k2 ; cd:authoredResource true .
   ex:bf-v-k1 a cd:KeyPoint ; cd:position 1 ; cd:body "A fixed shift changes the mean, not the variance. Finite second moments and fixed scalars are assumed."@en ; cd:authoredResource true .
   ex:bf-v-k2 a cd:KeyPoint ; cd:position 2 ; cd:body "Scaling by a multiplies expectation by a, but variance by a²."@en ; cd:authoredResource true .

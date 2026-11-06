@@ -1,3 +1,5 @@
+@import "../../../packages/renderer-shared/src/inline-math.css";
+
 /* Three shared surfaces: a content panel, its unboxed interior, and a workspace.
    Composition profiles own geometry only, never a new card design. */
 .reveal {
@@ -43,14 +45,14 @@
 }
 /* One standard card treatment: a numbered colour header and quiet body.
    Symbol legends retain their own compact, unnumbered semantic presentation. */
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry {
+.reveal [data-component-kind="card-collection"]:not([data-symbol-legend="true"]):not(.formula-with-legend *):not(.code-function-workbench *) > .definition-list-entry {
   --pcd-card-header: hsl(var(--definition-entry-hue, 205deg) 65% 25%);
   padding: var(--pcd-panel-padding);
   border-color: color-mix(in srgb, var(--pcd-card-header) 50%, var(--pcd-border));
   border-radius: .45rem;
   background: color-mix(in srgb, var(--pcd-card-header) 6%, var(--pcd-panel-background));
 }
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry > .definition-list-term {
+.reveal [data-component-kind="card-collection"]:not([data-symbol-legend="true"]):not(.formula-with-legend *):not(.code-function-workbench *) > .definition-list-entry > .definition-list-term {
   display: grid;
   grid-template-columns: 2.2em minmax(0, 1fr);
   gap: .65em;
@@ -65,7 +67,7 @@
   font-weight: 700;
   line-height: 1.25;
 }
-.reveal [data-component-kind="card-collection"][data-composition-region="main"]:not([data-symbol-legend="true"]):not(.formula-with-legend *) > .definition-list-entry > .definition-list-term::before {
+.reveal [data-component-kind="card-collection"]:not([data-symbol-legend="true"]):not(.formula-with-legend *):not(.code-function-workbench *) > .definition-list-entry > .definition-list-term::before {
   content: attr(data-card-number) / "";
   display: block;
   padding: .15em .2em;
@@ -75,4 +77,8 @@
   text-align: center;
   font-size: .85em;
   font-variant-numeric: tabular-nums;
+}
+.reveal .slides :is(h1,h2,h3) .katex,
+.pcd-script-view :is(h1,h2,h3,.pcd-script-contents) .katex {
+  font-size:1em;
 }

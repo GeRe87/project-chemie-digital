@@ -9,7 +9,7 @@
   ex:uq-rs2 a cd:KeyPoint ; cd:position 2 ; cd:body "Draw independent samples of sizes 2–100. How strongly do individual MSD estimates fluctuate?"@en ; cd:authoredResource true .
   ex:uq-many-scenario a cd:Interpretation ; cd:hasKeyPoint ex:uq-ms1, ex:uq-ms2 ; cd:authoredResource true .
   ex:uq-ms1 a cd:KeyPoint ; cd:position 1 ; cd:body "For each selected size, simulate 5,000 independent samples and average their MSD estimates."@en ; cd:authoredResource true .
-  ex:uq-ms2 a cd:KeyPoint ; cd:position 2 ; cd:body "Compare with σ² = 5 (mg/L)². Monte Carlo averages approximate expectations; bias is not the fluctuation of one estimate."@en ; cd:authoredResource true .
+  ex:uq-ms2 a cd:KeyPoint ; cd:position 2 ; cd:body "Compare the Monte Carlo average with σ² = 5 (mg/L)². Bias describes the difference between the estimator's expectation and this population target."@en ; cd:authoredResource true .
   ex:uq-conditions a cd:DefinitionList ; cd:hasDefinitionListEntry ex:uq-repeat, ex:uq-intermediate, ex:uq-reproduce ; cd:authoredResource true .
   ex:uq-repeat a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Repeatability"@en ; cd:body "Scenario: repeat a control measurement within one short run.\n**Same laboratory and method.**\nRelevant conditions remain the same over a ==short interval==.\nDescribe which operations were actually repeated."@en ; cd:authoredResource true .
   ex:uq-intermediate a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Intermediate precision"@en ; cd:body "Scenario: compare control results collected on different days.\n**Same laboratory**, with specified changes.\nVary day, operator or instrument deliberately.\nThe design determines which sources are represented."@en ; cd:authoredResource true .
