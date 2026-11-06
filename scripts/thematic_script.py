@@ -61,7 +61,10 @@ def compile_thematic_scripts(dataset, documents, bindings):
         graph=dataset.graph(URIRef(binding['pathGraphId']))
         def step_objects(s,p):return set(graph.objects(s,p))
         def step_position(s):
-            positions=step_objects(s,CD.position)
+            # Membership stays bound to the exact path graph, while a reused
+            # step's position may be authored in another canonical graph.
+            # Match the existing scene compiler's Dataset-wide position lookup.
+            positions=objects(s,CD.position)
             if len(positions)!=1:raise ValueError('Ambiguous step position in exact path graph')
             return int(next(iter(positions)))
         steps=sorted(graph.objects(URIRef(binding['pathId']),CD.hasStep),key=step_position)

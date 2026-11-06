@@ -66,7 +66,7 @@ class BesselSequenceTests(unittest.TestCase):
         self.assertAlmostEqual(math.sqrt(variance/(4*n)),se/2)
         expression=c.literal(self.dataset,EX['se-example-formula'],CD.latex)
         self.assertIn('10.00',expression);self.assertIn('0.07',expression)
-        self.assertIn('95%',c.literal(self.dataset,EX['se-example-k2'],CD.body,'en'))
+        self.assertIn('confidence level and sampling distribution',c.literal(self.dataset,EX['se-example-k2'],CD.body,'en'))
 
     def test_linearity_and_covariance_are_correct_for_dependent_variables(self):
         u=[Fraction(-1),Fraction(1)];v=u

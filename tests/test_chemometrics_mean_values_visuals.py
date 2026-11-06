@@ -209,7 +209,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         blocks = self.scenes["arithmetic-calculation"]["blocks"]
         self.assertEqual(["prose", "prose", "math", "definition-list"], [b["kind"] for b in blocks])
         self.assertIn("observed experiment sums", blocks[1]["text"])
-        self.assertIn("model expectation 17.5", blocks[1]["text"])
+        self.assertIn("model expectation of 17.5", blocks[1]["text"])
         formula = blocks[2]
         self.assertIn(r"\frac{\sum_{i=1}^{n}x_i}{n}", formula["expression"])
         self.assertIn(r"\frac{10+13+18+10+23}{5}", formula["expression"])
@@ -219,7 +219,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertIn(str(GRAPH), formula["source"][0]["provenanceIds"])
         self.assertEqual({EX["mean-dice-sums"], EX["arithmetic-mean-formula"]},
                          set(self.graph.objects(EX["mean-dice-average-formula"], CD.derivedFromResource)))
-        self.assertIn("not individual die faces", blocks[3]["entries"][0]["description"])
+        self.assertIn("observed five-dice sum from experiment i", blocks[3]["entries"][0]["description"])
 
     def test_harmonic_speed_then_time_are_the_only_selected_calculations(self):
         from fractions import Fraction
@@ -270,7 +270,7 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         self.assertEqual(["ARITHMETIC", "GEOMETRIC", "HARMONIC", "MEDIAN"], [e["term"] for e in entries])
         required = [
             ("Repeated measurements", "peak areas", "intensities", "concentrations", "same quantity", "equal weights"),
-            ("Growth factors", "equal periods", "positive data", "orders of magnitude", "log-scale center", "not range alone", "% rates to positive factors"),
+            ("Positive factors", "equal periods", "positive data", "log-scale centre", "multiplicative question", "percentage growth rates to positive factors"),
             ("Speeds", "equal distances", "positive quantities", "reciprocals", "equal-time speed averages are arithmetic"),
             ("Data with extreme values", "middle sorted observation", "less sensitive", "extreme events remain relevant"),
         ]
@@ -326,15 +326,21 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
                     "speed-comparison", "speed-solution", "speed-r", "harmonic-practice",
                     "layers", "turbidity", "order", "lead", "arithmetic-calculation", "median-r")
         for slug in examples:
-            self.assertTrue(self.scenes[slug]["blocks"][0]["text"].startswith("Example:"), slug)
+            heading = self.scenes[slug]["blocks"][0]["text"]
+            if slug == "lead":
+                self.assertEqual("Report the centre and investigate the high lead result", heading)
+            else:
+                self.assertTrue(heading.startswith("Example:"), slug)
         for slug in ("arithmetic-mean", "geometric-mean", "harmonic-mean", "median", "summary", "discussion-additive"):
             self.assertFalse(self.scenes[slug]["blocks"][0]["text"].startswith("Example:"), slug)
         microbial = [b["entries"][0]["description"] for b in self.scenes["microbial"]["blocks"]
                      if b["kind"] == "definition-list" and b["emphasis"] != "supporting"]
         self.assertIn("extreme 10,000", microbial[0])
-        self.assertIn("log-scale question", microbial[0])
-        self.assertIn("better describes this log-scale center", microbial[1])
-        self.assertIn("Keep the extreme observation", microbial[1])
+        self.assertIn("preserves the original-scale total", microbial[0])
+        self.assertIn("logarithms of positive counts", microbial[1])
+        self.assertIn("log-scale centre is 215.44", microbial[1])
+        self.assertIn("Retain the extreme observation", microbial[1])
+        self.assertIn("validated application-specific criteria", microbial[1])
         ratios = [b["entries"][0]["description"] for b in self.scenes["ratios"]["blocks"]
                   if b["kind"] == "definition-list" and b["emphasis"] != "supporting"]
         self.assertIn("15.625, not 5", ratios[0])
@@ -385,7 +391,9 @@ console.log(JSON.stringify(JSON.parse(input).scenes.map(scene=>inferRevealCompos
         media = EX["mean-five-dice-sketch"]
         uri = str(self.graph.value(media, CD.uri))
         self.assertEqual("/chemometrics/mean-values-five-dice.svg", uri)
-        self.assertIn("sample of sums", str(self.graph.value(media, CD.alternativeText)))
+        alternative = str(self.graph.value(media, CD.alternativeText))
+        self.assertIn("one experiment sum", alternative)
+        self.assertIn("Each repetition supplies another sum to the sample", alternative)
         svg = ET.parse(ROOT / "apps/pitch/public" / uri.lstrip("/")).getroot()
         ns = {"s": "http://www.w3.org/2000/svg"}
         self.assertEqual(5, len(svg.findall(".//s:rect", ns)))

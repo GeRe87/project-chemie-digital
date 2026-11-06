@@ -221,10 +221,10 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             [float(next(self.content_graph.objects(observation, CD.numericValue))) for observation in observations],
         )
         chart_body = str(next(self.content_graph.objects(chart, CD.body)))
-        self.assertIn("Sample SD (mg/L)", chart_body)
-        self.assertIn("A 0.18", chart_body)
-        self.assertIn("B 0.13", chart_body)
-        self.assertIn("C 0.31", chart_body)
+        self.assertIn("Sample SDs", chart_body)
+        self.assertIn("0.18 mg/L for A", chart_body)
+        self.assertIn("0.13 mg/L for B", chart_body)
+        self.assertIn("0.31 mg/L for C", chart_body)
 
         self.assertEqual(
             {table},
@@ -257,9 +257,11 @@ class ChemometricsIntroductionTests(unittest.TestCase):
             self.content_graph.objects(EX["chemometrics-nitrate-case-discussion"], CD.hasKeyPoint),
             key=lambda point: int(next(self.content_graph.objects(point, CD.position))),
         )
-        self.assertEqual(2, len(discussion))
-        self.assertIn("Sample C is much higher", str(next(self.content_graph.objects(discussion[0], CD.body))))
-        self.assertIn("Replicates reveal spread", str(next(self.content_graph.objects(discussion[1], CD.body))))
+        self.assertEqual(1, len(discussion))
+        self.assertIn("Replicates reveal spread", str(next(self.content_graph.objects(discussion[0], CD.body))))
+        self.assertEqual({EX["chemometrics-nitrate-discussion-c-highest"]},
+                         set(self.content_graph.objects(chart, CD.hasKeyPoint)))
+        self.assertIn("Sample C", chart_body)
 
     def test_nitrate_case_study_asset_is_local_transparent_svg(self) -> None:
         asset = ROOT / "apps" / "pitch" / "public" / "chemometrics" / "nitrate-water-samples.svg"
@@ -453,7 +455,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
         self.assertIn("Linear regression", bodies[1])
         self.assertIn("multivariate methods", bodies[1])
         self.assertIn("machine learning / AI", bodies[1])
-        self.assertIn("no programming experience", bodies[2])
+        self.assertIn("starting to learn programming", bodies[2])
 
         for removed in (
             "chemometrics-introduction-round-banner",
@@ -536,7 +538,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
 
         discussion = overview["blocks"][4]
         self.assertEqual("unordered", discussion["listStyle"])
-        self.assertEqual(2, len(discussion["items"]))
+        self.assertEqual(1, len(discussion["items"]))
         self.assertEqual(
             {
                 "order": 4,

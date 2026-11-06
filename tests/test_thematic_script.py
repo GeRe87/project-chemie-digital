@@ -1,7 +1,7 @@
 """Independent script order, complete formula units and explicit teaching pairs."""
 import copy
 import unittest
-from rdflib import Literal, Namespace, RDF, Graph
+from rdflib import Literal, Namespace, RDF, Graph, Dataset, URIRef
 from rdflib.namespace import DCTERMS
 from level5_test_support import rdf_dataset, runtime, EX, CD, BASE
 from thematic_script import compile_thematic_scripts
@@ -16,6 +16,21 @@ class ThematicScriptTests(unittest.TestCase):
         cls.document=runtime.compile_scene_document(cls.dataset,runtime.CoursePathReference(cls.binding['pathId'],cls.binding['pathGraphId']))
     def compile(self,document=None):
         return compile_thematic_scripts(self.dataset,[document or self.document],[self.binding])
+    def test_reused_step_position_resolves_across_graphs_without_importing_foreign_membership(self):
+        dataset=Dataset()
+        path=EX['test-path'];step=EX['test-step']
+        graph=dataset.graph(URIRef(BASE+'paths/test'))
+        shared=dataset.graph(URIRef(BASE+'paths/shared'))
+        graph.add((path,CD.hasStep,step))
+        shared.add((step,CD.position,Literal(1)))
+        # An unrelated malformed step must not enter this exact path selection.
+        shared.add((path,CD.hasStep,EX['unselected-step']))
+        binding={'pathId':str(path),'pathGraphId':str(graph.identifier),'sceneDocumentId':'test-document'}
+        document={'id':'test-document','scenes':[]}
+        self.assertEqual([],compile_thematic_scripts(dataset,[document],[binding]))
+        shared.add((step,CD.position,Literal(2)))
+        with self.assertRaisesRegex(ValueError,'Ambiguous step position'):
+            compile_thematic_scripts(dataset,[document],[binding])
     def test_script_is_thematic_and_preserves_all_authored_formula_units(self):
         scripts=self.compile();self.assertEqual(1,len(scripts))
         script=scripts[0];self.assertEqual(10,len(script['sections']))

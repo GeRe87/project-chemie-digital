@@ -94,7 +94,15 @@ class Level4TeachingPathTests(unittest.TestCase):
             self.assertEqual(resources, {
                 next(self.scenes.objects(item, CD.selectsResource)) for item in scene_items
             })
-            self.assertEqual(list(range(1, len(scene_items) + 1)), sorted(
+            # These twelve figures retain their original item identities and
+            # order after two redundant prose selections moved into captions.
+            captioned_figures = {
+                "box-extremes", "box-symmetric", "box-skewed", "box-bimodal", "box-uniform",
+                "histogram-reading", "histogram-skewed", "histogram-bimodal", "histogram-2d-reading",
+                "histogram-too-coarse", "histogram-too-fine", "histogram-sensible-width",
+            }
+            expected_positions = [1, 4, 5] if slug in captioned_figures else list(range(1, len(scene_items) + 1))
+            self.assertEqual(expected_positions, sorted(
                 int(next(self.scenes.objects(item, CD.position))) for item in scene_items
             ))
             for item in scene_items:
@@ -183,7 +191,9 @@ class Level4TeachingPathTests(unittest.TestCase):
                             primary in kinds or (alternative is not None and alternative in kinds),
                             f"{resource} has types {kinds}, incompatible with {role}",
                         )
-        self.assertEqual(264, count)
+        # Twelve figure descriptions/findings moved to their chart captions,
+        # removing two redundant prose selections each, not their evidence.
+        self.assertEqual(240, count)
 
     def test_summary_reuses_four_scientific_interpretations_without_copying_corrections(self):
         selected = [

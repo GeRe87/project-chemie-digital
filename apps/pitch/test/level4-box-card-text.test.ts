@@ -13,16 +13,19 @@ class Element implements MinimalElement {
 }
 const artifact=JSON.parse(readFileSync(new URL("../public/authoring-runtime.json",import.meta.url),"utf8")) as {sceneDocuments:SceneDocument[]};
 const document=artifact.sceneDocuments[0]!;
-const scenes=document.scenes.filter(s=>s.accessibility?.label?.startsWith("Boxplots:"));
+const boxExplanations=new Set(["construction","applications","limits","extremes","symmetric","skewed","bimodal","uniform"]
+  .map(slug=>`ex:l4-scene-box-${slug}--scene`));
+const scenes=document.scenes.filter(s=>boxExplanations.has(s.id));
 const visit=(node:Element):Element[]=>[node,...node.children.flatMap(visit)];
 
-test("all eight Boxplot explanation slides author a selective normal/bold/list/highlight hierarchy",()=>{
+test("all eight Boxplot explanations retain selective emphasis after figure prose moves to captions",()=>{
   assert.equal(scenes.length,8);
   for(const scene of scenes){
     const texts=scene.blocks.flatMap(b=>b.kind==="definition-list"?b.entries.map(e=>e.description??""):b.kind==="prose"&&b.intent?.kind!=="introduce"?[b.text]:[]);
     const html=texts.map(teachingTextMarkup).join("");
     assert.match(html,/<strong>/u);
-    assert.match(html,/<ul class="teaching-points">/u);
+    if(scene.blocks.some(b=>b.kind==="definition-list")||["ex:l4-scene-box-extremes--scene","ex:l4-scene-box-bimodal--scene"].includes(scene.id))
+      assert.match(html,/<ul class="teaching-points">/u);
     assert.equal((html.match(/pcd-marker-highlight--cyan/gu)??[]).length,1);
     assert(!texts.some(t=>t.includes("•")),"Use real list items, not bullet glyphs");
     for(const b of scene.blocks)if(b.kind==="prose"&&b.intent?.kind!=="introduce")assert.equal(b.format,"markdown");
@@ -38,6 +41,8 @@ test("definition cards and coloured prose cards project real paragraphs, bullets
     assert.match(card.innerHTML,/<strong>/u);assert.match(card.innerHTML,/pcd-marker-highlight/u);
   }
   const prose=visit(root).filter(e=>e.attributes.get("data-component-kind")==="info-surface");
-  assert.equal(prose.length,15);
-  assert.equal(prose.filter(e=>e.innerHTML.includes("<ul ")).length,7);
+  // Five independent interpretations remain; figure-specific descriptions are
+  // owned by the charts rather than repeated in additional prose panels.
+  assert.equal(prose.length,5);
+  assert.equal(prose.filter(e=>e.innerHTML.includes("<ul ")).length,2);
 });

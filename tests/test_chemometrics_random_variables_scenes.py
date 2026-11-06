@@ -63,8 +63,8 @@ EXPECTED_BLOCK_KINDS = [
     ["prose", "math", "definition-list"],
     ["prose", "math", "definition-list"],
     ["prose", "diagram"],
-    ["prose", "prose", "definition-list", "math", "definition-list", "math", "definition-list", "math"],
-    ["prose", "prose", "definition-list", "math", "definition-list", "math", "definition-list", "math"],
+    ["prose", "prose", "math", "definition-list", "math", "definition-list", "math", "definition-list"],
+    ["prose", "prose", "math", "definition-list", "math", "definition-list", "math", "definition-list"],
     ["prose", "prose", "math", "chart", "prose"],
     ["prose", "prose", "definition-list", "prose"],
     ["prose", "prose", "definition-list", "prose"],
@@ -144,10 +144,10 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("Five volumetric flasks", media["alternativeText"])
 
         intro = scene["blocks"][2]["text"]
-        self.assertIn("prepare five calibration standards", intro)
-        self.assertIn("Each row is one observation", intro)
-        self.assertIn("each cell contains one variable value", intro)
-        self.assertIn("plot shows the same", intro)
+        self.assertIn("observational unit", intro)
+        self.assertIn("variable values recorded together as one observation", intro)
+        self.assertIn("Five calibration standards", media["caption"])
+        self.assertIn("0, 1, 2, 5 and 10 mg/L", media["caption"])
 
         table = scene["blocks"][3]
         self.assertEqual(
@@ -174,10 +174,9 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("five labeled sampling locations", media["alternativeText"])
 
         intro = scene["blocks"][2]["text"]
-        self.assertIn("five locations", intro)
-        self.assertIn("three replicate samples", intro)
-        self.assertIn("All 15 samples", intro)
-        self.assertIn("approximately the same concentration", intro)
+        self.assertIn("Site identity groups the replicate samples", intro)
+        for finding in ("Five sites", "three replicate samples", "15 illustrative", "approximately equal"):
+            self.assertIn(finding, media["caption"])
 
         table = scene["blocks"][3]
         self.assertEqual(
@@ -267,9 +266,12 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertEqual(r"A_i = f(c_i) + \varepsilon_i", scene["blocks"][1]["expression"])
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(["Aᵢ", "f(cᵢ)", "εᵢ"], [entry["term"] for entry in entries])
-        self.assertIn("Observed absorbance", entries[0]["description"])
-        self.assertIn("chosen concentration", entries[1]["description"])
-        self.assertIn("not explained", entries[2]["description"])
+        self.assertIn("observed absorbance", entries[0]["description"])
+        self.assertIn("dimensionless", entries[0]["description"])
+        self.assertIn("modelled absorbance for concentration", entries[1]["description"])
+        self.assertIn("Parentheses denote function evaluation", entries[1]["description"])
+        self.assertIn("observed absorbance minus modelled absorbance", entries[2]["description"])
+        self.assertIn("additional modelling assumptions", entries[2]["description"])
 
     def test_general_formula_follows_uvvis_equation_without_adding_distribution_assumptions(self) -> None:
         scene = self.document["scenes"][8]
@@ -277,9 +279,10 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertEqual(r"y_i = f(x_i) + \varepsilon_i", scene["blocks"][1]["expression"])
         entries = scene["blocks"][2]["entries"]
         self.assertEqual(["yᵢ", "f(xᵢ)", "εᵢ"], [entry["term"] for entry in entries])
-        self.assertIn("Observed response", entries[0]["description"])
+        self.assertIn("observed response", entries[0]["description"])
         self.assertIn("explanatory input", entries[1]["description"])
-        self.assertIn("unmodelled influences", entries[2]["description"])
+        self.assertIn("remaining influences relative to the selected function", entries[2]["description"])
+        self.assertIn("additional model assumptions", entries[2]["description"])
 
     def test_model_function_families_have_five_svg_thumbnails_and_an_open_other_branch(self) -> None:
         scene = self.document["scenes"][9]
@@ -318,7 +321,7 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
         self.assertIn("Illustrative", scene["blocks"][1]["text"])
         self.assertIn("mg/L", scene["blocks"][1]["text"])
         for index, name in enumerate(["scalar", "vector", "matrix"]):
-            card, formula = scene["blocks"][2 + index * 2:4 + index * 2]
+            formula, card = scene["blocks"][2 + index * 2:4 + index * 2]
             self.assertEqual(name.upper(), card["entries"][0]["term"])
             self.assertEqual("math", formula["kind"])
             self.assertIn("2.55", formula["expression"])
@@ -328,28 +331,29 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
                 {source["relationPath"] for source in formula["source"]},
             )
             self.assertTrue(all(source["resourceId"] == f"ex:value-shape-{name}-formula" for source in formula["source"]))
-        vector, matrix = scene["blocks"][5], scene["blocks"][7]
+        vector, matrix = scene["blocks"][4], scene["blocks"][6]
         self.assertIn(r"\vec{x}", vector["expression"])
         self.assertIn(r"\mathbf{X}", matrix["expression"])
         self.assertIn(r"3\times2", matrix["expression"])
         for nitrate in ["2.55", "3.14", "4.20"]:
             self.assertIn(nitrate, vector["expression"])
             self.assertIn(nitrate + " & ", matrix["expression"])
-        self.assertIn("Rows: samples A, B, C", scene["blocks"][6]["entries"][0]["description"])
-        self.assertIn("Columns: nitrate, phosphate", scene["blocks"][6]["entries"][0]["description"])
+        self.assertIn("Rows represent samples A, B and C", scene["blocks"][7]["entries"][0]["description"])
+        self.assertIn("columns represent nitrate and phosphate", scene["blocks"][7]["entries"][0]["description"])
         self.assertEqual(8, len(scene["blocks"]), "No generic footer is selected")
 
     def test_value_types_follow_value_shapes_using_the_same_infocard_structure(self) -> None:
         scene = self.document["scenes"][11]
         self.assertEqual("ex:scene-chemometrics-variable-value-types--scene", scene["id"])
         self.assertEqual("Types of variable values", scene["blocks"][0]["text"])
-        self.assertIn("not the shape", scene["blocks"][1]["text"])
+        self.assertIn("Value type describes the meaning and allowed values", scene["blocks"][1]["text"])
+        self.assertIn("collection shape describes their organization", scene["blocks"][1]["text"])
         self.assertEqual(
             [block["kind"] for block in self.document["scenes"][10]["blocks"]],
             [block["kind"] for block in scene["blocks"]],
         )
         for index, name in enumerate(["numbers", "categories", "boolean"]):
-            card, formula = scene["blocks"][2 + index * 2:4 + index * 2]
+            formula, card = scene["blocks"][2 + index * 2:4 + index * 2]
             self.assertEqual(1, len(card["entries"]))
             self.assertEqual(name.upper(), card["entries"][0]["term"])
             self.assertEqual("math", formula["kind"])
@@ -362,15 +366,15 @@ class ChemometricsVariablesSceneTests(unittest.TestCase):
             for text in [card["entries"][0]["description"], formula["spokenText"]]:
                 self.assertNotIn("\u2014", text)
                 self.assertNotIn("\u2013", text)
-        numbers = scene["blocks"][3]["expression"]
+        numbers = scene["blocks"][2]["expression"]
         for notation in [r"2.55 &\in \mathbb{R}", r"3 &\in \mathbb{Z}", r"2+3i &\in \mathbb{C}"]:
             self.assertIn(notation, numbers)
-        categories = scene["blocks"][4]["entries"][0]["description"]
-        self.assertIn("tap, lake, runoff", categories)
-        self.assertIn("not amounts", categories)
-        self.assertEqual(r"c=\text{lake}", scene["blocks"][5]["expression"])
+        categories = scene["blocks"][5]["entries"][0]["description"]
+        self.assertIn("tap, lake and runoff", categories)
+        self.assertIn("dimensionless class identities", categories)
+        self.assertEqual(r"c=\text{lake}", scene["blocks"][4]["expression"])
         for truth_value in [r"\mathrm{true}", r"\mathrm{false}"]:
-            self.assertIn(truth_value, scene["blocks"][7]["expression"])
+            self.assertIn(truth_value, scene["blocks"][6]["expression"])
         self.assertEqual(8, len(scene["blocks"]), "No generic footer is selected")
 
         graph = self.dataset.graph(URIRef(
