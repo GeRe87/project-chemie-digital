@@ -80,10 +80,11 @@ class Level5CleanupTests(unittest.TestCase):
         import json,hashlib
         document=runtime.compile_scene_document(self.dataset,runtime.CoursePathReference(str(self.path),BASE+'paths/level5-review-complete'))
         digest=hashlib.sha256(json.dumps(copy_edit_invariants(document),sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
-        # Recomputed on a07792de and current sources with the same editorial
-        # mask: G7 media captions and the R function glossary are prose too.
+        # Release preflight recompiled both a07792de's complete TriG corpus and
+        # current sources with this final editorial mask: both yield this hash.
+        # G7 media captions and the R function glossary are prose too.
         # Formulae, observations, parameters and literal R remain protected.
-        self.assertEqual('75e68ccb91926d41197c244e5b06ea1d49418621cbbc50ef9fdf0ed6865bcbf8',digest)
+        self.assertEqual('33f102f95ab47b0efd688cbeb59253efb8e4b915e65b9d1918f97a6df404b29d',digest)
 
     def test_copy_edit_mask_keeps_formula_and_symbol_content_protected(self):
         document={'scenes':[{'narration':'Editable explanation','blocks':[
