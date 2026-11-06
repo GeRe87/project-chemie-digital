@@ -40,7 +40,7 @@ const variants: readonly SceneBlock[] = [
   { ...base, kind: "math", label: "Formula", expression: "x", spokenText: "x", derivation: section,
     derivationDetails: [{ ...labelled, stepCount: 1, inputFormulaId: "item", resultFormulaId: "item", sections: [section] }] },
   { ...base, kind: "code", language: "javascript", code: "1", editable: true, executable: false, fallback: "1" },
-  { ...base, kind: "media-reference", uri: "/image.svg", mediaType: "image/svg+xml", version: "1", integrity: "digest", alternativeText: "Illustration" },
+  { ...base, kind: "media-reference", uri: "/image.svg", mediaType: "image/svg+xml", version: "1", integrity: "digest", alternativeText: "Illustration", caption: "Authored figure finding" },
   { ...base, kind: "list", listStyle: "ordered", items: [{ ...identity, text: "Item" }] },
   { ...base, kind: "definition-list", entries: [definition] },
   { ...base, kind: "table", caption: "Table", description: "Description", columns: [labelled], rows: [{ ...identity, cells: [{ ...identity, text: "Cell" }] }] },

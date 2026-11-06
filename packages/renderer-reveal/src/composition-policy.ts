@@ -741,7 +741,7 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
   // full-width visual followed by interpretation, not two narrow columns.
   // Keep dense text and symbol legends on their existing bounded profiles.
   const explanationCards = body.find(block => block.kind === "definition-list");
-  const illustration = body.find(block => block.kind === "media-reference" && block.mediaType.startsWith("image/"));
+  const illustration = body.find(block => block.kind === "media-reference" && block.mediaType?.startsWith("image/"));
   if (body.length === 2 && explanationCards?.kind === "definition-list" && illustration
       && explanationCards.entries.length >= 2 && explanationCards.entries.length <= 3
       && explanationCards.entries.every(entry => !entry.symbol && (entry.term.length + (entry.description?.length ?? 0)) <= 420)) {

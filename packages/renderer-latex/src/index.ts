@@ -294,7 +294,7 @@ function blockLatex(block:SceneBlock):string {
           cells.map(c=>`\\path[fill=pcd1!${num(100*c.count/max)}] (axis cs:${num(c.xLower)},${num(c.yLower)}) rectangle (axis cs:${num(c.xUpper)},${num(c.yUpper)});`+
             (c.count?`\\node[font=\\tiny,text=${c.count/max>.6?'white':'black'}] at (axis cs:${num((c.xLower+c.xUpper)/2)},${num((c.yLower+c.yUpper)/2)}) {${c.count}};`:'')).join('\n')+'\n\\end{axis}\\end{tikzpicture}\\end{center}\n\\noindent Cell labels give observation counts.\n';
       }
-      throw new Error(`Unsupported LaTeX chart type: ${block.chartType}`);
+      throw new Error('Unsupported LaTeX chart type');
     default:throw new Error(`Unsupported LaTeX material: ${block.kind}`);
   }
 }

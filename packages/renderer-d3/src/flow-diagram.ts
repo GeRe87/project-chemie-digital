@@ -1118,7 +1118,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
             shape.setAttribute("y", String(-layoutNode.height / 2));
             shape.setAttribute("width", String(layoutNode.width));
             shape.setAttribute("height", String(layoutNode.height));
-            shape.setAttribute("rx", numberedCard ? "7" : model.diagramType === "flow" ? "0"
+            shape.setAttribute("rx", numberedCard ? "7"
               : layout.strategy === "space-filling-flow" ? "3"
                 : layout.strategy === "radial-network" || layout.strategy === "triadic-network" ? "6" : "8");
           }

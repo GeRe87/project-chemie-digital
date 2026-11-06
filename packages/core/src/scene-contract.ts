@@ -296,7 +296,7 @@ const block: Check<SceneBlock> = tagged<SceneBlock, "kind">("kind", {
   }),
   code: object<CodeBlock>({ ...base, kind: choice("code"), language: text, code: text, editable: boolean, executable: boolean, fallback: text }),
   "media-reference": object<MediaReferenceBlock>({
-    ...base, kind: choice("media-reference"), uri: text, mediaType: optional(text), version: optional(text), integrity: optional(text), alternativeText: text,
+    ...base, kind: choice("media-reference"), uri: text, mediaType: optional(text), version: optional(text), integrity: optional(text), alternativeText: text, caption: optional(text),
   }),
   list: object<ListBlock>({
     ...base, kind: choice("list"), listStyle: choice("unordered", "ordered"), items: array(object<ListItem>({ ...identity, text })),
