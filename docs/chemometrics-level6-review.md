@@ -330,3 +330,10 @@ the authored definition structure directly. Align both assertions with that
 projection and continue requiring the complete rendered definition content.
 Because PDF-source fixes landed during this diagnostic run, it is not final
 exact-head evidence; rerun the complete command on the settled committed head.
+
+All seven Script PDFs now compile within the strict LaTeX layout budget. The
+final inventory reveals two authored Level-6 occurrences of the same t-comparison
+SVG. Deduplicate the image-file projection by URI, source digest and media type,
+not the authored materials: both visible occurrences remain, while manifest,
+source bundle and integrity checking use one file record. A regression covers
+this repeated-occurrence case. Full artifact verification still remains a gate.

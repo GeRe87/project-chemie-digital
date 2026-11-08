@@ -9,8 +9,12 @@ import type {ThematicScript} from '../packages/core/src/thematic-script.ts';
 import type {MediaReferenceBlock} from '../packages/core/src/scene-document.ts';
 import {latexMediaFilename} from '../packages/renderer-latex/src/index.ts';
 
-export const scriptMedia=(script:ThematicScript)=>script.sections.flatMap(section=>section.materials)
-  .flatMap(material=>material.blocks).filter((block):block is MediaReferenceBlock=>block.kind==='media-reference'&&block.mediaType!=='text/html');
+export const scriptMedia=(script:ThematicScript)=>{
+  const media=script.sections.flatMap(section=>section.materials).flatMap(material=>material.blocks)
+    .filter((block):block is MediaReferenceBlock=>block.kind==='media-reference'&&block.mediaType!=='text/html');
+  // Authored occurrences stay in the Script; one source asset needs one file.
+  return [...new Map(media.map(block=>[JSON.stringify([block.uri,block.integrity,block.mediaType]),block])).values()];
+};
 export async function readScriptSvg(block:MediaReferenceBlock,publicRoot:string){
   latexMediaFilename(block);
   if(!/^\/[a-zA-Z0-9_./-]+\.svg$/u.test(block.uri)||block.uri.split('/').includes('..'))throw new Error('Unsafe script SVG path');

@@ -10,6 +10,15 @@ import {scriptMedia} from '../../../scripts/script_pdf_media.mts';
 const runtime=JSON.parse(readFileSync(new URL('../../../apps/pitch/public/authoring-level5-review-complete-runtime.json',import.meta.url),'utf8'));
 const script:ThematicScript=runtime.thematicScripts[0];
 
+test('repeated authored figure occurrences share one verified PDF asset',()=>{
+  const revised=structuredClone(script),before=scriptMedia(revised);
+  assert(before.length>0);
+  const material=revised.sections.flatMap(section=>section.materials).find(material=>material.blocks.some(block=>block.kind==='media-reference'))!;
+  material.blocks.push({...before[0]!,id:'reused-figure-occurrence'});
+  assert.equal(scriptMedia(revised).length,before.length);
+  assert(material.blocks.some(block=>block.id==='reused-figure-occurrence'));
+});
+
 test('authored HTTPS reading references stay links rather than SVG assets in LaTeX',()=>{
   const revised=structuredClone(script);
   const material=revised.sections.flatMap(section=>section.materials).find(material=>material.blocks.some(block=>block.kind==='media-reference'))!;
