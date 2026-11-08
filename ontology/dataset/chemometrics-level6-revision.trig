@@ -1,0 +1,165 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Owner-directed November 7 lecture revision. Earlier draft resources are not
+# selected by this path. Scientific resources shared with other paths stay intact.
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+ ex:l6r-p01 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:l6-scene01 ; cd:usesResource ex:l6-title ; cd:authoredResource true .
+ ex:l6r-p02 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:l6-scene02 ; cd:usesResource ex:l6-motivation-title, ex:l6-motivation, ex:l6-questions-art ; cd:authoredResource true .
+ ex:l6r-p03 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l6-scene03 ; cd:usesResource ex:l6-hypotheses-title, ex:l6r-hypothesis, ex:l6-hypothesis-art ; cd:authoredResource true .
+ ex:l6r-p04 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:l6-scene04 ; cd:usesResource ex:l6-directions-title, ex:l6r-tree-art ; cd:authoredResource true .
+ ex:l6r-p05 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l6-scene05 ; cd:usesResource ex:l6-alpha-title, ex:l6-errors, ex:l6-errors-art ; cd:authoredResource true .
+ ex:l6r-p06 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l6-scene04b ; cd:usesResource ex:l6-ice-title, ex:l6-ice-art, ex:l6-ice-cards ; cd:authoredResource true .
+ ex:l6r-p07 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:l6r-lake-scene ; cd:usesResource ex:l6r-lake-title, ex:l6r-lake-model, ex:l6r-lake-report ; cd:authoredResource true .
+ ex:l6r-p08 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l6-scene05b ; cd:usesResource ex:l6-alpha-live-title, ex:l6-alpha-experiment ; cd:authoredResource true .
+ ex:l6r-p09 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l6-scene06 ; cd:usesResource ex:l6-df-title, ex:l6-df-cards, ex:l6-df-art ; cd:authoredResource true .
+ ex:l6r-p10 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:l6-scene07 ; cd:usesResource ex:l6-p-title, ex:l6-p-cards, ex:l6-tail-art ; cd:authoredResource true .
+ ex:l6r-p11 a cd:PathStep ; cd:position 11 ; cd:usesScene ex:l6r-t-scene ; cd:usesResource ex:l6r-t-section, ex:l6r-t-section-art ; cd:authoredResource true .
+ ex:l6r-p12 a cd:PathStep ; cd:position 12 ; cd:usesScene ex:l6-scene09 ; cd:usesResource ex:l6-t-title, ex:l6-t-cards, ex:l6-t-comparisons-art ; cd:authoredResource true .
+ ex:l6r-p13 a cd:PathStep ; cd:position 13 ; cd:usesScene ex:l6-scene11 ; cd:usesResource ex:l6-one-t-title, ex:l6-formula-one-t, ex:l6-legend-one-t, ex:l6-guide11 ; cd:authoredResource true .
+ ex:l6r-p14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l6-scene11b ; cd:usesResource ex:l6-t-live-title, ex:l6-t-experiment ; cd:authoredResource true .
+ ex:l6r-p15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l6-scene12 ; cd:usesResource ex:l6-crm-answer-title, ex:l6r-recovery-chart, ex:l6r-recovery-report ; cd:authoredResource true .
+ ex:l6r-p16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l6-scene13 ; cd:usesResource ex:l6-design-title, ex:l6-design-art ; cd:authoredResource true .
+ ex:l6r-p17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l6-scene14 ; cd:usesResource ex:l6-pooled-title, ex:l6-formula-pooled, ex:l6-legend-pooled, ex:l6-guide14, ex:l6r-river-art ; cd:authoredResource true .
+ ex:l6r-p18 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l6-scene15 ; cd:usesResource ex:l6-paired-title, ex:l6-formula-paired, ex:l6-legend-paired, ex:l6-guide15, ex:l6r-reactor-art ; cd:authoredResource true .
+ ex:l6r-p19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l6-scene16 ; cd:usesResource ex:l6-paired-title, ex:l6r-paired-chart, ex:l6r-paired-report ; cd:authoredResource true .
+ ex:l6r-p20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l6-scene17 ; cd:usesResource ex:l6-welch-title, ex:l6-formula-welch, ex:l6-legend-welch, ex:l6-guide17, ex:l6r-instruments-art ; cd:authoredResource true .
+ ex:l6r-p21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l6-scene18 ; cd:usesResource ex:l6-welch-title, ex:l6r-welch-chart, ex:l6r-welch-report ; cd:authoredResource true .
+ ex:l6r-p22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l6-scene19 ; cd:usesResource ex:l6r-practice-title, ex:l6r-practice ; cd:authoredResource true .
+ ex:l6r-p23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l6r-multi-question-scene ; cd:usesResource ex:l6r-multi-question, ex:l6r-multi-case ; cd:authoredResource true .
+ ex:l6r-p24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l6r-multi-answer-scene ; cd:usesResource ex:l6r-multi-answer, ex:l6r-multi-calculation ; cd:authoredResource true .
+ ex:l6r-p25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l6-scene20 ; cd:usesResource ex:l6-bonferroni-title, ex:l6-formula-bonferroni, ex:l6-legend-bonferroni, ex:l6-guide20 ; cd:authoredResource true .
+ ex:l6r-p26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l6-scene21 ; cd:usesResource ex:l6-multiple-title, ex:l6-multiple, ex:l6-multiple-reading ; cd:authoredResource true .
+ ex:l6r-p27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l6r-f-scene ; cd:usesResource ex:l6r-f-section, ex:l6r-f-section-art ; cd:authoredResource true .
+ ex:l6r-p28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l6-scene22 ; cd:usesResource ex:l6r-f-intro, ex:l6r-f-cards ; cd:authoredResource true .
+ ex:l6r-p29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l6-scene24 ; cd:usesResource ex:l6-f-ratio-title, ex:l6-formula-f-ratio, ex:l6-legend-f-ratio, ex:l6-guide24, ex:l6r-precision-art ; cd:authoredResource true .
+ ex:l6r-p30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l6-scene23 ; cd:usesResource ex:l6-f-table-title, ex:l6-f-table, ex:l6-f-reading ; cd:authoredResource true .
+ ex:l6r-p31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l6-scene25 ; cd:usesResource ex:l6-f-ratio-title, ex:l6r-f-report, ex:l6r-precision-art ; cd:authoredResource true .
+ ex:l6r-p32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l6-scene26 ; cd:usesResource ex:l6r-calibration-title, ex:l6r-calibration-art ; cd:authoredResource true .
+ ex:l6r-p33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l6-scene27 ; cd:usesResource ex:l6-nested-title, ex:l6-formula-nested-f, ex:l6-legend-nested-f, ex:l6-guide27, ex:l6-calibration-gain-art ; cd:authoredResource true .
+ ex:l6r-p34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l6-scene28 ; cd:usesResource ex:l6-nested-title, ex:l6r-nested-report, ex:l6-calibration-gain-art ; cd:authoredResource true .
+ ex:l6r-p35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l6-scene31 ; cd:usesResource ex:l6-chi-title, ex:l6-chi-cards, ex:l6-chi-questions-art ; cd:authoredResource true .
+ ex:l6r-p36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l6-scene32 ; cd:usesResource ex:l6-variance-title, ex:l6-formula-variance-chi, ex:l6-legend-variance-chi, ex:l6-guide32, ex:l6r-known-art ; cd:authoredResource true .
+ ex:l6r-p37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l6-scene33 ; cd:usesResource ex:l6-variance-title, ex:l6r-variance-chart, ex:l6r-variance-report ; cd:authoredResource true .
+ ex:l6r-p38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l6-scene34 ; cd:usesResource ex:l6-pearson-title, ex:l6-formula-pearson, ex:l6-legend-pearson, ex:l6-guide34, ex:l6-particle-counts-art ; cd:authoredResource true .
+ ex:l6r-p39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l6-scene35 ; cd:usesResource ex:l6-pearson-title, ex:l6r-pearson-report, ex:l6-particle-counts-art ; cd:authoredResource true .
+ ex:l6r-p40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l6-scene36 ; cd:usesResource ex:l6-independence-title, ex:l6-formula-independence, ex:l6-legend-independence, ex:l6-guide36, ex:l6-vessel-counts-art ; cd:authoredResource true .
+ ex:l6r-p41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l6-scene37 ; cd:usesResource ex:l6-independence-title, ex:l6r-independence-report, ex:l6-vessel-counts-art ; cd:authoredResource true .
+ ex:l6r-p42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l6-scene38 ; cd:usesResource ex:l6-mw-title, ex:l6-mw-cards, ex:l6-rank-order-art ; cd:authoredResource true .
+ ex:l6r-p43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l6-scene39 ; cd:usesResource ex:l6-u-title, ex:l6-formula-u, ex:l6-legend-u, ex:l6-guide39 ; cd:authoredResource true .
+ ex:l6r-p44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l6-scene40 ; cd:usesResource ex:l6-rank-grid-title, ex:l6-cliff-art, ex:l6r-u-report ; cd:authoredResource true .
+ ex:l6r-p45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l6-scene41 ; cd:usesResource ex:l6-signed-title, ex:l6-formula-signed, ex:l6-legend-signed, ex:l6-guide41 ; cd:authoredResource true .
+ ex:l6r-p46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l6-scene42 ; cd:usesResource ex:l6-signed-title, ex:l6r-signed-report, ex:l6-signed-ranks-art ; cd:authoredResource true .
+ ex:l6r-p47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l6-scene45 ; cd:usesResource ex:l6-effect-title, ex:l6-formula-effect, ex:l6-legend-effect, ex:l6-guide45 ; cd:authoredResource true .
+ ex:l6r-p48 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l6-scene46 ; cd:usesResource ex:l6-effect-title, ex:l6r-effect-cards, ex:l6r-instruments-art ; cd:authoredResource true .
+ ex:l6r-p49 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l6-scene47 ; cd:usesResource ex:l6-cliff-title, ex:l6-formula-cliff, ex:l6-legend-cliff, ex:l6-guide47 ; cd:authoredResource true .
+ ex:l6r-p50 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l6-scene48 ; cd:usesResource ex:l6-cliff-title, ex:l6r-cliff-cards, ex:l6-cliff-art ; cd:authoredResource true .
+ ex:l6r-p51 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l6-scene49 ; cd:usesResource ex:l6-outlier-title, ex:l6-outlier-cards, ex:l6-outlier-investigation-art ; cd:authoredResource true .
+ ex:l6r-p52 a cd:PathStep ; cd:position 52 ; cd:usesScene ex:l6-scene50 ; cd:usesResource ex:l6r-grubbs-title, ex:l6-formula-grubbs, ex:l6-legend-grubbs, ex:l6-formula-grubbs-critical, ex:l6-legend-grubbs-critical, ex:l6r-grubbs-result ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+ ex:l6r-lake-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-hypothesis ; cd:hasSceneItem ex:l6r-lake-h, ex:l6r-lake-m, ex:l6r-lake-r ; cd:authoredResource true .
+ ex:l6r-lake-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-lake-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-lake-m a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-lake-model ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-lake-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-lake-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-t-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6r-t-h, ex:l6r-t-m ; cd:authoredResource true .
+ ex:l6r-t-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-t-section ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-t-m a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-t-section-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-f-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6r-f-h, ex:l6r-f-m ; cd:authoredResource true .
+ ex:l6r-f-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-f-section ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-f-m a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-f-section-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-multi-question-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-multiplicity ; cd:hasSceneItem ex:l6r-mq-h, ex:l6r-mq-c ; cd:authoredResource true .
+ ex:l6r-mq-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-multi-question ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-mq-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-multi-case ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-multi-answer-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-multiplicity ; cd:hasSceneItem ex:l6r-ma-h, ex:l6r-ma-c ; cd:authoredResource true .
+ ex:l6r-ma-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-multi-answer ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-ma-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-multi-calculation ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene12 cd:hasSceneItem ex:l6r-recovery-r .
+ ex:l6r-recovery-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-recovery-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene14 cd:hasSceneItem ex:l6r-pooled-m .
+ ex:l6r-pooled-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-river-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene15 cd:hasSceneItem ex:l6r-paired-m .
+ ex:l6r-paired-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-reactor-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene16 cd:hasSceneItem ex:l6r-paired-r .
+ ex:l6r-paired-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-paired-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene17 cd:hasSceneItem ex:l6r-welch-m .
+ ex:l6r-welch-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-instruments-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene18 cd:hasSceneItem ex:l6r-welch-r .
+ ex:l6r-welch-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-welch-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene24 cd:hasSceneItem ex:l6r-precision-m .
+ ex:l6r-precision-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-precision-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene27 cd:hasSceneItem ex:l6r-nested-m .
+ ex:l6r-nested-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6-calibration-gain-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene32 cd:hasSceneItem ex:l6r-known-m .
+ ex:l6r-known-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-known-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene33 cd:hasSceneItem ex:l6r-known-r .
+ ex:l6r-known-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-variance-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene34 cd:hasSceneItem ex:l6r-particles-m .
+ ex:l6r-particles-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6-particle-counts-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene36 cd:hasSceneItem ex:l6r-vessels-m .
+ ex:l6r-vessels-m a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6-vessel-counts-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene40 cd:hasSceneItem ex:l6r-u-r .
+ ex:l6r-u-r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-u-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene50 cd:hasSceneItem ex:l6r-gcrit-f, ex:l6r-gcrit-l, ex:l6r-gcrit-r .
+ ex:l6r-gcrit-f a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-formula-grubbs-critical ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-gcrit-l a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6-legend-grubbs-critical ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6r-gcrit-r a cd:SceneItem ; cd:position 6 ; cd:selectsResource ex:l6r-grubbs-result ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-revision> {
+ ex:l6r-t-section-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-t-comparisons.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A mean against a fixed reference, or two estimated means: schematic introduction to t-tests."@en ; cd:authoredResource true .
+ ex:l6r-f-section-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-f-section.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two schematic measurement series on the same concentration scale have the same mean: method A is widely spread and method B is tightly clustered. The F-test section starts with a comparison of scatter, not means. Positions are illustrative, not the worked dataset."@en ; cd:authoredResource true .
+ ex:l6r-hypothesis a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-h0, ex:l6r-h1 ; cd:authoredResource true .
+ ex:l6r-h0 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "H₀: THE STARTING POPULATION CLAIM"@en ; cd:body "- A claim about a **population parameter**, e.g., the **mean amoxicillin concentration**.\n- **H₀** includes equality: equal, at or below, or at or above.\n- Calculate a **test statistic** from the observations to check **H₀**."@en ; cd:authoredResource true .
+ ex:l6r-h1 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "H₁: THE COMPETING POPULATION CLAIM"@en ; cd:body "- **H₁** describes the competing claim: different, above or below.\n- Example: the **population mean** exceeds an analytical limit.\n- Rejection supports **H₁** under the stated sampling model."@en ; cd:authoredResource true .
+ ex:l6r-tree-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-decision-trees.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A single decision tree starts at H₀: population mean at or below the reference. Positive means rejecting H₀ and claiming an exceedance; negative means not rejecting H₀. The true population state splits each decision into true positive, false positive (type I), false negative (type II) or true negative. Bottle and alarm thumbnails accompany the four outcomes."@en ; cd:authoredResource true .
+ ex:l6r-lake-title a cd:Interpretation ; skos:prefLabel "Same lake, different burden of evidence"@en ; cd:authoredResource true .
+ ex:l6r-lake-model a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-lake-a, ex:l6r-lake-b ; cd:authoredResource true .
+ ex:l6r-lake-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SAME MEASUREMENT MODEL"@en ; cd:body "- Hypothetical minimum: **10 cm**; four independent Normal readings.\n- Known population SD **0.5 cm**; standard error **0.25 cm**.\n- One-sided alpha **5%**: Normal cutoff **1.645 standard errors**. Add/subtract this margin from 10 cm."@en ; cd:authoredResource true .
+ ex:l6r-lake-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "DIFFERENT GO THRESHOLDS"@en ; cd:body "- A: go only if the sample mean exceeds **10.411 cm**.\n- B: go unless the sample mean falls below **9.589 cm**.\n- These are decision probabilities, not physical collapse probabilities. Thickness-only model, not crossing advice."@en ; cd:authoredResource true .
+ ex:l6r-t-section a cd:Interpretation ; skos:prefLabel "t-Tests"@en ; cd:authoredResource true .
+ ex:l6r-f-section a cd:Interpretation ; skos:prefLabel "F-Tests"@en ; cd:authoredResource true .
+ ex:l6r-recovery-title a cd:Interpretation ; skos:prefLabel "Can we demonstrate mean recovery above the 80% minimum?"@en ; cd:authoredResource true .
+ ex:l6r-river-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-river-independent.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Independent upstream and downstream diclofenac samples around an industrial park; separate sites supply the two regions."@en ; dct:description "- **Separate sites**; **common variance** needs prior scientific justification."@en ; cd:authoredResource true .
+ ex:l6r-reactor-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-batch-oxidation.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A stirred oxidation reactor is sampled before and at the end of treatment. Samples share a batch identity. Six independent batches supply six before-minus-end differences."@en ; dct:description "- Each independent batch supplies one linked before/end pair."@en ; cd:authoredResource true .
+ ex:l6r-reactor-title a cd:Interpretation ; skos:prefLabel "Paired t-test: before and after batch oxidation"@en ; cd:authoredResource true .
+ ex:l6r-instruments-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-nir-hplc.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "NIR sensor and HPLC-MS measure one pollutant in separate independent preparation sets from homogeneous reference material: five versus six preparations. Shared samples measured on both systems would instead require pairing."@en ; dct:description "- NIR: near-infrared sensing. HPLC-MS: liquid chromatography with mass spectrometry.\n- Separate preparation sets can have different variances."@en ; cd:authoredResource true .
+ ex:l6r-welch-title a cd:Interpretation ; skos:prefLabel "Welch t-test: NIR sensor versus HPLC-MS"@en ; cd:authoredResource true .
+ ex:l6r-practice-title a cd:Interpretation ; skos:prefLabel "No p-hacking: decide the question before collecting data"@en ; cd:authoredResource true .
+ ex:l6r-practice a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-practice1, ex:l6r-practice2, ex:l6r-practice3, ex:l6r-practice4 ; cd:authoredResource true .
+ ex:l6r-practice1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "1 · HYPOTHESIS"@en ; cd:body "Name the population claim, direction, endpoint and planned test-family."@en ; cd:authoredResource true .
+ ex:l6r-practice2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "2 · EXPERIMENT"@en ; cd:body "Plan independent units, sampling, sample size and analysis before outcomes are known."@en ; cd:authoredResource true .
+ ex:l6r-practice3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "3 · TEST"@en ; cd:body "Check assumptions and apply the prespecified procedure. Do not search tests until p is small."@en ; cd:authoredResource true .
+ ex:l6r-practice4 a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "4 · CONCLUSION"@en ; cd:body "Report all planned results, effect and uncertainty. Label exploratory changes honestly."@en ; cd:authoredResource true .
+ ex:l6r-multi-question a cd:Interpretation ; skos:prefLabel "One water sample, three claims: is the overall risk still 5%?"@en ; cd:authoredResource true .
+ ex:l6r-multi-case a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-multi1, ex:l6r-multi2 ; cd:authoredResource true .
+ ex:l6r-multi1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A PLANNED TEST-FAMILY"@en ; cd:body "- Replicate independent preparations from one water sample.\n- Three claims: mean **chloride**, **bromate** and **phosphate** each below its own illustrative limit.\n- For each: H₀ at or above its limit; H₁ below. Alpha **5% per test**."@en ; cd:authoredResource true .
+ ex:l6r-multi2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "WHAT COUNTS AS A FALSE CLAIM?"@en ; cd:body "- Target: **at least one false below-limit claim** among the three.\n- If all three nulls are true and tests are **independent**, how often does that happen?\n- One **joint claim** that all three pass is a different decision. The limits here are illustrative."@en ; cd:authoredResource true .
+ ex:l6r-multi-answer a cd:Interpretation ; skos:prefLabel "Three 5% tests: a 14.26% chance of at least one false rejection"@en ; cd:authoredResource true .
+ ex:l6r-multi-calculation a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-multicalc1, ex:l6r-multicalc2 ; cd:authoredResource true .
+ ex:l6r-multicalc1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "ASSUME INDEPENDENT TESTS, ALL NULLS TRUE"@en ; cd:body "- No false rejection in one test: **95%**.\n- No false rejection in all three: **0.95 × 0.95 × 0.95 = 0.857375**.\n- At least one: **1 − 0.857375 = 0.142625**, about **14.26%**."@en ; cd:authoredResource true .
+ ex:l6r-multicalc2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "SHARED SAMPLES CAN MAKE TESTS DEPENDENT"@en ; cd:body "- **14.26%** applies to this **independence model**.\n- Shared preparation errors can **link the three tests**.\n- **Bonferroni** also controls family-wise error for dependent tests."@en ; cd:authoredResource true .
+ ex:l6r-f-intro a cd:Interpretation ; skos:prefLabel "Compare variances first, then compare calibration models"@en ; cd:authoredResource true .
+ ex:l6r-f-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-f1, ex:l6r-f2 ; cd:authoredResource true .
+ ex:l6r-f1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "TWO METHOD VARIANCES"@en ; cd:body "- H₀: population variances equal; H₁: method A varies more.\n- As in Level 5, divide the two estimated variances.\n- Under equality and independent Normal sampling, this ratio has an F reference."@en ; cd:authoredResource true .
+ ex:l6r-f2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "TWO NESTED MODELS"@en ; cd:body "- Later: constant response versus a concentration slope.\n- Both models use the same calibration standards.\n- Compare added explained variation with remaining error, not two raw variances."@en ; cd:authoredResource true .
+ ex:l6r-precision-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-precision-study.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Six independent preparations per method. SD A 0.20 and B 0.10 mg/L; SD ratio two becomes variance ratio four. Independent Normal errors support the exact F reference."@en ; dct:description "- H₀: equal variances; H₁: A greater than B. Keep A on top and use the upper F tail."@en ; cd:authoredResource true .
+ ex:l6r-calibration-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-calibration-models.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Schematic flat response model versus a model adding a concentration slope, fitted to the same standards. Dots illustrate geometry, not the raw observations of a worked numerical test."@en ; cd:authoredResource true .
+ ex:l6r-calibration-title a cd:Interpretation ; skos:prefLabel "One calibration dataset, two models"@en ; cd:authoredResource true .
+ ex:l6r-known-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-known-variance.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Six independent concentration measurements versus known target SD 0.10 mg/L. It is a fixed target, not estimated from another sample."@en ; dct:description "- Schematic setup: independent Normal measurements against a fixed known variance target."@en ; cd:authoredResource true .
+ ex:l6r-signed-title a cd:Interpretation ; skos:prefLabel "Wilcoxon signed ranks: do paired measurements show a shift?"@en ; cd:authoredResource true .
+ ex:l6r-effect-title a cd:Interpretation ; skos:prefLabel "Cohen's d: mean difference relative to within-group spread"@en ; cd:authoredResource true .
+ ex:l6r-effect-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-effect1, ex:l6r-effect2 ; cd:authoredResource true .
+ ex:l6r-effect1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "REUSE NIR VERSUS HPLC-MS"@en ; cd:body "- Mean difference, NIR minus HPLC-MS: **−5 µg/L**.\n- Pooled descriptive SD: **2.981 µg/L**; Cohen's d **−1.677**.\n- Negative means NIR reads lower. Unequal spreads still motivated Welch for the mean test."@en ; cd:authoredResource true .
+ ex:l6r-effect2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ROUGH MAGNITUDE GUIDES, NOT CHEMICAL LIMITS"@en ; cd:body "- Absolute d: below **0.2** negligible; **0.2 to below 0.5** small.\n- **0.5 to below 0.8** medium; **0.8 or more** large.\n- Context and uncertainty matter; these conventions do not establish analytical relevance."@en ; cd:hasSource ex:l6r-source-effects ; cd:authoredResource true .
+ ex:l6r-cliff-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6r-cliff1, ex:l6r-cliff2 ; cd:authoredResource true .
+ ex:l6r-cliff1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "OUR EXAMPLE: DELTA −0.778"@en ; cd:body "- X wins 0, loses 7 and ties 2: **−7/9**.\n- Negative: X tends to be smaller. Absolute delta **0.778** is large by the convention below.\n- Nine comparisons reuse six observations; uncertainty follows the original units."@en ; cd:authoredResource true .
+ ex:l6r-cliff2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "CONVENTIONAL ABSOLUTE-DELTA BANDS"@en ; cd:body "- Below **0.147** negligible; **0.147 to below 0.33** small.\n- **0.33 to below 0.474** medium; **0.474 or more** large.\n- These bands describe **effect magnitude**. Significance and assay relevance use their own criteria."@en ; cd:hasSource ex:l6r-source-effects ; cd:authoredResource true .
+ ex:l6r-grubbs-title a cd:Interpretation ; skos:prefLabel "Grubbs test: compare G with its critical value"@en ; cd:authoredResource true .
+ ex:l6r-grubbs-result a cd:Interpretation ; cd:body "**G = 2.0219 exceeds G critical = 1.8871** at two-sided alpha 5%. Flag 12.5 mg/L under the one-outlier Normal model. Keep the raw value and investigate; rejection does not identify an error or permit automatic deletion."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/level6-statistical-tests> {
+ ex:l6r-source-effects a cd:Source ; dct:title "effsize R manual: Cohen's d and Cliff's delta magnitude conventions" ; dct:creator "Marco Torchiano" ; dct:identifier "effsize-0.8.1-magnitude" ; dct:source <https://search.r-project.org/CRAN/refmans/effsize/html/cohen.d.html>, <https://search.r-project.org/CRAN/refmans/effsize/html/cliff.delta.html> ; cd:supportsResource ex:l6r-effect2, ex:l6r-cliff2 ; cd:authoredResource true .
+}

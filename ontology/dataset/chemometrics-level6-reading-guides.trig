@@ -1,0 +1,125 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Authored reading guidance uses the shared formula + card composition.
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-reading-guides> {
+  ex:l6-guide08 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide08a, ex:l6-guide08b ; cd:authoredResource true .
+  ex:l6-guide08a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "READ THE CDF"@en ; cd:body "The CDF collects probability **to the left** of the observed statistic. Subtracting it from one gives the upper tail. The sign of the contrast remains part of the question."@en ; cd:authoredResource true .
+  ex:l6-guide08b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "KEEP THE PLANNED QUESTION"@en ; cd:body "For a positive observed statistic, an upper-direction question counts the right tail. A two-sided question also counts the equally extreme negative tail. **Choose direction before seeing the sign.**"@en ; cd:authoredResource true .
+  ex:l6-guide11 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide11a, ex:l6-guide11b ; cd:authoredResource true .
+  ex:l6-guide11a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "TOP: HOW FAR IS THE MEAN FROM THE TARGET?"@en ; cd:body "- Under H₀, the population mean equals the target\n- Repeated sample means should scatter around it\n- The numerator records **our observed departure**."@en ; cd:authoredResource true .
+  ex:l6-guide11b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "BOTTOM: HOW UNCERTAIN IS THIS MEAN?"@en ; cd:body "- Divide by the **standard error of the mean**\n- This gives a departure measured in standard errors\n- Under independent Normal sampling and H₀, t follows the **t distribution** from Level 5."@en ; cd:authoredResource true .
+  ex:l6-guide14 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide14a ; cd:authoredResource true .
+  ex:l6-guide14a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "WHY ONE SHARED VARIANCE?"@en ; cd:body "- **Prior method validation** may support similar measurement variation.\n- Example: **same analyte, method and homogeneous matrix** in both river regions.\n- **Pooled variance:** average the two sample variances with their **degrees of freedom ν₁ and ν₂ as weights**."@en ; cd:authoredResource true .
+  ex:l6-guide14b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "CHECK THE DESIGN, NOT A CONVENIENT p"@en ; cd:body "- Another example: randomized groups using one validated assay.\n- Independence and Normal errors remain assumptions; a large variance-test p proves neither equality nor suitability.\n- Without a common-variance justification, use **Welch**, introduced after pairing."@en ; cd:authoredResource true .
+  ex:l6-guide15 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide15a, ex:l6-guide15b ; cd:authoredResource true .
+  ex:l6-guide15a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SAME BATCH, TWO TIMES"@en ; cd:body "- Batch 1: **12 before, 10 at end → decrease 2 mg/L**.\n- Keep the original batch pairing; subtract before minus end.\n- Six independent batches give **six differences**, not twelve independent samples."@en ; cd:authoredResource true .
+  ex:l6-guide15b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "NOW USE A ONE-SAMPLE t-TEST"@en ; cd:body "- Compare the mean difference with **zero**.\n- Use the **SD of the differences**.\n- Exact t reference: independent Normal differences. The two readings within a batch may be related."@en ; cd:authoredResource true .
+  ex:l6-guide17 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide17a, ex:l6-guide17b ; cd:authoredResource true .
+  ex:l6-guide17a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SEPARATE NIR AND HPLC-MS PREPARATIONS"@en ; cd:body "- One homogeneous reference material, independent preparation sets.\n- Each system supplies its **own variance and sample size**.\n- If both systems measure the same samples, use a paired design instead."@en ; cd:authoredResource true .
+  ex:l6-guide17b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "USE THE CALCULATED ν"@en ; cd:body "- Welch uses an **approximate t reference**.\n- The calculated **degrees of freedom ν ≈ 6.972** may be fractional.\n- Use the full calculated value when computing **p**."@en ; cd:authoredResource true .
+  ex:l6-guide20 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide20a, ex:l6-guide20b ; cd:authoredResource true .
+  ex:l6-guide20a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "DIVIDE THE TEST-FAMILY RISK"@en ; cd:body "- Chloride, bromate and phosphate: **three claims**.\n- Divide the 5% test-family level by three.\n- Compare each raw p with about **0.0167**."@en ; cd:authoredResource true .
+  ex:l6-guide20b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "OR MULTIPLY THE p-VALUES"@en ; cd:body "- Multiply each raw **p by three**; cap at one.\n- Compare adjusted p with **0.05**.\n- Choose **one equivalent route**. Keep all planned claims in the family."@en ; cd:authoredResource true .
+  ex:l6-guide24 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide24a, ex:l6-guide24b ; cd:authoredResource true .
+  ex:l6-guide24a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "A ON TOP, B BELOW"@en ; cd:body "- A SD: **0.20 mg/L**; B SD: **0.10 mg/L**.\n- Square the SDs before dividing: **variance ratio 4**.\n- Keep A/B order in **ν₁ and ν₂**."@en ; cd:authoredResource true .
+  ex:l6-guide24b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "WHAT WOULD CHALLENGE EQUAL VARIANCE?"@en ; cd:body "- A large ratio supports **more scatter in A**.\n- Choose one- or two-sided testing in advance.\n- Exact F reference: independent Normal samples with the same measurement unit."@en ; cd:authoredResource true .
+  ex:l6-guide27 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide27a, ex:l6-guide27b ; cd:authoredResource true .
+  ex:l6-guide27a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "TOP: HOW MUCH ERROR DID WE REMOVE?"@en ; cd:body "- Add a curve term to a straight calibration line.\n- Compare the drop in **sum of squared errors** per extra coefficient.\n- The models are nested: setting the curve term to zero restores the line."@en ; cd:authoredResource true .
+  ex:l6-guide27b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "BOTTOM: HOW MUCH ERROR IS LEFT?"@en ; cd:body "- Divide full-model squared errors by **residual degrees of freedom ν₂**.\n- Both fits use **the same standards**.\n- The **F reference** assumes independent Normal errors with a common variance."@en ; cd:authoredResource true .
+  ex:l6-guide29 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide29a, ex:l6-guide29b ; cd:authoredResource true .
+  ex:l6-guide29a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "COMPARE TWO KINDS OF SCATTER"@en ; cd:body "- **Between:** how far apart are the group means?\n- **Within:** how much do vessels in each group vary?\n- Divide each squared-error sum by its df before taking their ratio."@en ; cd:authoredResource true .
+  ex:l6-guide29b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "A LARGE F ASKS US TO LOOK FURTHER"@en ; cd:body "- H₀: **all population means are equal**.\n- Rejection supports a difference somewhere, not every pair.\n- Independent Normal errors, common variance. Use planned adjusted comparisons to ask which groups differ."@en ; cd:authoredResource true .
+  ex:l6-guide32 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide32a, ex:l6-guide32b ; cd:authoredResource true .
+  ex:l6-guide32a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "COMPARE WITH A KNOWN TARGET"@en ; cd:body "- Target SD: **0.10 mg/L**, treated as known.\n- Square it to get the target variance.\n- If another sample estimated that target, include its uncertainty instead."@en ; cd:authoredResource true .
+  ex:l6-guide32b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "MORE SCATTER → UPPER TAIL"@en ; cd:body "- Ask whether the variance is **above** the target.\n- Use independent Normal measurements for this exact reference.\n- A two-sided question needs both tails; chi-square is not symmetric."@en ; cd:authoredResource true .
+  ex:l6-guide34 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide34a, ex:l6-guide34b ; cd:authoredResource true .
+  ex:l6-guide34a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "FIRST PREDICT THE COUNTS"@en ; cd:body "- Classify **60 independent particles**, each into one category.\n- Predicted shares: **50%, 30%, 20%**.\n- Expected counts: **30, 18, 12**. Every particle belongs to **exactly one category**."@en ; cd:authoredResource true .
+  ex:l6-guide34b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "THEN COMPARE OBSERVED WITH EXPECTED"@en ; cd:body "- Square each count difference and divide by its **expected count**.\n- Add the contributions; large **test statistics** challenge the mix.\n- Fixed shares give **ν = 2** here. Fitted shares or small expected counts need suitable calibration."@en ; cd:authoredResource true .
+  ex:l6-guide36 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide36a, ex:l6-guide36b ; cd:authoredResource true .
+  ex:l6-guide36a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "WHAT IF GROUP AND DAMAGE WERE UNRELATED?"@en ; cd:body "- Overall, **22 of 40 vessels** are affected.\n- Each group has 20 vessels.\n- Under independence, expect **11 affected and 9 unaffected** per group."@en ; cd:authoredResource true .
+  ex:l6-guide36b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "ONE VESSEL, ONE CELL"@en ; cd:body "- Classify each **independent vessel once**.\n- Four organisms sharing a vessel contribute to **one vessel-level classification**.\n- **Adequate expected counts** support the chi-square approximation."@en ; cd:authoredResource true .
+  ex:l6-guide39 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide39a, ex:l6-guide39b ; cd:authoredResource true .
+  ex:l6-guide39a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "LOOK AT ONE X AND ONE Y"@en ; cd:body "- X higher: **1 point**. Equal: **half a point**. Lower: **0**.\n- Add over every X–Y comparison.\n- Two measured values of 2 remain **two observations**."@en ; cd:authoredResource true .
+  ex:l6-guide39b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "KEEP THE QUESTION CLEAR"@en ; cd:body "- The usual H₀ is **equal group distributions**.\n- Samples must be independent.\n- Reading this as a median shift needs the extra assumption of same-shaped distributions."@en ; cd:authoredResource true .
+  ex:l6-guide41 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide41a, ex:l6-guide41b ; cd:authoredResource true .
+  ex:l6-guide41a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "PAIR FIRST, SUBTRACT, THEN RANK"@en ; cd:body "- **Do not sort X and Y separately**: that destroys the real pairing.\n- Form each pair's difference, then rank its absolute size.\n- Here zeros are omitted; tied sizes get average ranks and an appropriate reference."@en ; cd:authoredResource true .
+  ex:l6-guide41b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "KEEP THE ORIGINAL PAIRS"@en ; cd:body "- Each independent site supplies **one difference**.\n- A shift interpretation assumes **symmetric differences**.\n- The **sign test** is a separate procedure using only plus/minus signs."@en ; cd:authoredResource true .
+  ex:l6-guide43 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide43a, ex:l6-guide43b ; cd:authoredResource true .
+  ex:l6-guide43a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "IMAGINE REPEATING THE WHOLE STUDY"@en ; cd:body "- Set a true difference worth detecting.\n- Fix spread, sample size, alpha and test direction.\n- **Power:** how often would the test reject H₀ across new studies under that alternative?"@en ; cd:authoredResource true .
+  ex:l6-guide43b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "PLAN BEFORE COLLECTING DATA"@en ; cd:body "- More independent sites can make detection more likely.\n- Repeated readings at one site do not create new sites.\n- Power depends on the chosen alternative; it is **not a probability that H₁ is true**."@en ; cd:authoredResource true .
+  ex:l6-guide45 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide45a, ex:l6-guide45b ; cd:authoredResource true .
+  ex:l6-guide45a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "START IN THE ORIGINAL UNIT"@en ; cd:body "- NIR minus HPLC-MS: **−5 µg/L**.\n- Preserve that **sign** and concentration **unit**.\n- Compare the magnitude with the **within-group SD**."@en ; cd:authoredResource true .
+  ex:l6-guide45b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "STANDARDISE THE MEAN DIFFERENCE"@en ; cd:body "- Divide by the pooled descriptive **SD 2.981 µg/L**.\n- **Cohen's d ≈ −1.677** is dimensionless.\n- The following table interprets its **absolute magnitude**."@en ; cd:authoredResource true .
+  ex:l6-guide47 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide47a, ex:l6-guide47b ; cd:authoredResource true .
+  ex:l6-guide47a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "WINS MINUS LOSSES, DIVIDED BY ALL PAIRS"@en ; cd:body "- Our example: **0 wins, 7 losses, 2 ties**.\n- The signed balance is −7; divide by **all 9 pairs**.\n- A tie adds nothing to the balance but stays in the total."@en ; cd:authoredResource true .
+  ex:l6-guide47b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "WHAT WOULD A POSITIVE VALUE MEAN?"@en ; cd:body "- Here it would mean X more often exceeds Y than falls below it.\n- Negative means the opposite.\n- Comparisons reuse observations: uncertainty must follow the original independent units."@en ; cd:authoredResource true .
+  ex:l6-guide50 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide50a, ex:l6-guide50b ; cd:authoredResource true .
+  ex:l6-guide50a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "KEEP ALL SIX VALUES IN THE CALCULATION"@en ; cd:body "- Compute mean and SD **including 12.5 mg/L**.\n- Find the largest distance from the mean.\n- Divide that distance by sample SD; keep the sample's identity."@en ; cd:authoredResource true .
+  ex:l6-guide50b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "A FLAG STARTS AN INVESTIGATION"@en ; cd:body "- Model: one extreme, otherwise independent Normal results.\n- A genuine pollution event can also be extreme.\n- Check records and compare conclusions with the original data retained."@en ; cd:authoredResource true .
+  ex:l6-guide51 a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-guide51a, ex:l6-guide51b ; cd:authoredResource true .
+  ex:l6-guide51a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "WE PICKED THE MOST EXTREME OF SIX"@en ; cd:body "- We did not choose a sample before measuring.\n- The Grubbs cutoff accounts for **searching the whole sample**.\n- An ordinary single-observation t cutoff misses that search."@en ; cd:authoredResource true .
+  ex:l6-guide51b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "COMPARE ONCE, THEN INVESTIGATE"@en ; cd:body "- Here: **2.0219 exceeds 1.8871** at 5%.\n- Flag the value, not an automatic deletion.\n- Repeated unadjusted deletion changes the error rate. Keep the raw data and explain decisions."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+  ex:l6-scene08 cd:hasSceneItem ex:l6-i08g .
+  ex:l6-i08g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide08 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene11 cd:hasSceneItem ex:l6-i11g .
+  ex:l6-i11g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide11 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene14 cd:hasSceneItem ex:l6-i14g .
+  ex:l6-i14g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide14 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene15 cd:hasSceneItem ex:l6-i15g .
+  ex:l6-i15g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide15 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene17 cd:hasSceneItem ex:l6-i17g .
+  ex:l6-i17g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide17 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene20 cd:hasSceneItem ex:l6-i20g .
+  ex:l6-i20g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide20 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene24 cd:hasSceneItem ex:l6-i24g .
+  ex:l6-i24g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide24 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene27 cd:hasSceneItem ex:l6-i27g .
+  ex:l6-i27g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide27 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene29 cd:hasSceneItem ex:l6-i29g .
+  ex:l6-i29g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide29 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene32 cd:hasSceneItem ex:l6-i32g .
+  ex:l6-i32g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide32 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene34 cd:hasSceneItem ex:l6-i34g .
+  ex:l6-i34g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide34 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene36 cd:hasSceneItem ex:l6-i36g .
+  ex:l6-i36g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide36 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene39 cd:hasSceneItem ex:l6-i39g .
+  ex:l6-i39g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide39 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene41 cd:hasSceneItem ex:l6-i41g .
+  ex:l6-i41g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide41 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene43 cd:hasSceneItem ex:l6-i43g .
+  ex:l6-i43g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide43 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene45 cd:hasSceneItem ex:l6-i45g .
+  ex:l6-i45g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide45 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene47 cd:hasSceneItem ex:l6-i47g .
+  ex:l6-i47g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide47 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i50g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide50 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene51 cd:hasSceneItem ex:l6-i51g .
+  ex:l6-i51g a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-guide51 ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+  ex:l6-step08 cd:usesResource ex:l6-guide08 .
+  ex:l6-step11 cd:usesResource ex:l6-guide11 .
+  ex:l6-step14 cd:usesResource ex:l6-guide14 .
+  ex:l6-step15 cd:usesResource ex:l6-guide15 .
+  ex:l6-step17 cd:usesResource ex:l6-guide17 .
+  ex:l6-step20 cd:usesResource ex:l6-guide20 .
+  ex:l6-step24 cd:usesResource ex:l6-guide24 .
+  ex:l6-step27 cd:usesResource ex:l6-guide27 .
+  ex:l6-step29 cd:usesResource ex:l6-guide29 .
+  ex:l6-step32 cd:usesResource ex:l6-guide32 .
+  ex:l6-step34 cd:usesResource ex:l6-guide34 .
+  ex:l6-step36 cd:usesResource ex:l6-guide36 .
+  ex:l6-step39 cd:usesResource ex:l6-guide39 .
+  ex:l6-step41 cd:usesResource ex:l6-guide41 .
+  ex:l6-step43 cd:usesResource ex:l6-guide43 .
+  ex:l6-step45 cd:usesResource ex:l6-guide45 .
+  ex:l6-step47 cd:usesResource ex:l6-guide47 .
+  ex:l6-step50 cd:usesResource ex:l6-guide50 .
+  ex:l6-step51 cd:usesResource ex:l6-guide51 .
+}

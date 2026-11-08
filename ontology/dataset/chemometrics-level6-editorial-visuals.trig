@@ -1,0 +1,67 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-editorial-visuals> {
+  ex:l6-plan-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-test-plan.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A river map, three assay vessels and a checklist illustrate planning the sampling design, the family of questions and the error rule before inspecting results. Conceptual icons, not observations."@en ; dct:description "Decide what counts as an independent result, list the planned claims, then choose their testing rule. Do not choose a convenient test after seeing its p-value."@en ; cd:authoredResource true .
+  ex:l6-f-questions-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-f-questions.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Schematic narrow and wide measurement bands compare method precision; a flat and sloped calibration line illustrate two models fitted to one dataset. The drawings contain no experimental observations."@en ; dct:description "F can compare two estimated variances, or explained scatter with remaining error in a model. These are different questions, even though both use an F reference."@en ; cd:authoredResource true .
+  ex:l6-precision-ratio-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-precision-ratio.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Bars of lengths in a two-to-one ratio show sample SDs A 0.20 and B 0.10 mg/L. Squares of areas in a four-to-one ratio show variances 0.040 and 0.010 squared mg/L. Authored synthetic summaries, not raw observations."@en ; dct:description "A has twice the sample SD, so its sample variance is four times B's. With only six observations per method, this ratio does not exceed the planned upper 5% cutoff of 5.050."@en ; cd:authoredResource true .
+  ex:l6-calibration-gain-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-calibration-gain.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A schematic line and curve introduce nested calibration models. Proportional bars show authored residual sums of squares 12 for two coefficients and 5 for three. The gain is 7 for one extra coefficient. Shapes are schematic; no calibration observations are invented."@en ; dct:description "- Same ten standards, one added curve term. Shapes schematic; numeric summaries synthetic."@en ; cd:authoredResource true .
+  ex:l6-chi-questions-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-chi-questions.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three labelled conceptual panels show a measurement target, particles of three shapes and affected/unaffected vessels. They distinguish a known-variance question, a predicted category mix and association in a count table."@en ; dct:description "- Shared reference name, different data, hypotheses and constructions."@en ; cd:authoredResource true .
+  ex:l6-particle-counts-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-particle-counts.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Paired bars on one count scale compare observed 30,20,10 with expected 30,18,12 in three exhaustive particle categories. Fixed shares 50%,30%,20% predict the expected counts among 60 independent particles. Each bar uses ten pixels per particle."@en ; dct:description "- H₀: fixed shares 50%, 30%, 20%; H₁: a different mix.\n- Observed 30, 20, 10; expected 30, 18, 12.\n- One independent particle enters one category."@en ; cd:authoredResource true .
+  ex:l6-vessel-counts-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-vessel-counts.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A labelled count table shows control 8 affected and 12 unaffected; exposure 14 affected and 6 unaffected. Of 40 independent synthetic vessels, 22 are affected. Under independence, expect 11 affected and 9 unaffected in each group of 20."@en ; dct:description "- H₀: group and damage independent; H₁: associated.\n- Each independent vessel enters one table cell.\n- Expected under independence: 11 affected, 9 unaffected per group."@en ; cd:authoredResource true .
+  ex:l6-rank-order-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-rank-order.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "On one response scale in arbitrary units, X contains 1,2,2 and Y contains 2,3,4. Repeated X values of 2 are stacked, not merged. Comparing X 2 with Y 3 gives zero points to U for X because X is smaller."@en ; dct:description "- Keep both X observations of 2; count every X–Y comparison, including ties."@en ; cd:authoredResource true .
+  ex:l6-signed-ranks-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-signed-ranks.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five synthetic paired differences 1,minus2,3,4,5 micrograms per litre become absolute-size ranks 1,2,3,4,5. Restoring signs gives positive-rank total 13 and negative-rank total 2. The minus2 column is explicitly labelled negative."@en ; dct:description "- Form original pair differences first.\n- Rank their absolute sizes, retaining signs.\n- Positive ranks total 13; negative ranks total 2."@en ; cd:authoredResource true .
+  ex:l6-effect-meaning-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-effect-meaning.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two panels distinguish two-sided p 0.0100 from the mean before-minus-after decrease 2.833 mg/L in a synthetic six-site concentration example at two times. The unadjusted paired-t 95 percent confidence interval is 1.026 to 4.641 mg/L under independent Normal site differences. The river icon is conceptual."@en ; dct:description "The interval estimates the population mean change, not individual site changes. Repeated use under the model gives 95% coverage. It does not establish cause or practical importance."@en ; cd:authoredResource true .
+  ex:l6-outlier-investigation-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-outlier-investigation.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A vial labelled 12.5 mg/L leads to a magnifying glass over measurement records and then a retained report. Pictures represent keeping the result, checking its origin and documenting a decision; no automatic deletion is shown."@en ; dct:description "- Error or real event? A statistical flag cannot identify the cause."@en ; cd:authoredResource true .
+  ex:l6-independent-vessels-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-independent-vessels.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "One exposure group has six separate vessels, each holding four organism dots. Record one average per vessel. The study repeats this design in three groups. The question asks which level supplies the independent units."@en ; dct:description "One group is drawn; two other groups repeat this structure. Should n count the 24 organism readings or the six vessel averages? Explain the choice before selecting a test."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+  ex:l6-i19v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-plan-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i22v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-f-questions-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene25 cd:hasSceneItem ex:l6-i25v .
+  ex:l6-i25v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-precision-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene26 cd:hasSceneItem ex:l6-i26v .
+  ex:l6-i26v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-calibration-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene28 cd:hasSceneItem ex:l6-i28v .
+  ex:l6-i28v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-calibration-gain-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene31 cd:hasSceneItem ex:l6-i31v .
+  ex:l6-i31v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-chi-questions-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene35 cd:hasSceneItem ex:l6-i35v .
+  ex:l6-i35v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-particle-counts-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene37 cd:hasSceneItem ex:l6-i37v .
+  ex:l6-i37v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-vessel-counts-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene38 cd:hasSceneItem ex:l6-i38v .
+  ex:l6-i38v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-rank-order-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene42 cd:hasSceneItem ex:l6-i42v .
+  ex:l6-i42v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-signed-ranks-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene46 cd:hasSceneItem ex:l6-i46v .
+  ex:l6-i46v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6r-instruments-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene48 cd:hasSceneItem ex:l6-i48v .
+  ex:l6-i48v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-cliff-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene49 cd:hasSceneItem ex:l6-i49v .
+  ex:l6-i49v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-outlier-investigation-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene55 cd:hasSceneItem ex:l6-i55v .
+  ex:l6-i55v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-independent-vessels-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene56 cd:hasSceneItem ex:l6-i56v .
+  ex:l6-i56v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-effect-meaning-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+  ex:l6-step19 cd:usesResource ex:l6-plan-art .
+  ex:l6-step22 cd:usesResource ex:l6-f-questions-art .
+  ex:l6-step25 cd:usesResource ex:l6-precision-ratio-art .
+  ex:l6-step26 cd:usesResource ex:l6-f-questions-art .
+  ex:l6-step28 cd:usesResource ex:l6-calibration-gain-art .
+  ex:l6-step31 cd:usesResource ex:l6-chi-questions-art .
+  ex:l6-step35 cd:usesResource ex:l6-particle-counts-art .
+  ex:l6-step37 cd:usesResource ex:l6-vessel-counts-art .
+  ex:l6-step38 cd:usesResource ex:l6-rank-order-art .
+  ex:l6-step42 cd:usesResource ex:l6-signed-ranks-art .
+  ex:l6-step46 cd:usesResource ex:l6-effect-meaning-art .
+  ex:l6-step48 cd:usesResource ex:l6-cliff-art .
+  ex:l6-step49 cd:usesResource ex:l6-outlier-investigation-art .
+  ex:l6-step55 cd:usesResource ex:l6-independent-vessels-art .
+  ex:l6-step56 cd:usesResource ex:l6-effect-meaning-art .
+}

@@ -1,0 +1,67 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-observations> {
+  ex:l6-crm-data a cd:Dataset ; dct:description "Six synthetic independent CRM preparations; recovery in percent. Fixed 100% reference is an illustrative exact target."@en ; cd:unit "%" ; cd:hasObservation ex:l6-crm1, ex:l6-crm2, ex:l6-crm3, ex:l6-crm4, ex:l6-crm5, ex:l6-crm6 ; cd:authoredResource true .
+  ex:l6-crm1 a cd:Observation ; cd:position 1 ; cd:numericValue 101.0 ; cd:authoredResource true .
+  ex:l6-crm2 a cd:Observation ; cd:position 2 ; cd:numericValue 100.0 ; cd:authoredResource true .
+  ex:l6-crm3 a cd:Observation ; cd:position 3 ; cd:numericValue 102.0 ; cd:authoredResource true .
+  ex:l6-crm4 a cd:Observation ; cd:position 4 ; cd:numericValue 103.0 ; cd:authoredResource true .
+  ex:l6-crm5 a cd:Observation ; cd:position 5 ; cd:numericValue 101.0 ; cd:authoredResource true .
+  ex:l6-crm6 a cd:Observation ; cd:position 6 ; cd:numericValue 102.0 ; cd:authoredResource true .
+  ex:l6-pair-data a cd:Dataset ; dct:description "Six synthetic independent site differences, before minus after, mg/L. Site matching is retained in the worked case and R source."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l6-pair1, ex:l6-pair2, ex:l6-pair3, ex:l6-pair4, ex:l6-pair5, ex:l6-pair6 ; cd:authoredResource true .
+  ex:l6-pair1 a cd:Observation ; cd:position 1 ; cd:numericValue 2.0 ; cd:authoredResource true .
+  ex:l6-pair2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:l6-pair3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.0 ; cd:authoredResource true .
+  ex:l6-pair4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:l6-pair5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.0 ; cd:authoredResource true .
+  ex:l6-pair6 a cd:Observation ; cd:position 6 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l6-control-data a cd:Dataset ; dct:description "Synthetic independently randomized control-vessel responses in a.u.; one response per vessel."@en ; cd:unit "a.u." ; cd:hasObservation ex:l6-control1, ex:l6-control2, ex:l6-control3, ex:l6-control4, ex:l6-control5 ; cd:authoredResource true .
+  ex:l6-control1 a cd:Observation ; cd:position 1 ; cd:numericValue 8.0 ; cd:authoredResource true .
+  ex:l6-control2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:l6-control3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l6-control4 a cd:Observation ; cd:position 4 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:l6-control5 a cd:Observation ; cd:position 5 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:l6-exposure-data a cd:Dataset ; dct:description "Synthetic independently randomized exposure-vessel responses in a.u.; one response per vessel."@en ; cd:unit "a.u." ; cd:hasObservation ex:l6-exposure1, ex:l6-exposure2, ex:l6-exposure3, ex:l6-exposure4, ex:l6-exposure5, ex:l6-exposure6 ; cd:authoredResource true .
+  ex:l6-exposure1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l6-exposure2 a cd:Observation ; cd:position 2 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:l6-exposure3 a cd:Observation ; cd:position 3 ; cd:numericValue 14.0 ; cd:authoredResource true .
+  ex:l6-exposure4 a cd:Observation ; cd:position 4 ; cd:numericValue 16.0 ; cd:authoredResource true .
+  ex:l6-exposure5 a cd:Observation ; cd:position 5 ; cd:numericValue 18.0 ; cd:authoredResource true .
+  ex:l6-exposure6 a cd:Observation ; cd:position 6 ; cd:numericValue 20.0 ; cd:authoredResource true .
+  ex:l6-anova-data-a a cd:Dataset ; dct:description "Synthetic low exposure independent-vessel responses, a.u."@en ; cd:unit "a.u." ; cd:hasObservation ex:l6-aa1, ex:l6-aa2, ex:l6-aa3 ; cd:authoredResource true .
+  ex:l6-anova-data-b a cd:Dataset ; dct:description "Synthetic middle exposure independent-vessel responses, a.u."@en ; cd:unit "a.u." ; cd:hasObservation ex:l6-ab1, ex:l6-ab2, ex:l6-ab3 ; cd:authoredResource true .
+  ex:l6-anova-data-c a cd:Dataset ; dct:description "Synthetic high exposure independent-vessel responses, a.u."@en ; cd:unit "a.u." ; cd:hasObservation ex:l6-ac1, ex:l6-ac2, ex:l6-ac3 ; cd:authoredResource true .
+  ex:l6-aa1 a cd:Observation ; cd:position 1 ; cd:numericValue 4.0 ; cd:authoredResource true .
+  ex:l6-aa2 a cd:Observation ; cd:position 2 ; cd:numericValue 5.0 ; cd:authoredResource true .
+  ex:l6-aa3 a cd:Observation ; cd:position 3 ; cd:numericValue 6.0 ; cd:authoredResource true .
+  ex:l6-ab1 a cd:Observation ; cd:position 1 ; cd:numericValue 7.0 ; cd:authoredResource true .
+  ex:l6-ab2 a cd:Observation ; cd:position 2 ; cd:numericValue 8.0 ; cd:authoredResource true .
+  ex:l6-ab3 a cd:Observation ; cd:position 3 ; cd:numericValue 9.0 ; cd:authoredResource true .
+  ex:l6-ac1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l6-ac2 a cd:Observation ; cd:position 2 ; cd:numericValue 11.0 ; cd:authoredResource true .
+  ex:l6-ac3 a cd:Observation ; cd:position 3 ; cd:numericValue 12.0 ; cd:authoredResource true .
+  ex:l6-grubbs-data a cd:Dataset ; dct:description "Synthetic nitrate preparations with one high value, mg/L. The high result is preserved for investigation."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l6-g1, ex:l6-g2, ex:l6-g3, ex:l6-g4, ex:l6-g5, ex:l6-g6 ; cd:authoredResource true .
+  ex:l6-g1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.8 ; cd:authoredResource true .
+  ex:l6-g2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.9 ; cd:authoredResource true .
+  ex:l6-g3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+  ex:l6-g4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.1 ; cd:authoredResource true .
+  ex:l6-g5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.2 ; cd:authoredResource true .
+  ex:l6-g6 a cd:Observation ; cd:position 6 ; cd:numericValue 12.5 ; cd:authoredResource true .
+
+  ex:l6-crm-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "CRM preparations"@en ; cd:usesDataset ex:l6-crm-data ; cd:authoredResource true .
+  ex:l6-pair-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Before minus after"@en ; cd:usesDataset ex:l6-pair-data ; cd:authoredResource true .
+  ex:l6-control-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Control"@en ; cd:usesDataset ex:l6-control-data ; cd:authoredResource true .
+  ex:l6-exposure-group a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Exposure"@en ; cd:usesDataset ex:l6-exposure-data ; cd:authoredResource true .
+  ex:l6-anova-group-a a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Low"@en ; cd:usesDataset ex:l6-anova-data-a ; cd:authoredResource true .
+  ex:l6-anova-group-b a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "Middle"@en ; cd:usesDataset ex:l6-anova-data-b ; cd:authoredResource true .
+  ex:l6-anova-group-c a cd:ChartGroup ; cd:position 3 ; skos:prefLabel "High"@en ; cd:usesDataset ex:l6-anova-data-c ; cd:authoredResource true .
+  ex:l6-grubbs-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Nitrate preparations"@en ; cd:usesDataset ex:l6-grubbs-data ; cd:authoredResource true .
+  ex:l6-crm-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Independent recovery preparations"@en ; cd:body "Each dot is one independent synthetic preparation; repeated values stay separate. Mean recovery: 101.5%, versus fixed target 100%. With independent Normal results: t = 3.503, df 5, two-sided p = 0.0172. At 5%, reject equality; the estimated departure is +1.5 percentage points, not automatically an important bias."@en ; cd:xAxisLabel "Sampling unit"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l6-crm-group ; cd:authoredResource true .
+  ex:l6-paired-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Same sites at two times: one difference per site"@en ; cd:body "Separate synthetic concentration case, not diclofenac: each dot is a site's before-minus-after change; zero stays. Mean decrease 2.833 mg/L. Independent Normal differences: paired t = 4.029, df 5, two-sided p = 0.0100. At 5%, reject zero mean change; the before/after design alone does not establish its cause."@en ; cd:xAxisLabel "Independent site pairs"@en ; cd:yAxisLabel "Before minus after"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l6-pair-group ; cd:authoredResource true .
+  ex:l6-welch-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Separate assay example: independent vessels"@en ; cd:body "Generic assay response in arbitrary units, not algal growth rate. One dot per independent synthetic vessel; means 10 and 15 a.u. Control minus exposure: −5 a.u. Welch gives t = −2.970, approximate df 6.972, two-sided p = 0.0209. At 5%, reject equal means under the independent Normal-group model. Higher response alone does not establish toxicity."@en ; cd:xAxisLabel "Independent vessel group"@en ; cd:yAxisLabel "Assay response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l6-control-group, ex:l6-exposure-group ; cd:authoredResource true .
+  ex:l6-anova-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Three synthetic exposure groups"@en ; cd:body "Three independent synthetic vessels per group; means 5, 8 and 11 a.u. Differences between means are large relative to scatter within groups. Under independent Normal errors with a common variance: F = 27, df (2, 6), p = 0.001. Reject equal population means at 5%; planned adjusted follow-ups ask which groups differ."@en ; cd:xAxisLabel "Exposure group"@en ; cd:yAxisLabel "Vessel response"@en ; cd:yAxisUnit "a.u." ; cd:hasChartGroup ex:l6-anova-group-a, ex:l6-anova-group-b, ex:l6-anova-group-c ; cd:authoredResource true .
+  ex:l6-grubbs-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Retain the high nitrate preparation"@en ; cd:body "The 12.5 mg/L result stays visible with the other five synthetic preparations. Grubbs statistic 2.0219 exceeds the two-sided 5% cutoff 1.8871 under the single-outlier Normal model. Flag it and investigate its origin. The test does not identify an error or justify automatic deletion."@en ; cd:xAxisLabel "Independent preparations"@en ; cd:yAxisLabel "Nitrate"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l6-grubbs-group ; cd:authoredResource true .
+}

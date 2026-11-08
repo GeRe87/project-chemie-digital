@@ -1,0 +1,186 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Authored R-style mimics, not screenshots or claimed live software executions.
+# Every report states the alternative and numerical convention explicitly.
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-reports> {
+ ex:l6r-recovery-report a cd:TableDefinition ; skos:prefLabel "One Sample t-test · R-style mimic"@en ; cd:hasTableColumn ex:l6r-rec-c1, ex:l6r-rec-c2 ; cd:hasTableRow ex:l6r-rec1, ex:l6r-rec2, ex:l6r-rec3, ex:l6r-rec4, ex:l6r-rec5, ex:l6r-rec6 ; cd:authoredResource true .
+ ex:l6r-rec-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-rec-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-rec1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-rec1a, ex:l6r-rec1b ; cd:authoredResource true .
+ ex:l6r-rec1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-rec1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: mean at or below 80%; H₁: above 80%"@en ; cd:authoredResource true .
+ ex:l6r-rec2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-rec2a, ex:l6r-rec2b ; cd:authoredResource true .
+ ex:l6r-rec2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν"@en ; cd:authoredResource true .
+ ex:l6r-rec2b a cd:TableCell ; cd:position 2 ; cd:body "t = 3.5032; ν = 5"@en ; cd:authoredResource true .
+ ex:l6r-rec3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-rec3a, ex:l6r-rec3b ; cd:authoredResource true .
+ ex:l6r-rec3a a cd:TableCell ; cd:position 1 ; cd:body "p-value"@en ; cd:authoredResource true .
+ ex:l6r-rec3b a cd:TableCell ; cd:position 2 ; cd:body "0.008612 · upper t tail"@en ; cd:authoredResource true .
+ ex:l6r-rec4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-rec4a, ex:l6r-rec4b ; cd:authoredResource true .
+ ex:l6r-rec4a a cd:TableCell ; cd:position 1 ; cd:body "Sample estimate"@en ; cd:authoredResource true .
+ ex:l6r-rec4b a cd:TableCell ; cd:position 2 ; cd:body "Mean 81.5%; n = 6; SD 1.049 percentage points"@en ; cd:authoredResource true .
+ ex:l6r-rec5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l6r-rec5a, ex:l6r-rec5b ; cd:authoredResource true .
+ ex:l6r-rec5a a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+ ex:l6r-rec5b a cd:TableCell ; cd:position 2 ; cd:body "Upper t tail at the 80% null boundary"@en ; cd:authoredResource true .
+ ex:l6r-rec6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:l6r-rec6a, ex:l6r-rec6b ; cd:authoredResource true .
+ ex:l6r-rec6a a cd:TableCell ; cd:position 1 ; cd:body "Decision at 5%"@en ; cd:authoredResource true .
+ ex:l6r-rec6b a cd:TableCell ; cd:position 2 ; cd:body "Reject H₀ under independent Normal preparations: evidence for a population mean above 80%. Individual preparations vary."@en ; cd:authoredResource true .
+
+ ex:l6r-paired-report a cd:TableDefinition ; skos:prefLabel "Paired t-test · R-style mimic"@en ; cd:hasTableColumn ex:l6r-pair-c1, ex:l6r-pair-c2 ; cd:hasTableRow ex:l6r-pair1, ex:l6r-pair2, ex:l6r-pair3, ex:l6r-pair4, ex:l6r-pair5 ; cd:authoredResource true .
+ ex:l6r-pair-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-pair-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-pair1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-pair1a, ex:l6r-pair1b ; cd:authoredResource true .
+ ex:l6r-pair1a a cd:TableCell ; cd:position 1 ; cd:body "Alternative"@en ; cd:authoredResource true .
+ ex:l6r-pair1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: zero population mean change; H₁: nonzero"@en ; cd:authoredResource true .
+ ex:l6r-pair2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-pair2a, ex:l6r-pair2b ; cd:authoredResource true .
+ ex:l6r-pair2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν / p"@en ; cd:authoredResource true .
+ ex:l6r-pair2b a cd:TableCell ; cd:position 2 ; cd:body "t = 4.0294; ν = 5; two-sided p = 0.01003"@en ; cd:authoredResource true .
+ ex:l6r-pair3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-pair3a, ex:l6r-pair3b ; cd:authoredResource true .
+ ex:l6r-pair3a a cd:TableCell ; cd:position 1 ; cd:body "Mean difference"@en ; cd:authoredResource true .
+ ex:l6r-pair3b a cd:TableCell ; cd:position 2 ; cd:body "Before minus end: 2.833 mg/L; six batches"@en ; cd:authoredResource true .
+ ex:l6r-pair4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-pair4a, ex:l6r-pair4b ; cd:authoredResource true .
+ ex:l6r-pair4a a cd:TableCell ; cd:position 1 ; cd:body "Reference"@en ; cd:authoredResource true .
+ ex:l6r-pair4b a cd:TableCell ; cd:position 2 ; cd:body "Two t tails under zero population mean difference"@en ; cd:authoredResource true .
+ ex:l6r-pair5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l6r-pair5a, ex:l6r-pair5b ; cd:authoredResource true .
+ ex:l6r-pair5a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-pair5b a cd:TableCell ; cd:position 2 ; cd:body "Reject at 5%; independent Normal batch differences. Mean concentration falls; control time-related alternatives before claiming causality."@en ; cd:authoredResource true .
+
+ ex:l6r-welch-report a cd:TableDefinition ; skos:prefLabel "Welch Two Sample t-test · R-style mimic"@en ; cd:hasTableColumn ex:l6r-w-c1, ex:l6r-w-c2 ; cd:hasTableRow ex:l6r-w1, ex:l6r-w2, ex:l6r-w3, ex:l6r-w4, ex:l6r-w5 ; cd:authoredResource true .
+ ex:l6r-w-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-w-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-w1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-w1a, ex:l6r-w1b ; cd:authoredResource true .
+ ex:l6r-w1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-w1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: equal population means; H₁: different"@en ; cd:authoredResource true .
+ ex:l6r-w2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-w2a, ex:l6r-w2b ; cd:authoredResource true .
+ ex:l6r-w2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν / p"@en ; cd:authoredResource true .
+ ex:l6r-w2b a cd:TableCell ; cd:position 2 ; cd:body "t = −2.9704; ν ≈ 6.972; two-sided p ≈ 0.02089"@en ; cd:authoredResource true .
+ ex:l6r-w3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-w3a, ex:l6r-w3b ; cd:authoredResource true .
+ ex:l6r-w3a a cd:TableCell ; cd:position 1 ; cd:body "Mean estimates"@en ; cd:authoredResource true .
+ ex:l6r-w3b a cd:TableCell ; cd:position 2 ; cd:body "NIR 10 µg/L (n 5); HPLC-MS 15 µg/L (n 6)"@en ; cd:authoredResource true .
+ ex:l6r-w4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-w4a, ex:l6r-w4b ; cd:authoredResource true .
+ ex:l6r-w4a a cd:TableCell ; cd:position 1 ; cd:body "Mean difference"@en ; cd:authoredResource true .
+ ex:l6r-w4b a cd:TableCell ; cd:position 2 ; cd:body "NIR minus HPLC-MS: −5 µg/L"@en ; cd:authoredResource true .
+ ex:l6r-w5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l6r-w5a, ex:l6r-w5b ; cd:authoredResource true .
+ ex:l6r-w5a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-w5b a cd:TableCell ; cd:position 2 ; cd:body "Reject equal population means at 5%; independent Normal groups, unequal variances permitted. Accuracy needs separate reference evidence."@en ; cd:authoredResource true .
+
+ ex:l6r-f-report a cd:TableDefinition ; skos:prefLabel "F test to compare two variances · mimic"@en ; cd:hasTableColumn ex:l6r-f-c1, ex:l6r-f-c2 ; cd:hasTableRow ex:l6r-f1r, ex:l6r-f2r, ex:l6r-f3r, ex:l6r-f4r ; cd:authoredResource true .
+ ex:l6r-f-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-f-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-f1r a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-f1a, ex:l6r-f1b ; cd:authoredResource true .
+ ex:l6r-f1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-f1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: equal population variances; H₁: A greater than B"@en ; cd:authoredResource true .
+ ex:l6r-f2r a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-f2a, ex:l6r-f2b ; cd:authoredResource true .
+ ex:l6r-f2a a cd:TableCell ; cd:position 1 ; cd:body "F / (ν₁, ν₂) / p"@en ; cd:authoredResource true .
+ ex:l6r-f2b a cd:TableCell ; cd:position 2 ; cd:body "F = 4; (ν₁, ν₂) = (5, 5); upper-tail p = 0.07719"@en ; cd:authoredResource true .
+ ex:l6r-f3r a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-f3a, ex:l6r-f3b ; cd:authoredResource true .
+ ex:l6r-f3a a cd:TableCell ; cd:position 1 ; cd:body "Estimates"@en ; cd:authoredResource true .
+ ex:l6r-f3b a cd:TableCell ; cd:position 2 ; cd:body "Variance A 0.040, B 0.010 (mg/L)²; ratio 4"@en ; cd:authoredResource true .
+ ex:l6r-f4r a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-f4a, ex:l6r-f4b ; cd:authoredResource true .
+ ex:l6r-f4a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-f4b a cd:TableCell ; cd:position 2 ; cd:body "Do not reject at 5%. Independent Normal samples; no proof of equal precision."@en ; cd:authoredResource true .
+
+ ex:l6r-nested-report a cd:TableDefinition ; skos:prefLabel "Nested model F comparison · mimic"@en ; cd:hasTableColumn ex:l6r-n-c1, ex:l6r-n-c2 ; cd:hasTableRow ex:l6r-n1, ex:l6r-n2, ex:l6r-n3, ex:l6r-n4 ; cd:authoredResource true .
+ ex:l6r-n-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-n-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-n1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-n1a, ex:l6r-n1b ; cd:authoredResource true .
+ ex:l6r-n1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-n1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: curve coefficient zero; H₁: nonzero"@en ; cd:authoredResource true .
+ ex:l6r-n2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-n2a, ex:l6r-n2b ; cd:authoredResource true .
+ ex:l6r-n2a a cd:TableCell ; cd:position 1 ; cd:body "F / (ν₁, ν₂) / p"@en ; cd:authoredResource true .
+ ex:l6r-n2b a cd:TableCell ; cd:position 2 ; cd:body "F = 9.8; (ν₁, ν₂) = (1, 7); upper-tail p = 0.01660"@en ; cd:authoredResource true .
+ ex:l6r-n3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-n3a, ex:l6r-n3b ; cd:authoredResource true .
+ ex:l6r-n3a a cd:TableCell ; cd:position 1 ; cd:body "Same ten standards"@en ; cd:authoredResource true .
+ ex:l6r-n3b a cd:TableCell ; cd:position 2 ; cd:body "Line: 2 coefficients, RSS 12; curve: 3 coefficients, RSS 5"@en ; cd:authoredResource true .
+ ex:l6r-n4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-n4a, ex:l6r-n4b ; cd:authoredResource true .
+ ex:l6r-n4a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-n4b a cd:TableCell ; cd:position 2 ; cd:body "Reject at 5%; independent Normal errors, common variance, nested full-rank fits. Inspect residuals and working range too."@en ; cd:authoredResource true .
+
+ ex:l6r-variance-report a cd:TableDefinition ; skos:prefLabel "One-variance chi-square test · mimic"@en ; cd:hasTableColumn ex:l6r-v-c1, ex:l6r-v-c2 ; cd:hasTableRow ex:l6r-v1, ex:l6r-v2, ex:l6r-v3, ex:l6r-v4 ; cd:authoredResource true .
+ ex:l6r-v-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-v-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-v1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-v1a, ex:l6r-v1b ; cd:authoredResource true .
+ ex:l6r-v1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-v1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: variance at or below 0.010 (mg/L)²; H₁: above"@en ; cd:authoredResource true .
+ ex:l6r-v2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-v2a, ex:l6r-v2b ; cd:authoredResource true .
+ ex:l6r-v2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν / p"@en ; cd:authoredResource true .
+ ex:l6r-v2b a cd:TableCell ; cd:position 2 ; cd:body "Q = 12; ν = 5; upper-tail p = 0.03479"@en ; cd:authoredResource true .
+ ex:l6r-v3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-v3a, ex:l6r-v3b ; cd:authoredResource true .
+ ex:l6r-v3a a cd:TableCell ; cd:position 1 ; cd:body "Sample / reference"@en ; cd:authoredResource true .
+ ex:l6r-v3b a cd:TableCell ; cd:position 2 ; cd:body "n = 6; variance 0.024 (mg/L)²; known target SD 0.10 mg/L"@en ; cd:authoredResource true .
+ ex:l6r-v4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-v4a, ex:l6r-v4b ; cd:authoredResource true .
+ ex:l6r-v4a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-v4b a cd:TableCell ; cd:position 2 ; cd:body "Reject at 5%; independent Normal observations, known fixed target. Evidence of excess scatter."@en ; cd:authoredResource true .
+
+ ex:l6r-pearson-report a cd:TableDefinition ; skos:prefLabel "Chi-square goodness-of-fit · mimic"@en ; cd:hasTableColumn ex:l6r-c-c1, ex:l6r-c-c2 ; cd:hasTableRow ex:l6r-c1, ex:l6r-c2, ex:l6r-c3, ex:l6r-c4 ; cd:authoredResource true .
+ ex:l6r-c-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-c-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-c1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-c1a, ex:l6r-c1b ; cd:authoredResource true .
+ ex:l6r-c1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-c1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: proportions 50%, 30%, 20%; H₁: a different mix"@en ; cd:authoredResource true .
+ ex:l6r-c2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-c2a, ex:l6r-c2b ; cd:authoredResource true .
+ ex:l6r-c2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν / p"@en ; cd:authoredResource true .
+ ex:l6r-c2b a cd:TableCell ; cd:position 2 ; cd:body "Pearson X² = 0.5556; ν = 2; upper-tail approximate p = 0.7575"@en ; cd:authoredResource true .
+ ex:l6r-c3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-c3a, ex:l6r-c3b ; cd:authoredResource true .
+ ex:l6r-c3a a cd:TableCell ; cd:position 1 ; cd:body "Observed / expected"@en ; cd:authoredResource true .
+ ex:l6r-c3b a cd:TableCell ; cd:position 2 ; cd:body "30, 20, 10 / 30, 18, 12; 60 independent particles"@en ; cd:authoredResource true .
+ ex:l6r-c4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-c4a, ex:l6r-c4b ; cd:authoredResource true .
+ ex:l6r-c4a a cd:TableCell ; cd:position 1 ; cd:body "Decision / model"@en ; cd:authoredResource true .
+ ex:l6r-c4b a cd:TableCell ; cd:position 2 ; cd:body "Do not reject at 5%. Fixed multinomial probabilities, adequate expected counts. No proof of the mix."@en ; cd:authoredResource true .
+
+ ex:l6r-independence-report a cd:TableDefinition ; skos:prefLabel "Pearson independence test · mimic"@en ; cd:hasTableColumn ex:l6r-i-c1, ex:l6r-i-c2 ; cd:hasTableRow ex:l6r-ir1, ex:l6r-ir2, ex:l6r-ir3, ex:l6r-ir4 ; cd:authoredResource true .
+ ex:l6r-i-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-i-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-ir1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-ir1a, ex:l6r-ir1b ; cd:authoredResource true .
+ ex:l6r-ir1a a cd:TableCell ; cd:position 1 ; cd:body "Hypotheses"@en ; cd:authoredResource true .
+ ex:l6r-ir1b a cd:TableCell ; cd:position 2 ; cd:body "H₀: group and damage independent; H₁: associated"@en ; cd:authoredResource true .
+ ex:l6r-ir2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-ir2a, ex:l6r-ir2b ; cd:authoredResource true .
+ ex:l6r-ir2a a cd:TableCell ; cd:position 1 ; cd:body "Statistic / ν / p"@en ; cd:authoredResource true .
+ ex:l6r-ir2b a cd:TableCell ; cd:position 2 ; cd:body "X² = 3.6364; ν = 1; upper-tail approximate p = 0.05653"@en ; cd:authoredResource true .
+ ex:l6r-ir3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-ir3a, ex:l6r-ir3b ; cd:authoredResource true .
+ ex:l6r-ir3a a cd:TableCell ; cd:position 1 ; cd:body "Convention / units"@en ; cd:authoredResource true .
+ ex:l6r-ir3b a cd:TableCell ; cd:position 2 ; cd:body "Uncorrected Pearson; 40 independent vessels; expected 11 affected / 9 unaffected per group"@en ; cd:authoredResource true .
+ ex:l6r-ir4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6r-ir4a, ex:l6r-ir4b ; cd:authoredResource true .
+ ex:l6r-ir4a a cd:TableCell ; cd:position 1 ; cd:body "Decision at 5%"@en ; cd:authoredResource true .
+ ex:l6r-ir4b a cd:TableCell ; cd:position 2 ; cd:body "Do not reject. Adequate expected counts support the approximation; not evidence of no association."@en ; cd:authoredResource true .
+
+ ex:l6r-u-report a cd:TableDefinition ; skos:prefLabel "Mann–Whitney U · exact label-permutation report"@en ; cd:hasTableColumn ex:l6r-u-c1, ex:l6r-u-c2 ; cd:hasTableRow ex:l6r-ur1, ex:l6r-ur2, ex:l6r-ur3 ; cd:authoredResource true .
+ ex:l6r-u-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-u-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-ur1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-ur1a, ex:l6r-ur1b ; cd:authoredResource true .
+ ex:l6r-ur1a a cd:TableCell ; cd:position 1 ; cd:body "Null / statistic"@en ; cd:authoredResource true .
+ ex:l6r-ur1b a cd:TableCell ; cd:position 2 ; cd:body "Equal distributions; U for X = 1; null centre 4.5"@en ; cd:authoredResource true .
+ ex:l6r-ur2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-ur2a, ex:l6r-ur2b ; cd:authoredResource true .
+ ex:l6r-ur2a a cd:TableCell ; cd:position 1 ; cd:body "Exact two-sided p"@en ; cd:authoredResource true .
+ ex:l6r-ur2b a cd:TableCell ; cd:position 2 ; cd:body "0.300; 6 of 20 label assignments at least as far from 4.5. Tied observations retained."@en ; cd:authoredResource true .
+ ex:l6r-ur3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-ur3a, ex:l6r-ur3b ; cd:authoredResource true .
+ ex:l6r-ur3a a cd:TableCell ; cd:position 1 ; cd:body "Interpretation"@en ; cd:authoredResource true .
+ ex:l6r-ur3b a cd:TableCell ; cd:position 2 ; cd:body "X tends lower in the sample; do not reject at 5%. Independent exchangeable labels under H₀; median-shift interpretation needs common shape."@en ; cd:authoredResource true .
+
+ ex:l6r-signed-report a cd:TableDefinition ; skos:prefLabel "Wilcoxon signed-rank report · mimic"@en ; cd:hasTableColumn ex:l6r-s-c1, ex:l6r-s-c2 ; cd:hasTableRow ex:l6r-sr1, ex:l6r-sr2, ex:l6r-sr3 ; cd:authoredResource true .
+ ex:l6r-s-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Field"@en ; cd:authoredResource true .
+ ex:l6r-s-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Result"@en ; cd:authoredResource true .
+ ex:l6r-sr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-sr1a, ex:l6r-sr1b ; cd:authoredResource true .
+ ex:l6r-sr1a a cd:TableCell ; cd:position 1 ; cd:body "Null / statistic"@en ; cd:authoredResource true .
+ ex:l6r-sr1b a cd:TableCell ; cd:position 2 ; cd:body "Symmetric zero-shift differences; positive-rank sum 13, negative sum 2"@en ; cd:authoredResource true .
+ ex:l6r-sr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-sr2a, ex:l6r-sr2b ; cd:authoredResource true .
+ ex:l6r-sr2a a cd:TableCell ; cd:position 1 ; cd:body "Exact two-sided p"@en ; cd:authoredResource true .
+ ex:l6r-sr2b a cd:TableCell ; cd:position 2 ; cd:body "0.1875; 6 of 32 sign assignments; no zeros or absolute ties"@en ; cd:authoredResource true .
+ ex:l6r-sr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6r-sr3a, ex:l6r-sr3b ; cd:authoredResource true .
+ ex:l6r-sr3a a cd:TableCell ; cd:position 1 ; cd:body "Decision / units"@en ; cd:authoredResource true .
+ ex:l6r-sr3b a cd:TableCell ; cd:position 2 ; cd:body "Do not reject at 5%. Five independent paired changes in µg/L; symmetry required for the usual shift inference. Do not sort the two raw samples separately."@en ; cd:authoredResource true .
+
+ ex:l6r-lake-report a cd:TableDefinition ; skos:prefLabel "Probability of choosing GO · same true state and measurement model"@en ; cd:hasTableColumn ex:l6r-l-c1, ex:l6r-l-c2, ex:l6r-l-c3 ; cd:hasTableRow ex:l6r-lr1, ex:l6r-lr2 ; cd:authoredResource true .
+ ex:l6r-l-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "True thickness"@en ; cd:authoredResource true .
+ ex:l6r-l-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A: evidence before GO"@en ; cd:authoredResource true .
+ ex:l6r-l-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "B: GO unless thin detected"@en ; cd:authoredResource true .
+ ex:l6r-lr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6r-lr1a, ex:l6r-lr1b, ex:l6r-lr1c ; cd:authoredResource true .
+ ex:l6r-lr1a a cd:TableCell ; cd:position 1 ; cd:body "9.7 cm: below 10"@en ; cd:authoredResource true .
+ ex:l6r-lr1b a cd:TableCell ; cd:position 2 ; cd:body "0.22% choose GO (type I)"@en ; cd:authoredResource true .
+ ex:l6r-lr1c a cd:TableCell ; cd:position 3 ; cd:body "67.18% choose GO (type II)"@en ; cd:authoredResource true .
+ ex:l6r-lr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6r-lr2a, ex:l6r-lr2b, ex:l6r-lr2c ; cd:authoredResource true .
+ ex:l6r-lr2a a cd:TableCell ; cd:position 1 ; cd:body "10.3 cm: above 10"@en ; cd:authoredResource true .
+ ex:l6r-lr2b a cd:TableCell ; cd:position 2 ; cd:body "32.82% choose GO (correct)"@en ; cd:authoredResource true .
+ ex:l6r-lr2c a cd:TableCell ; cd:position 3 ; cd:body "99.78% choose GO (correct)"@en ; cd:authoredResource true .
+}

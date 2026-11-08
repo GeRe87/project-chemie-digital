@@ -2,6 +2,7 @@ import { scaleLinear, scalePoint } from "d3-scale";
 import { dotPlotStaticFallback, type ChartBlock, type DotPlotBlock } from "../../core/src/scene-document.ts";
 import { appendDotLegendEntry, dotSummaryDiamond } from "./dot-plot-primitives.ts";
 import {chartLabelLines} from "./chart-labels.ts";
+import {renderInlineText} from '../../renderer-shared/src/inline-math.ts';
 
 export interface D3DotPlotOptions { readonly reducedMotion: boolean; }
 
@@ -56,7 +57,12 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
   fallback.textContent = model.staticFallback;
   const caption = document.createElement("figcaption");
   caption.className = "d3-chart-caption";
-  caption.textContent = model.description;
+  const points = model.description.split(/\r?\n/).filter(line => line.trim());
+  if (points.length && points.every(line => line.startsWith('- '))) {
+    const list = document.createElement('ul');
+    for (const point of points) { const item = document.createElement('li'); item.innerHTML = renderInlineText(point.slice(2)); list.append(item); }
+    caption.append(list);
+  } else caption.innerHTML = renderInlineText(model.description);
   const legend = document.createElement("div");
   legend.className = "d3-dot-legend";
   const legendEntry = (label: string, kind: string) => {

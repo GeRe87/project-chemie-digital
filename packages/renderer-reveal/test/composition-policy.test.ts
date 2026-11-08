@@ -1285,6 +1285,39 @@ test("a media illustration shares the existing visual-formula surfaces with its 
   assert.deepEqual(inferRevealCompositionPlan({ ...scene, id: "unrelated" }), plan);
 });
 
+test("formula-first setup keeps its authored legend in the formula column and guide below", () => {
+  const legend: SceneBlock = { ...definitions("symbols"), emphasis: "supporting",
+    source: [{ resourceId: "resource:formula", relationPath: "dct:hasPart" }] };
+  const blocks = [prose("heading", "introduce"), math("formula"), legend,
+    definitions("guide"), mediaReference("setup")];
+  const scene: Scene = { id: "opaque:setup", source: [], blocks, readingOrder: blocks.map(b => b.id) };
+  const plan = inferRevealCompositionPlan(scene);
+  assert.equal(plan.profile, "formula-experiment");
+  assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+    ["heading", "heading"], ["formula", "primary"], ["symbols", "primary"],
+    ["guide", "footer"], ["setup", "secondary"],
+  ]);
+  assert.deepEqual(inferRevealCompositionPlan({...scene, id: "another-course"}), plan);
+  const withoutLegend = blocks.filter(b => b.id !== "symbols");
+  assert.notEqual(inferRevealCompositionPlan({...scene, blocks: withoutLegend,
+    readingOrder: withoutLegend.map(b => b.id)}).profile, "formula-experiment");
+});
+
+test("a two-surface report places evidence left and its table right regardless of authored order", () => {
+  for (const evidence of [mediaReference("evidence"), barChart("evidence"), definitions("evidence")]) {
+    for (const body of [[evidence, dataTable("report")], [dataTable("report"), evidence]]) {
+      const blocks = [prose("heading", "introduce"), ...body];
+      const scene: Scene = {id: "opaque:report", source: [], blocks, readingOrder: blocks.map(b => b.id)};
+      const plan = inferRevealCompositionPlan(scene);
+      assert.equal(plan.profile, "test-report");
+      assert.deepEqual(plan.placements.map(p => [p.blockId, p.region]), [
+        ["heading", "heading"], ["evidence", "primary"], ["report", "secondary"],
+      ]);
+      assert.deepEqual(inferRevealCompositionPlan({...scene, id: "different-unit"}), plan);
+    }
+  }
+});
+
 test("concise infocards and one illustration use a visual-first single column", () => {
   const blocks = [prose("heading", "introduce"), definitions("questions"), mediaReference("diagram")];
   const scene: Scene = { id: "opaque:questions-and-visual", source: [], blocks, readingOrder: blocks.map(b => b.id) };
@@ -1768,4 +1801,19 @@ test("diagram with explanatory takeaway keeps reusable visual-stage diagram/foot
       { blockId: "takeaway", region: "footer", index: 0 },
     ],
   });
+});
+
+test('one image and a takeaway use a full-width visual and footer, independent of identity',()=>{
+ const scene:Scene={id:'opaque:comic',source:[],blocks:[prose('h','introduce'),mediaReference('image'),prose('answer')],readingOrder:['h','image','answer']};
+ const plan=inferRevealCompositionPlan(scene);
+ assert.equal(plan.kind,'visual-stage');assert.equal(plan.mainCount,1);
+ assert.equal(plan.placements.find(p=>p.blockId==='image')?.region,'main');
+ assert.equal(plan.placements.find(p=>p.blockId==='answer')?.region,'footer');
+});
+
+test('supporting illustration disclosures and reference footnotes leave primary composition unchanged',()=>{
+ const scene:Scene={id:'opaque:lesson',source:[],blocks:[prose('h','introduce'),mediaReference('image'),prose('answer')],readingOrder:['h','image','answer']};
+ const optional={...mediaReference('setup'),disclosure:{mode:'optional' as const,order:3}};
+ const reference:SceneBlock={id:'reference',kind:'media-reference',mediaType:'text/html',uri:'https://example.test/reference',alternativeText:'Reference chapter',source:[]};
+ assert.deepEqual(inferRevealCompositionPlan({...scene,blocks:[...scene.blocks,optional,reference],readingOrder:[...scene.readingOrder,'setup','reference']}),inferRevealCompositionPlan(scene));
 });

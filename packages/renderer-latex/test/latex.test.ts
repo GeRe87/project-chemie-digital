@@ -64,6 +64,18 @@ test('formula legends have a consistent heading instead of internal entry titles
   assert.match(tex,/Circle constant/u);
 });
 
+test('ordinary equations and full legends form one unbreakable PDF unit',()=>{
+  const tex=renderLatexScript(script);
+  const units=tex.match(/\\begin\{minipage\}\{\\linewidth\}[\s\S]*?\\end\{minipage\}/gu)??[];
+  const ordinary=script.sections.flatMap(section=>section.materials)
+    .filter(material=>material.blocks.some(block=>block.kind==='math'&&!block.derivation));
+  assert.equal(units.length,ordinary.length);
+  for(const unit of units){
+    assert.match(unit,/\\refstepcounter\{equation\}/u);
+    assert.match(unit,/\\textbf\{Symbols\}/u);
+  }
+});
+
 test('shared experiment threshold appears once in the figure caption',()=>{
   const tex=renderLatexScript(script);
   assert.match(tex,/Both panels use a concentration threshold of 10\.1 mg\/L/u);

@@ -1,0 +1,119 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-evidence> {
+  ex:l6-r-workbench cd:programmingLanguage "r" .
+  ex:l6-r-advanced cd:programmingLanguage "r" .
+  ex:l6-directions-title a cd:Interpretation ; skos:prefLabel "Tests never prove"@en ; cd:authoredResource true .
+  ex:l6-directions a cd:TableDefinition ; skos:prefLabel "Mean hypotheses for a fixed reference"@en ; cd:hasTableColumn ex:l6-direction-col-question, ex:l6-direction-col-null, ex:l6-direction-col-alternative, ex:l6-direction-col-tail ; cd:hasTableRow ex:l6-direction-upper, ex:l6-direction-lower, ex:l6-direction-two ; cd:authoredResource true .
+  ex:l6-direction-col-question a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Question"@en ; cd:authoredResource true .
+  ex:l6-direction-col-null a cd:TableColumn ; cd:position 2 ; skos:prefLabel "H₀: null"@en ; cd:authoredResource true .
+  ex:l6-direction-col-alternative a cd:TableColumn ; cd:position 3 ; skos:prefLabel "H₁: alternative"@en ; cd:authoredResource true .
+  ex:l6-direction-col-tail a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Type I error to control"@en ; cd:authoredResource true .
+  ex:l6-direction-upper a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6-du1, ex:l6-du2, ex:l6-du3, ex:l6-du4 ; cd:authoredResource true .
+  ex:l6-direction-lower a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6-dl1, ex:l6-dl2, ex:l6-dl3, ex:l6-dl4 ; cd:authoredResource true .
+  ex:l6-direction-two a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6-dt1, ex:l6-dt2, ex:l6-dt3, ex:l6-dt4 ; cd:authoredResource true .
+  ex:l6-du1 a cd:TableCell ; cd:position 1 ; cd:body "Demonstrate an amoxicillin exceedance"@en ; cd:authoredResource true .
+  ex:l6-du2 a cd:TableCell ; cd:position 2 ; cd:body "Mean at or below the limit (≤)"@en ; cd:authoredResource true .
+  ex:l6-du3 a cd:TableCell ; cd:position 3 ; cd:body "Mean strictly above the limit (>)"@en ; cd:authoredResource true .
+  ex:l6-du4 a cd:TableCell ; cd:position 4 ; cd:body "Protect against a false exceedance claim"@en ; cd:authoredResource true .
+  ex:l6-dl1 a cd:TableCell ; cd:position 1 ; cd:body "Demonstrate a mean below the amoxicillin limit"@en ; cd:authoredResource true .
+  ex:l6-dl2 a cd:TableCell ; cd:position 2 ; cd:body "Mean at or above the limit (≥)"@en ; cd:authoredResource true .
+  ex:l6-dl3 a cd:TableCell ; cd:position 3 ; cd:body "Mean strictly below the limit (<)"@en ; cd:authoredResource true .
+  ex:l6-dl4 a cd:TableCell ; cd:position 4 ; cd:body "Protect against a false below-limit claim"@en ; cd:authoredResource true .
+  ex:l6-dt1 a cd:TableCell ; cd:position 1 ; cd:body "Does the population mean differ from the reference?"@en ; cd:authoredResource true .
+  ex:l6-dt2 a cd:TableCell ; cd:position 2 ; cd:body "Mean equals reference"@en ; cd:authoredResource true .
+  ex:l6-dt3 a cd:TableCell ; cd:position 3 ; cd:body "Mean differs from reference"@en ; cd:authoredResource true .
+  ex:l6-dt4 a cd:TableCell ; cd:position 4 ; cd:body "Protect against a false difference claim"@en ; cd:authoredResource true .
+
+  ex:l6-alpha-title a cd:Interpretation ; skos:prefLabel "A test can make two kinds of mistake"@en ; cd:authoredResource true .
+  ex:l6-errors a cd:TableDefinition ; skos:prefLabel "The population state and the decision are different axes"@en ; cd:hasTableColumn ex:l6-error-col-state, ex:l6-error-col-retain, ex:l6-error-col-reject ; cd:hasTableRow ex:l6-error-null, ex:l6-error-alternative ; cd:authoredResource true .
+  ex:l6-error-col-state a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Population state"@en ; cd:authoredResource true .
+  ex:l6-error-col-retain a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Test: do not reject H₀"@en ; cd:authoredResource true .
+  ex:l6-error-col-reject a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Test: reject H₀ in favour of H₁"@en ; cd:authoredResource true .
+  ex:l6-error-null a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6-en1, ex:l6-en2, ex:l6-en3 ; cd:authoredResource true .
+  ex:l6-error-alternative a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6-ea1, ex:l6-ea2, ex:l6-ea3 ; cd:authoredResource true .
+  ex:l6-en1 a cd:TableCell ; cd:position 1 ; cd:body "H₀ true"@en ; cd:authoredResource true .
+  ex:l6-en2 a cd:TableCell ; cd:position 2 ; cd:body "Correct decision: do not claim an exceedance"@en ; cd:authoredResource true .
+  ex:l6-en3 a cd:TableCell ; cd:position 3 ; cd:body "TYPE I ERROR: claim an exceedance that is not real. Alpha bounds this false-rejection risk."@en ; cd:authoredResource true .
+  ex:l6-ea1 a cd:TableCell ; cd:position 1 ; cd:body "Specified alternative true"@en ; cd:authoredResource true .
+  ex:l6-ea2 a cd:TableCell ; cd:position 2 ; cd:body "TYPE II ERROR: miss a real exceedance. Its probability is beta for a specified true concentration."@en ; cd:authoredResource true .
+  ex:l6-ea3 a cd:TableCell ; cd:position 3 ; cd:body "Correct decision: detect the real exceedance."@en ; cd:authoredResource true .
+
+  ex:l6-t-table-title a cd:Interpretation ; skos:prefLabel "Read df and the cumulative-probability convention together"@en ; cd:authoredResource true .
+  ex:l6-t-table a cd:TableDefinition ; skos:prefLabel "Upper Student-t quantiles (rounded to three decimals)"@en ; cd:hasTableColumn ex:l6-tc1, ex:l6-tc2, ex:l6-tc3 ; cd:hasTableRow ex:l6-tr5, ex:l6-tr10, ex:l6-tr20 ; cd:authoredResource true .
+  ex:l6-tc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "df"@en ; cd:authoredResource true .
+  ex:l6-tc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "CDF 0.95: upper 5%"@en ; cd:authoredResource true .
+  ex:l6-tc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "CDF 0.975: upper 2.5%"@en ; cd:authoredResource true .
+  ex:l6-tr5 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6-t51, ex:l6-t52, ex:l6-t53 ; cd:authoredResource true .
+  ex:l6-tr10 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6-t101, ex:l6-t102, ex:l6-t103 ; cd:authoredResource true .
+  ex:l6-tr20 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6-t201, ex:l6-t202, ex:l6-t203 ; cd:authoredResource true .
+  ex:l6-t51 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:l6-t52 a cd:TableCell ; cd:position 2 ; cd:body "2.015"@en ; cd:authoredResource true .
+  ex:l6-t53 a cd:TableCell ; cd:position 3 ; cd:body "2.571"@en ; cd:authoredResource true .
+  ex:l6-t101 a cd:TableCell ; cd:position 1 ; cd:body "10"@en ; cd:authoredResource true .
+  ex:l6-t102 a cd:TableCell ; cd:position 2 ; cd:body "1.812"@en ; cd:authoredResource true .
+  ex:l6-t103 a cd:TableCell ; cd:position 3 ; cd:body "2.228"@en ; cd:authoredResource true .
+  ex:l6-t201 a cd:TableCell ; cd:position 1 ; cd:body "20"@en ; cd:authoredResource true .
+  ex:l6-t202 a cd:TableCell ; cd:position 2 ; cd:body "1.725"@en ; cd:authoredResource true .
+  ex:l6-t203 a cd:TableCell ; cd:position 3 ; cd:body "2.086"@en ; cd:authoredResource true .
+  ex:l6-t-reading a cd:Interpretation ; cd:body "For a two-sided 5% t-test with five df, compare the statistic's absolute value with **2.571**. The total 5% is split between two symmetric tails. Tables with upper-tail probability headings use a different column convention from CDF tables."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+
+  ex:l6-f-table-title a cd:Interpretation ; skos:prefLabel "Reading an F table: which cutoff do we need?"@en ; cd:authoredResource true .
+  ex:l6-f-table a cd:TableDefinition ; skos:prefLabel "Upper 5% F cutoffs: denominator df 5"@en ; cd:hasTableColumn ex:l6-fc1, ex:l6-fc2 ; cd:hasTableRow ex:l6-fr1, ex:l6-fr2 ; cd:authoredResource true .
+  ex:l6-fc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Numerator df"@en ; cd:authoredResource true .
+  ex:l6-fc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "95th percentile, denominator df 5"@en ; cd:authoredResource true .
+  ex:l6-fr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6-f11, ex:l6-f12 ; cd:authoredResource true .
+  ex:l6-fr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6-f21, ex:l6-f22 ; cd:authoredResource true .
+  ex:l6-f11 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:authoredResource true .
+  ex:l6-f12 a cd:TableCell ; cd:position 2 ; cd:body "6.608"@en ; cd:authoredResource true .
+  ex:l6-f21 a cd:TableCell ; cd:position 1 ; cd:body "5"@en ; cd:authoredResource true .
+  ex:l6-f22 a cd:TableCell ; cd:position 2 ; cd:body "5.050"@en ; cd:authoredResource true .
+  ex:l6-f-reading a cd:Interpretation ; cd:body "- Our method comparison has numerator df **5**, denominator df **5**.\n- Its upper 5% cutoff is **5.050**; observed variance ratio **4** does not exceed it.\n- Next, report the equivalent upper-tail **p-value** rather than only a cutoff. A two-sided test needs both tails."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+
+  ex:l6-multiple-title a cd:Interpretation ; skos:prefLabel "Three p-values: which below-limit claims can we report?"@en ; cd:authoredResource true .
+  ex:l6-multiple a cd:TableDefinition ; skos:prefLabel "Three prespecified endpoint p-values at family alpha 0.05"@en ; cd:hasTableColumn ex:l6-mc1, ex:l6-mc2, ex:l6-mc3 ; cd:hasTableRow ex:l6-mr1, ex:l6-mr2, ex:l6-mr3 ; cd:authoredResource true .
+  ex:l6-mc1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Endpoint"@en ; cd:authoredResource true .
+  ex:l6-mc2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Raw p"@en ; cd:authoredResource true .
+  ex:l6-mc3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Bonferroni adjusted p"@en ; cd:authoredResource true .
+  ex:l6-mr1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6-m11, ex:l6-m12, ex:l6-m13 ; cd:authoredResource true .
+  ex:l6-mr2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6-m21, ex:l6-m22, ex:l6-m23 ; cd:authoredResource true .
+  ex:l6-mr3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6-m31, ex:l6-m32, ex:l6-m33 ; cd:authoredResource true .
+  ex:l6-m11 a cd:TableCell ; cd:position 1 ; cd:body "Chloride below its limit"@en ; cd:authoredResource true .
+  ex:l6-m12 a cd:TableCell ; cd:position 2 ; cd:body "0.008"@en ; cd:authoredResource true .
+  ex:l6-m13 a cd:TableCell ; cd:position 3 ; cd:body "0.024: reject at family 0.05"@en ; cd:authoredResource true .
+  ex:l6-m21 a cd:TableCell ; cd:position 1 ; cd:body "Bromate below its limit"@en ; cd:authoredResource true .
+  ex:l6-m22 a cd:TableCell ; cd:position 2 ; cd:body "0.021"@en ; cd:authoredResource true .
+  ex:l6-m23 a cd:TableCell ; cd:position 3 ; cd:body "0.063: do not reject"@en ; cd:authoredResource true .
+  ex:l6-m31 a cd:TableCell ; cd:position 1 ; cd:body "Phosphate below its limit"@en ; cd:authoredResource true .
+  ex:l6-m32 a cd:TableCell ; cd:position 2 ; cd:body "0.200"@en ; cd:authoredResource true .
+  ex:l6-m33 a cd:TableCell ; cd:position 3 ; cd:body "0.600: do not reject"@en ; cd:authoredResource true .
+  ex:l6-multiple-reading a cd:Interpretation ; cd:body "**Bonferroni supports only the chloride below-limit claim.**\n\n- Each H₀ is at or above that analyte's own illustrative limit; H₁ is below.\n- Adjusted bromate p **0.063** exceeds 0.05; do not call it below-limit on this rule.\n- An alternative prespecified rule, Holm, gives **0.024, 0.042, 0.200**. It sorts raw p, tests against 0.05/3, 0.05/2, 0.05 and stops at the first failure. These p-values are illustrative, not environmental findings."@en ; cd:bodyFormat "markdown" ; cd:authoredResource true .
+
+  ex:l6-pearson-case a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-pearson-a, ex:l6-pearson-b ; cd:authoredResource true .
+  ex:l6-pearson-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "60 PARTICLES, THREE CATEGORIES"@en ; cd:body "- Synthetic observed counts: **30, 20, 10**.\n- Predicted shares: **50%, 30%, 20%**.\n- Expected counts: **30, 18, 12**. Each independent particle enters exactly one category."@en ; cd:authoredResource true .
+  ex:l6-pearson-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "THE COUNTS ARE CLOSE TO THE PREDICTION"@en ; cd:body "- Pearson statistic **0.556**, df **2**.\n- Approximate **p = 0.757**: do not reject at 5%.\n- This does not prove the mix. Fitted shares, dependence or small expected counts need a different calibration."@en ; cd:authoredResource true .
+  ex:l6-independence-case a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-independence-a, ex:l6-independence-b ; cd:authoredResource true .
+  ex:l6-independence-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "LOOK AT THE TWO GROUPS"@en ; cd:body "- Control: **8 affected, 12 unaffected**.\n- Exposure: **14 affected, 6 unaffected**.\n- If unrelated: expect **11 affected, 9 unaffected** in each group. Synthetic independent vessels."@en ; cd:authoredResource true .
+  ex:l6-independence-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "MORE AFFECTED, BUT NOT BELOW 5%"@en ; cd:body "- Uncorrected Pearson **3.636**, df **1**, approximate **p = 0.0565**.\n- Do not reject at 5%; this does **not** establish no association.\n- R: **correct = FALSE** reproduces this version. Its default adds a correction. Small expected counts? Consider Fisher's exact test."@en ; cd:authoredResource true .
+  ex:l6-variance-case a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-variance-a, ex:l6-variance-b ; cd:authoredResource true .
+  ex:l6-variance-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SIX RESULTS AGAINST A KNOWN TARGET"@en ; cd:body "- Level-5 teaching summary: variance **0.024 (mg/L)²**.\n- Known target SD **0.10 mg/L**; target variance **0.010 (mg/L)²**.\n- Six independent Normal results give statistic **12**, df **5**."@en ; cd:authoredResource true .
+  ex:l6-variance-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "EVIDENCE OF EXTRA SCATTER"@en ; cd:body "- Planned question: variance **above** target?\n- Upper-tail **p = 0.0348**: reject at 5%.\n- This target is treated as known. A target estimated from another sample needs a two-sample method."@en ; cd:authoredResource true .
+  ex:l6-f-ratio-case a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-fr-a, ex:l6-fr-b ; cd:authoredResource true .
+  ex:l6-fr-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SIX RESULTS PER METHOD"@en ; cd:body "- Sample SDs: A **0.20**, B **0.10 mg/L**.\n- Variance ratio A/B: **4**; df **(5, 5)**.\n- Synthetic independent Normal samples; order chosen beforehand."@en ; cd:authoredResource true .
+  ex:l6-fr-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "TWICE THE SD IS NOT YET CONVINCING"@en ; cd:body "- Planned upper 5% cutoff: **5.050**.\n- **4 is below 5.050:** do not reject equal variance. This does not prove equal precision.\n- Still report the observed SD ratio. A two-sided test uses different cutoffs."@en ; cd:authoredResource true .
+
+  ex:l6-r-workbench a cd:CodeExample ; skos:prefLabel "Reproduce the synthetic tests in base R"@en ; cd:programmingLanguage "r" ; cd:executable true ; cd:editable true ; cd:code "# Optional: skip both R labs to the vessel-replication exercise.\n# Run one block, predict a change, then compare its output.\ncrm <- c(101,100,102,103,101,102)\nprint(t.test(crm, mu=100))\nbefore <- c(12,18,9,21,15,25)\nafter <- c(10,15,9,17,12,20)\nprint(t.test(before, after, paired=TRUE))\ncontrol <- c(8,9,10,11,12)\nexposure <- c(10,12,14,16,18,20)\nprint(t.test(control, exposure, var.equal=FALSE))\nprint(p.adjust(c(.008,.021,.200), method='bonferroni'))\nprint(p.adjust(c(.008,.021,.200), method='holm'))" ; dct:hasPart ex:l6-r-legend ; cd:authoredResource true .
+  ex:l6-r-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-r-functions ; cd:authoredResource true .
+  ex:l6-r-functions a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Functions and arguments"@en ; cd:body "c() creates an ordered numeric vector; <- assigns it. t.test() uses two-sided alternatives here: mu fixes the null mean, paired=TRUE analyses within-pair differences and var.equal=FALSE selects Welch for independent groups. p.adjust() applies the named multiplicity procedure to the complete planned family. print() displays each returned result. All values are synthetic; no network packages are needed."@en ; cd:authoredResource true .
+  ex:l6-r-advanced a cd:CodeExample ; skos:prefLabel "Reproduce F, count, rank, effect and outlier calculations"@en ; cd:programmingLanguage "r" ; cd:executable true ; cd:editable true ; cd:code "# Optional blocks; next main topic: the vessel-replication exercise.\n# Power at end: separate t-test plan, NOT the known-SD z-power figure.\nresponse <- c(4,5,6,7,8,9,10,11,12)\ngroup <- factor(rep(1:3, each=3))\nprint(anova(lm(response ~ group)))\nprint(chisq.test(c(30,20,10), p=c(.5,.3,.2)))\ntab <- rbind(control=c(8,12), exposure=c(14,6))\nprint(chisq.test(tab, correct=FALSE))\nprint(wilcox.test(c(1,-2,3,4,5), mu=0, exact=TRUE))\nx <- c(1,2,2); y <- c(2,3,4)\nprint(mean(sign(outer(x,y,'-'))))\ng <- c(9.8,9.9,10,10.1,10.2,12.5)\nn <- length(g); alpha <- .05\nG <- max(abs(g-mean(g)))/sd(g)\ntcrit <- qt(1-alpha/(2*n), df=n-2)\nGcrit <- (n-1)/sqrt(n)*sqrt(tcrit^2/(n-2+tcrit^2))\nprint(c(G=G, critical=Gcrit))\nprint(power.t.test(n=20, delta=1, sd=1.5, sig.level=.05, type='two.sample'))" ; dct:hasPart ex:l6-r-advanced-legend ; cd:authoredResource true .
+  ex:l6-r-advanced-legend a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-r-advanced-functions ; cd:authoredResource true .
+  ex:l6-r-advanced-functions a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Functions, conventions and units"@en ; cd:body "rep()/factor() construct group labels; lm() fits the linear model and anova() its joint group test. chisq.test() compares counts; correct=FALSE requests uncorrected Pearson for the 2-by-2 table built by rbind(). wilcox.test() on one vector uses signed ranks; this example has no ties or zeros. outer() makes every cross-group difference; sign() returns −1/0/+1 and mean() averages them for Cliff's delta. length(), abs(), max(), sd(), sqrt() and qt() compute the Grubbs statistic/cutoff; sd() uses denominator n−1 and qt() takes a cumulative probability. power.t.test() plans the pooled two-sample common-SD model; n counts independent observations per group, delta is the true mean difference in the same units as sd. print() reports results. Arithmetic operators retain their usual meaning; ^ raises a power. All inputs are synthetic."@en ; cd:authoredResource true .
+  ex:l6-r-title a cd:Interpretation ; skos:prefLabel "Optional R lab: run once, then change one thing"@en ; cd:authoredResource true .
+  ex:l6-exercise-title a cd:Interpretation ; skos:prefLabel "Six vessels, four organisms each: what is n?"@en ; cd:authoredResource true .
+  ex:l6-exercise a cd:Exercise ; cd:body "Three exposure groups. Each has **six independent vessels** with **four organisms per vessel**. Measure enzyme response and use one average per vessel.\n\n- [!] How many independent results does each group provide?\n- [!] Which test compares all three means, assuming independent Normal errors with a common variance?\n- [?] How would you handle three planned pairwise tests? What difference and uncertainty would you report?"@en ; cd:hasExpectedResult ex:l6-exercise-answer ; cd:authoredResource true .
+  ex:l6-exercise-answer a cd:ExpectedResult ; cd:body "n = 6 independent vessels per group, 18 in total. The four organisms describe each vessel and do not turn n into 24. A one-way ANOVA global F test has numerator df 2 and denominator df 15 under the stated model. Prespecify the three follow-up contrasts and use an appropriate family-wise procedure such as Holm or Bonferroni. Report oriented native-unit mean differences with suitable simultaneous uncertainty and assay-specific relevance; the global test alone does not identify the differing pairs."@en ; cd:authoredResource true .
+}

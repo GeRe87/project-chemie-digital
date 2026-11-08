@@ -12,6 +12,9 @@
     "katex": "0.18.2"
   },
   "scripts": {
+    "preview:level6:generate": "python apps/pitch/scripts/generate-authoring-preview.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-statistical-tests --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-statistical-tests --path-id https://w3id.org/project-chemie-digital/resource/path-level6-statistical-tests --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests --output-stem authoring-level6-statistical-tests",
+    "preview:level6": "npm run preview:level6:generate && npm --workspace @project-chemie-digital/pitch exec -- vite --host 127.0.0.1 --port 5173 --strictPort",
+    "script:level6:pdf": "npm run preview:level6:generate && npm run script:pdf -- --runtime apps/pitch/public/authoring-level6-statistical-tests-runtime.json --out-dir .local/level6-script-pdf-preview",
     "preview:level5:review-complete:generate": "python apps/pitch/scripts/generate-authoring-preview.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-theoretical-distributions --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-theoretical-distributions --path-id https://w3id.org/project-chemie-digital/resource/path-level5-review-complete --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/level5-review-complete --output-stem authoring-level5-review-complete",
     "preview:level5:generate": "npm run preview:level5:review-complete:generate",
     "preview:level5": "npm run script:level5:pdf && npm --workspace @project-chemie-digital/pitch exec -- vite --host 127.0.0.1 --port 5173 --strictPort",

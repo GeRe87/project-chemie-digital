@@ -1,0 +1,191 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-second-review> {
+ ex:l6s-p01 cd:authoredResource true . ex:l6s-p02 cd:authoredResource true . ex:l6s-p03 cd:authoredResource true . ex:l6s-p04 cd:authoredResource true . ex:l6s-p05 cd:authoredResource true . ex:l6s-p06 cd:authoredResource true . ex:l6s-p07 cd:authoredResource true . ex:l6s-p08 cd:authoredResource true . ex:l6s-p09 cd:authoredResource true . ex:l6s-p10 cd:authoredResource true .
+ ex:l6s-p11 cd:authoredResource true . ex:l6s-p12 cd:authoredResource true . ex:l6s-p13 cd:authoredResource true . ex:l6s-p14 cd:authoredResource true . ex:l6s-p15 cd:authoredResource true . ex:l6s-p16 cd:authoredResource true . ex:l6s-p17 cd:authoredResource true . ex:l6s-p18 cd:authoredResource true . ex:l6s-p19 cd:authoredResource true . ex:l6s-p20 cd:authoredResource true .
+ ex:l6s-p21 cd:authoredResource true . ex:l6s-p22 cd:authoredResource true . ex:l6s-p23 cd:authoredResource true . ex:l6s-p24 cd:authoredResource true . ex:l6s-p25 cd:authoredResource true . ex:l6s-p26 cd:authoredResource true . ex:l6s-p27 cd:authoredResource true . ex:l6s-p28 cd:authoredResource true . ex:l6s-p29 cd:authoredResource true . ex:l6s-p30 cd:authoredResource true .
+ ex:l6s-p31 cd:authoredResource true . ex:l6s-p32 cd:authoredResource true . ex:l6s-p33 cd:authoredResource true . ex:l6s-p34 cd:authoredResource true . ex:l6s-p35 cd:authoredResource true . ex:l6s-p36 cd:authoredResource true . ex:l6s-p37 cd:authoredResource true . ex:l6s-p38 cd:authoredResource true . ex:l6s-p39 cd:authoredResource true . ex:l6s-p40 cd:authoredResource true .
+ ex:l6s-p41 cd:authoredResource true . ex:l6s-p42 cd:authoredResource true . ex:l6s-p43 cd:authoredResource true . ex:l6s-p44 cd:authoredResource true . ex:l6s-p45 cd:authoredResource true . ex:l6s-p46 cd:authoredResource true . ex:l6s-p47 cd:authoredResource true . ex:l6s-p48 cd:authoredResource true . ex:l6s-p49 cd:authoredResource true . ex:l6s-p50 cd:authoredResource true . ex:l6s-p51 cd:authoredResource true . ex:l6s-p52 cd:authoredResource true .
+ ex:l6s-effect-c cd:authoredResource true . ex:l6s-effect-scene cd:authoredResource true . ex:l6s-effect-t cd:authoredResource true . ex:l6s-esd-c cd:authoredResource true . ex:l6s-esd-h cd:authoredResource true . ex:l6s-esd-scene cd:authoredResource true .
+ ex:l6s-lake-comic cd:authoredResource true . ex:l6s-lake-note cd:authoredResource true . ex:l6s-lake-picture cd:authoredResource true . ex:l6s-multi-picture cd:authoredResource true . ex:l6s-optional-setup cd:authoredResource true .
+ ex:l6s-pair-chart cd:authoredResource true . ex:l6s-pair-h cd:authoredResource true . ex:l6s-pair-scene cd:authoredResource true .
+ ex:l6s-ref-esd-item cd:authoredResource true . ex:l6s-ref-f-item cd:authoredResource true . ex:l6s-ref-gof-item cd:authoredResource true . ex:l6s-ref-grubbs-item cd:authoredResource true . ex:l6s-ref-t-item cd:authoredResource true . ex:l6s-ref-two-t-item cd:authoredResource true . ex:l6s-ref-variance-item cd:authoredResource true .
+ ex:l6s-sign-reference-scene cd:authoredResource true . ex:l6s-sr-c cd:authoredResource true . ex:l6s-sr-h cd:authoredResource true . ex:l6s-u-reference-scene cd:authoredResource true . ex:l6s-ur-c cd:authoredResource true . ex:l6s-ur-h cd:authoredResource true .
+ ex:l6s-pair-title cd:authoredResource true . ex:l6s-u-reference-title cd:authoredResource true . ex:l6s-sign-reference-title cd:authoredResource true . ex:l6s-esd-title cd:authoredResource true .
+ ex:l6s-lake-art cd:authoredResource true . ex:l6s-lake-takeaway cd:authoredResource true . ex:l6s-multi-art cd:authoredResource true . ex:l6s-independence-setup cd:authoredResource true .
+ ex:l6s-pair-animation cd:authoredResource true . ex:l6s-pair-data cd:authoredResource true . ex:l6s-pair-step cd:authoredResource true .
+ ex:l6s-x1 cd:authoredResource true . ex:l6s-x2 cd:authoredResource true . ex:l6s-x3 cd:authoredResource true . ex:l6s-y1 cd:authoredResource true . ex:l6s-y2 cd:authoredResource true . ex:l6s-y3 cd:authoredResource true .
+ ex:l6s-u-reference cd:authoredResource true . ex:l6s-u-a cd:authoredResource true . ex:l6s-u-b cd:authoredResource true . ex:l6s-sign-reference cd:authoredResource true . ex:l6s-sign-a cd:authoredResource true . ex:l6s-sign-b cd:authoredResource true .
+ ex:l6s-effect-interpretation cd:authoredResource true . ex:l6s-effect-reading cd:authoredResource true . ex:l6s-effect-table cd:authoredResource true .
+ ex:l6s-d-c1 cd:authoredResource true . ex:l6s-d-c2 cd:authoredResource true . ex:l6s-d-r1 cd:authoredResource true . ex:l6s-d-r2 cd:authoredResource true . ex:l6s-d-r3 cd:authoredResource true . ex:l6s-d-r4 cd:authoredResource true .
+ ex:l6s-d-11 cd:authoredResource true . ex:l6s-d-12 cd:authoredResource true . ex:l6s-d-21 cd:authoredResource true . ex:l6s-d-22 cd:authoredResource true . ex:l6s-d-31 cd:authoredResource true . ex:l6s-d-32 cd:authoredResource true . ex:l6s-d-41 cd:authoredResource true . ex:l6s-d-42 cd:authoredResource true .
+ ex:l6s-esd cd:authoredResource true . ex:l6s-esd-a cd:authoredResource true . ex:l6s-esd-b cd:authoredResource true .
+ ex:l6s-ref-t-table cd:authoredResource true . ex:l6s-ref-two-t cd:authoredResource true . ex:l6s-ref-f cd:authoredResource true . ex:l6s-ref-variance cd:authoredResource true . ex:l6s-ref-gof cd:authoredResource true . ex:l6s-ref-grubbs cd:authoredResource true . ex:l6s-ref-esd cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+ ex:l6s-p12 cd:usesResource ex:l6s-ref-one-t .
+ ex:l6s-p13 cd:usesResource ex:l6s-ref-one-t .
+ ex:l6s-p28 cd:usesResource ex:l6s-ref-regression . ex:l6s-p29 cd:usesResource ex:l6s-ref-regression . ex:l6s-p30 cd:usesResource ex:l6s-ref-regression .
+ ex:l6s-p36 cd:usesResource ex:l6s-ref-independence . ex:l6s-p37 cd:usesResource ex:l6s-ref-independence .
+ ex:l6s-p38 cd:usesResource ex:l6s-ref-mw . ex:l6s-p39 cd:usesResource ex:l6s-ref-mw . ex:l6s-p41 cd:usesResource ex:l6s-ref-mw . ex:l6s-p42 cd:usesResource ex:l6s-ref-mw .
+ ex:l6s-p43 cd:usesResource ex:l6s-ref-signed . ex:l6s-p44 cd:usesResource ex:l6s-ref-signed . ex:l6s-p45 cd:usesResource ex:l6s-ref-signed .
+ ex:l6s-p01 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:l6-scene01 ; cd:usesResource ex:l6-title .
+ ex:l6s-p02 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:l6-scene02 ; cd:usesResource ex:l6-motivation-title, ex:l6-motivation, ex:l6-questions-art .
+ ex:l6s-p03 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l6-scene03 ; cd:usesResource ex:l6-hypotheses-title, ex:l6r-hypothesis, ex:l6-hypothesis-art .
+ ex:l6s-p04 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:l6-scene04 ; cd:usesResource ex:l6-directions-title, ex:l6r-tree-art .
+ ex:l6s-p05 a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l6-scene04b ; cd:usesResource ex:l6-ice-title, ex:l6-ice-art, ex:l6-ice-cards .
+ ex:l6s-p06 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l6s-lake-comic ; cd:usesResource ex:l6r-lake-title, ex:l6s-lake-art, ex:l6s-lake-takeaway .
+ ex:l6s-p07 a cd:PathStep ; cd:position 7 ; cd:usesScene ex:l6-scene05b ; cd:usesResource ex:l6-alpha-live-title, ex:l6-alpha-experiment .
+ ex:l6s-p08 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l6-scene06 ; cd:usesResource ex:l6-df-title, ex:l6-df-cards, ex:l6-df-art .
+ ex:l6s-p09 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l6-scene07 ; cd:usesResource ex:l6-p-title, ex:l6-p-cards, ex:l6-tail-art .
+ ex:l6s-p10 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:l6r-t-scene ; cd:usesResource ex:l6r-t-section, ex:l6r-t-section-art .
+ ex:l6s-p11 a cd:PathStep ; cd:position 11 ; cd:usesScene ex:l6-scene09 ; cd:usesResource ex:l6-t-title, ex:l6-t-cards, ex:l6-t-comparisons-art .
+ ex:l6s-p12 a cd:PathStep ; cd:position 12 ; cd:usesScene ex:l6-scene11 ; cd:usesResource ex:l6-one-t-title, ex:l6-formula-one-t, ex:l6-legend-one-t, ex:l6-guide11 .
+ ex:l6s-p13 a cd:PathStep ; cd:position 13 ; cd:usesScene ex:l6-scene11b ; cd:usesResource ex:l6-t-live-title, ex:l6-t-experiment .
+ ex:l6s-p14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l6-scene12 ; cd:usesResource ex:l6-crm-answer-title, ex:l6r-recovery-chart, ex:l6r-recovery-report, ex:l6s-ref-t-table .
+ ex:l6s-p15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l6-scene13 ; cd:usesResource ex:l6-design-title, ex:l6-design-art .
+ ex:l6s-p16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l6-scene14 ; cd:usesResource ex:l6-pooled-title, ex:l6-formula-pooled, ex:l6-legend-pooled, ex:l6-guide14, ex:l6r-river-art, ex:l6s-ref-two-t .
+ ex:l6s-p17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l6-scene15 ; cd:usesResource ex:l6-paired-title, ex:l6-formula-paired, ex:l6-legend-paired, ex:l6-guide15, ex:l6r-reactor-art, ex:l6s-ref-two-t .
+ ex:l6s-p18 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l6-scene16 ; cd:usesResource ex:l6-paired-title, ex:l6r-paired-chart, ex:l6r-paired-report, ex:l6s-ref-two-t .
+ ex:l6s-p19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l6-scene17 ; cd:usesResource ex:l6-welch-title, ex:l6-formula-welch, ex:l6-legend-welch, ex:l6-guide17, ex:l6r-instruments-art, ex:l6s-ref-two-t .
+ ex:l6s-p20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l6-scene18 ; cd:usesResource ex:l6-welch-title, ex:l6r-welch-chart, ex:l6r-welch-report, ex:l6s-ref-two-t .
+ ex:l6s-p21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l6r-multi-question-scene ; cd:usesResource ex:l6r-multi-question, ex:l6r-multi-case, ex:l6s-multi-art .
+ ex:l6s-p22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l6r-multi-answer-scene ; cd:usesResource ex:l6r-multi-answer, ex:l6r-multi-calculation .
+ ex:l6s-p23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l6-scene20 ; cd:usesResource ex:l6-bonferroni-title, ex:l6-formula-bonferroni, ex:l6-legend-bonferroni, ex:l6-guide20 .
+ ex:l6s-p24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l6-scene21 ; cd:usesResource ex:l6-multiple-title, ex:l6-multiple, ex:l6-multiple-reading .
+ ex:l6s-p25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l6r-f-scene ; cd:usesResource ex:l6r-f-section, ex:l6r-f-section-art .
+ ex:l6s-p26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l6-scene24 ; cd:usesResource ex:l6-f-ratio-title, ex:l6-formula-f-ratio, ex:l6-legend-f-ratio, ex:l6-guide24, ex:l6r-precision-art, ex:l6s-ref-f .
+ ex:l6s-p27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l6-scene25 ; cd:usesResource ex:l6-f-ratio-title, ex:l6r-f-report, ex:l6r-precision-art, ex:l6s-ref-f .
+ ex:l6s-p28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l6-scene26 ; cd:usesResource ex:l6r-calibration-title, ex:l6r-calibration-art .
+ ex:l6s-p29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l6-scene27 ; cd:usesResource ex:l6-nested-title, ex:l6-formula-nested-f, ex:l6-legend-nested-f, ex:l6-guide27, ex:l6-calibration-gain-art .
+ ex:l6s-p30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l6-scene28 ; cd:usesResource ex:l6-nested-title, ex:l6r-nested-report, ex:l6-calibration-gain-art .
+ ex:l6s-p31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l6-scene31 ; cd:usesResource ex:l6-chi-title, ex:l6-chi-cards, ex:l6-chi-questions-art .
+ ex:l6s-p32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l6-scene32 ; cd:usesResource ex:l6-variance-title, ex:l6-formula-variance-chi, ex:l6-legend-variance-chi, ex:l6-guide32, ex:l6r-known-art, ex:l6s-ref-variance .
+ ex:l6s-p33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l6-scene33 ; cd:usesResource ex:l6-variance-title, ex:l6r-variance-chart, ex:l6r-variance-report, ex:l6s-ref-variance .
+ ex:l6s-p34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l6-scene34 ; cd:usesResource ex:l6-pearson-title, ex:l6-formula-pearson, ex:l6-legend-pearson, ex:l6-guide34, ex:l6-particle-counts-art, ex:l6s-ref-gof .
+ ex:l6s-p35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l6-scene35 ; cd:usesResource ex:l6-pearson-title, ex:l6r-pearson-report, ex:l6-particle-counts-art, ex:l6s-ref-gof .
+ ex:l6s-p36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l6-scene36 ; cd:usesResource ex:l6-independence-title, ex:l6-formula-independence, ex:l6-legend-independence, ex:l6-guide36, ex:l6-vessel-counts-art, ex:l6s-independence-setup .
+ ex:l6s-p37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l6-scene37 ; cd:usesResource ex:l6-independence-title, ex:l6r-independence-report, ex:l6-vessel-counts-art .
+ ex:l6s-p38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l6-scene38 ; cd:usesResource ex:l6-mw-title, ex:l6-mw-cards, ex:l6-rank-order-art .
+ ex:l6s-p39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l6-scene39 ; cd:usesResource ex:l6-u-title, ex:l6-formula-u, ex:l6-legend-u, ex:l6-guide39 .
+ ex:l6s-p40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l6s-pair-scene ; cd:usesResource ex:l6s-pair-title, ex:l6s-pair-animation .
+ ex:l6s-p41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l6-scene40 ; cd:usesResource ex:l6-rank-grid-title, ex:l6-cliff-art, ex:l6r-u-report .
+ ex:l6s-p42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l6s-u-reference-scene ; cd:usesResource ex:l6s-u-reference-title, ex:l6s-u-reference .
+ ex:l6s-p43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l6-scene41 ; cd:usesResource ex:l6-signed-title, ex:l6-formula-signed, ex:l6-legend-signed, ex:l6-guide41 .
+ ex:l6s-p44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l6s-sign-reference-scene ; cd:usesResource ex:l6s-sign-reference-title, ex:l6s-sign-reference .
+ ex:l6s-p45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l6-scene42 ; cd:usesResource ex:l6-signed-title, ex:l6r-signed-report, ex:l6-signed-ranks-art .
+ ex:l6s-p46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l6-scene45 ; cd:usesResource ex:l6-effect-title, ex:l6-formula-effect, ex:l6-legend-effect, ex:l6-guide45 .
+ ex:l6s-p47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l6s-effect-scene ; cd:usesResource ex:l6-effect-title, ex:l6s-effect-interpretation, ex:l6s-effect-table .
+ ex:l6s-p48 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l6-scene47 ; cd:usesResource ex:l6-cliff-title, ex:l6-formula-cliff, ex:l6-legend-cliff, ex:l6-guide47 .
+ ex:l6s-p49 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l6-scene48 ; cd:usesResource ex:l6-cliff-title, ex:l6r-cliff-cards, ex:l6-cliff-art .
+ ex:l6s-p50 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l6-scene49 ; cd:usesResource ex:l6-outlier-title, ex:l6-outlier-cards, ex:l6-outlier-investigation-art, ex:l6s-ref-grubbs .
+ ex:l6s-p51 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l6-scene50 ; cd:usesResource ex:l6r-grubbs-title, ex:l6-formula-grubbs, ex:l6-legend-grubbs, ex:l6-formula-grubbs-critical, ex:l6-legend-grubbs-critical, ex:l6r-grubbs-result, ex:l6s-ref-grubbs .
+ ex:l6s-p52 a cd:PathStep ; cd:position 52 ; cd:usesScene ex:l6s-esd-scene ; cd:usesResource ex:l6s-esd-title, ex:l6s-esd, ex:l6s-ref-esd .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-second-review> {
+ ex:l6s-ref-t-table a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda3672.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: t reference table"@en .
+ ex:l6s-ref-one-t a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: one-sample t-test"@en ; cd:authoredResource true .
+ ex:l6s-ref-regression a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd447.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: regression coefficient tests"@en ; cd:authoredResource true .
+ ex:l6s-ref-independence a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/prc/section4/prc45.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: contingency-table independence"@en ; cd:authoredResource true .
+ ex:l6s-ref-mw a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ranksum.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: rank-sum test (software conventions differ)"@en ; cd:authoredResource true .
+ ex:l6s-ref-signed a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/signrank.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: signed-rank test"@en ; cd:authoredResource true .
+ ex:l6s-ref-two-t a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: paired, pooled and Welch t-tests"@en .
+ ex:l6s-ref-f a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda359.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: comparison of variances"@en .
+ ex:l6s-ref-variance a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda358.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: known-variance chi-square test"@en .
+ ex:l6s-ref-gof a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: chi-square goodness of fit"@en .
+ ex:l6s-ref-grubbs a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: Grubbs single-outlier test"@en .
+ ex:l6s-ref-esd a cd:MediaAsset ; cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h3.htm"^^xsd:anyURI ; cd:mediaType "text/html" ; cd:alternativeText "NIST: Generalized ESD for several outliers"@en .
+ ex:l6s-effect-table a cd:TableDefinition ; skos:prefLabel "Conventional magnitude bands for |d|"@en ; cd:hasTableColumn ex:l6s-d-c1, ex:l6s-d-c2 ; cd:hasTableRow ex:l6s-d-r1, ex:l6s-d-r2, ex:l6s-d-r3, ex:l6s-d-r4 ; cd:hasSource ex:l6r-source-effects .
+ ex:l6s-d-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Absolute Cohen d"@en .
+ ex:l6s-d-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Conventional description"@en .
+ ex:l6s-d-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l6s-d-11, ex:l6s-d-12 .
+ ex:l6s-d-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l6s-d-21, ex:l6s-d-22 .
+ ex:l6s-d-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l6s-d-31, ex:l6s-d-32 .
+ ex:l6s-d-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l6s-d-41, ex:l6s-d-42 .
+ ex:l6s-d-11 a cd:TableCell ; cd:position 1 ; cd:body "Below 0.2"@en . ex:l6s-d-12 a cd:TableCell ; cd:position 2 ; cd:body "Negligible"@en .
+ ex:l6s-d-21 a cd:TableCell ; cd:position 1 ; cd:body "0.2 to below 0.5"@en . ex:l6s-d-22 a cd:TableCell ; cd:position 2 ; cd:body "Small"@en .
+ ex:l6s-d-31 a cd:TableCell ; cd:position 1 ; cd:body "0.5 to below 0.8"@en . ex:l6s-d-32 a cd:TableCell ; cd:position 2 ; cd:body "Medium"@en .
+ ex:l6s-d-41 a cd:TableCell ; cd:position 1 ; cd:body "0.8 or more"@en . ex:l6s-d-42 a cd:TableCell ; cd:position 2 ; cd:body "Large"@en .
+ ex:l6s-lake-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-lake-comic.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two comic panels compare conservative and progressive GO decisions. True thickness 10.3 cm: GO 32.8% versus 99.8%. True thickness 9.7 cm: GO 0.22% versus 67.2%. These are repeated-study decision rates in a thickness-only model."@en .
+ ex:l6s-lake-takeaway a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Severe consequences of a false GO: require evidence before acting. A progressive rule needs an explicit, acceptable error-cost trade-off.**"@en .
+ ex:l6s-multi-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-three-analytes.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "One water sample supplies independent replicate preparations. Each preparation is analysed for chloride, bromate and phosphate. Three population mean claims compare each analyte with its own limit. Shared preparation errors can link analytes."@en .
+ ex:l6s-independence-setup a cd:MediaAsset ; skos:prefLabel "Show experiment: rows and columns"@en ; cd:uri "/chemometrics/level6-independence-setup.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Forty independent vessels: twenty control, twenty exposure. One affected/unaffected classification per vessel. Rows encode group; columns encode classification. Observed counts 8/12 and 14/6 give row totals 20/20, column totals 22/18, grand total 40."@en .
+ ex:l6s-pair-title a cd:Interpretation ; skos:prefLabel "Build U: compare one pair, score it, add the points"@en .
+ ex:l6s-pair-animation a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "pairwise-score" ; skos:prefLabel "Pairwise score account"@en ; cd:body "- Keep the original X and Y identities.\n- Compare every cross-group pair once.\n- X greater: +1; tie: +0.5; X smaller: +0."@en ; cd:xAxisLabel "Comparison"@en ; cd:yAxisLabel "Score account U_X"@en ; cd:usesDataset ex:l6s-pair-data ; cd:hasExperimentParameter ex:l6s-pair-step .
+ ex:l6s-pair-step a cd:ExperimentParameter ; cd:position 1 ; skos:prefLabel "Completed comparisons"@en ; cd:parameterKey "step" ; cd:numericValue 0.0 ; cd:parameterMinimum 0.0 ; cd:parameterMaximum 9.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter true .
+ ex:l6s-pair-data a cd:Dataset ; cd:hasObservation ex:l6s-x1, ex:l6s-x2, ex:l6s-x3, ex:l6s-y1, ex:l6s-y2, ex:l6s-y3 .
+ ex:l6s-x1 a cd:Observation ; cd:position 1 ; cd:numericValue 1.0 ; cd:pairedValue 0.0 ; skos:prefLabel "X₁"@en .
+ ex:l6s-x2 a cd:Observation ; cd:position 2 ; cd:numericValue 2.0 ; cd:pairedValue 0.0 ; skos:prefLabel "X₂"@en .
+ ex:l6s-x3 a cd:Observation ; cd:position 3 ; cd:numericValue 2.0 ; cd:pairedValue 0.0 ; skos:prefLabel "X₃"@en .
+ ex:l6s-y1 a cd:Observation ; cd:position 4 ; cd:numericValue 2.0 ; cd:pairedValue 1.0 ; skos:prefLabel "Y₁"@en .
+ ex:l6s-y2 a cd:Observation ; cd:position 5 ; cd:numericValue 3.0 ; cd:pairedValue 1.0 ; skos:prefLabel "Y₂"@en .
+ ex:l6s-y3 a cd:Observation ; cd:position 6 ; cd:numericValue 4.0 ; cd:pairedValue 1.0 ; skos:prefLabel "Y₃"@en .
+ ex:l6s-u-reference-title a cd:Interpretation ; skos:prefLabel "From U = 1 to p = 0.300: relabel the six observations"@en .
+ ex:l6s-u-reference a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6s-u-a, ex:l6s-u-b .
+ ex:l6s-u-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "20 EQUALLY LIKELY LABEL ASSIGNMENTS UNDER H₀"@en ; cd:body "- **H₀:** equal distributions; independent observations with exchangeable group labels.\n- Choose **3 of 6** original observations for X: **20** assignments. Tied observations retain their identities.\n- Recalculate **U** for every assignment. The null centre is **4.5**."@en .
+ ex:l6s-u-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "COUNT BOTH EXTREMES"@en ; cd:body "- Observed **U = 1** lies **3.5** from the centre.\n- **U ≤ 1 or U ≥ 8:** six of twenty assignments are at least this far away.\n- **p = 6/20 = 0.300 > 0.05:** do not reject H₀. This is a declared tie-aware, two-sided permutation reference."@en .
+ ex:l6s-sign-reference-title a cd:Interpretation ; skos:prefLabel "Five differences, 32 sign patterns: where does p come from?"@en .
+ ex:l6s-sign-reference a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6s-sign-a, ex:l6s-sign-b .
+ ex:l6s-sign-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "TWO POSSIBLE SIGNS FOR EACH ORIGINAL DIFFERENCE"@en ; cd:body "- Keep absolute differences **1, 2, 3, 4, 5 µg/L** and their ranks fixed.\n- Under the symmetric zero-shift **H₀**, each independent sign is equally likely **+ or −**.\n- Five binary choices give **2 × 2 × 2 × 2 × 2 = 32** sign patterns."@en .
+ ex:l6s-sign-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "THE TWO-SIDED TAILS"@en ; cd:body "- Observed positive-rank sum **W⁺ = 13**; total rank sum **15**, centre **7.5**.\n- At least as extreme: **W⁺ ≤ 2 or W⁺ ≥ 13**. Three patterns in each tail.\n- **p = (3 + 3)/32 = 0.1875**. At 5%, do not reject the zero-shift H₀."@en .
+ ex:l6s-effect-interpretation a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6s-effect-reading .
+ ex:l6s-effect-reading a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "OUR RESULT: d = −1.677"@en ; cd:body "- **Sign:** NIR reads lower than HPLC-MS in this comparison.\n- **Magnitude:** the mean difference is about **1.68 pooled within-group SDs**.\n- **|d| = 1.677:** **large** by the conventional bands. Assess chemical relevance using the application."@en .
+ ex:l6s-esd-title a cd:Interpretation ; skos:prefLabel "Several suspected outliers? Plan a multiple-outlier procedure"@en .
+ ex:l6s-esd a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6s-esd-a, ex:l6s-esd-b .
+ ex:l6s-esd-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "GENERALIZED ESD"@en ; cd:body "- Set an **upper bound r** on the suspected outlier count **before testing**.\n- Calculate successive extreme-deviation statistics with **ESD's adjusted cutoffs**.\n- Use the **largest qualifying step**. Background model: **approximately Normal**."@en .
+ ex:l6s-esd-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "REPEATED GRUBBS OR BONFERRONI?"@en ; cd:body "- Fresh unadjusted 5% tests change error behaviour; extremes can **mask** one another.\n- A simple **Bonferroni adjustment** alone does not resolve adaptive deletion and masking.\n- NIST approximation: **reasonable n ≥ 15**, **stronger n ≥ 25**. Our **n = 6** example remains single-outlier Grubbs."@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+ ex:l6-scene11 cd:hasSceneItem ex:l6s-ref-one-t-item . ex:l6-scene11b cd:hasSceneItem ex:l6s-ref-one-t-item .
+ ex:l6s-ref-one-t-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-one-t ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene26 cd:hasSceneItem ex:l6s-ref-regression-item . ex:l6-scene27 cd:hasSceneItem ex:l6s-ref-regression-item . ex:l6-scene28 cd:hasSceneItem ex:l6s-ref-regression-item .
+ ex:l6s-ref-regression-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-regression ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene36 cd:hasSceneItem ex:l6s-ref-independence-item . ex:l6-scene37 cd:hasSceneItem ex:l6s-ref-independence-item .
+ ex:l6s-ref-independence-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-independence ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene38 cd:hasSceneItem ex:l6s-ref-mw-item . ex:l6-scene39 cd:hasSceneItem ex:l6s-ref-mw-item . ex:l6-scene40 cd:hasSceneItem ex:l6s-ref-mw-item . ex:l6s-u-reference-scene cd:hasSceneItem ex:l6s-ref-mw-item .
+ ex:l6s-ref-mw-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-mw ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene41 cd:hasSceneItem ex:l6s-ref-signed-item . ex:l6-scene42 cd:hasSceneItem ex:l6s-ref-signed-item . ex:l6s-sign-reference-scene cd:hasSceneItem ex:l6s-ref-signed-item .
+ ex:l6s-ref-signed-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-signed ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+ ex:l6-scene12 cd:hasSceneItem ex:l6s-ref-t-item .
+ ex:l6s-ref-t-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-t-table ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene14 cd:hasSceneItem ex:l6s-ref-two-t-item . ex:l6-scene15 cd:hasSceneItem ex:l6s-ref-two-t-item . ex:l6-scene16 cd:hasSceneItem ex:l6s-ref-two-t-item . ex:l6-scene17 cd:hasSceneItem ex:l6s-ref-two-t-item . ex:l6-scene18 cd:hasSceneItem ex:l6s-ref-two-t-item .
+ ex:l6s-ref-two-t-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-two-t ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene24 cd:hasSceneItem ex:l6s-ref-f-item . ex:l6-scene25 cd:hasSceneItem ex:l6s-ref-f-item .
+ ex:l6s-ref-f-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-f ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene32 cd:hasSceneItem ex:l6s-ref-variance-item . ex:l6-scene33 cd:hasSceneItem ex:l6s-ref-variance-item .
+ ex:l6s-ref-variance-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-variance ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene34 cd:hasSceneItem ex:l6s-ref-gof-item . ex:l6-scene35 cd:hasSceneItem ex:l6s-ref-gof-item .
+ ex:l6s-ref-gof-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-gof ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene49 cd:hasSceneItem ex:l6s-ref-grubbs-item . ex:l6-scene50 cd:hasSceneItem ex:l6s-ref-grubbs-item .
+ ex:l6s-ref-grubbs-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-grubbs ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6s-ref-esd-item a cd:SceneItem ; cd:position 90 ; cd:selectsResource ex:l6s-ref-esd ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6s-lake-comic a cd:SceneDefinition ; cd:focusConcept ex:l6-hypothesis ; cd:hasSceneItem ex:l6r-lake-h, ex:l6s-lake-picture, ex:l6s-lake-note .
+ ex:l6s-lake-picture a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-lake-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6s-lake-note a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6s-lake-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" .
+ ex:l6r-multi-question-scene cd:hasSceneItem ex:l6s-multi-picture .
+ ex:l6s-multi-picture a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6s-multi-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" .
+ ex:l6-scene36 cd:hasSceneItem ex:l6s-optional-setup .
+ ex:l6s-optional-setup a cd:SceneItem ; cd:position 6 ; cd:selectsResource ex:l6s-independence-setup ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:optionalMaterial true .
+ ex:l6s-pair-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-mann-whitney ; cd:hasSceneItem ex:l6s-pair-h, ex:l6s-pair-chart .
+ ex:l6s-pair-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6s-pair-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" .
+ ex:l6s-pair-chart a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-pair-animation ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" .
+ ex:l6s-u-reference-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-mann-whitney ; cd:hasSceneItem ex:l6s-ur-h, ex:l6s-ur-c .
+ ex:l6s-ur-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6s-u-reference-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" .
+ ex:l6s-ur-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-u-reference ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" .
+ ex:l6s-sign-reference-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-wilcoxon ; cd:hasSceneItem ex:l6s-sr-h, ex:l6s-sr-c .
+ ex:l6s-sr-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6s-sign-reference-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" .
+ ex:l6s-sr-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-sign-reference ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" .
+ ex:l6s-effect-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-effect ; cd:hasSceneItem ex:l6-i46h, ex:l6s-effect-c, ex:l6s-effect-t .
+ ex:l6s-effect-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-effect-interpretation ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" .
+ ex:l6s-effect-t a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6s-effect-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" .
+ ex:l6s-esd-scene a cd:SceneDefinition ; cd:focusConcept ex:l6-grubbs ; cd:hasSceneItem ex:l6s-esd-h, ex:l6s-esd-c, ex:l6s-ref-esd-item .
+ ex:l6s-esd-h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6s-esd-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" .
+ ex:l6s-esd-c a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6s-esd ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" .
+}

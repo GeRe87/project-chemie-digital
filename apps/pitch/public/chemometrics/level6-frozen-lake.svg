@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="230" viewBox="0 0 1100 230" role="img" aria-labelledby="title desc">
+<title id="title">Can I cross the frozen lake without breaking through?</title>
+<desc id="desc">A person waits at a snowy shore. A cutaway reveals uneven ice above deep water and a weak spot. The question is whether thickness exceeds a hypothetical minimum. This illustration is not an ice safety assessment.</desc>
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#dceefa"/><stop offset="1" stop-color="#f7fbff"/></linearGradient><linearGradient id="water" x2="0" y2="1"><stop stop-color="#25769a"/><stop offset="1" stop-color="#103c5b"/></linearGradient></defs>
+<rect x="2" y="2" width="1096" height="226" rx="16" fill="url(#sky)" stroke="#7797ac" stroke-width="2"/>
+<path d="M18 110L105 43L185 109L269 62L354 110L445 47L540 111L636 68L720 113" fill="#b8d1e2"/>
+<path d="M70 70L105 43L137 70L114 65L104 76L96 64ZM408 73L445 47L480 73L451 65L442 78L433 66" fill="#fff"/>
+<path d="M20 143Q115 111 245 133L282 151L282 218H20Z" fill="#eaf1f5"/>
+<path d="M264 147L735 147L735 218L282 218Z" fill="url(#water)"/>
+<path d="M264 139L735 139L735 168L620 167L572 151L538 169L431 172L350 164L282 174Z" fill="#b8e8f2" stroke="#4384a3" stroke-width="2"/>
+<path d="M267 139H735" stroke="#fff" stroke-width="6"/>
+<path d="M557 138L567 145L561 151L577 157" fill="none" stroke="#a44b30" stroke-width="3"/>
+<g stroke="#1d3d56" stroke-width="6" stroke-linecap="round" fill="none"><circle cx="222" cy="88" r="11" fill="#e9af81" stroke-width="2"/><path d="M221 103L222 127L210 146M222 127L237 144M221 108L202 120M221 108L242 114"/></g>
+<path d="M209 85Q221 67 235 84" fill="#be5038"/><path d="M218 102L236 105" stroke="#be5038" stroke-width="7"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147"><text x="302" y="104" font-size="19" font-weight="bold">FROZEN SURFACE</text><text x="414" y="201" font-size="19" fill="#fff">Water below · uneven ice above</text><text x="591" y="127" font-size="16">Weak spot</text><path d="M613 130L572 140" stroke="#a44b30" stroke-width="2"/>
+<text x="770" y="54" font-size="23" font-weight="bold">Is the ice thick enough?</text><text x="770" y="91" font-size="19">A · Stay until evidence says go</text><text x="770" y="126" font-size="19">B · Go unless evidence says stay</text><text x="770" y="174" font-size="18" font-weight="bold" fill="#a23c28">Same question. Different risks.</text><text x="770" y="207" font-size="16">Model only. Not crossing advice.</text></g>
+</svg>

@@ -1,0 +1,106 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-intro-interactions> {
+  ex:l6-a-alpha cd:position 1 ; cd:authoredResource true .
+  ex:l6-a-view cd:position 2 ; cd:authoredResource true .
+  ex:l6-a-n cd:position 3 ; cd:authoredResource true .
+  ex:l6-a-mean cd:position 4 ; cd:authoredResource true .
+  ex:l6-a-sd cd:position 5 ; cd:authoredResource true .
+  ex:l6-a-reference cd:position 6 ; cd:authoredResource true .
+  ex:l6-a-direction cd:position 7 ; cd:authoredResource true .
+  ex:l6-a-effect cd:position 8 ; cd:authoredResource true .
+  ex:l6-a-M cd:position 9 ; cd:authoredResource true .
+  ex:l6-a-seed cd:position 10 ; cd:authoredResource true .
+  ex:l6-q-mean cd:position 1 ; cd:authoredResource true .
+  ex:l6-q-sd cd:position 2 ; cd:authoredResource true .
+  ex:l6-q-n cd:position 3 ; cd:authoredResource true .
+  ex:l6-q-view cd:position 4 ; cd:authoredResource true .
+  ex:l6-q-reference cd:position 5 ; cd:authoredResource true .
+  ex:l6-q-alpha cd:position 6 ; cd:authoredResource true .
+  ex:l6-q-direction cd:position 7 ; cd:authoredResource true .
+  ex:l6-q-effect cd:position 8 ; cd:authoredResource true .
+  ex:l6-q-M cd:position 9 ; cd:authoredResource true .
+  ex:l6-q-seed cd:position 10 ; cd:authoredResource true .
+  ex:l6-questions-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-questions.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three illustrative questions: QC target 50 µg/L and preparation mean 48.5 µg/L; river diclofenac upstream/downstream of an industrial park; control/exposed algal growth curves. Schematic teaching examples."@en ; dct:description "- Three illustrative measurement questions."@en ; cd:authoredResource true .
+  ex:l6-hypothesis-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-hypothesis-flow.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Starting point H₀; predict a reference distribution for the test statistic; compare the observed statistic; decide whether to reject H₀."@en ; cd:authoredResource true .
+  ex:l6-df-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-df.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Six points and a fitted mean in one panel; six calibration points and a fitted intercept-plus-slope line in the other. Estimating one versus two coefficients leaves different residual degrees of freedom."@en ; dct:description "- ν (nu): degrees of freedom. In these full-rank models, subtract fitted coefficients from independent observations."@en ; cd:authoredResource true .
+  ex:l6-t-comparisons-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-t-comparisons.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "One estimated QC mean compared with a fixed target, and two estimated river-water means compared with each other before and after an industrial park. Schematic sampling structures."@en ; dct:description "- Choose the t-test version from independence, pairing and variance assumptions."@en ; cd:authoredResource true .
+  ex:l6-formula-hypotheses a cd:MathExpression ; cd:formulaLabel "Amoxicillin: is the population mean above the limit?"@en ; cd:latex "H_0:\\ \\mu\\le L,\\qquad H_1:\\ \\mu>L" ; dct:hasPart ex:l6-legend-hypotheses ; cd:hasSource ex:l6-source-nist-tests ; cd:authoredResource true .
+  ex:l6-legend-hypotheses a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-hypothesis-symbols ; cd:authoredResource true .
+  ex:l6-hypothesis-symbols a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Hypotheses and concentration"@en ; cd:body "H₀ is the null hypothesis and H₁ its alternative; indices 0 and 1 label hypotheses, not observations. μ is the population mean amoxicillin concentration, not an individual result; L is a fixed teaching decision limit, both in µg/L. ≤ means at or below and includes equality; > means strictly above. The colon introduces each hypothesis statement. The alternatives partition the mean values in this example. A reference t distribution is calibrated at the boundary μ = L under independent Normal measurements; the equality sign means equal to. The teaching limit is not a claim about an applicable legal limit."@en ; cd:authoredResource true .
+  ex:l6-alpha-note a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Choose alpha before testing.**\n\n- 5% is a common choice; 1% and 0.1% are stricter choices when false rejection has serious consequences.\n- Which mistake is a false rejection depends on how we write H₀.\n- A smaller alpha protects against that mistake, but can make real differences harder to detect."@en ; cd:authoredResource true .
+  ex:l6-direction-note a cd:Interpretation ; cd:bodyFormat "markdown" ; cd:body "**Not detecting thin ice is not a safety certificate.**\n\nAlpha limits false **go** decisions in A, but false **stay** decisions in B. Thought experiment only: real ice safety also depends on weak spots, ice quality, load and changing conditions."@en ; cd:authoredResource true .
+  ex:l6-ice-title a cd:Interpretation ; skos:prefLabel "H₀: μ ≥ L OR μ ≤ L OR μ = L"@en ; cd:authoredResource true .
+  ex:l6-ice-cards a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l6-ice-a, ex:l6-ice-b, ex:l6s-ice-equal ; cd:authoredResource true .
+  ex:l6-ice-a a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "CONSERVATIVE · EVIDENCE BEFORE GO"@en ; cd:body "- **H₀: μ ≤ L**; **H₁: μ > L**. Here **μ** is the population mean thickness; **L** the model minimum.\n- **GO after rejecting H₀**; otherwise stay.\n- **α** limits false GO decisions under H₀."@en ; cd:authoredResource true .
+  ex:l6-ice-b a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "PROGRESSIVE · GO UNLESS THIN ICE IS DETECTED"@en ; cd:body "- **H₀: μ ≥ L**; **H₁: μ < L**.\n- **GO when H₀ is not rejected**; rejection means stay.\n- False GO below L is a **type II error**."@en ; cd:authoredResource true .
+  ex:l6s-ice-equal a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "EQUALITY · A DIFFERENT APPLICATION"@en ; cd:body "- **H₀: μ = L**; **H₁: μ ≠ L** tests departures in either direction.\n- An equality-only GO policy treats thicker ice as a departure too.\n- Non-rejection cannot establish exact equality. Choose the hypothesis for the actual decision."@en ; cd:authoredResource true .
+  ex:l6-ice-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-frozen-lake.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A person at the shore of a frozen lake asks whether the ice is thick enough to cross. A cutaway shows variable ice thickness above dark water and a local weak spot. Two labels contrast waiting for evidence with setting off unless danger is detected. Conceptual illustration, not a safety assessment."@en ; cd:authoredResource true .
+  ex:l6-errors-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-decision-outcomes.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Four illustrated amoxicillin decisions. At or below the limit: no alarm is correct, alarm is type I error. Above the limit: no alarm is type II error, alarm is correct detection. Labels, warning symbols and crossed-out bells distinguish outcomes without relying on colour."@en ; dct:description "- Amoxicillin alarm: reject the at-or-below-limit null.\n- False alarm: type I. Missed exceedance: type II.\n- Correct silence and correct detection complete the four outcomes."@en ; cd:authoredResource true .
+  ex:l6-alpha-live-title a cd:Interpretation ; skos:prefLabel "α controls type I errors"@en ; cd:authoredResource true .
+  ex:l6-t-live-title a cd:Interpretation ; skos:prefLabel "Move the mean, spread and sample size: where does t land?"@en ; cd:authoredResource true .
+
+  ex:l6-alpha-experiment a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "t-test" ; skos:prefLabel "Amoxicillin: type I versus type II errors"@en ; cd:body "- **H₀ boundary: 1 µg/L; specified H₁ mean: 1.4 µg/L.** Both curves stay fixed; **α moves the cutoff**.\n- Ten independent Normal measurements per study; population SD 0.5 µg/L.\n- Same 4000 studies: lower α means **fewer false rejections**, more missed exceedances."@en ; cd:xAxisLabel "t statistic"@en ; cd:yAxisLabel "Density / probability"@en ; cd:hasExperimentParameter ex:l6-a-view, ex:l6-a-n, ex:l6-a-mean, ex:l6-a-sd, ex:l6-a-reference, ex:l6-a-alpha, ex:l6-a-direction, ex:l6-a-effect, ex:l6-a-M, ex:l6-a-seed ; cd:authoredResource true .
+  ex:l6-t-experiment a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "t-test" ; skos:prefLabel "QC sample: observed t and its p-value"@en ; cd:body "- Fixed QC target: 50 µg/L; alpha 5%, two-sided.\n- Move the mean, SD and independent preparation count.\n- Marker: observed t; shaded tails: p. Model: independent Normal measurements."@en ; cd:xAxisLabel "t statistic"@en ; cd:yAxisLabel "Null-reference density"@en ; cd:hasExperimentParameter ex:l6-q-view, ex:l6-q-n, ex:l6-q-mean, ex:l6-q-sd, ex:l6-q-reference, ex:l6-q-alpha, ex:l6-q-direction, ex:l6-q-effect, ex:l6-q-M, ex:l6-q-seed ; cd:authoredResource true .
+  ex:l6-a-view a cd:ExperimentParameter ; skos:prefLabel "Error trade-off view"@en ; cd:parameterKey "view" ; cd:numericValue 1.0 ; cd:parameterMinimum 1.0 ; cd:parameterMaximum 1.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-a-n a cd:ExperimentParameter ; skos:prefLabel "Independent measurements"@en ; cd:parameterKey "n" ; cd:numericValue 10.0 ; cd:parameterMinimum 10.0 ; cd:parameterMaximum 10.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-a-mean a cd:ExperimentParameter ; skos:prefLabel "Reference mean (µg/L)"@en ; cd:parameterKey "mean" ; cd:numericValue 1.0 ; cd:parameterMinimum 1.0 ; cd:parameterMaximum 1.0 ; cd:parameterStep 0.1 ; cd:adjustableParameter false .
+  ex:l6-a-sd a cd:ExperimentParameter ; skos:prefLabel "Assumed population SD (µg/L)"@en ; cd:parameterKey "sd" ; cd:numericValue 0.5 ; cd:parameterMinimum 0.5 ; cd:parameterMaximum 0.5 ; cd:parameterStep 0.1 ; cd:adjustableParameter false .
+  ex:l6-a-reference a cd:ExperimentParameter ; skos:prefLabel "Teaching limit (µg/L)"@en ; cd:parameterKey "reference" ; cd:numericValue 1.0 ; cd:parameterMinimum 1.0 ; cd:parameterMaximum 1.0 ; cd:parameterStep 0.1 ; cd:adjustableParameter false .
+  ex:l6-a-alpha a cd:ExperimentParameter ; skos:prefLabel "Alpha: allowed false-rejection risk"@en ; cd:parameterKey "alpha" ; cd:numericValue 0.05 ; cd:parameterMinimum 0.001 ; cd:parameterMaximum 0.1 ; cd:parameterStep 0.001 ; cd:adjustableParameter true .
+  ex:l6-a-direction a cd:ExperimentParameter ; skos:prefLabel "Upper-tail test"@en ; cd:parameterKey "direction" ; cd:numericValue 1.0 ; cd:parameterMinimum 1.0 ; cd:parameterMaximum 1.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-a-effect a cd:ExperimentParameter ; skos:prefLabel "True excess at the specified alternative (µg/L)"@en ; cd:parameterKey "effect" ; cd:numericValue 0.4 ; cd:parameterMinimum 0.4 ; cd:parameterMaximum 0.4 ; cd:parameterStep 0.1 ; cd:adjustableParameter false .
+  ex:l6-a-M a cd:ExperimentParameter ; skos:prefLabel "Simulated studies"@en ; cd:parameterKey "M" ; cd:numericValue 4000.0 ; cd:parameterMinimum 4000.0 ; cd:parameterMaximum 4000.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-a-seed a cd:ExperimentParameter ; skos:prefLabel "Reproducible seed"@en ; cd:parameterKey "seed" ; cd:numericValue 617.0 ; cd:parameterMinimum 617.0 ; cd:parameterMaximum 617.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-q-view a cd:ExperimentParameter ; skos:prefLabel "Observed t view"@en ; cd:parameterKey "view" ; cd:numericValue 0.0 ; cd:parameterMinimum 0.0 ; cd:parameterMaximum 0.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-q-n a cd:ExperimentParameter ; skos:prefLabel "Independent preparations n"@en ; cd:parameterKey "n" ; cd:numericValue 6.0 ; cd:parameterMinimum 3.0 ; cd:parameterMaximum 40.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter true .
+  ex:l6-q-mean a cd:ExperimentParameter ; skos:prefLabel "Sample mean (µg/L)"@en ; cd:parameterKey "mean" ; cd:numericValue 48.5 ; cd:parameterMinimum 47.0 ; cd:parameterMaximum 53.0 ; cd:parameterStep 0.1 ; cd:adjustableParameter true .
+  ex:l6-q-sd a cd:ExperimentParameter ; skos:prefLabel "Sample SD (µg/L)"@en ; cd:parameterKey "sd" ; cd:numericValue 2.0 ; cd:parameterMinimum 1.0 ; cd:parameterMaximum 6.0 ; cd:parameterStep 0.1 ; cd:adjustableParameter true .
+  ex:l6-q-reference a cd:ExperimentParameter ; skos:prefLabel "Fixed QC target (µg/L)"@en ; cd:parameterKey "reference" ; cd:numericValue 50.0 ; cd:parameterMinimum 50.0 ; cd:parameterMaximum 50.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-q-alpha a cd:ExperimentParameter ; skos:prefLabel "Chosen alpha"@en ; cd:parameterKey "alpha" ; cd:numericValue 0.05 ; cd:parameterMinimum 0.05 ; cd:parameterMaximum 0.05 ; cd:parameterStep 0.01 ; cd:adjustableParameter false .
+  ex:l6-q-direction a cd:ExperimentParameter ; skos:prefLabel "Two-sided question"@en ; cd:parameterKey "direction" ; cd:numericValue 0.0 ; cd:parameterMinimum 0.0 ; cd:parameterMaximum 0.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-q-effect a cd:ExperimentParameter ; skos:prefLabel "Unused alternative departure"@en ; cd:parameterKey "effect" ; cd:numericValue 0.0 ; cd:parameterMinimum 0.0 ; cd:parameterMaximum 0.0 ; cd:parameterStep 0.1 ; cd:adjustableParameter false .
+  ex:l6-q-M a cd:ExperimentParameter ; skos:prefLabel "Studies in simulation view"@en ; cd:parameterKey "M" ; cd:numericValue 4000.0 ; cd:parameterMinimum 4000.0 ; cd:parameterMaximum 4000.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+  ex:l6-q-seed a cd:ExperimentParameter ; skos:prefLabel "Reproducible seed"@en ; cd:parameterKey "seed" ; cd:numericValue 617.0 ; cd:parameterMinimum 617.0 ; cd:parameterMaximum 617.0 ; cd:parameterStep 1.0 ; cd:adjustableParameter false .
+}
+<https://w3id.org/project-chemie-digital/graph/sources/level6-statistical-tests> {
+  ex:l6-source-nist-tests cd:supportsResource ex:l6-formula-hypotheses .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+  ex:l6-scene02 cd:hasSceneItem ex:l6-i02v .
+  ex:l6-i02v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-questions-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene03 cd:hasSceneItem ex:l6-i03v .
+  ex:l6-i03v a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-hypothesis-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i03f a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-formula-hypotheses ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i03l a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l6-legend-hypotheses ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene04b a cd:SceneDefinition ; cd:focusConcept ex:l6-hypothesis ; cd:hasSceneItem ex:l6-i04bh, ex:l6-i04bv, ex:l6-i04bb ; cd:authoredResource true .
+  ex:l6-i04bh a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-ice-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i04bv a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-ice-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i04bb a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-ice-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene05 cd:hasSceneItem ex:l6-i05r .
+  ex:l6-i05r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-errors-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene05b a cd:SceneDefinition ; cd:focusConcept ex:l6-alpha ; cd:hasSceneItem ex:l6-i05bh, ex:l6-i05bc ; cd:authoredResource true .
+  ex:l6-i05bh a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-alpha-live-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i05bc a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-alpha-experiment ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene06 cd:hasSceneItem ex:l6-i06v .
+  ex:l6-i06v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-df-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene09 cd:hasSceneItem ex:l6-i09v .
+  ex:l6-i09v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-t-comparisons-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene11b a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i11bh, ex:l6-i11bc ; cd:authoredResource true .
+  ex:l6-i11bh a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-t-live-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i11bc a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-t-experiment ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+  ex:l6-step02 cd:usesResource ex:l6-questions-art .
+  ex:l6-step03 cd:usesResource ex:l6-hypothesis-art, ex:l6-formula-hypotheses, ex:l6-legend-hypotheses .
+  ex:l6-step04b a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l6-scene04b ; cd:usesResource ex:l6-ice-title, ex:l6-ice-art, ex:l6-ice-cards ; cd:authoredResource true .
+  ex:l6-step05 cd:usesResource ex:l6-errors-art .
+  ex:l6-step05b a cd:PathStep ; cd:position 7 ; cd:usesScene ex:l6-scene05b ; cd:usesResource ex:l6-alpha-live-title, ex:l6-alpha-experiment ; cd:authoredResource true .
+  ex:l6-step06 cd:usesResource ex:l6-df-art .
+  ex:l6-step09 cd:usesResource ex:l6-t-comparisons-art .
+  ex:l6-step11b a cd:PathStep ; cd:position 12 ; cd:usesScene ex:l6-scene11b ; cd:usesResource ex:l6-t-live-title, ex:l6-t-experiment ; cd:authoredResource true .
+}

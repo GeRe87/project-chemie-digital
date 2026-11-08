@@ -82,7 +82,8 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
             )
 
         self.assertIn((f"{EX}path-level5-review-complete", f"{GRAPH}paths/level5-review-complete"), binding_pairs)
-        expected_renderable_count = 6 if introduction_id in placements else 5
+        self.assertIn((f"{EX}path-level6-statistical-tests", f"{GRAPH}paths/level6-statistical-tests"), binding_pairs)
+        expected_renderable_count = 7 if introduction_id in placements else 6
         self.assertEqual(
             expected_renderable_count,
             len(artifact["sceneDocuments"]),

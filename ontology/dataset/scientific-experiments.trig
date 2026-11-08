@@ -20,8 +20,17 @@
 <https://w3id.org/project-chemie-digital/graph/shapes/scientific-experiments> {
  cd:ScientificExperimentShape a sh:NodeShape ; sh:targetSubjectsOf cd:experimentKind ;
   sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ;
-  sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" ) ] ;
-  sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 1 ; sh:class cd:ExperimentParameter ; sh:nodeKind sh:IRI ] .
+   sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" "t-test" "pairwise-score" ) ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 1 ; sh:class cd:ExperimentParameter ; sh:nodeKind sh:IRI ] ;
+  sh:or (
+   [ sh:not [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "pairwise-score" ] ] ]
+   [ sh:property [ sh:path cd:usesDataset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Dataset ; sh:node [
+       sh:property [ sh:path cd:hasObservation ; sh:minCount 2 ; sh:maxCount 16 ; sh:node [
+         sh:property [ sh:path cd:pairedValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( 0.0 1.0 ) ] ;
+         sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ]
+       ] ]
+   ] ] ]
+  ) .
  cd:ExperimentParameterShape a sh:NodeShape ; sh:targetClass cd:ExperimentParameter ;
   sh:property [ sh:path cd:parameterKey ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
   sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:parameterMaximum ] ;

@@ -1349,7 +1349,7 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
     chart_type = one(dataset, chart, iri(CD, "chartType"))
     if chart_type == iri(CD,"ScientificExperiment"):
         kind=literal(dataset,chart,iri(CD,"experimentKind"))
-        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson"):raise ValueError("Unknown scientific experiment mechanism")
+        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson","t-test","pairwise-score"):raise ValueError("Unknown scientific experiment mechanism")
         parameter_ids=sorted(objects(dataset,chart,iri(CD,"hasExperimentParameter")),key=lambda p:integer(dataset,p,iri(CD,"position")))
         parameters=[]
         for resource in parameter_ids:
@@ -2123,6 +2123,19 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             reveal_stage = one(dataset, item, iri(CD, "revealAtStage"), required=False)
             reveal_on = one(dataset, item, iri(CD, "revealOn"), required=False)
             optional_code = one(dataset, item, iri(CD, "optionalCode"), required=False)
+            optional_material = one(dataset, item, iri(CD, "optionalMaterial"), required=False)
+            if optional_material is not None:
+                if not isinstance(optional_material, Literal) or optional_material.datatype != XSD.boolean:
+                    raise ValueError("Optional material requires an authored boolean")
+                if optional_material.toPython():
+                    if block["kind"] != "media-reference" or not block.get("mediaType", "").startswith("image/"):
+                        raise ValueError("Optional supporting material must be an illustration; formulas and symbol legends remain required")
+                    if reveal_stage is not None or reveal_on is not None:
+                        raise ValueError("Optional material cannot also be a required reveal")
+                    for expanded in blocks[expansion_start:]:
+                        expanded["disclosure"] = {"order": position - 1, "mode": "optional"}
+                        expanded["accessibility"] = {"label": resource_text(dataset, selected, language or "en")}
+                        expanded["source"].append(source_reference(dataset, item, "cd:optionalMaterial"))
             if optional_code is not None:
                 if not isinstance(optional_code, Literal) or optional_code.datatype != XSD.boolean or block["kind"] != "code":
                     raise ValueError("Optional code requires a boolean on a code scene item")

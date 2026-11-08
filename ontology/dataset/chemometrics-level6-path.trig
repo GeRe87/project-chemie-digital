@@ -1,0 +1,75 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
+  ex:teaching-offering-chemometrics-applied-statistics cd:hasUnitPlacement ex:unit-placement-chemometrics-statistical-tests .
+  ex:offering-section-chemometrics-similarity-analysis cd:groupsUnitPlacement ex:unit-placement-chemometrics-statistical-tests .
+  ex:unit-placement-chemometrics-statistical-tests a cd:UnitPlacement ; cd:position 70 ; cd:placesLearningUnit ex:learning-unit-statistical-tests .
+  ex:learning-unit-statistical-tests a cd:LearningUnit ; skos:prefLabel "Statistical Tests"@en ; cd:hasFocusConcept ex:l6-statistical-testing, ex:l6-hypothesis, ex:l6-alpha, ex:l6-df, ex:l6-p-value, ex:l6-t-test, ex:l6-multiplicity, ex:l6-f-test, ex:l6-chi-test, ex:l6-mann-whitney, ex:l6-wilcoxon, ex:l6-effect, ex:l6-cliff, ex:l6-grubbs .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork> {
+  ex:learning-unit-statistical-tests cd:hasThumbnail ex:world-statistical-tests-art .
+  ex:world-statistical-tests-art a cd:MediaAsset ; cd:uri "/course-world/statistical-tests.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Decorative research island with a laboratory, a balance and a reference-curve panel, suggesting statistical comparison. Course artwork, not observations."@en ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests> {
+  ex:path-level6-statistical-tests a cd:LearningPath ; skos:prefLabel "Statistical Tests"@en ; cd:forLearningUnit ex:learning-unit-statistical-tests ; cd:forTopic ex:l6-statistical-testing, ex:l6-hypothesis, ex:l6-alpha, ex:l6-df, ex:l6-p-value, ex:l6-t-test, ex:l6-multiplicity, ex:l6-f-test, ex:l6-chi-test, ex:l6-mann-whitney, ex:l6-wilcoxon, ex:l6-effect, ex:l6-cliff, ex:l6-grubbs ; cd:authoredResource true ;
+    cd:hasStep ex:l6s-p01, ex:l6s-p02, ex:l6s-p03, ex:l6s-p04, ex:l6s-p05, ex:l6s-p06, ex:l6s-p07, ex:l6s-p08, ex:l6s-p09, ex:l6s-p10, ex:l6s-p11, ex:l6s-p12, ex:l6s-p13, ex:l6s-p14, ex:l6s-p15, ex:l6s-p16, ex:l6s-p17, ex:l6s-p18, ex:l6s-p19, ex:l6s-p20, ex:l6s-p21, ex:l6s-p22, ex:l6s-p23, ex:l6s-p24, ex:l6s-p25, ex:l6s-p26, ex:l6s-p27, ex:l6s-p28, ex:l6s-p29, ex:l6s-p30, ex:l6s-p31, ex:l6s-p32, ex:l6s-p33, ex:l6s-p34, ex:l6s-p35, ex:l6s-p36, ex:l6s-p37, ex:l6s-p38, ex:l6s-p39, ex:l6s-p40, ex:l6s-p41, ex:l6s-p42, ex:l6s-p43, ex:l6s-p44, ex:l6s-p45, ex:l6s-p46, ex:l6s-p47, ex:l6s-p48, ex:l6s-p49, ex:l6s-p50, ex:l6s-p51, ex:l6s-p52 .
+  ex:l6-step01 a cd:PathStep ; cd:position 1 ; cd:usesScene ex:l6-scene01 ; cd:usesResource ex:l6-title ; cd:authoredResource true .
+  ex:l6-step02 a cd:PathStep ; cd:position 2 ; cd:usesScene ex:l6-scene02 ; cd:usesResource ex:l6-motivation-title, ex:l6-motivation ; cd:authoredResource true .
+  ex:l6-step03 a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l6-scene03 ; cd:usesResource ex:l6-hypotheses-title, ex:l6-hypotheses ; cd:authoredResource true .
+  ex:l6-step04 a cd:PathStep ; cd:position 4 ; cd:usesScene ex:l6-scene04 ; cd:usesResource ex:l6-directions-title, ex:l6-directions ; cd:authoredResource true .
+  ex:l6-step05 a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l6-scene05 ; cd:usesResource ex:l6-alpha-title, ex:l6-errors ; cd:authoredResource true .
+  ex:l6-step06 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l6-scene06 ; cd:usesResource ex:l6-df-title, ex:l6-df-cards ; cd:authoredResource true .
+  ex:l6-step07 a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l6-scene07 ; cd:usesResource ex:l6-p-title, ex:l6-p-cards, ex:l6-tail-art ; cd:authoredResource true .
+  ex:l6-step08 a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l6-scene08 ; cd:usesResource ex:l6-t-p-title, ex:l6-formula-t-p, ex:l6-legend-t-p ; cd:authoredResource true .
+  ex:l6-step09 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:l6-scene09 ; cd:usesResource ex:l6-t-title, ex:l6-t-cards ; cd:authoredResource true .
+  ex:l6-step10 a cd:PathStep ; cd:position 10 ; cd:usesScene ex:l6-scene10 ; cd:usesResource ex:l6-t-table-title, ex:l6-t-table, ex:l6-t-reading ; cd:authoredResource true .
+  ex:l6-step11 a cd:PathStep ; cd:position 11 ; cd:usesScene ex:l6-scene11 ; cd:usesResource ex:l6-one-t-title, ex:l6-formula-one-t, ex:l6-legend-one-t ; cd:authoredResource true .
+  ex:l6-step12 a cd:PathStep ; cd:position 13 ; cd:usesScene ex:l6-scene12 ; cd:usesResource ex:l6-crm-answer-title, ex:l6-crm-chart ; cd:authoredResource true .
+  ex:l6-step13 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l6-scene13 ; cd:usesResource ex:l6-design-title, ex:l6-design-art ; cd:authoredResource true .
+  ex:l6-step14 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l6-scene14 ; cd:usesResource ex:l6-pooled-title, ex:l6-formula-pooled, ex:l6-legend-pooled ; cd:authoredResource true .
+  ex:l6-step15 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l6-scene15 ; cd:usesResource ex:l6-paired-title, ex:l6-formula-paired, ex:l6-legend-paired ; cd:authoredResource true .
+  ex:l6-step16 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l6-scene16 ; cd:usesResource ex:l6-paired-title, ex:l6-paired-chart ; cd:authoredResource true .
+  ex:l6-step17 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l6-scene17 ; cd:usesResource ex:l6-welch-title, ex:l6-formula-welch, ex:l6-legend-welch ; cd:authoredResource true .
+  ex:l6-step18 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l6-scene18 ; cd:usesResource ex:l6-welch-title, ex:l6-welch-chart ; cd:authoredResource true .
+  ex:l6-step19 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l6-scene19 ; cd:usesResource ex:l6-cascade-title, ex:l6-cascade ; cd:authoredResource true .
+  ex:l6-step20 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l6-scene20 ; cd:usesResource ex:l6-bonferroni-title, ex:l6-formula-bonferroni, ex:l6-legend-bonferroni ; cd:authoredResource true .
+  ex:l6-step21 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l6-scene21 ; cd:usesResource ex:l6-multiple-title, ex:l6-multiple, ex:l6-multiple-reading ; cd:authoredResource true .
+  ex:l6-step22 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l6-scene22 ; cd:usesResource ex:l6-f-title, ex:l6-f-cards ; cd:authoredResource true .
+  ex:l6-step23 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l6-scene23 ; cd:usesResource ex:l6-f-table-title, ex:l6-f-table, ex:l6-f-reading ; cd:authoredResource true .
+  ex:l6-step24 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l6-scene24 ; cd:usesResource ex:l6-f-ratio-title, ex:l6-formula-f-ratio, ex:l6-legend-f-ratio ; cd:authoredResource true .
+  ex:l6-step25 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l6-scene25 ; cd:usesResource ex:l6-f-ratio-title, ex:l6-f-ratio-case ; cd:authoredResource true .
+  ex:l6-step26 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l6-scene26 ; cd:usesResource ex:l6-f-special-title, ex:l6-f-special ; cd:authoredResource true .
+  ex:l6-step27 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l6-scene27 ; cd:usesResource ex:l6-nested-title, ex:l6-formula-nested-f, ex:l6-legend-nested-f ; cd:authoredResource true .
+  ex:l6-step28 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l6-scene28 ; cd:usesResource ex:l6-nested-title, ex:l6-nested-case ; cd:authoredResource true .
+  ex:l6-step29 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l6-scene29 ; cd:usesResource ex:l6-anova-title, ex:l6-formula-anova, ex:l6-legend-anova ; cd:authoredResource true .
+  ex:l6-step30 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l6-scene30 ; cd:usesResource ex:l6-anova-title, ex:l6-anova-chart ; cd:authoredResource true .
+  ex:l6-step31 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l6-scene31 ; cd:usesResource ex:l6-chi-title, ex:l6-chi-cards ; cd:authoredResource true .
+  ex:l6-step32 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l6-scene32 ; cd:usesResource ex:l6-variance-title, ex:l6-formula-variance-chi, ex:l6-legend-variance-chi ; cd:authoredResource true .
+  ex:l6-step33 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l6-scene33 ; cd:usesResource ex:l6-variance-title, ex:l6-variance-case ; cd:authoredResource true .
+  ex:l6-step34 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l6-scene34 ; cd:usesResource ex:l6-pearson-title, ex:l6-formula-pearson, ex:l6-legend-pearson ; cd:authoredResource true .
+  ex:l6-step35 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l6-scene35 ; cd:usesResource ex:l6-pearson-title, ex:l6-pearson-case ; cd:authoredResource true .
+  ex:l6-step36 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l6-scene36 ; cd:usesResource ex:l6-independence-title, ex:l6-formula-independence, ex:l6-legend-independence ; cd:authoredResource true .
+  ex:l6-step37 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l6-scene37 ; cd:usesResource ex:l6-independence-title, ex:l6-independence-case ; cd:authoredResource true .
+  ex:l6-step38 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l6-scene38 ; cd:usesResource ex:l6-mw-title, ex:l6-mw-cards ; cd:authoredResource true .
+  ex:l6-step39 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l6-scene39 ; cd:usesResource ex:l6-u-title, ex:l6-formula-u, ex:l6-legend-u ; cd:authoredResource true .
+  ex:l6-step40 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l6-scene40 ; cd:usesResource ex:l6-rank-grid-title, ex:l6-cliff-art ; cd:authoredResource true .
+  ex:l6-step41 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l6-scene41 ; cd:usesResource ex:l6-signed-title, ex:l6-formula-signed, ex:l6-legend-signed ; cd:authoredResource true .
+  ex:l6-step42 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l6-scene42 ; cd:usesResource ex:l6-signed-title, ex:l6-signed-case ; cd:authoredResource true .
+  ex:l6-step43 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l6-scene43 ; cd:usesResource ex:l6-power-title, ex:l6-formula-power, ex:l6-legend-power ; cd:authoredResource true .
+  ex:l6-step44 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l6-scene44 ; cd:usesResource ex:l6-power-title, ex:l6-power-art ; cd:authoredResource true .
+  ex:l6-step45 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l6-scene45 ; cd:usesResource ex:l6-effect-title, ex:l6-formula-effect, ex:l6-legend-effect ; cd:authoredResource true .
+  ex:l6-step46 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l6-scene46 ; cd:usesResource ex:l6-effect-title, ex:l6-effect-cards ; cd:authoredResource true .
+  ex:l6-step47 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l6-scene47 ; cd:usesResource ex:l6-cliff-title, ex:l6-formula-cliff, ex:l6-legend-cliff ; cd:authoredResource true .
+  ex:l6-step48 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l6-scene48 ; cd:usesResource ex:l6-cliff-title, ex:l6-cliff-case ; cd:authoredResource true .
+  ex:l6-step49 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l6-scene49 ; cd:usesResource ex:l6-outlier-title, ex:l6-outlier-cards ; cd:authoredResource true .
+  ex:l6-step50 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l6-scene50 ; cd:usesResource ex:l6-grubbs-title, ex:l6-formula-grubbs, ex:l6-legend-grubbs ; cd:authoredResource true .
+  ex:l6-step51 a cd:PathStep ; cd:position 52 ; cd:usesScene ex:l6-scene51 ; cd:usesResource ex:l6-grubbs-critical-title, ex:l6-formula-grubbs-critical, ex:l6-legend-grubbs-critical ; cd:authoredResource true .
+  ex:l6-step52 a cd:PathStep ; cd:position 53 ; cd:usesScene ex:l6-scene52 ; cd:usesResource ex:l6-grubbs-title, ex:l6-grubbs-chart ; cd:authoredResource true .
+  ex:l6-step53 a cd:PathStep ; cd:position 54 ; cd:usesScene ex:l6-scene53 ; cd:usesResource ex:l6-r-title, ex:l6-r-workbench ; cd:authoredResource true .
+  ex:l6-step54 a cd:PathStep ; cd:position 55 ; cd:usesScene ex:l6-scene54 ; cd:usesResource ex:l6-r-title, ex:l6-r-advanced ; cd:authoredResource true .
+  ex:l6-step55 a cd:PathStep ; cd:position 56 ; cd:usesScene ex:l6-scene55 ; cd:usesResource ex:l6-exercise-title, ex:l6-exercise ; cd:authoredResource true .
+  ex:l6-step56 a cd:PathStep ; cd:position 57 ; cd:usesScene ex:l6-scene56 ; cd:usesResource ex:l6-report-title, ex:l6-report ; cd:authoredResource true .
+}

@@ -86,7 +86,9 @@ export type RevealLearningProfile =
   | "process-matrix"
   | "compact-list"
   | "formula-deck"
-  | "visual-formula";
+  | "visual-formula"
+  | "formula-experiment"
+  | "test-report";
 
 export type RevealVisualStageProfile =
   | "diagram"
@@ -599,7 +601,7 @@ export function resolveDefinitionFormulaPairs(scene: Scene): readonly {
   readonly card: Extract<SceneBlock, { kind: "definition-list" }>;
   readonly formula: Extract<SceneBlock, { kind: "math" }>;
 }[] | undefined {
-  const blocks = orderedBlocks(scene);
+  const blocks = orderedBlocks(scene).filter(block=>block.disclosure?.mode!=="optional"&&!(block.kind==="media-reference"&&block.mediaType==="text/html"));
   if (blocks.length === 0) return undefined;
   const body = isHeading(blocks[0]) ? blocks.slice(1) : blocks;
   const paired = body.length % 2 === 1 && isContextProse(body[0]) ? body.slice(1) : body;
@@ -688,7 +690,7 @@ function inferEvidencePracticeGrid(body: readonly SceneBlock[], heading: SceneBl
  * relation evidence; resource equality is used only to resolve that evidence.
  */
 export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan {
-  const blocks = orderedBlocks(scene);
+  const blocks = orderedBlocks(scene).filter(block=>block.disclosure?.mode!=="optional"&&!(block.kind==="media-reference"&&block.mediaType==="text/html"));
   if (blocks.length === 0) return { kind: "stack", placements: [], mainCount: 0 };
 
   const heading = isHeading(blocks[0]) ? blocks[0] : undefined;
@@ -726,6 +728,12 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   // One statistical visual owns the stage; concise conclusions do not compete
   // with its plot area. This signature is independent of chart/subject identity.
+  if (body.length === 2 && body.some(block => block.kind === "media-reference" && block.mediaType?.startsWith("image/"))
+      && body.some(block => block.kind === "prose")) {
+    return {kind:"visual-stage",profile:"diagram",mainCount:1,placements:[...placementsWithHeading(heading),
+      placement(body.find(block=>block.kind==="media-reference")!,"main",0),
+      placement(body.find(block=>block.kind==="prose")!,"footer",0)]};
+  }
   if (body.length === 2 && body.some(block => block.kind === "chart") && body.some(block => block.kind === "list")) {
     const placements = placementsWithHeading(heading);
     placements.push(placement(body.find(block => block.kind === "chart")!, "main", 0));
@@ -763,6 +771,24 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
       placements: [...placementsWithHeading(heading), placement(body[0], "primary", 0), placement(body[1], "secondary", 0)] };
   }
   const formulaUnits = resolveFormulaLegendUnits(scene);
+  // A report is a peer of its measured evidence. Order does not depend on ids.
+  const reportVisual = body.find(b => b.kind === "chart" || b.kind === "media-reference" || b.kind === "definition-list");
+  const reportTable = body.find(b => b.kind === "table");
+  if (!formulaUnits.length && reportVisual && reportTable && body.length === 2) {
+    return {kind:"learning-stage",profile:"test-report",mainCount:2,placements:[
+      ...placementsWithHeading(heading),placement(reportVisual,"primary",0),placement(reportTable,"secondary",0)]};
+  }
+  if (formulaUnits.length === 1) {
+    const unitIds = new Set(formulaUnits[0]!.map(b => b.id));
+    const other = body.filter(b => !unitIds.has(b.id));
+    const setup = other.find(b => b.kind === "media-reference");
+    const guides = other.filter(b => b.kind === "definition-list" || b.kind === "prose");
+    if (setup && body.indexOf(setup) > body.findIndex(b=>unitIds.has(b.id))
+        && other.length === 1 + guides.length && guides.length <= 1) {
+      return {kind:"learning-stage",profile:"formula-experiment",mainCount:2,placements:[
+        ...placementsWithHeading(heading),...body.map((b,i)=>placement(b,unitIds.has(b.id)?"primary":b===setup?"secondary":"footer",i))]};
+    }
+  }
   // Data, one complete calculation and an optional authored interpretation
   // share top-aligned peer surfaces. Preserve formula/legend ownership.
   if (formulaUnits.length === 1) {

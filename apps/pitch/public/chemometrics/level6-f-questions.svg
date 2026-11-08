@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="250" viewBox="0 0 1100 250" role="img" aria-labelledby="t d">
+<title id="t">Two questions using an F reference</title><desc id="d">Left: narrow and wide schematic repeat-measurement bands around the same centre illustrate precision comparison. Right: a flat and a sloped calibration line illustrate comparing two models fitted to one dataset. These are conceptual drawings, not observations or fitted experimental results.</desc>
+<rect x="2" y="2" width="1096" height="246" rx="14" fill="#f4f8fc" stroke="#56809c"/>
+<path d="M550 25V225" stroke="#a0b8c8"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147"><g font-size="22" font-weight="bold"><text x="32" y="40">TWO MEASUREMENT METHODS</text><text x="590" y="40">TWO FITS TO ONE DATASET</text></g>
+<text x="35" y="96" font-size="20">Method A</text><text x="35" y="157" font-size="20">Method B</text><text x="65" y="218" font-size="18">Compare estimated variances</text>
+<text x="870" y="94" font-size="18" fill="#7545a0">Add a slope</text><text x="870" y="160" font-size="18" fill="#246e96">Flat model</text><text x="600" y="218" font-size="18">Compare explained and remaining scatter</text></g>
+<path d="M340 58V183" stroke="#6b8597" stroke-dasharray="5 4"/><rect x="225" y="73" width="230" height="32" rx="16" fill="#cbb6e4"/><rect x="280" y="134" width="120" height="32" rx="16" fill="#8bc9df"/><path d="M225 89H455M280 150H400" stroke="#20485e" stroke-width="3"/>
+<path d="M610 185V62M610 185H1040" fill="none" stroke="#20485e" stroke-width="2"/><path d="M630 150H1030" stroke="#246e96" stroke-width="4"/><path d="M630 174L1030 68" stroke="#7545a0" stroke-width="4"/>
+</svg>

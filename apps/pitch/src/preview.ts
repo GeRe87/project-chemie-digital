@@ -232,6 +232,12 @@ function appendBlock(
     return;
   }
   if (block.kind === "media-reference") {
+    if(block.mediaType==='text/html'){
+      const link=dom.createElement('a');link.className='reference-link';
+      if(!/^https:\/\//u.test(block.uri))throw new Error('Reference links require HTTPS');
+      link.setAttribute('href',block.uri);link.setAttribute('target','_blank');link.setAttribute('rel','noopener noreferrer');
+      link.textContent=block.alternativeText+' ↗';sourceAttributes(link,block.source);parent.appendChild(link);return;
+    }
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
     blockPresentationAttributes(figure, block, compositionDensity, compositionPlacement);
@@ -264,7 +270,7 @@ function appendBlock(
     }
     if(block.caption){
       const caption=dom.createElement('figcaption');caption.className='media-caption';
-      caption.textContent=block.caption;figure.appendChild(caption);
+      caption.innerHTML=teachingTextMarkup(block.caption);figure.appendChild(caption);
     }
     parent.appendChild(figure);
     return;
@@ -304,7 +310,7 @@ function appendBlock(
       term.setAttribute("data-card-number", String(index + 1).padStart(2, "0"));
       const title = dom.createElement("span");
       title.className = "definition-list-title";
-      const symbolDefinitions=entry.symbol?renderSymbolDefinitions(entry.explanation??entry.description??""):undefined;
+      const symbolDefinitions=renderSymbolDefinitions(entry.explanation??entry.description??"");
       if(symbolDefinitions)title.textContent=entry.term;
       else if (entry.symbol) title.innerHTML = katex.renderToString(entry.expression ?? entry.term, { displayMode: false, output: "htmlAndMathml", throwOnError: false, trust: false }) + ":";
       else if (/^[^\s]+(?:[, ]+(?:and )?[^\s]+)*$/u.test(entry.term)&&/[₀-₉ₐ-ₜᵢ-ᵥⱼΣ√\p{M}]|^[a-zA-Z]$/u.test(entry.term))title.innerHTML=symbolLegendMarkup(entry.term);
@@ -681,19 +687,23 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       }
       return region;
     };
+    let referenceRail: MinimalElement | undefined;
     let optionalContent: MinimalElement | undefined;
-    const optionalParent = (): MinimalElement => {
+    let formulaSupportParent: MinimalElement | undefined;
+    const optionalParent = (block:SceneBlock): MinimalElement => {
       if (optionalContent) return optionalContent;
       const details = dom.createElement("details");
       details.className = "pcd-optional-material";
       details.setAttribute("data-presentation-interactive", "true");
       const summary = dom.createElement("summary");
-      summary.textContent = "Experiment details / R";
+      summary.textContent = block.accessibility?.label??"Experiment details / R";
       details.appendChild(summary);
       optionalContent = dom.createElement("div");
       optionalContent.className = "pcd-optional-material-content";
       details.appendChild(optionalContent);
-      section.appendChild(details);
+      if(block.kind==='media-reference'&&formulaSupportParent){
+        details.className+=' pcd-optional-material-inline';formulaSupportParent.appendChild(details);
+      }else section.appendChild(details);
       return optionalContent;
     };
     const placementParent = (placement: RevealCompositionPlacement | undefined, block: SceneBlock): MinimalElement => {
@@ -717,8 +727,12 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
       if (block.disclosure?.mode === "optional") {
-        appendBlock(optionalParent(), dom, block, headingId);
+        appendBlock(optionalParent(block), dom, block, headingId);
         continue;
+      }
+      if(block.kind==='media-reference'&&block.mediaType==='text/html'){
+        if(!referenceRail){referenceRail=dom.createElement('footer');referenceRail.className='scene-references';section.appendChild(referenceRail);}
+        appendBlock(referenceRail,dom,block,headingId);continue;
       }
       if (embeddedFormulaIds.has(blockId)) continue;
       if (formulaUnitChildren.has(blockId)) continue;
@@ -729,6 +743,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         const unit = dom.createElement("div");
         unit.className = "formula-with-legend";
         placementParent(compositionPlacement, block).appendChild(unit);
+        formulaSupportParent??=placementParent(compositionPlacement,block);
         for (const child of formulaUnit) appendBlock(unit, dom, child, headingId, compositionFit.density,
           compositionByBlockId.get(child.id));
         continue;

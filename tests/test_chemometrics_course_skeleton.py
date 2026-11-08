@@ -56,6 +56,7 @@ CHEMOMETRICS_ROWS = [
         str(EX["unit-placement-chemometrics-theoretical-distributions"]),
         str(EX["learning-unit-theoretical-distributions"]),
     ),
+    (70, str(EX["unit-placement-chemometrics-statistical-tests"]), str(EX["learning-unit-statistical-tests"])),
 ]
 
 SECTION_SPECS = [
@@ -83,7 +84,7 @@ SECTION_SPECS = [
         EX["offering-section-chemometrics-similarity-analysis"],
         "Theoretical Distributions & Similarity Analysis",
         "Theoretical distributions: density, cumulative probability and quantiles; normal, lognormal, chi-square, Student-t and F models. Follow-up topics: hypothesis testing, t- and F-tests, distribution tests, ANOVA, multivariate similarity, clustering and component analysis.",
-        (EX["unit-placement-chemometrics-theoretical-distributions"],),
+        (EX["unit-placement-chemometrics-theoretical-distributions"], EX["unit-placement-chemometrics-statistical-tests"]),
     ),
     (
         40,

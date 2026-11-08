@@ -11,6 +11,8 @@
 .experiment-controls[hidden],.experiment-feedback:empty { display:none!important; }
 .experiment-controls label { display:flex;flex-direction:column;gap:.25rem;min-width:0;font:inherit; }
 .experiment-controls input { box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:.25rem;font:inherit;background:var(--pcd-surface-strong);color:var(--pcd-foreground);border:1px solid var(--pcd-border); }
+.experiment-controls input[type="range"] { padding:0;border:0;background:transparent;accent-color:var(--pcd-foreground);cursor:pointer; }
+.experiment-controls output { font-weight:700; }
 .experiment-panels { display:flex;gap:1rem;min-height:0; }
 .experiment-panels[data-layout="stack"] { flex-direction:column; }
 .experiment-panels[hidden] { display:none!important; }

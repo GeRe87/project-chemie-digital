@@ -17,7 +17,7 @@ export function latexMediaFilename(block:Extract<SceneBlock,{kind:'media-referen
 const EX='https://w3id.org/project-chemie-digital/resource/';
 const expand=(id:string)=>id.startsWith('ex:')?EX+id.slice(3):id;
 const glyphs:Record<string,string>={
-  'ε':'\\varepsilon','κ':'\\kappa','δ':'\\delta','θ':'\\theta','λ':'\\lambda','ρ':'\\rho','Ω':'\\Omega',
+  'ε':'\\varepsilon','κ':'\\kappa','δ':'\\delta','θ':'\\theta','λ':'\\lambda','ρ':'\\rho','Ω':'\\Omega','β':'\\beta',
   '∈':'\\in','ℝ':'\\mathbb{R}','ℤ':'\\mathbb{Z}','ℂ':'\\mathbb{C}','×':'\\times','³':'{}^3','≠':'\\ne','→':'\\to',
   '∑':'\\sum','∛':'\\sqrt[3]{\\vphantom{x}}','𝜇':'\\mu',
   '⁰':'{}^0','⁵':'{}^5','⁶':'{}^6','⁷':'{}^7','⁸':'{}^8','⁹':'{}^9','⁺':'{}^+',
@@ -43,7 +43,7 @@ export function latexText(text:string):string {
 }
 const mathCommands=new Set(['! ',',',';','Gamma','Phi','approx','bar','begin','cdot','cdots','chi','end','exp','frac','ge','infty','int','le','left','ln','mathcal','mathrm','mu','nu','operatorname','pi','qquad','quad','right','sigma','sim','sqrt','sum','text','varphi','phi','alpha','beta','delta','epsilon','varepsilon','theta','lambda','rho','tau','gamma','Delta','Sigma','times','pm','in','to','underbrace','overline','vert','mid','Pr','tfrac','dfrac','mathbf','mathbb','hat','widehat','log','lvert','rvert','vec','substack','limits','neq','ne','leq','geq','dots','equiv']);
 export function latexMath(expression:string):string {
-  const additional=new Set(['prod','kappa','lceil','rceil','lfloor','rfloor','ldots','boxed','Longrightarrow','overset','phantom','textstyle','tilde','xrightarrow']);
+  const additional=new Set(['prod','min','max','kappa','lceil','rceil','lfloor','rfloor','ldots','boxed','Longrightarrow','overset','phantom','textstyle','tilde','xrightarrow']);
   for(const match of expression.matchAll(/\\([A-Za-z]+|.)/gs)){
     if(!['\\',',',';','!','{','}','|',' ','%'].includes(match[1]!)&&!mathCommands.has(match[1]!)&&!additional.has(match[1]!))throw new Error(`Unsupported/unsafe math command: ${match[0]}`);
   }
@@ -344,14 +344,17 @@ export function renderLatexScript(script:ThematicScript):string {
         const entry=byId.get(material.id!)!;const label=latexLabel(material.id!);
         const landscape=material.blocks.some(b=>b.kind==='chart'&&b.chartType==='observations'&&b.view==='moments');
         const longEquation=entry.category==='equation'&&material.blocks.some(b=>b.kind==='math'&&b.derivation);
-        const start=entry.category==='equation'&&!longEquation?'\\begin{samepage}\n':entry.category==='figure'?'\\Needspace{10cm}\n':'\\Needspace{8\\baselineskip}\n';
+        // A samepage environment still permits breaks between paragraphs of a
+        // legend. Box ordinary formula units so equation and full legend travel
+        // together; multi-step derivations retain their breakable layout.
+        const start=entry.category==='equation'&&!longEquation?'\\noindent\\begin{minipage}{\\linewidth}\n':entry.category==='figure'?'\\Needspace{10cm}\n':'\\Needspace{8\\baselineskip}\n';
         const counter=entry.category==='table'?'scripttable':entry.category;
         return (landscape?'\\begin{landscape}\n':'')+`\\par\\medskip\n${start}\\refstepcounter{${counter}}\\label{${label}}\n`+
           `\\noindent\\textbf{${names[entry.category]}~\\ref*{${label}}.} ${latexInline(material.caption!)}\\par\\nopagebreak\n`+
           material.blocks.map(block=>entry.category==='equation'&&block.kind==='definition-list'
             ?`\\par\\noindent\\textbf{${script.language.startsWith('de')?'Symbole':'Symbols'}}\n\n`+
               block.entries.map(legendEntryLatex).join('\n\n')+'\n'
-            :blockLatex(block)).join('\n')+(entry.category==='equation'&&!longEquation?'\n\\end{samepage}':'')+'\n\\medskip\n'+(landscape?'\\end{landscape}\n':'');
+            :blockLatex(block)).join('\n')+(entry.category==='equation'&&!longEquation?'\n\\end{minipage}\\par':'')+'\n\\medskip\n'+(landscape?'\\end{landscape}\n':'');
       }).join('\n')).join('\n\\clearpage\n')+
     '\n\\end{document}\n';
 }

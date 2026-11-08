@@ -2,6 +2,8 @@ import {scaleLinear} from 'd3-scale';
 import {line,area} from 'd3-shape';
 import {runExperiment,validateExperiment,type ExperimentBlock,type ExperimentPanel} from '../../core/src/distribution-experiment.ts';
 import {experimentPlotGeometry,wrapExperimentAxis} from './experiment-layout.ts';
+import {mountPairwiseScore} from './pairwise-score.ts';
+import {renderInlineText} from '../../renderer-shared/src/inline-math.ts';
 const NS='http://www.w3.org/2000/svg';
 const format=(v:number|string)=>typeof v==='string'?v:Math.abs(v)<1e-4&&v!==0?v.toExponential(2):Number(v.toPrecision(4)).toString();
 /** Presentation emphasis only: the complete numerical result remains in details
@@ -9,7 +11,8 @@ const format=(v:number|string)=>typeof v==='string'?v:Math.abs(v)<1e-4&&v!==0?v.
 export function teachingReadouts(block:ExperimentBlock,result:ReturnType<typeof runExperiment>,values:Record<string,number>={}){
  const parameter=(key:string)=>values[key]??block.parameters.find(p=>p.key===key)?.value;
  const only=(labels:string[])=>result.readouts.filter(v=>labels.includes(v.label));
- switch(block.experimentKind){
+  switch(block.experimentKind){
+   case 't-test':return parameter('view')===1?only(['Worst-case type I error (%)','Simulated type II error (%)']):result.readouts;
   case 'normal':{
    if(parameter('view')===5||parameter('view')===4)return result.readouts;
    if(parameter('view')===3)return only(['Selected upper-tail rate','Central coverage','Total outside both bounds']);
@@ -35,24 +38,31 @@ export function teachingReadouts(block:ExperimentBlock,result:ReturnType<typeof 
 }
 export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
  if(typeof HTMLElement==='undefined'||!(host instanceof HTMLElement))return{diagnostics:[{code:'INVALID_EXPERIMENT_HOST',message:'Expected HTML host'}]};
-  validateExperiment(block);const root=document.createElement('figure');root.className='distribution-experiment pcd-interactive';root.dataset.presentationInteractive='true';root.dataset.experimentKind=block.experimentKind;root.setAttribute('role','region');root.setAttribute('aria-label',block.label);
+   validateExperiment(block);if(block.experimentKind==='pairwise-score')return mountPairwiseScore(host,block);
+   const root=document.createElement('figure');root.className='distribution-experiment pcd-interactive';root.dataset.presentationInteractive='true';root.dataset.experimentKind=block.experimentKind;root.setAttribute('role','region');root.setAttribute('aria-label',block.label);
   const controls=document.createElement('div');controls.className='experiment-controls pcd-interactive-controls';const panels=document.createElement('div');panels.className='experiment-panels';const output=document.createElement('div');output.className='experiment-readouts';output.setAttribute('role','status');output.setAttribute('aria-live','polite');
   const description=document.createElement('div');description.className='experiment-description';
    description.textContent=block.label;
    const authoredDescription=document.createElement('figcaption');authoredDescription.className='experiment-caption';
-   const captionText=document.createElement('p');captionText.className='experiment-caption-text';captionText.textContent=block.description;
+   const captionText=document.createElement('div');captionText.className='experiment-caption-text';
+   const captionLines=block.description.split(/\r?\n/).filter(s=>s.trim());
+   if(captionLines.length&&captionLines.every(s=>s.startsWith('- '))){const list=document.createElement('ul');for(const line of captionLines){const li=document.createElement('li');li.innerHTML=renderInlineText(line.slice(2));list.append(li);}captionText.append(list);}else captionText.innerHTML=renderInlineText(block.description);
    authoredDescription.append(captionText,output);
    const note=document.createElement('p');note.className='experiment-note';const details=document.createElement('details');details.className='experiment-details pcd-interactive-disclosure';const summary=document.createElement('summary');summary.textContent='Details';summary.setAttribute('aria-label','Model notes and all numerical results');const fallback=document.createElement('pre');details.append(summary,description,note,fallback);
    const settings=document.createElement('details');settings.className='experiment-settings pcd-interactive-disclosure';const settingsSummary=document.createElement('summary');settingsSummary.textContent='Settings';settingsSummary.setAttribute('aria-label','Simulation settings');const advancedControls=document.createElement('div');advancedControls.className='experiment-controls pcd-interactive-controls';settings.append(settingsSummary,advancedControls);
     settingsSummary.onclick=()=>{if(!settings.open)details.open=false;};summary.onclick=()=>{if(!details.open)settings.open=false;};details.ontoggle=()=>{summary.textContent=details.open?'Close details':'Details';};
   const feedback=document.createElement('p');feedback.setAttribute('role','alert');feedback.className='experiment-feedback';
   const comparison=document.createElement('div');comparison.className='experiment-source-comparison';
- const values:Record<string,number>={},inputs=new Map<string,HTMLInputElement>();
+  const values:Record<string,number>={},inputs=new Map<string,HTMLInputElement>(),rangeReadouts=new Map<string,HTMLOutputElement>();
+  const controlValue=(key:string,value:number)=>key==='alpha'?`${format(100*value)}%`:format(value);
  for(const p of block.parameters.filter(p=>p.adjustable)){
-  const label=document.createElement('label');label.textContent=p.label;const input=document.createElement('input');input.type='number';input.min=String(p.minimum);input.max=String(p.maximum);input.step=String(p.step);input.value=String(p.value);input.setAttribute('aria-label',p.label);
-    input.onchange=()=>{try{const candidate={...values,[p.key]:input.valueAsNumber},result=runExperiment(block,candidate);Object.assign(values,candidate);input.removeAttribute('aria-invalid');feedback.textContent='';paint(result);}catch(e){input.setAttribute('aria-invalid','true');feedback.textContent=String(e);}};inputs.set(p.key,input);label.append(input);(p.key==='M'||p.key==='seed'||controls.children.length>=2?advancedControls:controls).append(label);
+   const label=document.createElement('label');label.textContent=p.label;const input=document.createElement('input');input.type=block.experimentKind==='t-test'?'range':'number';input.min=String(p.minimum);input.max=String(p.maximum);input.step=String(p.step);input.value=String(p.value);input.setAttribute('aria-label',p.label);
+    if(input.type==='range'){const value=document.createElement('output');value.textContent=controlValue(p.key,p.value);label.append(value);rangeReadouts.set(p.key,value);}
+    const update=()=>{try{const candidate={...values,[p.key]:input.valueAsNumber},result=runExperiment(block,candidate);Object.assign(values,candidate);const value=rangeReadouts.get(p.key);if(value)value.textContent=controlValue(p.key,input.valueAsNumber);input.removeAttribute('aria-invalid');feedback.textContent='';paint(result);}catch(e){input.setAttribute('aria-invalid','true');feedback.textContent=String(e);}};
+    if(input.type==='range')input.oninput=update;else input.onchange=update;
+    inputs.set(p.key,input);label.append(input);(p.key==='M'||p.key==='seed'||(controls.children.length>=2&&input.type!=='range')?advancedControls:controls).append(label);
  }
-  const reset=document.createElement('button');reset.type='button';reset.textContent='Reset';reset.setAttribute('aria-label','Reset model');reset.onclick=()=>{for(const key of Object.keys(values))delete values[key];for(const p of block.parameters){const input=inputs.get(p.key);if(input){input.value=String(p.value);input.removeAttribute('aria-invalid');}}feedback.textContent='';paint(runExperiment(block));};
+  const reset=document.createElement('button');reset.type='button';reset.textContent='Reset';reset.setAttribute('aria-label','Reset model');reset.onclick=()=>{for(const key of Object.keys(values))delete values[key];for(const p of block.parameters){const input=inputs.get(p.key);if(input){input.value=String(p.value);input.removeAttribute('aria-invalid');const value=rangeReadouts.get(p.key);if(value)value.textContent=controlValue(p.key,p.value);}}feedback.textContent='';paint(runExperiment(block));};
    const actions=document.createElement('div');actions.className='experiment-actions pcd-interactive-controls';actions.append(details);if(advancedControls.children.length)actions.append(settings);if(inputs.size)actions.append(reset);if(!controls.children.length)controls.hidden=true;
    let lastResult:ReturnType<typeof runExperiment>|undefined;
     let lastSize='';
@@ -98,7 +108,10 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
     }
   }
   function paint(result:ReturnType<typeof runExperiment>){
-   lastResult=result;paintPanels(result);
+    lastResult=result;
+    // The model's full numerical fallback remains intact; the error-tradeoff
+    // teaching view presents its reference curve, not a redundant bar panel.
+    paintPanels(block.experimentKind==='t-test'&&(values.view??block.parameters.find(p=>p.key==='view')?.value)===1?{...result,panels:result.panels.slice(0,1)}:result);
   const singleTrial=block.experimentKind==='dilution'&&(values.M??block.parameters.find(p=>p.key==='M')!.value)===1;
   panels.hidden=singleTrial;root.dataset.singleTrial=String(singleTrial);
     const emphasized=teachingReadouts(block,result,values);root.dataset.readoutCount=String(emphasized.length);

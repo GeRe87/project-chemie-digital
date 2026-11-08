@@ -1,6 +1,7 @@
 import type {SceneBlockBase,ChartAxis,SourceReference} from './scene-document.ts';
+import {pairwiseScores} from './pairwise-score.ts';
 import {normalPdf,normalCdf,normalQuantile,studentPdf,studentCdf,fPdf,fCdf,chiPdf,gammaQ,quantile,mean,variance,seededUniform,empiricalQuantile} from './distribution-math.ts';
-export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson'] as const;
+export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson','t-test','pairwise-score'] as const;
 export type ExperimentKind=typeof experimentKinds[number];
 export interface ExperimentParameter {readonly id:string;readonly key:string;readonly label:string;readonly value:number;readonly minimum:number;readonly maximum:number;readonly step:number;readonly adjustable:boolean;readonly source:readonly SourceReference[];}
 export interface ExperimentBlock extends SceneBlockBase {
@@ -8,8 +9,10 @@ export interface ExperimentBlock extends SceneBlockBase {
   readonly xAxis:ChartAxis;readonly yAxis:ChartAxis;readonly parameters:readonly ExperimentParameter[];
   readonly data?:readonly {readonly x:number;readonly y:number;readonly z?:number;readonly label:string;readonly source:readonly SourceReference[]}[];
 }
-const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode']};
+const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode'],'t-test':['view','n','mean','sd','reference','alpha','direction','effect','M','seed'],'pairwise-score':['step']};
 function requiredParameters(b:ExperimentBlock):readonly string[]{
+   if(b.experimentKind==='pairwise-score')return ['step'];
+   if(b.experimentKind==='t-test')return ['view','n','mean','sd','reference','alpha','direction','effect','M','seed'];
   const view=b.parameters.find(p=>p.key==='view')?.value;
   if(b.experimentKind==='student'&&view===4)return ['n','M','sigma','seed'];
   if(b.experimentKind==='f-ratio'&&view===3)return ['nA','nB','M','sigma','seed','reverse'];
@@ -21,16 +24,23 @@ export function validateExperiment(b:ExperimentBlock):void {
   if(requiredParameters(b).some(k=>!keys.has(k)))throw Error(`Missing parameter for ${b.experimentKind}`);
   if(b.data?.some(d=>![d.x,d.y,...(d.z===undefined?[]:[d.z])].every(Number.isFinite)||!d.label||!d.source.length))throw Error('Invalid experiment observations');
   if((b.experimentKind==='calibration'||b.experimentKind==='pearson')&&(!b.data||b.data.length<3))throw Error('This experiment needs authored paired data');
+  if(b.experimentKind==='pairwise-score')pairwiseScores(b);
   // Validate initial execution as well as the transport. Runtime overrides repeat these checks.
   parameterValues(b);
 }
 export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<string,number>>={}):Record<string,number> {
-  const expected=[...requiredParameters(b),...(b.experimentKind==='stress'?['mu','outlierShift','drift']:[])];
+   const expected=[...requiredParameters(b),...(b.experimentKind==='stress'?['mu','outlierShift','drift']:[])];
   const optional:Partial<Record<ExperimentKind,readonly string[]>>={normal:['view','comparisonSigma','band'],lognormal:['view'],signed:['comparisonN'],stress:['view'],means:['comparisonN'],variance:['comparisonN'],student:['view','comparisonN','reference'],'f-ratio':['view'],calibration:['view'],pearson:['view']};
   if(expected.some(k=>!b.parameters.some(p=>p.key===k))||b.parameters.some(p=>![...expected,...(optional[b.experimentKind]??[])].includes(p.key)))throw Error('Missing or unknown experiment parameter');
   if(Object.keys(overrides).some(k=>!b.parameters.some(p=>p.key===k&&p.adjustable)))throw Error('Unknown or fixed experiment parameter');
   const v:Record<string,number>={};for(const p of b.parameters){const x=overrides[p.key]??p.value;if(!Number.isFinite(x)||x<p.minimum||x>p.maximum)throw Error(`Parameter outside authored bounds: ${p.label}`);if(['view','comparisonN','band','n','nA','nB','M','df','seed','steps','mode','overlay','inverse','reverse','source','showQuadratic'].includes(p.key)&&!Number.isInteger(x))throw Error('This experiment parameter must be an integer');v[p.key]=x;}
-  const maxView:Partial<Record<ExperimentKind,number>>={distribution:2,normal:5,lognormal:3,student:4,'f-ratio':3,calibration:2,stress:1,pearson:1};
+    const maxView:Partial<Record<ExperimentKind,number>>={distribution:2,normal:5,lognormal:3,student:4,'f-ratio':3,calibration:2,stress:1,pearson:1};
+   if(b.experimentKind==='pairwise-score'){
+     const count=pairwiseScores(b).length,step=b.parameters.find(parameter=>parameter.key==='step')!;
+     if(step.minimum!==0||step.maximum!==count||step.step!==1)throw Error('Comparison step bounds must cover every pair in integer steps');
+     if(!Number.isInteger(v.step)||v.step<0||v.step>count)throw Error('Invalid comparison step');
+   }
+   maxView['t-test']=1;
   if('view'in v&&(v.view<0||v.view>(maxView[b.experimentKind]??-1)))throw Error('Unknown scientific view');
   if(b.experimentKind==='normal'&&v.view===4&&!(v.comparisonSigma>0))throw Error('Device comparison requires an authored positive comparison SD');
   if(b.experimentKind==='normal'&&v.view===3&&!(v.band>=1&&v.band<=3))throw Error('Coverage requires an authored band in [1,3]');
@@ -44,7 +54,8 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
   if('source'in v&&![0,1,2].includes(v.source))throw Error('Unknown uncertainty source');
   if('steps'in v&&(v.steps<1||v.steps>100))throw Error('Steps must be in [1,100]');
   if('seed'in v&&(v.seed<1||v.seed>=2147483647))throw Error('Invalid Park-Miller seed');
-  if('alpha'in v&&!(v.alpha>0&&v.alpha<1))throw Error('Alpha must be strictly inside (0,1)');
+   if('alpha'in v&&!(v.alpha>0&&v.alpha<1))throw Error('Alpha must be strictly inside (0,1)');
+   if(b.experimentKind==='t-test'&&(!(v.sd>0)||!Number.isInteger(v.direction)||![0,1,2].includes(v.direction)))throw Error('t-test requires positive SD and direction 0 (two-sided), 1 (upper) or 2 (lower)');
   if(b.experimentKind==='distribution'&&(!(v.scale>0)||!(v.width>0)||!(v.probability>0&&v.probability<1)||![0,1].includes(v.family)))throw Error('Invalid general distribution model');
   if('pipetteHalf'in v&&(v.pipetteHalf<0||v.pipetteHalf>=v.pipette||v.flaskHalf<0||v.flaskHalf>=v.flask||v.signalSd<0))throw Error('Invalid dilution uncertainty bounds');
   return v;
@@ -62,7 +73,54 @@ export function runExperiment(b:ExperimentBlock,overrides:Readonly<Record<string
   const p=parameterValues(b,overrides),r:ExperimentResult={panels:[],readouts:[],note:''};const add=(label:string,value:number|string)=>r.readouts.push({label,value});
   const panel=(xLabel:string,yLabel:string,traces:ExperimentTrace[])=>r.panels.push({xLabel,yLabel,traces});
   const uniform=seededUniform(p.seed??1),normal=()=>normalQuantile(uniform());
-  switch(b.experimentKind){
+   switch(b.experimentKind){
+    case 'pairwise-score':{
+     const steps=pairwiseScores(b),current=steps[p.step-1];
+     panel('Comparison','Accumulated score U_X',[{label:'Score account',style:'trajectory',points:[{x:0,y:0},...steps.slice(0,p.step).map((s,i)=>({x:i+1,y:s.total}))]}]);
+     add('Completed comparisons',p.step);add('Score U_X',current?.total??0);
+     if(current){add('Comparison',`${current.x.label} ${current.relation} ${current.y.label}`);add('Points added',current.score);}
+     r.note=steps.map((s,i)=>`${i+1}. ${s.x.label} (${s.x.x}) ${s.relation} ${s.y.label} (${s.y.x}): +${s.score}; account ${s.total}`).join('\n');break;
+    }
+    case 't-test':{
+      const df=p.n-1,t=(p.mean-p.reference)/(p.sd/Math.sqrt(p.n));
+      const upper=1-studentCdf(t,df),lower=studentCdf(t,df);
+      const probability=p.direction===1?upper:p.direction===2?lower:2*(1-studentCdf(Math.abs(t),df));
+      const critical=quantile(x=>studentCdf(x,df),1-p.alpha/(p.direction===0?2:1),0,1000);
+      const rejected=(value:number)=>p.direction===1?value>=critical:p.direction===2?value<=-critical:Math.abs(value)>=critical;
+      const extent=p.view===0?Math.max(6,Math.abs(t)+1):Math.max(6,critical+1);
+      const density=(x:number)=>studentPdf(x,df);
+      const area=(label:string,lo:number,hi:number):ExperimentTrace=>({...curve(label,density,lo,hi),style:'area'});
+      const traces:ExperimentTrace[]=[curve('If H0 holds: t reference',density,-extent,extent)];
+      if(p.view===0){
+        if(p.direction!==1)traces.push(area('Results at least this far below the reference',-extent,p.direction===0?-Math.abs(t):t));
+        if(p.direction!==2)traces.push(area('Results at least this far above the reference',p.direction===0?Math.abs(t):t,extent));
+        panel('t statistic','Reference density',traces);r.panels[0].markers=[{x:t,label:'Your observed t'}];
+         add('Observed t',t);add('ν',df);add('p-value',probability);add('Reject H0 at chosen alpha?',probability<=p.alpha?'Yes':'No');
+        r.note='Move the sample mean, sample SD or independent sample size. Shaded tails count results at least as extreme as yours, assuming the null reference. Compare the full calculated p-value with the chosen alpha; the drawing shows a finite part of the tails.';
+      }else{
+         panel('t statistic','Density',traces);
+        r.panels[0].markers=p.direction===0?[{x:-critical,label:'Reject below'},{x:critical,label:'Reject above'}]:[{x:p.direction===1?critical:-critical,label:'Rejection cutoff'}];
+        const ncp=p.effect*Math.sqrt(p.n)/p.sd;
+         const scales:number[]=[];
+         const values=Array.from({length:p.M},()=>{const z=normal();let ss=0;for(let j=0;j<df;j++)ss+=normal()**2;const scale=Math.sqrt(ss/df);scales.push(scale);return(ncp+z)/scale;});
+         // Conditional Normal mixture estimates the noncentral-t density.
+         // Neither distribution depends on alpha: only the cutoff moves.
+         const alternative=(x:number)=>scales.reduce((sum,q)=>sum+q*normalPdf(x*q-ncp),0)/scales.length;
+          const minimumAlpha=b.parameters.find(parameter=>parameter.key==='alpha')!.minimum;
+          const widestCutoff=quantile(x=>studentCdf(x,df),1-minimumAlpha/(p.direction===0?2:1),0,1000);
+          const bound=Math.max(6,Math.abs(ncp)+6,widestCutoff+1);
+          traces[0]=curve('H₀: reference',density,-bound,bound);
+          if(p.direction!==1)traces.push(area('Type I: H₀ lower rejection tail',-bound,-critical));
+          if(p.direction!==2)traces.push(area('Type I: H₀ upper rejection tail',critical,bound));
+         traces.push(curve('H₁: specified mean (simulated density)',alternative,-bound,bound));
+         const lower=p.direction===1?-bound:-critical,upper=p.direction===2?bound:critical;
+         traces.push({...curve('Type II: H₁ in the non-rejection region',alternative,lower,upper),style:'area'});
+        const misses=values.filter(value=>!rejected(value)).length,beta=misses/p.M;
+         add('Worst-case type I error (%)',100*p.alpha);add('Simulated type II error (%)',100*beta);
+        r.note=`Same ${p.M} seeded independent Normal-sample studies at every alpha. True mean departure ${p.effect}; assumed population SD ${p.sd}; n = ${p.n}. Lower alpha shrinks the rejection region but increases missed differences for this fixed alternative. Beta is simulated, not a probability that H0 is true.`;
+      }
+      break;
+    }
     case 'distribution':{
       // Two explicit absolutely continuous models demonstrate that PDF/CDF are
       // general tools. Both parameterizations retain the same location and SD.

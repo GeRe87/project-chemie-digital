@@ -1,0 +1,207 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-evidence> {
+  ex:l6-power-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-power.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Prospective two-sided known-SD Normal z-test power versus standardized true departure, with alpha 0.05 and independent sample sizes 5,10,20. Larger samples reach a given detection probability at smaller departures; all curves have null rejection probability 0.05. This known-SD illustration is not a t-test power calculation."@en ; dct:description "Example: known SD 0.5 µg/L and a true mean departure of 0.25 µg/L put us at 0.5 on the horizontal axis. Detection chance is about 20% with five independent measurements and 61% with twenty. Two-sided Normal z-test, alpha 5%; plotted points are joined by straight lines. These are not t-test power values."@en ; cd:authoredResource true .
+  ex:l6-design-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-design.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three sampling designs: fixed target, independent groups and matched units linked across two occasions. Connections mean real pairing, not a measured effect."@en ; dct:description "- Fixed reference: one estimated mean.\n- Separate upstream/downstream sites: independent-group comparison.\n- Same oxidation batch before/end: paired comparison."@en ; cd:authoredResource true .
+  ex:l6-tail-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-tail-logic.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Upper-tail t example with ν = 9 at the null mean boundary. Shading to the right of observed t = 2 counts results at least this high under H₀. The probability includes the tail beyond the drawing."@en ; cd:authoredResource true .
+  ex:l6-cliff-art a cd:MediaAsset ; cd:uri "/chemometrics/level6-cliff-grid.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "For X values 1,2,2 and Y values 2,3,4 a.u., a three-by-three labelled pair grid contains zero X wins, seven losses and two ties. Both ties occur against Y equal to 2. Repeated X equal to 2 remains two observations."@en ; dct:description "- X wins 0, loses 7 and ties 2 of nine comparisons.\n- Half credit for ties gives U for X equal to 1.\n- Six original observations, not nine independent units."@en ; cd:authoredResource true .
+  ex:l6-design-title a cd:Interpretation ; skos:prefLabel "One target, separate groups, or paired batches?"@en ; cd:authoredResource true .
+  ex:l6-rank-grid-title a cd:Interpretation ; skos:prefLabel "Nine comparisons: who wins, loses or ties?"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level6-statistical-tests> {
+  ex:l6-scene01 a cd:SceneDefinition ; cd:focusConcept ex:l6-statistical-testing ; cd:hasSceneItem ex:l6-i01h ; cd:authoredResource true .
+  ex:l6-i01h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene02 a cd:SceneDefinition ; cd:focusConcept ex:l6-statistical-testing ; cd:hasSceneItem ex:l6-i02h, ex:l6-i02b ; cd:authoredResource true .
+  ex:l6-i02h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-motivation-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i02b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-motivation ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene03 a cd:SceneDefinition ; cd:focusConcept ex:l6-hypothesis ; cd:hasSceneItem ex:l6-i03h, ex:l6-i03b ; cd:authoredResource true .
+  ex:l6-i03h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-hypotheses-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i03b a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l6r-hypothesis ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene04 a cd:SceneDefinition ; cd:focusConcept ex:l6-hypothesis ; cd:hasSceneItem ex:l6-i04h, ex:l6-i04b ; cd:authoredResource true .
+  ex:l6-i04h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-directions-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i04b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-tree-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene05 a cd:SceneDefinition ; cd:focusConcept ex:l6-alpha ; cd:hasSceneItem ex:l6-i05h, ex:l6-i05b ; cd:authoredResource true .
+  ex:l6-i05h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-alpha-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i05b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-errors ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene06 a cd:SceneDefinition ; cd:focusConcept ex:l6-df ; cd:hasSceneItem ex:l6-i06h, ex:l6-i06b ; cd:authoredResource true .
+  ex:l6-i06h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-df-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i06b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-df-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene07 a cd:SceneDefinition ; cd:focusConcept ex:l6-p-value ; cd:hasSceneItem ex:l6-i07h, ex:l6-i07b, ex:l6-i07v ; cd:authoredResource true .
+  ex:l6-i07h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-p-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i07b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-p-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i07v a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-tail-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene08 a cd:SceneDefinition ; cd:focusConcept ex:l6-p-value ; cd:hasSceneItem ex:l6-i08h, ex:l6-i08f, ex:l6-i08l ; cd:authoredResource true .
+  ex:l6-i08h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-t-p-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i08f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-t-p ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i08l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-t-p ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene09 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i09h, ex:l6-i09b ; cd:authoredResource true .
+  ex:l6-i09h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-t-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i09b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-t-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene10 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i10h, ex:l6-i10b, ex:l6-i10r ; cd:authoredResource true .
+  ex:l6-i10h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-t-table-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i10b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-t-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i10r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-t-reading ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene11 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i11h, ex:l6-i11f, ex:l6-i11l ; cd:authoredResource true .
+  ex:l6-i11h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-one-t-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i11f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-one-t ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i11l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-one-t ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene12 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i12h, ex:l6-i12b ; cd:authoredResource true .
+  ex:l6-i12h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-crm-answer-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i12b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-recovery-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene13 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i13h, ex:l6-i13b ; cd:authoredResource true .
+  ex:l6-i13h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-design-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i13b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-design-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene14 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i14h, ex:l6-i14f, ex:l6-i14l ; cd:authoredResource true .
+  ex:l6-i14h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-pooled-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i14f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-pooled ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i14l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-pooled ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene15 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i15h, ex:l6-i15f, ex:l6-i15l ; cd:authoredResource true .
+  ex:l6-i15h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-paired-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i15f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-paired ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i15l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-paired ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene16 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i16h, ex:l6-i16b ; cd:authoredResource true .
+  ex:l6-i16h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-paired-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i16b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-paired-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene17 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i17h, ex:l6-i17f, ex:l6-i17l ; cd:authoredResource true .
+  ex:l6-i17h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-welch-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i17f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-welch ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i17l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-welch ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene18 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i18h, ex:l6-i18b ; cd:authoredResource true .
+  ex:l6-i18h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-welch-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i18b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-welch-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene19 a cd:SceneDefinition ; cd:focusConcept ex:l6-multiplicity ; cd:hasSceneItem ex:l6-i19h, ex:l6-i19b ; cd:authoredResource true .
+  ex:l6-i19h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-practice-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i19b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-practice ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene20 a cd:SceneDefinition ; cd:focusConcept ex:l6-multiplicity ; cd:hasSceneItem ex:l6-i20h, ex:l6-i20f, ex:l6-i20l ; cd:authoredResource true .
+  ex:l6-i20h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-bonferroni-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i20f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-bonferroni ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i20l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-bonferroni ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene21 a cd:SceneDefinition ; cd:focusConcept ex:l6-multiplicity ; cd:hasSceneItem ex:l6-i21h, ex:l6-i21b, ex:l6-i21r ; cd:authoredResource true .
+  ex:l6-i21h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-multiple-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i21b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-multiple ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i21r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-multiple-reading ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene22 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i22h, ex:l6-i22b ; cd:authoredResource true .
+  ex:l6-i22h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-f-intro ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i22b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-f-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene23 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i23h, ex:l6-i23b, ex:l6-i23r ; cd:authoredResource true .
+  ex:l6-i23h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-f-table-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i23b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-f-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i23r a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-f-reading ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene24 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i24h, ex:l6-i24f, ex:l6-i24l ; cd:authoredResource true .
+  ex:l6-i24h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-f-ratio-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i24f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-f-ratio ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i24l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-f-ratio ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene25 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i25h, ex:l6-i25b ; cd:authoredResource true .
+  ex:l6-i25h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-f-ratio-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i25b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-f-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene26 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i26h ; cd:authoredResource true .
+  ex:l6-i26h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-calibration-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i26b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-f-special ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene27 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i27h, ex:l6-i27f, ex:l6-i27l ; cd:authoredResource true .
+  ex:l6-i27h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-nested-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i27f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-nested-f ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i27l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-nested-f ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene28 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i28h, ex:l6-i28b ; cd:authoredResource true .
+  ex:l6-i28h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-nested-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i28b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-nested-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene29 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i29h, ex:l6-i29f, ex:l6-i29l ; cd:authoredResource true .
+  ex:l6-i29h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-anova-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i29f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-anova ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i29l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-anova ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene30 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i30h, ex:l6-i30b ; cd:authoredResource true .
+  ex:l6-i30h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-anova-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i30b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-anova-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene31 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i31h, ex:l6-i31b ; cd:authoredResource true .
+  ex:l6-i31h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-chi-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i31b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-chi-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene32 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i32h, ex:l6-i32f, ex:l6-i32l ; cd:authoredResource true .
+  ex:l6-i32h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-variance-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i32f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-variance-chi ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i32l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-variance-chi ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene33 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i33h, ex:l6-i33b ; cd:authoredResource true .
+  ex:l6-i33h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-variance-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i33b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-variance-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene34 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i34h, ex:l6-i34f, ex:l6-i34l ; cd:authoredResource true .
+  ex:l6-i34h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-pearson-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i34f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-pearson ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i34l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-pearson ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene35 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i35h, ex:l6-i35b ; cd:authoredResource true .
+  ex:l6-i35h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-pearson-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i35b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-pearson-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene36 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i36h, ex:l6-i36f, ex:l6-i36l ; cd:authoredResource true .
+  ex:l6-i36h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-independence-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i36f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-independence ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i36l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-independence ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene37 a cd:SceneDefinition ; cd:focusConcept ex:l6-chi-test ; cd:hasSceneItem ex:l6-i37h, ex:l6-i37b ; cd:authoredResource true .
+  ex:l6-i37h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-independence-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i37b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-independence-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene38 a cd:SceneDefinition ; cd:focusConcept ex:l6-mann-whitney ; cd:hasSceneItem ex:l6-i38h, ex:l6-i38b ; cd:authoredResource true .
+  ex:l6-i38h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-mw-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i38b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-mw-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene39 a cd:SceneDefinition ; cd:focusConcept ex:l6-mann-whitney ; cd:hasSceneItem ex:l6-i39h, ex:l6-i39f, ex:l6-i39l ; cd:authoredResource true .
+  ex:l6-i39h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-u-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i39f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-u ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i39l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-u ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene40 a cd:SceneDefinition ; cd:focusConcept ex:l6-mann-whitney ; cd:hasSceneItem ex:l6-i40h, ex:l6-i40b ; cd:authoredResource true .
+  ex:l6-i40h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-rank-grid-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i40b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-cliff-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene41 a cd:SceneDefinition ; cd:focusConcept ex:l6-wilcoxon ; cd:hasSceneItem ex:l6-i41h, ex:l6-i41f, ex:l6-i41l ; cd:authoredResource true .
+  ex:l6-i41h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-signed-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i41f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-signed ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i41l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-signed ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene42 a cd:SceneDefinition ; cd:focusConcept ex:l6-wilcoxon ; cd:hasSceneItem ex:l6-i42h, ex:l6-i42b ; cd:authoredResource true .
+  ex:l6-i42h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-signed-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i42b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-signed-report ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene43 a cd:SceneDefinition ; cd:focusConcept ex:l6-power ; cd:hasSceneItem ex:l6-i43h, ex:l6-i43f, ex:l6-i43l ; cd:authoredResource true .
+  ex:l6-i43h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-power-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i43f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-power ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i43l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-power ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene44 a cd:SceneDefinition ; cd:focusConcept ex:l6-power ; cd:hasSceneItem ex:l6-i44h, ex:l6-i44b ; cd:authoredResource true .
+  ex:l6-i44h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-power-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i44b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-power-art ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene45 a cd:SceneDefinition ; cd:focusConcept ex:l6-effect ; cd:hasSceneItem ex:l6-i45h, ex:l6-i45f, ex:l6-i45l ; cd:authoredResource true .
+  ex:l6-i45h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-effect-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i45f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-effect ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i45l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-effect ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene46 a cd:SceneDefinition ; cd:focusConcept ex:l6-effect ; cd:hasSceneItem ex:l6-i46h, ex:l6-i46b ; cd:authoredResource true .
+  ex:l6-i46h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-effect-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i46b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-effect-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene47 a cd:SceneDefinition ; cd:focusConcept ex:l6-cliff ; cd:hasSceneItem ex:l6-i47h, ex:l6-i47f, ex:l6-i47l ; cd:authoredResource true .
+  ex:l6-i47h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-cliff-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i47f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-cliff ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i47l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-cliff ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene48 a cd:SceneDefinition ; cd:focusConcept ex:l6-cliff ; cd:hasSceneItem ex:l6-i48h, ex:l6-i48b ; cd:authoredResource true .
+  ex:l6-i48h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-cliff-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i48b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6r-cliff-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene49 a cd:SceneDefinition ; cd:focusConcept ex:l6-grubbs ; cd:hasSceneItem ex:l6-i49h, ex:l6-i49b ; cd:authoredResource true .
+  ex:l6-i49h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-outlier-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i49b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-outlier-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene50 a cd:SceneDefinition ; cd:focusConcept ex:l6-grubbs ; cd:hasSceneItem ex:l6-i50h, ex:l6-i50f, ex:l6-i50l ; cd:authoredResource true .
+  ex:l6-i50h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6r-grubbs-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i50f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-grubbs ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i50l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-grubbs ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene51 a cd:SceneDefinition ; cd:focusConcept ex:l6-grubbs ; cd:hasSceneItem ex:l6-i51h, ex:l6-i51f, ex:l6-i51l ; cd:authoredResource true .
+  ex:l6-i51h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-grubbs-critical-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i51f a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-formula-grubbs-critical ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i51l a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l6-legend-grubbs-critical ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene52 a cd:SceneDefinition ; cd:focusConcept ex:l6-grubbs ; cd:hasSceneItem ex:l6-i52h, ex:l6-i52b ; cd:authoredResource true .
+  ex:l6-i52h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-grubbs-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i52b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-grubbs-chart ; cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene53 a cd:SceneDefinition ; cd:focusConcept ex:l6-t-test ; cd:hasSceneItem ex:l6-i53h, ex:l6-i53b ; cd:authoredResource true .
+  ex:l6-i53h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-r-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i53b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-r-workbench ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene54 a cd:SceneDefinition ; cd:focusConcept ex:l6-f-test ; cd:hasSceneItem ex:l6-i54h, ex:l6-i54b ; cd:authoredResource true .
+  ex:l6-i54h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-r-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i54b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-r-advanced ; cd:communicativeRole cd:CodeRole ; cd:selectionPath "cd:hasCodeExample" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene55 a cd:SceneDefinition ; cd:focusConcept ex:l6-statistical-testing ; cd:hasSceneItem ex:l6-i55h, ex:l6-i55b ; cd:authoredResource true .
+  ex:l6-i55h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-exercise-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i55b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-exercise ; cd:communicativeRole cd:ExerciseRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-scene56 a cd:SceneDefinition ; cd:focusConcept ex:l6-statistical-testing ; cd:hasSceneItem ex:l6-i56h, ex:l6-i56b ; cd:authoredResource true .
+  ex:l6-i56h a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l6-report-title ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l6-i56b a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l6-report ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:authoredResource true .
+}

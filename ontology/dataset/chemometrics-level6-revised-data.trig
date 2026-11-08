@@ -1,0 +1,49 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+<https://w3id.org/project-chemie-digital/graph/specifications/level6-revised-observations> {
+ ex:l6r-recovery-data a cd:Dataset ; dct:description "Six synthetic independent preparations for a one-sided population mean recovery comparison against an illustrative 80% minimum. Exact target; Normal preparation model."@en ; cd:unit "%" ; cd:hasObservation ex:l6r-rec-o1, ex:l6r-rec-o2, ex:l6r-rec-o3, ex:l6r-rec-o4, ex:l6r-rec-o5, ex:l6r-rec-o6 ; cd:authoredResource true .
+ ex:l6r-rec-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 81.0 ; cd:authoredResource true .
+ ex:l6r-rec-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 80.0 ; cd:authoredResource true .
+ ex:l6r-rec-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 82.0 ; cd:authoredResource true .
+ ex:l6r-rec-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 83.0 ; cd:authoredResource true .
+ ex:l6r-rec-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 81.0 ; cd:authoredResource true .
+ ex:l6r-rec-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 82.0 ; cd:authoredResource true .
+ ex:l6r-paired-data a cd:Dataset ; dct:description "Six independent synthetic oxidation batches. Before concentrations 12,18,9,21,15,25 mg/L; end concentrations 10,15,9,17,12,20 mg/L, in batch order. These observations are the six before-minus-end differences; zero is retained."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l6r-pair-o1, ex:l6r-pair-o2, ex:l6r-pair-o3, ex:l6r-pair-o4, ex:l6r-pair-o5, ex:l6r-pair-o6 ; cd:authoredResource true .
+ ex:l6r-pair-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 2.0 ; cd:authoredResource true .
+ ex:l6r-pair-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 3.0 ; cd:authoredResource true .
+ ex:l6r-pair-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 0.0 ; cd:authoredResource true .
+ ex:l6r-pair-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 4.0 ; cd:authoredResource true .
+ ex:l6r-pair-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 3.0 ; cd:authoredResource true .
+ ex:l6r-pair-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 5.0 ; cd:authoredResource true .
+ ex:l6r-nir-data a cd:Dataset ; dct:description "Five synthetic independent preparations of a homogeneous reference material measured for one pollutant by NIR, µg/L. Not matched to the HPLC-MS preparations."@en ; cd:unit "µg/L" ; cd:hasObservation ex:l6r-nir-o1, ex:l6r-nir-o2, ex:l6r-nir-o3, ex:l6r-nir-o4, ex:l6r-nir-o5 ; cd:authoredResource true .
+ ex:l6r-nir-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 8.0 ; cd:authoredResource true .
+ ex:l6r-nir-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.0 ; cd:authoredResource true .
+ ex:l6r-nir-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 10.0 ; cd:authoredResource true .
+ ex:l6r-nir-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 11.0 ; cd:authoredResource true .
+ ex:l6r-nir-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 12.0 ; cd:authoredResource true .
+ ex:l6r-hplc-data a cd:Dataset ; dct:description "Six synthetic independent preparations of the same homogeneous reference material measured by HPLC-MS, µg/L. Separate independent set, not repeated NIR samples."@en ; cd:unit "µg/L" ; cd:hasObservation ex:l6r-hplc-o1, ex:l6r-hplc-o2, ex:l6r-hplc-o3, ex:l6r-hplc-o4, ex:l6r-hplc-o5, ex:l6r-hplc-o6 ; cd:authoredResource true .
+ ex:l6r-hplc-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 10.0 ; cd:authoredResource true .
+ ex:l6r-hplc-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 12.0 ; cd:authoredResource true .
+ ex:l6r-hplc-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 14.0 ; cd:authoredResource true .
+ ex:l6r-hplc-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 16.0 ; cd:authoredResource true .
+ ex:l6r-hplc-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 18.0 ; cd:authoredResource true .
+ ex:l6r-hplc-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 20.0 ; cd:authoredResource true .
+ ex:l6r-variance-data a cd:Dataset ; dct:description "Six synthetic independent Normal-model results with mean 10 mg/L and sample variance 0.024 squared mg/L. Compare with known target SD 0.10 mg/L."@en ; cd:unit "mg/L" ; cd:hasObservation ex:l6r-var-o1, ex:l6r-var-o2, ex:l6r-var-o3, ex:l6r-var-o4, ex:l6r-var-o5, ex:l6r-var-o6 ; cd:authoredResource true .
+ ex:l6r-var-o1 a cd:Observation ; cd:position 1 ; cd:numericValue 9.8 ; cd:authoredResource true .
+ ex:l6r-var-o2 a cd:Observation ; cd:position 2 ; cd:numericValue 9.9 ; cd:authoredResource true .
+ ex:l6r-var-o3 a cd:Observation ; cd:position 3 ; cd:numericValue 9.9 ; cd:authoredResource true .
+ ex:l6r-var-o4 a cd:Observation ; cd:position 4 ; cd:numericValue 10.1 ; cd:authoredResource true .
+ ex:l6r-var-o5 a cd:Observation ; cd:position 5 ; cd:numericValue 10.1 ; cd:authoredResource true .
+ ex:l6r-var-o6 a cd:Observation ; cd:position 6 ; cd:numericValue 10.2 ; cd:authoredResource true .
+ ex:l6r-rec-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Preparations"@en ; cd:usesDataset ex:l6r-recovery-data ; cd:authoredResource true .
+ ex:l6r-pair-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Independent batches"@en ; cd:usesDataset ex:l6r-paired-data ; cd:authoredResource true .
+ ex:l6r-nir-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "NIR"@en ; cd:usesDataset ex:l6r-nir-data ; cd:authoredResource true .
+ ex:l6r-hplc-group a cd:ChartGroup ; cd:position 2 ; skos:prefLabel "HPLC-MS"@en ; cd:usesDataset ex:l6r-hplc-data ; cd:authoredResource true .
+ ex:l6r-var-group a cd:ChartGroup ; cd:position 1 ; skos:prefLabel "Independent results"@en ; cd:usesDataset ex:l6r-variance-data ; cd:authoredResource true .
+ ex:l6r-recovery-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Recovery from six independent preparations"@en ; cd:body "- Synthetic recoveries: 81, 80, 82, 83, 81, 82%.\n- Fixed minimum: **80%**; test the **population mean**.\n- Independent Normal preparations; upper-tail t-test."@en ; cd:xAxisLabel "Independent preparations"@en ; cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ; cd:hasChartGroup ex:l6r-rec-group ; cd:authoredResource true .
+ ex:l6r-paired-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Oxidation: one difference per batch"@en ; cd:body "- Before minus end: **2, 3, 0, 4, 3, 5 mg/L**.\n- Keep **zero**: that batch had equal before/end readings.\n- Independent Normal batch differences; two-sided t-test."@en ; cd:xAxisLabel "Independent batches"@en ; cd:yAxisLabel "Before minus end"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l6r-pair-group ; cd:authoredResource true .
+ ex:l6r-welch-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "Independent NIR and HPLC-MS preparations"@en ; cd:body "- NIR: 8, 9, 10, 11, 12 µg/L.\n- HPLC-MS: 10, 12, 14, 16, 18, 20 µg/L.\n- Separate preparation sets; Welch permits unequal variances."@en ; cd:xAxisLabel "Measurement system"@en ; cd:yAxisLabel "Pollutant concentration"@en ; cd:yAxisUnit "µg/L" ; cd:hasChartGroup ex:l6r-nir-group, ex:l6r-hplc-group ; cd:authoredResource true .
+ ex:l6r-variance-chart a cd:ChartDefinition ; cd:chartType cd:DotPlot ; skos:prefLabel "One measured series, one known precision target"@en ; cd:body "- Results: 9.8, 9.9, 9.9, 10.1, 10.1, 10.2 mg/L.\n- Observed sample variance: 0.024 (mg/L)².\n- Known target SD: 0.10 mg/L; independent Normal sampling."@en ; cd:xAxisLabel "Independent measurements"@en ; cd:yAxisLabel "Concentration"@en ; cd:yAxisUnit "mg/L" ; cd:hasChartGroup ex:l6r-var-group ; cd:authoredResource true .
+}

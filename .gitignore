@@ -19,3 +19,4 @@ apps/pitch/public/authoring-static.html
 apps/pitch/public/authoring-*-runtime.json
 apps/pitch/public/authoring-*-static.html
 apps/pitch/public/script-pdf/
+apps/pitch/public/script-pdf-level6/

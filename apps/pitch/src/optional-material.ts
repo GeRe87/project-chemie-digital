@@ -34,8 +34,12 @@ export function mountOptionalMaterial(root: HTMLElement, refresh: () => void): (
         clear(details);portal.append(details);focused?.focus({preventScroll:true});
       }
     }else{
-      restore(details);
-      const slide=details.closest<HTMLElement>('section');if(!slide)return;
+       restore(details);
+       const slide=details.closest<HTMLElement>('section');if(!slide)return;
+       if(details.classList.contains('pcd-optional-material-inline')){
+         const focused=details.contains(document.activeElement)?document.activeElement as HTMLElement:null;
+         const marker=document.createComment('Optional experiment setup');details.before(marker);origins.set(details,marker);slide.append(details);focused?.focus({preventScroll:true});
+       }
       const bounds=optionalWorkspaceBounds(slide.getBoundingClientRect(),slide.offsetWidth,slide.offsetHeight,window.innerWidth,window.innerHeight);
       if(!bounds)return;
       for(const [key,value] of Object.entries(bounds))details.style.setProperty(key,`${value}px`);
@@ -57,7 +61,8 @@ export function mountOptionalMaterial(root: HTMLElement, refresh: () => void): (
     }
   };
   const toggle = (event: Event) => {
-    if (event.target instanceof HTMLDetailsElement && event.target.matches(".pcd-optional-material")) {
+     if (event.target instanceof HTMLDetailsElement && event.target.matches(".pcd-optional-material")) {
+       if(window.matchMedia('print').matches)return;
       if(event.target.open){fit(event.target);refresh();}
       else {restore(event.target);clear(event.target);}
     }
@@ -71,7 +76,14 @@ export function mountOptionalMaterial(root: HTMLElement, refresh: () => void): (
   portal.addEventListener('keydown',key);
   portal.addEventListener('keydown',escape,true);
   portal.addEventListener('toggle',toggle,true);
-  window.addEventListener("beforeprint", close);
+   let openedBeforePrint:HTMLDetailsElement[]=[];
+   const beforePrint=()=>{
+     openedBeforePrint=all().filter(details=>details.open);close();
+     all().filter(details=>details.querySelector('.media-reference')).forEach(details=>{details.open=true;clear(details);});
+   };
+   const afterPrint=()=>{close();openedBeforePrint.forEach(details=>{details.open=true;fit(details);});openedBeforePrint=[];};
+   window.addEventListener("beforeprint", beforePrint);
+   window.addEventListener("afterprint", afterPrint);
   window.addEventListener("resize",resize);
-  return () => {close();portal.removeEventListener('keydown',key);portal.removeEventListener('keydown',escape,true);portal.removeEventListener('toggle',toggle,true);portal.remove();root.removeEventListener("keydown", key);root.removeEventListener("keydown", escape, true);root.removeEventListener("toggle", toggle, true);window.removeEventListener("beforeprint", close);window.removeEventListener("resize",resize);};
+   return () => {close();portal.removeEventListener('keydown',key);portal.removeEventListener('keydown',escape,true);portal.removeEventListener('toggle',toggle,true);portal.remove();root.removeEventListener("keydown", key);root.removeEventListener("keydown", escape, true);root.removeEventListener("toggle", toggle, true);window.removeEventListener("beforeprint", beforePrint);window.removeEventListener("afterprint",afterPrint);window.removeEventListener("resize",resize);};
 }

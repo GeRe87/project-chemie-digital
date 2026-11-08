@@ -103,7 +103,10 @@ def compile_thematic_scripts(dataset, documents, bindings):
                             for ref in b.get('source',[]))]
                     if not candidates:raise ValueError(f'Script material is not available in selected content: {resource}')
                     block=copy.deepcopy(sorted(candidates,key=lambda b:b['id'])[0]); blocks=[block]
-                    if block['kind']=='media-reference':
+                    if block['kind']=='media-reference' and block.get('mediaType')=='text/html':
+                        if not re.fullmatch(r'https://[^\s<>"\x00-\x20]+',block['uri']):
+                            raise ValueError('Script references require an authored HTTPS URL')
+                    elif block['kind']=='media-reference':
                         public=(Path(__file__).resolve().parents[1]/'apps/pitch/public').resolve()
                         uri=block['uri']
                         if not re.fullmatch(r'/[a-zA-Z0-9_./-]+\.svg',uri) or '..' in uri.split('/'):

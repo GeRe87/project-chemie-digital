@@ -225,7 +225,7 @@ body[data-presentation-readability="lecture"] .reveal .slides section[data-compo
 .code-function-workbench-fallback .code-fallback,
 .code-function-workbench-fallback .definition-list-fallback { min-height: 0; max-height: 18rem; overflow: auto; }
 .reveal .slides section > h2,
-#pitch-slides > article > h2 { text-transform: capitalize; }
+#pitch-slides > article > h2 { text-transform: none; }
 @media screen and (max-width: 900px) {
   .reveal .slides section[data-composition-profile="evidence-practice-grid"] > [data-composition-region-container="main"] {
     grid-template-columns: minmax(0,1fr); grid-template-rows: repeat(4,minmax(10rem,auto));

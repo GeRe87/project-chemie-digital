@@ -877,7 +877,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
     case "code":
       return `<div class="self-study-code"><pre><code data-language="${escapeHtml(node.language)}">${escapeHtml(node.code)}</code></pre><p class="self-study-fallback">${escapeHtml(node.fallback)}</p></div>`;
     case "media-reference":
-      return `<figure class="self-study-media">${node.mediaType?.startsWith('image/')?`<img src="${escapeHtml(node.uri.startsWith('/')&&!node.uri.startsWith('//')?'.'+node.uri:node.uri)}" alt="${escapeHtml(node.alternativeText)}" loading="lazy">`:`<a href="${escapeHtml(node.uri)}" rel="noreferrer noopener">${escapeHtml(node.alternativeText)}</a>`}${node.caption&&!captioned?`<figcaption>${renderStudyInline(node.caption)}</figcaption>`:''}</figure>`;
+      return `<figure class="self-study-media">${node.mediaType?.startsWith('image/')?`<img src="${escapeHtml(node.uri.startsWith('/')&&!node.uri.startsWith('//')?'.'+node.uri:node.uri)}" alt="${escapeHtml(node.alternativeText)}" loading="lazy">`:`<a href="${escapeHtml(node.uri)}" target="_blank" rel="noreferrer noopener">${escapeHtml(node.alternativeText)}</a>`}${node.caption&&!captioned?`<figcaption>${renderStudyInline(node.caption)}</figcaption>`:''}</figure>`;
     case "list": {
       const tag = node.listStyle === "ordered" ? "ol" : "ul";
       const items = node.items.map((item) => `<li data-list-item-id="${escapeHtml(item.id)}"${sourceAttributes(item.source)}>${escapeHtml(item.text)}</li>`).join("");
@@ -885,7 +885,7 @@ function renderNodeBody(node: SelfStudyNodePlan, interactive: boolean, entryForm
     }
     case "definition-list": {
       const entries = node.entries.map((entry) => {
-        const definitions=entry.symbol?renderSymbolDefinitions(entry.explanation??entry.description??""):undefined;
+        const definitions=renderSymbolDefinitions(entry.explanation??entry.description??"");
         return `<div class="self-study-definition-entry" data-definition-entry-id="${escapeHtml(entry.id)}"${sourceAttributes(entry.source)}><dt>${definitions?escapeHtml(entry.term):entry.expression ? renderStudyMath(entry.expression) : renderStudyInline(entry.term)}</dt>${definitions?`<dd>${definitions}</dd>`:entry.description ? `<dd>${renderStudyInline(entry.description)}</dd>` : ""}${entry.explanation&&!definitions ? `<dd class="self-study-symbol-explanation">${renderStudyInline(entry.explanation)}</dd>` : ""}${entryFormula ? `<dd>${renderNode(entryFormula, interactive)}</dd>` : ""}</div>`;
       }).join("");
       return `<dl class="self-study-definition-list">${entries}</dl>`;
