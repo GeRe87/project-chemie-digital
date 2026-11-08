@@ -17,6 +17,11 @@ export async function loadScriptPdf(script:ThematicScript,fetcher:typeof fetch=f
   if(matches.length!==1)throw new Error('The LaTeX PDF is missing or out of date. Rebuild it for the current script.');
   const entry=matches[0];
   for(const block of script.sections.flatMap(section=>section.materials).flatMap(material=>material.blocks).filter(block=>block.kind==='media-reference')){
+    if(block.mediaType==='text/html'){
+      if(!/^https:\/\/[^\s<>"\\{}\x00-\x20]+$/u.test(block.uri))throw new Error('Invalid reading reference.');
+      const url=new URL(block.uri);if(url.username||url.password)throw new Error('Invalid reading reference.');
+      continue; // Navigation is fingerprint-bound prose, not a fetched figure.
+    }
     if(!/^\/[a-zA-Z0-9_./-]+\.svg$/u.test(block.uri)||block.uri.split('/').includes('..')||!/^sha256-[a-f0-9]{64}$/u.test(block.integrity??''))throw new Error('Invalid source-bound figure.');
     const asset=await fetcher(resolvePublicAssetUrl(block.uri,baseHref),{cache:'no-cache'});
     if(!asset.ok||'sha256-'+await sha256(new Uint8Array(await asset.arrayBuffer()))!==block.integrity)throw new Error('A script figure is missing or out of date. Rebuild the preview and PDF.');

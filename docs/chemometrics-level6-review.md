@@ -343,3 +343,20 @@ explicit `text/html` HTTPS reading navigation from runtime media dependencies.
 Exclude only safe authored reading links from the local-file inventory; reject
 unsafe URLs and keep remote image/script/style rejection unchanged. Regression
 coverage includes nested links, remote images and unsafe reference schemes.
+
+Production artifact `706ce9c8` passes the independent 402-file verifier; all
+seven levels open/return in dark and light themes, with no browser errors,
+failed requests or math errors. All 14 R labs run/reset in both themes. The
+strict zero-remote probe is **not green**: existing, explicitly disclosed
+Level-4 ggplot2 labs install packages from `repo.r-wasm.org` after Run. Do not
+describe these labs as offline. No runtime dependency policy or authored R code
+is changed to hide that distinction.
+
+Production Level-6 support checks pass both themes: nine comparisons/U=1,
+keyboard, reset/cancellation, Escape/focus, mobile and print overlay, 29 safe
+references. Browser PDF checks pass the earlier six Scripts and identify one
+remaining link/image distinction in the Level-6 PDF loader. Skip network fetching
+only for validated, fingerprint-bound HTTPS reading references, retaining all
+SVG-source and PDF hashes. Five loader tests, including zero remote reads and
+stale-reference rejection, pass; type checking passes. Rebuild and rerun the
+production PDF browser checks on the corrected committed source before release.

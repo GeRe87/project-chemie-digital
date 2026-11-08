@@ -56,3 +56,14 @@ test('PDF availability also verifies the exact source bytes of embedded SVG figu
   await loadScriptPdf(selected,fetcher,base);
   await assert.rejects(loadScriptPdf(selected,(async(input:unknown)=>String(input).endsWith('chart.svg')?new Response('<svg>changed</svg>'):value.fetcher(input as RequestInfo)) as typeof fetch,base),/figure is missing or out of date/u);
 });
+
+test('PDF reading references remain fingerprint-bound links without remote fetches',async()=>{
+  const selected:ThematicScript={...script,sections:[{...script.sections[0]!,body:'Further reading in [[ref:https://example.org/material]].',references:[{targetMaterialId:'https://example.org/material',source}],materials:[{
+    id:'https://example.org/material',caption:'Further reading.',resourceId:source[0]!.resourceId,source,blocks:[{kind:'media-reference',id:'reading',uri:'https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm',mediaType:'text/html',alternativeText:'NIST',source}]
+  }]}]};
+  const value=await fixture(selected),calls:string[]=[];
+  await loadScriptPdf(selected,(async(input:unknown)=>{calls.push(String(input));return value.fetcher(input as RequestInfo);}) as typeof fetch,base);
+  assert.equal(calls.length,2);assert(calls.every(url=>url.startsWith('https://example.org/course/script-pdf/')));
+  const changed=structuredClone(selected);changed.sections[0]!.materials[0]!.blocks[0]!.uri='https://example.org/other';
+  await assert.rejects(loadScriptPdf(changed,value.fetcher,base),/out of date/u);
+});
