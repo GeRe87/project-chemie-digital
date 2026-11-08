@@ -322,3 +322,11 @@ different PDF bytes under the same source-bound figure filename. Retain a
 per-invocation cache keyed by that validated SVG digest filename. Reuse only
 bytes already produced/verified in this invocation; retain the output hash and
 unfamiliar-file rejection checks. This is not acceptance of arbitrary old output.
+
+The subsequent complete run reaches the final self-study phase: Pitch passes
+298/298. Two self-study assertions still gate structured symbol definitions on
+the optional legacy `symbol` field, unlike the shared renderer, which recognizes
+the authored definition structure directly. Align both assertions with that
+projection and continue requiring the complete rendered definition content.
+Because PDF-source fixes landed during this diagnostic run, it is not final
+exact-head evidence; rerun the complete command on the settled committed head.

@@ -63,7 +63,7 @@ function assertLeafContentVisible(index: string, node: SelfStudyNodePlan): void 
       return;
     case "definition-list":
       for (const entry of node.entries) {
-        const definitions = entry.symbol ? renderSymbolDefinitions(entry.explanation ?? entry.description ?? "") : undefined;
+        const definitions = renderSymbolDefinitions(entry.explanation ?? entry.description ?? "");
         if (definitions) {
           assert.ok(index.includes(definitions), `missing complete authored symbol definitions ${entry.id}`);
           continue;
@@ -285,7 +285,7 @@ test("generated static-first shell renders DefinitionList terms and descriptions
   for (const node of definitionLists) {
     assert.ok(index.includes(`data-source-block-id="${node.sourceBlockId}"`), `missing static DefinitionList block ${node.sourceBlockId}`);
     for (const entry of node.entries) {
-      const definitions = entry.symbol ? renderSymbolDefinitions(entry.explanation ?? entry.description ?? "") : undefined;
+      const definitions = renderSymbolDefinitions(entry.explanation ?? entry.description ?? "");
       if (definitions) {
         assert.match(definitions, /<dl class="authored-symbol-definitions">/u);
         assert.match(definitions, /<dt>.+?<\/dt><dd>.+?<\/dd>/u);
