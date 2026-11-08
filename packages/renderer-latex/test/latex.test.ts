@@ -5,9 +5,22 @@ import {renderLatexScript,latexInline,latexMath,latexLabel,formatExperimentValue
 import {resolveScriptMaterialNumbers,type ThematicScript} from '../../core/src/thematic-script.ts';
 import {scriptPdfFingerprintInput} from '../../core/src/script-pdf.ts';
 import {runExperiment} from '../../core/src/distribution-experiment.ts';
+import {scriptMedia} from '../../../scripts/script_pdf_media.mts';
 
 const runtime=JSON.parse(readFileSync(new URL('../../../apps/pitch/public/authoring-level5-review-complete-runtime.json',import.meta.url),'utf8'));
 const script:ThematicScript=runtime.thematicScripts[0];
+
+test('authored HTTPS reading references stay links rather than SVG assets in LaTeX',()=>{
+  const revised=structuredClone(script);
+  const material=revised.sections.flatMap(section=>section.materials).find(material=>material.blocks.some(block=>block.kind==='media-reference'))!;
+  const source=material.blocks.find(block=>block.kind==='media-reference')!.source;
+  material.blocks=[{kind:'media-reference',id:'reading-reference',uri:'https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm',mediaType:'text/html',alternativeText:'NIST reading',source}];
+  assert(!scriptMedia(revised).some(block=>block.id==='reading-reference'));
+  const tex=renderLatexScript(revised);
+  assert.match(tex,/\\href\{https:\/\/www\.itl\.nist\.gov\/div898\/handbook\/eda\/section3\/eda353\.htm\}\{NIST reading\}/u);
+  material.blocks[0].uri='https://example.org/}\\input{secret}';
+  assert.throws(()=>renderLatexScript(revised),/safe HTTPS/u);
+});
 
 test('experiment readouts suppress floating-point noise without losing small tails',()=>{
   assert.equal(formatExperimentValue(1.999999999999993),'2');

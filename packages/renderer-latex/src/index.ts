@@ -200,7 +200,12 @@ function blockLatex(block:SceneBlock):string {
     case 'definition-list':
       return block.entries.map(entry=>`\\par\\noindent\\textbf{${latexInline(entry.term)}}\n\n${prose(entry.explanation??entry.description??'')}\n`).join('\n');
     case 'table':return table(block);
-    case 'media-reference':return `\\begin{center}\\includegraphics[width=\\linewidth,height=.62\\textheight,keepaspectratio]{${latexMediaFilename(block)}}\\end{center}\n`;
+    case 'media-reference':
+      if(block.mediaType==='text/html'){
+        if(!/^https:\/\/[^\s<>"\\{}\x00-\x20]+$/u.test(block.uri))throw new Error('LaTeX references require a safe HTTPS URL');
+        return `\\noindent\\href{${latexText(block.uri)}}{${latexText(block.alternativeText)}}\\par\n\\nolinkurl{${latexText(block.uri)}}\\par\n`;
+      }
+      return `\\begin{center}\\includegraphics[width=\\linewidth,height=.62\\textheight,keepaspectratio]{${latexMediaFilename(block)}}\\end{center}\n`;
     case 'diagram':{
       if(block.diagramType!=='flow'||block.groups?.length||block.states?.length)throw new Error('LaTeX flow groups/states require an explicit implementation');
       // Breakable static reading view of the graph. Explicit edge targets retain

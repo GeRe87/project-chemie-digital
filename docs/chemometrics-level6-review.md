@@ -308,3 +308,10 @@ tests and TypeScript checking. A separately installed Chromium reports a Windows
 sandbox executable-permission error; no ACL changes or sandbox disabling are
 used for publication. Full corrected-head testing and production build remain
 required.
+
+The controlled exporter builds all six earlier Scripts successfully. Level 6
+then exposes missing LaTeX support for authored HTTPS reading references:
+render these as escaped, clickable links with visible URLs, not image assets.
+Only actual image media enter SVG conversion/inventory; unsafe TeX-bearing URLs
+are rejected. Focused tests cover link output, exclusion from image assets and
+URL injection rejection. No web page is fetched during PDF production.
