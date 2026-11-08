@@ -54,6 +54,9 @@ export async function buildScriptPdfs(scripts:readonly ThematicScript[],director
     if(prior.version!=='1.0'||![SCRIPT_PDF_FORMAT,'latex-script-1.1','latex-script-1.0'].includes(prior.format))throw new Error('Unfamiliar output manifest; choose a dedicated output directory');
   }
   const manifest:Manifest={version:'1.0',format:SCRIPT_PDF_FORMAT,documents:[]};
+  // Identical SVGs can belong to several Scripts. Reuse bytes produced in this
+  // invocation: browser PDF metadata may differ between two conversions.
+  const convertedAssets=new Map<string,Buffer>();
   for(const script of [...scripts].sort((a,b)=>a.id.localeCompare(b.id))){
     const tex=renderLatexScript(script);
     const parent=process.platform==='win32'&&process.env.LOCALAPPDATA?join(process.env.LOCALAPPDATA,'Temp','opencode'):resolve('.local/script-pdf-builds');
@@ -63,8 +66,10 @@ export async function buildScriptPdfs(scripts:readonly ThematicScript[],director
       const svg=await readScriptSvg(block,publicRoot),file=latexMediaFilename(block);
       const cached=prior?.documents.flatMap(entry=>entry.assets??[]).find(asset=>asset.uri===block.uri&&asset.integrity===block.integrity&&asset.file===file);
       let bytes:Buffer;
-      if(cached){bytes=await readFile(join(directory,file));if(hash(bytes)!==cached.sha256)throw new Error('Tampered cached figure PDF');}
+      if(convertedAssets.has(file))bytes=convertedAssets.get(file)!;
+      else if(cached){bytes=await readFile(join(directory,file));if(hash(bytes)!==cached.sha256)throw new Error('Tampered cached figure PDF');}
       else bytes=await convertScriptSvg(svg,work,index);
+      convertedAssets.set(file,bytes);
       await writeFile(join(work,file),bytes);
       const output=join(directory,file);
       if(existsSync(output)){if(hash(await readFile(output))!==hash(bytes))throw new Error('Unfamiliar figure output; refusing overwrite');}

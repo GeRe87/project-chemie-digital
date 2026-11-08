@@ -315,3 +315,10 @@ render these as escaped, clickable links with visible URLs, not image assets.
 Only actual image media enter SVG conversion/inventory; unsafe TeX-bearing URLs
 are rejected. Focused tests cover link output, exclusion from image assets and
 URL injection rejection. No web page is fetched during PDF production.
+
+The next full build detects shared SVGs used by earlier Scripts and Level 6:
+reconverting the same source can produce different PDF metadata and therefore
+different PDF bytes under the same source-bound figure filename. Retain a
+per-invocation cache keyed by that validated SVG digest filename. Reuse only
+bytes already produced/verified in this invocation; retain the output hash and
+unfamiliar-file rejection checks. This is not acceptance of arbitrary old output.
