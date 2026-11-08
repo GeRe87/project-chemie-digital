@@ -17,7 +17,7 @@ test("Quantiles and Moments has source-backed artwork through the existing world
   const html=renderPitchCourseWorldHtml(model);
   assert.match(html,/src="\/course-world\/quantiles-moments\.svg"/u);
   assert(html.includes(unit.thumbnail!.alternativeText));
-  assert.equal(model.units.filter(u=>u.thumbnail).length,6);
+  assert.equal(model.units.filter(u=>u.thumbnail).length,7);
 });
 
 test("the local thumbnail is a small self-contained SVG matching the existing island canvas",()=>{

@@ -59,9 +59,9 @@ test("shared code workbench bounds output and scrolls the authored glossary in i
   assert.match(css, /\.code-function-workbench\s*\{[^}]*grid-template-rows:\s*minmax\(0,1\.25fr\)\s+minmax\(5rem,\.75fr\)/u);
   assert.match(css, /\.code-function-workbench \.code-output\s*\{[^}]*max-height:\s*6rem;[^}]*overflow:\s*auto/u);
   assert.match(css, /\.code-function-workbench > \.definition-list\s*\{[^}]*min-height:\s*0;[^}]*overflow:\s*auto/u);
-  assert.match(css, /\.reveal \.slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
+  assert.match(css, /\.reveal \.slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*none/u);
   assert.match(css, /data-composition-profile="evidence-practice-grid"[\s\S]*?grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/u);
-  assert.match(css, /slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
+  assert.doesNotMatch(css, /slides section > h2,[\s\S]*?#pitch-slides > article > h2\s*\{\s*text-transform:\s*capitalize/u);
 });
 
 test("formula-deck diagrams override intrinsic minimum height throughout the SVG chain", async () => {

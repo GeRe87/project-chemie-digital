@@ -291,3 +291,9 @@ ten-chapter Script unchanged. A focused regression now requires exactly one
 owner for every Level-6 definition entry and Script material; all 23 focused
 Level-6 tests pass. Complete corrected-head validation, production PDF/build,
 browser verification and publication remain pending.
+
+The corrected-head full run on `0c4e6a26` passes all 642 Python tests (three
+skipped), then reaches Pitch: 296 of 298 tests pass. Two stale expectations still
+assume six world thumbnails and CSS title capitalization. Update them to the
+seven authored thumbnails and `text-transform: none`, preserving scientific
+title spelling; no production CSS or course content changes are needed.
