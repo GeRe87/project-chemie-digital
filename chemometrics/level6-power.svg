@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img" aria-labelledby="title desc">
+<title id="title">Prospective power increases with effect and independent replication</title>
+<desc id="desc">Exact power of a two-sided one-sample z-test with known population SD, independent Normal observations and alpha 0.05. Horizontal: true mean departure divided by population SD, zero to 1.5. Vertical: rejection probability zero to one. Curves show independent sample sizes 5,10,20. At zero effect rejection probability is 0.05. This is a known-SD planning model, not t-test power.</desc>
+<rect x="10" y="10" width="940" height="450" rx="14" fill="#f5f8fc" stroke="#176da0" stroke-width="2"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147"><text x="65" y="48" font-size="25" font-weight="bold">More independent units detect smaller effects</text><text x="65" y="77" font-size="18">Known-SD Normal model · two-sided z-test · alpha 0.05</text></g>
+<path d="M110 340H830M110 280H830M110 220H830M110 160H830M110 100H830M350 100V340M590 100V340M830 100V340" fill="none" stroke="#cfdae4"/>
+<path d="M110 100V340H830" fill="none" stroke="#153147" stroke-width="2"/>
+<path d="M110 328L158 326.6L206 322.4L254 315.3L302 305.1L350 291.8L398 275.5L446 256.8L494 236.3L542 215L590 193.9L638 174.1L686 156.3L734 141.2L782 129L830 119.6" fill="none" stroke="#176da0" stroke-width="4"/>
+<path d="M110 328L158 325.2L206 316.7L254 302.1L302 281.4L350 255.4L398 226L446 196L494 168.3L542 145.1L590 127.5L638 115.5L686 108L734 103.8L782 101.6L830 100.6" fill="none" stroke="#843a87" stroke-width="4" stroke-dasharray="10 5"/>
+<path d="M110 328L158 322.4L206 305.1L254 275.5L302 236.3L350 193.9L398 156.3L446 129L494 112.7L542 104.7L590 101.4L638 100.4L686 100.1L734 100L782 100L830 100" fill="none" stroke="#247c5c" stroke-width="4" stroke-dasharray="3 5"/>
+<g font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#153147"><text x="76" y="346">0</text><text x="57" y="286">0.25</text><text x="66" y="226">0.5</text><text x="57" y="166">0.75</text><text x="76" y="106">1</text><text x="105" y="366">0</text><text x="335" y="366">0.5</text><text x="585" y="366">1</text><text x="815" y="366">1.5</text><text x="275" y="397">True mean departure / population SD</text><text transform="translate(35 282) rotate(-90)">Rejection probability</text><text x="200" y="438">n = 5: solid</text><text x="410" y="438">n = 10: dashed</text><text x="650" y="438">n = 20: dotted</text></g>
+</svg>

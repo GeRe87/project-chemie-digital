@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="250" viewBox="0 0 960 250" role="img" aria-labelledby="title desc">
+<title id="title">A t-test can compare a mean with a fixed reference or compare two independent means</title><desc id="desc">Left: repeated measurements of a QC sample against a fixed target. Right: independent river-water samples collected before and after an industrial park. The image distinguishes the comparison structures, not actual measured distributions.</desc>
+<rect x="10" y="10" width="455" height="230" rx="12" fill="#edf6fc" stroke="#176da0"/><rect x="495" y="10" width="455" height="230" rx="12" fill="#f2edfa" stroke="#6943a6"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147" font-size="22"><text x="35" y="48" font-weight="bold">ONE ESTIMATED MEAN</text><text x="520" y="48" font-weight="bold">TWO ESTIMATED MEANS</text><text x="35" y="212">QC mean ↔ fixed target</text><text x="520" y="212">Before industrial park ↔ after</text></g>
+<g fill="#176da0"><circle cx="80" cy="122" r="11"/><circle cx="130" cy="147" r="11"/><circle cx="180" cy="112" r="11"/></g><path d="M280 84V171" stroke="#a85b13" stroke-width="6"/><path d="M213 128H250" stroke="#153147" stroke-width="3"/>
+<g fill="#176da0"><circle cx="555" cy="122" r="11"/><circle cx="605" cy="147" r="11"/><circle cx="655" cy="112" r="11"/></g><g fill="#843a87"><circle cx="770" cy="102" r="11"/><circle cx="820" cy="132" r="11"/><circle cx="870" cy="95" r="11"/></g><path d="M692 128H730" stroke="#153147" stroke-width="3"/>
+</svg>

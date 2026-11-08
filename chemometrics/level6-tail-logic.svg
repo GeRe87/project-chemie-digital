@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-labelledby="title desc">
+<title id="title">The p-value counts results at least as extreme as ours, assuming the null model</title><desc id="desc">An upper-tail example uses a Student t reference with nine degrees of freedom. The observed statistic is 2. The orange area starts at that statistic and follows the very same sampled curve to the right plot boundary. The calculated p-value also includes the unshown remainder of the tail.</desc>
+<rect x="10" y="10" width="940" height="300" rx="12" fill="#f5f8fc" stroke="#176da0"/>
+<path d="M640 230L640 200.4L660 210L680 216.7L700 221.2L720 224.2L740 226.2L760 227.5L780 228.3L800 228.9L820 229.2L840 229.5V230Z" fill="#e6aa62"/>
+<path d="M120 229.5L140 229.2L160 228.9L180 228.3L200 227.5L220 226.2L240 224.2L260 221.2L280 216.7L300 210L320 200.4L340 186.9L360 169L380 146.3L400 120L420 92.4L440 67.6L460 50.1L480 43.7L500 50.1L520 67.6L540 92.4L560 120L580 146.3L600 169L620 186.9L640 200.4L660 210L680 216.7L700 221.2L720 224.2L740 226.2L760 227.5L780 228.3L800 228.9L820 229.2L840 229.5" fill="none" stroke="#176da0" stroke-width="4"/>
+<path d="M110 230H860M640 230V187" fill="none" stroke="#153147" stroke-width="2"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147" font-size="20"><text x="55" y="45">Assume H₀: the mean is at the limit</text><text x="55" y="76">How would the test statistic vary?</text><text x="654" y="148" font-weight="bold">Our result or higher</text><text x="654" y="176">This tail gives the p-value</text><text x="613" y="260">Our result</text><text x="300" y="292">Test statistic: smaller ← → larger</text></g>
+</svg>

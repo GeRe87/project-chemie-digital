@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title id="title">Statistical Tests island</title><desc id="desc">A decorative floating research island holds a laboratory, a balance and two labelled reference-curve panels. Colours and shapes suggest comparing evidence with a model; this is course artwork, not measurement data.</desc>
+<path d="M100 345L480 495L860 345L480 430Z" fill="#594c85"/><ellipse cx="480" cy="330" rx="380" ry="110" fill="#57b1a2"/><path d="M130 340Q480 480 830 340" fill="none" stroke="#267c75" stroke-width="15"/>
+<rect x="280" y="175" width="245" height="160" rx="10" fill="#e8f4f7" stroke="#185a7e" stroke-width="7"/><path d="M250 180L400 95L555 180Z" fill="#6743a3"/><rect x="310" y="220" width="55" height="65" fill="#62d8ef"/><rect x="440" y="220" width="55" height="65" fill="#62d8ef"/><rect x="380" y="250" width="40" height="85" fill="#185a7e"/>
+<rect x="580" y="140" width="220" height="180" rx="14" fill="#fff2e1" stroke="#ab5b19" stroke-width="7"/><path d="M610 275C650 270 650 185 690 185S735 270 775 275" fill="none" stroke="#176da0" stroke-width="8"/><path d="M735 270L775 275V285H735Z" fill="#d77c29"/>
+<g stroke="#6943a6" stroke-width="9" fill="none"><path d="M180 230V330M120 245H240M130 245L110 285H150ZM230 245L210 285H250Z"/></g>
+<text x="475" y="390" text-anchor="middle" fill="#153147" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="bold">STATISTICAL TESTS</text>
+</svg>

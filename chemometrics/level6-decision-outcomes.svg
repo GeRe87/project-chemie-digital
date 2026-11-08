@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="480" viewBox="0 0 660 480" role="img" aria-labelledby="title desc">
+<title id="title">Four outcomes: correct silence, false alarm, missed exceedance, detection</title>
+<desc id="desc">A two-by-two matrix matches the adjacent table. Rows are population state: at or below the limit, then above the limit. Columns are decision: do not reject H0, then reject H0. Top left is correct silence, top right type I false alarm, bottom left type II missed exceedance, bottom right correct detection. Each cell has an amoxicillin bottle and a bell; crossed bells mean no alarm. Labels distinguish outcomes without relying on colour.</desc>
+<defs>
+<g id="bottle"><path d="M0 0H22V13L30 25V67Q30 72 25 72H-3Q-8 72-8 67V25L0 13Z" fill="#fff" stroke="#21475d" stroke-width="2"/><path d="M-5 39H27V66Q27 69 24 69H-2Q-5 69-5 66Z" fill="#a4d7e8"/><path d="M-2 0H24" stroke="#21475d" stroke-width="5"/></g>
+<g id="bell" fill="#eab95b" stroke="#5d471c" stroke-width="3"><path d="M-19 20Q-14 12-14-4Q-14-20 0-20Q14-20 14-4Q14 12 19 20Z"/><circle cy="25" r="4"/><path d="M-25-10L-30-17M25-10L30-17M0-25V-33" fill="none"/></g>
+</defs>
+<rect x="2" y="2" width="656" height="476" rx="12" fill="#f4f8fc" stroke="#7797ac"/>
+<g stroke="#7797ac"><rect x="126" y="70" width="258" height="194" rx="10" fill="#f1f8f6"/><rect x="394" y="70" width="258" height="194" rx="10" fill="#fff2e9"/><rect x="126" y="274" width="258" height="194" rx="10" fill="#fff2e9"/><rect x="394" y="274" width="258" height="194" rx="10" fill="#f1f8f6"/></g>
+<use href="#bottle" x="184" y="100"/><use href="#bell" x="310" y="142"/>
+<use href="#bottle" x="452" y="100"/><use href="#bell" x="578" y="142"/>
+<use href="#bottle" x="184" y="304"/><use href="#bell" x="310" y="346"/>
+<use href="#bottle" x="452" y="304"/><use href="#bell" x="578" y="346"/>
+<path d="M283 112L336 174M283 316L336 378" stroke="#21475d" stroke-width="5"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#153147" text-anchor="middle">
+<g font-size="20" font-weight="bold"><text x="255" y="40">DO NOT REJECT H₀</text><text x="523" y="40">REJECT H₀</text></g>
+<g font-size="17" font-weight="bold"><text x="63" y="148">AT / BELOW</text><text x="63" y="173">LIMIT</text><text x="63" y="352">ABOVE</text><text x="63" y="377">LIMIT</text></g>
+<g font-size="19" font-weight="bold"><text x="255" y="215">CORRECT SILENCE</text><text x="523" y="215" fill="#9c3825">TYPE I · FALSE ALARM</text><text x="255" y="419" fill="#9c3825">TYPE II · MISSED</text><text x="523" y="419">CORRECT DETECTION</text></g>
+<g font-size="17"><text x="255" y="244">No exceedance claimed</text><text x="523" y="244">False exceedance claim</text><text x="255" y="448">Real exceedance missed</text><text x="523" y="448">Real exceedance detected</text></g></g>
+</svg>
