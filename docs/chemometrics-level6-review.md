@@ -279,3 +279,15 @@ Foliennummern beziehen sich auf die **neue** 52-Folien-Fassung.
 - Keine Datenübertragung/Telemetrie hinzugefügt; Beispiele synthetisch, Assets
   lokal. Alternativtexte/Titel/Beschreibungen und sichtbare Labels bleiben erhalten.
 - Kein Commit, Push, Release oder Deployment. Nutzerabnahme bleibt ausdrücklich offen.
+
+## Owner-authorized publication preflight
+
+The first full `npm test` on `e11fad44` failed: 641 Python tests ran,
+20 failed and three were skipped; subsequent npm phases were not reached.
+The failures trace to three orphaned occurrences left by the reviewed reduction:
+`l6-guide14b`, `l6r-m4` and `l6r-m5`. Remove these unused declarations, not the
+ownership constraints. Their removal leaves the selected 52 slides and compiled
+ten-chapter Script unchanged. A focused regression now requires exactly one
+owner for every Level-6 definition entry and Script material; all 23 focused
+Level-6 tests pass. Complete corrected-head validation, production PDF/build,
+browser verification and publication remain pending.

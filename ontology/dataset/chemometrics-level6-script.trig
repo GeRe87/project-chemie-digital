@@ -14,8 +14,6 @@ The lake illustration [[ref:ex:l6r-m6]] is a thought experiment about that burde
  ex:l6r-m1 a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l6-questions-art ; dct:title "Three illustrative measurement questions, not experimental findings."@en .
  ex:l6r-m2 a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:l6-hypothesis-art ; dct:title "From population claim to reference prediction, statistic and fallible decision."@en .
  ex:l6r-m3 a cd:ScriptMaterial ; cd:position 3 ; cd:scriptResource ex:l6r-tree-art ; dct:title "One tree with positive/negative decisions and all four outcomes."@en .
- ex:l6r-m4 a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l6-ice-cards ; dct:title "Three hypotheses serve different decisions."@en .
- ex:l6r-m5 a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l6s-lake-takeaway ; dct:title "Match evidence requirements to consequences."@en .
  ex:l6r-m6 a cd:ScriptMaterial ; cd:position 4 ; cd:scriptResource ex:l6-ice-art ; dct:title "Lake decision rules in a statistical thought experiment."@en .
  ex:l6r-m7 a cd:ScriptMaterial ; cd:position 5 ; cd:scriptResource ex:l6s-lake-art ; dct:title "Comic: Normal-model GO probabilities at two true thicknesses."@en .
 

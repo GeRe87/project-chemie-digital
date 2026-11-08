@@ -45,6 +45,14 @@ class StatisticalTestsLevel6(unittest.TestCase):
         self.assertEqual({EX['learning-unit-statistical-tests']},self.objects(p,CD.placesLearningUnit))
         self.assertIn(p,self.objects(EX['offering-section-chemometrics-similarity-analysis'],CD.groupsUnitPlacement))
 
+    def test_level_six_occurrences_have_exactly_one_owner(self):
+        for kind,relation in [(CD.DefinitionListEntry,CD.hasDefinitionListEntry),(CD.ScriptMaterial,CD.hasScriptMaterial)]:
+            resources={s for s,_,_,_ in self.dataset.quads((None,RDF.type,kind,None)) if str(s).startswith(str(EX)+'l6')}
+            self.assertTrue(resources)
+            for resource in resources:
+                owners={s for s,_,_,_ in self.dataset.quads((None,relation,resource,None))}
+                self.assertEqual(1,len(owners),str(resource))
+
     def test_active_path_removes_only_the_requested_lecture_scenes(self):
         self.assertEqual(52,len(self.document['scenes']))
         ids={s['id'] for s in self.document['scenes']}
