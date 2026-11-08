@@ -55,6 +55,14 @@ class StaticCourseBuildTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     STATIC.asset_path(root, uri, root / "index.html")
 
+    def test_reading_links_are_not_runtime_assets_but_remote_images_remain_assets(self):
+        reference={"kind":"media-reference","mediaType":"text/html","uri":"https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm"}
+        image={"kind":"media-reference","mediaType":"image/svg+xml","uri":"https://example.org/image.svg"}
+        self.assertEqual([image["uri"]],list(STATIC.media_uris([{"kind":"group","children":[reference,image]}])))
+        for uri in ["http://example.org/", "javascript:alert(1)", "https://user:secret@example.org/", "https://example.org/\n"]:
+            with self.assertRaises(ValueError):
+                list(STATIC.media_uris([{**reference,"uri":uri}]))
+
     def test_static_evidence_detects_changed_bundle_and_missing_public_asset(self):
         with tempfile.TemporaryDirectory(dir=self.temp_parent) as temporary:
             output, public = self.fixture(Path(temporary))

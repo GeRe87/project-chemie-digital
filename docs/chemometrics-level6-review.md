@@ -337,3 +337,9 @@ SVG. Deduplicate the image-file projection by URI, source digest and media type,
 not the authored materials: both visible occurrences remain, while manifest,
 source bundle and integrity checking use one file record. A regression covers
 this repeated-occurrence case. Full artifact verification still remains a gate.
+
+All seven PDFs and Vite bundling pass. Static artifact validation must distinguish
+explicit `text/html` HTTPS reading navigation from runtime media dependencies.
+Exclude only safe authored reading links from the local-file inventory; reject
+unsafe URLs and keep remote image/script/style rejection unchanged. Regression
+coverage includes nested links, remote images and unsafe reference schemes.

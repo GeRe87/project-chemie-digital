@@ -150,6 +150,14 @@ def media_uris(blocks):
         if block["kind"] == "group":
             yield from media_uris(block["children"])
         elif block["kind"] == "media-reference":
+            if block.get("mediaType") == "text/html":
+                uri = block["uri"]
+                parsed = urlsplit(uri)
+                if (parsed.scheme != "https" or not parsed.netloc or parsed.username or parsed.password
+                        or re.search(r'[\s<>"\\{}\x00-\x20]', uri)):
+                    raise ValueError(f"Unsafe external reading reference: {uri}")
+                # Authored reading links are navigation, never runtime fetches.
+                continue
             yield block["uri"]
 
 
