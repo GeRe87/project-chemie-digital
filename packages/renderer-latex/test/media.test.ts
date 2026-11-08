@@ -3,9 +3,16 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
-import {readScriptSvg,validateScriptSvg} from '../../../scripts/script_pdf_media.mts';
+import {convertScriptSvg,readScriptSvg,validateScriptSvg} from '../../../scripts/script_pdf_media.mts';
 
 const safe='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 530"><rect width="760" height="530"/><text x="20" y="30">Model</text></svg>';
+test('controlled SVG print completes and returns a PDF with the configured sandboxed browser',{skip:!process.env.SCRIPT_PDF_BROWSER},async()=>{
+  const parent=resolve('.local/script-pdf-tests');await mkdir(parent,{recursive:true});const directory=await mkdtemp(join(parent,'print-'));
+  try{
+    const pdf=await convertScriptSvg(Buffer.from(safe),directory,0);
+    assert.equal(pdf.subarray(0,5).toString(),'%PDF-');
+  }finally{await rm(directory,{recursive:true});}
+});
 test('offline SVG projection rejects active content and external resources',()=>{
   assert.deepEqual(validateScriptSvg(safe),{width:760,height:530});
   for(const unsafe of ['<script>alert(1)</script>','<image href="https://example.org/a.png"/>','<foreignObject/>','<rect onclick="evil()"/>','<style>@import "https://example.org";</style>','<style>rect{fill:url(https://example.org)}</style>','<!DOCTYPE svg SYSTEM "file:///secret">','<style>rect{fill:u\\72l(https://example.org)}</style>'])assert.throws(()=>validateScriptSvg(safe.replace('</svg>',unsafe+'</svg>')));

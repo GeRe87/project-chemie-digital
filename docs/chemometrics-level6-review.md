@@ -297,3 +297,14 @@ skipped), then reaches Pitch: 296 of 298 tests pass. Two stale expectations stil
 assume six world thumbnails and CSS title capitalization. Update them to the
 seven authored thumbnails and `text-transform: none`, preserving scientific
 title spelling; no production CSS or course content changes are needed.
+
+Production preflight confirms full SHACL conformance. The old SVG exporter can
+write a PDF but time out waiting for Edge's CLI process to exit on Windows.
+Use the already locked Playwright dependency to await the print protocol and
+explicitly close the owned browser, retaining the Chromium sandbox, validated
+local SVG inputs, blocked non-file page requests and PDF signature check.
+The configured Edge integration test passes along with the three SVG safety
+tests and TypeScript checking. A separately installed Chromium reports a Windows
+sandbox executable-permission error; no ACL changes or sandbox disabling are
+used for publication. Full corrected-head testing and production build remain
+required.

@@ -2,7 +2,7 @@
 import {readFile,writeFile,realpath} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {spawnSync} from 'node:child_process';
+import {chromium} from 'playwright';
 import {resolve,join,relative,isAbsolute} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import type {ThematicScript} from '../packages/core/src/thematic-script.ts';
@@ -46,10 +46,20 @@ export async function convertScriptSvg(bytes:Uint8Array,directory:string,index:n
   const svg=new TextDecoder('utf-8',{fatal:true}).decode(bytes),{width,height}=validateScriptSvg(svg);
   const html=join(directory,`svg-${index}.html`),pdf=join(directory,`svg-${index}.pdf`);
   await writeFile(html,`<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><style>@page{size:${width}px ${height}px;margin:0}html,body{margin:0;width:${width}px;height:${height}px}svg{display:block;width:100%;height:100%}</style></head><body>${svg}</body></html>`);
-  const result=spawnSync(browserExecutable(),['--headless','--disable-gpu','--disable-extensions','--disable-background-networking','--disable-component-update','--no-first-run','--no-default-browser-check',
-    '--force-color-profile=srgb','--no-pdf-header-footer',`--user-data-dir=${join(directory,'browser-'+index)}`,`--print-to-pdf=${pdf}`,pathToFileURL(html).href],
-    {encoding:'utf8',timeout:60000,maxBuffer:2*1024*1024,windowsHide:true});
-  if(result.error||result.status!==0||!existsSync(pdf))throw new Error('SVG vector conversion failed: '+(result.error?.message??result.stderr));
+  // The CLI can write its PDF and then hang during browser shutdown on Windows.
+  // Await the print protocol directly and close the owned browser explicitly.
+  const browser=await chromium.launch({executablePath:browserExecutable(),headless:true,chromiumSandbox:true,timeout:60000,
+    args:['--disable-background-networking','--disable-component-update','--force-color-profile=srgb']});
+  try{
+    const page=await browser.newPage();
+    await page.route('**/*',route=>route.request().url().startsWith('file:')?route.continue():route.abort());
+    await page.goto(pathToFileURL(html).href,{timeout:60000});
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    try{
+      await Promise.race([page.pdf({path:pdf,preferCSSPageSize:true,printBackground:true}),
+        new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('SVG PDF export timed out')),60000);})]);
+    }finally{clearTimeout(timer);}
+  }finally{await browser.close();}
   const output=await readFile(pdf);if(output.subarray(0,5).toString()!=='%PDF-')throw new Error('SVG converter returned no PDF');
   return output;
 }
