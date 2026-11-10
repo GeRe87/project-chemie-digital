@@ -3,6 +3,7 @@ import {binaryDiagramFallback} from "../../core/src/binary-experiment.ts";
 import type { D3KnowledgeNetworkOptions } from "./index.ts";
 import {
   createD3FlowLayout,
+  d3FlowEdgeLabelPanelGeometry,
   deterministicFlowTextMeasure,
   wrapFlowText,
   type D3FlowLayout,
@@ -540,7 +541,7 @@ export function d3FlowEdgePath(
   orientation: D3FlowLayout["orientation"],
   strategy: D3FlowLayout["strategy"],
 ): string {
-  if ((strategy === "space-filling-flow" || strategy === "hierarchy-fanout")
+  if ((strategy === "space-filling-flow" || strategy === "hierarchy-fanout" || strategy === "layered-flow")
       && edge.routePoints && edge.routePoints.length >= 2) {
     const [first, ...rest] = edge.routePoints;
     return `M ${first!.x} ${first!.y} ${rest.map((point) => `L ${point.x} ${point.y}`).join(" ")}`;
@@ -628,11 +629,7 @@ function addEdgeLabel(
   strategy: D3FlowLayout["strategy"],
 ): void {
   const namespace = "http://www.w3.org/2000/svg";
-  const lineCount = Math.max(edge.labelLines.length, 1);
-  const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
-  const compactNetwork = strategy === "radial-network" || strategy === "triadic-network";
-  const panelWidth = textWidth + (compactNetwork ? 18 : 26);
-  const panelHeight = Math.max(compactNetwork ? 30 : 34, lineCount * (compactNetwork ? 20 : 22) + (compactNetwork ? 8 : 12));
+  const panelGeometry = d3FlowEdgeLabelPanelGeometry(edge, strategy);
   const group = document.createElementNS(namespace, "g");
   group.setAttribute("class", "d3-flow-edge-label-group");
   group.setAttribute("data-key", `edge-label:${edge.id}`);
@@ -641,10 +638,10 @@ function addEdgeLabel(
 
   const panel = document.createElementNS(namespace, "rect");
   panel.setAttribute("class", "d3-flow-edge-label-panel");
-  panel.setAttribute("x", String(edge.labelX - panelWidth / 2));
-  panel.setAttribute("y", String(edge.labelY - panelHeight / 2 - 2));
-  panel.setAttribute("width", String(panelWidth));
-  panel.setAttribute("height", String(panelHeight));
+  panel.setAttribute("x", String(panelGeometry.x - panelGeometry.width / 2));
+  panel.setAttribute("y", String(panelGeometry.y - panelGeometry.height / 2));
+  panel.setAttribute("width", String(panelGeometry.width));
+  panel.setAttribute("height", String(panelGeometry.height));
   panel.setAttribute("rx", "4");
   panel.setAttribute("aria-hidden", "true");
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
@@ -1154,7 +1151,7 @@ export function createSvgD3FlowRuntime(): D3FlowRuntimePort {
               const top = -layoutNode.height / 2;
               const peers = layout.strategy === "space-filling-flow" ? layout.nodes
                 : layout.nodes.filter(node => node.y === layoutNode.y);
-              const titleRows = Math.max(...peers.map(node => node.labelLines.length));
+              const titleRows = layoutNode.labelLines.length;
               const titleHeight = Math.max(1, titleRows) * 28;
               const hasContent = layoutNode.bodyLines.length || modelNode.notation || modelNode.visualMotif || modelNode.parts?.length;
               const headerHeight = hasContent ? Math.max(68, 32 + titleHeight) : layoutNode.height;

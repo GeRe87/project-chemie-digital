@@ -452,3 +452,132 @@ test("every supported semantic motif has reusable native SVG primitives outside 
     restoreDom();
   }
 });
+
+test("concrete SVG fanout keeps each card header and body within its own bounds", () => {
+  const restoreDom = installFakeDom();
+  try {
+    const titles = [
+      "Independent river-water preparations",
+      "Method A",
+      "Method B",
+      "Method C",
+      "Recovery",
+    ];
+    const bodies = [
+      "Synthetic teaching design; a preparation is the experimental unit.",
+      "Six independent river-water preparations.",
+      "Six independent river-water preparations.",
+      "Six independent river-water preparations.",
+      "Measured response in percent; compare population means.",
+    ];
+    const ids = titles.map((_, index) => `node:fanout-${index}`);
+    const layers = [0, 1, 1, 1, 2];
+    const fixture: DiagramBlock = {
+      kind: "diagram",
+      id: "diagram:header-row-peers",
+      diagramType: "flow",
+      label: "River-water preparation comparison",
+      description: "Compare three methods and their recovery measurements.",
+      source: [{ resourceId: "scene:header-row-peers" }],
+      nodes: titles.map((title, index) => ({
+        id: ids[index]!,
+        label: title,
+        description: bodies[index]!,
+        source: [{ resourceId: `example:preparation-${index}` }],
+      })),
+      edges: [[0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [3, 4]].map(([from, to], index) => ({
+        id: `edge:fanout-${index}`,
+        sourceNodeId: ids[from!]!,
+        targetNodeId: ids[to!]!,
+        label: from === 0 ? "Prepare separately" : "Measure",
+        source: [{ resourceId: `example:connection-${index}` }],
+      })),
+    };
+    const rendered = createD3FlowRenderModel(fixture, {
+      reducedMotion: true,
+      interactionPolicy: "static",
+    });
+    assert.ok(rendered.model);
+    const model = rendered.model;
+    const layout = createD3FlowLayout(model, 1200);
+    const cards = model.nodes.map(node => {
+      const card = layout.nodes.find(candidate => candidate.id === node.id);
+      assert.ok(card);
+      return card;
+    });
+    assert.equal(cards.length, 5);
+    assert.ok(cards.some((card, index) => cards.some((peer, peerIndex) =>
+      layers[index] !== layers[peerIndex] && card.y === peer.y &&
+      card.labelLines.length > peer.labelLines.length
+    )), "fixture must have a longer title sharing a row with a different graph layer");
+
+    const host = new FakeHTMLElement("div");
+    host.clientWidth = 1200;
+    const mounted = createSvgD3FlowRuntime().mount(host, model, layout);
+    try {
+      assert.equal(host.findByTag("svg").length, 1);
+      assert.equal(host.findByClass("d3-flow-card-header-panel").length, 5);
+      assert.equal(host.findByClass("d3-flow-card-number-badge").length, 5);
+      const normalize = (value: string): string => value.replace(/\s+/gu, " ").trim();
+      const text = (element: FakeElement): string => {
+        if (!element.children.length) return element.textContent ?? "";
+        return element.children.map(text).join(" ");
+      };
+      const numeric = (element: FakeElement, attribute: string): number => {
+        const value = element.getAttribute(attribute);
+        assert.notEqual(value, null, `missing ${attribute} on ${element.tagName}`);
+        const result = Number(value);
+        assert.ok(Number.isFinite(result), `invalid ${attribute}: ${value}`);
+        return result;
+      };
+
+      cards.forEach((card, index) => {
+        assert.equal(normalize(card.labelLines.join(" ")), titles[index]);
+        assert.equal(normalize(card.bodyLines.join(" ")), bodies[index]);
+        const group = host.findByTag("g").find(candidate =>
+          candidate.getAttribute("data-node-id") === card.id
+        );
+        assert.ok(group, `missing SVG group for ${card.id}`);
+        const top = -card.height / 2;
+        const bottom = card.height / 2;
+        const panel = group.findByClass("d3-flow-card-header-panel")[0];
+        assert.ok(panel);
+        assert.ok(numeric(panel, "y") >= top);
+        assert.ok(numeric(panel, "y") + numeric(panel, "height") <= bottom);
+        const header = group.findByClass("d3-flow-node-header")[0];
+        const body = group.findByClass("d3-flow-node-body-group")[0];
+        assert.ok(header);
+        assert.ok(body);
+        assert.equal(normalize(text(header)), titles[index]);
+        assert.equal(normalize(text(body)), bodies[index]);
+        assert.equal(group.findByClass("d3-flow-card-number-badge").length, 1);
+        const number = group.findByClass("d3-flow-card-number")[0];
+        assert.ok(number);
+        assert.equal(normalize(text(number)), String(index + 1).padStart(2, "0"));
+
+        for (const region of [header, body]) {
+          const texts = region.findByTag("text");
+          assert.ok(texts.length > 0);
+          for (const element of texts) {
+            let baseline = Number(element.getAttribute("y") ?? "0") + Number(element.getAttribute("dy") ?? "0");
+            assert.ok(Number.isFinite(baseline));
+            const spans = element.findByTag("tspan");
+            if (!spans.length) {
+              assert.ok(baseline >= top && baseline <= bottom, `${titles[index]} text outside its card`);
+            }
+            for (const span of spans) {
+              if (span.hasAttribute("y")) baseline = numeric(span, "y");
+              if (span.hasAttribute("dy")) baseline += numeric(span, "dy");
+              assert.ok(baseline >= top && baseline <= bottom,
+                `${titles[index]} baseline ${baseline} outside [${top}, ${bottom}]`);
+            }
+          }
+        }
+      });
+    } finally {
+      mounted.destroy();
+    }
+  } finally {
+    restoreDom();
+  }
+});

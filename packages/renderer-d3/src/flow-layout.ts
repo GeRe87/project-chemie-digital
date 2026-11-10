@@ -110,6 +110,94 @@ interface PreparedNode extends D3FlowLayoutNodeInput {
 }
 
 // Renderer-local geometry constraints keep authored graph content readable across hosts.
+
+function segmentCrossesCardInterior(
+  a: D3FlowLayoutPoint,
+  b: D3FlowLayoutPoint,
+  node: D3FlowLayoutNode,
+): boolean {
+  let enter = -Infinity;
+  let exit = Infinity;
+  for (const [start, delta, low, high] of [
+    [a.x, b.x - a.x, node.x - node.width / 2, node.x + node.width / 2],
+    [a.y, b.y - a.y, node.y - node.height / 2, node.y + node.height / 2],
+  ]) {
+    if (delta === 0) {
+      if (start! <= low! || start! >= high!) return false;
+    } else {
+      const first = (low! - start!) / delta!;
+      const last = (high! - start!) / delta!;
+      enter = Math.max(enter, Math.min(first, last));
+      exit = Math.min(exit, Math.max(first, last));
+    }
+  }
+  return Math.max(enter, 0) < Math.min(exit, 1);
+}
+
+function blockedForwardFlowRoute(
+  source: D3FlowLayoutNode,
+  target: D3FlowLayoutNode,
+  nodes: readonly D3FlowLayoutNode[],
+  width: number,
+  height: number,
+): readonly D3FlowLayoutPoint[] | undefined {
+  if (target.x <= source.x || Math.abs(source.y - target.y) >= 1) return undefined;
+  const first = { x: source.x + source.width / 2, y: source.y };
+  const last = { x: target.x - target.width / 2, y: target.y };
+  if (first.x >= last.x) return undefined;
+  const others = nodes.filter(node => node.id !== source.id && node.id !== target.id);
+  const blockers = others.filter(node => segmentCrossesCardInterior(first, last, node));
+  if (!blockers.length) return undefined;
+
+  // End the horizontal stubs inside the actual free gaps beside the cards.
+  let rightLimit = last.x;
+  let leftLimit = first.x;
+  for (const node of nodes) {
+    const left = node.x - node.width / 2;
+    const right = node.x + node.width / 2;
+    const top = node.y - node.height / 2;
+    const bottom = node.y + node.height / 2;
+    if (node.id !== source.id && top < first.y && first.y < bottom && right > first.x) {
+      rightLimit = Math.min(rightLimit, left);
+    }
+    if (node.id !== target.id && top < last.y && last.y < bottom && left < last.x) {
+      leftLimit = Math.max(leftLimit, right);
+    }
+  }
+  if (rightLimit <= first.x || leftLimit >= last.x) return undefined;
+  const sourceGutter = first.x + Math.min(12, (rightLimit - first.x) / 2);
+  const targetGutter = last.x - Math.min(12, (last.x - leftLimit) / 2);
+  if (sourceGutter >= targetGutter) return undefined;
+
+  const blockerTop = Math.min(...blockers.map(node => node.y - node.height / 2));
+  const blockerBottom = Math.max(...blockers.map(node => node.y + node.height / 2));
+  const boundaries = [...new Set([
+    0, height,
+    ...nodes.flatMap(node => [node.y - node.height / 2, node.y + node.height / 2]),
+  ].filter(y => Number.isFinite(y) && y >= 0 && y <= height))].sort((a, b) => a - b);
+  const lanes = [blockerTop - 12, blockerBottom + 12];
+  for (let index = 1; index < boundaries.length; index++) {
+    lanes.push((boundaries[index - 1]! + boundaries[index]!) / 2);
+  }
+  for (const lane of lanes) {
+    if (!Number.isFinite(lane) || lane < 0 || lane > height) continue;
+    if (lane > blockerTop && lane < blockerBottom) continue;
+    const points = [
+      first,
+      { x: sourceGutter, y: first.y },
+      { x: sourceGutter, y: lane },
+      { x: targetGutter, y: lane },
+      { x: targetGutter, y: last.y },
+      last,
+    ];
+    if (points.some(point => !Number.isFinite(point.x) || !Number.isFinite(point.y)
+      || point.x < 0 || point.x > width || point.y < 0 || point.y > height)) continue;
+    const clear = points.slice(1).every((point, index) =>
+      nodes.every(node => !segmentCrossesCardInterior(points[index]!, point, node)));
+    if (clear) return points;
+  }
+  return undefined;
+}
 const FLOW_MIN_WIDTH = 320;
 const FLOW_HORIZONTAL_BREAKPOINT = 900;
 const COMPACT_LINEAR_HORIZONTAL_BREAKPOINT = 560;
@@ -301,15 +389,21 @@ interface LayoutRect {
   readonly height: number;
 }
 
-function edgeLabelRect(edge: D3FlowLayoutEdge): LayoutRect {
+/** Exact SVG panel bounds; text remains centred on the authored label position. */
+export function d3FlowEdgeLabelPanelGeometry(
+  edge: Pick<D3FlowLayoutEdge, "labelX" | "labelY" | "labelLines">,
+  strategy: D3FlowLayoutStrategy,
+): LayoutRect {
   const lineCount = Math.max(edge.labelLines.length, 1);
-  const textWidth = Math.max(48, ...edge.labelLines.map((line) => deterministicFlowTextMeasure(line)));
-  const compact = textWidth <= 130;
+  const textWidth = Math.max(48, ...edge.labelLines.map(deterministicFlowTextMeasure));
+  const compactNetwork = strategy === "radial-network" || strategy === "triadic-network";
   return {
     x: edge.labelX,
-    y: edge.labelY,
-    width: textWidth + (compact ? 18 : 26),
-    height: Math.max(compact ? 30 : EDGE_LABEL_MIN_HEIGHT, lineCount * EDGE_LABEL_LINE_HEIGHT + EDGE_LABEL_VERTICAL_PADDING),
+    y: edge.labelY - 2,
+    width: textWidth * (compactNetwork ? 1.25 : 1) + 26,
+    height: Math.max(compactNetwork ? 30 : EDGE_LABEL_MIN_HEIGHT,
+      lineCount * (compactNetwork ? 20 : EDGE_LABEL_LINE_HEIGHT)
+        + (compactNetwork ? 8 : EDGE_LABEL_VERTICAL_PADDING)),
   };
 }
 
@@ -337,7 +431,7 @@ function candidateEdgeLabelPositions(
   orientation: D3FlowOrientation,
   layoutWidth: number,
 ): readonly { readonly x: number; readonly y: number }[] {
-  const panel = edgeLabelRect(edge);
+  const panel = d3FlowEdgeLabelPanelGeometry(edge, strategy);
   const edgeMidX = midpoint(edge.x1, edge.x2);
   const edgeMidY = midpoint(edge.y1, edge.y2);
   const candidates: Array<{ x: number; y: number }> = [];
@@ -406,7 +500,8 @@ function candidateEdgeLabelPositions(
   return candidates;
 }
 
-function resolveEdgeLabelCollisions(
+/** Renderer-local collision repair, preserving edge routes and canonical ordering. */
+export function resolveEdgeLabelCollisions(
   edges: readonly D3FlowLayoutEdge[],
   nodes: readonly D3FlowLayoutNode[],
   width: number,
@@ -431,17 +526,67 @@ function resolveEdgeLabelCollisions(
 
     const candidates = candidateEdgeLabelPositions(edge, source, target, strategy, orientation, width);
     let chosen = edge;
-    let chosenRect = edgeLabelRect(edge);
+    let chosenRect = d3FlowEdgeLabelPanelGeometry(edge, strategy);
+    let found = false;
+    const accepts = (rect: LayoutRect): boolean => insideLayout(rect, width, height)
+      && !nodeRects.some(node => overlaps(rect, node, 10))
+      && !placedLabelRects.some(label => overlaps(rect, label, 8));
 
     for (const candidate of candidates) {
       const translated = translatedEdge(edge, candidate.x, candidate.y);
-      const rect = edgeLabelRect(translated);
-      if (!insideLayout(rect, width, height)) continue;
-      if (nodeRects.some((node) => overlaps(rect, node, 10))) continue;
-      if (placedLabelRects.some((label) => overlaps(rect, label, 8))) continue;
+      const rect = d3FlowEdgeLabelPanelGeometry(translated, strategy);
+      if (!accepts(rect)) continue;
       chosen = translated;
       chosenRect = rect;
+      found = true;
       break;
+    }
+
+    if (!found) {
+      // At most 64 coordinates per axis and 4096 candidates. Boundary and
+      // obstacle-side coordinates find narrow free gutters; a coarse grid
+      // covers other free areas without a pixel search or node relayout.
+      const panel = chosenRect;
+      const minX = panel.width / 2 + 8;
+      const maxX = width - panel.width / 2 - 8;
+      const minY = panel.height / 2 + 8;
+      const maxY = height - panel.height / 2 - 8;
+      if (minX <= maxX && minY <= maxY) {
+        const xs = new Set<number>([minX, maxX]);
+        const ys = new Set<number>([minY, maxY]);
+        const add = (values: Set<number>, value: number, min: number, max: number): void => {
+          if (values.size < 64 && Number.isFinite(value) && value >= min && value <= max) values.add(value);
+        };
+        for (let index = 1; index < 16; index++) {
+          add(xs, minX + (maxX - minX) * index / 16, minX, maxX);
+          add(ys, minY + (maxY - minY) * index / 16, minY, maxY);
+        }
+        const obstacles = [
+          ...nodeRects.map(rect => ({rect, padding: 10})),
+          ...placedLabelRects.map(rect => ({rect, padding: 8})),
+        ];
+        for (const {rect, padding} of obstacles) {
+          for (const sign of [-1, 1]) {
+            add(xs, rect.x + sign * ((rect.width + panel.width) / 2 + padding), minX, maxX);
+            add(ys, rect.y + sign * ((rect.height + panel.height) / 2 + padding), minY, maxY);
+          }
+        }
+        const anchorX = midpoint(edge.x1, edge.x2);
+        const anchorY = midpoint(edge.y1, edge.y2);
+        const fallback = [...xs].flatMap(x => [...ys].map(y => ({x, y})))
+          .sort((a, b) => Math.hypot(a.x - anchorX, a.y - anchorY)
+            - Math.hypot(b.x - anchorX, b.y - anchorY) || a.x - b.x || a.y - b.y);
+        for (const candidate of fallback) {
+          // Candidate coordinates denote the panel centre, not the text centre.
+          const translated = translatedEdge(edge, candidate.x, candidate.y + 2);
+          const rect = d3FlowEdgeLabelPanelGeometry(translated, strategy);
+          if (!accepts(rect)) continue;
+          chosen = translated;
+          chosenRect = rect;
+          break;
+        }
+      }
+      // No sampled free position: retain the original, honestly unresolved label.
     }
 
     placedLabelRects.push(chosenRect);
@@ -1801,6 +1946,24 @@ export function createD3FlowLayout(input: D3FlowLayoutInput, hostWidth: number):
       const labelWidth = Math.max(48, ...labelLines.map(deterministicFlowTextMeasure)) + 26;
       const inlineLabel = Math.abs(source.y - target.y) < 1 && Math.abs(x2 - x1) >= labelWidth + 12
         && input.nodes.every(node => !node.notation && !node.visualMotif && !node.parts?.length);
+      const routePoints = blockedForwardFlowRoute(source, target, geometry.nodes, geometry.width, geometry.height);
+      if (routePoints) {
+        const center = polylineMidpoint(routePoints);
+        return {
+          id: edge.id,
+          sourceNodeId: edge.sourceNodeId,
+          targetNodeId: edge.targetNodeId,
+          x1,
+          y1: source.y,
+          x2,
+          y2: target.y,
+          labelX: center.x,
+          labelY: center.y - HORIZONTAL_EDGE_LABEL_CLEARANCE,
+          labelLines,
+          routePoints,
+          ...(edge.visualRole ? { visualRole: edge.visualRole } : {}),
+        };
+      }
       return {
         id: edge.id,
         sourceNodeId: edge.sourceNodeId,
