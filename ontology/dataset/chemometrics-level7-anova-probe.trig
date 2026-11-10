@@ -1,0 +1,446 @@
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-probe> {
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <http://www.w3.org/2004/02/skos/core#prefLabel> "Group means and the grand mean"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic preparations compare group means with the grand mean. Scale changes are hypothetical; reset restores the originals."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/chartType> <https://w3id.org/project-chemie-digital/ontology/ScientificExperiment> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/differenceUnit> "percentage points" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/experimentKind> "anova-one-way" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/xAxisLabel> "SPE method"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/yAxisLabel> "Recovery"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-07> <https://w3id.org/project-chemie-digital/ontology/yAxisUnit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <http://www.w3.org/2004/02/skos/core#prefLabel> "What makes F large?"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/body> "Explore hypothetical changes in between-group separation and within-group scatter. Reset restores the illustrative synthetic measurements."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/chartType> <https://w3id.org/project-chemie-digital/ontology/ScientificExperiment> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/differenceUnit> "percentage points" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/experimentKind> "anova-one-way" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/xAxisLabel> "SPE method"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/yAxisLabel> "Recovery"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-13> <https://w3id.org/project-chemie-digital/ontology/yAxisUnit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <http://www.w3.org/2004/02/skos/core#prefLabel> "Place F on the null distribution"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/body> "Compare the current ratio with its null reference under the stated model assumptions. Scale changes are hypothetical, not new measurements."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/chartType> <https://w3id.org/project-chemie-digital/ontology/ScientificExperiment> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/differenceUnit> "percentage points" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/experimentKind> "anova-one-way" .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasChartGroup> <https://w3id.org/project-chemie-digital/resource/l7-river-group-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasExperimentParameter> <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/xAxisLabel> "SPE method"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/yAxisLabel> "Recovery"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-chart-19> <https://w3id.org/project-chemie-digital/ontology/yAxisUnit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Between-group separation"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "betweenScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <http://www.w3.org/2004/02/skos/core#prefLabel> "Comparison view"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/numericValue> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "view" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "2"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Within-group scatter"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "withinScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Between-group separation"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "betweenScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <http://www.w3.org/2004/02/skos/core#prefLabel> "Comparison view"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "view" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "2"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Within-group scatter"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "withinScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Between-group separation"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "betweenScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <http://www.w3.org/2004/02/skos/core#prefLabel> "Comparison view"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/numericValue> "2"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "view" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "2"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ExperimentParameter> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <http://www.w3.org/2004/02/skos/core#prefLabel> "Within-group scatter"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/adjustableParameter> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/numericValue> "1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterKey> "withinScale" .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMaximum> "3"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterMinimum> "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/parameterStep> "0.1"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <http://purl.org/dc/terms/hasPart> <https://w3id.org/project-chemie-digital/resource/l7-legend-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/MathExpression> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/body> "Divide the between-group mean square by the within-group mean square. A positive within-group mean square is required for this finite ratio."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/formulaLabel> "Between-group variation relative to within-group variation"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-formula-f> <https://w3id.org/project-chemie-digital/ontology/latex> "F=\\frac{\\mathrm{MS}_{B}}{\\mathrm{MS}_{W}}" .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-07> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-07> <http://www.w3.org/2004/02/skos/core#prefLabel> "Group means and the grand mean"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-07> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-13> <http://www.w3.org/2004/02/skos/core#prefLabel> "What makes F large?"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-13> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-19> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-19> <http://www.w3.org/2004/02/skos/core#prefLabel> "Place F on the null distribution"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-heading-19> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/DefinitionListEntry> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <http://www.w3.org/2004/02/skos/core#prefLabel> "Every symbol, unit and model condition"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/body> """- **F**: dimensionless omnibus test statistic.
+- **MS_B**: group-size-weighted between-group sum of squares divided by (k−1), in percentage points squared.
+- **MS_W**: residual within-group sum of squares divided by (N−k), in percentage points squared.
+- **B/W**: subscripts meaning between groups/within groups.
+- **k**: number of groups; k>1.
+- **N**: total observations; N>k.
+- **=**: equality.
+- **fraction bar**: division of MS_B by MS_W.
+
+The fixed-effects model assumes independent Normal errors with a common positive variance. The omnibus test asks whether all population means are equal. MS_W must be positive; F is undefined when this error mean square is zero."""@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/DefinitionList> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f> <https://w3id.org/project-chemie-digital/ontology/hasDefinitionListEntry> <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-legend-f> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Definition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> <https://w3id.org/project-chemie-digital/ontology/body> "A joint comparison of population group means using between-group and within-group mean squares under a fixed-effects independent Normal common-variance model."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l5-f-distribution> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l6-df> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Concept> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <http://www.w3.org/2004/02/skos/core#prefLabel> "One-way analysis of variance"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <https://w3id.org/project-chemie-digital/ontology/hasDefinition> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level7-anova-lecture> {
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-07> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-13> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-step-19> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene19> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/LearningPath> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <http://www.w3.org/2004/02/skos/core#prefLabel> "ANOVA: three-scene technical preview"@en .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/forLearningUnit> <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/forTopic> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/hasStep> <https://w3id.org/project-chemie-digital/resource/l7-step-07> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/hasStep> <https://w3id.org/project-chemie-digital/resource/l7-step-13> .
+  <https://w3id.org/project-chemie-digital/resource/path-chemometrics-level7-anova-lecture> <https://w3id.org/project-chemie-digital/ontology/hasStep> <https://w3id.org/project-chemie-digital/resource/l7-step-19> .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-probe> {
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/HeadingRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "skos:prefLabel@en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/ChartRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "cd:body" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/HeadingRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "skos:prefLabel@en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/ChartRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "cd:body" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/FormulaRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "cd:latex" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/HeadingRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "skos:prefLabel@en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/ChartRole> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/language> "en" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/selectionPath> "cd:body" .
+  <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> <https://w3id.org/project-chemie-digital/ontology/selectsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l5-f-distribution> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l6-df> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/focusConcept> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-07-1> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-07-2> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene07> <https://w3id.org/project-chemie-digital/ontology/narration> "These illustrative synthetic measurements represent eighteen independent river-water sample preparations, six for each SPE method. Recovery is recorded as a percentage, not as a fraction. Each method has its own mean: 94%, 98% and 93% for A, B and C. The grand mean is 95%, calculated over all eighteen preparations. Equal group sizes make this also the average of the three group means; unequal sizes would require weighting. Use the view control to inspect the different references for departures. Between-group and within-group scaling create explicitly hypothetical states, not new measurements. Differences use percentage points and squared departures use percentage points squared. Classical inference assumes independent Normal errors with a common positive variance. An omnibus comparison concerns all population means jointly, not individual pairwise conclusions."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l5-f-distribution> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l6-df> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/focusConcept> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-13-1> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-13-2> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-13-3> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene13> <https://w3id.org/project-chemie-digital/ontology/narration> "Start with the illustrative synthetic river-water preparations and keep each observation attached to its original method. The between-group scale moves group means relative to the grand mean, while the within-group scale changes departures around each group mean. These are hypothetical teaching transformations, not laboratory observations. Reset restores the original percentages. Inspect how the ratio of between-group to within-group mean squares changes rather than assuming that a larger spread always strengthens evidence. Both mean squares use percentage points squared, so their ratio is dimensionless. The displayed formula and attached symbol legend describe this comparison. A zero within-group mean square is a degenerate state, not an ordinary zero statistic. Classical calibration assumes independent Normal errors with common positive variance. The omnibus result does not identify which pairs of population means differ."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l5-f-distribution> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l6-df> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneDefinition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/focusConcept> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-19-1> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/hasSceneItem> <https://w3id.org/project-chemie-digital/resource/l7-item-19-2> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-scene19> <https://w3id.org/project-chemie-digital/ontology/narration> "For the original illustrative synthetic river-water preparations, F = 21 with degrees of freedom 2 and 15. The upper-tail probability is p = 0.0000448356040690602 under equal population means. At a prespecified significance level of 0.05, this rejects that joint null, assuming independent Normal errors with common positive variance. This is not the probability that the null is true and does not identify differing pairs. Recovery is in percent; differences are percentage points. Scale controls create hypothetical observations requiring recomputed statistics; baseline numbers do not describe transformed states. The initial view uses the existing generic F-reference panel with density, an F marker and visible tail shading, not a separately authored drawing. Display bounds omit infinity, but the analytic probability counts the full right tail."@en .
+}
+
+<https://w3id.org/project-chemie-digital/graph/sources/level7-anova-probe> {
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://purl.org/dc/terms/creator> "NIST/SEMATECH" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://purl.org/dc/terms/description> "Methods reference for one-way analysis of variance; not the provenance of the synthetic observations."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://purl.org/dc/terms/identifier> "NIST-PPC-2.3.1" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://purl.org/dc/terms/source> <https://itl.nist.gov/div898/handbook/ppc/section2/ppc231.htm> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://purl.org/dc/terms/title> "NIST/SEMATECH: one-way ANOVA" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Source> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-legend-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <http://purl.org/dc/terms/creator> "course author" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <http://purl.org/dc/terms/description> "Pedagogical synthetic values supplied in the teaching package. These are illustrative synthetic measurements, not empirical laboratory data or NIST observations."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <http://purl.org/dc/terms/identifier> "package SHA2e845809dcb8b607b722e9b7978658064e8651d434f5b6d93fbaae751011ffa7" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <http://purl.org/dc/terms/title> "Synthetic ANOVA teaching briefing 2026-11-10" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Source> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-07-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-07-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-07-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-13-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-13-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-13-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-19-betweenScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-19-view> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-control-19-withinScale> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-matrix> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-method-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-method-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-method-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-method> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-group-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-group-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river_water> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-wastewater> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://purl.org/dc/terms/creator> "SciPy contributors" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://purl.org/dc/terms/description> "Methods reference for the classical independent-group one-way ANOVA and its assumptions; not a source of experimental observations."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://purl.org/dc/terms/identifier> "SciPy-stats-f_oneway" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://purl.org/dc/terms/source> <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://purl.org/dc/terms/title> "SciPy: scipy.stats.f_oneway" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Source> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-19> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-legend-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova-definition> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-scene19> .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/level7-anova> {
+  <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/LearningUnit> .
+  <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> <http://www.w3.org/2004/02/skos/core#prefLabel> "ANOVA technical preview"@en .
+  <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> <https://w3id.org/project-chemie-digital/ontology/hasFocusConcept> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
+}
