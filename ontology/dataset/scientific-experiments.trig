@@ -5,7 +5,8 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 <https://w3id.org/project-chemie-digital/graph/ontology/scientific-experiments> {
- cd:LearningDomain cdm:definesControlledValue cd:ScientificExperiment ; cdm:definesConcept cd:ExperimentParameter ; cdm:definesRelation cd:hasExperimentParameter ; cdm:definesAttribute cd:experimentKind, cd:parameterKey, cd:parameterMinimum, cd:parameterMaximum, cd:parameterStep, cd:adjustableParameter, cd:alternativeValue .
+ cd:LearningDomain cdm:definesControlledValue cd:ScientificExperiment ; cdm:definesConcept cd:ExperimentParameter ; cdm:definesRelation cd:hasExperimentParameter ; cdm:definesAttribute cd:experimentKind, cd:parameterKey, cd:parameterMinimum, cd:parameterMaximum, cd:parameterStep, cd:adjustableParameter, cd:alternativeValue, cd:differenceUnit .
+ cd:differenceUnit a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range xsd:string .
  cd:ScientificExperiment a cdm:ControlledValue ; rdfs:label "Scientific model experiment"@en .
  cd:ExperimentParameter a rdfs:Class, cdm:ConceptDescriptor .
  cd:hasExperimentParameter a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:ChartDefinition ; rdfs:range cd:ExperimentParameter .
@@ -20,7 +21,13 @@
 <https://w3id.org/project-chemie-digital/graph/shapes/scientific-experiments> {
  cd:ScientificExperimentShape a sh:NodeShape ; sh:targetSubjectsOf cd:experimentKind ;
   sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ;
-   sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" "t-test" "pairwise-score" ) ] ;
+   sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" "t-test" "pairwise-score" "anova-one-way" ) ] ;
+  sh:or (
+   [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "anova-one-way" ] ; sh:node cd:GroupedAnovaShape ]
+   [ sh:not [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "anova-one-way" ] ] ;
+     sh:property [ sh:path cd:hasChartGroup ; sh:maxCount 0 ] ;
+     sh:property [ sh:path cd:differenceUnit ; sh:maxCount 0 ] ]
+  ) ;
   sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 1 ; sh:class cd:ExperimentParameter ; sh:nodeKind sh:IRI ] ;
   sh:or (
    [ sh:not [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "pairwise-score" ] ] ]
@@ -31,6 +38,84 @@
        ] ]
    ] ] ]
   ) .
+ cd:GroupedAnovaShape a sh:NodeShape ; sh:targetSubjectsOf cd:differenceUnit ;
+  sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue cd:ScientificExperiment ] ;
+  sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue "anova-one-way" ] ;
+  sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "\\S" ] ;
+  sh:property [ sh:path cd:differenceUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "\\S" ] ;
+  sh:property [ sh:path cd:usesDataset ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:hasChartAnnotation ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:numericXAxis ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:drawStems ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:yAxisMinimum ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:markerRadius ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:markerOpacity ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:summaryRadius ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:observationLabel ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:summaryLabel ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:chartPresentation ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:lineInterpolation ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:showChartPoints ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:chartYMinimum ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:chartYMaximum ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:fenceMultiplier ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:showObservations ; sh:maxCount 0 ] ;
+  sh:property [ sh:path <http://purl.org/dc/terms/hasPart> ; sh:maxCount 0 ] ;
+  sh:property [ sh:path cd:hasChartGroup ; sh:minCount 2 ; sh:maxCount 20 ; sh:class cd:ChartGroup ; sh:nodeKind sh:IRI ; sh:node cd:ChartGroupShape ; sh:node [
+    sh:property [ sh:path cd:groupXValue ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:summaryResult ; sh:maxCount 0 ] ;
+    sh:property [ sh:path cd:displayInterval ; sh:maxCount 0 ] ;
+    sh:property [ sh:path ( cd:usesDataset cd:hasObservation ) ; sh:minCount 2 ; sh:class cd:Observation ; sh:nodeKind sh:IRI ; sh:node cd:DotPlotObservationShape ]
+  ] ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:minCount 3 ; sh:maxCount 3 ; sh:class cd:ExperimentParameter ; sh:nodeKind sh:IRI ; sh:node cd:ExperimentParameterShape ; sh:node [
+    sh:property [ sh:path cd:parameterKey ; sh:in ( "betweenScale" "withinScale" "view" ) ] ;
+    sh:property [ sh:path cd:parameterMinimum ; sh:minInclusive 0 ] ;
+    sh:or (
+      [
+        sh:property [ sh:path cd:parameterKey ; sh:in ( "betweenScale" "withinScale" ) ] ;
+        sh:property [ sh:path cd:parameterMinimum ; sh:minInclusive 0 ; sh:maxInclusive 3 ] ;
+        sh:property [ sh:path cd:numericValue ; sh:minInclusive 0 ; sh:maxInclusive 3 ] ;
+        sh:property [ sh:path cd:parameterMaximum ; sh:minInclusive 0 ; sh:maxInclusive 3 ]
+      ]
+      [
+        sh:property [ sh:path cd:parameterKey ; sh:hasValue "view" ] ;
+        sh:property [ sh:path cd:parameterMinimum ; sh:minInclusive 0 ; sh:maxInclusive 2 ] ;
+        sh:property [ sh:path cd:numericValue ; sh:minInclusive 0 ; sh:maxInclusive 2 ] ;
+        sh:property [ sh:path cd:parameterMaximum ; sh:minInclusive 0 ; sh:maxInclusive 2 ] ;
+        sh:sparql [
+          sh:message "Grouped ANOVA view minimum, value, maximum and step must be integers." ;
+          sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this ?predicate ?value .
+  FILTER (?predicate IN (cd:parameterMinimum, cd:numericValue, cd:parameterMaximum, cd:parameterStep))
+  FILTER (?value != FLOOR(?value))
+}"""
+        ]
+      ]
+    )
+  ] ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:qualifiedValueShape [ sh:property [ sh:path cd:parameterKey ; sh:hasValue "betweenScale" ] ] ; sh:qualifiedMinCount 1 ; sh:qualifiedMaxCount 1 ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:qualifiedValueShape [ sh:property [ sh:path cd:parameterKey ; sh:hasValue "withinScale" ] ] ; sh:qualifiedMinCount 1 ; sh:qualifiedMaxCount 1 ] ;
+  sh:property [ sh:path cd:hasExperimentParameter ; sh:qualifiedValueShape [ sh:property [ sh:path cd:parameterKey ; sh:hasValue "view" ] ] ; sh:qualifiedMinCount 1 ; sh:qualifiedMaxCount 1 ] ;
+  sh:sparql [
+    sh:message "Grouped ANOVA supports at most 1000 observations." ;
+    sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasChartGroup ?group .
+  ?group cd:usesDataset/cd:hasObservation ?observation .
+} GROUP BY $this HAVING (COUNT(?observation) > 1000)"""
+  ] ;
+  sh:sparql [
+    sh:message "An observation may belong to only one selected ANOVA group." ;
+    sh:select """PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
+SELECT $this WHERE {
+  $this cd:hasChartGroup ?first, ?second .
+  ?first cd:usesDataset/cd:hasObservation ?observation .
+  ?second cd:usesDataset/cd:hasObservation ?observation .
+  FILTER (?first != ?second)
+}"""
+  ] .
+
  cd:ExperimentParameterShape a sh:NodeShape ; sh:targetClass cd:ExperimentParameter ;
   sh:property [ sh:path cd:parameterKey ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
   sh:property [ sh:path cd:numericValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:lessThanOrEquals cd:parameterMaximum ] ;

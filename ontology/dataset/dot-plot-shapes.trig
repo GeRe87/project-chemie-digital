@@ -39,9 +39,15 @@
 
   cd:DotPlotShape a sh:NodeShape ;
     sh:targetSubjectsOf cd:hasChartGroup ;
-    # Both primitives use the same ordered observation groups. BoxPlotShape
-    # additionally requires its quantile convention, multiplier and unit.
-    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( cd:DotPlot cd:BoxPlot ) ] ;
+    # Dot plots, box plots and one-way ANOVA share ordered observation groups.
+    # Other scientific experiments do not support this grouping contract.
+    sh:property [ sh:path cd:chartType ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:or (
+      [ sh:property [ sh:path cd:chartType ; sh:in ( cd:DotPlot cd:BoxPlot ) ] ]
+      [ sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ;
+        sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue "anova-one-way" ] ;
+        sh:node cd:GroupedAnovaShape ]
+    ) ;
     sh:property [ sh:path cd:yAxisUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ] ;
     sh:property [ sh:path cd:hasChartAnnotation ; sh:maxCount 1 ; sh:class cd:ChartReferenceLine ] ;
     sh:sparql [

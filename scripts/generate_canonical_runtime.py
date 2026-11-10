@@ -1345,11 +1345,95 @@ def histogram_payload(dataset: Dataset, chart: URIRef, language: str, two_dimens
     return payload,label_path
 
 
+def grouped_anova_payload(dataset: Dataset, chart: URIRef, language: str,
+                          parameters: list[dict[str, Any]]) -> tuple[dict[str, Any], str | None]:
+    """Project authored one-way ANOVA groups without calculating statistics."""
+    import math
+
+    if one(dataset, chart, iri(CD, "chartType")) != iri(CD, "ScientificExperiment"):
+        raise ValueError("Grouped ANOVA requires ScientificExperiment")
+    if literal(dataset, chart, iri(CD, "experimentKind")) != "anova-one-way":
+        raise ValueError("Grouped ANOVA requires anova-one-way")
+    forbidden = (
+        "usesDataset", "hasChartAnnotation", "numericXAxis", "drawStems",
+        "yAxisMinimum", "markerRadius", "markerOpacity", "summaryRadius",
+        "observationLabel", "summaryLabel", "chartPresentation",
+        "lineInterpolation", "showChartPoints", "chartYMinimum", "chartYMaximum",
+        "fenceMultiplier", "showObservations",
+    )
+    for predicate in forbidden:
+        if objects(dataset, chart, iri(CD, predicate)):
+            raise ValueError(f"Grouped ANOVA does not support cd:{predicate}")
+    if objects(dataset, chart, DCTERMS.hasPart):
+        raise ValueError("Grouped ANOVA does not support curve overlays")
+    for predicate in ("yAxisUnit", "differenceUnit"):
+        value = one(dataset, chart, iri(CD, predicate))
+        if (not isinstance(value, Literal) or value.language is not None
+                or value.datatype not in (None, XSD.string) or not str(value).strip()):
+            raise ValueError(f"Grouped ANOVA requires a nonempty string cd:{predicate}")
+    if len(parameters) != 3 or {p["key"] for p in parameters} != {"betweenScale", "withinScale", "view"}:
+        raise ValueError("Grouped ANOVA requires exactly betweenScale, withinScale and view parameters")
+    for parameter in parameters:
+        values = [parameter[key] for key in ("value", "minimum", "maximum", "step")]
+        if (not all(math.isfinite(value) for value in values)
+                or parameter["minimum"] < 0
+                or not parameter["minimum"] <= parameter["value"] <= parameter["maximum"]
+                or parameter["step"] <= 0):
+            raise ValueError("Grouped ANOVA requires finite, nonnegative parameter bounds and a positive step")
+        limit = 2 if parameter["key"] == "view" else 3
+        if any(not 0 <= parameter[key] <= limit
+               for key in ("minimum", "value", "maximum")):
+            raise ValueError(
+                f"Grouped ANOVA {parameter['key']} minimum, value and maximum must be within [0, {limit}]"
+            )
+        if parameter["key"] == "view" and any(value != math.floor(value) for value in values):
+            raise ValueError("Grouped ANOVA view minimum, value, maximum and step must be integers")
+    groups = objects(dataset, chart, iri(CD, "hasChartGroup"))
+    if not 2 <= len(groups) <= 20:
+        raise ValueError("Grouped ANOVA requires 2 to 20 groups")
+    for group in groups:
+        if not isinstance(group, URIRef) or not is_resource_type(dataset, group, "ChartGroup"):
+            raise ValueError("Grouped ANOVA requires ChartGroup IRIs")
+        for predicate in ("groupXValue", "summaryResult", "displayInterval"):
+            if objects(dataset, group, iri(CD, predicate)):
+                raise ValueError(f"Grouped ANOVA does not support group cd:{predicate}")
+    payload, label_path = dot_plot_payload(dataset, chart, language)
+    seen = set()
+    total = 0
+    for group in payload["groups"]:
+        if len(group["data"]) < 2:
+            raise ValueError("Grouped ANOVA requires at least two observations per group")
+        for datum in group["data"]:
+            if datum["id"] in seen:
+                raise ValueError("Grouped ANOVA observation IDs must be globally unique within the chart")
+            seen.add(datum["id"])
+            if not math.isfinite(datum["value"]):
+                raise ValueError("Grouped ANOVA observations must be finite")
+        total += len(group["data"])
+    if total > 1000:
+        raise ValueError("Grouped ANOVA supports at most 1000 observations")
+    return {
+        "chartType": "experiment", "experimentKind": "anova-one-way",
+        "label": payload["label"], "description": payload["description"],
+        "xAxis": payload["xAxis"], "yAxis": payload["yAxis"],
+        "differenceUnit": literal(dataset, chart, iri(CD, "differenceUnit")),
+        "parameters": parameters, "groups": payload["groups"],
+    }, label_path
+
+
 def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[str, Any], str | None]:
     chart_type = one(dataset, chart, iri(CD, "chartType"))
+    if chart_type != iri(CD, "ScientificExperiment") and (
+        iri(CD, "anova-one-way") in objects(dataset, chart, iri(CD, "experimentKind"))
+        or any(str(value) == "anova-one-way" for value in objects(dataset, chart, iri(CD, "experimentKind")))
+        or objects(dataset, chart, iri(CD, "differenceUnit"))
+    ):
+        raise ValueError("Grouped ANOVA requires ScientificExperiment")
     if chart_type == iri(CD,"ScientificExperiment"):
         kind=literal(dataset,chart,iri(CD,"experimentKind"))
-        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson","t-test","pairwise-score"):raise ValueError("Unknown scientific experiment mechanism")
+        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson","t-test","pairwise-score","anova-one-way"):raise ValueError("Unknown scientific experiment mechanism")
+        if kind != "anova-one-way" and any(objects(dataset, chart, iri(CD, predicate)) for predicate in ("hasChartGroup", "differenceUnit")):
+            raise ValueError("Only anova-one-way supports grouped experiment data and differenceUnit")
         parameter_ids=sorted(objects(dataset,chart,iri(CD,"hasExperimentParameter")),key=lambda p:integer(dataset,p,iri(CD,"position")))
         parameters=[]
         for resource in parameter_ids:
@@ -1360,6 +1444,8 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
             if not minimum<=value<=maximum or step<=0:raise ValueError("Invalid experiment parameter bounds")
             parameters.append({"id":compact(resource),"key":literal(dataset,resource,iri(CD,"parameterKey")),"label":selected_literal(dataset,resource,SKOS.prefLabel,"skos:prefLabel",language),"value":value,"minimum":minimum,"maximum":maximum,"step":step,"adjustable":adjustable.toPython(),"source":[source_reference(dataset,resource,"cd:numericValue"),source_reference(dataset,chart,"cd:hasExperimentParameter")]})
         if not parameters or len({p["key"] for p in parameters})!=len(parameters):raise ValueError("Experiment parameter keys must be unique")
+        if kind == "anova-one-way":
+            return grouped_anova_payload(dataset, chart, language, parameters)
         label,label_path=selected_label_reference(dataset,chart,language)
         payload={"chartType":"experiment","experimentKind":kind,"label":label,"description":selected_literal(dataset,chart,iri(CD,"body"),"cd:body",language),"parameters":parameters,"xAxis":{"label":selected_literal(dataset,chart,iri(CD,"xAxisLabel"),"cd:xAxisLabel",language)},"yAxis":{"label":selected_literal(dataset,chart,iri(CD,"yAxisLabel"),"cd:yAxisLabel",language)}}
         data=one(dataset,chart,iri(CD,"usesDataset"),required=False)
@@ -1467,7 +1553,7 @@ def effective_path_language(dataset: Dataset, selected_path: CoursePathReference
 
 
 def promote_document_version(current: str, required: str) -> str:
-    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13,"1.14":14}
+    versions = {"1.0": 0, "1.1": 1, "1.2": 2, "1.3": 3, "1.4": 4, "1.5": 5, "1.6": 6, "1.7": 7, "1.8": 8, "1.9": 9, "1.10": 10, "1.11": 11, "1.12":12, "1.13":13,"1.14":14,"1.15":15}
     return required if versions[required] > versions[current] else current
 
 
@@ -1843,8 +1929,14 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     raise ValueError(f"ChartRole requires ChartDefinition in {compact(item)}")
                 path_language = effective_path_language(dataset, selected_path)
                 payload, label_relation_path = chart_payload(dataset, selected, path_language)
-                if payload["chartType"]=="experiment":document_version=promote_document_version(document_version,"1.14")
+                if payload["chartType"] == "experiment":
+                    document_version = promote_document_version(
+                        document_version, "1.15" if payload["experimentKind"] == "anova-one-way" else "1.14")
                 block_sources = [source_reference(dataset, selected, relation_path)]
+                if payload.get("experimentKind") == "anova-one-way":
+                    block_sources.extend(source_reference(dataset, selected, predicate) for predicate in (
+                        "cd:chartType", "cd:experimentKind", "cd:hasChartGroup",
+                        "cd:yAxisUnit", "cd:differenceUnit", "cd:hasExperimentParameter"))
                 for predicate in ("chartPresentation", "lineInterpolation", "showChartPoints", "chartYMinimum", "chartYMaximum"):
                     if one(dataset, selected, iri(CD, predicate), required=False) is not None:
                         block_sources.append(source_reference(dataset, selected, "cd:" + predicate))

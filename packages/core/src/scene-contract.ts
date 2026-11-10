@@ -280,6 +280,7 @@ const chart = tagged<ChartBlock, "chartType">("chartType", {
   }),
   experiment: object<ExperimentBlock>({
     ...chartBase, chartType: choice("experiment"), experimentKind: choice(...experimentKinds),
+    groups: optional(array(dotGroup)), differenceUnit: optional(text),
     parameters: array(object<ExperimentParameter>({
       ...labelled, key: text, value: number, minimum: number, maximum: number, step: number, adjustable: boolean,
     })),

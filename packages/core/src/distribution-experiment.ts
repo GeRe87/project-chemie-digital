@@ -1,15 +1,18 @@
-import type {SceneBlockBase,ChartAxis,SourceReference} from './scene-document.ts';
+import type {SceneBlockBase,ChartAxis,SourceReference,DotPlotGroup} from './scene-document.ts';
+import {runAnovaExperiment,validateAnovaExperiment,type AnovaExperimentInput} from './anova-experiment.ts';
 import {pairwiseScores} from './pairwise-score.ts';
 import {normalPdf,normalCdf,normalQuantile,studentPdf,studentCdf,fPdf,fCdf,chiPdf,gammaQ,quantile,mean,variance,seededUniform,empiricalQuantile} from './distribution-math.ts';
-export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson','t-test','pairwise-score'] as const;
+export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson','t-test','pairwise-score','anova-one-way'] as const;
 export type ExperimentKind=typeof experimentKinds[number];
 export interface ExperimentParameter {readonly id:string;readonly key:string;readonly label:string;readonly value:number;readonly minimum:number;readonly maximum:number;readonly step:number;readonly adjustable:boolean;readonly source:readonly SourceReference[];}
 export interface ExperimentBlock extends SceneBlockBase {
   readonly kind:'chart';readonly chartType:'experiment';readonly experimentKind:ExperimentKind;readonly label:string;readonly description:string;
   readonly xAxis:ChartAxis;readonly yAxis:ChartAxis;readonly parameters:readonly ExperimentParameter[];
+  readonly groups?:readonly DotPlotGroup[];
+  readonly differenceUnit?:string;
   readonly data?:readonly {readonly x:number;readonly y:number;readonly z?:number;readonly label:string;readonly source:readonly SourceReference[]}[];
 }
-const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode'],'t-test':['view','n','mean','sd','reference','alpha','direction','effect','M','seed'],'pairwise-score':['step']};
+const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode'],'t-test':['view','n','mean','sd','reference','alpha','direction','effect','M','seed'],'pairwise-score':['step'],'anova-one-way':['betweenScale','withinScale','view']};
 function requiredParameters(b:ExperimentBlock):readonly string[]{
    if(b.experimentKind==='pairwise-score')return ['step'];
    if(b.experimentKind==='t-test')return ['view','n','mean','sd','reference','alpha','direction','effect','M','seed'];
@@ -28,7 +31,26 @@ export function validateExperiment(b:ExperimentBlock):void {
   // Validate initial execution as well as the transport. Runtime overrides repeat these checks.
   parameterValues(b);
 }
+function anovaInput(b:ExperimentBlock,p:Readonly<Record<string,number>>):AnovaExperimentInput {
+  if ('data' in b) throw Error('Grouped ANOVA does not support flat data');
+  if (typeof b.differenceUnit!=='string'||!b.differenceUnit.trim()) throw Error('Grouped ANOVA requires an explicit nonblank difference unit');
+  if (typeof b.yAxis.unit!=='string'||!b.yAxis.unit.trim()) throw Error('Grouped ANOVA requires a nonblank response unit');
+  return {
+    groups:b.groups!,unit:b.yAxis.unit,differenceUnit:b.differenceUnit,
+    parameters:{betweenScale:p.betweenScale,withinScale:p.withinScale,view:p.view},
+    groupAxisLabel:b.xAxis.label,responseAxisLabel:`${b.yAxis.label} (${b.yAxis.unit})`,
+  };
+}
 export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<string,number>>={}):Record<string,number> {
+  if (b.experimentKind!=='anova-one-way'&&('groups' in b||'differenceUnit' in b)) throw Error('Grouped observations and difference units require anova-one-way');
+  if (b.experimentKind==='anova-one-way') {
+    for (const parameter of b.parameters) {
+      if (![parameter.value,parameter.minimum,parameter.maximum,parameter.step].every(Number.isFinite)||parameter.step<=0||parameter.minimum>parameter.maximum) throw Error('Invalid authored ANOVA parameter bounds');
+      const maximum=parameter.key==='view'?2:3;
+      if (parameter.minimum<0||parameter.maximum>maximum) throw Error('ANOVA parameter bounds exceed the supported range');
+      if (parameter.key==='view'&&![parameter.minimum,parameter.maximum,parameter.step].every(Number.isInteger)) throw Error('ANOVA view bounds and step must be integers');
+    }
+  }
    const expected=[...requiredParameters(b),...(b.experimentKind==='stress'?['mu','outlierShift','drift']:[])];
   const optional:Partial<Record<ExperimentKind,readonly string[]>>={normal:['view','comparisonSigma','band'],lognormal:['view'],signed:['comparisonN'],stress:['view'],means:['comparisonN'],variance:['comparisonN'],student:['view','comparisonN','reference'],'f-ratio':['view'],calibration:['view'],pearson:['view']};
   if(expected.some(k=>!b.parameters.some(p=>p.key===k))||b.parameters.some(p=>![...expected,...(optional[b.experimentKind]??[])].includes(p.key)))throw Error('Missing or unknown experiment parameter');
@@ -41,6 +63,7 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
      if(!Number.isInteger(v.step)||v.step<0||v.step>count)throw Error('Invalid comparison step');
    }
    maxView['t-test']=1;
+   maxView['anova-one-way']=2;
   if('view'in v&&(v.view<0||v.view>(maxView[b.experimentKind]??-1)))throw Error('Unknown scientific view');
   if(b.experimentKind==='normal'&&v.view===4&&!(v.comparisonSigma>0))throw Error('Device comparison requires an authored positive comparison SD');
   if(b.experimentKind==='normal'&&v.view===3&&!(v.band>=1&&v.band<=3))throw Error('Coverage requires an authored band in [1,3]');
@@ -58,6 +81,7 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
    if(b.experimentKind==='t-test'&&(!(v.sd>0)||!Number.isInteger(v.direction)||![0,1,2].includes(v.direction)))throw Error('t-test requires positive SD and direction 0 (two-sided), 1 (upper) or 2 (lower)');
   if(b.experimentKind==='distribution'&&(!(v.scale>0)||!(v.width>0)||!(v.probability>0&&v.probability<1)||![0,1].includes(v.family)))throw Error('Invalid general distribution model');
   if('pipetteHalf'in v&&(v.pipetteHalf<0||v.pipetteHalf>=v.pipette||v.flaskHalf<0||v.flaskHalf>=v.flask||v.signalSd<0))throw Error('Invalid dilution uncertainty bounds');
+  if(b.experimentKind==='anova-one-way')validateAnovaExperiment(anovaInput(b,v));
   return v;
 }
 export interface ExperimentTrace {label:string;points:readonly {x:number;y:number}[];style:'line'|'bars'|'points'|'area'|'trajectory';emphasis?:'reference';}
@@ -74,6 +98,7 @@ export function runExperiment(b:ExperimentBlock,overrides:Readonly<Record<string
   const panel=(xLabel:string,yLabel:string,traces:ExperimentTrace[])=>r.panels.push({xLabel,yLabel,traces});
   const uniform=seededUniform(p.seed??1),normal=()=>normalQuantile(uniform());
    switch(b.experimentKind){
+    case 'anova-one-way':return runAnovaExperiment(anovaInput(b,p)).experiment;
     case 'pairwise-score':{
      const steps=pairwiseScores(b),current=steps[p.step-1];
      panel('Comparison','Accumulated score U_X',[{label:'Score account',style:'trajectory',points:[{x:0,y:0},...steps.slice(0,p.step).map((s,i)=>({x:i+1,y:s.total}))]}]);

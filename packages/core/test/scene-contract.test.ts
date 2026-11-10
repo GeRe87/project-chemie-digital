@@ -139,7 +139,8 @@ test("validation retains valid historical versions, shared object references and
     validateSceneDocument(doc);
     assert.equal(JSON.stringify(doc), before);
   }
-  assert.equal(isSceneDocumentVersion("1.15"), false);
+  assert.equal(isSceneDocumentVersion("1.16"), false);
+  assert.equal(isSceneDocumentVersion("1.15"), true);
   assert.equal(isSceneDocumentVersion(1.14), false);
   assert.equal(supportsSceneCapability("1.9", "histograms"), false);
   assert.equal(supportsSceneCapability("1.10", "histograms"), true);
@@ -148,7 +149,10 @@ test("validation retains valid historical versions, shared object references and
   assert.equal(supportsSceneCapability("1.13", "experiments"), false);
   for (const capability of ["diagrams", "charts", "derivations", "histograms", "moments", "topics", "experiments"] as const) {
     assert.equal(supportsSceneCapability("1.14", capability), true);
+    assert.equal(supportsSceneCapability("1.15", capability), true);
   }
+  assert.equal(supportsSceneCapability("1.14", "groupedExperiments"), false);
+  assert.equal(supportsSceneCapability("1.15", "groupedExperiments"), true);
 });
 
 test("nested blocks retain the declared capability version", () => {

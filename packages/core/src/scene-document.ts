@@ -978,6 +978,9 @@ function validateChart(block: ChartBlock, label: string): void {
 export {validateBlocks as validateSceneBlocks};
 function validateBlocks(blocks: readonly SceneBlock[], label: string, declaredVersion: SceneDocumentVersion): void {
   for (const block of blocks) {
+    if (block.kind === "chart" && block.chartType === "experiment" && (block.experimentKind === "anova-one-way" || 'groups' in block || 'differenceUnit' in block) && !supportsSceneCapability(declaredVersion, "groupedExperiments")) {
+      throw new SceneContractError("Grouped scientific experiments require SceneDocument 1.15");
+    }
     if (block.kind === "chart" && block.chartType === "experiment" && !supportsSceneCapability(declaredVersion, "experiments")) {
       throw new SceneContractError("Scientific experiments require SceneDocument 1.14");
     }

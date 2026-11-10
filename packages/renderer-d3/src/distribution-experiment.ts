@@ -8,10 +8,36 @@ const NS='http://www.w3.org/2000/svg';
 const format=(v:number|string)=>typeof v==='string'?v:Math.abs(v)<1e-4&&v!==0?v.toExponential(2):Number(v.toPrecision(4)).toString();
 /** Presentation emphasis only: the complete numerical result remains in details
  * and in the core's static/script fallback. Never discard or recompute results. */
+export function experimentTraceColorIndex(block:Pick<ExperimentBlock,'experimentKind'>,panel:ExperimentPanel,index:number):number|undefined {
+ const trace=panel.traces[index];
+ if(trace.emphasis==='reference')return undefined;
+ if(block.experimentKind==='anova-one-way'&&trace.style==='points')return panel.traces.slice(0,index).filter(t=>t.style==='points'&&t.emphasis!=='reference').length%5+1;
+ return index%5+1;
+}
+
+/** Presentation entries only; the original traces and their labels remain intact. */
+export function experimentLegendEntries(block:Pick<ExperimentBlock,'experimentKind'>,panel:ExperimentPanel):{label:string;reference:boolean;colorIndex:number|undefined}[] {
+ let residualAdded=false;
+ return panel.traces.flatMap((trace,index)=>{
+  if(block.experimentKind==='anova-one-way'&&trace.style==='trajectory'){
+   if(residualAdded)return [];
+   residualAdded=true;
+   return [{label:'Within-group residuals',reference:true,colorIndex:undefined}];
+  }
+  return [{label:trace.label,reference:trace.emphasis==='reference',colorIndex:experimentTraceColorIndex(block,panel,index)}];
+ });
+}
+
 export function teachingReadouts(block:ExperimentBlock,result:ReturnType<typeof runExperiment>,values:Record<string,number>={}){
  const parameter=(key:string)=>values[key]??block.parameters.find(p=>p.key===key)?.value;
  const only=(labels:string[])=>result.readouts.filter(v=>labels.includes(v.label));
   switch(block.experimentKind){
+   case 'anova-one-way': {
+    const view=parameter('view');
+    if(view===1)return only(['between','within','total'].map(key=>`SS ${key} (${block.differenceUnit})²`));
+    if(view===2)return only(['F','p-value','df between','df within']);
+    return only(['N','k',`Grand mean (${block.yAxis.unit})`]);
+   }
    case 't-test':return parameter('view')===1?only(['Worst-case type I error (%)','Simulated type II error (%)']):result.readouts;
   case 'normal':{
    if(parameter('view')===5||parameter('view')===4)return result.readouts;
@@ -56,7 +82,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
   const values:Record<string,number>={},inputs=new Map<string,HTMLInputElement>(),rangeReadouts=new Map<string,HTMLOutputElement>();
   const controlValue=(key:string,value:number)=>key==='alpha'?`${format(100*value)}%`:format(value);
  for(const p of block.parameters.filter(p=>p.adjustable)){
-   const label=document.createElement('label');label.textContent=p.label;const input=document.createElement('input');input.type=block.experimentKind==='t-test'?'range':'number';input.min=String(p.minimum);input.max=String(p.maximum);input.step=String(p.step);input.value=String(p.value);input.setAttribute('aria-label',p.label);
+   const label=document.createElement('label');label.textContent=p.label;const input=document.createElement('input');input.type=block.experimentKind==='t-test'||block.experimentKind==='anova-one-way'?'range':'number';input.min=String(p.minimum);input.max=String(p.maximum);input.step=String(p.step);input.value=String(p.value);input.setAttribute('aria-label',p.label);
     if(input.type==='range'){const value=document.createElement('output');value.textContent=controlValue(p.key,p.value);label.append(value);rangeReadouts.set(p.key,value);}
     const update=()=>{try{const candidate={...values,[p.key]:input.valueAsNumber},result=runExperiment(block,candidate);Object.assign(values,candidate);const value=rangeReadouts.get(p.key);if(value)value.textContent=controlValue(p.key,input.valueAsNumber);input.removeAttribute('aria-invalid');feedback.textContent='';paint(result);}catch(e){input.setAttribute('aria-invalid','true');feedback.textContent=String(e);}};
     if(input.type==='range')input.oninput=update;else input.onchange=update;
@@ -82,7 +108,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
    }
     const title=(lines:string[],x:number,y:number,anchor:string)=>{const text=node('text',{x,y,'text-anchor':anchor,class:'d3-chart-axis-title'});lines.forEach((line,index)=>{const span=document.createElementNS(NS,'tspan');span.setAttribute('x',String(x));span.setAttribute('dy',index?'26':'0');span.textContent=line;text.append(span);});};
      title(yTitle,70,24,'start');title(xTitle,chartWidth/2,baseHeight+(panel.xLabels?30:0)-6,'middle');
-   panel.traces.forEach((trace,i)=>{const color=trace.emphasis==='reference'?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${i%5+1})`;
+   panel.traces.forEach((trace,i)=>{const colorIndex=experimentTraceColorIndex(block,panel,i),color=colorIndex===undefined?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${colorIndex})`;
    if(trace.style==='area'){const path=area<{x:number;y:number}>().x(p=>x(p.x)).y0(y(0)).y1(p=>y(p.y))(trace.points as {x:number;y:number}[]);node('path',{d:path??'',fill:color,'fill-opacity':.35});}
     else if(trace.style==='line'||trace.style==='trajectory'){const path=line<{x:number;y:number}>().x(p=>x(p.x)).y(p=>y(p.y))(trace.points as {x:number;y:number}[]);node('path',{d:path??'',stroke:color,'stroke-width':3,fill:'none','data-trace-label':trace.label,...(i?{'stroke-dasharray':'7 3'}:{})});if(trace.style==='trajectory')trace.points.forEach((p,j)=>{node('circle',{cx:x(p.x),cy:y(p.y),r:5,fill:color});if(panel.labelPoints&&(trace.points.length<=3||j===0||j===trace.points.length-1))node('text',{x:x(p.x),y:y(p.y)-12,'text-anchor':'middle',class:'d3-chart-tick-label'},format(p.y));});}
     else if(trace.style==='points')trace.points.forEach(p=>{const mark=node('circle',{cx:x(p.x),cy:y(p.y),r:trace.emphasis==='reference'?8:4,fill:color,'data-trace-label':trace.label,'data-value-x':p.x,'data-value-y':p.y,...(trace.emphasis==='reference'?{stroke:'var(--pcd-surface-strong)','stroke-width':2.5,'data-experiment-reference':'true'}:{})}),title=document.createElementNS(NS,'title');title.textContent=`${trace.label}: ${p.x}, ${p.y}`;mark.append(title);});
@@ -100,7 +126,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
     const heights=previous.map(svg=>fill?svg.clientHeight:0);
     previous.forEach(svg=>observer?.unobserve(svg));
     panels.dataset.layout=experimentPlotGeometry(root.clientWidth,result.panels.length).stacked?'stack':'row';
-    panels.replaceChildren();root.dataset.panelCount=String(result.panels.length);for(const [index,panel] of result.panels.entries()){const figure=document.createElement('figure'),caption=document.createElement('figcaption');panel.traces.forEach((trace,i)=>{const entry=document.createElement('span');entry.className='experiment-legend-entry';const swatch=document.createElement('i');if(trace.emphasis==='reference')entry.dataset.experimentReference='true';swatch.style.background=trace.emphasis==='reference'?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${i%5+1})`;swatch.setAttribute('aria-hidden','true');entry.append(swatch,document.createTextNode(trace.label));caption.append(entry);});const svg=graph(panel,true,heights[index]);figure.append(svg,caption);panels.append(figure);if(fill)observer?.observe(svg);}
+    panels.replaceChildren();root.dataset.panelCount=String(result.panels.length);for(const [index,panel] of result.panels.entries()){const figure=document.createElement('figure'),caption=document.createElement('figcaption');experimentLegendEntries(block,panel).forEach(item=>{const entry=document.createElement('span');entry.className='experiment-legend-entry';const swatch=document.createElement('i');if(item.reference)entry.dataset.experimentReference='true';swatch.style.background=item.reference?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${item.colorIndex})`;swatch.setAttribute('aria-hidden','true');entry.append(swatch,document.createTextNode(item.label));caption.append(entry);});const svg=graph(panel,true,heights[index]);figure.append(svg,caption);panels.append(figure);if(fill)observer?.observe(svg);}
     panels.style.removeProperty('--pcd-experiment-legend-height');
     if(fill&&panels.dataset.layout==='row'){
       const legendHeight=Math.max(0,...[...panels.querySelectorAll('figcaption')].map(caption=>caption.clientHeight));
