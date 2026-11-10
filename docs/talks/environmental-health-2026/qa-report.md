@@ -97,6 +97,15 @@ preserved; targeted retests and the later phase checks do not turn its exit code
 into a successful final-head npm test. Independent final-head validation remains
 pending before acceptance.
 
+A fresh Windows checkout of the first review commit exposed a second issue:
+automatic Git line-ending conversion changed physical newlines inside multiline
+Turtle narration literals. The new TriG now escapes literal line breaks on a
+single physical line. All 1,127 quads are exactly equal before and after this
+lexical repair, including under simulated CRLF conversion; seven focused tests
+pass again. No Git settings, shared attributes or assertions were changed.
+The assembled dataset fingerprint still matches the built artifact exactly.
+The first failed checkout preflight remains in the isolated verification log.
+
 The built artifact has dataset fingerprint
 sha256:822f589e8da557f754083d757dfcb7fa441c165d85ffe3595c69c0082a61dd09.
 Its validated-build.json SHA256 is
