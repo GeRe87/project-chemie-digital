@@ -13,11 +13,20 @@ import generate_canonical_runtime as R
 from presentation_collection import build_collection_artifact
 
 
+def legacy_scene_document(artifact):
+    document, = [
+        document for document in artifact["sceneDocuments"]
+        if document["sourcePathId"] == "ex:path-talk-microplastics-ted-gc-ms"
+    ]
+    return document
+
+
 class TedIntroductionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.artifact = build_collection_artifact(R.EX + "talks")
-        cls.scenes = cls.artifact["sceneDocuments"][0]["scenes"]
+        cls.document = legacy_scene_document(cls.artifact)
+        cls.scenes = cls.document["scenes"]
 
     def test_title_and_content_scenes_in_authored_order(self):
         self.assertEqual([scene["id"] for scene in self.scenes], [
@@ -25,9 +34,21 @@ class TedIntroductionTests(unittest.TestCase):
             *[f"ex:ted-scene-{name}--scene" for name in ["overview", "heating", "capture", "injection", "detection", "markers", "process-variance", "bottleneck", "nesting", "heating-rate", "temperature-program", "calibration-time", "running-calibration", "sample-comparison", "fifo-design", "processing", "fair", "semantics", "processing-step", "composable-steps", "processing-unit", "semantic-pipeline", "validation", "automatic-execution", "demo-one", "demo-two", "ai", "thanks"]],
         ])
         self.assertEqual(self.scenes[0]["presentationTitle"]["authors"][0]["name"], "Gerrit Renner")
-        self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 1)
+        self.assertEqual(len(self.artifact["presentationCollection"]["talks"]), 2)
+        self.assertCountEqual(
+            [document["sourcePathId"] for document in self.artifact["sceneDocuments"]],
+            ["ex:path-talk-microplastics-ted-gc-ms", "ex:path-talk-environmental-health-2026"],
+        )
+        self.assertCountEqual(
+            [binding["pathId"] for binding in self.artifact["sceneDocumentBindings"]],
+            [R.EX + "path-talk-microplastics-ted-gc-ms", R.EX + "path-talk-environmental-health-2026"],
+        )
         self.assertEqual(self.artifact["teachingOfferingDocuments"], [])
-        self.assertEqual(self.artifact["sceneDocumentBindings"][0]["pathGraphId"],
+        binding, = [
+            binding for binding in self.artifact["sceneDocumentBindings"]
+            if binding["pathId"] == R.EX + "path-talk-microplastics-ted-gc-ms"
+        ]
+        self.assertEqual(binding["pathGraphId"],
                          "https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms")
 
     def test_talk_scene_selection_paths_use_the_existing_shacl_vocabulary(self):
@@ -135,7 +156,7 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(specs[2]["parentPartId"], specs[0]["id"])
         self.assertEqual(specs[2]["referencePartId"], shared[0]["id"])
         self.assertEqual([p["parentPartId"] for p in operation[1:]], [operation[0]["id"]] * 2)
-        fallback = R.static_fallback(self.artifact)
+        fallback = R.static_fallback({**self.artifact, "sceneDocuments": [self.document]})
         self.assertIn("EIC vector", fallback)
         self.assertIn("FindPeaks_binding", fallback)
         self.assertIn("PortRole", fallback)
@@ -182,7 +203,7 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(replacement["label"], "Find peaks better")
         original = next(n for n in diagram["nodes"] if n["id"] == replacement["nodeId"])
         self.assertEqual(replacement["description"], original["description"])
-        self.assertIn("Find peaks better", R.static_fallback(self.artifact))
+        self.assertIn("Find peaks better", R.static_fallback({**self.artifact, "sceneDocuments": [self.document]}))
 
     def test_demo_crops_match_and_keep_semantic_documentation_visible(self):
         videos = [b for s in self.scenes for b in s["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "video/mp4"]
@@ -218,7 +239,7 @@ class TedIntroductionTests(unittest.TestCase):
             self.assertNotIn("cd:PortDescription", detail["code"])
             self.assertIn("property", detail["code"])
             self.assertTrue(detail["source"])
-        fallback = R.static_fallback(self.artifact)
+        fallback = R.static_fallback({**self.artifact, "sceneDocuments": [self.document]})
         self.assertIn("EICs: documented ports", fallback)
         self.assertIn("portKey", fallback)
 
@@ -265,7 +286,7 @@ class TedIntroductionTests(unittest.TestCase):
 
         # Ordinary slide copy and speaker notes must not advertise the system.
         branded = copy.deepcopy(self.artifact)
-        branded["sceneDocuments"][0]["scenes"][-1]["narration"] = "Cogniflow executes this workflow."
+        legacy_scene_document(branded)["scenes"][-1]["narration"] = "Cogniflow executes this workflow."
         rejected = validate(branded)
         self.assertNotEqual(rejected.returncode, 0)
         self.assertIn("Internal branding in presentation text", rejected.stderr)
@@ -274,7 +295,7 @@ class TedIntroductionTests(unittest.TestCase):
         # author-controlled label or description.
         branded = copy.deepcopy(self.artifact)
         branded_edge = next(
-            b for b in branded["sceneDocuments"][0]["scenes"]
+            b for b in legacy_scene_document(branded)["scenes"]
             if b["id"] == "ex:ted-scene-semantic-pipeline--scene"
         )
         detail = next(b for b in branded_edge["blocks"] if b["kind"] == "diagram")["edges"][0]["codeDetail"]
@@ -286,7 +307,7 @@ class TedIntroductionTests(unittest.TestCase):
         # A second, noncanonical namespace cannot evade the publication gate.
         branded = copy.deepcopy(self.artifact)
         branded_edge = next(
-            b for b in branded["sceneDocuments"][0]["scenes"]
+            b for b in legacy_scene_document(branded)["scenes"]
             if b["id"] == "ex:ted-scene-semantic-pipeline--scene"
         )
         detail = next(b for b in branded_edge["blocks"] if b["kind"] == "diagram")["edges"][0]["codeDetail"]
@@ -399,7 +420,7 @@ class TedIntroductionTests(unittest.TestCase):
         scene = next(s for s in self.scenes if s["id"] == "ex:ted-scene-nesting--scene")
         chart = next(b for b in scene["blocks"] if b["kind"] == "chart")
         self.assertEqual(chart["chartType"], "timeline")
-        self.assertEqual(self.artifact["sceneDocuments"][0]["version"], "1.14")
+        self.assertEqual(self.document["version"], "1.14")
         totals = [max(i["end"] for lane in s["lanes"] for i in lane["intervals"]) for s in chart["scenarios"]]
         self.assertEqual(totals, [630, 423, 338])
         for scenario in chart["scenarios"]:
@@ -448,7 +469,7 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertIn("sorbent", notes.lower())
         capture = next(s for s in self.scenes if s["id"] == "ex:ted-scene-capture--scene")
         self.assertIn("liquid", capture["narration"])
-        fallback = R.static_fallback(self.artifact)
+        fallback = R.static_fallback({**self.artifact, "sceneDocuments": [self.document]})
         self.assertIn("ted-heating.svg", fallback)
         self.assertIn("Schematic TIC", fallback)
         self.assertIn("Gerrit Renner", fallback)
