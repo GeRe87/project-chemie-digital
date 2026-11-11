@@ -374,7 +374,9 @@ function structuredNodeText(
     titleMeasure,
   );
   const bodyLines = description
-    ? wrapFlowText(description, maxWidth, bodyTextMeasure)
+    ? /^[•◆]/u.test(description.trim())
+      ? description.trim().split(/\r?\n/u).filter(Boolean).flatMap(line => wrapFlowText(line, maxWidth, bodyTextMeasure))
+      : wrapFlowText(description, maxWidth, bodyTextMeasure)
     : [];
   return { labelLines, bodyLines };
 }

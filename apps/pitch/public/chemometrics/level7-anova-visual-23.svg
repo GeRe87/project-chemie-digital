@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Report the test, effect size and scope</title><desc id="desc">The one-way example gives F with degrees of freedom 2 and 15 equal to 21, p approximately 0.00004484, and eta squared 0.737.</desc>
+<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="45" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Report the test, effect size and scope</text>
+<rect x="27" y="80" width="276" height="186" rx="14" fill="#dceef5"/>
+<text x="165" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Test statistic</text>
+<text x="165" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">F(2, 15) = 21</text>
+<text x="165" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Method MS ÷ residual MS</text>
+<rect x="327" y="80" width="276" height="186" rx="14" fill="#ebe3f5"/>
+<text x="465" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Null reference</text>
+<text x="465" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">p ≈ 0.00004484</text>
+<text x="465" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Evidence against equal means</text>
+<rect x="627" y="80" width="276" height="186" rx="14" fill="#fae8dd"/>
+<text x="765" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Effect size</text>
+<text x="765" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">η² = 0.737</text>
+<text x="765" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Observed model share</text>
+<text x="465" y="323" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">18 independent preparations · classical one-way model</text>
+</g></svg>

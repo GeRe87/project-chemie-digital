@@ -1,15 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
-<title id="title">How much variation is explained?</title><desc id="desc">Between-method variation accounts for 84 of 114 squared percentage points, or 73.7%; the residual accounts for 30, or 26.3%.</desc>
-<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
-<g font-family="system-ui, sans-serif">
-<text x="465" y="62" text-anchor="middle" font-size="27" font-weight="700" fill="#163349">Partition of the observed total</text>
-<rect x="105" y="106" width="720" height="104" rx="10" fill="#e9e1f3"/>
-<path d="M115 106H635.5263157894736V210H115Q105 210 105 200V116Q105 106 115 106Z" fill="#bce3eb"/>
-<text x="370.2631578947368" y="150" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Between methods</text>
-<text x="370.2631578947368" y="181" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">84 pp²  ·  73.7%</text>
-<text x="730.2631578947369" y="150" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Residual</text>
-<text x="730.2631578947369" y="181" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">30 pp²  ·  26.3%</text>
-<text x="465" y="254" text-anchor="middle" font-size="22" font-weight="500" fill="#163349">Total: 114 squared percentage points</text>
-<text x="465" y="320" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Compare differences in recovery with the analytical requirements.</text>
-</g>
-</svg>
+<title id="title">What changes when we fit method means?</title><desc id="desc">Using only the grand mean leaves 114 squared percentage points of residual spread. Using three method means leaves 30. The observed reduction of 84 divided by 114 is 73.7 percent.</desc>
+<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="46" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">How much smaller is the residual spread?</text>
+<text x="60" y="110" text-anchor="start" font-size="19" font-weight="700" fill="#163349">One overall mean</text>
+<rect x="285" y="83" width="556" height="47" rx="14" fill="#b7deeb"/>
+<text x="820" y="114" text-anchor="end" font-size="20" font-weight="700" fill="#163349">114</text>
+<text x="60" y="191" text-anchor="start" font-size="19" font-weight="700" fill="#163349">Three method means</text>
+<rect x="285" y="165" width="146" height="47" rx="14" fill="#ddd0ed"/>
+<text x="410" y="196" text-anchor="end" font-size="20" font-weight="700" fill="#163349">30</text>
+<line x1="431.00" y1="229.00" x2="841.00" y2="229.00" stroke="#527283" stroke-width="2"/>
+<line x1="431.00" y1="220.00" x2="431.00" y2="238.00" stroke="#527283" stroke-width="2"/>
+<line x1="841.00" y1="220.00" x2="841.00" y2="238.00" stroke="#527283" stroke-width="2"/>
+<text x="636" y="264" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">84 pp² less residual spread</text>
+<text x="465" y="330" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">84 ÷ 114 = 73.7% of the observed spread accounted for by method</text>
+</g></svg>

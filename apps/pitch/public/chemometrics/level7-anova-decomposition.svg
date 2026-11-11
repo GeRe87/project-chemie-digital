@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
-<title id="title">The sums of squares balance</title><desc id="desc">The total of 114 squared percentage points splits into 84 between methods and 30 residual.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
-<text x="465" y="57" text-anchor="middle" font-size="28" font-weight="700" fill="#163349">Observed total: 114 pp²</text>
-<rect x="100" y="102" width="730" height="94" rx="13" fill="#ece4f4"/>
-<rect x="100" y="102" width="538" height="94" rx="13" fill="#bde1ec"/>
-<text x="369" y="160" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">84 · Between methods</text>
-<text x="734" y="160" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">30 · Residual</text>
-<text x="465" y="251" text-anchor="middle" font-size="33" font-weight="700" fill="#163349">84 + 30 = 114</text>
-<text x="465" y="309" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">A check on the accounting before the F-test</text>
+<title id="title">Two calculations, same total</title><desc id="desc">Two independent calculation routes agree: sum squared deviations from the grand mean directly to obtain 114 pp squared, or add the between and within sums of 84 and 30.</desc>
+<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="44" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Does the accounting balance?</text>
+<rect x="49" y="77" width="832" height="84" rx="14" fill="#dceef5"/>
+<text x="83" y="112" text-anchor="start" font-size="16" font-weight="700" fill="#163349">DIRECT FROM THE DATA</text>
+<text x="83" y="142" text-anchor="start" font-size="19" font-weight="500" fill="#163349">Square each departure from the grand mean; then add.</text>
+<text x="790" y="133" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">114 pp²</text>
+<rect x="49" y="177" width="832" height="84" rx="14" fill="#ebe3f5"/>
+<text x="83" y="212" text-anchor="start" font-size="16" font-weight="700" fill="#163349">FROM THE TWO COMPONENTS</text>
+<text x="83" y="242" text-anchor="start" font-size="19" font-weight="500" fill="#163349">Between SS + within SS = 84 + 30.</text>
+<text x="790" y="233" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">114 pp²</text>
+<text x="465" y="328" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Same total: the decomposition is internally consistent.</text>
 </g></svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">The global decision leaves the pairs open</title><desc id="desc">The global F-test addresses equality of all means. It does not say which of the three pairs differs.</desc>
+<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<rect x="54" y="60" width="376" height="248" rx="14" fill="#dceef5"/>
+<rect x="500" y="60" width="376" height="248" rx="14" fill="#ebe3f5"/>
+<text x="242" y="102" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Overall F-test</text>
+<text x="688" y="102" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Which pairs differ?</text>
+<circle cx="135.00" cy="175.00" r="18" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="135" y="215" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">A</text>
+<circle cx="242.00" cy="175.00" r="18" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="242" y="215" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">B</text>
+<circle cx="349.00" cy="175.00" r="18" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="349" y="215" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">C</text>
+<text x="655" y="154" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">A vs B</text>
+<text x="788" y="154" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">?</text>
+<text x="655" y="208" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">A vs C</text>
+<text x="788" y="208" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">?</text>
+<text x="655" y="262" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">B vs C</text>
+<text x="788" y="262" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">?</text>
+<text x="242" y="265" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">Not all means are equal</text>
+<text x="465" y="347" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">The global test leaves the pairwise questions open.</text>
+</g></svg>

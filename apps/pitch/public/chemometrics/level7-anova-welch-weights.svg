@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Welch gives more influence to a more precise mean</title><desc id="desc">All three methods have six independent preparations. For A and C, 6 divided by sample variance 3.5 gives weight 1.714 each. For B, 6 divided by 56 gives weight 0.107, one sixteenth as much. With relative weights 16, 1 and 16, the common reference mean is 94.94 percent. Welch F is 3.786 with approximate degrees of freedom 2 and 9.06, giving p 0.064.</desc>
+<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="39" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Welch gives more influence to a more precise mean</text>
+<text x="95" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#163349">Method</text>
+<text x="260" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#163349">n ÷ sample variance</text>
+<text x="482" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#163349">Weight</text>
+<text x="695" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#163349">Relative influence</text>
+<rect x="51" y="98" width="828" height="42" rx="14" fill="#dceef5"/>
+<text x="95" y="126" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">A</text>
+<text x="260" y="126" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">6 ÷ 3.5</text>
+<text x="482" y="126" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">1.714</text>
+<rect x="590" y="109" width="192" height="17" rx="14" fill="#10698a"/>
+<text x="821" y="126" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">16</text>
+<rect x="51" y="147" width="828" height="42" rx="14" fill="#ebe3f5"/>
+<text x="95" y="175" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">B</text>
+<text x="260" y="175" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">6 ÷ 56</text>
+<text x="482" y="175" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">0.107</text>
+<rect x="590" y="158" width="12" height="17" rx="14" fill="#a14518"/>
+<text x="821" y="175" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">1</text>
+<rect x="51" y="196" width="828" height="42" rx="14" fill="#fae8dd"/>
+<text x="95" y="224" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">C</text>
+<text x="260" y="224" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">6 ÷ 3.5</text>
+<text x="482" y="224" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">1.714</text>
+<rect x="590" y="207" width="192" height="17" rx="14" fill="#5c3a98"/>
+<text x="821" y="224" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">16</text>
+<text x="465" y="279" text-anchor="middle" font-size="18" font-weight="700" fill="#163349">Weighted reference mean: (16 × 93.5 + 1 × 93 + 16 × 96.5) ÷ 33 = 94.94%</text>
+<text x="465" y="324" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">How far are the group means from that center, given their precision?</text>
+<text x="465" y="354" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Welch F = 3.786 · approximate F reference: df 2 and 9.06 · p = 0.064</text>
+</g></svg>

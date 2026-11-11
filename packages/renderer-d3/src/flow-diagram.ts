@@ -520,6 +520,9 @@ function addTextLines(
     const tspan = document.createElementNS(namespace, "tspan");
     tspan.setAttribute("x", String(x));
     tspan.setAttribute("dy", index === 0 ? "0" : String(lineHeight));
+    if (className === "d3-flow-node-body" && line.startsWith("◆ ")) {
+      tspan.setAttribute("data-flow-key-line", "true");
+    }
     tspan.textContent = line;
     text.append(tspan);
   });

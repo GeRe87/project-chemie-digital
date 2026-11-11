@@ -21,7 +21,7 @@ def review_scene(number):
     return EX[exceptions.get(number, f'l7-scene{number:02d}')]
 SCENE_ORDER = (
     *range(1, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
-    '26-adjusted', *range(27, 41), '40-example', 41, '41-example', 42, '42-model', 45, 46, 47,
+    '26-adjusted', *range(27, 41), '40-example', 41, '41-example', 45, 46, 47,
 )
 INTRO = {URIRef(GB + s) for s in (
     'knowledge/level7-anova-intro', 'scenes/level7-anova-intro', 'paths/level7-anova-intro-review',
@@ -47,7 +47,7 @@ class AnovaIntroTests(unittest.TestCase):
     def test_order_and_reuse(self):
         expected = [compact(review_scene(i))+'--scene' for i in SCENE_ORDER]
         self.assertEqual([s['id'] for s in self.doc['scenes']], expected)
-        self.assertNotIn('permanova', json.dumps(self.doc).lower())
+        self.assertNotIn('manova', json.dumps(self.doc).lower())
         for i in (7,13,19):
             self.assertFalse(any(list(self.ds.graph(c).triples((EX[f'l7-scene{i:02d}'],None,None))) for c in INTRO))
         self.assertEqual(set(self.ds.graph(URIRef(GB+'paths/level7-anova-intro-review')).objects(EX['path-level7-anova-intro-review'], CD.forLearningUnit)), {EX['learning-unit-anova']})
@@ -228,7 +228,7 @@ class AnovaIntroTests(unittest.TestCase):
                     else:
                         self.assertTrue(all(e.get('term') and e.get('description') for e in blocks[0]['entries']))
                     self.assertTrue(blocks[0]['source'])
-        self.assertEqual(count,19)
+        self.assertEqual(count,18)
 
     def test_narrations_and_visuals(self):
         for number, scene in zip(SCENE_ORDER, self.doc['scenes'], strict=True):
@@ -251,7 +251,9 @@ class AnovaIntroTests(unittest.TestCase):
         self.assertEqual([p['value'] for p in chart['parameters'] if p['key'] == 'view'], [2])
         originals = {n: f'l7-next-{n:02d}-visual' for n in (21,22,27,29,33,34,37)}
         new = {14:'design',17:'decomposition','17-calc':'test-chain','22-question':'explained-question',
-               '26-adjusted':'tukey-range',40:'welch-groups','41-example':'kw-rank-sums',42:'manova-pairs'}
+               '26-adjusted':'tukey-range',40:'welch-groups','41-example':'kw-rank-sums'}
+        new.update({n:f'visual-{n}' for n in (20,23,24,25,28,39)})
+        new['40-example'] = 'welch-weights'
         for n,name in (originals | {n: f'level7-anova-{name}' for n,name in new.items()}).items():
             media = EX[name]
             path = ROOT / 'apps/pitch/public' / str(self.g.value(media,CD.uri)).lstrip('/')
@@ -260,6 +262,12 @@ class AnovaIntroTests(unittest.TestCase):
             self.assertEqual(root.find('{http://www.w3.org/2000/svg}desc').text,
                              str(self.g.value(media,CD.alternativeText)))
             self.assertTrue(any(b['kind'] == 'media-reference' for b in self.scene(n)['blocks']))
+        tukey = EX['level7-anova-tukey-range']
+        tukey_svg = ET.parse(ROOT / 'apps/pitch/public' / str(self.g.value(tukey, CD.uri)).lstrip('/')).getroot()
+        labels = ' '.join(tukey_svg.itertext())
+        self.assertIn('studentized range distribution', labels)
+        self.assertIn('3 group means · 15 residual degrees of freedom', labels)
+        self.assertIn('Right-tail area ≈ 0.000532', labels)
         for n, rows in ((18,3),(26,3),(36,5),(38,3)):
             table, = [b for b in self.scene(n)['blocks'] if b['kind'] == 'table']
             self.assertEqual(len(table['rows']),rows)
@@ -280,7 +288,7 @@ class AnovaIntroTests(unittest.TestCase):
             resource = 'l7-next-15-table-row-7-cell-3' if label == 'A' else f'l7-teaching-15-table-{label.lower()}-r7-c3'
             self.assertEqual(str(self.g.value(EX[resource], CD.body)), 'Sum: 10 pp²')
         for n, phrase in (('17-calc','0.00004484'),('26-adjusted','0.000532'),('40-example','0.064'),
-                          ('41-example','0.133'),('42-model','1.18e-07')):
+                          ('41-example','0.133')):
             self.assertIn(phrase, self.scene(n)['narration'])
 
     def test_existing_documents_exactly_unchanged(self):
