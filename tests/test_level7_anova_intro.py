@@ -12,6 +12,10 @@ from generate_canonical_runtime import CoursePathReference, compile_scene_docume
 CD = Namespace('https://w3id.org/project-chemie-digital/ontology/')
 EX = Namespace('https://w3id.org/project-chemie-digital/resource/')
 GB = 'https://w3id.org/project-chemie-digital/graph/'
+
+
+def review_scene(number):
+    return EX['l7-intro-scene07'] if number == 7 else EX[f'l7-scene{number:02d}']
 INTRO = {URIRef(GB + s) for s in ('knowledge/level7-anova-intro','scenes/level7-anova-intro','paths/level7-anova-intro-review')}
 EXPECTED = {'R-A':[93,95,94,92,96,94], 'R-B':[97,99,98,100,96,98], 'R-C':[94,93,92,95,91,93], 'W-A':[90,91,92,92,93,94], 'W-B':[84,85,86,86,87,88], 'W-C':[92,93,94,94,95,96]}
 
@@ -28,7 +32,7 @@ class AnovaIntroTests(unittest.TestCase):
         cls.doc = compile_scene_document(cls.ds, CoursePathReference(str(EX['path-level7-anova-intro-review']), GB+'paths/level7-anova-intro-review'))
 
     def test_order_and_reuse(self):
-        expected = [compact(EX[f'l7-scene{i:02d}'])+'--scene' for i in range(1,14)]
+        expected = [compact(review_scene(i))+'--scene' for i in range(1,14)]
         self.assertEqual([s['id'] for s in self.doc['scenes']], expected)
         for i in (7,13):
             self.assertFalse(any(list(self.ds.graph(c).triples((EX[f'l7-scene{i:02d}'],None,None))) for c in INTRO))
@@ -58,13 +62,29 @@ class AnovaIntroTests(unittest.TestCase):
             self.assertEqual(len(charts),1)
             chart = charts[0]
             self.assertEqual(chart['yAxis'], {'label':'Recovery','unit':'%'})
-            self.assertEqual([g['id'] for g in chart['groups']], [compact(EX['l7-river-group-'+m]) for m in 'ABC'])
+            group_prefix = 'l7-intro-mean-group-' if number == 7 else 'l7-river-group-'
+            self.assertEqual([g['id'] for g in chart['groups']], [compact(EX[group_prefix+m]) for m in 'ABC'])
             for method, group in zip('ABC',chart['groups']):
                 self.assertEqual([d['id'] for d in group['data']], [compact(EX[f'l7-obs-R-{method}-{i:02d}']) for i in range(1,7)])
                 self.assertEqual([d['value'] for d in group['data']], EXPECTED['R-'+method])
                 self.assertTrue(group['source'])
                 self.assertTrue(all(d['source'] for d in group['data']))
                 self.assertIn(GB+'data/level7-anova',json.dumps(group['source'])+json.dumps(group['data']))
+
+    def test_formula_uses_observations_and_means_precede_deviations(self):
+        formula = str(self.g.value(EX['l7-intro-formula-02'], CD.latex))
+        legend = str(self.g.value(EX['l7-intro-symbols-02'], CD.body))
+        self.assertIn('y_{ij}', formula)
+        self.assertIn('**y_ij**', legend)
+        self.assertNotIn('grand', legend.lower())
+        chart, = [b for b in self.doc['scenes'][6]['blocks'] if b['kind'] == 'chart']
+        self.assertEqual(chart['chartType'], 'dot')
+        for group in chart['groups']:
+            values = [point['value'] for point in group['data']]
+            self.assertEqual(group['summary']['value'], sum(values) / len(values))
+        all_values = [point['value'] for group in chart['groups'] for point in group['data']]
+        self.assertEqual(chart['referenceLine']['value'], sum(all_values) / len(all_values))
+        self.assertNotIn('sum of squares', json.dumps(self.doc['scenes'][6]).lower())
 
     def test_scene02_scatter_experiment(self):
         charts = [b for b in self.doc['scenes'][1]['blocks'] if b['kind'] == 'chart']
@@ -165,7 +185,7 @@ class AnovaIntroTests(unittest.TestCase):
         for scene in self.doc['scenes']:
             # Match canonical scenes explicitly rather than reconstructing compact prefixes.
             number = self.doc['scenes'].index(scene)+1
-            scene_id = EX[f'l7-scene{number:02d}']
+            scene_id = review_scene(number)
             for item in self.g.objects(scene_id,CD.hasSceneItem):
                 if (item,CD.communicativeRole,CD.FormulaRole) not in self.g:
                     continue
@@ -195,7 +215,7 @@ class AnovaIntroTests(unittest.TestCase):
 
     def test_narrations_and_visuals(self):
         for number, scene in enumerate(self.doc['scenes'],1):
-            narrations = list(self.g.objects(EX[f'l7-scene{number:02d}'],CD.narration))
+            narrations = list(self.g.objects(review_scene(number),CD.narration))
             self.assertEqual(len(narrations),1)
             self.assertEqual(narrations[0].language,'en')
             self.assertTrue(80 <= len(str(narrations[0]).split()) <= 180)

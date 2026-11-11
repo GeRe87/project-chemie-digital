@@ -542,7 +542,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-02> <https://w3id.org/project-chemie-digital/ontology/latex> "\\bar{x}_A=94\\%,\\quad\\bar{x}_B=98\\%,\\quad\\bar{x}_C=93\\%,\\quad n_i=6" .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-02> <https://w3id.org/project-chemie-digital/ontology/latex> "\\begin{aligned}\\bar{x}_i&=\\frac{1}{n_i}\\sum_{j=1}^{n_i} y_{ij},\\quad n_i=6\\\\[4pt]\\bar{x}_A&=94\\%,\\quad\\bar{x}_B=98\\%,\\quad\\bar{x}_C=93\\%\\end{aligned}" .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <http://purl.org/dc/terms/hasPart> <https://w3id.org/project-chemie-digital/resource/l7-intro-legend-03> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> .
@@ -1019,14 +1019,14 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/DefinitionListEntry> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "Symbols, units and conventions"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/body> """- **y_ij**: Observed recovery of independent preparation j in method group i, in percent.
-- **i; j**: Group index i runs from 1 to k; preparation index j runs from 1 to n_i within its group. A, B and C name the three methods.
-- **x̄_i; x̄**: Sample mean in group i and grand sample mean over all observations, both in percent. The grand mean weights each group mean by its group size.
-- **n_i; N; k**: Number of independent preparations in group i, total number of preparations, and number of groups. N is the sum of the n_i.
-- **%**: Percent recovery; 94% means a recovery value of 94 percent, not 0.94 in this dataset.
-- **=; comma**: Equality and separation of simultaneous reported summaries.
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/body> """- **y_ij**: Recovery of preparation j in method i, in percent.
+- **i and j**: i identifies method A, B or C. j numbers the six independent preparations within a method.
+- **x̄_i**: Arithmetic mean recovery for method i, in percent. The bar marks an average. A, B and C identify the reported method means.
+- **n_i**: Number of independent preparations in method i. It is 6 for each method.
+- **Σ with j = 1 to n_i**: Add the recoveries for all preparations within method i. The factor 1/n_i divides that sum by the number of preparations.
+- **=, comma and %**: Equality, separation of the reported quantities, and the unit percent recovery.
 
-These are the original synthetic river-water data, with three groups and six independent preparations per group. Recovery is recorded in percent, not as a fraction. A difference of percentage values is in percentage points. Algebraic decomposition does not require Normal errors; classical F calibration additionally requires independent Normal errors with a common positive variance."""@en .
+The formula describes the original synthetic river-water preparations."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-02> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .

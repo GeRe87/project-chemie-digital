@@ -62,9 +62,9 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/position> "7"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-chart-07> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-07> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-intro-scene07> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .

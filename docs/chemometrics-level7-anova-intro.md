@@ -1,6 +1,10 @@
 # ANOVA introduction: thirteen-scene review draft
 
-This increment selects thirteen scenes on a separate review path. It adds eleven scenes and reuses scenes 07 and 13 without redefining them. The existing three-scene reference preview, including scene 19, is unchanged. This is not the completed forty-seven-scene lecture.
+The review path selects thirteen scenes and reuses scene 13 from the three-scene reference preview. The November 11 review gives scene 07 its own introductory projection. The reference preview retains its three original scenes.
+
+## Office review, 2026-11-11
+
+Scene 02 displays the arithmetic mean as a sum over the observed recoveries, followed by the three computed method means. Its legend explains the exact notation used on this slide. Scene 07 uses the same eighteen observations with three mean markers and a grand-mean line. Scene 08 then introduces individual departures and scene 09 introduces their sums of squares.
 
 ## Coordinator review, 2026-11-10
 
@@ -34,7 +38,7 @@ Scene | Primary material | Teaching result
 04 | Null/alternative flow and population-means formula | One global question
 05 | Sampling workflow and indexed observation | Technical injections are not independent preparations
 06 | Existing river groups in a DotPlot | Same observations, within and between variation
-07 | Existing l7-scene07 unchanged | Group means and weighted grand mean
+07 | Dot plot with original observations, method means and grand-mean line | Group means and weighted grand mean
 08 | Signed three-reference departure diagram and identity | Exact worked observation R-A-01
 09 | SS contribution flow and complete algebraic partition | Centered residuals eliminate the cross term
 10 | Constraint-count flow and degrees-of-freedom formula | Total seventeen splits into two and fifteen

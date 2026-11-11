@@ -1,4 +1,56 @@
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-intro> {
+  ex:l7-intro-chart-07 a cd:ChartDefinition ;
+    skos:prefLabel "Group means and the grand mean"@en ;
+    cd:body "Each dot is one preparation. The mean markers show A at 94%, B at 98% and C at 93%. The horizontal line shows the mean of all 18 recoveries, 95%."@en ;
+    cd:chartType cd:DotPlot ; cd:xAxisLabel "SPE method"@en ;
+    cd:yAxisLabel "Recovery"@en ; cd:yAxisUnit "%" ;
+    cd:hasChartGroup ex:l7-intro-mean-group-A, ex:l7-intro-mean-group-B, ex:l7-intro-mean-group-C ;
+    cd:hasChartAnnotation ex:l7-intro-grand-mean-line ;
+    cd:observationLabel "Sample preparations" ; cd:summaryLabel "Method mean" ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-grand-mean-result a cd:StatisticalResult ; cd:numericValue 95.0 ; cd:unit "%" ;
+    cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:l7-spe-R-A, ex:l7-spe-R-B, ex:l7-spe-R-C ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-grand-mean-line a cd:ChartReferenceLine ; cd:position 1 ;
+    cd:body "Grand mean"@en ; cd:referenceResult ex:l7-intro-grand-mean-result ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+
+  ex:l7-intro-mean-group-A a cd:ChartGroup ; cd:position 1 ;
+    skos:prefLabel "Method A"@en ; cd:usesDataset ex:l7-spe-R-A ;
+    cd:summaryResult ex:l7-intro-mean-result-A ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-mean-result-A a cd:StatisticalResult ;
+    cd:numericValue 94.0 ; cd:unit "%" ; cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:l7-spe-R-A ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+
+  ex:l7-intro-mean-group-B a cd:ChartGroup ; cd:position 2 ;
+    skos:prefLabel "Method B"@en ; cd:usesDataset ex:l7-spe-R-B ;
+    cd:summaryResult ex:l7-intro-mean-result-B ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-mean-result-B a cd:StatisticalResult ;
+    cd:numericValue 98.0 ; cd:unit "%" ; cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:l7-spe-R-B ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+
+  ex:l7-intro-mean-group-C a cd:ChartGroup ; cd:position 3 ;
+    skos:prefLabel "Method C"@en ; cd:usesDataset ex:l7-spe-R-C ;
+    cd:summaryResult ex:l7-intro-mean-result-C ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-mean-result-C a cd:StatisticalResult ;
+    cd:numericValue 93.0 ; cd:unit "%" ; cd:quantifiesProperty ex:arithmetic-mean ;
+    cd:usesDataset ex:l7-spe-R-C ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+
+  ex:l7-intro-scene07 a cd:SceneDefinition ;
+    cd:focusConcept ex:arithmetic-mean ;
+    cd:hasSceneItem ex:l7-intro-item-07-1, ex:l7-intro-item-07-2 ;
+    cd:narration "Keep the same eighteen dots in view. Each is one recovery measurement from a synthetic sample preparation, with six observations for each SPE method. An arithmetic mean adds the observations and divides by their count. The mean markers locate these averages: 94% for A, 98% for B and 93% for C. The horizontal line marks the grand mean of all eighteen observations, 95%. Because the groups have equal size, each method contributes equally to that overall average. With unequal group sizes, methods with more preparations contribute more to the grand mean. Next, we will use these same dots and centers to distinguish distances within groups from distances between group means and the grand mean."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-item-07-1 a cd:SceneItem ; cd:position 1 ; cd:language "en" ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:selectsResource ex:l7-heading-07 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-item-07-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ;
+    cd:communicativeRole cd:ChartRole ; cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:l7-intro-chart-07 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+
+  ex:l7-source-package cd:supportsResource ex:l7-intro-chart-07, ex:l7-intro-grand-mean-result, ex:l7-intro-grand-mean-line, ex:l7-intro-item-07-1, ex:l7-intro-item-07-2, ex:l7-intro-scene07, ex:l7-intro-mean-group-A, ex:l7-intro-mean-result-A, ex:l7-intro-mean-group-B, ex:l7-intro-mean-result-B, ex:l7-intro-mean-group-C, ex:l7-intro-mean-result-C .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-item-01-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/SceneItem> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-item-01-1> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-item-01-1> <https://w3id.org/project-chemie-digital/ontology/communicativeRole> <https://w3id.org/project-chemie-digital/ontology/HeadingRole> .
