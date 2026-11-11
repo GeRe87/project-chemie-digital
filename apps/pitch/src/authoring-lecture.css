@@ -24,14 +24,10 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
 @media screen {
   html:not(.print-pdf) body[data-authoring-frame="lecture"] .lecture-takeaway-label {
     display: block;
-    margin-block-start: 2px;
-    padding: 3px 6px;
-    border: 1px solid var(--pcd-accent);
-    border-radius: 4px;
     color: var(--pcd-accent);
-    font: 750 14px/1.15 system-ui, sans-serif;
-    letter-spacing: .02em;
-    white-space: nowrap;
+    font: 750 13px/1 system-ui, sans-serif;
+    letter-spacing: .09em;
+    text-transform: uppercase;
   }
   body[data-authoring-frame="lecture"] .scene-references {
     --pcd-reference-button-fill: #b73516;
@@ -112,10 +108,9 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
   html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition]
     .lead[data-lecture-takeaway] {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
     align-content: safe center;
-    column-gap: 12px;
+    row-gap: 2px;
     overflow-y: auto;
     box-sizing: border-box;
     block-size: var(--pcd-lecture-takeaway-height);
@@ -123,13 +118,13 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
     width: 100%;
     max-width: none;
     margin: 0;
-    padding: 6px 12px;
-    border: 1px solid var(--pcd-border);
-    border-top: 2px solid var(--pcd-accent);
-    border-radius: 0 0 5px 5px;
-    background: color-mix(in srgb, var(--pcd-accent) 5%, var(--pcd-panel-background));
+    padding: 4px 12px;
+    border: 0;
+    border-inline-start: 3px solid var(--pcd-accent);
+    border-radius: 0 4px 4px 0;
+    background: color-mix(in srgb, var(--pcd-accent) 4%, var(--pcd-panel-background));
     color: var(--pcd-foreground);
-    font: 700 22px/1.25 system-ui, sans-serif;
+    font: 650 20px/1.2 system-ui, sans-serif;
     text-align: left;
   }
   html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition]
