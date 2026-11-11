@@ -626,6 +626,7 @@ function appendBlock(
   node.className = tag === "blockquote" ? "lead" : tag === "cite" ? "citation" : "";
   sourceAttributes(node, block.source);
   parent.appendChild(node);
+  return node;
 }
 
 export function mountSceneDocuments(dom: PitchDomPort, documents: readonly SceneDocument[]): () => void {
@@ -733,6 +734,14 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
       ? [...composition.placements.map(placement => placement.blockId),
         ...scene.readingOrder.filter(id => !compositionByBlockId.has(id))]
       : scene.readingOrder;
+    // The lecture can present an authored closing explanation as a takeaway.
+    const lectureContent = scene.readingOrder
+      .map(id => scene.blocks.find(block => block.id === id))
+      .filter(block => block && block.disclosure?.mode !== "optional"
+        && !(block.kind === "media-reference" && block.mediaType === "text/html"));
+    const lastContent = lectureContent.length > 2 ? lectureContent.at(-1) : undefined;
+    const lectureTakeawayId = lastContent?.kind === "prose" && lastContent.intent?.kind === "explain"
+      && lastContent.disclosure?.mode !== "progressive" ? lastContent.id : undefined;
     for (const blockId of displayOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);
@@ -795,6 +804,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         formula,
         formula ? definitionPairs!.findIndex(pair => pair.card.id === blockId) : 0,
       );
+      if (blockId === lectureTakeawayId) rendered?.setAttribute("data-lecture-takeaway", "");
       if (formula && rendered) {
         definitionCollection = rendered;
         sourceAttributes(rendered, definitionPairs!.flatMap(pair => pair.card.source));
