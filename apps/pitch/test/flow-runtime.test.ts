@@ -520,6 +520,38 @@ test("reverse navigation and reset restore base accessible description", () => {
   destroy();
 });
 
+test("a prompt with a complete linked solution reveals the answer on one step", () => {
+  const prompt: DiagramBlock = {
+    ...diagram,
+    states: [
+      {id: "state:prompt", label: "Choose", source: [], sharedEdgeAnnotations: [], activeNodeIds: ["node:a"]},
+      {id: "state:answer", label: "Compare", source: [], sharedEdgeAnnotations: [], activeNodeIds: ["node:a", "node:b"], activeEdgeIds: ["edge:ab"]},
+    ],
+  };
+  const slides = [{...document, scenes: [{...document.scenes[0]!, blocks: [prompt]}]}];
+  const host = new FakeElement();
+  host.setAttribute("data-flow-block-id", prompt.id);
+  const mount: PitchFlowMount = (_host, block, rendererOptions) => {
+    const {model, diagnostics} = createD3FlowRenderModel(block, rendererOptions);
+    assert.ok(model, JSON.stringify(diagnostics));
+    const layout = createD3FlowLayout(model, 1200);
+    let state: string | undefined;
+    return {
+      model, layout, staticFallback: model.staticFallback,
+      get activeStateId() { return state; },
+      setActiveState(id) { state = id; },
+      focusNode() {}, handleKey() { return false; }, resize() { return layout; }, destroy() {},
+    };
+  };
+  const destroy = mountPitchFlowDiagrams([host], slides, options, mount);
+  assert.equal(host.getAttribute("data-presentation-step-count"), "1");
+  for (const [step, label] of [[0, "Choose"], [1, "Compare"], [0, "Choose"]] as const) {
+    host.dispatchEvent({type: "pcd-presentation-step", detail: {step}} as unknown as Event);
+    assert.equal(host.getAttribute("aria-label"), `${prompt.label}: ${label}`);
+  }
+  destroy();
+});
+
 test("sequence diagram state labels use the same generic accessibility mechanism", () => {
   const host = new FakeElement();
   host.setAttribute("data-flow-block-id", "diagram:sequence");

@@ -15,8 +15,12 @@ GB = 'https://w3id.org/project-chemie-digital/graph/'
 
 
 def review_scene(number):
-    return EX['l7-intro-scene07'] if number == 7 else EX[f'l7-scene{number:02d}']
-INTRO = {URIRef(GB + s) for s in ('knowledge/level7-anova-intro','scenes/level7-anova-intro','paths/level7-anova-intro-review')}
+    exceptions = {7: 'l7-intro-scene07', 19: 'l7-continuation-scene19'}
+    return EX[exceptions.get(number, f'l7-scene{number:02d}')]
+INTRO = {URIRef(GB + s) for s in (
+    'knowledge/level7-anova-intro', 'scenes/level7-anova-intro', 'paths/level7-anova-intro-review',
+    'knowledge/level7-anova-continuation', 'scenes/level7-anova-continuation',
+)}
 EXPECTED = {'R-A':[93,95,94,92,96,94], 'R-B':[97,99,98,100,96,98], 'R-C':[94,93,92,95,91,93], 'W-A':[90,91,92,92,93,94], 'W-B':[84,85,86,86,87,88], 'W-C':[92,93,94,94,95,96]}
 
 class AnovaIntroTests(unittest.TestCase):
@@ -32,9 +36,9 @@ class AnovaIntroTests(unittest.TestCase):
         cls.doc = compile_scene_document(cls.ds, CoursePathReference(str(EX['path-level7-anova-intro-review']), GB+'paths/level7-anova-intro-review'))
 
     def test_order_and_reuse(self):
-        expected = [compact(review_scene(i))+'--scene' for i in range(1,14)]
+        expected = [compact(review_scene(i))+'--scene' for i in range(1,48)]
         self.assertEqual([s['id'] for s in self.doc['scenes']], expected)
-        for i in (7,13):
+        for i in (7,13,19):
             self.assertFalse(any(list(self.ds.graph(c).triples((EX[f'l7-scene{i:02d}'],None,None))) for c in INTRO))
         self.assertEqual(set(self.ds.graph(URIRef(GB+'paths/level7-anova-intro-review')).objects(EX['path-level7-anova-intro-review'], CD.forLearningUnit)), {EX['learning-unit-anova']})
         for scene in self.doc['scenes']:
@@ -168,8 +172,8 @@ class AnovaIntroTests(unittest.TestCase):
         for c in INTRO:
             for source,_,s in self.ds.graph(c).triples((None,CD.supportsResource,None)):
                 self.assertIn((s,CD.hasSource,source),self.g)
-        for number in [1,2,3,4,5,6,8,9,10,11,12]:
-            scene = EX[f'l7-scene{number:02d}']
+        for number in [*range(1,7), *range(8,13), *range(14,48)]:
+            scene = review_scene(number)
             focus = list(self.g.objects(scene,CD.focusConcept))
             self.assertEqual(len(focus),1)
             self.assertIn((focus[0],RDF.type,CD.Concept),self.g)
@@ -205,13 +209,17 @@ class AnovaIntroTests(unittest.TestCase):
                     self.assertEqual(blocks[0]['kind'],'definition-list')
                     entries = list(self.g.objects(legend,CD.hasDefinitionListEntry))
                     self.assertTrue(entries)
+                    entries.sort(key=lambda e: int(self.g.value(e,CD.position)))
                     authored = [str(self.g.value(e,CD.body)) for e in entries]
                     self.assertEqual([e['description'] for e in blocks[0]['entries']],authored)
-                    for text in authored:
-                        self.assertTrue(text.startswith('- **'))
-                        self.assertIn('\n\n',text)
+                    if number <= 13:
+                        for text in authored:
+                            self.assertTrue(text.startswith('- **'))
+                            self.assertIn('\n\n',text)
+                    else:
+                        self.assertTrue(all(e.get('term') and e.get('description') for e in blocks[0]['entries']))
                     self.assertTrue(blocks[0]['source'])
-        self.assertEqual(count,10)
+        self.assertEqual(count,12)
 
     def test_narrations_and_visuals(self):
         for number, scene in enumerate(self.doc['scenes'],1):
@@ -220,12 +228,34 @@ class AnovaIntroTests(unittest.TestCase):
             self.assertEqual(narrations[0].language,'en')
             self.assertTrue(80 <= len(str(narrations[0]).split()) <= 180)
             self.assertEqual(scene['narration'],str(narrations[0]))
-            self.assertTrue(any(b['kind'] in ('chart','diagram') for b in scene['blocks']))
+            self.assertTrue(any(b['kind'] in ('chart','diagram','table','media-reference','definition-list') for b in scene['blocks']))
             if number not in (7,13):
                 self.assertNotIn('\u2014',str(narrations[0]))
-        for c in INTRO:
+        for c in (URIRef(GB+'knowledge/level7-anova-intro'), URIRef(GB+'scenes/level7-anova-intro')):
             for _,_,o in self.ds.graph(c):
                 self.assertNotIn('\u2014',str(o))
+
+    def test_continuation_visual_evidence(self):
+        import xml.etree.ElementTree as ET
+        chart, = [b for b in self.doc['scenes'][18]['blocks'] if b['kind'] == 'chart']
+        self.assertEqual(chart['experimentKind'], 'anova-one-way')
+        self.assertEqual([p['value'] for p in chart['parameters'] if p['key'] == 'view'], [2])
+        for n in (21,22,27,29,33,34,37,40,42,44):
+            media = EX[f'l7-next-{n:02d}-visual']
+            path = ROOT / 'apps/pitch/public' / str(self.g.value(media,CD.uri)).lstrip('/')
+            root = ET.parse(path).getroot()
+            self.assertEqual(root.tag, '{http://www.w3.org/2000/svg}svg')
+            self.assertEqual(root.find('{http://www.w3.org/2000/svg}desc').text,
+                             str(self.g.value(media,CD.alternativeText)))
+            self.assertTrue(any(b['kind'] == 'media-reference' for b in self.doc['scenes'][n-1]['blocks']))
+        for n, rows in ((18,3),(26,3),(36,5),(38,3)):
+            table, = [b for b in self.doc['scenes'][n-1]['blocks'] if b['kind'] == 'table']
+            self.assertEqual(len(table['rows']),rows)
+        diagram = EX['l7-next-45-diagram']
+        states = sorted(self.g.objects(diagram, CD.hasDiagramState),key=lambda s: int(self.g.value(s,CD.position)))
+        self.assertEqual([len(list(self.g.objects(s,CD.activeDiagramNode))) for s in states],[3,6])
+        self.assertFalse(list(self.g.objects(states[0],CD.activeDiagramEdge)))
+        self.assertEqual(len(list(self.g.objects(states[1],CD.activeDiagramEdge))),3)
 
     def test_existing_documents_exactly_unchanged(self):
         for path, graph in [('path-chemometrics-level7-anova-lecture','paths/chemometrics-level7-anova-lecture'),('path-level6-statistical-tests','paths/level6-statistical-tests')]:

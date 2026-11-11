@@ -2,6 +2,9 @@
 
 The review path selects thirteen scenes and reuses scene 13 from the three-scene reference preview. The November 11 review gives scene 07 its own introductory projection. The reference preview retains its three original scenes.
 
+This page records the introductory increment. The same local path now continues
+through scene 47; see [the continuation review](chemometrics-level7-anova-continuation.md).
+
 ## Office review, 2026-11-11
 
 Scene 02 displays the arithmetic mean as a sum over the observed recoveries, followed by the three computed method means. Its legend explains the exact notation used on this slide. Scene 07 uses the same eighteen observations with three mean markers and a grand-mean line. Scene 08 then introduces individual departures and scene 09 introduces their sums of squares.

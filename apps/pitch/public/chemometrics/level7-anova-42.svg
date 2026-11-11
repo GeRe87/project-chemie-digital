@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">MANOVA: several responses at once</title><desc id="desc">Illustrative scatterplot with both analyte recoveries on the axes and three group mean locations marked A, B, and C.</desc>
+<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+<g font-family="system-ui, sans-serif">
+<text x="465.0" y="41" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Two analytes measured on each preparation</text>
+<line x1="150.00" y1="273.00" x2="780.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<line x1="150.00" y1="66.00" x2="150.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="465.0" y="325" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Analyte 1 recovery (%)</text>
+<text x="150" y="57" text-anchor="start" font-size="18" font-weight="500" fill="#163349">Analyte 2 recovery (%)</text>
+<line x1="150.00" y1="273.00" x2="150.00" y2="280.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="150.0" y="301" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">82</text>
+<line x1="143.00" y1="273.00" x2="150.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="135" y="278.0" text-anchor="end" font-size="15" font-weight="500" fill="#163349">82</text>
+<line x1="307.50" y1="273.00" x2="307.50" y2="280.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="307.5" y="301" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">86</text>
+<line x1="143.00" y1="221.25" x2="150.00" y2="221.25" stroke="#a7b9c7" stroke-width="1"/>
+<text x="135" y="226.25" text-anchor="end" font-size="15" font-weight="500" fill="#163349">86</text>
+<line x1="465.00" y1="273.00" x2="465.00" y2="280.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="465.0" y="301" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">90</text>
+<line x1="143.00" y1="169.50" x2="150.00" y2="169.50" stroke="#a7b9c7" stroke-width="1"/>
+<text x="135" y="174.5" text-anchor="end" font-size="15" font-weight="500" fill="#163349">90</text>
+<line x1="622.50" y1="273.00" x2="622.50" y2="280.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="622.5" y="301" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">94</text>
+<line x1="143.00" y1="117.75" x2="150.00" y2="117.75" stroke="#a7b9c7" stroke-width="1"/>
+<text x="135" y="122.75" text-anchor="end" font-size="15" font-weight="500" fill="#163349">94</text>
+<line x1="780.00" y1="273.00" x2="780.00" y2="280.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="780.0" y="301" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">98</text>
+<line x1="143.00" y1="66.00" x2="150.00" y2="66.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="135" y="71.0" text-anchor="end" font-size="15" font-weight="500" fill="#163349">98</text>
+<circle cx="253.34" cy="186.82" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="269.09" cy="246.14" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="283.58" cy="172.96" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="311.30" cy="238.38" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="329.57" cy="174.63" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="345.95" cy="217.32" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="342.17" cy="246.70" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="357.92" cy="189.04" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="305.0" y="215" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">A</text>
+<circle cx="419.34" cy="120.82" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="435.09" cy="180.14" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="449.58" cy="106.96" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="477.30" cy="172.38" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="495.57" cy="108.63" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="511.95" cy="151.32" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="508.17" cy="180.70" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="523.92" cy="123.04" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="471.0" y="149" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">B</text>
+<circle cx="590.34" cy="161.82" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="606.09" cy="221.14" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="620.58" cy="147.96" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="648.30" cy="213.38" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="666.57" cy="149.63" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="682.95" cy="192.32" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="679.17" cy="221.70" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="694.92" cy="164.04" r="6" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="642.0" y="190" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">C</text>
+</g>
+</svg>

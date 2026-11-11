@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Diagnose the residuals</title><desc id="desc">Residuals for the 18 original river-water preparations. Residuals range from −2 to +2 pp in each method. The normal Q–Q plot shows discrete ties. A small sample cannot prove the error model.</desc>
+<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+<g font-family="system-ui, sans-serif">
+<text x="245" y="39" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Residuals vs fitted values</text>
+<text x="708" y="39" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Normal Q–Q plot</text>
+<line x1="80.00" y1="262.00" x2="405.00" y2="262.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="68" y="268" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-2</text>
+<line x1="80.00" y1="221.00" x2="405.00" y2="221.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="68" y="227" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-1</text>
+<line x1="80.00" y1="180.00" x2="405.00" y2="180.00" stroke="#788d9a" stroke-width="1"/>
+<text x="68" y="186" text-anchor="end" font-size="18" font-weight="500" fill="#163349">0</text>
+<line x1="80.00" y1="139.00" x2="405.00" y2="139.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="68" y="145" text-anchor="end" font-size="18" font-weight="500" fill="#163349">1</text>
+<line x1="80.00" y1="98.00" x2="405.00" y2="98.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="68" y="104" text-anchor="end" font-size="18" font-weight="500" fill="#163349">2</text>
+<text x="242" y="310" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Fitted recovery (%)</text>
+<text x="242" y="345" text-anchor="middle" font-size="16" font-weight="500" fill="#163349">Vertical axis: residual (percentage points)</text>
+<line x1="540.00" y1="262.00" x2="865.00" y2="262.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="528" y="268" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-2</text>
+<line x1="540.00" y1="221.00" x2="865.00" y2="221.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="528" y="227" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-1</text>
+<line x1="540.00" y1="180.00" x2="865.00" y2="180.00" stroke="#788d9a" stroke-width="1"/>
+<text x="528" y="186" text-anchor="end" font-size="18" font-weight="500" fill="#163349">0</text>
+<line x1="540.00" y1="139.00" x2="865.00" y2="139.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="528" y="145" text-anchor="end" font-size="18" font-weight="500" fill="#163349">1</text>
+<line x1="540.00" y1="98.00" x2="865.00" y2="98.00" stroke="#d4dfe6" stroke-width="1"/>
+<text x="528" y="104" text-anchor="end" font-size="18" font-weight="500" fill="#163349">2</text>
+<text x="702" y="310" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Theoretical normal quantile</text>
+<text x="702" y="345" text-anchor="middle" font-size="16" font-weight="500" fill="#163349">Vertical axis: residual (percentage points)</text>
+<text x="162.0" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">94</text>
+<circle cx="159.00" cy="221.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="159.00" cy="139.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="159.00" cy="180.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="159.00" cy="262.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="159.00" cy="98.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="168.00" cy="180.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="366.0" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">98</text>
+<circle cx="363.00" cy="221.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="363.00" cy="139.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="363.00" cy="180.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="363.00" cy="98.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="363.00" cy="262.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="372.00" cy="180.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="111.0" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">93</text>
+<circle cx="108.00" cy="139.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="108.00" cy="180.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="108.00" cy="221.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="108.00" cy="98.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="108.00" cy="262.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="117.00" cy="180.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<line x1="606.85" y1="262.00" x2="799.15" y2="98.00" stroke="#627787" stroke-width="2" stroke-dasharray="6 5"/>
+<circle cx="572.81" cy="262.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="608.96" cy="262.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="629.20" cy="262.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="644.41" cy="221.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="657.13" cy="221.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="668.42" cy="221.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="678.83" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="688.69" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="698.26" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="707.74" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="717.31" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="727.17" cy="180.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="737.58" cy="139.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="748.87" cy="139.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="761.59" cy="139.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="776.80" cy="98.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="797.04" cy="98.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="833.19" cy="98.00" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="567" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-2</text>
+<text x="635" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-1</text>
+<text x="703" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">0</text>
+<text x="771" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">1</text>
+<text x="839" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">2</text>
+</g>
+</svg>

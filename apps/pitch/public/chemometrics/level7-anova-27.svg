@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Read the post-hoc comparison plot</title><desc id="desc">B minus A: 4, interval 1.88 to 6.12. C minus A: −1, interval −3.12 to 1.12. C minus B: −5, interval −7.12 to −2.88. Only C minus A crosses zero.</desc>
+<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+<g font-family="system-ui, sans-serif">
+<text x="485" y="40" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">95% simultaneous confidence intervals</text>
+<line x1="468.00" y1="62.00" x2="468.00" y2="284.00" stroke="#5a768b" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="116" y="107" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">B − A</text>
+<line x1="546.93" y1="101.00" x2="725.07" y2="101.00" stroke="#13677e" stroke-width="5"/>
+<line x1="546.93" y1="92.00" x2="546.93" y2="110.00" stroke="#13677e" stroke-width="3"/>
+<line x1="725.07" y1="92.00" x2="725.07" y2="110.00" stroke="#13677e" stroke-width="3"/>
+<circle cx="636.00" cy="101.00" r="8" fill="#13677e" stroke="white" stroke-width="1"/>
+<text x="793" y="107" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">[1.88, 6.12]</text>
+<text x="116" y="179" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">C − A</text>
+<line x1="336.93" y1="173.00" x2="515.07" y2="173.00" stroke="#697883" stroke-width="5"/>
+<line x1="336.93" y1="164.00" x2="336.93" y2="182.00" stroke="#697883" stroke-width="3"/>
+<line x1="515.07" y1="164.00" x2="515.07" y2="182.00" stroke="#697883" stroke-width="3"/>
+<circle cx="426.00" cy="173.00" r="8" fill="#697883" stroke="white" stroke-width="1"/>
+<text x="793" y="179" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">[-3.12, 1.12]</text>
+<text x="116" y="251" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">C − B</text>
+<line x1="168.93" y1="245.00" x2="347.07" y2="245.00" stroke="#13677e" stroke-width="5"/>
+<line x1="168.93" y1="236.00" x2="168.93" y2="254.00" stroke="#13677e" stroke-width="3"/>
+<line x1="347.07" y1="236.00" x2="347.07" y2="254.00" stroke="#13677e" stroke-width="3"/>
+<circle cx="258.00" cy="245.00" r="8" fill="#13677e" stroke="white" stroke-width="1"/>
+<text x="793" y="251" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">[-7.12, -2.88]</text>
+<line x1="216.00" y1="286.00" x2="216.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="216" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-6</text>
+<line x1="300.00" y1="286.00" x2="300.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="300" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-4</text>
+<line x1="384.00" y1="286.00" x2="384.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="384" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-2</text>
+<line x1="468.00" y1="286.00" x2="468.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="468" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">0</text>
+<line x1="552.00" y1="286.00" x2="552.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="552" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">2</text>
+<line x1="636.00" y1="286.00" x2="636.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="636" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">4</text>
+<line x1="720.00" y1="286.00" x2="720.00" y2="294.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="720" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">6</text>
+<text x="468" y="350" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Difference in mean recovery (percentage points)</text>
+</g>
+</svg>

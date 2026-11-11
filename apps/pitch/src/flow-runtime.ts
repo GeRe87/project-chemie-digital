@@ -76,8 +76,19 @@ function bindDiagramAccessibility(host: PitchFlowHost, component: D3DiagramCompo
 }
 
 function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponent, onStateChange?: (stateId?: string) => void): () => void {
-  const states = component.model.states ?? [];
-  const stateCount = states.length;
+  const model = component.model;
+  const states = model.states ?? [];
+  const initialNodes = new Set(states[0]?.activeNodeIds ?? []);
+  // An explicit prompt followed by a complete linked solution starts on the prompt.
+  // Other state sequences retain their established complete entry view.
+  const startsWithPrompt = "diagramType" in model && model.diagramType === "flow"
+    && states.length === 2 && initialNodes.size > 0
+    && !states[0]?.activeEdgeIds?.length
+    && states[1]?.activeNodeIds?.length === model.nodes.length
+    && states[1]?.activeEdgeIds?.length === model.edges.length
+    && model.edges.length > 0
+    && model.edges.every(edge => initialNodes.has(edge.sourceNodeId) && !initialNodes.has(edge.targetNodeId));
+  const stateCount = states.length - Number(startsWithPrompt);
   if (!stateCount || !host.setAttribute || !host.addEventListener || !host.removeEventListener) return () => {};
 
   const previousCount = host.getAttribute("data-presentation-step-count");
@@ -88,7 +99,7 @@ function bindPresentationState(host: PitchFlowHost, component: D3DiagramComponen
   const listener: EventListener = (event) => {
     const step = (event as CustomEvent<{ step?: unknown }>).detail?.step;
     if (typeof step !== "number" || !Number.isFinite(step)) return;
-    component.setActiveState(states[Math.trunc(step) - 1]?.id);
+    component.setActiveState(states[Math.trunc(step) - Number(!startsWithPrompt)]?.id);
     onStateChange?.(component.activeStateId);
   };
   host.addEventListener("pcd-presentation-step", listener);

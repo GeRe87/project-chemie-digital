@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">PERMANOVA: location or dispersion?</title><desc id="desc">Schematic groups with different centers and comparable spread on the left, and a shared center with different spreads on the right.</desc>
+<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+<g font-family="system-ui, sans-serif">
+<text x="242.5" y="41" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Different centers</text>
+<line x1="80.00" y1="273.00" x2="405.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<line x1="80.00" y1="66.00" x2="80.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="242.5" y="309" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Schematic distance space</text>
+<circle cx="139.86" cy="169.70" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="152.86" cy="218.66" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="164.82" cy="158.26" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="187.70" cy="212.25" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="202.78" cy="159.63" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="216.30" cy="194.86" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="213.18" cy="219.12" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="226.18" cy="171.53" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="182.5" y="194" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">+</text>
+<circle cx="259.86" cy="135.70" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="272.86" cy="184.66" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="284.82" cy="124.26" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="307.70" cy="178.25" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="322.78" cy="125.63" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="336.30" cy="160.86" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="333.18" cy="185.12" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="346.18" cy="137.53" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="302.5" y="160" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">+</text>
+<text x="690.5" y="41" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Different spreads</text>
+<line x1="528.00" y1="273.00" x2="853.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<line x1="528.00" y1="66.00" x2="528.00" y2="273.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="690.5" y="309" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Schematic distance space</text>
+<circle cx="657.70" cy="156.92" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="667.70" cy="194.58" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="676.90" cy="148.12" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="694.50" cy="189.66" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="706.10" cy="149.18" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="716.50" cy="176.28" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="714.10" cy="194.94" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="724.10" cy="158.33" r="6" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="690.5" y="177" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">+</text>
+<circle cx="602.76" cy="133.34" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="629.51" cy="234.09" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="654.12" cy="109.80" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="701.20" cy="220.90" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="732.23" cy="112.62" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="760.05" cy="185.12" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="753.63" cy="235.03" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="780.38" cy="137.10" r="6" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="690.5" y="177" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">+</text>
+</g>
+</svg>
