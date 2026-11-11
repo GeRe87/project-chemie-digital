@@ -21,6 +21,28 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
 body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg :is([stroke="#a7b9c7"],[stroke="#bdcfdc"],[stroke="#d4dfe6"]) { stroke:#4c6577; }
 body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg :is([stroke="#527283"],[stroke="#5a768b"],[stroke="#627787"],[stroke="#697883"],[stroke="#788d9a"]) { stroke:#9ebacd; }
 @media screen {
+  body[data-authoring-frame="lecture"] .scene-references {
+    --pcd-reference-button-fill: #b73516;
+    --pcd-reference-button-hover: #962b10;
+    --pcd-reference-button-text: #fff;
+  }
+  body[data-authoring-frame="lecture"][data-presentation-theme="dark"] .scene-references {
+    --pcd-reference-button-fill: #ff7954;
+    --pcd-reference-button-hover: #ff997c;
+    --pcd-reference-button-text: #23120c;
+  }
+  body[data-authoring-frame="lecture"] .reveal .scene-references .reference-link {
+    border-color: transparent;
+    border-radius: 7px;
+    background: var(--pcd-reference-button-fill);
+    color: var(--pcd-reference-button-text);
+    text-decoration: none;
+  }
+  body[data-authoring-frame="lecture"] .reveal .scene-references .reference-link:hover {
+    background: var(--pcd-reference-button-hover);
+    color: var(--pcd-reference-button-text);
+    text-decoration: underline;
+  }
   html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition] {
     box-sizing: border-box;
     height: 800px;
