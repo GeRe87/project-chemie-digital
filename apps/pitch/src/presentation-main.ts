@@ -120,6 +120,17 @@ const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNet
 let unmountScenes: () => void;
 try {
   unmountScenes = mountSceneDocuments(createBrowserPitchDomPort(root), documents);
+  if (document.body.dataset.authoringFrame === "lecture") {
+    for (const takeaway of root.querySelectorAll<HTMLElement>("[data-lecture-takeaway]")) {
+      const label = document.createElement("span");
+      label.className = "lecture-takeaway-label";
+      label.textContent = "In essence";
+
+      const content = document.createElement("div");
+      content.append(...takeaway.childNodes);
+      takeaway.append(label, content);
+    }
+  }
 } catch (error) {
   root.textContent = "Szeneninhalte konnten nicht geladen werden.";
   root.setAttribute("role", "alert");

@@ -20,7 +20,19 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
 body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [fill="#697883"] { fill:#c7d2de; }
 body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg :is([stroke="#a7b9c7"],[stroke="#bdcfdc"],[stroke="#d4dfe6"]) { stroke:#4c6577; }
 body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg :is([stroke="#527283"],[stroke="#5a768b"],[stroke="#627787"],[stroke="#697883"],[stroke="#788d9a"]) { stroke:#9ebacd; }
+.lecture-takeaway-label { display: none; }
 @media screen {
+  html:not(.print-pdf) body[data-authoring-frame="lecture"] .lecture-takeaway-label {
+    display: block;
+    margin-block-start: 2px;
+    padding: 3px 6px;
+    border: 1px solid var(--pcd-accent);
+    border-radius: 4px;
+    color: var(--pcd-accent);
+    font: 750 14px/1.15 system-ui, sans-serif;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
   body[data-authoring-frame="lecture"] .scene-references {
     --pcd-reference-button-fill: #b73516;
     --pcd-reference-button-hover: #962b10;
@@ -99,9 +111,11 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
   }
   html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition]
     .lead[data-lecture-takeaway] {
-    display: flex;
-    flex-direction: column;
-    justify-content: safe center;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: start;
+    align-content: safe center;
+    column-gap: 12px;
     overflow-y: auto;
     box-sizing: border-box;
     block-size: var(--pcd-lecture-takeaway-height);
