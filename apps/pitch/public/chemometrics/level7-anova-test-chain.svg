@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">From sums of squares to the p-value</title><desc id="desc">Divide method SS 84 by 2 to get 42 and residual SS 30 by 15 to get 2. F is 21; the upper tail under F with df 2,15 is 0.00004484.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<rect x="38" y="60" width="350" height="89" rx="13" fill="#dceef5"/>
+<rect x="38" y="184" width="350" height="89" rx="13" fill="#ebe3f5"/>
+<text x="213" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Between methods</text>
+<text x="213" y="130" text-anchor="middle" font-size="25" font-weight="500" fill="#163349">84 ÷ 2 = 42 pp²</text>
+<text x="213" y="220" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Residual</text>
+<text x="213" y="254" text-anchor="middle" font-size="25" font-weight="500" fill="#163349">30 ÷ 15 = 2 pp²</text>
+<line x1="388.00" y1="105.00" x2="445.00" y2="160.00" stroke="#527283" stroke-width="3"/>
+<line x1="388.00" y1="229.00" x2="445.00" y2="171.00" stroke="#527283" stroke-width="3"/>
+<rect x="445" y="111" width="195" height="107" rx="13" fill="#c9e6ec"/>
+<text x="542" y="175" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">F = 42 ÷ 2 = 21</text>
+<line x1="640.00" y1="166.00" x2="674.00" y2="166.00" stroke="#527283" stroke-width="3"/>
+<rect x="674" y="111" width="213" height="107" rx="13" fill="#f5e9d3"/>
+<text x="780" y="150" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">Upper F tail</text>
+<text x="780" y="185" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">p ≈ 0.00004484</text>
+<text x="465" y="331" text-anchor="middle" font-size="21" font-weight="500" fill="#163349">Reference distribution: F with 2 and 15 degrees of freedom</text>
+</g></svg>

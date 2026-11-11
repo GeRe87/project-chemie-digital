@@ -1,6 +1,8 @@
 /** Generic local preview. Semantic selection lives in the compiler command, not here. */
 import { startPresentation } from "./presentation-main.ts";
+import "./authoring-lecture.css";
 
+document.body.dataset.authoringFrame = "lecture";
 document.body.dataset.presentationTheme = new URLSearchParams(location.search).get("theme") === "light" ? "light" : "dark";
 document.body.dataset.presentationClean = String(new URLSearchParams(location.search).get("clean") === "1");
 const preview=new URLSearchParams(location.search).get("preview")??"authoring";

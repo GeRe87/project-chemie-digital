@@ -2,13 +2,36 @@
  * replace the formula/legend renderer, experiment state or authored scenes. */
 export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () => {}): () => void {
   const cleanups: Array<() => void> = [];
-  for (const slide of root.querySelectorAll<HTMLElement>('section[data-composition-profile="visual-formula"]')) {
+  for (const slide of root.querySelectorAll<HTMLElement>('section[data-composition]')) {
     if (slide.dataset.sceneViewTabs === 'true') continue;
     const originalMarker = slide.getAttribute('data-scene-view-tabs');
     const primary = slide.querySelector<HTMLElement>(':scope > [data-composition-region-container="primary"]');
     const secondary = slide.querySelector<HTMLElement>(':scope > [data-composition-region-container="secondary"]');
-    if (!primary?.querySelector('[data-chart-block-id],[data-diagram-type="flow"]') || !secondary?.querySelector('.formula-with-legend')) continue;
-    const panels = [primary, secondary];
+    const tables = Array.from(slide.querySelectorAll<HTMLTableElement>(':scope > table.data-table'));
+    const captions = tables.map(table => table.caption?.textContent?.trim() ?? '');
+    const tableHeaders = (table: HTMLTableElement) =>
+      Array.from(table.querySelectorAll('thead th')).map(cell => cell.textContent?.trim()).join('\u001f');
+    const authoringLecture = document.body.dataset.authoringFrame === 'lecture';
+    const compatibleTables = authoringLecture
+      && tables.length > 1 && captions.every(Boolean) && new Set(captions).size === captions.length
+      && tableHeaders(tables[0]!) && tables.every(table => tableHeaders(table) === tableHeaders(tables[0]!));
+    const profile = slide.dataset.compositionProfile;
+    const hasFormula = (profile === 'visual-formula' || authoringLecture && profile === 'worked-calculation')
+      && primary?.querySelector(authoringLecture
+        ? '[data-chart-block-id],[data-diagram-type="flow"],.media-reference,.data-table'
+        : '[data-chart-block-id],[data-diagram-type="flow"]')
+      && secondary?.querySelector('.formula-with-legend');
+    if (!hasFormula && !compatibleTables) continue;
+    // Keep each native table's semantics inside the accessible tab panel.
+    const panels: HTMLElement[] = compatibleTables ? tables.map(table => {
+      const panel = document.createElement('div');
+      panel.className = 'pcd-comparable-table-panel';
+      table.before(panel);
+      panel.append(table);
+      return panel;
+    }) : [primary!, secondary!];
+    const labels = compatibleTables ? captions.map(caption => caption.split(' · ')[0]!)
+      : [primary!.querySelector('.data-table') ? 'Table' : 'Diagram', 'Formula & symbols'];
     const attributes = ['id', 'role', 'aria-labelledby', 'tabindex', 'data-scene-view-active'];
     const originalAttributes = panels.map(panel => attributes.map(name => panel.getAttribute(name)));
     const ribbon = document.createElement('div');
@@ -16,7 +39,7 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
     ribbon.setAttribute('role', 'tablist');
     ribbon.setAttribute('aria-label', 'Slide views');
     ribbon.dataset.presentationInteractive = 'true';
-    const tabs = ['Diagram', 'Formula & symbols'].map((label, index) => {
+    const tabs = labels.map((label, index) => {
       const tab = document.createElement('button');
       tab.type = 'button';
       tab.textContent = label;
@@ -71,7 +94,7 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
     ribbon.addEventListener('click', click);
     window.addEventListener('keydown', keyboard, true);
     slide.dataset.sceneViewTabs = 'true';
-    slide.insertBefore(ribbon, primary);
+    slide.insertBefore(ribbon, panels[0]!);
     select(0, false, false);
     cleanups.push(() => {
       ribbon.removeEventListener('click', click);
@@ -85,6 +108,7 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
           if (value === null) panel.removeAttribute(name);
           else panel.setAttribute(name, value!);
         });
+        if (compatibleTables) panel.replaceWith(tables[index]!);
       });
     });
   }

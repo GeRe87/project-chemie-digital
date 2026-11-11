@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">The sums of squares balance</title><desc id="desc">The total of 114 squared percentage points splits into 84 between methods and 30 residual.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="57" text-anchor="middle" font-size="28" font-weight="700" fill="#163349">Observed total: 114 pp²</text>
+<rect x="100" y="102" width="730" height="94" rx="13" fill="#ece4f4"/>
+<rect x="100" y="102" width="538" height="94" rx="13" fill="#bde1ec"/>
+<text x="369" y="160" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">84 · Between methods</text>
+<text x="734" y="160" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">30 · Residual</text>
+<text x="465" y="251" text-anchor="middle" font-size="33" font-weight="700" fill="#163349">84 + 30 = 114</text>
+<text x="465" y="309" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">A check on the accounting before the F-test</text>
+</g></svg>

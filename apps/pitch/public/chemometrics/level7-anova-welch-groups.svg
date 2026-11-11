@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Why use Welch ANOVA?</title><desc id="desc">Six independent illustrative recoveries per method. A and C have sample variance 3.5 pp squared; B has sample variance 56.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="49" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Illustrative SPE recoveries</text>
+<line x1="200.00" y1="72.00" x2="200.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="200" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">82</text>
+<line x1="312.00" y1="72.00" x2="312.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="312" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">86</text>
+<line x1="424.00" y1="72.00" x2="424.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="424" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">90</text>
+<line x1="536.00" y1="72.00" x2="536.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="536" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">94</text>
+<line x1="648.00" y1="72.00" x2="648.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="648" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">98</text>
+<line x1="760.00" y1="72.00" x2="760.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="760" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">102</text>
+<text x="130" y="118" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Method A</text>
+<line x1="452.00" y1="112.00" x2="592.00" y2="112.00" stroke="#10698a" stroke-width="2"/>
+<circle cx="452.00" cy="119.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="480.00" cy="105.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="508.00" cy="119.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="536.00" cy="105.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="119.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="592.00" cy="105.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="130" y="182" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Method B</text>
+<line x1="228.00" y1="176.00" x2="788.00" y2="176.00" stroke="#a14518" stroke-width="2"/>
+<circle cx="228.00" cy="183.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="340.00" cy="169.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="452.00" cy="183.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="169.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="676.00" cy="183.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="788.00" cy="169.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="130" y="246" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Method C</text>
+<line x1="536.00" y1="240.00" x2="676.00" y2="240.00" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="536.00" cy="247.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="233.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="592.00" cy="247.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="620.00" cy="233.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="648.00" cy="247.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="676.00" cy="233.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="480" y="345" text-anchor="middle" font-size="21" font-weight="500" fill="#163349">Recovery (%)</text>
+</g></svg>

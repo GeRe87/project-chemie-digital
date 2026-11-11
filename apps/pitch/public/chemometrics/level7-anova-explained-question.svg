@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">What does the method account for?</title><desc id="desc">Total observed spread is measured around the grand mean. Between-method variation measures differences among fitted group means; residual variation remains among preparations around their own group mean.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="49" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Which reference are we measuring from?</text>
+<rect x="62" y="86" width="806" height="72" rx="13" fill="#dceef5"/>
+<text x="465" y="130" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">Total: all preparations around the grand mean</text>
+<line x1="465.00" y1="158.00" x2="465.00" y2="201.00" stroke="#527283" stroke-width="3"/>
+<line x1="248.00" y1="201.00" x2="682.00" y2="201.00" stroke="#527283" stroke-width="3"/>
+<line x1="248.00" y1="201.00" x2="248.00" y2="233.00" stroke="#527283" stroke-width="3"/>
+<line x1="682.00" y1="201.00" x2="682.00" y2="233.00" stroke="#527283" stroke-width="3"/>
+<rect x="55" y="233" width="386" height="103" rx="13" fill="#c8e6ef"/>
+<rect x="489" y="233" width="386" height="103" rx="13" fill="#e9def2"/>
+<text x="248" y="273" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Between: fitted method means</text>
+<text x="248" y="307" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Variation accounted for by the model</text>
+<text x="682" y="273" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Within: residual departures</text>
+<text x="682" y="307" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Variation left after fitting the means</text>
+</g></svg>

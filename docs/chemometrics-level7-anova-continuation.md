@@ -1,5 +1,8 @@
 # ANOVA Level 7: continuation review
 
+This page records the earlier 47-slide increment. The current lecture is
+described in the [didactic review](chemometrics-level7-anova-didactic-review.md).
+
 The local review path now selects all 47 storyboard scenes. The first 13 stay
 in place; scenes 14–47 extend that same path. The existing three-scene numerical
 reference and Level 6 keep their separate paths. No course offering or

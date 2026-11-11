@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">From a mean difference to an adjusted p-value</title><desc id="desc">Means C, A and B are 93, 94 and 98 percent. B minus A is four percentage points. Standardizing gives q 6.928, and the upper studentized-range tail for three means and 15 residual degrees of freedom is about 0.000532.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="48" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Compare B with A on the recovery scale</text>
+<line x1="150.00" y1="140.00" x2="780.00" y2="140.00" stroke="#527283" stroke-width="3"/>
+<circle cx="210.00" cy="140.00" r="9" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="310.00" cy="140.00" r="9" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="710.00" cy="140.00" r="9" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="210" y="117" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">C: 93%</text>
+<text x="310" y="117" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">A: 94%</text>
+<text x="710" y="117" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">B: 98%</text>
+<line x1="310.00" y1="187.00" x2="710.00" y2="187.00" stroke="#527283" stroke-width="3"/>
+<line x1="310.00" y1="177.00" x2="310.00" y2="196.00" stroke="#a7b9c7" stroke-width="1"/>
+<line x1="710.00" y1="177.00" x2="710.00" y2="196.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="510" y="222" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">B − A = 4 percentage points</text>
+<rect x="115" y="258" width="700" height="74" rx="13" fill="#dceef5"/>
+<text x="465" y="302" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">q = 6.928   →   adjusted p = 0.000532</text>
+</g></svg>

@@ -18,10 +18,10 @@
   ex:l7-next-15-takeaway a cd:Interpretation ; cd:body "Squaring deviations from each method's own sample mean gives a pooled within-group sum of squares of 30 squared percentage points."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-focus a cd:Concept ; skos:prefLabel "Calculate within-group variation"@en ; cd:hasDefinition ex:l7-next-15-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-definition a cd:Definition ; cd:body "How much variation remains within methods? Squaring deviations from each method's own sample mean gives a pooled within-group sum of squares of 30 squared percentage points."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table a cd:TableDefinition ; skos:prefLabel "Within-group squared departures"@en ; cd:hasTableColumn ex:l7-next-15-table-col-1, ex:l7-next-15-table-col-2, ex:l7-next-15-table-col-3 ; cd:hasTableRow ex:l7-next-15-table-row-1, ex:l7-next-15-table-row-2, ex:l7-next-15-table-row-3, ex:l7-next-15-table-row-4, ex:l7-next-15-table-row-5, ex:l7-next-15-table-row-6, ex:l7-next-15-table-row-7 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-col-1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "A recovery (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-col-2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "A residual (pp)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-col-3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Residual² (pp²)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table a cd:TableDefinition ; skos:prefLabel "Method A · mean recovery 94%"@en ; cd:hasTableColumn ex:l7-next-15-table-col-1, ex:l7-next-15-table-col-2, ex:l7-next-15-table-col-3 ; cd:hasTableRow ex:l7-next-15-table-row-1, ex:l7-next-15-table-row-2, ex:l7-next-15-table-row-3, ex:l7-next-15-table-row-4, ex:l7-next-15-table-row-5, ex:l7-next-15-table-row-6, ex:l7-next-15-table-row-7 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-col-1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Recovery (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-col-2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Residual (pp)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-col-3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Squared residual (pp²)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-table-row-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-next-15-table-row-1-cell-1, ex:l7-next-15-table-row-1-cell-2, ex:l7-next-15-table-row-1-cell-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-table-row-1-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "93"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-table-row-1-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "−1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -47,9 +47,9 @@
   ex:l7-next-15-table-row-6-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-table-row-6-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-table-row-7 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:l7-next-15-table-row-7-cell-1, ex:l7-next-15-table-row-7-cell-2, ex:l7-next-15-table-row-7-cell-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-row-7-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "Total A"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-row-7-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-table-row-7-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "10"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-row-7-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "Mean: 94 %"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-row-7-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "Sum: 0 pp"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-table-row-7-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "Sum: 10 pp²"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-16-heading a cd:Interpretation ; skos:prefLabel "Calculate between-group variation"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-16-takeaway a cd:Interpretation ; cd:body "Weighting squared deviations of method means from the overall mean by six preparations gives 84 squared percentage points."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-16-focus a cd:Concept ; skos:prefLabel "Calculate between-group variation"@en ; cd:hasDefinition ex:l7-next-16-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -239,11 +239,11 @@
   ex:l7-next-31-takeaway a cd:Interpretation ; cd:body "The method main effect compares recovery averaged equally across the two matrices in this balanced design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-focus a cd:Concept ; skos:prefLabel "The main effect of method"@en ; cd:hasDefinition ex:l7-next-31-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-definition a cd:Definition ; cd:body "What does the average method effect describe? The method main effect compares recovery averaged equally across the two matrices in this balanced design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-31-table a cd:TableDefinition ; skos:prefLabel "Equal-weight method means"@en ; cd:hasTableColumn ex:l7-next-31-table-col-1, ex:l7-next-31-table-col-2, ex:l7-next-31-table-col-3, ex:l7-next-31-table-col-4 ; cd:hasTableRow ex:l7-next-31-table-row-1, ex:l7-next-31-table-row-2, ex:l7-next-31-table-row-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-31-table a cd:TableDefinition ; skos:prefLabel "Average each method equally across the two matrices"@en ; cd:hasTableColumn ex:l7-next-31-table-col-1, ex:l7-next-31-table-col-2, ex:l7-next-31-table-col-3, ex:l7-next-31-table-col-4 ; cd:hasTableRow ex:l7-next-31-table-row-1, ex:l7-next-31-table-row-2, ex:l7-next-31-table-row-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-col-1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-col-2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "River (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-col-3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Wastewater (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-31-table-col-4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Marginal (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-31-table-col-4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Marginal mean (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-row-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-next-31-table-row-1-cell-1, ex:l7-next-31-table-row-1-cell-2, ex:l7-next-31-table-row-1-cell-3, ex:l7-next-31-table-row-1-cell-4 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-row-1-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-table-row-1-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "94"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -385,7 +385,7 @@
   ex:l7-next-39-cards-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Start with the design"@en ; cd:body "Identify independent units, repeated measurements, pairing, and any blocking."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-39-cards-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Count responses and factors"@en ; cd:body "Several measured outcomes are not the same as several experimental factors."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-39-cards-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Check the error structure"@en ; cd:body "Unequal variances and dependence require different modeling decisions."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-39-cards-4 a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Match the question"@en ; cd:body "Choose among mean comparisons, joint response analysis, and profile comparisons."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-39-cards-4 a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Match the question"@en ; cd:body "Choose among equal-variance means, Welch means, rank comparisons and joint responses."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-40-heading a cd:Interpretation ; skos:prefLabel "Welch ANOVA for unequal variances"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-40-takeaway a cd:Interpretation ; cd:body "Welch ANOVA compares means of independent groups without assuming equal variances, with Games–Howell as a possible pairwise follow-up."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-40-focus a cd:Concept ; skos:prefLabel "Welch ANOVA for unequal variances"@en ; cd:hasDefinition ex:l7-next-40-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -416,38 +416,22 @@
   ex:l7-next-42-focus a cd:Concept ; skos:prefLabel "MANOVA: several responses at once"@en ; cd:hasDefinition ex:l7-next-42-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-42-definition a cd:Definition ; cd:body "How can two analyte responses be compared jointly? MANOVA tests group differences in multivariate mean vectors while accounting for relationships among responses."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-42-visual a cd:MediaAsset ; skos:prefLabel "MANOVA: several responses at once"@en ; cd:uri "/chemometrics/level7-anova-42.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Illustrative scatterplot with both analyte recoveries on the axes and three group mean locations marked A, B, and C."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-heading a cd:Interpretation ; skos:prefLabel "PERMANOVA: comparing chemical fingerprints"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-takeaway a cd:Interpretation ; cd:body "PERMANOVA tests group structure in distances between multivariate profiles using a permutation scheme justified by the experimental design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-focus a cd:Concept ; skos:prefLabel "PERMANOVA: comparing chemical fingerprints"@en ; cd:hasDefinition ex:l7-next-43-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-definition a cd:Definition ; cd:body "How can whole chemical profiles be compared? PERMANOVA tests group structure in distances between multivariate profiles using a permutation scheme justified by the experimental design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-edge-1 a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "then choose distance"@en ; cd:sourceNode ex:l7-next-43-diagram-node-1 ; cd:targetNode ex:l7-next-43-diagram-node-2 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-edge-2 a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "then test groups"@en ; cd:sourceNode ex:l7-next-43-diagram-node-2 ; cd:targetNode ex:l7-next-43-diagram-node-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-node-1 a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Define comparable profiles"@en ; cd:body "Choose preprocessing and scaling before calculating distances."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-node-2 a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Choose the distance"@en ; cd:body "Bray–Curtis needs nonnegative inputs; large peaks can dominate without suitable scaling."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-node-3 a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Use valid permutations"@en ; cd:body "Permute only exchangeable units; respect pairing, blocks, and repeated measurements."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram-node-4 a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Read ordination cautiously"@en ; cd:body "A two-dimensional view may omit structure present in the full distance matrix."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-diagram a cd:FlowDiagram ; skos:prefLabel "PERMANOVA: comparing chemical fingerprints"@en ; cd:body "A schematic workflow connects peak-area profiles, preprocessing, distances, ordination, and permutation testing."@en ; cd:hasDiagramNode ex:l7-next-43-diagram-node-1, ex:l7-next-43-diagram-node-2, ex:l7-next-43-diagram-node-3, ex:l7-next-43-diagram-node-4 ; cd:hasDiagramEdge ex:l7-next-43-diagram-edge-1, ex:l7-next-43-diagram-edge-2 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-heading a cd:Interpretation ; skos:prefLabel "PERMANOVA: location or dispersion?"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-takeaway a cd:Interpretation ; cd:body "PERMANOVA results can reflect group location and within-group dispersion, so interpretation requires examining both."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-focus a cd:Concept ; skos:prefLabel "PERMANOVA: location or dispersion?"@en ; cd:hasDefinition ex:l7-next-44-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-definition a cd:Definition ; cd:body "Does significance establish different group centers? PERMANOVA results can reflect group location and within-group dispersion, so interpretation requires examining both."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-visual a cd:MediaAsset ; skos:prefLabel "PERMANOVA: location or dispersion?"@en ; cd:uri "/chemometrics/level7-anova-44.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Schematic groups with different centers and comparable spread on the left, and a shared center with different spreads on the right."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-heading a cd:Interpretation ; skos:prefLabel "Choose the method: three analytical cases"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-takeaway a cd:Interpretation ; cd:body "Identify the response, independent unit, and factor structure before choosing the analysis."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-focus a cd:Concept ; skos:prefLabel "Choose the method: three analytical cases"@en ; cd:hasDefinition ex:l7-next-45-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-definition a cd:Definition ; cd:body "Which method fits each analytical question? Identify the response, independent unit, and factor structure before choosing the analysis."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-node-1 a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "One-way ANOVA"@en ; cd:body "One factor and one recovery response. Check the sampling and error model."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-node-2 a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Two-way ANOVA"@en ; cd:body "Model method, matrix and their interaction for one recovery response."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-45-diagram-node-3 a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "PERMANOVA"@en ; cd:body "Choose a distance and exchangeability scheme for the LC–MS profiles."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-45-diagram-node-3 a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "MANOVA"@en ; cd:body "Compare the joint mean vectors for two outcomes measured on each preparation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-case-1 a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Three SPE methods"@en ; cd:body "One recovery value per independent preparation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-case-2 a cd:DiagramNode ; cd:position 5 ; skos:prefLabel "Methods × matrices"@en ; cd:body "One recovery value for each preparation in a crossed design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-45-diagram-case-3 a cd:DiagramNode ; cd:position 6 ; skos:prefLabel "LC–MS profiles"@en ; cd:body "One multi-peak fingerprint per independent sample."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-45-diagram-case-3 a cd:DiagramNode ; cd:position 6 ; skos:prefLabel "Two analyte recoveries"@en ; cd:body "One paired recovery measurement for each analyte per independent preparation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-choice-1 a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "Compare means"@en ; cd:sourceNode ex:l7-next-45-diagram-case-1 ; cd:targetNode ex:l7-next-45-diagram-node-1 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-choice-2 a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "Model both factors"@en ; cd:sourceNode ex:l7-next-45-diagram-case-2 ; cd:targetNode ex:l7-next-45-diagram-node-2 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-45-diagram-choice-3 a cd:DiagramEdge ; cd:position 3 ; skos:prefLabel "Compare distances"@en ; cd:sourceNode ex:l7-next-45-diagram-case-3 ; cd:targetNode ex:l7-next-45-diagram-node-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-45-diagram-choice-3 a cd:DiagramEdge ; cd:position 3 ; skos:prefLabel "Compare mean vectors"@en ; cd:sourceNode ex:l7-next-45-diagram-case-3 ; cd:targetNode ex:l7-next-45-diagram-node-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-questions a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Choose a method"@en ; cd:activeDiagramNode ex:l7-next-45-diagram-case-1, ex:l7-next-45-diagram-case-2, ex:l7-next-45-diagram-case-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-diagram-answers a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Compare the choices"@en ; cd:activeDiagramNode ex:l7-next-45-diagram-case-1, ex:l7-next-45-diagram-case-2, ex:l7-next-45-diagram-case-3, ex:l7-next-45-diagram-node-1, ex:l7-next-45-diagram-node-2, ex:l7-next-45-diagram-node-3 ; cd:activeDiagramEdge ex:l7-next-45-diagram-choice-1, ex:l7-next-45-diagram-choice-2, ex:l7-next-45-diagram-choice-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-45-diagram a cd:FlowDiagram ; skos:prefLabel "Choose the method: three analytical cases"@en ; cd:body "Three case cards contrast one-response method comparison, method-by-matrix design, and LC-MS profiles."@en ; cd:hasDiagramNode ex:l7-next-45-diagram-node-1, ex:l7-next-45-diagram-node-2, ex:l7-next-45-diagram-node-3, ex:l7-next-45-diagram-case-1, ex:l7-next-45-diagram-case-2, ex:l7-next-45-diagram-case-3 ; cd:hasDiagramEdge ex:l7-next-45-diagram-choice-1, ex:l7-next-45-diagram-choice-2, ex:l7-next-45-diagram-choice-3 ; cd:hasDiagramState ex:l7-next-45-diagram-questions, ex:l7-next-45-diagram-answers ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-45-diagram a cd:FlowDiagram ; skos:prefLabel "Choose the method: three analytical cases"@en ; cd:body "Compare one response, two factors, or two responses per preparation."@en ; cd:hasDiagramNode ex:l7-next-45-diagram-node-1, ex:l7-next-45-diagram-node-2, ex:l7-next-45-diagram-node-3, ex:l7-next-45-diagram-case-1, ex:l7-next-45-diagram-case-2, ex:l7-next-45-diagram-case-3 ; cd:hasDiagramEdge ex:l7-next-45-diagram-choice-1, ex:l7-next-45-diagram-choice-2, ex:l7-next-45-diagram-choice-3 ; cd:hasDiagramState ex:l7-next-45-diagram-questions, ex:l7-next-45-diagram-answers ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-46-heading a cd:Interpretation ; skos:prefLabel "Interpret the result, not the star"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-46-takeaway a cd:Interpretation ; cd:body "A defensible interpretation connects the hypothesis, assumptions, test statistics, effect size, and follow-up questions without overstating an omnibus result."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-46-focus a cd:Concept ; skos:prefLabel "Interpret the result, not the star"@en ; cd:hasDefinition ex:l7-next-46-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -903,22 +887,6 @@
   ex:l7-source-package cd:supportsResource ex:l7-next-42-focus .
   ex:l7-source-package cd:supportsResource ex:l7-next-42-definition .
   ex:l7-source-package cd:supportsResource ex:l7-next-42-visual .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-heading .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-takeaway .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-focus .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-definition .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-edge-1 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-edge-2 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-node-1 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-node-2 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-node-3 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram-node-4 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-diagram .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-heading .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-takeaway .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-focus .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-definition .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-visual .
   ex:l7-source-package cd:supportsResource ex:l7-next-45-heading .
   ex:l7-source-package cd:supportsResource ex:l7-next-45-takeaway .
   ex:l7-source-package cd:supportsResource ex:l7-next-45-focus .
@@ -983,19 +951,19 @@
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
   ex:l7-scene14 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-14-focus ; cd:hasSceneItem ex:l7-next-14-item-1, ex:l7-next-14-item-2, ex:l7-next-14-item-3 ; cd:narration "Before calculating variation, fix the question and the design. In this synthetic example, three methods each have six independent preparations, and the response is percent recovery. The null hypothesis says that the three population mean recoveries are equal; the alternative says that at least one differs. These statements concern population means, not whether the observed sample means happen to match. Set the significance level to 0.05 and specify the intended comparison family in advance. Check that preparation, rather than repeated injection, defines the independent unit. Next, we calculate variation within methods."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-14-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-14-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-14-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-14-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-14-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-design ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-14-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-14-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene15 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-15-focus ; cd:hasSceneItem ex:l7-next-15-item-1, ex:l7-next-15-item-2, ex:l7-next-15-item-3 ; cd:narration "Start with the variation that remains among preparations receiving the same method. Read across each row for method A: subtract its mean of 94 percent from each observation, then square each difference. The displayed squared deviations are one, one, zero, four, four, and zero, which sum to ten. Methods B and C each contribute another ten, giving a within-group sum of squares of thirty squared percentage points. Use each method's own mean, not the overall mean of 95 percent, because this calculation isolates within-method variation. Next, compare the method means with the overall mean."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene15 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-15-focus ; cd:hasSceneItem ex:l7-next-15-item-1, ex:l7-next-15-item-2, ex:l7-next-15-item-3, ex:l7-teaching-15-b, ex:l7-teaching-15-c ; cd:narration "Open each of the three method tables. The method mean is stated above its observations: 94 percent for A, 98 for B, and 93 for C. Subtract only that method's mean, row by row. The signed residuals sum to zero, which is why we square them before adding. The squared residuals add to ten for each method. Adding the three totals gives a pooled residual sum of squares of thirty squared percentage points. The grand mean is not the reference for this calculation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-15-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-15-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-15-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-15-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-15-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene16 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-16-focus ; cd:hasSceneItem ex:l7-next-16-item-1, ex:l7-next-16-item-2, ex:l7-next-16-item-3 ; cd:narration "Now shift from individual preparations to the three method means. The displayed means are 94, 98, and 93 percent, while the overall mean is 95 percent. Their deviations are minus one, plus three, and minus two percentage points. Squaring gives one, nine, and four. Multiply each by six because each method mean represents six independent preparations. The three contributions are therefore six, fifty-four, and twenty-four, totaling eighty-four squared percentage points. Check the weights in the contribution column: this is weighted variation, not simply the spread of three means. Next, combine between and within variation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-15-item-3 a cd:SceneItem ; cd:position 5 ; cd:selectsResource ex:l7-next-15-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene16 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-16-focus ; cd:hasSceneItem ex:l7-next-16-item-1, ex:l7-next-16-item-2, ex:l7-next-16-item-3, ex:l7-teaching-16-formula ; cd:narration "Now shift from individual preparations to the three method means. The displayed means are 94, 98, and 93 percent, while the overall mean is 95 percent. Their deviations are minus one, plus three, and minus two percentage points. Squaring gives one, nine, and four. Multiply each by six because each method mean represents six independent preparations. The three contributions are therefore six, fifty-four, and twenty-four, totaling eighty-four squared percentage points. Check the weights in the contribution column: this is weighted variation, not simply the spread of three means. Next, combine between and within variation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-16-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-16-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-16-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-16-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-16-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-16-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-16-item-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-next-16-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-scene17 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-17-focus ; cd:hasSceneItem ex:l7-next-17-item-1, ex:l7-next-17-item-2, ex:l7-next-17-item-3 ; cd:narration "With both components available, check the calculation against the original observations. Subtract the overall mean of 95 percent from each of the eighteen values, square those deviations, and add them. This direct total is 114 squared percentage points. The three cards show the same accounting from another direction: eighty-four between methods plus thirty within methods equals 114 overall. The total has seventeen degrees of freedom because eighteen observations share one estimated overall mean. Treat this equality as an arithmetic check, not a significance test. Next, divide the components by their degrees of freedom."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-17-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-17-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-17-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-17-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-17-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-decomposition ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-17-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-17-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-scene18 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-18-focus ; cd:hasSceneItem ex:l7-next-18-item-1, ex:l7-next-18-item-2, ex:l7-next-18-item-3 ; cd:narration "Read the ANOVA table from left to right, starting with the method row. Its sum of squares is eighty-four and its degrees of freedom are two, so its mean square is forty-two. The residual row has thirty divided by fifteen, giving a mean square of two. Their ratio is twenty-one, the observed F statistic. The method row reports a p-value of approximately 0.00004484 using numerator and denominator degrees of freedom two and fifteen. The residual row supplies the denominator, not a separate hypothesis test here. Next, locate this ratio on its null reference distribution."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-18-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-18-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -1013,7 +981,7 @@
   ex:l7-next-21-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-21-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-21-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-21-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-21-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-21-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene22 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-22-focus ; cd:hasSceneItem ex:l7-next-22-item-1, ex:l7-next-22-item-2, ex:l7-next-22-item-3, ex:l7-next-22-item-4 ; cd:narration "Beyond the small p-value, ask how large the observed separation is. The variation graphic assigns eighty-four of 114 squared percentage points to differences between method means. Their ratio, eta squared, is approximately 0.737, or 73.7 percent of the observed total sum of squares. This describes the fitted sample decomposition, not a universal fraction of chemical variation or proof of causation. Also read the mean differences in their original scale: B minus A is four, C minus A is minus one, and C minus B is minus five percentage points. Compare these with application-specific recovery requirements before reporting."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene22 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-22-focus ; cd:hasSceneItem ex:l7-next-22-item-1, ex:l7-next-22-item-2, ex:l7-next-22-item-3, ex:l7-next-22-item-4 ; cd:narration "Use the same partition as on the previous slide. Of the total 114 squared percentage points, 84 are between the three fitted method means and 30 remain within methods. Divide 84 by 114 to obtain eta squared, about 0.737. In this sample and for this model, 73.7 percent of the total sum of squares is associated with method. The remaining 26.3 percent is residual. This is neither a percentage-point difference in recovery nor a guarantee for a new dataset. Compare the observed differences with analytical requirements before calling the effect practically important."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-22-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-22-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-22-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-22-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-22-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-22-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -1050,10 +1018,10 @@
   ex:l7-next-30-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-30-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-30-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-30-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-30-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-30-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene31 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-31-focus ; cd:hasSceneItem ex:l7-next-31-item-1, ex:l7-next-31-item-2, ex:l7-next-31-item-3 ; cd:narration "With the design established, first average each method across the two matrices. Because the cell sizes are equal, river water and wastewater receive equal weight. For A, averaging 94 and 92 gives 93 percent recovery. For B, averaging 98 and 86 gives 92 percent. For C, averaging 93 and 94 gives 93.5 percent. Look at these marginal means rather than either matrix alone. B is no longer the method with the highest mean. These averages describe a main effect, but they conceal the contrasting matrix-specific pattern. Next, average in the other direction."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene31 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-31-focus ; cd:hasSceneItem ex:l7-next-31-item-1, ex:l7-next-31-item-2, ex:l7-next-31-item-3, ex:l7-teaching-31-formula ; cd:narration "Marginal means answer a specific question: if we give both matrices equal weight, what is the mean recovery for each method? Average across the columns in each row. Method A gives 93 percent, B gives 92, and C gives 93.5. The average helps summarize the method main effect in this balanced design. It is not the prediction for either particular matrix. For B, the number 92 combines a 98 percent river-water mean with an 86 percent wastewater mean. When the method comparison changes with matrix, inspect the separate cell means before making a recommendation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-31-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-31-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-31-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-31-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-31-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-31-item-3 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-next-31-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-scene32 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-32-focus ; cd:hasSceneItem ex:l7-next-32-item-1, ex:l7-next-32-item-2, ex:l7-next-32-item-3 ; cd:narration "Now reverse the averaging direction and combine the three methods within each matrix. River water has mean recovery of 95.0 percent, while wastewater has mean recovery of approximately 90.667 percent. Look at the two displayed means: wastewater minus river water is approximately minus 4.333 percentage points. This is an average across methods, not a statement that every method loses the same amount. In fact, the individual method changes differ substantially. Use the matrix main effect to summarize the overall level, then return to the cell means to investigate how the method comparisons depend on matrix."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-32-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-32-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-32-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-32-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -1087,27 +1055,19 @@
   ex:l7-next-39-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-39-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-39-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-39-cards ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-39-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-39-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene40 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-40-focus ; cd:hasSceneItem ex:l7-next-40-item-1, ex:l7-next-40-item-2, ex:l7-next-40-item-3 ; cd:narration "With the design established, consider groups that have visibly different spreads. The clouds here are schematic: they illustrate unequal variability, not measured recoveries or a computed test result. Ordinary one-way ANOVA uses a common error variance, whereas Welch ANOVA accommodates different group variances through weighting and adjusted degrees of freedom. It still requires independent observations and does not automatically solve every distributional problem. If pairwise mean comparisons are needed, Games–Howell can be an appropriate follow-up. Check independence before selecting either procedure. Next, ask whether comparing ranks better matches the scientific question."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene40 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-40-focus ; cd:hasSceneItem ex:l7-next-40-item-1, ex:l7-next-40-item-2, ex:l7-next-40-item-3 ; cd:narration "These are new illustrative recoveries from six independent preparations per method. Method B's points are much more dispersed than A's or C's, even though the group sizes are equal. Ordinary ANOVA pools the error variance. Welch ANOVA still compares population means, but it allows unequal variances and gives less weight to a group whose mean is estimated less precisely. It also adjusts the reference degrees of freedom. Look first at the spread of B, then see how that changes its weight on the calculation slide. Welch does not correct dependence or an unsuitable experimental design."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-40-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-40-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-40-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-40-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-40-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-welch-groups ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-40-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-40-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene41 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-41-focus ; cd:hasSceneItem ex:l7-next-41-item-1, ex:l7-next-41-item-2, ex:l7-next-41-item-3 ; cd:narration "A different question leads from means to ranks. Read the illustrative ranks across all groups together, not separately within each group. Equal recorded values receive average ranks, and the test requires a correction for ties. Kruskal–Wallis evaluates group differences through these pooled ranks; it is not universally a test of medians. A location or median interpretation needs additional assumptions about comparable distributional shapes. Check whether detection limits have produced censored observations rather than ordinary ties. Dunn comparisons with Holm adjustment may follow when appropriate. Next, distinguish multiple responses from multiple factors."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene41 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-41-focus ; cd:hasSceneItem ex:l7-next-41-item-1, ex:l7-next-41-item-2, ex:l7-next-41-item-3 ; cd:narration "Pool the six illustrative recoveries and rank them from smallest to largest. Values 81, 84, 84, 88, 90 and 92 would occupy positions 1 to 6. The two values of 84 share positions 2 and 3, so both receive rank 2.5. The table assigns those pooled ranks back to their original methods. A has rank sum 3.5, B has 6.5, and C has 11. Kruskal–Wallis asks whether the groups' ranks are more separated than expected under exchangeability. It is not generally a test of medians; that interpretation needs comparable distribution shapes."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-41-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-41-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-41-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-41-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-41-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-41-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene42 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-42-focus ; cd:hasSceneItem ex:l7-next-42-item-1, ex:l7-next-42-item-2, ex:l7-next-42-item-3 ; cd:narration "Now change the response structure rather than the number of factors. Each point in this schematic plot represents one independent preparation with recovery measurements for two analytes. Read both axes together and compare the marked group mean locations, remembering that no experimental outcome is established by this illustration. MANOVA asks whether the groups have different joint mean vectors while accounting for relationships between responses. Pillai's trace and Wilks' lambda are possible test summaries. Two responses do not make this a two-way ANOVA: factors and responses are different concepts. Next, extend the idea to entire chemical fingerprints."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene42 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-42-focus ; cd:hasSceneItem ex:l7-next-42-item-1, ex:l7-next-42-item-2, ex:l7-next-42-item-3 ; cd:narration "Each preparation is measured for two analytes. Keep those two recoveries together as a pair, so one dot represents one independent preparation rather than two. The horizontal axis shows analyte one and the vertical axis analyte two. Each SPE method has a center with two coordinates. MANOVA asks whether the population centers are the same as vectors. A shift can appear mostly in one coordinate or in a combination of both, and the correlation within groups matters. There is still only one explanatory factor, SPE method. The second measured response does not create a second experimental factor."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-42-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-42-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-42-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-42-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-42-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-manova-pairs ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-42-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-42-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene43 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-43-focus ; cd:hasSceneItem ex:l7-next-43-item-1, ex:l7-next-43-item-2, ex:l7-next-43-item-3 ; cd:narration "For a chemical fingerprint, the response is an entire profile rather than one recovery value. Follow the path from four peak areas per sample to distances between samples. Preprocessing and scaling must be chosen deliberately because they determine which peaks dominate those distances. Before using Bray–Curtis, check nonnegativity, the influence of abundant peaks, and whether normalization serves the scientific question. An ordination can illustrate the distances without replacing the test. PERMANOVA uses a pseudo-F statistic and design-appropriate permutations. Specify exchangeable units before testing. Next, examine why a significant result need not mean different group centers."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-43-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-43-diagram ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-43-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-43-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene44 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-44-focus ; cd:hasSceneItem ex:l7-next-44-item-1, ex:l7-next-44-item-2, ex:l7-next-44-item-3 ; cd:narration "The next distinction concerns what a distance-based result can mean. In the first schematic panel, compare group centers while noting their similar spread. In the second, compare spread around similar centers. Neither panel is experimental evidence; together they explain why a significant PERMANOVA does not by itself prove different centroids. Inspect the distance structure and assess multivariate dispersion, for example with betadisper and an appropriate permutation test. A dispersion check informs interpretation rather than automatically validating the main test. For paired samples, unrestricted permutations can break the pairing. Next, apply these design checks to three analytical cases."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-44-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-44-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-44-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-44-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-scene45 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-45-focus ; cd:hasSceneItem ex:l7-next-45-item-1, ex:l7-next-45-item-2, ex:l7-next-45-item-3 ; cd:narration "Apply the decision process before revealing a method name. For each case, identify the independent preparation, the response, and the factors. Three SPE methods with one recovery response suggest a one-way comparison, provided its assumptions fit. Three methods crossed with two sample matrices suggest a two-way model that includes their interaction: method differences may depend on matrix. Comparing LC-MS profiles can motivate PERMANOVA after preprocessing, distance selection, and permutation restrictions are specified. These are candidate analyses, not results. Discuss each choice before the instructor reveals it, using keyboard-accessible controls. Next, interpret an output without relying on significance stars."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-scene45 a cd:SceneDefinition ; cd:focusConcept ex:l7-next-45-focus ; cd:hasSceneItem ex:l7-next-45-item-1, ex:l7-next-45-item-2, ex:l7-next-45-item-3 ; cd:narration "For each case, identify the experimental unit, the response and the factors. Three SPE methods and one recovery response suggest a one-way comparison, if the sampling and error model fit. Three methods crossed with two matrices suggest a two-way model that includes their interaction. For two analyte recoveries measured together on every preparation, compare joint mean vectors with MANOVA if its assumptions fit. Do not count the two outcomes as two preparations or as a second factor. Discuss each case before revealing the suggestions, then carry those distinctions into the final interpretation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-item-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-next-45-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-item-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-next-45-diagram ; cd:communicativeRole cd:DiagramRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-45-item-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-next-45-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
@@ -1237,14 +1197,6 @@
   ex:l7-source-package cd:supportsResource ex:l7-next-42-item-1 .
   ex:l7-source-package cd:supportsResource ex:l7-next-42-item-2 .
   ex:l7-source-package cd:supportsResource ex:l7-next-42-item-3 .
-  ex:l7-source-package cd:supportsResource ex:l7-scene43 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-item-1 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-item-2 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-43-item-3 .
-  ex:l7-source-package cd:supportsResource ex:l7-scene44 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-item-1 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-item-2 .
-  ex:l7-source-package cd:supportsResource ex:l7-next-44-item-3 .
   ex:l7-source-package cd:supportsResource ex:l7-scene45 .
   ex:l7-source-package cd:supportsResource ex:l7-next-45-item-1 .
   ex:l7-source-package cd:supportsResource ex:l7-next-45-item-2 .
@@ -1259,73 +1211,69 @@
   ex:l7-source-package cd:supportsResource ex:l7-next-47-item-3 .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
-  ex:l7-intro-step-14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l7-scene14 ; cd:usesResource ex:l7-next-14-heading, ex:l7-next-14-cards, ex:l7-next-14-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-14 a cd:PathStep ; cd:position 14 ; cd:usesScene ex:l7-scene14 ; cd:usesResource ex:l7-next-14-heading, ex:level7-anova-design, ex:l7-next-14-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-14 .
-  ex:l7-intro-step-15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l7-scene15 ; cd:usesResource ex:l7-next-15-heading, ex:l7-next-15-table, ex:l7-next-15-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-15 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l7-scene15 ; cd:usesResource ex:l7-next-15-heading, ex:l7-next-15-table, ex:l7-next-15-takeaway, ex:l7-teaching-15-table-b, ex:l7-teaching-15-table-c ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-15 .
-  ex:l7-intro-step-16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l7-scene16 ; cd:usesResource ex:l7-next-16-heading, ex:l7-next-16-table, ex:l7-next-16-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-16 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l7-scene16 ; cd:usesResource ex:l7-next-16-heading, ex:l7-next-16-table, ex:l7-next-16-takeaway, ex:l7-teaching-between ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-16 .
-  ex:l7-intro-step-17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l7-scene17 ; cd:usesResource ex:l7-next-17-heading, ex:l7-next-17-cards, ex:l7-next-17-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-17 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l7-scene17 ; cd:usesResource ex:l7-next-17-heading, ex:level7-anova-decomposition, ex:l7-next-17-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-17 .
-  ex:l7-intro-step-18 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l7-scene18 ; cd:usesResource ex:l7-next-18-heading, ex:l7-next-18-table, ex:l7-next-18-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-18 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l7-scene18 ; cd:usesResource ex:l7-next-18-heading, ex:l7-next-18-table, ex:l7-next-18-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-18 .
-  ex:l7-intro-step-19 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l7-continuation-scene19 ; cd:usesResource ex:l7-next-19-heading, ex:l7-chart-19, ex:l7-next-19-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-19 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l7-continuation-scene19 ; cd:usesResource ex:l7-next-19-heading, ex:l7-chart-19, ex:l7-next-19-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-19 .
-  ex:l7-intro-step-20 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l7-scene20 ; cd:usesResource ex:l7-next-20-heading, ex:l7-next-20-cards, ex:l7-next-20-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-20 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l7-scene20 ; cd:usesResource ex:l7-next-20-heading, ex:l7-next-20-cards, ex:l7-next-20-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-20 .
-  ex:l7-intro-step-21 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l7-scene21 ; cd:usesResource ex:l7-next-21-heading, ex:l7-next-21-visual, ex:l7-next-21-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-21 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l7-scene21 ; cd:usesResource ex:l7-next-21-heading, ex:l7-next-21-visual, ex:l7-next-21-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-21 .
-  ex:l7-intro-step-22 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l7-scene22 ; cd:usesResource ex:l7-next-22-heading, ex:l7-next-22-visual, ex:l7-next-22-formula, ex:l7-next-22-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-22 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l7-scene22 ; cd:usesResource ex:l7-next-22-heading, ex:l7-next-22-visual, ex:l7-next-22-formula, ex:l7-next-22-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-22 .
-  ex:l7-intro-step-23 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l7-scene23 ; cd:usesResource ex:l7-next-23-heading, ex:l7-next-23-cards, ex:l7-next-23-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-23 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l7-scene23 ; cd:usesResource ex:l7-next-23-heading, ex:l7-next-23-cards, ex:l7-next-23-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-23 .
-  ex:l7-intro-step-24 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l7-scene24 ; cd:usesResource ex:l7-next-24-heading, ex:l7-next-24-cards, ex:l7-next-24-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-24 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l7-scene24 ; cd:usesResource ex:l7-next-24-heading, ex:l7-next-24-cards, ex:l7-next-24-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-24 .
-  ex:l7-intro-step-25 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l7-scene25 ; cd:usesResource ex:l7-next-25-heading, ex:l7-next-25-cards, ex:l7-next-25-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-25 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l7-scene25 ; cd:usesResource ex:l7-next-25-heading, ex:l7-next-25-cards, ex:l7-next-25-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-25 .
-  ex:l7-intro-step-26 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l7-scene26 ; cd:usesResource ex:l7-next-26-heading, ex:l7-next-26-table, ex:l7-next-26-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-26 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l7-scene26 ; cd:usesResource ex:l7-next-26-heading, ex:l7-next-26-table, ex:l7-next-26-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-26 .
-  ex:l7-intro-step-27 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l7-scene27 ; cd:usesResource ex:l7-next-27-heading, ex:l7-next-27-visual, ex:l7-next-27-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-27 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l7-scene27 ; cd:usesResource ex:l7-next-27-heading, ex:l7-next-27-visual, ex:l7-next-27-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-27 .
-  ex:l7-intro-step-28 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l7-scene28 ; cd:usesResource ex:l7-next-28-heading, ex:l7-next-28-cards, ex:l7-next-28-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-28 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l7-scene28 ; cd:usesResource ex:l7-next-28-heading, ex:l7-next-28-cards, ex:l7-next-28-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-28 .
-  ex:l7-intro-step-29 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l7-scene29 ; cd:usesResource ex:l7-next-29-heading, ex:l7-next-29-visual, ex:l7-next-29-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-29 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l7-scene29 ; cd:usesResource ex:l7-next-29-heading, ex:l7-next-29-visual, ex:l7-next-29-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-29 .
-  ex:l7-intro-step-30 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l7-scene30 ; cd:usesResource ex:l7-next-30-heading, ex:l7-next-30-table, ex:l7-next-30-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-30 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l7-scene30 ; cd:usesResource ex:l7-next-30-heading, ex:l7-next-30-table, ex:l7-next-30-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-30 .
-  ex:l7-intro-step-31 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l7-scene31 ; cd:usesResource ex:l7-next-31-heading, ex:l7-next-31-table, ex:l7-next-31-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-31 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l7-scene31 ; cd:usesResource ex:l7-next-31-heading, ex:l7-next-31-table, ex:l7-next-31-takeaway, ex:l7-teaching-marginal ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-31 .
-  ex:l7-intro-step-32 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l7-scene32 ; cd:usesResource ex:l7-next-32-heading, ex:l7-next-32-table, ex:l7-next-32-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-32 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l7-scene32 ; cd:usesResource ex:l7-next-32-heading, ex:l7-next-32-table, ex:l7-next-32-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-32 .
-  ex:l7-intro-step-33 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l7-scene33 ; cd:usesResource ex:l7-next-33-heading, ex:l7-next-33-visual, ex:l7-next-33-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-33 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l7-scene33 ; cd:usesResource ex:l7-next-33-heading, ex:l7-next-33-visual, ex:l7-next-33-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-33 .
-  ex:l7-intro-step-34 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l7-scene34 ; cd:usesResource ex:l7-next-34-heading, ex:l7-next-34-visual, ex:l7-next-34-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-34 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l7-scene34 ; cd:usesResource ex:l7-next-34-heading, ex:l7-next-34-visual, ex:l7-next-34-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-34 .
-  ex:l7-intro-step-35 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l7-scene35 ; cd:usesResource ex:l7-next-35-heading, ex:l7-next-35-cards, ex:l7-next-35-formula, ex:l7-next-35-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-35 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l7-scene35 ; cd:usesResource ex:l7-next-35-heading, ex:l7-next-35-cards, ex:l7-next-35-formula, ex:l7-next-35-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-35 .
-  ex:l7-intro-step-36 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l7-scene36 ; cd:usesResource ex:l7-next-36-heading, ex:l7-next-36-table, ex:l7-next-36-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-36 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l7-scene36 ; cd:usesResource ex:l7-next-36-heading, ex:l7-next-36-table, ex:l7-next-36-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-36 .
-  ex:l7-intro-step-37 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l7-scene37 ; cd:usesResource ex:l7-next-37-heading, ex:l7-next-37-visual, ex:l7-next-37-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-37 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l7-scene37 ; cd:usesResource ex:l7-next-37-heading, ex:l7-next-37-visual, ex:l7-next-37-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-37 .
-  ex:l7-intro-step-38 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l7-scene38 ; cd:usesResource ex:l7-next-38-heading, ex:l7-next-38-table, ex:l7-next-38-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-38 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l7-scene38 ; cd:usesResource ex:l7-next-38-heading, ex:l7-next-38-table, ex:l7-next-38-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-38 .
-  ex:l7-intro-step-39 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l7-scene39 ; cd:usesResource ex:l7-next-39-heading, ex:l7-next-39-cards, ex:l7-next-39-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-39 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l7-scene39 ; cd:usesResource ex:l7-next-39-heading, ex:l7-next-39-cards, ex:l7-next-39-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-39 .
-  ex:l7-intro-step-40 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l7-scene40 ; cd:usesResource ex:l7-next-40-heading, ex:l7-next-40-visual, ex:l7-next-40-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-40 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l7-scene40 ; cd:usesResource ex:l7-next-40-heading, ex:level7-anova-welch-groups, ex:l7-next-40-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-40 .
-  ex:l7-intro-step-41 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l7-scene41 ; cd:usesResource ex:l7-next-41-heading, ex:l7-next-41-table, ex:l7-next-41-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-41 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l7-scene41 ; cd:usesResource ex:l7-next-41-heading, ex:l7-next-41-table, ex:l7-next-41-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-41 .
-  ex:l7-intro-step-42 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l7-scene42 ; cd:usesResource ex:l7-next-42-heading, ex:l7-next-42-visual, ex:l7-next-42-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-42 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l7-scene42 ; cd:usesResource ex:l7-next-42-heading, ex:level7-anova-manova-pairs, ex:l7-next-42-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-42 .
-  ex:l7-intro-step-43 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l7-scene43 ; cd:usesResource ex:l7-next-43-heading, ex:l7-next-43-diagram, ex:l7-next-43-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-43 .
-  ex:l7-intro-step-44 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l7-scene44 ; cd:usesResource ex:l7-next-44-heading, ex:l7-next-44-visual, ex:l7-next-44-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-44 .
-  ex:l7-intro-step-45 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l7-scene45 ; cd:usesResource ex:l7-next-45-heading, ex:l7-next-45-diagram, ex:l7-next-45-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-45 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l7-scene45 ; cd:usesResource ex:l7-next-45-heading, ex:l7-next-45-diagram, ex:l7-next-45-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-45 .
-  ex:l7-intro-step-46 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l7-scene46 ; cd:usesResource ex:l7-next-46-heading, ex:l7-next-46-table, ex:l7-next-46-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-46 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l7-scene46 ; cd:usesResource ex:l7-next-46-heading, ex:l7-next-46-table, ex:l7-next-46-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-46 .
-  ex:l7-intro-step-47 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l7-scene47 ; cd:usesResource ex:l7-next-47-heading, ex:l7-next-47-diagram, ex:l7-next-47-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-47 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l7-scene47 ; cd:usesResource ex:l7-next-47-heading, ex:l7-next-47-diagram, ex:l7-next-47-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-47 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-14 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-15 .
@@ -1356,9 +1304,427 @@
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-40 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-41 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-42 .
-  ex:l7-source-package cd:supportsResource ex:l7-intro-step-43 .
-  ex:l7-source-package cd:supportsResource ex:l7-intro-step-44 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-45 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-46 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-47 .
+}
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-continuation> {
+  ex:l7-teaching-15-table-b a cd:TableDefinition ; skos:prefLabel "Method B · mean recovery 98%"@en ; cd:hasTableColumn ex:l7-teaching-15-table-b-c1, ex:l7-teaching-15-table-b-c2, ex:l7-teaching-15-table-b-c3 ; cd:hasTableRow ex:l7-teaching-15-table-b-r1, ex:l7-teaching-15-table-b-r2, ex:l7-teaching-15-table-b-r3, ex:l7-teaching-15-table-b-r4, ex:l7-teaching-15-table-b-r5, ex:l7-teaching-15-table-b-r6, ex:l7-teaching-15-table-b-r7 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b .
+  ex:l7-teaching-15-table-b-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Recovery (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-c1 .
+  ex:l7-teaching-15-table-b-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Residual (pp)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-c2 .
+  ex:l7-teaching-15-table-b-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Squared residual (pp²)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-c3 .
+  ex:l7-teaching-15-table-b-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-teaching-15-table-b-r1-c1, ex:l7-teaching-15-table-b-r1-c2, ex:l7-teaching-15-table-b-r1-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r1 .
+  ex:l7-teaching-15-table-b-r1-c1 a cd:TableCell ; cd:position 1 ; cd:body "97"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r1-c1 .
+  ex:l7-teaching-15-table-b-r1-c2 a cd:TableCell ; cd:position 2 ; cd:body "−1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r1-c2 .
+  ex:l7-teaching-15-table-b-r1-c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r1-c3 .
+  ex:l7-teaching-15-table-b-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l7-teaching-15-table-b-r2-c1, ex:l7-teaching-15-table-b-r2-c2, ex:l7-teaching-15-table-b-r2-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r2 .
+  ex:l7-teaching-15-table-b-r2-c1 a cd:TableCell ; cd:position 1 ; cd:body "99"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r2-c1 .
+  ex:l7-teaching-15-table-b-r2-c2 a cd:TableCell ; cd:position 2 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r2-c2 .
+  ex:l7-teaching-15-table-b-r2-c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r2-c3 .
+  ex:l7-teaching-15-table-b-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l7-teaching-15-table-b-r3-c1, ex:l7-teaching-15-table-b-r3-c2, ex:l7-teaching-15-table-b-r3-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r3 .
+  ex:l7-teaching-15-table-b-r3-c1 a cd:TableCell ; cd:position 1 ; cd:body "98"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r3-c1 .
+  ex:l7-teaching-15-table-b-r3-c2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r3-c2 .
+  ex:l7-teaching-15-table-b-r3-c3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r3-c3 .
+  ex:l7-teaching-15-table-b-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l7-teaching-15-table-b-r4-c1, ex:l7-teaching-15-table-b-r4-c2, ex:l7-teaching-15-table-b-r4-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r4 .
+  ex:l7-teaching-15-table-b-r4-c1 a cd:TableCell ; cd:position 1 ; cd:body "100"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r4-c1 .
+  ex:l7-teaching-15-table-b-r4-c2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r4-c2 .
+  ex:l7-teaching-15-table-b-r4-c3 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r4-c3 .
+  ex:l7-teaching-15-table-b-r5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l7-teaching-15-table-b-r5-c1, ex:l7-teaching-15-table-b-r5-c2, ex:l7-teaching-15-table-b-r5-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r5 .
+  ex:l7-teaching-15-table-b-r5-c1 a cd:TableCell ; cd:position 1 ; cd:body "96"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r5-c1 .
+  ex:l7-teaching-15-table-b-r5-c2 a cd:TableCell ; cd:position 2 ; cd:body "−2"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r5-c2 .
+  ex:l7-teaching-15-table-b-r5-c3 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r5-c3 .
+  ex:l7-teaching-15-table-b-r6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:l7-teaching-15-table-b-r6-c1, ex:l7-teaching-15-table-b-r6-c2, ex:l7-teaching-15-table-b-r6-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r6 .
+  ex:l7-teaching-15-table-b-r6-c1 a cd:TableCell ; cd:position 1 ; cd:body "98"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r6-c1 .
+  ex:l7-teaching-15-table-b-r6-c2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r6-c2 .
+  ex:l7-teaching-15-table-b-r6-c3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r6-c3 .
+  ex:l7-teaching-15-table-b-r7 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:l7-teaching-15-table-b-r7-c1, ex:l7-teaching-15-table-b-r7-c2, ex:l7-teaching-15-table-b-r7-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r7 .
+  ex:l7-teaching-15-table-b-r7-c1 a cd:TableCell ; cd:position 1 ; cd:body "Mean: 98 %"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r7-c1 .
+  ex:l7-teaching-15-table-b-r7-c2 a cd:TableCell ; cd:position 2 ; cd:body "Sum: 0 pp"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r7-c2 .
+  ex:l7-teaching-15-table-b-r7-c3 a cd:TableCell ; cd:position 3 ; cd:body "Sum: 10 pp²"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-b-r7-c3 .
+  ex:l7-teaching-15-table-c a cd:TableDefinition ; skos:prefLabel "Method C · mean recovery 93%"@en ; cd:hasTableColumn ex:l7-teaching-15-table-c-c1, ex:l7-teaching-15-table-c-c2, ex:l7-teaching-15-table-c-c3 ; cd:hasTableRow ex:l7-teaching-15-table-c-r1, ex:l7-teaching-15-table-c-r2, ex:l7-teaching-15-table-c-r3, ex:l7-teaching-15-table-c-r4, ex:l7-teaching-15-table-c-r5, ex:l7-teaching-15-table-c-r6, ex:l7-teaching-15-table-c-r7 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c .
+  ex:l7-teaching-15-table-c-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Recovery (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-c1 .
+  ex:l7-teaching-15-table-c-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Residual (pp)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-c2 .
+  ex:l7-teaching-15-table-c-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Squared residual (pp²)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-c3 .
+  ex:l7-teaching-15-table-c-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-teaching-15-table-c-r1-c1, ex:l7-teaching-15-table-c-r1-c2, ex:l7-teaching-15-table-c-r1-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r1 .
+  ex:l7-teaching-15-table-c-r1-c1 a cd:TableCell ; cd:position 1 ; cd:body "94"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r1-c1 .
+  ex:l7-teaching-15-table-c-r1-c2 a cd:TableCell ; cd:position 2 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r1-c2 .
+  ex:l7-teaching-15-table-c-r1-c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r1-c3 .
+  ex:l7-teaching-15-table-c-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l7-teaching-15-table-c-r2-c1, ex:l7-teaching-15-table-c-r2-c2, ex:l7-teaching-15-table-c-r2-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r2 .
+  ex:l7-teaching-15-table-c-r2-c1 a cd:TableCell ; cd:position 1 ; cd:body "93"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r2-c1 .
+  ex:l7-teaching-15-table-c-r2-c2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r2-c2 .
+  ex:l7-teaching-15-table-c-r2-c3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r2-c3 .
+  ex:l7-teaching-15-table-c-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l7-teaching-15-table-c-r3-c1, ex:l7-teaching-15-table-c-r3-c2, ex:l7-teaching-15-table-c-r3-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r3 .
+  ex:l7-teaching-15-table-c-r3-c1 a cd:TableCell ; cd:position 1 ; cd:body "92"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r3-c1 .
+  ex:l7-teaching-15-table-c-r3-c2 a cd:TableCell ; cd:position 2 ; cd:body "−1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r3-c2 .
+  ex:l7-teaching-15-table-c-r3-c3 a cd:TableCell ; cd:position 3 ; cd:body "1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r3-c3 .
+  ex:l7-teaching-15-table-c-r4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l7-teaching-15-table-c-r4-c1, ex:l7-teaching-15-table-c-r4-c2, ex:l7-teaching-15-table-c-r4-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r4 .
+  ex:l7-teaching-15-table-c-r4-c1 a cd:TableCell ; cd:position 1 ; cd:body "95"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r4-c1 .
+  ex:l7-teaching-15-table-c-r4-c2 a cd:TableCell ; cd:position 2 ; cd:body "2"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r4-c2 .
+  ex:l7-teaching-15-table-c-r4-c3 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r4-c3 .
+  ex:l7-teaching-15-table-c-r5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l7-teaching-15-table-c-r5-c1, ex:l7-teaching-15-table-c-r5-c2, ex:l7-teaching-15-table-c-r5-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r5 .
+  ex:l7-teaching-15-table-c-r5-c1 a cd:TableCell ; cd:position 1 ; cd:body "91"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r5-c1 .
+  ex:l7-teaching-15-table-c-r5-c2 a cd:TableCell ; cd:position 2 ; cd:body "−2"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r5-c2 .
+  ex:l7-teaching-15-table-c-r5-c3 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r5-c3 .
+  ex:l7-teaching-15-table-c-r6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:l7-teaching-15-table-c-r6-c1, ex:l7-teaching-15-table-c-r6-c2, ex:l7-teaching-15-table-c-r6-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r6 .
+  ex:l7-teaching-15-table-c-r6-c1 a cd:TableCell ; cd:position 1 ; cd:body "93"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r6-c1 .
+  ex:l7-teaching-15-table-c-r6-c2 a cd:TableCell ; cd:position 2 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r6-c2 .
+  ex:l7-teaching-15-table-c-r6-c3 a cd:TableCell ; cd:position 3 ; cd:body "0"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r6-c3 .
+  ex:l7-teaching-15-table-c-r7 a cd:TableRow ; cd:position 7 ; cd:hasTableCell ex:l7-teaching-15-table-c-r7-c1, ex:l7-teaching-15-table-c-r7-c2, ex:l7-teaching-15-table-c-r7-c3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r7 .
+  ex:l7-teaching-15-table-c-r7-c1 a cd:TableCell ; cd:position 1 ; cd:body "Mean: 93 %"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r7-c1 .
+  ex:l7-teaching-15-table-c-r7-c2 a cd:TableCell ; cd:position 2 ; cd:body "Sum: 0 pp"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r7-c2 .
+  ex:l7-teaching-15-table-c-r7-c3 a cd:TableCell ; cd:position 3 ; cd:body "Sum: 10 pp²"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-table-c-r7-c3 .
+  ex:l7-teaching-between a cd:MathExpression ; skos:prefLabel "Weight each group-mean departure"@en ; cd:body "Weight each group-mean departure"@en ; cd:latex "\\begin{aligned}SS_B&=\\sum_{i=1}^{k}n_i(\\bar y_i-\\bar y_{\\cdot\\cdot})^2\\\\&=6(94-95)^2+6(98-95)^2+6(93-95)^2\\\\&=6+54+24=84\\;\\mathrm{pp}^2\\end{aligned}" ; dct:hasPart ex:l7-teaching-between-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-between .
+  ex:l7-teaching-between-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-between-symbol-1, ex:l7-teaching-between-symbol-2, ex:l7-teaching-between-symbol-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-between-legend .
+  ex:l7-teaching-between-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Means and indices"@en ; cd:body "ȳᵢ is sample mean recovery (%) for method i; ȳ·· is grand mean recovery (%) over all 18 preparations. i runs from 1 to k = 3. nᵢ = 6 is the count for method i."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-between-symbol-1 .
+  ex:l7-teaching-between-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Terms and units"@en ; cd:body "SS_B is the between-method sum of squares. Subtraction gives a departure in percentage points (pp). Squaring gives pp²; weighting by the count nᵢ gives each method's contribution."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-between-symbol-2 .
+  ex:l7-teaching-between-symbol-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Operations"@en ; cd:body "Σ adds contributions over the three methods; juxtaposition denotes multiplication, the exponent 2 squares, and + and = mean addition and equality."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-between-symbol-3 .
+  ex:level7-anova-design a cd:MediaAsset ; skos:prefLabel "Choose the design before looking at results"@en ; cd:uri "/chemometrics/level7-anova-design.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Three SPE methods, each with six independent river-water preparations. The response is recovery in percent; predefine alpha and the null hypothesis."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-design .
+  ex:level7-anova-decomposition a cd:MediaAsset ; skos:prefLabel "The sums of squares balance"@en ; cd:uri "/chemometrics/level7-anova-decomposition.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The total of 114 squared percentage points splits into 84 between methods and 30 residual."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-decomposition .
+  ex:level7-anova-test-chain a cd:MediaAsset ; skos:prefLabel "From sums of squares to the p-value"@en ; cd:uri "/chemometrics/level7-anova-test-chain.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Divide method SS 84 by 2 to get 42 and residual SS 30 by 15 to get 2. F is 21; the upper tail under F with df 2,15 is 0.00004484."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-test-chain .
+  ex:l7-teaching-test-chain a cd:MathExpression ; skos:prefLabel "Mean squares, F statistic and reference probability"@en ; cd:body "Mean squares, F statistic and reference probability"@en ; cd:latex "\\begin{aligned}MS_B &= SS_B/df_B=84/2=42\\;\\mathrm{pp}^2\\\\MS_W &= SS_W/df_W=30/15=2\\;\\mathrm{pp}^2\\\\ F_{\\rm obs}&=MS_B/MS_W=21\\\\p&=\\Pr(F^{*}_{2,15}\\ge 21\\mid H_0)\\approx 0.00004484\\end{aligned}" ; dct:hasPart ex:l7-teaching-test-chain-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-test-chain .
+  ex:l7-teaching-test-chain-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-test-chain-symbol-1, ex:l7-teaching-test-chain-symbol-2, ex:l7-teaching-test-chain-symbol-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-test-chain-legend .
+  ex:l7-teaching-test-chain-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "SS, df and MS"@en ; cd:body "SS is a sum of squares; df is degrees of freedom; MS is mean square. Subscripts B and W mark between-method and within-method residual variation. SS and MS use squared percentage points (pp²)."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-test-chain-symbol-1 .
+  ex:l7-teaching-test-chain-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Observed and reference F"@en ; cd:body "F_obs is the observed dimensionless ratio. F*₂,₁₅ denotes a random F statistic from the null reference distribution with numerator and denominator degrees of freedom 2 and 15."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-test-chain-symbol-2 .
+  ex:l7-teaching-test-chain-symbol-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Probability and operators"@en ; cd:body "Pr is probability; H₀ is equality of population means under the classical model assumptions. The conditioning bar means given, ≥ means at least, / divides, = is equality and ≈ indicates rounding."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-test-chain-symbol-3 .
+  ex:l7-teaching-17-calc-heading a cd:Interpretation ; skos:prefLabel "From sums of squares to F and p"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-heading .
+  ex:l7-teaching-17-calc-conclusion a cd:Interpretation ; cd:body "The F-test compares a method mean square of 42 with a residual mean square of 2."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-conclusion .
+  ex:l7-teaching-17-calc-focus a cd:Concept ; skos:prefLabel "From sums of squares to F and p"@en ; cd:hasDefinition ex:l7-teaching-17-calc-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-focus .
+  ex:l7-teaching-17-calc-definition a cd:Definition ; cd:body "The F-test compares a method mean square of 42 with a residual mean square of 2."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-definition .
+  ex:level7-anova-explained-question a cd:MediaAsset ; skos:prefLabel "What does the method account for?"@en ; cd:uri "/chemometrics/level7-anova-explained-question.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Total observed spread is measured around the grand mean. Between-method variation measures differences among fitted group means; residual variation remains among preparations around their own group mean."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-explained-question .
+  ex:l7-teaching-22-question-heading a cd:Interpretation ; skos:prefLabel "How much of the spread is associated with method?"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-heading .
+  ex:l7-teaching-22-question-conclusion a cd:Interpretation ; cd:body "Between-method variation is the part the fitted method model accounts for."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-conclusion .
+  ex:l7-teaching-22-question-focus a cd:Concept ; skos:prefLabel "How much of the spread is associated with method?"@en ; cd:hasDefinition ex:l7-teaching-22-question-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-focus .
+  ex:l7-teaching-22-question-definition a cd:Definition ; cd:body "Between-method variation is the part the fitted method model accounts for."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-definition .
+  ex:level7-anova-tukey-range a cd:MediaAsset ; skos:prefLabel "From a mean difference to an adjusted p-value"@en ; cd:uri "/chemometrics/level7-anova-tukey-range.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Means C, A and B are 93, 94 and 98 percent. B minus A is four percentage points. Standardizing gives q 6.928, and the upper studentized-range tail for three means and 15 residual degrees of freedom is about 0.000532."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-tukey-range .
+  ex:l7-teaching-tukey-adjusted a cd:MathExpression ; skos:prefLabel "Tukey HSD for equal group sizes"@en ; cd:body "Tukey HSD for equal group sizes"@en ; cd:latex "\\begin{aligned}\\Delta&=\\bar y_B-\\bar y_A=4\\;\\mathrm{pp}\\\\q&=\\frac{|\\Delta|}{\\sqrt{MS_W/n}}=\\frac{4}{\\sqrt{2/6}}\\approx 6.928\\\\p_{\\rm adj}&=\\Pr(Q_{k,\\nu}\\ge q)\\approx 0.000532\\end{aligned}" ; dct:hasPart ex:l7-teaching-tukey-adjusted-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-tukey-adjusted .
+  ex:l7-teaching-tukey-adjusted-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-tukey-adjusted-symbol-1, ex:l7-teaching-tukey-adjusted-symbol-2, ex:l7-teaching-tukey-adjusted-symbol-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-tukey-adjusted-legend .
+  ex:l7-teaching-tukey-adjusted-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Difference"@en ; cd:body "ȳ_A and ȳ_B are sample mean recoveries in percent; Δ is their signed difference in percentage points (pp). |Δ| takes the magnitude for a two-sided comparison."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-tukey-adjusted-symbol-1 .
+  ex:l7-teaching-tukey-adjusted-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Pooled error and counts"@en ; cd:body "MS_W = 2 pp² is the residual mean square; n = 6 is the common sample size; k = 3 is the number of group means, and ν = 15 is the residual degrees of freedom."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-tukey-adjusted-symbol-2 .
+  ex:l7-teaching-tukey-adjusted-symbol-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Adjusted tail"@en ; cd:body "q is dimensionless. Q is the studentized-range reference for the full family. Pr is probability, p_adj is the adjusted tail probability, ≥ means at least; √ is square root, the fraction bars divide, = is equality and ≈ denotes rounding."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-tukey-adjusted-symbol-3 .
+  ex:l7-teaching-26-adjusted-heading a cd:Interpretation ; skos:prefLabel "How does Tukey adjust p?"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-heading .
+  ex:l7-teaching-26-adjusted-conclusion a cd:Interpretation ; cd:body "Tukey compares a pair with a reference that allows the largest difference across the whole family."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-conclusion .
+  ex:l7-teaching-26-adjusted-focus a cd:Concept ; skos:prefLabel "How does Tukey adjust p?"@en ; cd:hasDefinition ex:l7-teaching-26-adjusted-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-focus .
+  ex:l7-teaching-26-adjusted-definition a cd:Definition ; cd:body "Tukey compares a pair with a reference that allows the largest difference across the whole family."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-definition .
+  ex:l7-teaching-marginal a cd:MathExpression ; skos:prefLabel "Average across matrices with equal weight"@en ; cd:body "Average across matrices with equal weight"@en ; cd:latex "\\begin{aligned}\\bar y_{i\\cdot}&=(\\bar y_{iR}+\\bar y_{iW})/2\\\\\\bar y_{B\\cdot}&=(98+86)/2=92\\%\\end{aligned}" ; dct:hasPart ex:l7-teaching-marginal-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-marginal .
+  ex:l7-teaching-marginal-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-marginal-symbol-1, ex:l7-teaching-marginal-symbol-2 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-marginal-legend .
+  ex:l7-teaching-marginal-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Cells and margins"@en ; cd:body "ȳᵢR and ȳᵢW are mean recoveries (%) for method i in river water and wastewater. The dot in ȳᵢ· means averaging over the matrix factor. B identifies method B."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-marginal-symbol-1 .
+  ex:l7-teaching-marginal-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Equal weights"@en ; cd:body "Each method has six preparations per matrix, so the two cells have equal weight. + adds the cell means, parentheses group their sum, / divides by two, = is equality, and % means percent."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-marginal-symbol-2 .
+  ex:level7-anova-welch-groups a cd:MediaAsset ; skos:prefLabel "Why use Welch ANOVA?"@en ; cd:uri "/chemometrics/level7-anova-welch-groups.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Six independent illustrative recoveries per method. A and C have sample variance 3.5 pp squared; B has sample variance 56."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-welch-groups .
+  ex:l7-teaching-welch-table a cd:TableDefinition ; skos:prefLabel "Welch test: F = 3.786, df = 2 and 9.06, p = 0.064"@en ; cd:hasTableColumn ex:l7-teaching-welch-table-c1, ex:l7-teaching-welch-table-c2, ex:l7-teaching-welch-table-c3, ex:l7-teaching-welch-table-c4, ex:l7-teaching-welch-table-c5 ; cd:hasTableRow ex:l7-teaching-welch-table-r1, ex:l7-teaching-welch-table-r2, ex:l7-teaching-welch-table-r3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table .
+  ex:l7-teaching-welch-table-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Method"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-c1 .
+  ex:l7-teaching-welch-table-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "n"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-c2 .
+  ex:l7-teaching-welch-table-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Mean (%)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-c3 .
+  ex:l7-teaching-welch-table-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "Sample variance (pp²)"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-c4 .
+  ex:l7-teaching-welch-table-c5 a cd:TableColumn ; cd:position 5 ; skos:prefLabel "Weight"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-c5 .
+  ex:l7-teaching-welch-table-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-teaching-welch-table-r1-c1, ex:l7-teaching-welch-table-r1-c2, ex:l7-teaching-welch-table-r1-c3, ex:l7-teaching-welch-table-r1-c4, ex:l7-teaching-welch-table-r1-c5 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1 .
+  ex:l7-teaching-welch-table-r1-c1 a cd:TableCell ; cd:position 1 ; cd:body "A"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1-c1 .
+  ex:l7-teaching-welch-table-r1-c2 a cd:TableCell ; cd:position 2 ; cd:body "6"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1-c2 .
+  ex:l7-teaching-welch-table-r1-c3 a cd:TableCell ; cd:position 3 ; cd:body "93.5"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1-c3 .
+  ex:l7-teaching-welch-table-r1-c4 a cd:TableCell ; cd:position 4 ; cd:body "3.5"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1-c4 .
+  ex:l7-teaching-welch-table-r1-c5 a cd:TableCell ; cd:position 5 ; cd:body "1.714"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r1-c5 .
+  ex:l7-teaching-welch-table-r2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l7-teaching-welch-table-r2-c1, ex:l7-teaching-welch-table-r2-c2, ex:l7-teaching-welch-table-r2-c3, ex:l7-teaching-welch-table-r2-c4, ex:l7-teaching-welch-table-r2-c5 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2 .
+  ex:l7-teaching-welch-table-r2-c1 a cd:TableCell ; cd:position 1 ; cd:body "B"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2-c1 .
+  ex:l7-teaching-welch-table-r2-c2 a cd:TableCell ; cd:position 2 ; cd:body "6"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2-c2 .
+  ex:l7-teaching-welch-table-r2-c3 a cd:TableCell ; cd:position 3 ; cd:body "93"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2-c3 .
+  ex:l7-teaching-welch-table-r2-c4 a cd:TableCell ; cd:position 4 ; cd:body "56"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2-c4 .
+  ex:l7-teaching-welch-table-r2-c5 a cd:TableCell ; cd:position 5 ; cd:body "0.107"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r2-c5 .
+  ex:l7-teaching-welch-table-r3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l7-teaching-welch-table-r3-c1, ex:l7-teaching-welch-table-r3-c2, ex:l7-teaching-welch-table-r3-c3, ex:l7-teaching-welch-table-r3-c4, ex:l7-teaching-welch-table-r3-c5 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3 .
+  ex:l7-teaching-welch-table-r3-c1 a cd:TableCell ; cd:position 1 ; cd:body "C"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3-c1 .
+  ex:l7-teaching-welch-table-r3-c2 a cd:TableCell ; cd:position 2 ; cd:body "6"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3-c2 .
+  ex:l7-teaching-welch-table-r3-c3 a cd:TableCell ; cd:position 3 ; cd:body "96.5"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3-c3 .
+  ex:l7-teaching-welch-table-r3-c4 a cd:TableCell ; cd:position 4 ; cd:body "3.5"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3-c4 .
+  ex:l7-teaching-welch-table-r3-c5 a cd:TableCell ; cd:position 5 ; cd:body "1.714"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-table-r3-c5 .
+  ex:l7-teaching-welch-formula a cd:MathExpression ; skos:prefLabel "Precision weights and Welch reference"@en ; cd:body "Precision weights and Welch reference"@en ; cd:latex "\\begin{aligned}w_i&=n_i/s_i^2,&W&=\\sum_i w_i,&\\bar y_w&=\\sum_i w_i\\bar y_i/W\\\\U&=\\sum_i(1-w_i/W)^2/(n_i-1)\\\\F_W&=\\frac{\\sum_i w_i(\\bar y_i-\\bar y_w)^2/(k-1)}{1+2(k-2)U/(k^2-1)},&\\nu_2&=\\frac{k^2-1}{3U}\\end{aligned}" ; dct:hasPart ex:l7-teaching-welch-formula-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-formula .
+  ex:l7-teaching-welch-formula-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-welch-formula-symbol-1, ex:l7-teaching-welch-formula-symbol-2, ex:l7-teaching-welch-formula-symbol-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-formula-legend .
+  ex:l7-teaching-welch-formula-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Groups and units"@en ; cd:body "i indexes k = 3 independent groups; nᵢ is their sample size; ȳᵢ is mean recovery (%) and sᵢ² is sample variance (pp²)."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-formula-symbol-1 .
+  ex:l7-teaching-welch-formula-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Weights"@en ; cd:body "wᵢ is inverse estimated variance of the group mean (pp⁻²); W is total weight and ȳ_w is the weighted mean in percent. U is a dimensionless correction."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-formula-symbol-2 .
+  ex:l7-teaching-welch-formula-symbol-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Test and notation"@en ; cd:body "F_W is the dimensionless Welch statistic; its approximate reference has numerator df k−1 and denominator df ν₂. Σ sums over groups, / and fraction bars divide, juxtaposition multiplies, superscript 2 squares, and −, + and = denote subtraction, addition and equality."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-welch-formula-symbol-3 .
+  ex:l7-teaching-40-example-heading a cd:Interpretation ; skos:prefLabel "Welch ANOVA: work through the weights"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-heading .
+  ex:l7-teaching-40-example-conclusion a cd:Interpretation ; cd:body "Method B carries much less weight. The upper F tail gives p = 0.064."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-conclusion .
+  ex:l7-teaching-40-example-focus a cd:Concept ; skos:prefLabel "Welch ANOVA: work through the weights"@en ; cd:hasDefinition ex:l7-teaching-40-example-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-focus .
+  ex:l7-teaching-40-example-definition a cd:Definition ; cd:body "Method B carries much less weight. The upper F tail gives p = 0.064."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-definition .
+  ex:level7-anova-kw-rank-sums a cd:MediaAsset ; skos:prefLabel "Kruskal–Wallis: the evidence is in the rank sums"@en ; cd:uri "/chemometrics/level7-anova-kw-rank-sums.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Rank sums are 3.5, 6.5 and 11.0. Correcting for tied ranks gives H 4.191. Of 90 equally likely allocations with two per group, 12 are as extreme, so exact p is 0.133."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-kw-rank-sums .
+  ex:l7-teaching-kw-formula a cd:MathExpression ; skos:prefLabel "Rank sums, ties and the reference"@en ; cd:body "Rank sums, ties and the reference"@en ; cd:latex "\\begin{aligned}H_{\\rm raw}&=\\frac{12}{N(N+1)}\\sum_{i=1}^{k}\\frac{R_i^2}{n_i}-3(N+1)\\\\C&=1-\\frac{\\sum_j(t_j^3-t_j)}{N^3-N},& H&=H_{\\rm raw}/C\\end{aligned}" ; dct:hasPart ex:l7-teaching-kw-formula-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-kw-formula .
+  ex:l7-teaching-kw-formula-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-kw-formula-symbol-1, ex:l7-teaching-kw-formula-symbol-2, ex:l7-teaching-kw-formula-symbol-3 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-kw-formula-legend .
+  ex:l7-teaching-kw-formula-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Ranks and counts"@en ; cd:body "Rᵢ is group i's pooled rank sum; nᵢ is its sample size; N = 6 is the total, and k = 3 is the group count. tⱼ is the number of values in tied set j."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-kw-formula-symbol-1 .
+  ex:l7-teaching-kw-formula-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Statistic"@en ; cd:body "H_raw is the uncorrected statistic, C is the tie correction, and H is the dimensionless corrected statistic."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-kw-formula-symbol-2 .
+  ex:l7-teaching-kw-formula-symbol-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Operations and reference"@en ; cd:body "Σ sums over groups or tied sets; fractions divide, powers 2 and 3 square and cube, parentheses group terms, juxtaposition multiplies, and +, −, = denote addition, subtraction and equality. Exact p counts equally likely label allocations at least as extreme under exchangeability."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-kw-formula-symbol-3 .
+  ex:l7-teaching-41-example-heading a cd:Interpretation ; skos:prefLabel "Kruskal–Wallis: from ranks to the test"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-heading .
+  ex:l7-teaching-41-example-conclusion a cd:Interpretation ; cd:body "The tied ranks give H = 4.191; the exact test gives p = 0.133 for this small example."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-conclusion .
+  ex:l7-teaching-41-example-focus a cd:Concept ; skos:prefLabel "Kruskal–Wallis: from ranks to the test"@en ; cd:hasDefinition ex:l7-teaching-41-example-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-focus .
+  ex:l7-teaching-41-example-definition a cd:Definition ; cd:body "The tied ranks give H = 4.191; the exact test gives p = 0.133 for this small example."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-definition .
+  ex:level7-anova-manova-pairs a cd:MediaAsset ; skos:prefLabel "Several responses, one experimental factor"@en ; cd:uri "/chemometrics/level7-anova-manova-pairs.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The paired recoveries of two analytes for each of six independent preparations in each SPE method. Mean vectors: A (90,87), B (94,89), C (92,94), in percent."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:level7-anova-manova-pairs .
+  ex:l7-teaching-manova-table a cd:TableDefinition ; skos:prefLabel "Illustrative one-factor MANOVA · Pillai test"@en ; cd:hasTableColumn ex:l7-teaching-manova-table-c1, ex:l7-teaching-manova-table-c2, ex:l7-teaching-manova-table-c3, ex:l7-teaching-manova-table-c4, ex:l7-teaching-manova-table-c5 ; cd:hasTableRow ex:l7-teaching-manova-table-r1 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table .
+  ex:l7-teaching-manova-table-c1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Pillai trace"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-c1 .
+  ex:l7-teaching-manova-table-c2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Approx. F"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-c2 .
+  ex:l7-teaching-manova-table-c3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "df 1"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-c3 .
+  ex:l7-teaching-manova-table-c4 a cd:TableColumn ; cd:position 4 ; skos:prefLabel "df 2"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-c4 .
+  ex:l7-teaching-manova-table-c5 a cd:TableColumn ; cd:position 5 ; skos:prefLabel "p"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-c5 .
+  ex:l7-teaching-manova-table-r1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l7-teaching-manova-table-r1-c1, ex:l7-teaching-manova-table-r1-c2, ex:l7-teaching-manova-table-r1-c3, ex:l7-teaching-manova-table-r1-c4, ex:l7-teaching-manova-table-r1-c5 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1 .
+  ex:l7-teaching-manova-table-r1-c1 a cd:TableCell ; cd:position 1 ; cd:body "1.414"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1-c1 .
+  ex:l7-teaching-manova-table-r1-c2 a cd:TableCell ; cd:position 2 ; cd:body "18.077"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1-c2 .
+  ex:l7-teaching-manova-table-r1-c3 a cd:TableCell ; cd:position 3 ; cd:body "4"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1-c3 .
+  ex:l7-teaching-manova-table-r1-c4 a cd:TableCell ; cd:position 4 ; cd:body "30"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1-c4 .
+  ex:l7-teaching-manova-table-r1-c5 a cd:TableCell ; cd:position 5 ; cd:body "1.18e-07"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-table-r1-c5 .
+  ex:l7-teaching-manova-null a cd:MathExpression ; skos:prefLabel "Compare joint population mean vectors"@en ; cd:body "Compare joint population mean vectors"@en ; cd:latex "\\boldsymbol\\mu_i=(\\mu_{i1},\\mu_{i2})^{\\mathsf T},\\qquad H_0:\\;\\boldsymbol\\mu_A=\\boldsymbol\\mu_B=\\boldsymbol\\mu_C" ; dct:hasPart ex:l7-teaching-manova-null-legend ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-null .
+  ex:l7-teaching-manova-null-legend a cd:DefinitionList ; skos:prefLabel "Symbols"@en ; cd:hasDefinitionListEntry ex:l7-teaching-manova-null-symbol-1, ex:l7-teaching-manova-null-symbol-2 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-null-legend .
+  ex:l7-teaching-manova-null-symbol-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Response means"@en ; cd:body "μᵢ₁ and μᵢ₂ are population mean recoveries (%) for analytes 1 and 2 under method i. Bold μᵢ is their two-component vector; T denotes transpose to a column."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-null-symbol-1 .
+  ex:l7-teaching-manova-null-symbol-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "Joint null"@en ; cd:body "H₀ says all three method vectors A, B and C are equal. The comma separates components and = denotes equality. Rejection does not locate an analyte or a pair."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-manova-null-symbol-2 .
+  ex:l7-teaching-42-model-heading a cd:Interpretation ; skos:prefLabel "MANOVA: interpret the joint test"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-heading .
+  ex:l7-teaching-42-model-conclusion a cd:Interpretation ; cd:body "The omnibus result concerns the two responses jointly. Follow up only with planned comparisons."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-conclusion .
+  ex:l7-teaching-42-model-focus a cd:Concept ; skos:prefLabel "MANOVA: interpret the joint test"@en ; cd:hasDefinition ex:l7-teaching-42-model-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-focus .
+  ex:l7-teaching-42-model-definition a cd:Definition ; cd:body "The omnibus result concerns the two responses jointly. Follow up only with planned comparisons."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-definition .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-teaching-15-b a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-15-table-b ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-b .
+  ex:l7-teaching-15-c a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-15-table-c ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-15-c .
+  ex:l7-teaching-16-formula a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-between ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-16-formula .
+  ex:l7-teaching-17-calc-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-17-calc-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-1 .
+  ex:l7-teaching-17-calc-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-test-chain ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-2 .
+  ex:l7-teaching-17-calc-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-test-chain ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-3 .
+  ex:l7-teaching-17-calc-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-17-calc-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-17-calc-4 .
+  ex:l7-scene17-calc a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-17-calc-focus ; cd:hasSceneItem ex:l7-teaching-17-calc-1, ex:l7-teaching-17-calc-2, ex:l7-teaching-17-calc-3, ex:l7-teaching-17-calc-4 ; cd:narration "Start with the two sums of squares. They have different degrees of freedom, so first turn them into mean squares. The method term gives 84 divided by 2, or 42. The residual term gives 30 divided by 15, or 2. Their ratio is the observed F of 21. Under equal population means and the classical model assumptions, compare that ratio with an F distribution on 2 and 15 degrees of freedom. The probability in its right tail beyond 21 is about 0.00004484. The next slide collects exactly these quantities into one ANOVA table."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene17-calc .
+  ex:l7-teaching-22-question-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-22-question-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-1 .
+  ex:l7-teaching-22-question-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-explained-question ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-2 .
+  ex:l7-teaching-22-question-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-22-question-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-22-question-3 .
+  ex:l7-scene22-question a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-22-question-focus ; cd:hasSceneItem ex:l7-teaching-22-question-1, ex:l7-teaching-22-question-2, ex:l7-teaching-22-question-3 ; cd:narration "A small p-value tells us how unusual the F statistic is under the null model. It does not tell us how much of the observed variation the fitted methods account for. Start with the total: every preparation differs from the grand mean. Once each method gets its own fitted mean, we can distinguish changes in those means from the departures left within each method. The first part belongs to the model; the second is residual variation, which can include measurement noise and omitted sources of variation. Compare their sizes before deciding whether the effect is useful in practice."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene22-question .
+  ex:l7-teaching-26-adjusted-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-26-adjusted-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-1 .
+  ex:l7-teaching-26-adjusted-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-tukey-range ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-2 .
+  ex:l7-teaching-26-adjusted-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-tukey-adjusted ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-3 .
+  ex:l7-teaching-26-adjusted-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-26-adjusted-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-26-adjusted-4 .
+  ex:l7-scene26-adjusted a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-26-adjusted-focus ; cd:hasSceneItem ex:l7-teaching-26-adjusted-1, ex:l7-teaching-26-adjusted-2, ex:l7-teaching-26-adjusted-3, ex:l7-teaching-26-adjusted-4 ; cd:narration "For B minus A, the difference is four percentage points. Standardize its absolute value using the pooled residual mean square and the common sample size. This gives q about 6.928. Instead of using the reference for one isolated pair, compare with the studentized range of three means. Under the common-mean reference this range tracks the largest standardized gap available among the pairs. Its upper-tail probability beyond our q is about 0.000532. This is why the p-value already accounts for the family. The same reference gives simultaneous intervals, which the next slide shows."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene26-adjusted .
+  ex:l7-teaching-31-formula a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-marginal ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-31-formula .
+  ex:l7-teaching-40-example-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-40-example-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-1 .
+  ex:l7-teaching-40-example-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-teaching-welch-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-2 .
+  ex:l7-teaching-40-example-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-welch-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-3 .
+  ex:l7-teaching-40-example-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-40-example-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-40-example-4 .
+  ex:l7-scene40-example a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-40-example-focus ; cd:hasSceneItem ex:l7-teaching-40-example-1, ex:l7-teaching-40-example-2, ex:l7-teaching-40-example-3, ex:l7-teaching-40-example-4 ; cd:narration "All three groups have the same sample size, but their variances differ. For A and C the variance is 3.5 squared percentage points, so each weight is about 1.714. For B it is 56, so B's weight is only about 0.107. Welch uses these weights for its mean comparison and adjusts the reference degrees of freedom. Here the statistic is 3.786, with 2 numerator and about 9.06 denominator degrees of freedom. The upper-tail probability is 0.064. At a preselected 0.05 threshold this example does not reject equality of means. That decision is specific to this dataset."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene40-example .
+  ex:l7-teaching-41-example-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-41-example-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-1 .
+  ex:l7-teaching-41-example-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:level7-anova-kw-rank-sums ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-2 .
+  ex:l7-teaching-41-example-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-kw-formula ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-3 .
+  ex:l7-teaching-41-example-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-41-example-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-41-example-4 .
+  ex:l7-scene41-example a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-41-example-focus ; cd:hasSceneItem ex:l7-teaching-41-example-1, ex:l7-teaching-41-example-2, ex:l7-teaching-41-example-3, ex:l7-teaching-41-example-4 ; cd:narration "Large differences between rank sums raise the test statistic. The two tied observations require a correction before evaluating H. In this toy example H is 4.191. With only six observations, use the exact reference: hold the observed ranks fixed and enumerate all ninety allocations of two observations to each of three labelled groups. 12 allocations reach or exceed our statistic, so the exact p-value is 0.133. The usual large-sample chi-square approximation gives 0.123 here. Keep the exact result for this small example and use the plot to see which groups drove the rank separation."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene41-example .
+  ex:l7-teaching-42-model-1 a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-teaching-42-model-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-1 .
+  ex:l7-teaching-42-model-2 a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-teaching-manova-table ; cd:communicativeRole cd:TableRole ; cd:selectionPath "cd:hasTableRow" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-2 .
+  ex:l7-teaching-42-model-3 a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-teaching-manova-null ; cd:communicativeRole cd:FormulaRole ; cd:selectionPath "cd:latex" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-3 .
+  ex:l7-teaching-42-model-4 a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:l7-teaching-42-model-conclusion ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-teaching-42-model-4 .
+  ex:l7-scene42-model a cd:SceneDefinition ; cd:focusConcept ex:l7-teaching-42-model-focus ; cd:hasSceneItem ex:l7-teaching-42-model-1, ex:l7-teaching-42-model-2, ex:l7-teaching-42-model-3, ex:l7-teaching-42-model-4 ; cd:narration "The null hypothesis says that the two-dimensional population mean vector is the same for all three SPE methods. The test compares separation among the fitted group centers with the spread and correlation left within each group. For these illustrative paired recoveries the Pillai trace is 1.414; the approximate F statistic is 18.077 with 4 and 30 degrees of freedom, giving p about 1.18e-07. The classical model needs independent preparations, multivariate normal errors and a common within-group covariance matrix. A small p-value is evidence of a joint difference; it does not identify a particular analyte or method pair."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-scene42-model .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:l7-intro-step-17-calc a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l7-scene17-calc ; cd:usesResource ex:l7-teaching-17-calc-heading, ex:level7-anova-test-chain, ex:l7-teaching-test-chain, ex:l7-teaching-17-calc-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-17-calc .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-17-calc .
+  ex:l7-intro-step-22-question a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l7-scene22-question ; cd:usesResource ex:l7-teaching-22-question-heading, ex:level7-anova-explained-question, ex:l7-teaching-22-question-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-22-question .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-22-question .
+  ex:l7-intro-step-26-adjusted a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l7-scene26-adjusted ; cd:usesResource ex:l7-teaching-26-adjusted-heading, ex:level7-anova-tukey-range, ex:l7-teaching-tukey-adjusted, ex:l7-teaching-26-adjusted-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-26-adjusted .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-26-adjusted .
+  ex:l7-intro-step-40-example a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l7-scene40-example ; cd:usesResource ex:l7-teaching-40-example-heading, ex:l7-teaching-welch-table, ex:l7-teaching-welch-formula, ex:l7-teaching-40-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-40-example .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-40-example .
+  ex:l7-intro-step-41-example a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l7-scene41-example ; cd:usesResource ex:l7-teaching-41-example-heading, ex:level7-anova-kw-rank-sums, ex:l7-teaching-kw-formula, ex:l7-teaching-41-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-41-example .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-41-example .
+  ex:l7-intro-step-42-model a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l7-scene42-model ; cd:usesResource ex:l7-teaching-42-model-heading, ex:l7-teaching-manova-table, ex:l7-teaching-manova-null, ex:l7-teaching-42-model-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-42-model .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-step-42-model .
 }
