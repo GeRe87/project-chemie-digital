@@ -84,3 +84,8 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
     }
   }
 }
+body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [fill="#17313f"] { fill:#ebf4ff; }
+body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [fill="#006582"] { fill:#64cce8; }
+body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [fill="#604493"] { fill:#c8a6ff; }
+body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [fill="#a94311"] { fill:#ffb385; }
+body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-svg [stroke="#718b99"] { stroke:#9ebacd; }
