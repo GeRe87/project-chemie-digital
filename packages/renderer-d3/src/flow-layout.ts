@@ -58,6 +58,7 @@ export interface D3FlowLayoutEdge {
   readonly labelX: number;
   readonly labelY: number;
   readonly labelLines: readonly string[];
+  readonly labelAnchor?: D3FlowLayoutPoint;
   readonly routePoints?: readonly D3FlowLayoutPoint[];
   readonly visualRole?: string;
 }
@@ -517,6 +518,12 @@ export function resolveEdgeLabelCollisions(
     height: node.height,
   }));
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  const inbound = new Map<string, D3FlowLayoutEdge[]>();
+  for (const edge of edges) {
+    const incoming = inbound.get(edge.targetNodeId) ?? [];
+    incoming.push(edge);
+    inbound.set(edge.targetNodeId, incoming);
+  }
 
   return edges.map((edge) => {
     if (edge.labelLines.length === 0) return edge;
@@ -532,7 +539,31 @@ export function resolveEdgeLabelCollisions(
       && !nodeRects.some(node => overlaps(rect, node, 10))
       && !placedLabelRects.some(label => overlaps(rect, label, 8));
 
+    // A two-input merge reads from its two sides. Place the lower label
+    // below the destination, next to the lower segment of its own route.
+    const incoming = inbound.get(target.id);
+    const peer = incoming?.length === 2 ? incoming.find(item => item.id !== edge.id) : undefined;
+    const peerSource = peer ? nodeById.get(peer.sourceNodeId) : undefined;
+    if (strategy === "layered-flow" && orientation === "horizontal"
+      && peer && peerSource && edge.x2 > edge.x1 && peer.x2 > peer.x1
+      && (source.y - target.y) * (peerSource.y - target.y) < 0) {
+      const direction = source.y > target.y ? 1 : -1;
+      const panel = chosenRect;
+      const labelY = target.y + direction * (target.height / 2 + panel.height / 2 + 16) + 2;
+      const labelX = target.x - Math.max(0, target.width - panel.width) / 2;
+      const anchorY = Math.max(Math.min(edge.y1, edge.y2), Math.min(Math.max(edge.y1, edge.y2), labelY));
+      const candidate = { ...translatedEdge(edge, labelX, labelY),
+        labelAnchor: { x: midpoint(edge.x1, edge.x2), y: anchorY } };
+      const rect = d3FlowEdgeLabelPanelGeometry(candidate, strategy);
+      if (accepts(rect)) {
+        chosen = candidate;
+        chosenRect = rect;
+        found = true;
+      }
+    }
+
     for (const candidate of candidates) {
+      if (found) break;
       const translated = translatedEdge(edge, candidate.x, candidate.y);
       const rect = d3FlowEdgeLabelPanelGeometry(translated, strategy);
       if (!accepts(rect)) continue;

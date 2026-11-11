@@ -36,6 +36,29 @@ const graph = {
   ],
 };
 
+test("a horizontal two-input merge keeps each label next to its own branch", () => {
+  const mergeNodes: D3FlowLayoutNode[] = [
+    {id: "a", x: 300, y: 220, width: 380, height: 240, labelLines: ["First"], bodyLines: []},
+    {id: "b", x: 300, y: 680, width: 380, height: 240, labelLines: ["Second"], bodyLines: []},
+    {id: "c", x: 810, y: 450, width: 380, height: 200, labelLines: ["Total"], bodyLines: []},
+  ];
+  const edges: D3FlowLayoutEdge[] = [
+    {id: "r", sourceNodeId: "a", targetNodeId: "c", x1: 490, y1: 220, x2: 620, y2: 450,
+      labelX: 550, labelY: 190, labelLines: ["Between", "part"]},
+    {id: "s", sourceNodeId: "b", targetNodeId: "c", x1: 490, y1: 680, x2: 620, y2: 450,
+      labelX: 550, labelY: 190, labelLines: ["Within part"]},
+  ];
+  const resolved = resolveEdgeLabelCollisions(edges, mergeNodes, 1100, 860, "layered-flow", "horizontal");
+  assertClear(resolved, mergeNodes, 1100, 860, "layered-flow");
+  const upper = d3FlowEdgeLabelPanelGeometry(resolved[0]!, "layered-flow");
+  const lower = d3FlowEdgeLabelPanelGeometry(resolved[1]!, "layered-flow");
+  assert.ok(upper.y + upper.height / 2 < 350);
+  assert.ok(lower.y - lower.height / 2 > 550);
+  assert.equal(lower.x - lower.width / 2, 620);
+  assert.equal(resolved[1]!.labelAnchor?.x, 555);
+  assert.ok(Math.abs(resolved[1]!.labelAnchor!.y - lower.y) <= 2);
+});
+
 test("exact panel geometry retains SVG dimensions and its two-pixel offset", () => {
   const edge = {labelX: 100, labelY: 80, labelLines: ["abcdefghij", "x"]};
   assert.deepEqual(d3FlowEdgeLabelPanelGeometry(edge, "layered-flow"), {x: 100, y: 78, width: 136, height: 56});

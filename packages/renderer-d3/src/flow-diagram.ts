@@ -646,9 +646,9 @@ function addEdgeLabel(
   panel.setAttribute("aria-hidden", "true");
   if (edge.visualRole) panel.setAttribute("data-visual-role", edge.visualRole);
   const route = edge.routePoints && edge.routePoints.length >= 2 ? edge.routePoints : undefined;
-  const routeMid = route
+  const routeMid = edge.labelAnchor ?? (route
     ? route[Math.floor((route.length - 1) / 2)]!
-    : { x: edge.x1 + (edge.x2 - edge.x1) / 2, y: edge.y1 + (edge.y2 - edge.y1) / 2 };
+    : { x: edge.x1 + (edge.x2 - edge.x1) / 2, y: edge.y1 + (edge.y2 - edge.y1) / 2 });
   const edgeMidX = routeMid.x;
   const edgeMidY = routeMid.y;
   const displaced = Math.hypot(edge.labelX - edgeMidX, edge.labelY - edgeMidY) > 8;
