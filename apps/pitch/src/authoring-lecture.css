@@ -53,7 +53,7 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
     max-height: none;
     align-self: start !important;
   }
-  html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition] > blockquote.lead:last-child {
+  html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition] > blockquote.lead:is(:last-child, :has(+ .scene-references:last-child)) {
     grid-row: -2;
     width: 100%;
     max-width: none;
@@ -72,6 +72,9 @@ body[data-presentation-theme="dark"][data-authoring-frame="lecture"] .teaching-s
     height: auto;
     max-height: 525px;
     object-fit: contain;
+  }
+  html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition]:has(> .scene-references) {
+    padding-bottom: var(--pcd-reference-reserve, 48px) !important;
   }
   @media (max-width: 700px) {
     html:not(.print-pdf) body[data-authoring-frame="lecture"] .reveal .slides section[data-composition] {

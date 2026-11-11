@@ -232,11 +232,21 @@ function appendBlock(
     return;
   }
   if (block.kind === "media-reference") {
-    if(block.mediaType==='text/html'){
-      const link=dom.createElement('a');link.className='reference-link';
-      if(!/^https:\/\//u.test(block.uri))throw new Error('Reference links require HTTPS');
-      link.setAttribute('href',block.uri);link.setAttribute('target','_blank');link.setAttribute('rel','noopener noreferrer');
-      link.textContent=block.alternativeText+' ↗';sourceAttributes(link,block.source);parent.appendChild(link);return;
+    if (block.mediaType === "text/html") {
+      const link = dom.createElement("a");
+      link.className = "reference-link";
+      if (!/^https:\/\//u.test(block.uri)) throw new Error("Reference links require HTTPS");
+      link.setAttribute("href", block.uri);
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
+      link.textContent = block.alternativeText;
+      const icon = dom.createElement("span");
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = " ↗";
+      link.appendChild(icon);
+      sourceAttributes(link, block.source);
+      parent.appendChild(link);
+      return;
     }
     const figure = dom.createElement("figure");
     figure.className = "media-reference";
@@ -730,9 +740,14 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         appendBlock(optionalParent(block), dom, block, headingId);
         continue;
       }
-      if(block.kind==='media-reference'&&block.mediaType==='text/html'){
-        if(!referenceRail){referenceRail=dom.createElement('footer');referenceRail.className='scene-references';section.appendChild(referenceRail);}
-        appendBlock(referenceRail,dom,block,headingId);continue;
+      if (block.kind === "media-reference" && block.mediaType === "text/html") {
+        if (!referenceRail) {
+          referenceRail = dom.createElement("footer");
+          referenceRail.className = "scene-references";
+          section.appendChild(referenceRail);
+        }
+        appendBlock(referenceRail, dom, block, headingId);
+        continue;
       }
       if (embeddedFormulaIds.has(blockId)) continue;
       if (formulaUnitChildren.has(blockId)) continue;

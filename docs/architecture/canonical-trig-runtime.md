@@ -54,3 +54,20 @@ npm run pitch:dev
 ```
 
 `check:runtime` fails when the disposable browser artifact does not exactly match the canonical TriG Dataset. Local development regenerates the artifact before Vite starts.
+
+### Further reading on a slide
+
+Use a canonical `cd:MediaAsset` with `cd:mediaType "text/html"`, an HTTPS
+`cd:uri`, and a short localized `cd:alternativeText` (publisher and topic).
+Select it near the end of the scene with a `cd:MediaRole` item and
+`cd:selectionPath "cd:uri"`; include it in the path step's `cd:usesResource`.
+Reuse the same asset for multiple scenes when they teach the same topic. If
+only one path step should show the link on a shared scene, set the item's
+`dct:isPartOf` to that step.
+
+The presentation renders these links in a dedicated bottom-left rail, outside
+the main layout and its tabs. Use one direct, topic-specific link where
+possible so it stays on one line at presentation size. The static view renders
+the same links in the scene footer. The source is opened by the reader; it is
+not fetched as slide content. Prefer the relevant primary publication or
+handbook section. Keep the provenance of worked examples separate.

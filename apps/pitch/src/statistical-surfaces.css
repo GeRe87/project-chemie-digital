@@ -1,9 +1,53 @@
 /* Structural profiles only: no course, scene or resource identity selectors. */
 .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="main"] .media-reference {width:100%;margin:0;}
 .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="main"] .media-reference :is(img,svg.teaching-svg) {width:100%;height:auto;max-height:34rem;object-fit:contain;}
-.scene-references {position:absolute;bottom:.35rem;left:1.5rem;right:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;font-size:16px;line-height:1.2;text-align:left;}
-.reference-link {color:var(--pcd-foreground);text-decoration:underline;}
-.reference-link:focus-visible {outline:3px solid var(--pcd-accent);outline-offset:3px;}
+/* An authored external reading link occupies the reference rail, outside slide content. */
+.reveal .slides section[data-composition]:has(> .scene-references) {
+  padding-bottom: var(--pcd-reference-reserve, 48px) !important;
+}
+.scene-references {
+  position: absolute;
+  inset-inline: 24px;
+  inset-block-end: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+  text-align: start;
+}
+.reveal .scene-references .reference-link {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 4px 9px;
+  border: 1px solid var(--pcd-accent);
+  border-radius: 5px;
+  background: var(--pcd-surface-strong);
+  color: var(--pcd-foreground);
+  font: 700 var(--pcd-reference-font-size, 20px)/1.2 system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: .15em;
+  overflow-wrap: anywhere;
+}
+.reveal .scene-references .reference-link:focus-visible {
+  outline: 3px solid var(--pcd-accent);
+  outline-offset: 2px;
+}
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  /* The standard Reveal canvas is scaled on narrow screens. */
+  body:not(.pcd-native-mobile) .reveal .slides section:has(> .scene-references) {
+    --pcd-reference-reserve: 82px;
+    --pcd-reference-font-size: 48px;
+  }
+  body.pcd-native-mobile .reveal .slides section[data-composition]:has(> .scene-references) {
+    padding-bottom: var(--pcd-reference-reserve, 48px) !important;
+  }
+  body.pcd-native-mobile .reveal .scene-references .reference-link {
+    --pcd-reference-font-size: 16px;
+  }
+}
+@media print {
+  .reveal .scene-references .reference-link { color: #18232b; background: white; border-color: #18232b; }
+}
 .reveal .pcd-composition-region > .pcd-optional-material-inline {position:static;display:block;width:fit-content;margin-top:.6rem;font:20px/1.4 Arial,sans-serif;color:var(--pcd-foreground);background:var(--pcd-surface-strong);border:2px solid var(--pcd-accent);border-radius:.4rem;}
 .pairwise-score {font-size:22px;min-width:0;position:relative;}
 .pairwise-controls {display:flex;gap:1rem;flex-wrap:wrap;}

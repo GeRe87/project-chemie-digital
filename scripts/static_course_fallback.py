@@ -52,6 +52,13 @@ def media_fallback_markup(block: dict[str, Any]) -> str:
     uri = html.escape(block["uri"], quote=True)
     alternative = html.escape(block["alternativeText"], quote=True)
     media_type = block.get("mediaType")
+    if media_type == "text/html":
+        if not block["uri"].startswith("https://"):
+            raise ValueError("Reference links require HTTPS")
+        return (
+            f'<a class="reference-link" href="{uri}"{fallback_attributes(block["source"])}>'
+            f'{alternative}</a>'
+        )
     if isinstance(media_type, str) and media_type.startswith("video/"):
         content = f'<video src="{uri}" controls preload="metadata" playsinline aria-label="{alternative}"></video>'
     elif media_type is None or media_type.startswith("image/"):
@@ -94,6 +101,7 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
     articles = []
     for scene in document["scenes"]:
         blocks = []
+        references = []
         consumed_function_legend_ids: set[str] = set()
         for block in scene["blocks"]:
             if block["id"] in consumed_function_legend_ids:
@@ -105,7 +113,8 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 blocks.append(f'<section class="group-fallback" role="group"{fallback_attributes(block["source"])}>{content}</section>')
                 continue
             if block["kind"] == "media-reference":
-                blocks.append(media_fallback_markup(block))
+                target = references if block.get("mediaType") == "text/html" else blocks
+                target.append(media_fallback_markup(block))
                 continue
             if block["kind"] == "math":
                 if block.get("derivation"):
@@ -431,6 +440,8 @@ def static_fallback(artifact: dict[str, Any], *, _fragment: bool = False) -> str
                 f'{html.escape(block["text"])}'
                 f'</{tag}>'
             )
+        if references:
+            blocks.append('<footer class="scene-references">' + " ".join(references) + '</footer>')
         if _fragment:
             articles.append("".join(blocks))
             continue

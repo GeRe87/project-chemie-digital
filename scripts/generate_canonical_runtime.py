@@ -1510,6 +1510,18 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
         payload["yDomain"] = domain
     return payload, relation_path
 
+def scene_items_for_step(dataset: Dataset, step: URIRef, scene_id: URIRef) -> list[URIRef]:
+    """Select authored items, including references scoped to a reused scene's path step."""
+    items = []
+    for item in objects(dataset, scene_id, iri(CD, "hasSceneItem")):
+        if not isinstance(item, URIRef):
+            continue
+        step_scope = objects(dataset, item, DCTERMS.isPartOf)
+        if not step_scope or step in step_scope:
+            items.append(item)
+    return sorted(items, key=lambda item: (integer(dataset, item, iri(CD, "position")), str(item)))
+
+
 def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReference) -> list[URIRef]:
     path = URIRef(selected_path.path_id)
     path_graph = dataset.graph(URIRef(selected_path.path_graph_id))
@@ -1524,14 +1536,7 @@ def selected_path_scene_items(dataset: Dataset, selected_path: CoursePathReferen
     items: list[URIRef] = []
     for step in steps:
         scene_id = one(dataset, step, iri(CD, "usesScene"))
-        items.extend(
-            item
-            for item in sorted(
-                objects(dataset, scene_id, iri(CD, "hasSceneItem")),
-                key=lambda candidate: (integer(dataset, candidate, iri(CD, "position")), str(candidate)),
-            )
-            if isinstance(item, URIRef)
-        )
+        items.extend(scene_items_for_step(dataset, step, scene_id))
     return items
 
 
@@ -1730,7 +1735,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
             if topic_label is None or not topic_label.strip() or len(topic_label) > 80:
                 raise ValueError("Scene topic label must contain 1 to 80 characters")
             topic_payload = {"label": topic_label, "source": [source_reference(dataset, scene_id, "dct:subject"), source_reference(dataset, topic, topic_label_path)]}
-        items = sorted(objects(dataset, scene_id, iri(CD, "hasSceneItem")), key=lambda item: (integer(dataset, item, iri(CD, "position")), str(item)))
+        items = scene_items_for_step(dataset, step, scene_id)
         blocks: list[dict[str, Any]] = []
         selected_blocks: list[tuple[URIRef, dict[str, Any]]] = []
         for item in items:

@@ -291,6 +291,24 @@ class AnovaIntroTests(unittest.TestCase):
                           ('41-example','0.133')):
             self.assertIn(phrase, self.scene(n)['narration'])
 
+    def test_slide_references_and_static_links(self):
+        from static_course_fallback import static_fallback
+
+        for scene in self.doc['scenes']:
+            reference, = [b for b in scene['blocks'] if b.get('mediaType') == 'text/html']
+            self.assertEqual(scene['readingOrder'][-1], reference['id'])
+            self.assertTrue(reference['uri'].startswith('https://'))
+            self.assertTrue(reference['alternativeText'])
+        expected = {
+            '26-adjusted': 'https://itl.nist.gov/div898/handbook/prc/section4/prc471.htm',
+            '40-example': 'https://stat.ethz.ch/R-manual/R-devel/library/stats/html/oneway.test.html',
+            22: 'https://doi.org/10.3389/fpsyg.2013.00863',
+        }
+        for number, uri in expected.items():
+            with self.subTest(scene=number):
+                markup = static_fallback({'sceneDocuments': [{**self.doc, 'scenes': [self.scene(number)]}]})
+                self.assertIn(f'<footer class="scene-references"><a class="reference-link" href="{uri}"', markup)
+
     def test_existing_documents_exactly_unchanged(self):
         for path, graph in [('path-chemometrics-level7-anova-lecture','paths/chemometrics-level7-anova-lecture'),('path-level6-statistical-tests','paths/level6-statistical-tests')]:
             ref = CoursePathReference(str(EX[path]),GB+graph)
