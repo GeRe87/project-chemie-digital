@@ -120,7 +120,7 @@
   ex:l7-next-18-table-row-3-cell-5 a cd:TableCell ; cd:position 5 ; cd:body "—"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-18-table-row-3-cell-6 a cd:TableCell ; cd:position 6 ; cd:body "—"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-19-heading a cd:Interpretation ; skos:prefLabel "Place F on the null distribution"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
-  ex:l7-next-19-takeaway a cd:Interpretation ; cd:body "Under the null hypothesis and classical model assumptions, the right-tail probability beyond F = 21 is approximately 0.00004484."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-next-19-takeaway a cd:Interpretation ; cd:body "For the original data, F = 21 and the right-tail probability is about 0.00004484. The table shows the result for the current slider settings."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-19-focus a cd:Concept ; skos:prefLabel "Place F on the null distribution"@en ; cd:hasDefinition ex:l7-next-19-definition ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-19-definition a cd:Definition ; cd:body "Why does F = 21 give a small p-value? Under the null hypothesis and classical model assumptions, the right-tail probability beyond F = 21 is approximately 0.00004484."@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-next-20-heading a cd:Interpretation ; skos:prefLabel "Check the sampling and error model"@en ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .

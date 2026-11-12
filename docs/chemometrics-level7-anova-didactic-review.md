@@ -35,6 +35,9 @@ paths are unchanged.
 
 The walkthrough's static values describe the authored data. They do not change
 when someone adjusts the hypothetical sliders on “What makes F large?”.
+In “Place F on the null distribution”, the F reference view shows a live ANOVA
+table. The same current observations drive the plot and the table. Zero residual
+variance leaves F and p undefined. Reset restores the original data.
 Six additional figures visualize the sampling design, reporting, comparison
 family and choice of method. The illustrated flow cards use short structured
 labels. The inline teaching SVGs have a separate high-contrast dark palette.

@@ -62,6 +62,57 @@ export function teachingReadouts(block:ExperimentBlock,result:ReturnType<typeof 
   default:return result.readouts;
  }
 }
+/** Present the existing numerical ledger, without fitting or deriving statistics. */
+function anovaTable(block: ExperimentBlock, result: ReturnType<typeof runExperiment>): HTMLElement {
+  const readouts = new Map(result.readouts.map(item => [item.label, item.value]));
+  const value = (label: string) => format(readouts.get(label) ?? 'Undefined');
+  const squaredUnit = `(${block.differenceUnit})²`;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'experiment-anova-table-scroll';
+  wrapper.tabIndex = 0;
+  wrapper.setAttribute('role', 'region');
+  wrapper.setAttribute('aria-label', 'One-way ANOVA results. Scroll horizontally if needed.');
+
+  const table = document.createElement('table');
+  table.className = 'experiment-anova-table';
+  table.createCaption().textContent = 'One-way ANOVA';
+  const head = table.createTHead().insertRow();
+  const columns = [
+    ['Source', 'Source of variation'], [`SS ${squaredUnit}`, 'Sum of squares'],
+    ['df', 'Degrees of freedom'], [`MS ${squaredUnit}`, 'Mean square'],
+    ['F', 'F statistic'], ['p', 'Right-tail p-value'],
+  ];
+  for (const [label, title] of columns) {
+    const cell = document.createElement('th');
+    cell.scope = 'col';
+    cell.textContent = label;
+    cell.title = title;
+    head.append(cell);
+  }
+
+  const body = table.createTBody();
+  const sources = [['between', 'Between methods'], ['within', 'Within methods'], ['total', 'Total']];
+  for (const [key, label] of sources) {
+    const row = body.insertRow();
+    const source = document.createElement('th');
+    source.scope = 'row';
+    source.textContent = label;
+    row.append(source);
+    const inference = key === 'between' ? [value('F'), value('p-value')] : ['N/A', 'N/A'];
+    const cells = [
+      value(`SS ${key} ${squaredUnit}`), value(`df ${key}`),
+      key === 'total' ? 'N/A' : value(`MS ${key} ${squaredUnit}`), ...inference,
+    ];
+    for (const text of cells) {
+      const cell = row.insertCell();
+      cell.textContent = text;
+      if (text === 'N/A') cell.title = 'Not applicable';
+    }
+  }
+  wrapper.append(table);
+  return wrapper;
+}
+
 export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
  if(typeof HTMLElement==='undefined'||!(host instanceof HTMLElement))return{diagnostics:[{code:'INVALID_EXPERIMENT_HOST',message:'Expected HTML host'}]};
    validateExperiment(block);if(block.experimentKind==='pairwise-score')return mountPairwiseScore(host,block);
@@ -141,7 +192,9 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
   const singleTrial=block.experimentKind==='dilution'&&(values.M??block.parameters.find(p=>p.key==='M')!.value)===1;
   panels.hidden=singleTrial;root.dataset.singleTrial=String(singleTrial);
     const emphasized=teachingReadouts(block,result,values);root.dataset.readoutCount=String(emphasized.length);
-     output.replaceChildren();for(const item of emphasized){const row=document.createElement('span'),label=document.createElement('span'),value=document.createElement('strong');row.dataset.readoutKind=typeof item.value==='string'?'text':'number';label.textContent=item.label;value.textContent=format(item.value);row.append(label,document.createTextNode(': '),value);output.append(row);}
+      const showAnovaTable=block.experimentKind==='anova-one-way'&&(values.view??block.parameters.find(p=>p.key==='view')?.value)===2;
+      output.classList.toggle('experiment-readouts-anova',showAnovaTable);
+      output.replaceChildren();if(showAnovaTable)output.append(anovaTable(block,result));else for(const item of emphasized){const row=document.createElement('span'),label=document.createElement('span'),value=document.createElement('strong');row.dataset.readoutKind=typeof item.value==='string'?'text':'number';label.textContent=item.label;value.textContent=format(item.value);row.append(label,document.createTextNode(': '),value);output.append(row);}
    comparison.replaceChildren();const sources=result.readouts.filter(v=>v.label.includes('-only output SD')&&typeof v.value==='number');comparison.hidden=!sources.length;
     if(sources.length){const heading=document.createElement('p');heading.textContent='Input-specific output SDs: not additive shares.';comparison.append(heading);const max=Math.max(...sources.map(s=>Number(s.value)));for(const source of sources){const row=document.createElement('div'),label=document.createElement('span'),track=document.createElement('span'),bar=document.createElement('i');row.className='experiment-source-row';label.textContent=`${source.label}: ${format(source.value)}`;track.className='experiment-source-track';bar.style.width=`${max?100*Number(source.value)/max:0}%`;bar.setAttribute('aria-hidden','true');track.append(bar);row.append(label,track);comparison.append(row);}}
     note.textContent=result.note;fallback.textContent=[...result.readouts.map(v=>`${v.label}: ${v.value}`),...result.panels.flatMap(p=>[...(p.xLabels??[]).map(v=>`${v.value}: ${v.label}`),...(p.markers??[]).map(v=>`${v.label}: ${v.x}`),...p.traces.flatMap(t=>[t.label,...t.points.map(v=>`${v.x}: ${v.y}`)])])].join('\n');root.dataset.modelValues=JSON.stringify({...Object.fromEntries(block.parameters.map(p=>[p.key,p.value])),...values});
