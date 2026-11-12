@@ -426,3 +426,20 @@ body[data-presentation-theme="dark"] .reveal
   .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-legend"]
     .math-display[data-component-kind="formula"] { font-size: 1.3em; padding: .75rem; }
 }
+
+/* Keep the content and thumbnail aligned with the card's own accent. */
+.reveal [data-component-kind="card-collection"][data-composition-region="main"] > .definition-list-entry {
+  --pcd-card-content-ink: hsl(var(--pcd-card-hue, 205deg) 66% 24%);
+}
+body[data-presentation-theme="dark"] .reveal
+  [data-component-kind="card-collection"][data-composition-region="main"] > .definition-list-entry {
+  --pcd-card-content-ink: hsl(var(--pcd-card-hue, 205deg) 72% 84%);
+}
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-entry :is(.definition-list-description, .definition-list-point) {
+  color: var(--pcd-card-content-ink);
+}
+.reveal [data-component-kind="card-collection"][data-composition-region="main"]
+  .definition-list-entry > .definition-list-visual-motif {
+  background: var(--pcd-card-content-ink);
+}

@@ -1017,3 +1017,23 @@ body[data-presentation-theme="dark"] .reveal .d3-flow-svg[data-layout-strategy="
   stroke: none;
   filter: none;
 }
+
+/* Body text and motifs use the hue of their own card in both themes. */
+:is(.reveal, .pcd-script-view) .d3-flow-node:is([data-flow-cards="layered"], [data-flow-card-style="numbered"]) {
+  --pcd-flow-card-ink: hsl(var(--d3-flow-card-hue, 205) 66% 24%);
+  --pcd-flow-thumbnail-surface: hsl(var(--d3-flow-card-hue, 205) 70% 88%);
+}
+body[data-presentation-theme="dark"] :is(.reveal, .pcd-script-view) .d3-flow-node:is([data-flow-cards="layered"], [data-flow-card-style="numbered"]) {
+  --pcd-flow-card-ink: hsl(var(--d3-flow-card-hue, 205) 72% 84%);
+  --pcd-flow-thumbnail-surface: hsl(var(--d3-flow-card-hue, 205) 38% 24%);
+}
+:is(.reveal, .pcd-script-view) .d3-flow-svg[data-diagram-type][data-layout-strategy]
+  .d3-flow-node[data-node-presentation]:is([data-flow-cards="layered"], [data-flow-card-style="numbered"])
+  :is(.d3-flow-node-body, .d3-flow-node-motif) {
+  fill: var(--pcd-flow-card-ink);
+  color: var(--pcd-flow-card-ink);
+}
+:is(.reveal, .pcd-script-view) .d3-flow-svg[data-layout-strategy]
+  .d3-flow-node:is([data-flow-cards="layered"], [data-flow-card-style="numbered"]) > .d3-flow-layered-thumbnail {
+  fill: var(--pcd-flow-thumbnail-surface);
+}
