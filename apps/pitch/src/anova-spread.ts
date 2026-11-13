@@ -110,7 +110,7 @@ export function mountAnovaPairReveal(root: HTMLElement) {
     const { step } = (event as CustomEvent<{ step: number }>).detail;
     figure.dataset.pairRevealed = String(step > 0);
     figure.setAttribute("aria-label", step > 0
-      ? "C versus G: Bonferroni-adjusted p 0.027. All ten methods: omnibus ANOVA p 0.059."
+      ? "C versus G: Bonferroni-adjusted p 0.015. All ten methods: omnibus ANOVA p 0.098."
       : "Ten methods in label order with twelve observations per method.");
   });
 }
