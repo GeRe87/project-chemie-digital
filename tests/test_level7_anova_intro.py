@@ -20,7 +20,7 @@ def review_scene(number):
         return EX[f'l7-scene{number}']
     return EX[exceptions.get(number, f'l7-scene{number:02d}')]
 SCENE_ORDER = (
-    *range(1, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
+    1, 2, '-spread-lab', *range(3, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
     '26-adjusted', *range(27, 41), '40-example', 41, '41-example', 45, 46, 47,
 )
 INTRO = {URIRef(GB + s) for s in (
@@ -71,8 +71,8 @@ class AnovaIntroTests(unittest.TestCase):
                     self.assertFalse(list(self.ds.graph(c).triples((obs,None,None))))
         self.assertEqual(set(self.g.objects(EX['l7-spe-master36'],CD.hasObservation)),all_ids)
         self.assertEqual(set(self.g.objects(EX['l7-spe-river18'],CD.hasObservation)),river_ids)
-        for number in (2,6,7,13):
-            charts = [b for b in self.doc['scenes'][number-1]['blocks'] if b['kind']=='chart']
+        for number in (6,7,13):
+            charts = [b for b in self.scene(number)['blocks'] if b['kind']=='chart']
             self.assertEqual(len(charts),1)
             chart = charts[0]
             self.assertEqual(chart['yAxis'], {'label':'Recovery','unit':'%'})
@@ -91,83 +91,22 @@ class AnovaIntroTests(unittest.TestCase):
         self.assertIn('y_{ij}', formula)
         self.assertIn('**y_ij**', legend)
         self.assertNotIn('grand', legend.lower())
-        chart, = [b for b in self.doc['scenes'][6]['blocks'] if b['kind'] == 'chart']
+        chart, = [b for b in self.scene(7)['blocks'] if b['kind'] == 'chart']
         self.assertEqual(chart['chartType'], 'dot')
         for group in chart['groups']:
             values = [point['value'] for point in group['data']]
             self.assertEqual(group['summary']['value'], sum(values) / len(values))
         all_values = [point['value'] for group in chart['groups'] for point in group['data']]
         self.assertEqual(chart['referenceLine']['value'], sum(all_values) / len(all_values))
-        self.assertNotIn('sum of squares', json.dumps(self.doc['scenes'][6]).lower())
+        self.assertNotIn('sum of squares', json.dumps(self.scene(7)).lower())
 
-    def test_scene02_scatter_experiment(self):
-        charts = [b for b in self.doc['scenes'][1]['blocks'] if b['kind'] == 'chart']
-        self.assertEqual(len(charts), 1)
-        experiment = charts[0]
-        self.assertEqual(experiment['chartType'], 'experiment')
-        self.assertEqual(experiment['experimentKind'], 'anova-one-way')
-        self.assertEqual(experiment['xAxis'], {'label': 'SPE method'})
-        self.assertEqual(experiment['yAxis'], {'label': 'Recovery', 'unit': '%'})
-        self.assertEqual(experiment['differenceUnit'], 'percentage points')
-        parameters = experiment['parameters']
-        self.assertEqual([p['key'] for p in parameters], ['betweenScale', 'withinScale', 'view'])
-        self.assertEqual(len({p['id'] for p in parameters}), 3)
-        expected = [
-            ('betweenScale', 1, 0, 3, 0.1, False),
-            ('withinScale', 1, 0, 3, 0.1, True),
-            ('view', 0, 0, 2, 1, False),
-        ]
-        chart = EX['l7-intro-chart-02']
-        self.assertIn((chart, RDF.type, CD.ChartDefinition), self.g)
-        self.assertEqual(set(self.g.objects(chart, CD.chartType)), {CD.ScientificExperiment})
-        self.assertEqual([str(v) for v in self.g.objects(chart, CD.experimentKind)], ['anova-one-way'])
-        self.assertEqual(set(self.g.objects(chart, CD.hasChartGroup)), {
-            EX['l7-river-group-A'], EX['l7-river-group-B'], EX['l7-river-group-C']
-        })
-        owned_parameters = set(self.g.objects(chart, CD.hasExperimentParameter))
-        self.assertEqual(owned_parameters, {
-            EX['l7-intro-parameter-02-betweenScale'],
-            EX['l7-intro-parameter-02-withinScale'],
-            EX['l7-intro-parameter-02-view'],
-        })
-        for position, (parameter, specification) in enumerate(zip(parameters, expected), 1):
-            key, value, minimum, maximum, step, adjustable = specification
-            rdf_parameter = EX['l7-intro-parameter-02-' + key]
-            self.assertEqual(parameter['id'], compact(rdf_parameter))
-            self.assertTrue(parameter['label'])
-            self.assertEqual(parameter['key'], key)
-            self.assertEqual(parameter['value'], value)
-            self.assertEqual(parameter['minimum'], minimum)
-            self.assertEqual(parameter['maximum'], maximum)
-            self.assertEqual(parameter['step'], step)
-            self.assertIs(parameter['adjustable'], adjustable)
-            self.assertTrue(parameter['source'])
-            self.assertIn((rdf_parameter, RDF.type, CD.ExperimentParameter), self.g)
-            positions = list(self.g.objects(rdf_parameter, CD.position))
-            self.assertEqual(len(positions), 1)
-            self.assertEqual(positions[0].datatype, XSD.integer)
-            self.assertEqual(int(positions[0]), position)
-            self.assertEqual([str(v) for v in self.g.objects(rdf_parameter, CD.parameterKey)], [key])
-            for predicate, expected_value in [
-                (CD.numericValue, value),
-                (CD.parameterMinimum, minimum),
-                (CD.parameterMaximum, maximum),
-                (CD.parameterStep, step),
-            ]:
-                literals = list(self.g.objects(rdf_parameter, predicate))
-                self.assertEqual(len(literals), 1)
-                self.assertEqual(literals[0].datatype, XSD.decimal)
-                self.assertEqual(float(literals[0]), expected_value)
-            flags = list(self.g.objects(rdf_parameter, CD.adjustableParameter))
-            self.assertEqual(len(flags), 1)
-            self.assertEqual(flags[0].datatype, XSD.boolean)
-            self.assertIs(flags[0].toPython(), adjustable)
-            self.assertEqual(set(self.g.objects(rdf_parameter, CD.hasSource)), {
-                EX['l7-source-package'], EX['l7-source-nist-anova'], EX['l7-source-scipy-anova']
-            })
-        self.assertEqual([p['key'] for p in parameters if p['adjustable']], ['withinScale'])
-        self.assertIn((EX['l7-intro-chart-06'], RDF.type, CD.ChartDefinition), self.g)
-        self.assertEqual(set(self.g.objects(EX['l7-intro-chart-06'], CD.chartType)), {CD.DotPlot})
+    def test_spread_demo_follows_static_panels(self):
+        static, lab = self.scene(2), self.scene('-spread-lab')
+        for scene in (static, lab):
+            media, = [b for b in scene['blocks'] if b['kind'] == 'media-reference'
+                      and b['mediaType'] == 'image/svg+xml']
+            self.assertEqual(media['uri'], '/chemometrics/anova-spread-panels.svg')
+            self.assertFalse(any(b['kind'] in ('chart', 'math') for b in scene['blocks']))
 
     def test_owned_resources_and_reciprocal_sources(self):
         subjects = {s for c in INTRO for s,p,o in self.ds.graph(c).triples((None,RDF.type,None))}
@@ -228,7 +167,7 @@ class AnovaIntroTests(unittest.TestCase):
                     else:
                         self.assertTrue(all(e.get('term') and e.get('description') for e in blocks[0]['entries']))
                     self.assertTrue(blocks[0]['source'])
-        self.assertEqual(count,18)
+        self.assertEqual(count,17)
 
     def test_narrations_and_visuals(self):
         for number, scene in zip(SCENE_ORDER, self.doc['scenes'], strict=True):

@@ -1,0 +1,32 @@
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-spread-lab .
+  ex:l7-source-package cd:supportsResource ex:l7-step-spread-lab .
+  ex:l7-intro-step-02 cd:usesResource ex:l7-spread-panels .
+  ex:l7-step-spread-lab a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l7-scene-spread-lab ;
+    cd:usesResource ex:l7-spread-heading, ex:l7-spread-panels, ex:l7-spread-takeaway, ex:l7-ref-calculation ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-spread> {
+  ex:l7-spread-lab-reference-item a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-calculation ; cd:authoredResource true .
+  ex:l7-scene02 cd:hasSceneItem ex:l7-spread-panels-item .
+  ex:l7-spread-panels-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-spread-panels ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l7-scene-spread-lab a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-02 ;
+    cd:hasSceneItem ex:l7-spread-lab-heading-item, ex:l7-spread-lab-media-item, ex:l7-spread-lab-takeaway-item, ex:l7-spread-lab-reference-item ;
+    cd:narration "Change the scatter of each group independently. First read the total sample variance and the three means and sample variances of y. Next average the three group variances. Then compare them with the sample variance of the three group means. Finally divide the variance of the means by the average within-group variance. Try reducing the spread of one group while leaving the other two unchanged. The centres stay fixed. The ratio is descriptive; the formal F statistic later accounts for group size and degrees of freedom."@en ; cd:authoredResource true .
+  ex:l7-spread-lab-heading-item a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:l7-spread-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:l7-spread-lab-media-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:l7-spread-panels ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:l7-spread-lab-takeaway-item a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:l7-spread-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-spread> {
+  ex:l7-spread-heading a cd:Interpretation ; skos:prefLabel "Which spread matters for separating groups?"@en ; cd:authoredResource true .
+  ex:l7-spread-takeaway a cd:Interpretation ; cd:body "Compare the spread of the group means with the scatter within groups. All calculations use y; x only helps display the point clouds."@en ; cd:authoredResource true .
+  ex:l7-spread-panels a cd:MediaAsset ; cd:uri "/chemometrics/anova-spread-panels.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Three scatter plots on identical axes. Panel A looks like one overlapping cloud; B shows partly separated clusters; C shows three clearly separated clusters."@en ; cd:authoredResource true .
+}

@@ -1,6 +1,6 @@
 # Level 7 ANOVA: didactic and visual review
 
-The local review path contains 49 slides. The experiment, tables and other
+The local review path contains 50 slides. The experiment, tables and other
 evidence use the same local authoring frame. Formula and comparable-table tabs
 operate only in the interactive view; the underlying resources remain
 available in static reading order. The original N1 reference and Level 6
@@ -47,3 +47,6 @@ perspective: what question the calculation answers, what each key operation
 does, and whether a worked substitution connects the formula to its result.
 The same-slide symbol legend complements these explanations.
 No production navigation or publication target is part of this review.
+
+
+The opening comparison uses three static scatter plots with identical centres and axes. Ask the audience to estimate how many clusters are visible before explaining that each panel contains three groups. The next slide starts with total and individual sample variances and means, then reveals the average within-group variance, the sample variance of the group means and their descriptive ratio. The plot shows x and y, while the calculations use y only. Browser checks covered both themes, three independent sliders, all four stages and a zero denominator.

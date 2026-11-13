@@ -633,7 +633,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "Different means do not settle the question"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "How many groups can you see in A, B and C?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
@@ -1153,7 +1153,7 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/body> "Do three sample means settle the decision? No. The same separation is less persuasive when within-group scatter is larger."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/body> "What changes across the panels: the positions of the groups or the spread of the points?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .

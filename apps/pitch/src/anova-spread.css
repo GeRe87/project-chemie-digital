@@ -1,0 +1,18 @@
+.reveal .pcd-spread-lab { width: 100%; color: var(--pcd-foreground); }
+.reveal .pcd-spread-controls { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
+.reveal .pcd-spread-controls label { display:grid; gap:.25em; border-inline-start:4px solid; padding:.22em .5em; font-size:.7em; font-weight:700; }
+.reveal .pcd-spread-controls input { width:100%; }
+.reveal .pcd-spread-body { display:grid; grid-template-columns: 1fr 1fr; gap:.7rem; align-items:start; }
+.reveal .pcd-spread-body svg { width:100%; max-height:42dvh; }
+.reveal .pcd-spread-stats { font-size:.63em; font-variant-numeric:tabular-nums; }
+.reveal .pcd-spread-stats table { width:100%; }
+.reveal .pcd-spread-stats :is(th,td) { padding:.24em .45em; }
+.reveal .pcd-spread-stat { display:flex; justify-content:space-between; gap:.5em; padding:.25em .4em; border-bottom:1px solid var(--pcd-border); }
+.reveal .pcd-spread-stat:last-child { background:var(--pcd-surface); }
+.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] { width:100%; max-width:none; }
+.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] :is(img,svg) { width:100%; max-width:none; max-height:42dvh; }
+@media(max-width:700px) and (orientation:portrait){
+ .reveal .pcd-spread-lab { max-height:54dvh; overflow:auto; }
+ .reveal .pcd-spread-body { grid-template-columns:1fr; }
+ .reveal .pcd-spread-body svg { max-height:24dvh; }
+}
