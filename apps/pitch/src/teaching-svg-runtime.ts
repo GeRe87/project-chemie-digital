@@ -15,6 +15,7 @@ const attributes = new Set(["viewBox", "x", "y", "x1", "x2", "y1", "y2", "cx", "
 
 export function safeSvgAttribute(name: string, value: string): boolean {
   if (name === "data-pair-reveal") return value === "true";
+  if (name === "data-pair-points") return value === "selected" || value === "context";
   if (!attributes.has(name) || /url\s*\(|[<>\\]|javascript:|https?:|data:/iu.test(value)) return false;
   if (name === "fill" || name === "stroke") return /^(none|currentColor|#[a-f\d]{3,8}|var\(--pcd-[a-z\d-]+\))$/iu.test(value);
   return true;

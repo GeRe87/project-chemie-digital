@@ -48,3 +48,10 @@
 html:not(.print-pdf) .reveal figure:not([data-pair-revealed="true"]) [data-pair-reveal] {
   visibility: hidden;
 }
+
+.reveal figure[data-pair-revealed="true"] [data-pair-points="context"] {
+  opacity: .34;
+}
+.reveal figure[data-pair-revealed="true"] [data-pair-points="selected"] > circle {
+  opacity: .86;
+}
