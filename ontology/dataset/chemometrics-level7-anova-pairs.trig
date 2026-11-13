@@ -28,3 +28,31 @@
   ex:l7-pair-limits-item-3 a cd:SceneItem ; cd:position 3 ; cd:language "en" ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:selectsResource ex:l7-pair-limits-end ; cd:authoredResource true .
   ex:l7-pair-limits-item-4 a cd:SceneItem ; cd:position 4 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-multiple ; cd:authoredResource true .
 }
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-pair-perspectives .
+  ex:l7-step-pair-perspectives a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l7-scene-pair-perspectives ;
+    cd:usesResource ex:l7-perspectives-heading, ex:l7-perspectives-list, ex:l7-perspectives-takeaway, ex:l7-ref-multiple ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-step-pair-perspectives .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-pairs> {
+  ex:l7-perspectives-heading a cd:Interpretation ; skos:prefLabel "Two methods or all ten?"@en ; cd:authoredResource true .
+  ex:l7-perspectives-list a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l7-perspectives-pair, ex:l7-perspectives-global ; cd:authoredResource true .
+  ex:l7-perspectives-pair a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "Two groups · t-test"@en ;
+    cd:body "Do C and G have the same population mean recovery? Use the observations from those two methods. If testing several pairs, define the family and adjust for multiple comparisons."@en ; cd:authoredResource true .
+  ex:l7-perspectives-global a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "All groups · one-way ANOVA"@en ;
+    cd:body "Can all ten groups share a common population mean recovery? Compare the differences among group means with the scatter within groups. A significant result indicates that at least one mean differs."@en ; cd:authoredResource true .
+  ex:l7-perspectives-takeaway a cd:Interpretation ; cd:body "Choose the test by the question: one specific pair or equality of all group means."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-pairs> {
+  ex:l7-scene-pair-perspectives a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-03 ;
+    cd:hasSceneItem ex:l7-perspectives-item-1, ex:l7-perspectives-item-2, ex:l7-perspectives-item-3, ex:l7-perspectives-item-4 ;
+    cd:narration "Return to the recovery data. If we care specifically about C and G, we ask whether those two population means differ. The t-test uses repeated preparations from those two methods. If we instead ask whether a single mean can describe all ten methods, the omnibus ANOVA compares variation among all group means with variation within the groups. A significant F test says at least one mean differs, while identifying the methods requires follow-up comparisons. Here the pairwise result was significant and the global result was inconclusive. The test follows the scientific question."@en ; cd:authoredResource true .
+  ex:l7-perspectives-item-1 a cd:SceneItem ; cd:position 1 ; cd:language "en" ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-perspectives-heading ; cd:authoredResource true .
+  ex:l7-perspectives-item-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:selectsResource ex:l7-perspectives-list ; cd:authoredResource true .
+  ex:l7-perspectives-item-3 a cd:SceneItem ; cd:position 3 ; cd:language "en" ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:selectsResource ex:l7-perspectives-takeaway ; cd:authoredResource true .
+  ex:l7-perspectives-item-4 a cd:SceneItem ; cd:position 4 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-multiple ; cd:authoredResource true .
+}

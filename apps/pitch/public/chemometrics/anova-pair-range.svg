@@ -167,9 +167,9 @@
 <text x="936" y="412" fill="var(--pcd-foreground)" text-anchor="middle" font-size="19" font-weight="400">95</text>
 <text x="570" y="444" fill="var(--pcd-foreground)" text-anchor="middle" font-size="21" font-weight="400">Recovery (%)  ·  Vertical marks show group means</text>
 <g data-pair-reveal="true">
-<rect x="72" y="99" width="895" height="30" rx="8" fill="none" stroke="var(--pcd-accent)" stroke-width="2.5"/>
+<rect x="72" y="99" width="895" height="30" rx="8" fill="var(--pcd-accent)" fill-opacity=".12" stroke="var(--pcd-accent)" stroke-width="2.5"/>
 <text x="101" y="121" fill="var(--pcd-accent)" text-anchor="middle" font-size="23" font-weight="700">C</text>
-<rect x="72" y="235" width="895" height="30" rx="8" fill="none" stroke="var(--pcd-accent)" stroke-width="2.5"/>
+<rect x="72" y="235" width="895" height="30" rx="8" fill="var(--pcd-accent)" fill-opacity=".12" stroke="var(--pcd-accent)" stroke-width="2.5"/>
 <text x="101" y="257" fill="var(--pcd-accent)" text-anchor="middle" font-size="23" font-weight="700">G</text>
 <rect x="205" y="465" width="355" height="82" rx="10" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
 <text x="382" y="495" fill="var(--pcd-accent)" text-anchor="middle" font-size="20" font-weight="700">C vs G · Bonferroni (45 pairs)</text>
