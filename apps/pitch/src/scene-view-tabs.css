@@ -41,8 +41,18 @@ section[data-scene-view-tabs="true"] .experiment-panels figcaption { display: fl
 section[data-scene-view-tabs="true"] .experiment-legend-entry { max-width: 100%; }
 section[data-scene-view-tabs="true"] .experiment-readouts [data-readout-kind="text"] { grid-column: 1 / -1; }
 @media screen {
-  html:not(.print-pdf) .reveal .symbol-legend-disclosure :is(.authored-symbol-definitions,.authored-symbol-conventions) { font-size: 22px; }
-  html:not(.print-pdf) .reveal .symbol-legend-disclosure .definition-list-term:has(+ .definition-list-description .authored-symbol-definitions) { font-size: 22px; color: var(--pcd-foreground); }
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure :is(.authored-symbol-definitions,.authored-symbol-conventions) {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure .authored-symbol-definition {
+    gap: .4em;
+    padding-block: .15em;
+  }
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure .authored-symbol-definition > :is(dt,dd) {
+    line-height: 1.2;
+  }
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure .definition-list-term:has(+ .definition-list-description .authored-symbol-definitions) { font-size: 18px; color: var(--pcd-foreground); }
   section[data-scene-view-tabs="true"] .symbol-legend-disclosure[open] { max-height: none; overflow: visible; }
   section[data-scene-view-tabs="true"] .symbol-legend-disclosure > .definition-list { display: grid; }
 }

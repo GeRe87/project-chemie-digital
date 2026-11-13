@@ -527,7 +527,16 @@ body .reveal .slides section[data-composition="learning-stage"][data-composition
 .symbol-legend-disclosure > summary::after { content:" ▸"; }
 .symbol-legend-disclosure[open] > summary::after { content:" ▾"; }
 .symbol-legend-disclosure > summary:focus-visible { outline:2px solid currentColor;outline-offset:3px; }
-.symbol-legend-disclosure > .definition-list { grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr))!important;margin-top:.5rem; }
+.symbol-legend-disclosure > .definition-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr))!important;margin-top:.5rem; }
+.reveal .symbol-legend-disclosure > .definition-list > .definition-list-entry:has(.authored-symbol-definitions) {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+@media screen {
+  html:not(.print-pdf) .reveal .symbol-legend-disclosure .authored-symbol-definitions {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  }
+}
 .symbol-legend-disclosure[open] { max-height:22rem;overflow:auto; }
 /* A glossary is not a deck of presentation cards. Keep all authored definitions
    while avoiding card padding, paragraph margins and stretched descriptions. */

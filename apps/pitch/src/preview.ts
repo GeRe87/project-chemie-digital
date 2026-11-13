@@ -287,7 +287,10 @@ function appendBlock(
   }
   if (block.kind === "definition-list") {
     const list = definitionCollection ?? dom.createElement("dl");
-    if (block.entries.every(entry => entry.symbol)) list.setAttribute("data-symbol-legend", "true");
+    const isSymbolLegend = block.entries.length > 0 && (block.entries.every(entry => entry.symbol)
+      || block.source.some(ref => ref.relationPath === "cd:latex")
+        && block.source.some(ref => ref.relationPath === "dct:hasPart"));
+    if (isSymbolLegend) list.setAttribute("data-symbol-legend", "true");
     if (!definitionCollection) {
       list.className = "definition-list";
       blockPresentationAttributes(list, block, compositionDensity, compositionPlacement);
@@ -401,8 +404,7 @@ function appendBlock(
       list.appendChild(entryShell);
     });
     if (!definitionCollection) {
-      if (block.entries.length && (block.entries.every(entry => entry.symbol)
-        || block.source.some(ref => ref.relationPath === "cd:latex") && block.source.some(ref => ref.relationPath === "dct:hasPart"))) {
+      if (isSymbolLegend) {
         const disclosure = dom.createElement("details");
         disclosure.className = "symbol-legend-disclosure";
         disclosure.setAttribute("data-presentation-interactive", "true");

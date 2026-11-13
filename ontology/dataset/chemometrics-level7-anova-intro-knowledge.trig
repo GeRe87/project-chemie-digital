@@ -1057,12 +1057,18 @@ The formula describes the original synthetic river-water preparations."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/DefinitionListEntry> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Symbols, units and conventions"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/body> """- **i, j; n**: Compared methods and their sample sizes.
-- **ȳ; s²; sₚ²**: Mean recovery (%), sample and pooled variances (percentage points squared). **sₚ** is the pooled standard deviation.
-- **ν; tᵢⱼ; Tν**: Degrees of freedom, observed standardized difference, and Student t under equal means. **Pr** is the tail probability. Absolute bars and doubling give both tails.
-- **p; p adj; m**: Raw p-value, adjusted p-value, and number of planned pairs. The minimum caps the adjusted value at 1.
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/body> """- **$i,j$**: Indices of the two methods.
+- **$n_i,n_j$**: Sample sizes (six each).
+- **$\\bar y_i,\\bar y_j$**: Mean recoveries (%).
+- **$s_i^2,s_j^2$**: Sample variances (pp²).
+- **$s_p^2,s_p$**: Pooled variance (pp²) and standard deviation (pp).
+- **$\\nu,T_\\nu$**: Degrees of freedom (10) and null Student t variable.
+- **$t_{ij}$**: Observed difference in standard errors.
+- **$|t_{ij}|$**: Absolute value of the observed t statistic.
+- **$\\Pr,p_{ij}$**: Tail probability and raw p-value (twice the upper tail).
+- **$m,p_{\\mathrm{adj},ij}$**: Number of pairs (3) and adjusted p-value, capped at 1.
 
-Here each pair uses six preparations per method and ten degrees of freedom."""@en .
+pp means percentage points. Under the pairwise null the two population means are equal."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
