@@ -20,7 +20,7 @@ def review_scene(number):
         return EX[f'l7-scene{number}']
     return EX[exceptions.get(number, f'l7-scene{number:02d}')]
 SCENE_ORDER = (
-    1, 2, '-spread-lab', *range(3, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
+    1, 2, '-spread-lab', 3, '-pair-limits', *range(4, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
     '26-adjusted', *range(27, 41), '40-example', 41, '41-example', 45, 46, 47,
 )
 INTRO = {URIRef(GB + s) for s in (

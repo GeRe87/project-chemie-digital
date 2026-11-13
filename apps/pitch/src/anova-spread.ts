@@ -83,10 +83,15 @@ export function mountAnovaSpreadLab(root: HTMLElement) {
       ["Sample variance of the three group means",f(between)],
       ["Variance of means ÷ average group variance",within===0?"Undefined (within = 0)":f(between/within)],
     ];
-    for(const [label,value] of summaries.slice(0,stage)){
+    for(const [index,[label,value]] of summaries.slice(0,stage).entries()){
       const row=document.createElement("div");row.className="pcd-spread-stat";
       const number=document.createElement("strong");number.textContent=value!;
-      row.append(label!,number);stats.append(row);
+      const step=document.createElement("span");
+      step.className="pcd-spread-stat-step";
+      step.textContent=String(index+1);
+      step.setAttribute("aria-hidden","true");
+      row.append(step,label!,number);
+      stats.append(row);
     }
   };
   sliders.forEach(input=>input.addEventListener("input",render));

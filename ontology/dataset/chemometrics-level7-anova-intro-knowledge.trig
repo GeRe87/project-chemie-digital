@@ -127,7 +127,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Definition> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/body> "Why not three uncontrolled t-tests? Separate pairwise decisions are not one global population-means question."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/body> "At a familywise level of 0.05, A vs B and B vs C show evidence of a difference. A vs C remains inconclusive."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Definition> .
@@ -549,12 +549,12 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/MathExpression> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/body> "Count unordered method pairs"@en .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/formulaLabel> "Count unordered method pairs"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/body> "Two-sided pooled t-tests and Bonferroni adjustment"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/formulaLabel> "Two-sided pooled t-tests and Bonferroni adjustment"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/latex> "m=\\frac{k(k-1)}{2}=3\\quad(k=3)" .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> <https://w3id.org/project-chemie-digital/ontology/latex> "\\begin{gathered}s_p^2=\\frac{(n_i-1)s_i^2+(n_j-1)s_j^2}{n_i+n_j-2},\\quad \\nu=n_i+n_j-2\\\\ t_{ij}=\\frac{\\bar y_i-\\bar y_j}{s_p\\sqrt{1/n_i+1/n_j}}\\\\ p_{ij}=2\\Pr(T_\\nu\\ge |t_{ij}|),\\quad p_{\\mathrm{adj},ij}=\\min(1,m p_{ij}),\\quad m=3\\end{gathered}" .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-04> <http://purl.org/dc/terms/hasPart> <https://w3id.org/project-chemie-digital/resource/l7-intro-legend-04> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-04> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-04> <http://purl.org/dc/terms/references> <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> .
@@ -1057,12 +1057,12 @@ The formula describes the original synthetic river-water preparations."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/DefinitionListEntry> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Symbols, units and conventions"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/body> """- **m**: Number of unordered pairs of groups, a count.
-- **k**: Number of groups; three methods here.
-- **−; juxtaposition; parentheses**: Subtraction; multiplication of adjacent factors; grouping of operations.
-- **fraction bar; =**: Division and equality. Dividing by two removes double counting of reversed pairs.
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/body> """- **i, j; n**: Compared methods and their sample sizes.
+- **ȳ; s²; sₚ²**: Mean recovery (%), sample and pooled variances (percentage points squared). **sₚ** is the pooled standard deviation.
+- **ν; tᵢⱼ; Tν**: Degrees of freedom, observed standardized difference, and Student t under equal means. **Pr** is the tail probability. Absolute bars and doubling give both tails.
+- **p; p adj; m**: Raw p-value, adjusted p-value, and number of planned pairs. The minimum caps the adjusted value at 1.
 
-Counts are dimensionless. This is a counting identity, not a formula for the familywise false-positive probability. Shared-group pairwise tests are not generally independent."""@en .
+Here each pair uses six preparations per method and ten degrees of freedom."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-symbols-03> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
@@ -1158,7 +1158,7 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/body> "Why not three uncontrolled t-tests? Separate pairwise decisions are not one global population-means question."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/body> "At a familywise level of 0.05, A vs B and B vs C show evidence of a difference. A vs C remains inconclusive."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .

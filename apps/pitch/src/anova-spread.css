@@ -7,12 +7,31 @@
 .reveal .pcd-spread-stats { font-size:.63em; font-variant-numeric:tabular-nums; }
 .reveal .pcd-spread-stats table { width:100%; }
 .reveal .pcd-spread-stats :is(th,td) { padding:.24em .45em; }
-.reveal .pcd-spread-stat { display:flex; justify-content:space-between; gap:.5em; padding:.25em .4em; border-bottom:1px solid var(--pcd-border); }
-.reveal .pcd-spread-stat:last-child { background:var(--pcd-surface); }
+.reveal .pcd-spread-stat {
+ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:.55em;
+ position:relative; margin-top:.45em; padding:.46em .58em; font-size:1.06em;
+ border:1px solid var(--pcd-border); border-inline-start:3px solid var(--pcd-accent);
+ border-radius:.32em; background:var(--pcd-surface);
+}
+.reveal .pcd-spread-stat + .pcd-spread-stat::before {
+ content:""; position:absolute; top:-.45em; left:1em; height:.45em; border-left:2px solid var(--pcd-accent);
+}
+.reveal .pcd-spread-stat-step { color:var(--pcd-accent); font-weight:800; }
+.reveal .pcd-spread-stat strong { color:var(--pcd-accent); font-size:1.2em; }
+.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-matrix.svg"] :is(svg,img) { width:100%; max-width:none; max-height:48dvh; }
+
 .reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] { width:100%; max-width:none; }
 .reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] :is(img,svg) { width:100%; max-width:none; max-height:42dvh; }
 @media(max-width:700px) and (orientation:portrait){
  .reveal .pcd-spread-lab { max-height:54dvh; overflow:auto; }
  .reveal .pcd-spread-body { grid-template-columns:1fr; }
  .reveal .pcd-spread-body svg { max-height:24dvh; }
+}
+
+.reveal #pitch-slides section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .katex-display {
+  margin: .5em 0;
+  font-size: .84em;
+}
+.reveal #pitch-slides section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .definition-list {
+  font-size: .86em;
 }

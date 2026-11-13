@@ -1211,67 +1211,67 @@
   ex:l7-source-package cd:supportsResource ex:l7-next-47-item-3 .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
-  ex:l7-intro-step-14 a cd:PathStep ; cd:position 15 ; cd:usesScene ex:l7-scene14 ; cd:usesResource ex:l7-next-14-heading, ex:level7-anova-design, ex:l7-next-14-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-14 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l7-scene14 ; cd:usesResource ex:l7-next-14-heading, ex:level7-anova-design, ex:l7-next-14-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-14 .
-  ex:l7-intro-step-15 a cd:PathStep ; cd:position 16 ; cd:usesScene ex:l7-scene15 ; cd:usesResource ex:l7-next-15-heading, ex:l7-next-15-table, ex:l7-next-15-takeaway, ex:l7-teaching-15-table-b, ex:l7-teaching-15-table-c ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-15 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l7-scene15 ; cd:usesResource ex:l7-next-15-heading, ex:l7-next-15-table, ex:l7-next-15-takeaway, ex:l7-teaching-15-table-b, ex:l7-teaching-15-table-c ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-15 .
-  ex:l7-intro-step-16 a cd:PathStep ; cd:position 17 ; cd:usesScene ex:l7-scene16 ; cd:usesResource ex:l7-next-16-heading, ex:l7-next-16-table, ex:l7-next-16-takeaway, ex:l7-teaching-between ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-16 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l7-scene16 ; cd:usesResource ex:l7-next-16-heading, ex:l7-next-16-table, ex:l7-next-16-takeaway, ex:l7-teaching-between ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-16 .
-  ex:l7-intro-step-17 a cd:PathStep ; cd:position 18 ; cd:usesScene ex:l7-scene17 ; cd:usesResource ex:l7-next-17-heading, ex:level7-anova-decomposition, ex:l7-next-17-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-17 a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l7-scene17 ; cd:usesResource ex:l7-next-17-heading, ex:level7-anova-decomposition, ex:l7-next-17-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-17 .
-  ex:l7-intro-step-18 a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l7-scene18 ; cd:usesResource ex:l7-next-18-heading, ex:l7-next-18-table, ex:l7-next-18-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-18 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l7-scene18 ; cd:usesResource ex:l7-next-18-heading, ex:l7-next-18-table, ex:l7-next-18-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-18 .
-  ex:l7-intro-step-19 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l7-continuation-scene19 ; cd:usesResource ex:l7-next-19-heading, ex:l7-chart-19, ex:l7-next-19-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-19 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l7-continuation-scene19 ; cd:usesResource ex:l7-next-19-heading, ex:l7-chart-19, ex:l7-next-19-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-19 .
-  ex:l7-intro-step-20 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l7-scene20 ; cd:usesResource ex:l7-next-20-heading, ex:level7-anova-visual-20, ex:l7-next-20-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-20 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l7-scene20 ; cd:usesResource ex:l7-next-20-heading, ex:level7-anova-visual-20, ex:l7-next-20-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-20 .
-  ex:l7-intro-step-21 a cd:PathStep ; cd:position 23 ; cd:usesScene ex:l7-scene21 ; cd:usesResource ex:l7-next-21-heading, ex:l7-next-21-visual, ex:l7-next-21-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-21 a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l7-scene21 ; cd:usesResource ex:l7-next-21-heading, ex:l7-next-21-visual, ex:l7-next-21-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-21 .
-  ex:l7-intro-step-22 a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l7-scene22 ; cd:usesResource ex:l7-next-22-heading, ex:l7-next-22-visual, ex:l7-next-22-formula, ex:l7-next-22-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-22 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l7-scene22 ; cd:usesResource ex:l7-next-22-heading, ex:l7-next-22-visual, ex:l7-next-22-formula, ex:l7-next-22-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-22 .
-  ex:l7-intro-step-23 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l7-scene23 ; cd:usesResource ex:l7-next-23-heading, ex:level7-anova-visual-23, ex:l7-next-23-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-23 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l7-scene23 ; cd:usesResource ex:l7-next-23-heading, ex:level7-anova-visual-23, ex:l7-next-23-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-23 .
-  ex:l7-intro-step-24 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l7-scene24 ; cd:usesResource ex:l7-next-24-heading, ex:level7-anova-visual-24, ex:l7-next-24-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-24 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l7-scene24 ; cd:usesResource ex:l7-next-24-heading, ex:level7-anova-visual-24, ex:l7-next-24-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-24 .
-  ex:l7-intro-step-25 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l7-scene25 ; cd:usesResource ex:l7-next-25-heading, ex:level7-anova-visual-25, ex:l7-next-25-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-25 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l7-scene25 ; cd:usesResource ex:l7-next-25-heading, ex:level7-anova-visual-25, ex:l7-next-25-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-25 .
-  ex:l7-intro-step-26 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l7-scene26 ; cd:usesResource ex:l7-next-26-heading, ex:l7-next-26-table, ex:l7-next-26-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-26 a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l7-scene26 ; cd:usesResource ex:l7-next-26-heading, ex:l7-next-26-table, ex:l7-next-26-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-26 .
-  ex:l7-intro-step-27 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l7-scene27 ; cd:usesResource ex:l7-next-27-heading, ex:l7-next-27-visual, ex:l7-next-27-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-27 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l7-scene27 ; cd:usesResource ex:l7-next-27-heading, ex:l7-next-27-visual, ex:l7-next-27-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-27 .
-  ex:l7-intro-step-28 a cd:PathStep ; cd:position 32 ; cd:usesScene ex:l7-scene28 ; cd:usesResource ex:l7-next-28-heading, ex:level7-anova-visual-28, ex:l7-next-28-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-28 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l7-scene28 ; cd:usesResource ex:l7-next-28-heading, ex:level7-anova-visual-28, ex:l7-next-28-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-28 .
-  ex:l7-intro-step-29 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l7-scene29 ; cd:usesResource ex:l7-next-29-heading, ex:l7-next-29-visual, ex:l7-next-29-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-29 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l7-scene29 ; cd:usesResource ex:l7-next-29-heading, ex:l7-next-29-visual, ex:l7-next-29-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-29 .
-  ex:l7-intro-step-30 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l7-scene30 ; cd:usesResource ex:l7-next-30-heading, ex:l7-next-30-table, ex:l7-next-30-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-30 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l7-scene30 ; cd:usesResource ex:l7-next-30-heading, ex:l7-next-30-table, ex:l7-next-30-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-30 .
-  ex:l7-intro-step-31 a cd:PathStep ; cd:position 35 ; cd:usesScene ex:l7-scene31 ; cd:usesResource ex:l7-next-31-heading, ex:l7-next-31-table, ex:l7-next-31-takeaway, ex:l7-teaching-marginal ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-31 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l7-scene31 ; cd:usesResource ex:l7-next-31-heading, ex:l7-next-31-table, ex:l7-next-31-takeaway, ex:l7-teaching-marginal ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-31 .
-  ex:l7-intro-step-32 a cd:PathStep ; cd:position 36 ; cd:usesScene ex:l7-scene32 ; cd:usesResource ex:l7-next-32-heading, ex:l7-next-32-table, ex:l7-next-32-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-32 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l7-scene32 ; cd:usesResource ex:l7-next-32-heading, ex:l7-next-32-table, ex:l7-next-32-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-32 .
-  ex:l7-intro-step-33 a cd:PathStep ; cd:position 37 ; cd:usesScene ex:l7-scene33 ; cd:usesResource ex:l7-next-33-heading, ex:l7-next-33-visual, ex:l7-next-33-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-33 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l7-scene33 ; cd:usesResource ex:l7-next-33-heading, ex:l7-next-33-visual, ex:l7-next-33-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-33 .
-  ex:l7-intro-step-34 a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l7-scene34 ; cd:usesResource ex:l7-next-34-heading, ex:l7-next-34-visual, ex:l7-next-34-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-34 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l7-scene34 ; cd:usesResource ex:l7-next-34-heading, ex:l7-next-34-visual, ex:l7-next-34-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-34 .
-  ex:l7-intro-step-35 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l7-scene35 ; cd:usesResource ex:l7-next-35-heading, ex:l7-next-35-cards, ex:l7-next-35-formula, ex:l7-next-35-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-35 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l7-scene35 ; cd:usesResource ex:l7-next-35-heading, ex:l7-next-35-cards, ex:l7-next-35-formula, ex:l7-next-35-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-35 .
-  ex:l7-intro-step-36 a cd:PathStep ; cd:position 40 ; cd:usesScene ex:l7-scene36 ; cd:usesResource ex:l7-next-36-heading, ex:l7-next-36-table, ex:l7-next-36-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-36 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l7-scene36 ; cd:usesResource ex:l7-next-36-heading, ex:l7-next-36-table, ex:l7-next-36-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-36 .
-  ex:l7-intro-step-37 a cd:PathStep ; cd:position 41 ; cd:usesScene ex:l7-scene37 ; cd:usesResource ex:l7-next-37-heading, ex:l7-next-37-visual, ex:l7-next-37-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-37 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l7-scene37 ; cd:usesResource ex:l7-next-37-heading, ex:l7-next-37-visual, ex:l7-next-37-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-37 .
-  ex:l7-intro-step-38 a cd:PathStep ; cd:position 42 ; cd:usesScene ex:l7-scene38 ; cd:usesResource ex:l7-next-38-heading, ex:l7-next-38-table, ex:l7-next-38-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-38 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l7-scene38 ; cd:usesResource ex:l7-next-38-heading, ex:l7-next-38-table, ex:l7-next-38-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-38 .
-  ex:l7-intro-step-39 a cd:PathStep ; cd:position 43 ; cd:usesScene ex:l7-scene39 ; cd:usesResource ex:l7-next-39-heading, ex:level7-anova-visual-39, ex:l7-next-39-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-39 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l7-scene39 ; cd:usesResource ex:l7-next-39-heading, ex:level7-anova-visual-39, ex:l7-next-39-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-39 .
-  ex:l7-intro-step-40 a cd:PathStep ; cd:position 44 ; cd:usesScene ex:l7-scene40 ; cd:usesResource ex:l7-next-40-heading, ex:level7-anova-welch-groups, ex:l7-next-40-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-40 a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l7-scene40 ; cd:usesResource ex:l7-next-40-heading, ex:level7-anova-welch-groups, ex:l7-next-40-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-40 .
-  ex:l7-intro-step-41 a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l7-scene41 ; cd:usesResource ex:l7-next-41-heading, ex:l7-next-41-table, ex:l7-next-41-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-41 a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l7-scene41 ; cd:usesResource ex:l7-next-41-heading, ex:l7-next-41-table, ex:l7-next-41-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-41 .
-  ex:l7-intro-step-45 a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l7-scene45 ; cd:usesResource ex:l7-next-45-heading, ex:l7-next-45-diagram, ex:l7-next-45-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-45 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l7-scene45 ; cd:usesResource ex:l7-next-45-heading, ex:l7-next-45-diagram, ex:l7-next-45-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-45 .
-  ex:l7-intro-step-46 a cd:PathStep ; cd:position 49 ; cd:usesScene ex:l7-scene46 ; cd:usesResource ex:l7-next-46-heading, ex:l7-next-46-table, ex:l7-next-46-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-46 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l7-scene46 ; cd:usesResource ex:l7-next-46-heading, ex:l7-next-46-table, ex:l7-next-46-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-46 .
-  ex:l7-intro-step-47 a cd:PathStep ; cd:position 50 ; cd:usesScene ex:l7-scene47 ; cd:usesResource ex:l7-next-47-heading, ex:level7-anova-model-checklist, ex:l7-next-47-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-47 a cd:PathStep ; cd:position 51 ; cd:usesScene ex:l7-scene47 ; cd:usesResource ex:l7-next-47-heading, ex:level7-anova-model-checklist, ex:l7-next-47-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-47 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-14 .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-15 .
@@ -1706,19 +1706,19 @@
   ex:l7-source-package cd:supportsResource ex:l7-scene42-model .
 }
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
-  ex:l7-intro-step-17-calc a cd:PathStep ; cd:position 19 ; cd:usesScene ex:l7-scene17-calc ; cd:usesResource ex:l7-teaching-17-calc-heading, ex:level7-anova-test-chain, ex:l7-teaching-test-chain, ex:l7-teaching-17-calc-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-17-calc a cd:PathStep ; cd:position 20 ; cd:usesScene ex:l7-scene17-calc ; cd:usesResource ex:l7-teaching-17-calc-heading, ex:level7-anova-test-chain, ex:l7-teaching-test-chain, ex:l7-teaching-17-calc-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-17-calc .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-17-calc .
-  ex:l7-intro-step-22-question a cd:PathStep ; cd:position 24 ; cd:usesScene ex:l7-scene22-question ; cd:usesResource ex:l7-teaching-22-question-heading, ex:level7-anova-explained-question, ex:l7-teaching-22-question-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-22-question a cd:PathStep ; cd:position 25 ; cd:usesScene ex:l7-scene22-question ; cd:usesResource ex:l7-teaching-22-question-heading, ex:level7-anova-explained-question, ex:l7-teaching-22-question-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-22-question .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-22-question .
-  ex:l7-intro-step-26-adjusted a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l7-scene26-adjusted ; cd:usesResource ex:l7-teaching-26-adjusted-heading, ex:level7-anova-tukey-range, ex:l7-teaching-tukey-adjusted, ex:l7-teaching-26-adjusted-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-26-adjusted a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l7-scene26-adjusted ; cd:usesResource ex:l7-teaching-26-adjusted-heading, ex:level7-anova-tukey-range, ex:l7-teaching-tukey-adjusted, ex:l7-teaching-26-adjusted-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-26-adjusted .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-26-adjusted .
-  ex:l7-intro-step-40-example a cd:PathStep ; cd:position 45 ; cd:usesScene ex:l7-scene40-example ; cd:usesResource ex:l7-teaching-40-example-heading, ex:level7-anova-welch-weights, ex:l7-teaching-welch-formula, ex:l7-teaching-40-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-40-example a cd:PathStep ; cd:position 46 ; cd:usesScene ex:l7-scene40-example ; cd:usesResource ex:l7-teaching-40-example-heading, ex:level7-anova-welch-weights, ex:l7-teaching-welch-formula, ex:l7-teaching-40-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-40-example .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-40-example .
-  ex:l7-intro-step-41-example a cd:PathStep ; cd:position 47 ; cd:usesScene ex:l7-scene41-example ; cd:usesResource ex:l7-teaching-41-example-heading, ex:level7-anova-kw-rank-sums, ex:l7-teaching-kw-formula, ex:l7-teaching-41-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-intro-step-41-example a cd:PathStep ; cd:position 48 ; cd:usesScene ex:l7-scene41-example ; cd:usesResource ex:l7-teaching-41-example-heading, ex:level7-anova-kw-rank-sums, ex:l7-teaching-kw-formula, ex:l7-teaching-41-example-conclusion ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-intro-step-41-example .
   ex:l7-source-package cd:supportsResource ex:l7-intro-step-41-example .
 }
