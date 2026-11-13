@@ -6,28 +6,25 @@
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-pair-limits .
   ex:l7-step-pair-limits a cd:PathStep ; cd:position 5 ; cd:usesScene ex:l7-scene-pair-limits ;
-    cd:usesResource ex:l7-pair-limits-heading, ex:l7-pair-limits-list, ex:l7-pair-limits-end, ex:l7-ref-multiple ;
+    cd:usesResource ex:l7-pair-limits-heading, ex:l7-pair-range-visual, ex:l7-pair-limits-end, ex:l7-ref-multiple ;
     cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-source-package cd:supportsResource ex:l7-step-pair-limits .
 }
 <https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-pairs> {
   ex:l7-pair-matrix a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-matrix.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Bonferroni-adjusted p-values for the river-water data: A versus B 0.00187, A versus C 0.746, B versus C 0.000336."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-heading a cd:Interpretation ; skos:prefLabel "What can the corrected pairs tell us?"@en ; cd:authoredResource true .
-  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "Use the omnibus F test for the global means question. Report effect sizes and intervals when the size of a pairwise difference matters."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-list a cd:DefinitionList ; cd:hasDefinitionListEntry ex:l7-pair-limits-1, ex:l7-pair-limits-2, ex:l7-pair-limits-3, ex:l7-pair-limits-4 ; cd:authoredResource true .
-  ex:l7-pair-limits-1 a cd:DefinitionListEntry ; cd:position 1 ; skos:prefLabel "What it controls"@en ; cd:body "For a defined family of valid tests, Bonferroni limits the chance of at least one false positive, even when pairs share a group."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-2 a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "The cost"@en ; cd:body "As the family grows, small differences become harder to detect. Holm is generally less conservative for the same family."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-3 a cd:DefinitionListEntry ; cd:position 3 ; skos:prefLabel "Assumptions still matter"@en ; cd:body "Pooled t-tests assume independent observations and a common variance. Bonferroni cannot repair invalid p-values."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-4 a cd:DefinitionListEntry ; cd:position 4 ; skos:prefLabel "Read the evidence"@en ; cd:body "A vs C is inconclusive, not proof of equality. The matrix does not show how large the differences are."@en ; cd:authoredResource true .
+  ex:l7-pair-limits-heading a cd:Interpretation ; skos:prefLabel "The outer groups differ. Where would you draw the line?"@en ; cd:authoredResource true .
+  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "A vs E gives evidence for one difference. To test whether all five population means are equal, compare all groups in one omnibus F test."@en ; cd:authoredResource true .
+  ex:l7-pair-range-visual a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-range.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Five overlapping groups A to E with mean recoveries of 90 to 94 percent. With six observations per group and all ten pairwise tests in the Bonferroni family, only A versus E crosses 0.05. Every neighboring pair remains inconclusive."@en ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-pairs> {
   ex:l7-scene-pair-limits a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-03 ;
     cd:hasSceneItem ex:l7-pair-limits-item-1, ex:l7-pair-limits-item-2, ex:l7-pair-limits-item-3, ex:l7-pair-limits-item-4 ;
-    cd:narration "Bonferroni works even when pairwise tests share a group. It controls the probability of one or more false rejections in the declared family, provided each underlying test is valid. A larger family requires stronger evidence for each pair, and real but small differences may go undetected. A large adjusted p-value for A versus C does not demonstrate equivalence. To judge practical relevance, look at the difference and its interval. If the question is whether all population means are equal, formulate that global null explicitly and test it with an omnibus F test."@en ;
+    cd:narration "Switch to a teaching example with five methods, six independent preparations per method and equal sample variances. The group means increase from 90 to 94 percent. The family now contains ten pairwise tests. Only A versus E crosses the adjusted threshold of 0.05. Every neighboring comparison is inconclusive, and their observed values overlap. Ask students where they would draw a boundary between methods. A significant contrast between the two endpoints supports a difference for that pair. It does not assign the intermediate groups to categories. The omnibus F test uses all five groups together to test whether their population means are equal. A significant F test still does not identify the pairs or divide the groups into clusters."@en ;
     cd:authoredResource true .
   ex:l7-pair-limits-item-1 a cd:SceneItem ; cd:position 1 ; cd:language "en" ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-pair-limits-heading ; cd:authoredResource true .
-  ex:l7-pair-limits-item-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:selectsResource ex:l7-pair-limits-list ; cd:authoredResource true .
+  ex:l7-pair-limits-item-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-pair-range-visual ; cd:authoredResource true .
   ex:l7-pair-limits-item-3 a cd:SceneItem ; cd:position 3 ; cd:language "en" ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:selectsResource ex:l7-pair-limits-end ; cd:authoredResource true .
   ex:l7-pair-limits-item-4 a cd:SceneItem ; cd:position 4 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-multiple ; cd:authoredResource true .
 }

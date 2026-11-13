@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 410" font-family="Arial, sans-serif">
+<title>Five methods with overlapping recoveries</title>
+<line x1="362" y1="44" x2="638" y2="44" stroke="var(--pcd-accent)" stroke-width="3"/>
+<line x1="362" y1="44" x2="362" y2="58" stroke="var(--pcd-accent)" stroke-width="3"/>
+<line x1="638" y1="44" x2="638" y2="58" stroke="var(--pcd-accent)" stroke-width="3"/>
+<text x="500" y="30" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">A vs E: adjusted p = 0.025</text>
+<text x="110" y="98" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">A</text>
+<line x1="155" y1="91" x2="845" y2="91" stroke="var(--pcd-border)" stroke-width="2"/>
+<circle cx="193.0" cy="91" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="277.5" cy="91" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="362.0" cy="84" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="362.0" cy="98" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="446.5" cy="91" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="531.0" cy="91" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<line x1="362" y1="77" x2="362" y2="105" stroke="var(--pcd-foreground)" stroke-width="3"/>
+<text x="110" y="141" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">B</text>
+<line x1="155" y1="134" x2="845" y2="134" stroke="var(--pcd-border)" stroke-width="2"/>
+<circle cx="262.0" cy="134" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="346.5" cy="134" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="431.0" cy="127" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="431.0" cy="141" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="515.5" cy="134" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="600.0" cy="134" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<line x1="431" y1="120" x2="431" y2="148" stroke="var(--pcd-foreground)" stroke-width="3"/>
+<text x="110" y="184" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">C</text>
+<line x1="155" y1="177" x2="845" y2="177" stroke="var(--pcd-border)" stroke-width="2"/>
+<circle cx="331.0" cy="177" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="415.5" cy="177" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="500.0" cy="170" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="500.0" cy="184" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="584.5" cy="177" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="669.0" cy="177" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<line x1="500" y1="163" x2="500" y2="191" stroke="var(--pcd-foreground)" stroke-width="3"/>
+<text x="110" y="227" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">D</text>
+<line x1="155" y1="220" x2="845" y2="220" stroke="var(--pcd-border)" stroke-width="2"/>
+<circle cx="400.0" cy="220" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="484.5" cy="220" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="569.0" cy="213" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="569.0" cy="227" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="653.5" cy="220" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="738.0" cy="220" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<line x1="569" y1="206" x2="569" y2="234" stroke="var(--pcd-foreground)" stroke-width="3"/>
+<text x="110" y="270" fill="var(--pcd-foreground)" text-anchor="middle" font-size="23">E</text>
+<line x1="155" y1="263" x2="845" y2="263" stroke="var(--pcd-border)" stroke-width="2"/>
+<circle cx="469.0" cy="263" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="553.5" cy="263" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="638.0" cy="256" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="638.0" cy="270" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="722.5" cy="263" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<circle cx="807.0" cy="263" r="5" fill="var(--pcd-accent)" opacity=".62"/>
+<line x1="638" y1="249" x2="638" y2="277" stroke="var(--pcd-foreground)" stroke-width="3"/>
+<line x1="155" y1="297" x2="845" y2="297" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<line x1="224" y1="297" x2="224" y2="305" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<text x="224" y="328" fill="var(--pcd-foreground)" text-anchor="middle" font-size="18">88</text>
+<line x1="362" y1="297" x2="362" y2="305" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<text x="362" y="328" fill="var(--pcd-foreground)" text-anchor="middle" font-size="18">90</text>
+<line x1="500" y1="297" x2="500" y2="305" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<text x="500" y="328" fill="var(--pcd-foreground)" text-anchor="middle" font-size="18">92</text>
+<line x1="638" y1="297" x2="638" y2="305" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<text x="638" y="328" fill="var(--pcd-foreground)" text-anchor="middle" font-size="18">94</text>
+<line x1="776" y1="297" x2="776" y2="305" stroke="var(--pcd-foreground)" stroke-width="2"/>
+<text x="776" y="328" fill="var(--pcd-foreground)" text-anchor="middle" font-size="18">96</text>
+<text x="500" y="354" fill="var(--pcd-foreground)" text-anchor="middle" font-size="21">Recovery (%)</text>
+<text x="500" y="389" fill="var(--pcd-foreground)" text-anchor="middle" font-size="19">Neighbors: adjusted p = 1. Vertical marks show group means.</text>
+</svg>

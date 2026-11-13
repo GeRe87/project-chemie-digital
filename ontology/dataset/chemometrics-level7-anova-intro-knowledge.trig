@@ -127,7 +127,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Definition> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/body> "At a familywise level of 0.05, A vs B and B vs C show evidence of a difference. A vs C remains inconclusive."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/body> "A test family is a set of tests interpreted together. Here it contains A vs B, A vs C, and B vs C."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-definition-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Definition> .
@@ -1164,7 +1164,7 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/body> "At a familywise level of 0.05, A vs B and B vs C show evidence of a difference. A vs C remains inconclusive."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/body> "A test family is a set of tests interpreted together. Here it contains A vs B, A vs C, and B vs C."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
