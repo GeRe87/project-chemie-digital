@@ -13,15 +13,15 @@
 <https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-pairs> {
   ex:l7-pair-matrix a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-matrix.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Bonferroni-adjusted p-values for the river-water data: A versus B 0.00187, A versus C 0.746, B versus C 0.000336."@en ; cd:authoredResource true .
-  ex:l7-pair-limits-heading a cd:Interpretation ; skos:prefLabel "The outer groups differ. Where would you draw the line?"@en ; cd:authoredResource true .
-  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "A vs E gives evidence for one difference. To test whether all five population means are equal, compare all groups in one omnibus F test."@en ; cd:authoredResource true .
+  ex:l7-pair-limits-heading a cd:Interpretation ; skos:prefLabel "Ten methods: what does one pair tell us?"@en ; cd:authoredResource true .
+  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "What changes when we move from comparing two methods to testing all ten together?"@en ; cd:authoredResource true .
   ex:l7-pair-range-visual a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-range.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
-    cd:alternativeText "Five overlapping groups A to E with mean recoveries of 90 to 94 percent. With six observations per group and all ten pairwise tests in the Bonferroni family, only A versus E crosses 0.05. Every neighboring pair remains inconclusive."@en ; cd:authoredResource true .
+    cd:alternativeText "Ten overlapping groups A to J in method order, with twelve observations per group. The second view highlights C and G and compares the adjusted pairwise and omnibus p-values."@en ; cd:authoredResource true .
 }
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-pairs> {
   ex:l7-scene-pair-limits a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-03 ;
     cd:hasSceneItem ex:l7-pair-limits-item-1, ex:l7-pair-limits-item-2, ex:l7-pair-limits-item-3, ex:l7-pair-limits-item-4 ;
-    cd:narration "Switch to a teaching example with five methods, six independent preparations per method and equal sample variances. The group means increase from 90 to 94 percent. The family now contains ten pairwise tests. Only A versus E crosses the adjusted threshold of 0.05. Every neighboring comparison is inconclusive, and their observed values overlap. Ask students where they would draw a boundary between methods. A significant contrast between the two endpoints supports a difference for that pair. It does not assign the intermediate groups to categories. The omnibus F test uses all five groups together to test whether their population means are equal. A significant F test still does not identify the pairs or divide the groups into clusters."@en ;
+    cd:narration "Start with ten methods in label order. The plot shows twelve independent preparations per method and a vertical mark at each sample mean. Ask which methods stand out when the rows are not sorted by recovery. Then reveal the comparison between C and G. The pooled two-sided t-test remains significant after Bonferroni adjustment across all 45 pairs. This test uses the observations from C and G. Now compare that result with the omnibus ANOVA on all ten methods. Its F test does not reject equal population means at 0.05. These are two decisions from the same data. The global result leaves equality unresolved."@en ;
     cd:authoredResource true .
   ex:l7-pair-limits-item-1 a cd:SceneItem ; cd:position 1 ; cd:language "en" ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-pair-limits-heading ; cd:authoredResource true .
   ex:l7-pair-limits-item-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-pair-range-visual ; cd:authoredResource true .

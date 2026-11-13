@@ -101,3 +101,16 @@ export function mountAnovaSpreadLab(root: HTMLElement) {
   });
   render();
 }
+
+export function mountAnovaPairReveal(root: HTMLElement) {
+  const figure = root.querySelector<HTMLElement>('figure[data-media-uri="/chemometrics/anova-pair-range.svg"]');
+  if (!figure) return;
+  figure.dataset.presentationStepCount = "1";
+  figure.addEventListener("pcd-presentation-step", event => {
+    const { step } = (event as CustomEvent<{ step: number }>).detail;
+    figure.dataset.pairRevealed = String(step > 0);
+    figure.setAttribute("aria-label", step > 0
+      ? "C versus G: Bonferroni-adjusted p 0.027. All ten methods: omnibus ANOVA p 0.059."
+      : "Ten methods in label order with twelve observations per method.");
+  });
+}

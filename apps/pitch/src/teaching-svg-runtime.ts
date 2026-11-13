@@ -14,6 +14,7 @@ const tags = new Set(["svg", "g", "path", "rect", "circle", "ellipse", "line", "
 const attributes = new Set(["viewBox", "x", "y", "x1", "x2", "y1", "y2", "cx", "cy", "r", "rx", "ry", "width", "height", "d", "points", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "opacity", "fill-opacity", "stroke-opacity", "transform", "font-family", "font-size", "font-weight", "text-anchor", "dominant-baseline"]);
 
 export function safeSvgAttribute(name: string, value: string): boolean {
+  if (name === "data-pair-reveal") return value === "true";
   if (!attributes.has(name) || /url\s*\(|[<>\\]|javascript:|https?:|data:/iu.test(value)) return false;
   if (name === "fill" || name === "stroke") return /^(none|currentColor|#[a-f\d]{3,8}|var\(--pcd-[a-z\d-]+\))$/iu.test(value);
   return true;

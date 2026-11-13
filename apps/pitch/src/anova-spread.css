@@ -35,3 +35,16 @@
 .reveal #pitch-slides section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .definition-list {
   font-size: .86em;
 }
+
+.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-range.svg"] {
+  width: 100%;
+  max-width: none;
+}
+.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-range.svg"] :is(svg,img) {
+  width: 100%;
+  max-width: none;
+  max-height: 62dvh;
+}
+html:not(.print-pdf) .reveal figure:not([data-pair-revealed="true"]) [data-pair-reveal] {
+  visibility: hidden;
+}

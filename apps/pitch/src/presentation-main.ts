@@ -1,5 +1,5 @@
 import "./anova-spread.css";
-import { mountAnovaSpreadLab } from "./anova-spread.ts";
+import { mountAnovaPairReveal, mountAnovaSpreadLab } from "./anova-spread.ts";
 import "./process-columns.css";
 import { anovaProcessColumns, mountProcessColumns } from "./process-columns.ts";
 import Reveal from "reveal.js";
@@ -191,6 +191,7 @@ const unmountSemanticSourceSteps = mountSemanticSourceSteps(
 const appearance = resolvePresentationAppearance(window.location.search, documents[0]?.sourcePathId);
 for (const message of appearance.diagnostics) console.warn(message);
 mountAnovaSpreadLab(root);
+mountAnovaPairReveal(root);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
   ? mountPresentationProjections(root)
