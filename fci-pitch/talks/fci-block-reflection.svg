@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330" role="img" aria-labelledby="title desc">
+  <title id="title">Die Grenzen eines Ergebnisses benennen.</title>
+  <desc id="desc">Zwei Messserien liefern unterschiedlich eindeutige Entscheidungen an einer Grenze.</desc>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M130 119H530M130 199H530M340 68V227" stroke="#718b99"/><path d="M172 119h87m140 0h84" stroke="#006582" stroke-width="13"/><path d="M244 199h105m16 0h70" stroke="#a94311" stroke-width="13"/></g>
+  <g font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#17313f">
+    <text x="340" y="46">Entscheidungsgrenze</text>
+    <text x="77" y="125">Serie A</text>
+    <text x="77" y="205">Serie B</text>
+  </g>
+  <text x="300" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#006582">Die Grenzen eines Ergebnisses benennen.</text>
+</svg>

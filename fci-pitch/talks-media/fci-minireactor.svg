@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" role="img" aria-labelledby="title description">
+  <title id="title">Minireaktor mit Temperaturfühler</title>
+  <desc id="description">Ein Temperaturfühler taucht in die Flüssigkeit des Minireaktors. Die Messwerte laufen von dort zur digitalen Erfassung.</desc>
+  <defs>
+    <linearGradient id="glass" x2="1" y2="1">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#deecfa"/>
+    </linearGradient>
+    <linearGradient id="liquid" x2="0" y2="1">
+      <stop stop-color="#a8edfb"/>
+      <stop offset="1" stop-color="#33b8e0"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="464" height="324" rx="22" fill="#f4f8ff" stroke="#d4e2f2" stroke-width="2"/>
+  <path d="M60 277h350" stroke="#d4e2f2" stroke-width="2"/>
+  <path d="M90 104h142v111c0 32-24 51-70 51s-72-19-72-51z" fill="url(#glass)" stroke="#254d77" stroke-width="4"/>
+  <path d="M95 163c22-10 44 12 67 4s46-16 65-3v50c0 30-24 47-65 47s-67-17-67-47z" fill="url(#liquid)"/>
+  <rect x="77" y="91" width="168" height="20" rx="8" fill="#d8e9fb" stroke="#254d77" stroke-width="4"/>
+  <path d="M183 74v118" stroke="#285cd7" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="183" cy="198" r="8" fill="#285cd7"/>
+  <rect x="167" y="55" width="32" height="26" rx="6" fill="#285cd7"/>
+  <path d="M199 68h109a24 24 0 0 1 24 24v33" fill="none" stroke="#285cd7" stroke-width="5" stroke-linecap="round"/>
+  <path d="m324 117 8 12 8-12" fill="none" stroke="#285cd7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="271" y="133" width="128" height="95" rx="14" fill="#fff" stroke="#254d77" stroke-width="4"/>
+  <path d="M292 184h13l11-22 13 36 13-27 11 13h24" fill="none" stroke="#00849d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#13213d" font-family="Inter, Segoe UI, sans-serif" font-size="17" font-weight="650" text-anchor="middle">
+    <text x="161" y="302">Minireaktor E01</text>
+    <text x="178" y="41">Temperaturfühler T01</text>
+    <text x="337" y="254">Digitale Erfassung</text>
+  </g>
+</svg>

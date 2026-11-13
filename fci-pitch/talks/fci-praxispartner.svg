@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 445" role="img" aria-labelledby="title desc">
+  <title id="title">Geplante Beiträge aus Industrie und angewandter Forschung</title>
+  <desc id="desc">Henkel in Düsseldorf steht für digitalisierte Forschung, Entwicklung und Produktion. Das IUTA in Duisburg zeigt digitale Laborumgebungen. Geplant sind ein Gastbeitrag von Ricardo Cunha im Modul und Exkursionen im Ergänzungsbereich.</desc>
+  <g fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="#006582" d="M172 181V108l59 28v-28l60 28v-28l57 29v44H172Zm140-53V79h18v58M192 160h13m28 0h13m28 0h13m28 0h13"/>
+    <path stroke="#006582" d="M158 181h208M174 110V88h17v30"/>
+    <path stroke="#604493" d="M736 175h154m-136 0v-68h117v68m-99-25 21-16 19 9 35-24m-53-11V90h36v17"/>
+    <path stroke="#604493" d="M906 174V98h18v77m-28 0h38m-47-43h37"/>
+    <path stroke="#718b99" stroke-width="2" d="M100 283h920M560 78v188M560 305v96"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#17313f">
+    <text x="265" y="225" font-size="34" font-weight="700">Henkel · Düsseldorf</text>
+    <text x="265" y="257" font-size="25">Digitale Forschung und Produktion</text>
+    <text x="841" y="225" font-size="34" font-weight="700">IUTA · Duisburg</text>
+    <text x="841" y="257" font-size="25">Digitale Laborumgebung</text>
+    <text x="265" y="329" font-size="26" font-weight="700" fill="#006582">Geplante Gastvorlesung</text>
+    <text x="265" y="363" font-size="25">Dr. Ricardo Cunha über Datenmanagement</text>
+    <text x="265" y="391" font-size="25">und Datenformate in der Praxis</text>
+    <text x="841" y="329" font-size="26" font-weight="700" fill="#604493">Exkursionen im Ergänzungsbereich</text>
+    <text x="841" y="363" font-size="25">Henkel und IUTA</text>
+    <text x="841" y="391" font-size="25">mit Vor- und Nachbesprechung</text>
+  </g>
+</svg>

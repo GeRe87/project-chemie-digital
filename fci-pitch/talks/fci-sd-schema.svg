@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 120" font-family="Arial, sans-serif">
+  <title>Gleicher Mittelwert, unterschiedliche Streuung</title>
+  <g stroke="var(--pcd-border, #c9d4da)" stroke-width="2">
+    <path d="M129 55H390M129 94H390"/>
+    <path d="M260 26V105" stroke="var(--pcd-accent, #005a78)"/>
+  </g>
+  <g fill="var(--pcd-accent, #005a78)">
+    <circle cx="224" cy="55" r="5"/><circle cx="242" cy="55" r="5"/><circle cx="260" cy="55" r="5"/><circle cx="278" cy="55" r="5"/><circle cx="296" cy="55" r="5"/>
+    <circle cx="151" cy="94" r="5"/><circle cx="201" cy="94" r="5"/><circle cx="260" cy="94" r="5"/><circle cx="319" cy="94" r="5"/><circle cx="369" cy="94" r="5"/>
+  </g>
+  <g fill="var(--pcd-foreground, #172026)" font-size="15">
+    <text x="260" y="18" text-anchor="middle">Gleicher Mittelwert</text>
+    <text x="10" y="60">Enge Streuung</text>
+    <text x="10" y="99">Weite Streuung</text>
+  </g>
+</svg>

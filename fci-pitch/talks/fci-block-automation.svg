@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330" role="img" aria-labelledby="title desc">
+  <title id="title">Ein Live-Signal automatisch erfassen.</title>
+  <desc id="desc">Die Vorführung verbindet Minireaktor und Live-Signal mit einem zweiten Beispiel für das Protokollieren einer Roboterhandlung.</desc>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M54 118h128v87q-64 48-128 0zm60-38v104m0-104h89v60h58" stroke="#006582"/><path d="M262 111h115v102H262zm12 53h18l14-20 19 31 17-20h22" stroke="#604493"/><path d="M385 153h47m-10-10 10 10-10 10M439 111h112v102H439zm20 37h65m-65 26h65" stroke="#718b99"/></g>
+  <path d="M471 102h32m-17 0V84l-12-10 16-18 21 9m-6 0h13v9" fill="none" stroke="#a94311" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#17313f">
+    <text x="494" y="41" fill="#a94311">Roboterarm</text>
+    <text x="116" y="253">Minireaktor</text>
+    <text x="319" y="253">Live-Signal</text>
+    <text x="494" y="253">Laborjournal</text>
+  </g>
+  <text x="300" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#006582">Messwerte und Laborhandlungen erfassen.</text>
+</svg>

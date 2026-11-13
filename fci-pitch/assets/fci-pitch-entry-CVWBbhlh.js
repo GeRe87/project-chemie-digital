@@ -1,0 +1,1 @@
+import{s as t,t as a}from"./presentation-main-DUrUPHdS.js";const e=await fetch(new URL("./pitch-runtime.json",document.baseURI));if(!e.ok)throw new Error("Die FCI-Präsentation konnte nicht geladen werden.");await t(await e.json(),void 0,{profile:{...a,defaultTheme:"light",defaultBackgroundFamilyId:void 0},appendixAvailable:!0});

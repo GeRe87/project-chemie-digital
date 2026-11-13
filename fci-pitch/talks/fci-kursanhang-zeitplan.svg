@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 620" role="img" aria-labelledby="title desc" lang="de">
+  <title id="title">Vom Sensorbeispiel zum eigenen Projekt</title>
+  <desc id="desc">Fünf Kursphasen zeigen, wie Vorlesung, betreute Übung und Live-Labs auf das Einzelprojekt vorbereiten. Woche 1: Die Lehrenden führen Minireaktor und Roboterarm vor und stellen das Projektziel vor. Beide Geräte dienen in späteren Vorlesungen als Demonstrationssysteme. In den Live-Labs arbeiten die Studierenden selbst damit. Die Studierenden lesen eine Beispielkurve. Wochen 2 bis 4: FAIR, Formate und Schnittstellen. Eine Messdatei im Notebook einlesen und Einheiten prüfen. In Woche 4 dokumentieren die Studierenden die Quelle und Einheit ihres Projektsignals. Wochen 5 bis 8: Messqualität und PCA an Spektren aus dem Handheld-Raman. In der Übung Messlücken und auffällige Werte untersuchen. Das Sensor-Lab am Minireaktor findet in Woche 7 und 8 je zwei Stunden statt. Im Projekt das bereitgestellte Live-Signal abrufen und erste Werte prüfen. Wochen 9 bis 11: Automatisierung und KI. In der Übung Werte nach Regeln prüfen und mit Zeitstempel speichern. Das Roboter-Lab findet in Woche 10 statt und dauert zwei Stunden. Im Projekt das eigene Signal automatisch verarbeiten und speichern. Wochen 12 bis 14: Ergebnisse bewerten, Code und Ergebnis mit Tutorinnen und Tutoren prüfen. Die Studierenden dokumentieren ihre Lösung und stellen sie auf einem Poster im Kurzpitch vor. Kalenderbeispiel Sommersemester 2027 vom 5. April bis 16. Juli: nach Feiertagen und Pfingstferien montags 14, dienstags 14, mittwochs 15, donnerstags 13 und freitags 15 regelmäßige Termine. Der Dies academicus ist bei der Belegung zu berücksichtigen.</desc>
+  <rect width="1440" height="620" rx="16" fill="#fff"/>
+  <g font-family="Arial, sans-serif" fill="#153348">
+    <text x="26" y="38" font-size="26" font-weight="bold">4. Fachsemester · Sommersemester</text>
+    <text x="1414" y="38" font-size="24" text-anchor="end">Beispiel SoSe 2027 · 05.04.–16.07.</text>
+    <rect x="26" y="62" width="1388" height="70" rx="9" fill="#e7f0f6"/>
+    <g font-size="22" font-weight="bold">
+      <text x="232" y="92">Ziel verstehen</text>
+      <text x="468" y="92">Messdaten lesen</text>
+      <text x="704" y="92">Messwerte prüfen</text>
+      <text x="940" y="92">Automatisieren</text>
+      <text x="1176" y="92">Ergebnis vorstellen</text>
+    </g>
+    <g font-size="20" fill="#325569">
+      <text x="232" y="118">Woche 1</text>
+      <text x="468" y="118">Woche 2–4</text>
+      <text x="704" y="118">Woche 5–8</text>
+      <text x="940" y="118">Woche 9–11</text>
+      <text x="1176" y="118">Woche 12–14</text>
+    </g>
+    <path d="M26 221H1414 M26 327H1414 M26 413H1414" stroke="#c0d1dc" stroke-width="2"/>
+    <path d="M218 132V520 M454 132V520 M690 132V520 M926 132V520 M1162 132V520" stroke="#d2dfe7" stroke-width="2"/>
+    <g font-size="23" font-weight="bold">
+      <text x="36" y="165">Vorlesung</text>
+      <text x="36" y="252">Übung mit</text><text x="36" y="278">Tutor:innen</text>
+      <text x="36" y="358">Live-Labs</text>
+      <text x="36" y="454">Einzelprojekt</text>
+    </g>
+    <g font-size="19" fill="#325569">
+      <text x="36" y="192">2 SWS</text><text x="36" y="302">1 SWS</text>
+      <text x="36" y="384">selbst am Gerät</text>
+    </g>
+    <g font-size="20.5">
+      <text x="232" y="164">Minireaktor und</text><text x="232" y="190">Roboterarm zeigen</text>
+      <text x="468" y="160">FAIR, Formate</text><text x="468" y="185">und Schnittstellen</text><text x="468" y="210">an Labordaten</text>
+      <text x="704" y="160">Messqualität und PCA</text><text x="704" y="185">Handheld-Raman</text><text x="704" y="210">Spektren vergleichen</text>
+      <text x="940" y="160">Roboter vorführen</text><text x="940" y="185">Raman-Spektren</text><text x="940" y="210">klassifizieren</text>
+      <text x="1176" y="164">Unsicherheit und</text><text x="1176" y="190">Grenzen von Modellen</text>
+      <text x="232" y="252">Beispielkurve lesen</text><text x="232" y="278">und Achsen erklären</text>
+      <text x="468" y="252">Messdatei im</text><text x="468" y="278">Notebook einlesen</text><text x="468" y="304">Einheiten prüfen</text>
+      <text x="704" y="252">Messlücken finden</text><text x="704" y="278">und auffällige Werte</text><text x="704" y="304">einordnen</text>
+      <text x="940" y="252">Werte nach Regeln</text><text x="940" y="278">prüfen und mit</text><text x="940" y="304">Zeitstempel speichern</text>
+      <text x="1176" y="252">Code und Ergebnis</text><text x="1176" y="278">mit Tutor:innen</text><text x="1176" y="304">durchgehen</text>
+    </g>
+    <g fill="#00666d" font-size="20.5">
+      <text x="704" y="349" font-weight="bold">Sensorik am</text><text x="704" y="373" font-weight="bold">Minireaktor</text><text x="704" y="397">W7 und W8 · je 2 h</text>
+      <text x="940" y="357" font-weight="bold">Roboterarm</text><text x="940" y="383">W10 · 2 h</text>
+    </g>
+    <rect x="222" y="423" width="228" height="94" rx="9" fill="#f0f4f7"/>
+    <rect x="458" y="423" width="956" height="94" rx="9" fill="#e1f1e9"/>
+    <path d="M690 429V511 M926 429V511 M1162 429V511" stroke="#a9cdbb" stroke-width="2"/>
+    <g font-size="20.5" font-weight="bold">
+      <g fill="#325569">
+      <text x="232" y="450">Lehrteam stellt</text><text x="232" y="476">Projektziel vor</text>
+      </g>
+      <g fill="#174a36">
+      <text x="468" y="450">Ab W4: Signalquelle</text><text x="468" y="476">und Einheit festhalten</text>
+      <text x="704" y="450">Live-Signal abrufen</text><text x="704" y="476">und Werte prüfen</text>
+      <text x="940" y="450">Signal automatisch</text><text x="940" y="476">verarbeiten und</text><text x="940" y="502">speichern</text>
+      <text x="1176" y="450">Code dokumentieren</text><text x="1176" y="476">Poster erstellen</text><text x="1176" y="502">Kurzpitch halten</text>
+      </g>
+    </g>
+    <path d="M26 541H1414" stroke="#aac1ce" stroke-width="2"/>
+    <text x="26" y="574" font-size="24" font-weight="bold">Wöchentliche Termine im SoSe 2027</text>
+    <text x="1414" y="574" font-size="24" text-anchor="end">Mo 14 · Di 14 · Mi 15 · Do 13 · Fr 15</text>
+    <text x="26" y="605" font-size="21" fill="#325569">Nach Feiertagen und Pfingstferien. Bei der Belegung den Dies academicus berücksichtigen.</text>
+  </g>
+</svg>

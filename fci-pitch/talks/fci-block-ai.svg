@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330" role="img" aria-labelledby="title desc">
+  <title id="title">Eine Vorhersage an neuen Proben überprüfen.</title>
+  <desc id="desc">Das Handheld-Raman liefert das Spektrum einer Prüfprobe. Das Modell schlägt eine Klasse vor.</desc>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M50 218H313M50 218V68" stroke="#718b99"/><path d="M58 203q26 0 35-38t18 17q14 24 32-40t22 39q21 32 42-88t21 98q18 16 37-33t25 46h16" stroke="#006582"/><path d="M332 150h63m-12-11 12 11-12 11" stroke="#718b99"/><circle cx="475" cy="153" r="57" stroke="#604493"/></g>
+  <g font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#17313f">
+    <text x="179" y="44" fill="#006582" font-weight="bold">Handheld-Raman</text>
+    <text x="475" y="162">Klasse?</text>
+    <text x="179" y="255">Raman-Spektrum der Prüfprobe</text>
+  </g>
+  <text x="300" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#006582">Eine Vorhersage an neuen Proben überprüfen.</text>
+</svg>

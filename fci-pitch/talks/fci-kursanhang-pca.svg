@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 445" role="img" aria-labelledby="title desc" lang="de">
+  <title id="title">Bromthymolblau auf einer PLS-Achse</title>
+  <desc id="desc">Links sechs bekannte Proben mit Absorbanzwerten bei 433 und 616 Nanometern und deren senkrechte Projektion auf die PLS-Achse. Rechts dieselben Punkte auf der waagerechten PLS-Koordinate.</desc>
+  <rect width="960" height="445" rx="16" fill="#fff" />
+  <g transform="translate(16 16)">
+    <g>
+      <line x1="86" y1="350" x2="416" y2="350" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="86" y1="350" x2="86" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="86" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0</text>
+      <text x="73" y="355" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0</text>
+      <line x1="86" y1="284" x2="416" y2="284" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="152" y1="350" x2="152" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="152" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,2</text>
+      <text x="73" y="289" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,2</text>
+      <line x1="86" y1="218" x2="416" y2="218" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="218" y1="350" x2="218" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="218" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,4</text>
+      <text x="73" y="223" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,4</text>
+      <line x1="86" y1="152" x2="416" y2="152" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="284" y1="350" x2="284" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="284" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,6</text>
+      <text x="73" y="157" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,6</text>
+      <line x1="86" y1="86" x2="416" y2="86" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="350" y1="350" x2="350" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="350" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,8</text>
+      <text x="73" y="91" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,8</text>
+      <line x1="86" y1="20" x2="416" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <line x1="416" y1="350" x2="416" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(201, 212, 218)" stroke-width="1" />
+      <text x="416" y="370" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">1</text>
+      <text x="73" y="25" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">1</text>
+      <line x1="86" y1="350" x2="416" y2="350" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <line x1="86" y1="350" x2="86" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="250" y="394" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="16px" font-weight="650">Absorbanz bei 433 nm</text>
+      <text transform="matrix(0, -1, 1, 0, 28, 190)" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="16px" font-weight="650">Absorbanz bei 616 nm</text>
+    </g>
+    <g>
+      <line x1="361.69317599780675" y1="309.2309603312315" x2="113.90682400219319" y2="71.76903966876847" fill="rgb(0, 0, 0)" stroke="rgb(124, 62, 125)" stroke-width="3" />
+      <line x1="326.9" y1="287.3" x2="332.6010859728507" y2="281.3510407239819" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <circle r="7" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 326.9, 287.3)" />
+      <line x1="251" y1="303.8" x2="301.27945701357464" y2="251.33447963800904" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <circle r="7" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 251, 303.8)" />
+      <line x1="373.1" y1="208.1" x2="317.1194570135747" y2="266.51447963800905" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <circle r="7" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 373.1, 208.1)" />
+      <line x1="132.2" y1="188.3" x2="181.6552036199095" y2="136.69457013574663" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 132.2, 188.3)" />
+      <line x1="155.3" y1="109.1" x2="154.13230769230773" y2="110.31846153846152" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 155.3, 109.1)" />
+      <line x1="188.3" y1="46.39999999999998" x2="140.01248868778282" y2="96.78696832579186" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="none" stroke="rgb(77, 90, 99)" stroke-width="1.7" transform="matrix(1, 0, 0, 1, 188.3, 46.4)" />
+    </g>
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 332.601, 281.351)" />
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 301.279, 251.334)" />
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 317.119, 266.514)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 181.655, 136.695)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 154.132, 110.318)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 140.012, 96.787)" />
+    <g transform="translate(460 -40)">
+      <g font-family="system-ui, sans-serif" fill="#183449">
+        <text x="86" y="144" font-size="20" font-weight="650">Zwei Messwerte werden zu einer Koordinate</text>
+        <text x="86" y="170" font-size="16" fill="#916000">● sauer</text>
+        <text x="165" y="170" font-size="16" fill="#175caa">■ basisch</text>
+      </g>
+      <g />
+      <g>
+        <line x1="86" y1="232" x2="416" y2="232" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <line x1="86" y1="232" x2="86" y2="237" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <text x="86" y="256" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">-0,6</text>
+        <line x1="168.5" y1="232" x2="168.5" y2="237" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <text x="168.5" y="256" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">-0,3</text>
+        <line x1="251" y1="232" x2="251" y2="237" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <text x="251" y="256" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0</text>
+        <line x1="333.5" y1="232" x2="333.5" y2="237" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <text x="333.5" y="256" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,3</text>
+        <line x1="416" y1="232" x2="416" y2="237" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+        <text x="416" y="256" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,6</text>
+        <text x="251" y="280" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="16px" font-weight="650">PLS-Koordinate</text>
+      </g>
+      <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 141.579, 232)" />
+      <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 177.731, 232)" />
+      <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 159.448, 232)" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 315.803, 232)" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 347.571, 232)" />
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 363.868, 232)" />
+    </g>
+  </g>
+</svg>

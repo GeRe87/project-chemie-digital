@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 445" role="img" aria-labelledby="title desc" lang="de">
+  <title id="title">PLS-DA-Zuordnung neuer Bromthymolblau-Proben</title>
+  <desc id="desc">Die Gerade schätzt für Probe 1 den Klassenwert 0,18 und für Probe 2 den Klassenwert 0,87. Die Schwelle 0,5 ordnet Probe 1 als sauer und Probe 2 als basisch ein.</desc>
+  <rect width="960" height="445" rx="16" fill="#fff" />
+  <g transform="translate(16 16)">
+    <g>
+      <line x1="86" y1="350" x2="416" y2="350" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <line x1="86" y1="350" x2="86" y2="355" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="86" y="374" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">-0,6</text>
+      <line x1="168.5" y1="350" x2="168.5" y2="355" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="168.5" y="374" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">-0,3</text>
+      <line x1="251" y1="350" x2="251" y2="355" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="251" y="374" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0</text>
+      <line x1="333.5" y1="350" x2="333.5" y2="355" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="333.5" y="374" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,3</text>
+      <line x1="416" y1="350" x2="416" y2="355" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+      <text x="416" y="374" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,6</text>
+      <text x="251" y="398" text-anchor="middle" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="16px" font-weight="650">PLS-Koordinate</text>
+    </g>
+    <line x1="86" y1="20" x2="86" y2="350" fill="rgb(0, 0, 0)" stroke="rgb(23, 32, 38)" stroke-width="1.6" />
+    <text x="72" y="307.85714285714283" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0</text>
+    <text x="72" y="72.14285714285711" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">1</text>
+    <text x="90" y="16" text-anchor="start" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="16px" font-weight="650">Klassenwert</text>
+    <g>
+      <line x1="118.30176115790778" y1="350" x2="383.6982388420922" y2="20" fill="rgb(0, 0, 0)" stroke="rgb(124, 62, 125)" stroke-width="3" />
+      <line x1="86" y1="185" x2="251" y2="185" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <line x1="251" y1="185" x2="251" y2="350" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <text x="72" y="190" text-anchor="end" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">0,5</text>
+      <text x="258" y="344" text-anchor="start" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400">Grenze</text>
+    </g>
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 141.579, 302.857)" />
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 177.731, 302.857)" />
+    <circle r="7" fill="rgb(145, 96, 0)" stroke-width="1" transform="matrix(1, 0, 0, 1, 159.448, 302.857)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 315.803, 67.1429)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 347.571, 67.1429)" />
+    <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(23, 92, 170)" stroke-width="1" transform="matrix(1, 0, 0, 1, 363.868, 67.1429)" />
+    <g>
+      <line x1="190.38808741916412" y1="350" x2="190.38808741916412" y2="260.3662268851875" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+      <line x1="320.60166849591883" y1="350" x2="320.60166849591883" y2="98.45570670690944" fill="rgb(0, 0, 0)" stroke="rgb(77, 90, 99)" stroke-width="1.7" stroke-dasharray="4, 4" />
+    </g>
+    <g>
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(255, 255, 255)" stroke="rgb(124, 62, 125)" stroke-width="2.7" transform="matrix(1, 0, 0, 1, 190.388, 260.366)" />
+      <text x="13" y="-10" text-anchor="start" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400" transform="matrix(1, 0, 0, 1, 190.388, 260.366)">1</text>
+      <rect x="-6" y="-6" width="12" height="12" rx="1" fill="rgb(255, 255, 255)" stroke="rgb(124, 62, 125)" stroke-width="2.7" transform="matrix(1, 0, 0, 1, 320.602, 98.4557)" />
+      <text x="13" y="-10" text-anchor="start" fill="rgb(23, 32, 38)" stroke-width="1" font-family="system-ui, sans-serif" font-size="15px" font-weight="400" transform="matrix(1, 0, 0, 1, 320.602, 98.4557)">2</text>
+    </g>
+    <g transform="translate(525 135)" font-family="system-ui, sans-serif" fill="#183449">
+      <text font-size="22" font-weight="650">Zuordnung bei 0,5</text>
+      <text y="44" font-size="18" fill="#916000">● Unter 0,5: sauer</text>
+      <text y="78" font-size="18" fill="#175caa">■ Ab 0,5: basisch</text>
+      <text y="145" font-size="20" font-weight="650" fill="#7c3e7d">Probe 1: 0,18 → sauer</text>
+      <text y="183" font-size="20" font-weight="650" fill="#7c3e7d">Probe 2: 0,87 → basisch</text>
+    </g>
+  </g>
+</svg>

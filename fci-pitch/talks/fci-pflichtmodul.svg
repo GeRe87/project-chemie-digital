@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 385">
+<title>Ein gemeinsamer Einstieg in digitale Laborpraxis</title><desc>Das Pflichtmodul liegt im vierten Bachelorsemester und umfasst fünf ECTS. Zwei SWS Vorlesung und eine SWS Übung verbinden Datenmanagement, Statistik und digitale Laborpraxis.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="70" y="66" font-size="43" font-weight="700" text-anchor="start" fill="#17313f">4. Semester</text>
+<text x="840" y="66" font-size="43" font-weight="700" text-anchor="start" fill="#17313f">5 ECTS</text>
+<path d="M70 91H1030" fill="none" stroke="#718b99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M550 126V336" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M97 138h62l24 24v64h-86zM159 138v24h24M115 178h49M115 195h49M115 211h36" fill="none" stroke="#604493" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M627 217H779M627 217V147M635 208l22 -10 22 6 24 -26 23 9 30 -22 16 7" fill="none" stroke="#006582" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="225" y="166" font-size="28" font-weight="700" text-anchor="start" fill="#17313f">2 SWS Vorlesung</text>
+<text x="225" y="206" font-size="21" font-weight="400" text-anchor="start" fill="#17313f">Daten ordnen und auswerten</text>
+<text x="790" y="166" font-size="28" font-weight="700" text-anchor="start" fill="#17313f">1 SWS Übung</text>
+<text x="790" y="206" font-size="21" font-weight="400" text-anchor="start" fill="#17313f">An Messdaten anwenden</text>
+<text x="550" y="351" font-size="24" font-weight="700" text-anchor="middle" fill="#17313f">Gemeinsame Grundlage für alle Chemiestudierenden</text>
+</g></svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 385">
+<title>Wofür ist die Förderung eingeplant?</title><desc>Kostenvergleich aus dem Antrag. Tutorielle Betreuung 33.200 Euro FCI und 16.600 Euro UDE. Live-Labs 60.250 Euro FCI und 9.000 Euro UDE. Geräte für Lehrmaterialien 5.000 Euro FCI. Anreise zur Gastvorlesung 150 Euro FCI.</desc>
+<g font-family="system-ui, sans-serif">
+<rect x="29" y="22" width="18" height="18" rx="3" fill="#006582"/>
+<text x="56" y="38" font-size="18" font-weight="700" text-anchor="start" fill="#17313f">Beim FCI beantragt</text>
+<rect x="288" y="22" width="18" height="18" rx="3" fill="#604493"/>
+<text x="315" y="38" font-size="18" font-weight="700" text-anchor="start" fill="#17313f">UDE-Eigenanteil</text>
+<text x="1067" y="38" font-size="17" font-weight="400" text-anchor="end" fill="#17313f">Beträge je Position</text>
+<text x="29" y="103" font-size="21" font-weight="700" text-anchor="start" fill="#17313f">Tutorielle Betreuung</text>
+<path d="M394 95H827" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="394" y="84" width="206.15162454873646" height="22" rx="3" fill="#006582"/>
+<rect x="600.1516245487364" y="84" width="103.07581227436823" height="22" rx="3" fill="#604493"/>
+<text x="965" y="103" font-size="19" font-weight="700" text-anchor="end" fill="#006582">33.200 €</text>
+<text x="1067" y="103" font-size="19" font-weight="700" text-anchor="end" fill="#604493">16.600 €</text>
+<text x="29" y="183" font-size="21" font-weight="700" text-anchor="start" fill="#17313f">Live-Labs: Geräte und Material</text>
+<path d="M394 175H827" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="394" y="164" width="374.115523465704" height="22" rx="3" fill="#006582"/>
+<rect x="768.115523465704" y="164" width="55.88447653429603" height="22" rx="3" fill="#604493"/>
+<text x="965" y="183" font-size="19" font-weight="700" text-anchor="end" fill="#006582">60.250 €</text>
+<text x="1067" y="183" font-size="19" font-weight="700" text-anchor="end" fill="#604493">9.000 €</text>
+<text x="29" y="263" font-size="21" font-weight="700" text-anchor="start" fill="#17313f">Geräte für Lehrmaterialien</text>
+<path d="M394 255H827" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="394" y="244" width="31.04693140794224" height="22" rx="3" fill="#006582"/>
+<text x="965" y="263" font-size="19" font-weight="700" text-anchor="end" fill="#006582">5.000 €</text>
+<text x="1067" y="263" font-size="19" font-weight="700" text-anchor="end" fill="#604493">–</text>
+<text x="29" y="343" font-size="21" font-weight="700" text-anchor="start" fill="#17313f">Anreise zur Gastvorlesung</text>
+<path d="M394 335H827" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="394" y="324" width="0.9314079422382672" height="22" rx="0.4657039711191336" fill="#006582"/>
+<text x="965" y="343" font-size="19" font-weight="700" text-anchor="end" fill="#006582">150 €</text>
+<text x="1067" y="343" font-size="19" font-weight="700" text-anchor="end" fill="#604493">–</text>
+</g></svg>

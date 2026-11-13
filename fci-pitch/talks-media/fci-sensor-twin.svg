@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 186" role="img" aria-labelledby="title">
+  <title id="title">Ein Sensor überträgt Messwerte aus dem Minireaktor an ein digitales Prozessabbild</title>
+  <rect x="6" y="6" width="428" height="174" rx="18" fill="#edf7ff"/>
+  <g stroke="#244d76" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43 63h111v59q0 34-56 34t-55-34Z" fill="#fff"/>
+    <path d="M48 97q26-13 51 0t50 0v25q0 29-51 29t-50-29Z" fill="#a2e6f0" stroke="none"/>
+    <path d="M36 61h126M114 46v65" fill="none"/>
+    <circle cx="114" cy="114" r="5" fill="#2474bc"/>
+    <rect x="270" y="42" width="121" height="94" rx="10" fill="#fff"/>
+    <path d="M300 150h61m-30-14v14" fill="none"/>
+    <path d="M117 46h94v46h49m-9-7 9 7-9 7" fill="none" stroke="#1866d0"/>
+  </g>
+  <path d="M284 113h91M287 57v56" fill="none" stroke="#b4cde4" stroke-width="2"/>
+  <path d="m291 104 19-18 14 8 18-24 15 9 15-16" fill="none" stroke="#05859c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="195" y="33" text-anchor="middle" fill="#16334e" font-family="Segoe UI,sans-serif" font-size="18" font-weight="700">Live-Messwerte</text>
+</svg>

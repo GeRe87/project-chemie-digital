@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 402" font-family="Arial, sans-serif">
+  <title>Wissensgraph zur Standardabweichung</title>
+  <g fill="none" stroke="var(--pcd-accent, #005a78)" stroke-width="2">
+    <path d="M195 174H229m-8-5 8 5-8 5"/>
+    <path d="M406 174H426V49H449m-8-5 8 5-8 5" data-selection="lecture"/>
+    <path d="M406 174H426V110H449m-8-5 8 5-8 5" data-selection="script"/>
+    <path d="M406 174H449m-8-5 8 5-8 5"/>
+    <path d="M195 174H207V235H449m-8-5 8 5-8 5"/>
+    <path d="M195 174H207V296H449m-8-5 8 5-8 5" data-selection="lecture"/>
+    <path d="M195 174H207V357H449m-8-5 8 5-8 5" data-selection="script"/>
+  </g>
+  <g fill="var(--pcd-surface-strong, #fff)" stroke="var(--pcd-accent, #005a78)" stroke-width="2">
+    <rect x="12" y="144" width="183" height="60" rx="12"/>
+    <rect x="230" y="144" width="176" height="60" rx="12"/>
+    <rect x="450" y="24" width="156" height="50" rx="10" data-selection="lecture"/>
+    <rect x="450" y="85" width="156" height="50" rx="10" data-selection="script"/>
+    <rect x="450" y="149" width="156" height="50" rx="10"/>
+    <rect x="450" y="210" width="156" height="50" rx="10"/>
+    <rect x="450" y="271" width="156" height="50" rx="10" data-selection="lecture"/>
+    <rect x="450" y="332" width="156" height="50" rx="10" data-selection="script"/>
+  </g>
+  <g fill="var(--pcd-foreground, #172026)" font-size="17" font-weight="700" text-anchor="middle">
+    <text x="103" y="169">Standardabweichung<tspan x="103" y="189" font-size="13" font-weight="400">Fachbegriff</tspan></text>
+    <text x="318" y="169">Definition<tspan x="318" y="189" font-size="13" font-weight="400">verknüpfter Inhalt</tspan></text>
+    <text x="528" y="55" data-selection="lecture">Stichpunkte</text>
+    <text x="528" y="116" data-selection="script">Fließtext</text>
+    <text x="528" y="180">NIST-Referenz</text>
+    <text x="528" y="241">Formel + Legende</text>
+    <text x="528" y="292" data-selection="lecture">Streuungsschema<tspan x="528" y="310" font-size="12" font-weight="400">SVG: fci-sd-schema</tspan></text>
+    <text x="528" y="353" data-selection="script">Übungsaufgabe<tspan x="528" y="371" font-size="12" font-weight="400">exercise-calculate-s</tspan></text>
+  </g>
+</svg>

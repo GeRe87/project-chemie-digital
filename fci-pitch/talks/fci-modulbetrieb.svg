@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 445" role="img" aria-labelledby="title desc">
+  <title id="title">Drei Aufgaben für den dauerhaften Betrieb des Moduls</title>
+  <desc id="desc">Das Modul braucht einen festen Platz im Curriculum, ein verantwortliches Lehrteam mit Tutorinnen und Tutoren und technischer Zuständigkeit sowie einen jährlichen Rahmen für Betreuung, Material, Wartung und Hosting.</desc>
+  <g fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="#006582" d="M190 118c-24-20-54-25-83-18v82c29-8 59-1 83 18 24-19 54-26 83-18v-82c-29-7-59-2-83 18Zm0 0v82m-62-66c13-1 29 2 44 10m-44 13c13-1 29 2 44 10m36-23c15-8 31-11 44-10m-44 33c15-8 31-11 44-10"/>
+    <circle cx="560" cy="120" r="21" stroke="#604493"/>
+    <circle cx="506" cy="134" r="16" stroke="#604493"/>
+    <circle cx="614" cy="134" r="16" stroke="#604493"/>
+    <path stroke="#604493" d="M527 191c0-20 15-35 33-35s33 15 33 35m-111 0c0-18 10-28 24-28 7 0 13 2 17 6m115 22c0-18-10-28-24-28-7 0-13 2-17 6"/>
+    <path stroke="#a94311" d="M865 104h130v94H865zm0 27h130m-97-38v23m64-23v23m-72 44h22m-22 17h22m21-17h36m-36 17h36"/>
+    <path stroke="#718b99" stroke-width="2" d="M380 99v249M741 99v249M65 376h990"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#17313f">
+    <text x="190" y="251" font-size="34" font-weight="700" fill="#006582">Curriculum</text>
+    <text x="190" y="288" font-size="25">Fester Modulplatz</text>
+    <text x="190" y="322" font-size="25">Offene Lernmaterialien</text>
+    <text x="560" y="251" font-size="34" font-weight="700" fill="#604493">Personal</text>
+    <text x="560" y="288" font-size="25">Modulkoordination</text>
+    <text x="560" y="322" font-size="25">Lehrteam, Tutorien, Technik</text>
+    <text x="930" y="251" font-size="34" font-weight="700" fill="#a94311">Laufende Kosten</text>
+    <text x="930" y="288" font-size="25">Betreuung und Material</text>
+    <text x="930" y="322" font-size="25">Wartung und Hosting</text>
+    <text x="560" y="417" font-size="23">Nachnutzung über Hochschulrepositorium und NFDI4Chem Knowledge Base</text>
+  </g>
+</svg>

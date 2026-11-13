@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330" role="img" aria-labelledby="title desc">
+  <title id="title">Eine Messreihe braucht ihren Kontext.</title>
+  <desc id="desc">Messkurve mit Probe S01, Sensor T01 und Zeitbezug.</desc>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M56 230H316M56 230V66" stroke="#718b99"/><path d="M60 207L104 195L157 157L206 145L258 130L310 126" stroke="#006582"/><path d="M310 126H386" stroke="#718b99"/><path d="M390 78h162v134H390z" stroke="#604493"/></g>
+  <g font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#17313f">
+    <text x="471" y="119">Probe S01</text>
+    <text x="471" y="153">Sensor T01</text>
+    <text x="471" y="187">Zeit · min</text>
+  </g>
+  <text x="300" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#006582">Eine Messreihe braucht ihren Kontext.</text>
+</svg>
