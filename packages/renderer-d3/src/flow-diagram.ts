@@ -721,7 +721,7 @@ const FLOW_MOTIF_PATHS: Readonly<Record<VisualMotifKey, readonly string[]>> = {
   "sampling-lake": ["M12 12C26 4 48 8 54 24S48 54 32 56S4 42 8 28S6 16 12 12z", "M18 22h1M38 18h1M28 34h1M44 40h1M18 46h1"],
 };
 
-function addFlowVisualMotif(
+export function addFlowVisualMotif(
   group: SVGGElement,
   motif: VisualMotifKey,
   x: number,

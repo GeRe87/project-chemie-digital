@@ -1,0 +1,66 @@
+.reveal .pcd-process-host { width: 100%; max-width: none; }
+.reveal .pcd-process-columns {
+  display: grid;
+  grid-template-columns: repeat(var(--pcd-process-count), minmax(0, 1fr));
+  gap: clamp(.6rem, 1.5vw, 1.6rem);
+  width: 100%;
+}
+.reveal .pcd-process-column {
+  --pcd-process-ink: hsl(var(--pcd-process-hue) 70% 29%);
+  --pcd-process-tint: hsl(var(--pcd-process-hue) 62% 54%);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: .65rem .85rem .5rem;
+  border-block: 3px solid var(--pcd-process-tint);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--pcd-process-tint) 12%, var(--pcd-surface-strong)), var(--pcd-surface-strong));
+  color: var(--pcd-process-ink);
+}
+body[data-presentation-theme="dark"] .reveal .pcd-process-column {
+  --pcd-process-ink: hsl(var(--pcd-process-hue) 82% 79%);
+  --pcd-process-tint: hsl(var(--pcd-process-hue) 65% 63%);
+}
+.reveal .pcd-process-column h3,
+.reveal .pcd-process-entry h4 {
+  margin: 0;
+  color: inherit;
+  text-align: left;
+  text-transform: none;
+}
+.reveal .pcd-process-column h3 { font: 800 1em/1.12 Arial, sans-serif; min-height: 2.24em; }
+.reveal .pcd-process-entry { padding: .44rem 0; border-top: 1px solid color-mix(in srgb, var(--pcd-process-tint) 42%, transparent); }
+.reveal .pcd-process-entry header { display: flex; align-items: center;  gap: .5rem; }
+.reveal .pcd-process-entry h4 { flex: 1; font: 750 .76em/1.12 Arial, sans-serif; }
+.reveal .pcd-process-entry svg {
+  flex: 0 0 1.6em;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: .35rem;
+  background: color-mix(in srgb, var(--pcd-process-tint) 15%, transparent);
+  color: inherit;
+}
+.reveal .pcd-process-entry ul {
+  display: block;
+  padding-inline-start: 1.15em;
+  margin: .12em 0 0;
+  color: var(--pcd-process-ink);
+  font-size: .66em;
+  line-height: 1.23;
+}
+.reveal .pcd-process-entry li::marker { color: var(--pcd-process-ink); }
+.reveal .pcd-process-number {
+  flex: none;
+  border: 1px solid var(--pcd-process-tint);
+  border-radius: .4rem;
+  padding: .1em .55em;
+  font: 750 .55em/1.2 Arial, sans-serif;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .reveal .pcd-process-host {
+    max-height: 49dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .reveal .pcd-process-columns { grid-template-columns: minmax(0, 1fr); gap: .45rem; }
+  .reveal .pcd-process-column h3 { min-height: auto; margin-bottom: .25rem; }
+}

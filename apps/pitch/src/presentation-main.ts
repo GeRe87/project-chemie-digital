@@ -1,3 +1,5 @@
+import "./process-columns.css";
+import { anovaProcessColumns, mountProcessColumns } from "./process-columns.ts";
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "katex/dist/katex.min.css";
@@ -152,6 +154,7 @@ const unmountLectureTitles = documents.map((document, index) => lectureTitles[in
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const unmountMathematicalDerivations = mountMathematicalDerivations(root, documents);
+mountProcessColumns(root, documents, anovaProcessColumns);
 const unmountDiagrams = mountPitchDiagrams(
   Array.from(root.querySelectorAll<HTMLElement>("[data-diagram-block-id]")),
   documents,
