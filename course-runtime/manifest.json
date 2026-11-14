@@ -1,6 +1,11 @@
 {
   "bindings": [
     {
+      "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/talk-environmental-health-2026",
+      "pathId": "https://w3id.org/project-chemie-digital/resource/path-talk-environmental-health-2026",
+      "sceneDocumentId": "ex:path-talk-environmental-health-2026--scene-document"
+    },
+    {
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-talk-microplastics-ted-gc-ms",
       "sceneDocumentId": "ex:path-talk-microplastics-ted-gc-ms--scene-document"
@@ -10,6 +15,17 @@
     "graphId": "https://w3id.org/project-chemie-digital/graph/presentations/talks",
     "id": "https://w3id.org/project-chemie-digital/resource/talks",
     "talks": [
+      {
+        "event": {
+          "date": "2026-12-15",
+          "id": "https://w3id.org/project-chemie-digital/resource/eh26-event",
+          "name": "29th National and 10th International Conference on Environmental Health"
+        },
+        "id": "https://w3id.org/project-chemie-digital/resource/talk-environmental-health-2026",
+        "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/talk-environmental-health-2026",
+        "pathId": "https://w3id.org/project-chemie-digital/resource/path-talk-environmental-health-2026",
+        "title": "FAIR, Transparent and Automated Data Processing for Microplastics Analysis via TED-GC-MS"
+      },
       {
         "event": {
           "id": "https://w3id.org/project-chemie-digital/resource/event-gerstel-microplastics",
@@ -25,6 +41,28 @@
     "version": "1.0"
   },
   "documents": [
+    {
+      "id": "ex:path-talk-environmental-health-2026--scene-document",
+      "pathId": "ex:path-talk-environmental-health-2026",
+      "runtime": "course-runtime/4fd939400b3dc3e2.json",
+      "sceneIds": [
+        "ex:eh26-scene-01--scene",
+        "ex:eh26-scene-02--scene",
+        "ex:eh26-scene-03--scene",
+        "ex:eh26-scene-04--scene",
+        "ex:eh26-scene-05--scene",
+        "ex:eh26-scene-06--scene",
+        "ex:eh26-scene-07--scene",
+        "ex:eh26-scene-08--scene",
+        "ex:eh26-scene-quality--scene",
+        "ex:eh26-scene-09--scene",
+        "ex:eh26-scene-terminology--scene",
+        "ex:eh26-scene-10--scene",
+        "ex:eh26-scene-11--scene",
+        "ex:eh26-scene-12--scene",
+        "ex:eh26-scene-thanks--scene"
+      ]
+    },
     {
       "id": "ex:path-talk-microplastics-ted-gc-ms--scene-document",
       "pathId": "ex:path-talk-microplastics-ted-gc-ms",

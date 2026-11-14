@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270">
+  <title>Candidate at the expected time</title>
+  <rect x="2" y="2" width="636" height="266" rx="20" fill="#122836" stroke="#568498" stroke-width="3"/>
+  <g font-family="Arial, sans-serif" stroke-linecap="round" stroke-linejoin="round">
+  <text x="25" y="39" fill="#e9f4fb" font-size="27" font-weight="700">Candidate at the expected time</text>
+  <path d="M26 62h23" stroke="#8cddfc" stroke-width="3"/>
+  <text x="57" y="68" fill="#8cddfc" font-size="18">Selected ion</text>
+  <path d="M55 94v121h537M55 174h537M55 134h537" fill="none" stroke="#6b90a2" stroke-opacity=".45"/>
+  <path d="M323.1 93v122" stroke="#c7e4f0" stroke-width="2" stroke-dasharray="5 6"/>
+  <polyline points="55.0,215.0 144.4,209.0 233.8,171.2 323.1,95.7 412.5,150.1 501.9,199.9 591.2,215.0" fill="none" stroke="#8cddfc" stroke-width="4"/>
+  <circle cx="323.1" cy="95.7" r="6" fill="#8cddfc"/>
+  <text x="55" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.00</text>
+  <text x="323" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.38</text>
+  <text x="592" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.75</text>
+  <text x="320" y="257" fill="#e9f4fb" font-size="18" text-anchor="middle">Peak at the expected retention time</text>
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "ex:eh26-scene-01--scene",
+    "title": "From Signal to Evidence",
+    "start": 0.0
+  },
+  {
+    "id": "ex:eh26-scene-02--scene",
+    "title": "A Number Is Not the Whole Story",
+    "start": 24.97
+  },
+  {
+    "id": "ex:eh26-scene-03--scene",
+    "title": "TED-GC-MS in One Minute",
+    "start": 65.82,
+    "reveals": [
+      70.7,
+      77.21,
+      82.1,
+      85.83,
+      87.85,
+      89.68,
+      91.66
+    ]
+  },
+  {
+    "id": "ex:eh26-scene-04--scene",
+    "title": "From Chromatograms to Polymer Markers",
+    "start": 115.38,
+    "reveals": [
+      128.0,
+      131.16,
+      135.66,
+      151.08,
+      172.04,
+      175.21,
+      176.82,
+      180.95,
+      186.19
+    ]
+  },
+  {
+    "id": "ex:eh26-scene-05--scene",
+    "title": "The Data Processing Chain",
+    "start": 204.36,
+    "reveals": [
+      211.82,
+      217.06,
+      222.66,
+      227.74
+    ]
+  },
+  {
+    "id": "ex:eh26-scene-06--scene",
+    "title": "Automated Peak Detection",
+    "start": 267.79,
+    "reveals": [
+      287.4,
+      289.75
+    ]
+  },
+  {
+    "id": "ex:eh26-scene-07--scene",
+    "title": "Calibration Is Part of Processing",
+    "start": 332.26
+  },
+  {
+    "id": "ex:eh26-scene-08--scene",
+    "title": "From Marker Area to SBR Content",
+    "start": 447.2
+  },
+  {
+    "id": "ex:eh26-scene-quality--scene",
+    "title": "What Makes an SBR Result Comparable?",
+    "start": 508.24
+  },
+  {
+    "id": "ex:eh26-scene-09--scene",
+    "title": "Making the Entire Pipeline FAIR",
+    "start": 632.21
+  },
+  {
+    "id": "ex:eh26-scene-terminology--scene",
+    "title": "Who Does What With the Data, and Why?",
+    "start": 703.83
+  },
+  {
+    "id": "ex:eh26-scene-10--scene",
+    "title": "Can We Validate the Pipeline?",
+    "start": 734.93
+  },
+  {
+    "id": "ex:eh26-scene-11--scene",
+    "title": "Towards Controlled Automation",
+    "start": 798.0,
+    "reveals": [
+      806.95,
+      808.71,
+      811.94,
+      818.5,
+      826.21
+    ]
+  },
+  {
+    "id": "ex:eh26-scene-12--scene",
+    "title": "Conclusions",
+    "start": 854.67
+  },
+  {
+    "id": "ex:eh26-scene-thanks--scene",
+    "title": "Thank You",
+    "start": 885.04
+  }
+]

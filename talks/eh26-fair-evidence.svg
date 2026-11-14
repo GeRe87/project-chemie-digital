@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 410">
+  <title>Follow the evidence behind an SBR result</title>
+  <desc>A reported SBR result links to the ion trace and marker area, the calibration standards and model, and the processing settings and software version. Persistent identifiers, access and licensing support reuse.</desc>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#17313f">
+    <path d="M535 161C468 161 420 75 325 75M585 161C659 161 700 75 795 75M535 212C465 212 410 276 325 276M585 212C661 212 709 276 795 276" fill="none" stroke="#718b99" stroke-width="3"/>
+    <circle cx="560" cy="185" r="97" fill="#e8f3f7"/>
+    <path d="M524 105H574L596 127V187H524ZM574 105V127H596M537 146H582M537 158H573" fill="none" stroke="#006582" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <text x="560" y="228" font-weight="700" font-size="25">Reported SBR</text>
+    <text x="560" y="247" font-size="16">Mass per sample mass</text>
+    <circle cx="325" cy="75" r="5" fill="#006582"/><circle cx="795" cy="75" r="5" fill="#006582"/>
+    <circle cx="325" cy="276" r="5" fill="#a94311"/><circle cx="795" cy="276" r="5" fill="#604493"/>
+    <path d="M142 85H280M142 85V30M149 79H168L183 72L195 42L209 79H270" fill="none" stroke="#006582" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M846 85H980M846 85V30M856 77L968 38" fill="none" stroke="#006582" stroke-width="4"/>
+    <circle cx="878" cy="69" r="5" fill="#a94311"/><circle cx="916" cy="56" r="5" fill="#a94311"/><circle cx="948" cy="47" r="5" fill="#a94311"/>
+    <path d="M155 276H268M155 297H268M155 318H268" fill="none" stroke="#a94311" stroke-width="3"/>
+    <circle cx="186" cy="276" r="7" fill="#a94311"/><circle cx="230" cy="297" r="7" fill="#a94311"/><circle cx="207" cy="318" r="7" fill="#a94311"/>
+    <path d="M903 260L884 279A15 15 0 0 0 905 300L924 281M925 279L944 260A15 15 0 0 0 923 239L904 258M896 286L934 249" fill="none" stroke="#604493" stroke-width="5" stroke-linecap="round"/>
+    <text x="210" y="118" font-weight="700" font-size="24">Signal and marker</text><text x="210" y="143" font-size="19">File, ion trace, marker area</text>
+    <text x="913" y="118" font-weight="700" font-size="24">Calibration</text><text x="913" y="143" font-size="19">Standards, window, model version</text>
+    <text x="210" y="354" font-weight="700" font-size="24">Processing decisions</text><text x="210" y="379" font-size="19">Parameters, criteria, software version</text>
+    <text x="913" y="354" font-weight="700" font-size="24">Find and reuse</text><text x="913" y="379" font-size="19">Persistent IDs, access, license</text>
+  </g>
+</svg>

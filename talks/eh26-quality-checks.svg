@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 435">
+  <title>Evidence for comparing SBR results</title>
+  <desc>A procedural blank identifies background. A matrix spike measures recovery. A separate check standard verifies the calibration response. Independent sampling supports a treatment comparison.</desc>
+  <g fill="none" stroke="#718b99" stroke-width="2">
+    <path d="M60 128H1060M60 235H1060M60 342H1060"/>
+  </g>
+  <g fill="#e8f3f7">
+    <circle cx="116" cy="76" r="36"/><circle cx="116" cy="183" r="36"/><circle cx="116" cy="290" r="36"/>
+  </g>
+  <g fill="none" stroke="#006582" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M108 55h16m-13 0v12L99 92q-1 5 5 5h24q6 0 5-5l-12-25V55m-16 32h22"/>
+    <path d="M100 190h32v12h-32zm16-28v20m-8-10h16"/>
+    <path d="M100 305v-29m0 29h33m-25-9 8-8 5 3 11-12m-4 0h4v4"/>
+  </g>
+  <g font-family="system-ui, sans-serif" fill="#17313f">
+    <g font-size="25" font-weight="700">
+      <text x="185" y="71">Procedural blank</text>
+      <text x="185" y="178">Matrix spike</text>
+      <text x="185" y="285">Independent check standard</text>
+    </g>
+    <g font-size="20">
+      <text x="185" y="99">Process a blank alongside the samples.</text>
+      <text x="185" y="206">Add a known amount to a representative sample.</text>
+      <text x="185" y="313">Measure a standard held out of the fit.</text>
+    </g>
+    <g font-size="21" font-weight="650" fill="#006582">
+      <text x="640" y="80">What background comes from the method?</text>
+      <text x="640" y="187">How much of the addition is recovered?</text>
+      <text x="640" y="294">Does the response meet the criterion?</text>
+    </g>
+    <rect x="60" y="362" width="1000" height="58" rx="9" fill="#fae9db"/>
+    <text x="82" y="399" font-size="21" font-weight="650">A treatment comparison also needs independent sampling that represents process variability.</text>
+  </g>
+</svg>

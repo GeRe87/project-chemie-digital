@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 410">
+  <title>A Processing Unit for SBR marker selection</title>
+  <desc>The example maps detected features to a selected marker and its area. A separate parameter port supplies the marker rule. The run record identifies the analyst or software version and states the purpose of estimating SBR mass.</desc>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#17313f">
+    <rect x="399" y="109" width="322" height="155" rx="76" fill="#e8f3f7" stroke="#006582" stroke-width="3"/>
+    <path d="M560 69V105M319 185H393M727 185H802" fill="none" stroke="#718b99" stroke-width="4"/>
+    <path d="M552 93L560 105L568 93M380 177L393 185L380 193M789 177L802 185L789 193" fill="none" stroke="#718b99" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="399" cy="185" r="7" fill="#006582"/><circle cx="560" cy="109" r="7" fill="#a94311"/><circle cx="721" cy="185" r="7" fill="#604493"/>
+    <path d="M114 165H275M114 165V103M122 158H150L169 115L190 157L213 128L232 157H270" fill="none" stroke="#006582" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M889 103H948L968 123V166H889ZM948 103V123H968M900 136H955M900 150H937" fill="none" stroke="#604493" stroke-width="4" stroke-linejoin="round"/>
+    <text x="560" y="35" font-size="23" font-weight="700">Parameter port</text><text x="560" y="61" font-size="19">Marker selection rule</text>
+    <text x="197" y="211" font-size="23" font-weight="700">Input port</text><text x="197" y="238" font-size="19">Detected features</text>
+    <text x="560" y="177" font-size="26" font-weight="700">Processing Unit</text><text x="560" y="207" font-size="21">Select the SBR marker</text>
+    <text x="928" y="211" font-size="23" font-weight="700">Output port</text><text x="928" y="238" font-size="19">Selected marker and area</text>
+    <path d="M560 264V292M263 292H857M263 292V318M857 292V318" fill="none" stroke="#718b99" stroke-width="3"/>
+    <circle cx="263" cy="318" r="6" fill="#006582"/><circle cx="857" cy="318" r="6" fill="#a94311"/>
+    <text x="263" y="350" font-size="22" font-weight="700">Who ran it?</text><text x="263" y="376" font-size="19">Analyst or software version</text>
+    <text x="857" y="350" font-size="22" font-weight="700">Why?</text><text x="857" y="376" font-size="19">Estimate the mass of SBR</text>
+  </g>
+</svg>

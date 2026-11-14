@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Microplastics Analysis · Narrated Presentation</title>
+<style>
+  :root { color-scheme: light; font-family: system-ui, sans-serif; color: #16313a; background: #f1f5f6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  main { min-height: 100dvh; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+  iframe { display: block; width: 100%; height: 100%; min-height: 65dvh; border: 0; background: white; }
+  .controls { padding: .8rem clamp(.75rem, 3vw, 2rem); border-top: 1px solid #c8d6da; background: white; }
+  .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem 1.25rem; }
+  audio { flex: 1 1 20rem; max-width: 46rem; height: 42px; }
+  .chapters { display: flex; align-items: center; gap: .5rem; min-width: 0; flex: 0 1 auto; }
+  select { max-width: min(32vw, 26rem); min-width: 0; }
+  button, select { font: inherit; color: #103641; background: white; border: 1px solid #819aa2; border-radius: 5px; min-height: 34px; padding: .25rem .5rem; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid #176d82; outline-offset: 3px; }
+  .hint { margin: .45rem 0 0; color: #4a6168; font-size: .85rem; }
+  .error { color: #8f2b18; }
+  @media (max-width: 650px) {
+    iframe { min-height: 55dvh; }
+    select { max-width: calc(100vw - 7rem); }
+  }
+</style>
+<main>
+  <iframe title="Environmental Health 2026 presentation" allowfullscreen></iframe>
+  <section class="controls" aria-label="Narration controls">
+    <div class="toolbar">
+      <audio src="./narration-personal-clean.mp3" controls preload="metadata" aria-label="English presentation narration"></audio>
+      <div class="chapters">
+        <label for="chapter">Slide</label>
+        <select id="chapter"></select>
+      </div>
+      <label><input type="checkbox" id="sync" checked> Follow audio</label>
+      <button id="fullscreen" type="button">Full screen</button>
+    </div>
+    <p class="hint">Select a slide to jump to its narration. Follow audio also advances the stages within each slide.</p>
+    <p class="hint error" id="error" role="alert" hidden></p>
+  </section>
+</main>
+<template id="speaker-cameo-template">
+  <style>
+    .reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] {
+      --cameo-size: 94px;
+      --cameo-radius: calc(var(--cameo-size) / 2);
+      border-top-right-radius: var(--cameo-radius) !important;
+    }
+    .reveal .slides .speaker-cameo {
+      position: absolute; inset-block-start: -1px; inset-inline-end: -1px; z-index: 3;
+      width: var(--cameo-size); height: var(--cameo-size); box-sizing: border-box;
+      border: 1px solid var(--pcd-world-panel-border); border-radius: 50%; overflow: hidden;
+      background: var(--pcd-world-panel-bg); box-shadow: 0 2px 8px #102e3f44; pointer-events: none;
+    }
+    .reveal .slides .speaker-cameo img {
+      display: block; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0;
+      object-fit: cover; object-position: center 28%;
+    }
+    .speaker-cameo::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle, transparent 51%, #208a9d50 66%, #6de5ed 76%);
+      opacity: calc(.65 * var(--voice-level, 0));
+    }
+    .speaker-cameo .speaker-wave {
+      position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+      opacity: var(--voice-level, 0); filter: drop-shadow(0 0 1.8px #102e3f);
+    }
+    .speaker-wave path { fill: none; stroke: #d0fcff; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .speaker-wave path + path { stroke: #65ddea; stroke-width: 1; opacity: .62; }
+    body .pcd-screen-controls { top: auto; bottom: .5rem; }
+    @media (min-width: 1600px) {
+      .reveal .slides :is(section[id="ex:eh26-scene-04--scene"], section[id="ex:eh26-scene-quality--scene"], section[id="ex:eh26-scene-terminology--scene"]) > h2 {
+        --pcd-lecture-heading: 63px;
+      }
+    }
+    body.pcd-native-mobile .reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] { --cameo-size: 52px; }
+    body.pcd-native-mobile .reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] > h2 {
+      max-width: calc(100% - var(--cameo-size)) !important;
+    }
+  </style>
+  <div class="speaker-cameo">
+    <img alt="Portrait of Gerrit Renner">
+    <svg class="speaker-wave" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <path></path><path></path>
+    </svg>
+  </div>
+</template>
+<script type="module">
+  const audio = document.querySelector('audio');
+  const frame = document.querySelector('iframe');
+  const chapter = document.querySelector('#chapter');
+  const sync = document.querySelector('#sync');
+  const error = document.querySelector('#error');
+  const cameoTemplate = document.querySelector('#speaker-cameo-template').content;
+  const cameo = cameoTemplate.querySelector('.speaker-cameo').cloneNode(true);
+  cameo.querySelector('img').src = new URL('./speaker-portrait.jpg', location.href);
+  const [voiceTrace, echoTrace] = cameo.querySelectorAll('path');
+  const sceneSelector = 'section.present[data-source-path-id="ex:path-talk-environmental-health-2026"]';
+  frame.addEventListener('load', () => {
+    const deckDocument = frame.contentDocument;
+    if (!deckDocument) return;
+    deckDocument.head.append(cameoTemplate.querySelector('style').cloneNode(true));
+    function placeCameo() {
+      const scene = deckDocument.querySelector(sceneSelector);
+      if (scene && cameo.parentElement !== scene) scene.append(cameo);
+    }
+    deckDocument.addEventListener('ready', placeCameo, true);
+    deckDocument.addEventListener('slidechanged', placeCameo, true);
+    placeCameo();
+  });
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let audioContext, analyser, waveform, voiceFrame;
+  let voiceLevel = 0;
+
+  function stopVoiceEffect() {
+    cancelAnimationFrame(voiceFrame);
+    voiceFrame = undefined;
+    voiceLevel = 0;
+    cameo.style.removeProperty('--voice-level');
+  }
+
+  function drawVoiceTrace(path, phase, baseline, amplitude) {
+    const points = 49;
+    const step = Math.floor(waveform.length / (2 * points));
+    const start = Math.floor(waveform.length / 4) + phase;
+    let trace = '';
+    for (let index = 0; index < points; index++) {
+      const fraction = index / (points - 1);
+      const sampleIndex = start + index * step;
+      const sample = (waveform[sampleIndex - 1] + waveform[sampleIndex] + waveform[sampleIndex + 1]) / 3;
+      const displacement = Math.max(-16, Math.min(16, sample * amplitude)) * Math.sin(Math.PI * fraction);
+      const x = (8 + 84 * fraction).toFixed(2);
+      const y = (baseline - displacement).toFixed(2);
+      trace += (index === 0 ? 'M' : 'L') + x + ' ' + y;
+    }
+    path.setAttribute('d', trace);
+  }
+
+  function showVoiceLevel() {
+    if (audio.paused || audio.ended || reduceMotion.matches) {
+      stopVoiceEffect();
+      return;
+    }
+    analyser.getFloatTimeDomainData(waveform);
+    let energy = 0;
+    for (const sample of waveform) energy += sample * sample;
+    const rms = Math.sqrt(energy / waveform.length);
+    const target = audio.muted ? 0 : Math.min(1, rms * audio.volume * 6);
+    voiceLevel += (target - voiceLevel) * (target > voiceLevel ? .3 : .12);
+    cameo.style.setProperty('--voice-level', voiceLevel.toFixed(3));
+    if (target > .015) {
+      drawVoiceTrace(voiceTrace, 0, 72, 62);
+      drawVoiceTrace(echoTrace, 29, 74, 36);
+    }
+    voiceFrame = requestAnimationFrame(showVoiceLevel);
+  }
+
+  async function startVoiceEffect() {
+    if (reduceMotion.matches || audio.paused || !window.AudioContext) return;
+    try {
+      audioContext ??= new AudioContext();
+      await audioContext.resume();
+      if (audio.paused || reduceMotion.matches || voiceFrame !== undefined) return;
+      if (!analyser) {
+        analyser = audioContext.createAnalyser();
+        waveform = new Float32Array(analyser.fftSize);
+        const source = audioContext.createMediaElementSource(audio);
+        source.connect(audioContext.destination);
+        source.connect(analyser);
+      }
+      showVoiceLevel();
+    } catch {
+      stopVoiceEffect();
+    }
+  }
+
+  audio.addEventListener('playing', startVoiceEffect);
+  audio.addEventListener('pause', stopVoiceEffect);
+  audio.addEventListener('ended', stopVoiceEffect);
+  reduceMotion.addEventListener('change', () => {
+    if (reduceMotion.matches) stopVoiceEffect();
+    else startVoiceEffect();
+  });
+  const deck = new URL('/', location.origin);
+  deck.search = new URLSearchParams({
+    theme: 'light', background: 'talks-laboratory', diagramStates: '1', view: 'deck',
+    level: 'ex:path-talk-environmental-health-2026--scene-document'
+  });
+  const showError = message => {
+    error.textContent = message;
+    error.hidden = false;
+  };
+  audio.addEventListener('error', () => showError('The local narration could not be loaded.'));
+  document.querySelector('#fullscreen').addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.querySelector('main').requestFullscreen();
+    } catch {
+      showError('Full screen is unavailable in this browser window.');
+    }
+  });
+
+  try {
+    const response = await fetch('./chapters-personal.json');
+    if (!response.ok) throw new Error('The local chapter list could not be loaded.');
+    const chapters = await response.json();
+    if (!chapters.length) throw new Error('The local chapter list is empty.');
+    for (const [index, item] of chapters.entries()) {
+      const minutes = Math.floor(item.start / 60);
+      const seconds = String(Math.floor(item.start % 60)).padStart(2, '0');
+      chapter.add(new Option(`${minutes}:${seconds} · ${item.title}`, String(index)));
+    }
+    let displayed = '';
+    function showSlide(index, reveal = 0, force = false) {
+      const item = chapters[index];
+      // Reveal uses a zero-based fragment index. -1 restores the entry stage.
+      const fragment = item.reveals?.length ? '/' + (reveal - 1) : '';
+      deck.hash = '/' + encodeURIComponent(item.id) + fragment;
+      if (displayed === deck.hash && !force) return;
+      if (frame.contentDocument?.getElementById(item.id)) {
+        const slideWindow = frame.contentWindow;
+        if (slideWindow.location.hash === deck.hash) {
+          slideWindow.dispatchEvent(new slideWindow.HashChangeEvent('hashchange'));
+        } else {
+          slideWindow.location.hash = deck.hash;
+        }
+      } else {
+        frame.src = deck.href;
+      }
+      displayed = deck.hash;
+      chapter.value = String(index);
+    }
+    function followAudio(force = false) {
+      if (!sync.checked) return;
+      const index = Math.max(0, chapters.findLastIndex(item => item.start <= audio.currentTime));
+      const reveals = chapters[index].reveals ?? [];
+      const reveal = reveals.findLastIndex(time => time <= audio.currentTime) + 1;
+      showSlide(index, reveal, force);
+    }
+    audio.addEventListener('timeupdate', () => followAudio());
+    audio.addEventListener('seeked', () => followAudio());
+    audio.addEventListener('playing', () => followAudio());
+    sync.addEventListener('change', () => followAudio(true));
+    chapter.addEventListener('change', () => {
+      const index = Number(chapter.value);
+      audio.currentTime = index === 0 ? 0 : chapters[index].start + 0.02;
+      showSlide(index, 0, true);
+    });
+    showSlide(0);
+  } catch (cause) {
+    showError(cause.message);
+  }
+</script>
+</html>
