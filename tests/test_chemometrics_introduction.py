@@ -130,6 +130,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                     EX["learning-unit-theoretical-distributions"],
                 ),
                 (70, EX["unit-placement-chemometrics-statistical-tests"], EX["learning-unit-statistical-tests"]),
+                (80, EX["unit-placement-chemometrics-anova"], EX["learning-unit-chemometrics-anova"]),
             ],
             sorted(placements),
         )
