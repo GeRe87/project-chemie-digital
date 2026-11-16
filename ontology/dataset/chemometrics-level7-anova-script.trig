@@ -1,0 +1,63 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/project-chemie-digital/graph/scripts/level7-anova> {
+  ex:l7-thematic-script a cd:ThematicScript ; dct:title "Analysis of Variance"@en ; cd:scriptForPath ex:path-level7-anova-intro-review ; cd:scriptPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ; cd:hasScriptSection ex:l7-script-ch1, ex:l7-script-ch2, ex:l7-script-ch3, ex:l7-script-ch4, ex:l7-script-ch5, ex:l7-script-ch6 ; cd:authoredResource true .
+
+  ex:l7-script-ch1 a cd:ScriptSection ; cd:position 1 ; dct:title "From two means to several methods"@en ;
+    cd:hasScriptMaterial ex:l7-script-two-to-three ; dct:references ex:l7-script-two-to-three ; cd:authoredResource true ;
+    cd:body """Suppose three solid-phase extraction (SPE) methods are available for the same river-water sample. The analytical question is whether their **population mean recoveries** differ. A two-sample test addresses a specified pair. One-way ANOVA addresses the joint null hypothesis that all three population means are equal. Rejecting it gives evidence that at least one mean differs. Sample means can differ simply through sampling variation, so the separation must be judged against the scatter within each method.
+
+The brackets in [[ref:ex:l7-script-two-to-three]] show how the scope changes from two samples to three groups. A significant pair and a significant overall ANOVA are different claims and depend on different test statistics. Adjustments such as Bonferroni control the error rate for a specified family of comparisons."""@en .
+  ex:l7-script-two-to-three a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-anova-bridge-visual ; dct:title "A two-sample comparison alongside an overall comparison of three groups."@en .
+
+  ex:l7-script-ch2 a cd:ScriptSection ; cd:position 2 ; dct:title "Design and compute the one-way ANOVA"@en ;
+    cd:hasScriptMaterial ex:l7-script-formula-f, ex:l7-script-level7-anova-read-table ; dct:references ex:l7-script-formula-f, ex:l7-script-level7-anova-read-table ; cd:authoredResource true ;
+    cd:body """**Preparation method** is the factor and **recovery (%)** is the response. Each of the three methods has six independent preparations. Several measurements of one preparation estimate measurement repeatability, while independent preparations capture the variation introduced by preparation itself. The three means are 94.00%, 98.00% and 93.00%, and the grand mean is 95.00%.
+
+Subtract the grand mean from each observation to measure total variation. The resulting decomposition assigns 84 squared percentage points to differences between method means and 30 to scatter around those means. Their sum is 114. The between-method calculation weights each squared departure from the grand mean by the number of preparations in that method.
+
+The F ratio in [[ref:ex:l7-script-formula-f]] compares the two mean squares in [[ref:ex:l7-script-level7-anova-read-table]]. Divide 84 by the two between-method degrees of freedom to get a mean square of 42. Divide 30 by the fifteen residual degrees of freedom to get 2. Their ratio is **F = 21**, with a right-tail p-value of about **0.00004484** under the equal-means null and the classical assumptions. The result points to a difference somewhere among the method means."""@en .
+  ex:l7-script-formula-f a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-formula-f ; dct:title "The one-way F statistic compares signal to residual scatter using the two mean squares."@en .
+  ex:l7-script-level7-anova-read-table a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-read-table ; dct:title "The completed one-way ANOVA table for the 18 river-water preparations."@en .
+
+  ex:l7-script-ch3 a cd:ScriptSection ; cd:position 3 ; dct:title "Check residuals and interpret the effect size"@en ;
+    cd:hasScriptMaterial ex:l7-script-formula-eta, ex:l7-script-level7-anova-operator-grouping ; dct:references ex:l7-script-formula-eta, ex:l7-script-level7-anova-operator-grouping ; cd:authoredResource true ;
+    cd:body """A residual is observed recovery minus the fitted method mean. Classical ANOVA assumes independent errors with approximately normal distributions and common variance. Independence comes from the design. In a normal Q–Q plot, compare the ordered residuals with the reference line and look for systematic departures, including deviations at both tails. A test that estimates the normal parameters from the residuals needs calibration that accounts for fitting. The lecture illustrates this with refitting in a simulation.
+
+The effect-size formula in [[ref:ex:l7-script-formula-eta]] relates the between-method sum of squares to the total. The one-way method effect accounts for **84 ÷ 114 = 73.7%** of the total sum of squares in this sample. This fraction is eta squared. It describes how much of the observed variation the grouping accounts for.
+
+The regrouping exercise in [[ref:ex:l7-script-level7-anova-operator-grouping]] keeps the same observations and changes the labels to hypothetical operators. The operator groups use different mixes of preparation methods. Differences between these groups therefore combine operator labels with the method mix. Comparing their raw eta squared values does not isolate an operator effect."""@en .
+  ex:l7-script-formula-eta a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-next-22-formula ; dct:title "Eta squared for the preparation-method effect in the one-way ANOVA."@en .
+  ex:l7-script-level7-anova-operator-grouping a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-operator-grouping ; dct:title "The same recovery observations grouped by method and by hypothetical operator."@en .
+
+  ex:l7-script-ch4 a cd:ScriptSection ; cd:position 4 ; dct:title "Add a second factor"@en ;
+    cd:hasScriptMaterial ex:l7-script-level7-anova-four-tables ; dct:references ex:l7-script-level7-anova-four-tables ; cd:authoredResource true ;
+    cd:body """The SPE design crosses three preparation methods with two water matrices. Each combination has six independent preparations, for 36 in total. The additive model fits an overall difference between methods and an overall difference between matrices. It uses the same method differences in both matrices.
+
+A second study crosses three treatment techniques with three water conditions: natural organic matter addition, phosphate addition and ozone pretreatment. Each combination contains four independent runs. The response is contaminant removal (%).
+
+Read across [[ref:ex:l7-script-level7-anova-four-tables]] to see what changes as a second factor enters the analysis. The river-water method comparison is clear in the one-way analysis, while the additive comparison across both matrices gives p = 0.522. In the treatment study, the technique effect remains significant after adding the water condition. To understand these patterns, examine the mean profiles and test interaction."""@en .
+  ex:l7-script-level7-anova-four-tables a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:level7-anova-four-tables ; dct:title "One-way and additive two-way ANOVA results in the two studies."@en .
+
+  ex:l7-script-ch5 a cd:ScriptSection ; cd:position 5 ; dct:title "Test whether the factor effects depend on each other"@en ;
+    cd:hasScriptMaterial ex:l7-script-formula-interaction, ex:l7-script-level7-anova-interaction-test ; dct:references ex:l7-script-formula-interaction, ex:l7-script-level7-anova-interaction-test ; cd:authoredResource true ;
+    cd:body """An interaction means that the difference between levels of one factor changes across levels of another. For the SPE data, method B exceeds method A by 4.00 percentage points in river water and falls below it by 6.00 points in wastewater. The direction reverses. The treatment profiles are closer to parallel, so the difference between techniques is more stable across conditions. In the balanced design, [[ref:ex:l7-script-formula-interaction]] shows how to turn those departures from the additive pattern into a sum of squares.
+
+For each method and matrix combination, the additive reference is its method mean plus its matrix mean minus the grand mean. For method B in river water these three values are 92.00%, 95.00% and 92.83%. The resulting reference is 94.17% and the observed mean is 98.00%. The interaction gap is about +3.83 percentage points. Square the unrounded gap and multiply by the six independent preparations to get this combination’s contribution, about 88.17 squared percentage points. Repeat for all six combinations and add the contributions.
+
+In [[ref:ex:l7-script-level7-anova-interaction-test]], adding the interaction assigns 278 of the additive residual sum of squares of 338 to the interaction and leaves 60. The overall sum of squares stays at 521. In this balanced design the method sum of squares also stays fixed. Its p-value drops to 0.043 as the residual mean square decreases, while its eta squared remains 2.69%. The interaction accounts for 53.36% of the total variation. For treatment, the interaction accounts for 0.79% and gives p = 0.287. The 1%, 6% and 14% marks are Cohen’s rough benchmarks as discussed by Lakens (2013). Practical importance depends on which recovery differences matter for the application."""@en .
+  ex:l7-script-formula-interaction a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-interaction-model-formula ; dct:title "Interaction gaps, their contribution to the sum of squares, and the resulting variance partition."@en .
+  ex:l7-script-level7-anova-interaction-test a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-interaction-test ; dct:title "Interaction tests, effect sizes and the comparison with the additive residual."@en .
+
+  ex:l7-script-ch6 a cd:ScriptSection ; cd:position 6 ; dct:title "Locate differences with Tukey HSD"@en ;
+    cd:hasScriptMaterial ex:l7-script-formula-hsd, ex:l7-script-level7-anova-post-hoc-spe ; dct:references ex:l7-script-formula-hsd, ex:l7-script-level7-anova-post-hoc-spe ; cd:authoredResource true ;
+    cd:body """Tukey HSD compares all pairs of group means within a specified family. For equally sized groups, use [[ref:ex:l7-script-formula-hsd]]. Multiply the critical studentized range value by the square root of the ANOVA residual mean square divided by the number of observations per group. The studentized range is the spread from the smallest to the largest group mean under the equal-means null, scaled by the estimated standard error of one mean. The cutoff depends on the family’s number of groups, the residual degrees of freedom and the chosen error rate.
+
+Take three methods with means of 10, 12 and 17 mg/L, five observations each and a residual mean square of 4 squared mg/L. At the 5% level, the reference table gives 3.77 for three groups and 12 residual degrees of freedom. The HSD is 3.37 mg/L. The gaps of 7 and 5 mg/L exceed this threshold. The gap of 2 mg/L leaves the A–B comparison inconclusive.
+
+In [[ref:ex:l7-script-level7-anova-post-hoc-spe]], each water matrix has its own Tukey family of three method comparisons, using the residual mean square of the full SPE model. The matrix gives adjusted p-values and the plot shows signed differences with simultaneous 95% intervals within each matrix. Intervals excluding zero identify significant comparisons. Method B differs from both A and C in each matrix, with the direction reversed. The A–C intervals include zero in both matrices."""@en .
+  ex:l7-script-formula-hsd a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-post-hoc-hsd-formula ; dct:title "Tukey’s critical mean difference for equal group sizes."@en .
+  ex:l7-script-level7-anova-post-hoc-spe a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-post-hoc-spe ; dct:title "Adjusted p-values and Tukey intervals for the SPE method comparisons."@en .
+}

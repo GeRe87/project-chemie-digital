@@ -68,10 +68,19 @@ body[data-diagram-theme="eco-city"][data-presentation-theme="dark"] {
   width: min(1120px, 92vw);
   margin: .6rem auto 0;
   padding: 5.1rem 2.1rem 1.5rem;
-  border: var(--pcd-panel-border, 2px solid var(--pcd-border));
-  border-radius: var(--pcd-surface-radius, 0);
-  background: var(--pcd-panel-background, var(--pcd-surface-strong));
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   overflow: hidden;
+}
+
+/* The slide is the outer frame for data charts in every composition. */
+.reveal .slides section[data-composition] .d3-chart-host.retro-neon-chart-window {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .retro-neon-chart-header {
@@ -119,7 +128,7 @@ body[data-diagram-theme="eco-city"] .d3-chart-bar { rx: 0; shape-rendering: cris
 .reveal .slides section[data-composition="visual-stage"]:has(.moment-matrix) > h2 { max-width:none; font-size:46px; line-height:1.08; text-transform:none; }
 .d3-chart-static-fallback { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; white-space: pre-wrap !important; border: 0 !important; }
 
-.retro-neon-chart-window:is([data-chart-type="dot"],[data-chart-renderer="dot"]) { padding: .7rem 1rem; border-width: 1px; box-shadow: none; }
+.retro-neon-chart-window:is([data-chart-type="dot"],[data-chart-renderer="dot"]) { padding: .7rem 1rem; }
 .retro-neon-chart-window:is([data-chart-type="dot"],[data-chart-renderer="dot"]) > .retro-neon-chart-header { display: none; }
 .d3-dot-plot-svg { min-height: 0; }
 .d3-dot-plot-svg .d3-chart-grid-line { stroke-width: 1; opacity: .55; }

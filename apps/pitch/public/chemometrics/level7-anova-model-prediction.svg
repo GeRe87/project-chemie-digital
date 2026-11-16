@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>One measurement and one prediction</title>
+  <desc>Six measured recoveries from method B in river water. Preparation 3 measured 98.06 percent. The additive prediction for all six is the grand mean minus 0.83 percentage points for method B plus 2.17 percentage points for river water, which gives 94.17 percent. Its residual, observed minus fitted, is 3.89 percentage points.</desc>
+  <text x="52" y="40" text-anchor="start" font-size="27" font-weight="700" fill="#163349">Method B in river water</text>
+  <text x="52" y="72" text-anchor="start" font-size="18" font-weight="400" fill="#163349">Recovery (%)</text>
+  <path d="M95 316.0H565" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="86" y="322.0" text-anchor="end" font-size="17" font-weight="400" fill="#163349">92</text>
+  <path d="M95 262.0H565" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="86" y="268.0" text-anchor="end" font-size="17" font-weight="400" fill="#163349">94</text>
+  <path d="M95 208.0H565" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="86" y="214.0" text-anchor="end" font-size="17" font-weight="400" fill="#163349">96</text>
+  <path d="M95 154.0H565" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="86" y="160.0" text-anchor="end" font-size="17" font-weight="400" fill="#163349">98</text>
+  <path d="M95 100.0H565" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="86" y="106.0" text-anchor="end" font-size="17" font-weight="400" fill="#163349">100</text>
+  <circle cx="140" cy="186.67" r="7" fill="#10698a"><title>Preparation 1, 96.79%</title></circle>
+  <circle cx="212" cy="135.91" r="7" fill="#10698a"><title>Preparation 2, 98.67%</title></circle>
+  <circle cx="284" cy="152.38" r="7" fill="#10698a"><title>Preparation 3, 98.06%</title></circle>
+  <circle cx="356" cy="99.19" r="7" fill="#10698a"><title>Preparation 4, 100.03%</title></circle>
+  <circle cx="428" cy="206.65" r="7" fill="#10698a"><title>Preparation 5, 96.05%</title></circle>
+  <circle cx="500" cy="143.20" r="7" fill="#10698a"><title>Preparation 6, 98.40%</title></circle>
+  <text x="140" y="336" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">1</text>
+  <text x="212" y="336" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">2</text>
+  <text x="284" y="336" text-anchor="middle" font-size="17" font-weight="700" fill="#10698a">3</text>
+  <text x="356" y="336" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">4</text>
+  <text x="428" y="336" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">5</text>
+  <text x="500" y="336" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">6</text>
+  <text x="329" y="369" text-anchor="middle" font-size="20" font-weight="650" fill="#163349">Independent preparation number</text>
+  <text x="625" y="114" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Measured recovery</text>
+  <text x="625" y="149" text-anchor="start" font-size="27" font-weight="650" fill="#163349">Preparation 3: 98.06%</text>
+  <circle cx="284" cy="152.38" r="13" fill="none" stroke="#10698a" stroke-width="2"/>
+  <g data-svg-stage="1">
+<path d="M95 257.50H565" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<text x="625" y="205" text-anchor="start" font-size="22" font-weight="700" fill="#5c3a98">Additive prediction for B</text>
+<text x="625" y="237" text-anchor="start" font-size="24" font-weight="700" fill="#5c3a98">92.83 − 0.83 + 2.17 = 94.17%</text>
+<text x="625" y="264" font-size="16" fill="#163349">Grand mean + method B shift + river-water shift</text>
+</g>
+  <g data-svg-stage="2">
+<path d="M284 164.38V257.50m-5-6 5 6 5-6" fill="none" stroke="#a14518" stroke-width="2"/>
+<text x="625" y="309" text-anchor="start" font-size="22" font-weight="700" fill="#a14518">Residual for this sample</text>
+<text x="625" y="341" text-anchor="start" font-size="24" font-weight="700" fill="#a14518">98.06 − 94.17 = +3.89 pp</text>
+</g>
+</svg>

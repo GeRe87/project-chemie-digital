@@ -324,7 +324,9 @@ export function consumePresentationStageNavigation(
     return true;
   }
 
-  return navigateToAdjacentSlide(deck, direction, options);
+  // At the scroll boundary, Reveal's default command can re-enter the same
+  // page at its first snap point and replay its fragments.
+  return navigateToAdjacentSlide(deck, direction, options) || options.view === "scroll";
 }
 
 export function mountPresentationStageNavigation(

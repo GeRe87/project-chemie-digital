@@ -1,5 +1,5 @@
 import "./anova-spread.css";
-import { mountAnovaPairReveal, mountAnovaSpreadLab } from "./anova-spread.ts";
+import { mountAnovaTableBuild, mountAnovaSpreadPanelTabs, mountAnovaPairReveal, mountAnovaSpreadLab, mountStagedTeachingSvg } from "./anova-spread.ts";
 import "./process-columns.css";
 import { anovaProcessColumns, mountProcessColumns } from "./process-columns.ts";
 import Reveal from "reveal.js";
@@ -62,7 +62,6 @@ import type { PitchCourseWorldModel } from "./course-world.ts";
 import {
   appendPitchCourseLevelBoundarySlides,
 } from "./course-world-navigation.ts";
-import { mountGraphSummaryShell } from "./graph-summary-shell.ts";
 import { isConnectedInteractiveMode, mountExecutableCodeBlocks, type CodeRuntimeController } from "./code-runtime.ts";
 import { mountLivePolls, type PollRuntimeController } from "./poll-runtime.ts";
 import { mountLocalChoicePolls, type LocalPollRuntimeController } from "./local-poll-runtime.ts";
@@ -112,9 +111,6 @@ const root = document.querySelector<HTMLElement>("#pitch-slides");
 const presentation = document.querySelector<HTMLElement>(".reveal");
 if (!root || !presentation) throw new Error("Missing pitch application root");
 
-const shellRoot = document.createElement("div");
-shellRoot.id = "view-switch-shell";
-presentation.before(shellRoot);
 
 const connectedInteractive = isConnectedInteractiveMode(window.location.search);
 const slidesPdf = isSlidesPdf(window.location.search);
@@ -124,16 +120,16 @@ const removeNetworkGuard = connectedInteractive ? () => undefined : installNoNet
 let unmountScenes: () => void;
 try {
   unmountScenes = mountSceneDocuments(createBrowserPitchDomPort(root), documents);
-  if (document.body.dataset.authoringFrame === "lecture") {
-    for (const takeaway of root.querySelectorAll<HTMLElement>("[data-lecture-takeaway]")) {
-      const label = document.createElement("span");
-      label.className = "lecture-takeaway-label";
-      label.textContent = "In essence";
-
-      const content = document.createElement("div");
-      content.append(...takeaway.childNodes);
-      takeaway.append(label, content);
-    }
+  for (const chapter of root.querySelectorAll<HTMLElement>('section[id^="ex:l7-scene-chapter-"]')) {
+    chapter.dataset.chapterDivider = "true";
+  }
+  for (const takeaway of root.querySelectorAll<HTMLElement>("[data-lecture-takeaway]")) {
+    const label = document.createElement("span");
+    label.className = "lecture-takeaway-label";
+    label.textContent = "In essence";
+    const content = document.createElement("div");
+    content.append(...takeaway.childNodes);
+    takeaway.append(label, content);
   }
 } catch (error) {
   root.textContent = "Szeneninhalte konnten nicht geladen werden.";
@@ -192,6 +188,15 @@ const appearance = resolvePresentationAppearance(window.location.search, documen
 for (const message of appearance.diagnostics) console.warn(message);
 mountAnovaSpreadLab(root);
 mountAnovaPairReveal(root);
+const unmountSpreadPanelTabs = slidesPdf ? () => {} : mountAnovaSpreadPanelTabs(root, delta => {
+  for (let i = 0; i < Math.abs(delta); i++) {
+    if (delta > 0) deck.nextFragment();
+    else deck.prevFragment();
+  }
+});
+
+mountStagedTeachingSvg(root, documents);
+if (!slidesPdf) mountAnovaTableBuild(root, documents);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
   ? mountPresentationProjections(root)
@@ -264,7 +269,6 @@ function applyBackgroundSelection(): void {
 }
 
 const appearanceControls = mountAppearanceControls({
-  root: shellRoot,
   currentFamilyId: selectedBackgroundFamilyId,
   backgroundEnabled,
   theme: currentTheme,
@@ -290,10 +294,56 @@ const appearanceControls = mountAppearanceControls({
   },
 });
 
+// Closing content and references share one measured footer where the template
+// gives the takeaway its own region. Their ordering is ordinary document flow.
+const referenceRails = Array.from(root.querySelectorAll<HTMLElement>("section > .scene-references"));
+const footerLayouts = new Map<HTMLElement, { section: HTMLElement; combined: boolean }>();
+for (const rail of referenceRails) {
+  const section = rail.parentElement!;
+  const takeaway = section.querySelector<HTMLElement>(
+    ':scope > [data-composition-region-container="footer"] > .lead[data-lecture-takeaway]:only-child',
+  );
+  if (!slidesPdf && takeaway) {
+    const footer = document.createElement("div");
+    footer.className = "pcd-slide-footer";
+    takeaway.parentElement!.replaceWith(footer);
+    footer.append(takeaway, rail);
+    footerLayouts.set(footer, { section, combined: true });
+  } else {
+    footerLayouts.set(rail, { section, combined: false });
+  }
+}
+function reserveFooter(footer: HTMLElement): void {
+  const layout = footerLayouts.get(footer);
+  if (!layout || !footer.offsetHeight) return;
+  const reserve = footer.offsetHeight + 36;
+  layout.section.style.setProperty("--pcd-reference-reserve", reserve + "px");
+  layout.section.style.setProperty("padding-block-end", layout.combined
+    ? reserve + "px"
+    : "calc(var(--pcd-reference-reserve) + var(--pcd-lecture-takeaway-space, 0px))", "important");
+}
+const referenceObserver = slidesPdf ? undefined : new ResizeObserver(entries => {
+  for (const { target } of entries) reserveFooter(target as HTMLElement);
+});
+if (referenceObserver) {
+  for (const footer of footerLayouts.keys()) {
+    referenceObserver.observe(footer);
+    reserveFooter(footer);
+  }
+}
+
 const initialHash = decodeURIComponent(window.location.hash.replace(/^#\/?/, ""));
 const initialSceneId = /^\d+(?:\/0)?$/.test(initialHash)
   ? documents.flatMap(d => d.scenes)[Number(initialHash.split("/")[0])]?.id
   : initialHash;
+const slideWidth = 1440;
+const slideHeight = 900;
+const fixedCanvas = appearance.view === "deck" && !slidesPdf && !nativePortraitViewport;
+if (fixedCanvas) {
+  presentation.dataset.fixedSlideCanvas = "true";
+  presentation.style.setProperty("--pcd-slide-width", `${slideWidth}px`);
+  presentation.style.setProperty("--pcd-slide-height", `${slideHeight}px`);
+}
 const deck = new Reveal({
   hash: true,
   keyboard: true,
@@ -302,8 +352,8 @@ const deck = new Reveal({
   transition: reducedMotion ? "none" : "slide",
   backgroundTransition: reducedMotion ? "none" : "fade",
   center: false,
-  width: nativePortraitViewport ? nativeViewportWidth : 1440,
-  height: nativePortraitViewport ? nativeViewportHeight : 900,
+  width: nativePortraitViewport ? nativeViewportWidth : slideWidth,
+  height: nativePortraitViewport ? nativeViewportHeight : slideHeight,
   margin: nativePortraitViewport ? 0 : 0.04,
   ...(slidesPdf
     ? { view: "print", pdfSeparateFragments: false, pdfMaxPagesPerSlide: 1, pdfPageHeightOffset: 0, showNotes: false, scrollActivationWidth: 0 }
@@ -340,7 +390,6 @@ if (slidesPdf) {
     appearanceControls.destroy();
     backgroundRuntime.destroy();
     void deck.destroy();
-    shellRoot.remove();
     removeMediaGeometryHints();
     unmountScenes();
     removeNetworkGuard();
@@ -378,7 +427,8 @@ if (courseWorldModel) { document.body.append(returnButton); returnButton.addEven
 const onCourseEnd = (): void => { if (deck.getCurrentSlide()?.dataset.courseReturnSentinel === "true") returnToWorld(); };
 deck.on("slidechanged", onCourseEnd);
 const unmountPresentationSteps = mountPresentationStepRuntime(root, deck);
-const unmountPageMotion = mountPresentationPageMotion(root);
+const unmountPageMotion = mountPresentationPageMotion(root,
+  documents.some(document => document.sourcePathId === "ex:path-level7-anova-intro-review"));
 const unmountPresentationStageNavigation = mountPresentationStageNavigation(
   deck,
   window,
@@ -542,14 +592,6 @@ const unmountOptionalMaterial = mountOptionalMaterial(root, refreshInteractiveRu
 deck.on("slidechanged", refreshInteractiveRuntime);
 refreshInteractiveRuntime();
 
-const graphShellRoot=document.createElement("div");shellRoot.append(graphShellRoot);
-const unmountShell = mountGraphSummaryShell({
-  root: graphShellRoot,
-  presentation,
-  documents,
-  snapshot: canonicalDatasetSnapshot,
-  currentSceneId: () => deck.getCurrentSlide()?.id ?? null,
-});
 
 mountPageLifecycle(window, {
  pause() {
@@ -568,6 +610,7 @@ mountPageLifecycle(window, {
   deck.off("slidechanged",syncBackgroundPage);
   unmountSlidesPdfLink();unmountScriptView();unmountLectureTitles.forEach(unmount=>unmount());unmountCodeOutputZoom();unmountPageMotion();
   deck.off("slidechanged", refreshInteractiveRuntime);
+  referenceObserver?.disconnect();
   unmountOptionalMaterial();
   unmountSceneViewTabs();
   pollRuntime?.destroy();
@@ -590,6 +633,7 @@ mountPageLifecycle(window, {
   unmountWheel();
   unmountPresentationStageNavigation();
   unmountPresentationSteps();
+  unmountSpreadPanelTabs();
   unmountMathematicalDerivations();
   unmountPresentationProjection();
   unmountPresentationLaserPointer();
@@ -605,8 +649,6 @@ mountPageLifecycle(window, {
   appearanceControls.destroy();
   backgroundRuntime.destroy();
   void deck.destroy();
-  unmountShell();
-  shellRoot.remove();
   removeMediaGeometryHints();
   unmountScenes();
   removeNetworkGuard();

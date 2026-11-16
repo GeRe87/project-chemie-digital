@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 540" font-family="system-ui, sans-serif">
+<title>Build and test the interaction row in both studies</title>
+<desc>Both ANOVA tables show eta squared as the share of total sums of squares. SPE: method 2.69%, matrix 32.44%, interaction 53.36% (p = 5.4767e-12). Water treatment: technique 53.38%, condition 41.82%, interaction 0.79% (p = 0.28653). The SPE method is marked at 2.69% on a scale with rough benchmarks of 1% (small), 6% (medium), and 14% (large).</desc>
+<text x="24" y="38" font-size="25" font-weight="700" fill="#163349" text-anchor="start">Example 1 · SPE recovery</text>
+<text x="24" y="78" font-size="21" font-weight="400" fill="#163349" text-anchor="start">Additive residual: SS 338 · df 32</text>
+<g data-svg-stage="1">
+<text x="24" y="117" font-size="21" font-weight="700" fill="#a14518" text-anchor="start">New interaction: SS 278 · df 2</text>
+<text x="24" y="149" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Remaining residual: SS 60 · df 30</text>
+</g>
+<g data-svg-stage="2">
+<rect x="24" y="177" width="530" height="30" fill="#10698a" fill-opacity="0.1"/>
+<rect x="24" y="267" width="530" height="30" fill="#a14518" fill-opacity="0.12"/>
+<path d="M24 237L554 237" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M24 267L554 267" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M24 297L554 297" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M24 327L554 327" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M24 357L554 357" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="32" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="32" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Method</text>
+<text x="32" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Matrix</text>
+<text x="32" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Interaction</text>
+<text x="32" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="32" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="165" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="165" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">14</text>
+<text x="165" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">169</text>
+<text x="165" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">278</text>
+<text x="165" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">60</text>
+<text x="165" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">521</text>
+<text x="220" y="198" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="220" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="220" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">1</text>
+<text x="220" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">2</text>
+<text x="220" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">30</text>
+<text x="220" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">35</text>
+<text x="274" y="198" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="274" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">7</text>
+<text x="274" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">169</text>
+<text x="274" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">139</text>
+<text x="274" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="274" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="4">
+<text x="512" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">η²</text>
+<text x="512" y="228" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">2.69%</text>
+<text x="512" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">32.44%</text>
+<text x="512" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">53.36%</text>
+<text x="512" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="512" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="329" y="198" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="329" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">3.5</text>
+<text x="329" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">84.5</text>
+<text x="329" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">69.5</text>
+<text x="329" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="329" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="415" y="198" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="415" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">0.043</text>
+<text x="415" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">3.13 × 10⁻¹⁰</text>
+<text x="415" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">5.48 × 10⁻¹²</text>
+<text x="415" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="415" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="24" y="390" font-size="23" font-weight="700" fill="#a14518" text-anchor="start">Interaction detected</text>
+</g>
+<g transform="translate(77 0)">
+<text x="518" y="38" font-size="25" font-weight="700" fill="#163349" text-anchor="start">Example 2 · Water treatment</text>
+<text x="518" y="78" font-size="21" font-weight="400" fill="#163349" text-anchor="start">Additive residual: SS 162.67 · df 31</text>
+<g data-svg-stage="1">
+<text x="518" y="117" font-size="21" font-weight="700" fill="#a14518" text-anchor="start">New interaction: SS 26.67 · df 4</text>
+<text x="518" y="149" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Remaining residual: SS 136 · df 27</text>
+</g>
+<g data-svg-stage="2">
+<rect x="518" y="177" width="530" height="30" fill="#10698a" fill-opacity="0.1"/>
+<rect x="518" y="267" width="530" height="30" fill="#a14518" fill-opacity="0.12"/>
+<path d="M518 237L1048 237" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M518 267L1048 267" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M518 297L1048 297" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M518 327L1048 327" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M518 357L1048 357" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="526" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="526" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Technique</text>
+<text x="526" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Condition</text>
+<text x="526" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Interaction</text>
+<text x="526" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="526" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="659" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="659" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">1810.67</text>
+<text x="659" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">1418.67</text>
+<text x="659" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">26.67</text>
+<text x="659" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">136</text>
+<text x="659" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">3392</text>
+<text x="714" y="198" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="714" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="714" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="714" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">4</text>
+<text x="714" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">27</text>
+<text x="714" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">35</text>
+<text x="768" y="198" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="768" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">905.33</text>
+<text x="768" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">709.33</text>
+<text x="768" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">6.67</text>
+<text x="768" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">5.04</text>
+<text x="768" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="4">
+<text x="1006" y="198" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">η²</text>
+<text x="1006" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">53.38%</text>
+<text x="1006" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">41.82%</text>
+<text x="1006" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">0.79%</text>
+<text x="1006" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="1006" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="823" y="198" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="823" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">179.74</text>
+<text x="823" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">140.82</text>
+<text x="823" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">1.32</text>
+<text x="823" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="823" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="909" y="198" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="909" y="228" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2.50 × 10⁻¹⁶</text>
+<text x="909" y="258" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">5.20 × 10⁻¹⁵</text>
+<text x="909" y="288" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">0.287</text>
+<text x="909" y="318" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="909" y="348" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="518" y="390" font-size="23" font-weight="700" fill="#10698a" text-anchor="start">No interaction detected</text>
+</g>
+</g>
+<g data-svg-stage="4">
+<text x="24" y="430" font-size="18" fill="#163349">η² = effect SS ÷ total SS (shown as a percentage)</text>
+<text x="24" y="479" font-size="18" font-weight="700" fill="#163349">Cohen’s rough benchmarks</text>
+<path d="M350 474H1110 M398 467V481 M635 467V481 M1015 467V481" fill="none" stroke="#788d9a" stroke-width="2"/>
+<circle cx="478" cy="474" r="6" fill="#5c3a98"/>
+<text x="478" y="455" font-size="18" font-weight="700" fill="#5c3a98" text-anchor="middle">SPE method 2.69%</text>
+<text x="398" y="509" font-size="17" fill="#163349" text-anchor="middle">1% small</text>
+<text x="635" y="509" font-size="17" fill="#163349" text-anchor="middle">6% medium</text>
+<text x="1015" y="509" font-size="17" fill="#163349" text-anchor="middle">14% large</text>
+</g>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Read the two marginal averages</title>
+  <desc>Mean recoveries by matrix for Method A are 94 and 92, for B 98 and 86, for C 93 and 94. Marginals over matrices are 93, 92 and 93.5. Marginals over methods are 95 percent for river water and 90.67 percent for wastewater.</desc>
+  <rect x="50" y="61" width="900" height="48" fill="#10698a" fill-opacity=".11"/>
+  <text x="65" y="99" text-anchor="start" font-size="21" font-weight="700" fill="#163349">SPE method</text>
+  <text x="410" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">River water</text>
+  <text x="610" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Wastewater</text>
+  <path d="M50 169H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="65" y="156" text-anchor="start" font-size="23" font-weight="450" fill="#163349">A</text>
+  <text x="410" y="156" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">94.00</text>
+  <text x="610" y="156" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">92.00</text>
+  <path d="M50 226H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="65" y="213" text-anchor="start" font-size="23" font-weight="450" fill="#163349">B</text>
+  <text x="410" y="213" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">98.00</text>
+  <text x="610" y="213" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">86.00</text>
+  <path d="M50 283H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="65" y="270" text-anchor="start" font-size="23" font-weight="450" fill="#163349">C</text>
+  <text x="410" y="270" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">93.00</text>
+  <text x="610" y="270" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">94.00</text>
+  <g data-svg-stage="1">
+<rect x="730" y="61" width="219" height="219" fill="#10698a" fill-opacity=".11"/>
+<text x="839" y="99" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Method mean (%)</text>
+<text x="839" y="156" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">93.00</text>
+<text x="839" y="213" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">92.00</text>
+<text x="839" y="270" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">93.50</text>
+<text x="65" y="363" text-anchor="start" font-size="19" font-weight="700" fill="#10698a">Average across the two water matrices.</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="730" y="288" width="219" height="50" fill="#5c3a98" fill-opacity=".11"/>
+<text x="838" y="308" text-anchor="middle" font-size="15" font-weight="700" fill="#5c3a98">Grand mean</text>
+<text x="838" y="330" text-anchor="middle" font-size="20" font-weight="700" fill="#5c3a98">92.83%</text>
+<rect x="50" y="288" width="680" height="50" fill="#a14518" fill-opacity=".11"/>
+<text x="65" y="321" text-anchor="start" font-size="21" font-weight="700" fill="#a14518">Matrix mean (%)</text>
+<text x="410" y="321" text-anchor="middle" font-size="24" font-weight="700" fill="#a14518">95.00</text>
+<text x="610" y="321" text-anchor="middle" font-size="24" font-weight="700" fill="#a14518">90.67</text>
+<text x="455" y="363" text-anchor="start" font-size="19" font-weight="700" fill="#a14518">Average down the three methods.</text>
+</g>
+</svg>

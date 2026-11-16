@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Fit an additive two-way model</title>
+  <desc>The grand mean is 92.83 percent. Method B has a marginal mean of 92 percent, a shift of minus 0.83 percentage points. River water averages 95 percent, a shift of plus 2.17 points. Adding the two shifts to the grand mean gives a predicted 94.17 percent for Method B in river water, calculated from unrounded means.</desc>
+  <text x="52" y="45" text-anchor="start" font-size="29" font-weight="700" fill="#163349">Predict one recovery: method B in river water</text>
+  <rect x="52" y="77" width="896" height="54" fill="#10698a" fill-opacity=".11"/>
+  <text x="74" y="112" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Grand mean</text>
+  <text x="611" y="112" text-anchor="start" font-size="25" font-weight="700" fill="#163349">92.83%</text>
+  <g data-svg-stage="1">
+<rect x="52" y="142" width="896" height="54" fill="#5c3a98" fill-opacity=".11"/>
+<text x="74" y="177" text-anchor="start" font-size="22" font-weight="700" fill="#5c3a98">Method B shift</text>
+<text x="611" y="177" text-anchor="start" font-size="23" font-weight="400" fill="#163349">92.00 − 92.83 ≈ −0.83 pp</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="52" y="207" width="896" height="54" fill="#a14518" fill-opacity=".11"/>
+<text x="74" y="242" text-anchor="start" font-size="22" font-weight="700" fill="#a14518">River-water shift</text>
+<text x="611" y="242" text-anchor="start" font-size="23" font-weight="400" fill="#163349">95.00 − 92.83 ≈ +2.17 pp</text>
+</g>
+  <g data-svg-stage="3">
+<path d="M52 283H948" fill="none" stroke="#788d9a" stroke-width="2"/>
+<text x="74" y="323" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Additive prediction</text>
+<text x="611" y="323" text-anchor="start" font-size="29" font-weight="700" fill="#10698a">94.17%</text>
+<text x="74" y="369" text-anchor="start" font-size="19" font-weight="400" fill="#163349">Use unrounded means for the calculation.</text>
+</g>
+</svg>

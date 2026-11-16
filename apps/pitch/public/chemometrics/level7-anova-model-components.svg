@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Model the method–matrix interaction</title>
+  <desc>In R formula notation, A star B includes the method main effect, the water matrix main effect, and their interaction. For B in river water, the additive prediction is 94.17 percent. Adding the interaction gives the fitted mean of 98.00 percent. An observed 98.06 percent leaves a residual of 0.06 percentage points.</desc>
+  <text x="61" y="37" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Additive: A + B</text>
+  <text x="443" y="37" text-anchor="start" font-size="23" font-weight="700" fill="#5c3a98">With interaction: A * B</text>
+  <text x="61" y="68" text-anchor="start" font-size="19" font-weight="400" fill="#163349">A = preparation method factor · B = water matrix factor</text>
+  <text x="61" y="112" text-anchor="start" font-size="25" font-weight="700" fill="#163349">Example: method B in river water</text>
+  <rect x="61" y="127" width="877" height="59" fill="#10698a" fill-opacity=".11"/>
+  <text x="83" y="163" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Additive prediction</text>
+  <text x="455" y="163" text-anchor="start" font-size="22" font-weight="400" fill="#163349">94.17% from the two marginal effects</text>
+  <g data-svg-stage="1">
+<rect x="61" y="205" width="877" height="59" fill="#5c3a98" fill-opacity=".11"/>
+<text x="83" y="242" text-anchor="start" font-size="22" font-weight="700" fill="#5c3a98">With interaction</text>
+<text x="455" y="242" text-anchor="start" font-size="22" font-weight="400" fill="#163349">98.00% fitted mean</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="61" y="283" width="877" height="59" fill="#a14518" fill-opacity=".11"/>
+<text x="83" y="320" text-anchor="start" font-size="22" font-weight="700" fill="#a14518">Observed preparation</text>
+<text x="455" y="320" text-anchor="start" font-size="22" font-weight="400" fill="#163349">98.06% · residual +0.06 pp</text>
+</g>
+</svg>

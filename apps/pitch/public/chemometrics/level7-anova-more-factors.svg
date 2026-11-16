@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>What changes with a third factor?</title>
+  <desc>Crossing three methods, two matrices, and two temperatures makes twelve conditions. Three-way interaction asks whether the method-by-matrix interaction changes with temperature.</desc>
+  <text x="54" y="55" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">SPE method</text>
+  <text x="360" y="55" text-anchor="start" font-size="22" font-weight="700" fill="#5c3a98">Water matrix</text>
+  <text x="666" y="55" text-anchor="start" font-size="22" font-weight="700" fill="#a14518">Extraction temperature</text>
+  <rect x="54" y="82" width="278" height="127" fill="#10698a" fill-opacity=".11"/>
+  <text x="71" y="147" text-anchor="start" font-size="42" font-weight="700" fill="#10698a">3</text>
+  <text x="71" y="187" text-anchor="start" font-size="19" font-weight="400" fill="#163349">A, B, C</text>
+  <rect x="360" y="82" width="278" height="127" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="377" y="147" text-anchor="start" font-size="42" font-weight="700" fill="#5c3a98">2</text>
+  <text x="377" y="187" text-anchor="start" font-size="19" font-weight="400" fill="#163349">River water, wastewater</text>
+  <rect x="666" y="82" width="278" height="127" fill="#a14518" fill-opacity=".11"/>
+  <text x="683" y="147" text-anchor="start" font-size="42" font-weight="700" fill="#a14518">2</text>
+  <text x="683" y="187" text-anchor="start" font-size="19" font-weight="400" fill="#163349">Low, high</text>
+  <g data-svg-stage="1">
+<text x="54" y="263" text-anchor="start" font-size="27" font-weight="700" fill="#10698a">12 experimental conditions</text>
+<text x="54" y="312" text-anchor="start" font-size="22" font-weight="650" fill="#163349">Three-way interaction asks:</text>
+<text x="54" y="345" text-anchor="start" font-size="22" font-weight="400" fill="#163349">Does temperature change how the method comparison depends on matrix?</text>
+</g>
+</svg>

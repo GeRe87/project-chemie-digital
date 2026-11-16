@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<title>Does the water treatment technique matter?</title>
+<desc>In the illustrative NOM condition the measured removals are activated carbon 51, 55, 54, 56%; ultrafiltration 62, 66, 65, 67%; ion exchange 69, 73, 71, 75%.</desc>
+<text x="56" y="39" font-size="29" font-weight="700" fill="#163349" text-anchor="start">One water condition: NOM addition</text>
+<text x="56" y="71" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Contaminant removal (%) · four independent runs per technique</text>
+<path d="M85 312L935 312" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="318" font-size="18" font-weight="400" fill="#163349" text-anchor="end">50</text>
+<path d="M85 277L935 277" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="283" font-size="18" font-weight="400" fill="#163349" text-anchor="end">55</text>
+<path d="M85 242L935 242" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="248" font-size="18" font-weight="400" fill="#163349" text-anchor="end">60</text>
+<path d="M85 207L935 207" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="213" font-size="18" font-weight="400" fill="#163349" text-anchor="end">65</text>
+<path d="M85 172L935 172" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="178" font-size="18" font-weight="400" fill="#163349" text-anchor="end">70</text>
+<path d="M85 137L935 137" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="143" font-size="18" font-weight="400" fill="#163349" text-anchor="end">75</text>
+<path d="M85 102L935 102" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="73" y="108" font-size="18" font-weight="400" fill="#163349" text-anchor="end">80</text>
+<circle cx="215" cy="305" r="8" fill="#10698a"/>
+<circle cx="232" cy="277" r="8" fill="#10698a"/>
+<circle cx="249" cy="284" r="8" fill="#10698a"/>
+<circle cx="266" cy="270" r="8" fill="#10698a"/>
+<text x="240" y="348" font-size="23" font-weight="700" fill="#10698a" text-anchor="middle">Activated carbon</text>
+<text x="240" y="380" font-size="21" font-weight="400" fill="#163349" text-anchor="middle">Mean 54%</text>
+<circle cx="485" cy="228" r="8" fill="#5c3a98"/>
+<circle cx="502" cy="200" r="8" fill="#5c3a98"/>
+<circle cx="519" cy="207" r="8" fill="#5c3a98"/>
+<circle cx="536" cy="193" r="8" fill="#5c3a98"/>
+<text x="510" y="348" font-size="23" font-weight="700" fill="#5c3a98" text-anchor="middle">Ultrafiltration</text>
+<text x="510" y="380" font-size="21" font-weight="400" fill="#163349" text-anchor="middle">Mean 65%</text>
+<circle cx="755" cy="179" r="8" fill="#a14518"/>
+<circle cx="772" cy="151" r="8" fill="#a14518"/>
+<circle cx="789" cy="165" r="8" fill="#a14518"/>
+<circle cx="806" cy="137" r="8" fill="#a14518"/>
+<text x="780" y="348" font-size="23" font-weight="700" fill="#a14518" text-anchor="middle">Ion exchange</text>
+<text x="780" y="380" font-size="21" font-weight="400" fill="#163349" text-anchor="middle">Mean 72%</text>
+</svg>

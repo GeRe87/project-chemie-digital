@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Interpret the interaction before the averages</title>
+  <desc>B averages 92 percent and A 93 percent across both matrices. The B-minus-A comparison is +4 percentage points in river water and −6 in wastewater. The interaction test supports a change in the contrast across water matrices. Individual pair differences require their own uncertainty estimates.</desc>
+  <text x="53" y="62" text-anchor="start" font-size="29" font-weight="700" fill="#163349">The overall comparison hides two different gaps</text>
+  <text x="53" y="106" text-anchor="start" font-size="23" font-weight="400" fill="#163349">Across matrices: B averages 92%, A averages 93%.</text>
+  <g data-svg-stage="1">
+<rect x="51" y="141" width="437" height="117" fill="#10698a" fill-opacity=".11"/>
+<text x="74" y="179" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">River water</text>
+<text x="74" y="230" text-anchor="start" font-size="24" font-weight="650" fill="#163349">B − A: 98% − 94% = +4 pp</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="512" y="141" width="437" height="117" fill="#a14518" fill-opacity=".11"/>
+<text x="535" y="179" text-anchor="start" font-size="24" font-weight="700" fill="#a14518">Wastewater</text>
+<text x="535" y="230" text-anchor="start" font-size="24" font-weight="650" fill="#163349">B − A: 86% − 92% = −6 pp</text>
+</g>
+  <g data-svg-stage="3">
+<text x="53" y="326" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Report the matrix-specific gaps with confidence intervals.</text>
+</g>
+</svg>

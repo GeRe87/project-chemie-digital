@@ -78,8 +78,8 @@ function anovaTable(block: ExperimentBlock, result: ReturnType<typeof runExperim
   table.createCaption().textContent = 'One-way ANOVA';
   const head = table.createTHead().insertRow();
   const columns = [
-    ['Source', 'Source of variation'], [`SS ${squaredUnit}`, 'Sum of squares'],
-    ['df', 'Degrees of freedom'], [`MS ${squaredUnit}`, 'Mean square'],
+    ['Source', 'Source of variation'], ['SS', 'Sum of squares'],
+    ['df', 'Degrees of freedom'], ['MS', 'Mean square'],
     ['F', 'F statistic'], ['p', 'Right-tail p-value'],
   ];
   for (const [label, title] of columns) {
@@ -116,6 +116,8 @@ function anovaTable(block: ExperimentBlock, result: ReturnType<typeof runExperim
 export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
  if(typeof HTMLElement==='undefined'||!(host instanceof HTMLElement))return{diagnostics:[{code:'INVALID_EXPERIMENT_HOST',message:'Expected HTML host'}]};
    validateExperiment(block);if(block.experimentKind==='pairwise-score')return mountPairwiseScore(host,block);
+   const viewParameter = block.parameters.find(parameter => parameter.key === "view");
+   const splitRatio = block.experimentKind === "anova-one-way" && viewParameter?.value === 2 && !viewParameter.adjustable;
    const root=document.createElement('figure');root.className='distribution-experiment pcd-interactive';root.dataset.presentationInteractive='true';root.dataset.experimentKind=block.experimentKind;root.setAttribute('role','region');root.setAttribute('aria-label',block.label);
   const controls=document.createElement('div');controls.className='experiment-controls pcd-interactive-controls';const panels=document.createElement('div');panels.className='experiment-panels';const output=document.createElement('div');output.className='experiment-readouts';output.setAttribute('role','status');output.setAttribute('aria-live','polite');
   const description=document.createElement('div');description.className='experiment-description';
@@ -131,21 +133,86 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
   const feedback=document.createElement('p');feedback.setAttribute('role','alert');feedback.className='experiment-feedback';
   const comparison=document.createElement('div');comparison.className='experiment-source-comparison';
   const values:Record<string,number>={},inputs=new Map<string,HTMLInputElement>(),rangeReadouts=new Map<string,HTMLOutputElement>();
-  const controlValue=(key:string,value:number)=>key==='alpha'?`${format(100*value)}%`:format(value);
- for(const p of block.parameters.filter(p=>p.adjustable)){
-   const label=document.createElement('label');label.textContent=p.label;const input=document.createElement('input');input.type=block.experimentKind==='t-test'||block.experimentKind==='anova-one-way'?'range':'number';input.min=String(p.minimum);input.max=String(p.maximum);input.step=String(p.step);input.value=String(p.value);input.setAttribute('aria-label',p.label);
-    if(input.type==='range'){const value=document.createElement('output');value.textContent=controlValue(p.key,p.value);label.append(value);rangeReadouts.set(p.key,value);}
-    const update=()=>{try{const candidate={...values,[p.key]:input.valueAsNumber},result=runExperiment(block,candidate);Object.assign(values,candidate);const value=rangeReadouts.get(p.key);if(value)value.textContent=controlValue(p.key,input.valueAsNumber);input.removeAttribute('aria-invalid');feedback.textContent='';paint(result);}catch(e){input.setAttribute('aria-invalid','true');feedback.textContent=String(e);}};
-    if(input.type==='range')input.oninput=update;else input.onchange=update;
-    inputs.set(p.key,input);label.append(input);(p.key==='M'||p.key==='seed'||(controls.children.length>=2&&input.type!=='range')?advancedControls:controls).append(label);
- }
-  const reset=document.createElement('button');reset.type='button';reset.textContent='Reset';reset.setAttribute('aria-label','Reset model');reset.onclick=()=>{for(const key of Object.keys(values))delete values[key];for(const p of block.parameters){const input=inputs.get(p.key);if(input){input.value=String(p.value);input.removeAttribute('aria-invalid');const value=rangeReadouts.get(p.key);if(value)value.textContent=controlValue(p.key,p.value);}}feedback.textContent='';paint(runExperiment(block));};
+  const scaleParameters = block.parameters.filter(p => p.adjustable && (p.key === 'betweenScale' || p.key === 'withinScale'));
+  const maxScaleResult = splitRatio && scaleParameters.length
+    ? runExperiment(block, Object.fromEntries(scaleParameters.map(p => [p.key, p.maximum])))
+    : undefined;
+  const controlsByKey = new Map<string, { label: string; factor: number }>();
+  for (const p of scaleParameters) {
+    const source = p.key === 'betweenScale' ? 'between' : 'within';
+    const maximum = maxScaleResult?.readouts.find(item => item.label === `MS ${source} (${block.differenceUnit})²`)?.value;
+    if (typeof maximum === 'number' && maximum > 0 && p.maximum > 0) {
+      controlsByKey.set(p.key, {label: `MS ${source} · Mean square ${source} groups`, factor: maximum / p.maximum ** 2});
+    }
+  }
+  const controlValue = (key: string, value: number) => key === 'alpha' ? `${format(100 * value)}%` : format(value);
+  const controlPosition = (key: string, scale: number) => {
+    const meanSquare = controlsByKey.get(key);
+    return meanSquare ? Number((meanSquare.factor * scale ** 2).toPrecision(12)) : scale;
+  };
+  for (const p of block.parameters.filter(p => p.adjustable)) {
+    const meanSquare = controlsByKey.get(p.key);
+    const label = document.createElement('label');
+    label.textContent = meanSquare?.label ?? p.label;
+    const input = document.createElement('input');
+    input.type = block.experimentKind === 't-test' || block.experimentKind === 'anova-one-way' ? 'range' : 'number';
+    input.min = String(controlPosition(p.key, p.minimum));
+    input.max = String(controlPosition(p.key, p.maximum));
+    input.step = meanSquare ? 'any' : String(p.step);
+    input.value = String(controlPosition(p.key, p.value));
+    input.setAttribute('aria-label', label.textContent);
+    if (input.type === 'range') {
+      const readout = document.createElement('output');
+      readout.textContent = controlValue(p.key, input.valueAsNumber);
+      label.append(readout);
+      rangeReadouts.set(p.key, readout);
+    }
+    const update = () => {
+      try {
+        const position = input.valueAsNumber;
+        const scale = meanSquare ? Math.min(p.maximum, Math.max(p.minimum, Math.sqrt(position / meanSquare.factor))) : position;
+        const candidate = {...values, [p.key]: scale};
+        const result = runExperiment(block, candidate);
+        Object.assign(values, candidate);
+        const readout = rangeReadouts.get(p.key);
+        if (readout) readout.textContent = controlValue(p.key, position);
+        input.removeAttribute('aria-invalid');
+        feedback.textContent = '';
+        paint(result);
+      } catch (error) {
+        input.setAttribute('aria-invalid', 'true');
+        feedback.textContent = String(error);
+      }
+    };
+    if (input.type === 'range') input.oninput = update;
+    else input.onchange = update;
+    inputs.set(p.key, input);
+    label.append(input);
+    (p.key === 'M' || p.key === 'seed' || (controls.children.length >= 2 && input.type !== 'range') ? advancedControls : controls).append(label);
+  }
+  const reset = document.createElement('button');
+  reset.type = 'button';
+  reset.textContent = 'Reset';
+  reset.setAttribute('aria-label', 'Reset model');
+  reset.onclick = () => {
+    for (const key of Object.keys(values)) delete values[key];
+    for (const p of block.parameters) {
+      const input = inputs.get(p.key);
+      if (!input) continue;
+      input.value = String(controlPosition(p.key, p.value));
+      input.removeAttribute('aria-invalid');
+      const readout = rangeReadouts.get(p.key);
+      if (readout) readout.textContent = controlValue(p.key, input.valueAsNumber);
+    }
+    feedback.textContent = '';
+    paint(runExperiment(block));
+  };
    const actions=document.createElement('div');actions.className='experiment-actions pcd-interactive-controls';actions.append(details);if(advancedControls.children.length)actions.append(settings);if(inputs.size)actions.append(reset);if(!controls.children.length)controls.hidden=true;
    let lastResult:ReturnType<typeof runExperiment>|undefined;
     let lastSize='';
     let observer:ResizeObserver|undefined;
    function graph(panel:ExperimentPanel,wide:boolean,availableHeight=0){
-     const geometry=experimentPlotGeometry(root.clientWidth,Number(root.dataset.panelCount)||1),chartWidth=wide?geometry.plotWidth:640,right=chartWidth-25,xTitle=wrapExperimentAxis(panel.xLabel,chartWidth-30),yTitle=wrapExperimentAxis(panel.yLabel,chartWidth-90),titleExtra=(panel.xLabels?30:0)+26*(xTitle.length-1),baseHeight=Math.max(geometry.height,availableHeight-titleExtra),chartHeight=baseHeight+titleExtra,bottomY=baseHeight-58,topY=Math.max(34,38+26*(yTitle.length-1));
+     const geometry=experimentPlotGeometry(splitRatio ? panels.clientWidth : root.clientWidth,Number(root.dataset.panelCount)||1),chartWidth=wide?geometry.plotWidth:640,right=chartWidth-25,xTitle=wrapExperimentAxis(panel.xLabel,chartWidth-30),yTitle=wrapExperimentAxis(panel.yLabel,chartWidth-90),titleExtra=(panel.xLabels?30:0)+26*(xTitle.length-1),baseHeight=Math.max(geometry.height,availableHeight-titleExtra),chartHeight=baseHeight+titleExtra,bottomY=baseHeight-58,topY=Math.max(34,38+26*(yTitle.length-1));
     const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox',`0 0 ${chartWidth} ${chartHeight}`);svg.setAttribute('role','img');svg.setAttribute('aria-label',`${panel.xLabel}; ${panel.yLabel}. ${panel.traces.map(t=>t.label).join('; ')}. Numerical coordinates are accessible below.`);
    const points=panel.traces.flatMap(t=>t.points).filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)),xs=[...points.map(p=>p.x),...(panel.markers??[]).map(m=>m.x)];let lo=Math.min(...xs),hi=Math.max(...xs),bottom=Math.min(0,...points.map(p=>p.y)),top=Math.max(...points.map(p=>p.y));if(hi===lo){lo--;hi++;}if(top===bottom)top++;
     const x=scaleLinear().domain(panel.xDomain??[lo,hi]).range([70,right]),y=scaleLinear().domain(panel.yDomain??[bottom,top*1.08]).range([bottomY,topY]);
@@ -193,13 +260,51 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
   panels.hidden=singleTrial;root.dataset.singleTrial=String(singleTrial);
     const emphasized=teachingReadouts(block,result,values);root.dataset.readoutCount=String(emphasized.length);
       const showAnovaTable=block.experimentKind==='anova-one-way'&&(values.view??block.parameters.find(p=>p.key==='view')?.value)===2;
-      output.classList.toggle('experiment-readouts-anova',showAnovaTable);
-      output.replaceChildren();if(showAnovaTable)output.append(anovaTable(block,result));else for(const item of emphasized){const row=document.createElement('span'),label=document.createElement('span'),value=document.createElement('strong');row.dataset.readoutKind=typeof item.value==='string'?'text':'number';label.textContent=item.label;value.textContent=format(item.value);row.append(label,document.createTextNode(': '),value);output.append(row);}
+      output.classList.toggle('experiment-readouts-anova',showAnovaTable && !splitRatio);
+      output.replaceChildren();
+      if (splitRatio) {
+        for (const [key, title] of [['F', 'F value'], ['p-value', 'p-value']]) {
+          const metric = document.createElement('div');
+          metric.className = 'experiment-ratio-metric';
+          const label = document.createElement('span');
+          label.textContent = title;
+          const value = document.createElement('strong');
+          value.dataset.metric = key;
+          value.textContent = format(result.readouts.find(item => item.label === key)?.value ?? 'Undefined');
+          metric.append(label, value);
+          output.append(metric);
+        }
+      } else if (showAnovaTable) {
+        output.append(anovaTable(block, result));
+      } else {
+        for (const item of emphasized) {
+          const row = document.createElement('span');
+          const label = document.createElement('span');
+          const value = document.createElement('strong');
+          row.dataset.readoutKind = typeof item.value === 'string' ? 'text' : 'number';
+          label.textContent = item.label;
+          value.textContent = format(item.value);
+          row.append(label, document.createTextNode(': '), value);
+          output.append(row);
+        }
+      }
    comparison.replaceChildren();const sources=result.readouts.filter(v=>v.label.includes('-only output SD')&&typeof v.value==='number');comparison.hidden=!sources.length;
     if(sources.length){const heading=document.createElement('p');heading.textContent='Input-specific output SDs: not additive shares.';comparison.append(heading);const max=Math.max(...sources.map(s=>Number(s.value)));for(const source of sources){const row=document.createElement('div'),label=document.createElement('span'),track=document.createElement('span'),bar=document.createElement('i');row.className='experiment-source-row';label.textContent=`${source.label}: ${format(source.value)}`;track.className='experiment-source-track';bar.style.width=`${max?100*Number(source.value)/max:0}%`;bar.setAttribute('aria-hidden','true');track.append(bar);row.append(label,track);comparison.append(row);}}
     note.textContent=result.note;fallback.textContent=[...result.readouts.map(v=>`${v.label}: ${v.value}`),...result.panels.flatMap(p=>[...(p.xLabels??[]).map(v=>`${v.value}: ${v.label}`),...(p.markers??[]).map(v=>`${v.label}: ${v.x}`),...p.traces.flatMap(t=>[t.label,...t.points.map(v=>`${v.x}: ${v.y}`)])])].join('\n');root.dataset.modelValues=JSON.stringify({...Object.fromEntries(block.parameters.map(p=>[p.key,p.value])),...values});
  }
-    const stop=(e:Event)=>{e.stopPropagation();if((e as KeyboardEvent).key==='Escape'){const opened=details.open?details:settings.open?settings:undefined;if(opened){opened.open=false;opened.querySelector('summary')?.focus();}}};root.addEventListener('keydown',stop);root.append(controls,feedback,panels,authoredDescription,comparison,actions);host.replaceChildren(root);paint(runExperiment(block));
+    const stop=(e:Event)=>{e.stopPropagation();if((e as KeyboardEvent).key==='Escape'){const opened=details.open?details:settings.open?settings:undefined;if(opened){opened.open=false;opened.querySelector('summary')?.focus();}}};root.addEventListener('keydown',stop);if (splitRatio) {
+      root.classList.add("pcd-visual-layout");
+      root.dataset.visualLayout = "split";
+      panels.classList.add("pcd-visual-layout-plot");
+      const support = document.createElement("div");
+      support.className = "pcd-visual-layout-support";
+      output.classList.add("experiment-ratio-metrics");
+      support.append(controls, feedback, output);
+      root.append(panels, support);
+    } else {
+      root.append(controls,feedback,panels,authoredDescription,comparison,actions);
+    }
+    host.replaceChildren(root);paint(runExperiment(block));
     observer=typeof ResizeObserver==='undefined'?undefined:new ResizeObserver(()=>{const size=[root.clientWidth,root.clientHeight,panels.clientHeight,...[...panels.querySelectorAll<SVGSVGElement>(':scope > figure > svg')].map(svg=>svg.clientHeight)].join(':');if(root.clientWidth>0&&size!==lastSize){lastSize=size;if(lastResult)paintPanels(lastResult);}});observer?.observe(root);observer?.observe(panels);
     return{destroy(){observer?.disconnect();root.removeEventListener('keydown',stop);host.replaceChildren();}};
 }

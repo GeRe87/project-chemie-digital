@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>How wide is a Tukey interval?</title>
+  <desc>B minus A is 98 minus 94, or 4.00 percentage points. Residual MS is 2, with six preparations per group, giving sqrt(2 divided by 6) = 0.577 pp. The studentized-range 95th percentile for three means and 15 residual degrees of freedom is 3.673. Multiply by 0.577 to get the half-width 2.12. The simultaneous interval is [1.88, 6.12].</desc>
+  <text x="50" y="51" text-anchor="start" font-size="25" font-weight="700" fill="#10698a">1   Observed mean gap</text>
+  <text x="390" y="51" text-anchor="start" font-size="26" font-weight="400" fill="#163349">98.00% − 94.00% = 4.00 pp</text>
+  <g data-svg-stage="1">
+<text x="50" y="106" text-anchor="start" font-size="25" font-weight="700" fill="#10698a">2   Standard error</text>
+<text x="390" y="106" text-anchor="start" font-size="26" font-weight="400" fill="#163349">√(<tspan fill="#10698a" font-weight="700">2</tspan> ÷ <tspan fill="#5c3a98" font-weight="700">6</tspan>) ≈ 0.577 pp</text>
+<text x="390" y="136" font-size="19" font-weight="650" fill="#10698a">2 · Residual mean square (pp²)</text>
+<text x="390" y="161" font-size="19" font-weight="650" fill="#5c3a98">6 · Number of samples per preparation method</text>
+</g>
+  <g data-svg-stage="2">
+<text x="50" y="194" text-anchor="start" font-size="25" font-weight="700" fill="#5c3a98">3   Interval half-width</text>
+<text x="390" y="194" text-anchor="start" font-size="26" font-weight="400" fill="#163349">3.673 × 0.577 ≈ 2.12 pp</text>
+<text x="390" y="222" text-anchor="start" font-size="17" font-weight="400" fill="#163349">95th percentile of the largest gap · 3 methods, 15 residual df</text>
+</g>
+  <g data-svg-stage="3">
+<text x="50" y="276" text-anchor="start" font-size="25" font-weight="700" fill="#a14518">4   Simultaneous interval</text>
+<text x="390" y="276" text-anchor="start" font-size="26" font-weight="400" fill="#163349">4.00 ± 2.12 → [1.88, 6.12] pp</text>
+<path d="M400 347H905 M505 338V356 M650 336V358 M795 338V356" fill="none" stroke="#a14518" stroke-width="2"/>
+<circle cx="650" cy="347" r="7" fill="#a14518"/>
+<text x="505" y="382" text-anchor="middle" font-size="19" font-weight="650" fill="#163349">1.88</text>
+<text x="650" y="382" text-anchor="middle" font-size="19" font-weight="650" fill="#163349">4.00</text>
+<text x="795" y="382" text-anchor="middle" font-size="19" font-weight="650" fill="#163349">6.12</text>
+</g>
+</svg>

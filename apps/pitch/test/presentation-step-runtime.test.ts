@@ -457,6 +457,12 @@ test("scroll-view terminal navigation releases the lock and jumps to the adjacen
   assert.equal(exitSignals, 1);
   assert.equal(viewport.scrollTop, 2400);
   assert.deepEqual(slideCalls, []);
+
+  deck.getCurrentSlide = () => nextSlide;
+  assert.equal(consumePresentationStageNavigation(deck, "next", { view: "scroll", root }), true);
+  assert.equal(exitSignals, 1);
+  assert.equal(viewport.scrollTop, 2400);
+  assert.deepEqual(slideCalls, []);
 });
 
 test("staged navigation consumes internal fragments then jumps directly to the next slide", () => {

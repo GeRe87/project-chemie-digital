@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Six method–matrix combinations</title>
+  <desc>Thirty-six synthetic recovery measurements arranged by water matrix and preparation method. Each method and matrix combination has six measurements. Means in river water are 94, 98, and 93 percent. Means in wastewater are 92, 86, and 94 percent.</desc>
+  <text x="51" y="38" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Recovery (%)</text>
+  <text x="390" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">River water</text>
+  <text x="763" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">Wastewater</text>
+  <path d="M125 305.0H560 M596 305.0H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="311.0" text-anchor="end" font-size="18" font-weight="400" fill="#163349">82</text>
+  <path d="M125 254.6H560 M596 254.6H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="260.6" text-anchor="end" font-size="18" font-weight="400" fill="#163349">86</text>
+  <path d="M125 204.2H560 M596 204.2H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="210.2" text-anchor="end" font-size="18" font-weight="400" fill="#163349">90</text>
+  <path d="M125 153.8H560 M596 153.8H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="159.8" text-anchor="end" font-size="18" font-weight="400" fill="#163349">94</text>
+  <path d="M125 103.4H560 M596 103.4H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="109.4" text-anchor="end" font-size="18" font-weight="400" fill="#163349">98</text>
+  <path d="M125 53.0H560 M596 53.0H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="112" y="59.0" text-anchor="end" font-size="18" font-weight="400" fill="#163349">102</text>
+  <circle cx="170.00" cy="167.66" r="6" fill="#10698a"><title>A, 92.90%</title></circle>
+  <circle cx="180.80" cy="137.04" r="6" fill="#10698a"><title>A, 95.33%</title></circle>
+  <circle cx="191.60" cy="156.19" r="6" fill="#10698a"><title>A, 93.81%</title></circle>
+  <circle cx="202.40" cy="176.61" r="6" fill="#10698a"><title>A, 92.19%</title></circle>
+  <circle cx="213.20" cy="129.61" r="6" fill="#10698a"><title>A, 95.92%</title></circle>
+  <circle cx="224.00" cy="155.69" r="6" fill="#10698a"><title>A, 93.85%</title></circle>
+  <text x="197" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#10698a">Method A</text>
+  <circle cx="311.00" cy="118.65" r="6" fill="#a14518"><title>B, 96.79%</title></circle>
+  <circle cx="321.80" cy="94.96" r="6" fill="#a14518"><title>B, 98.67%</title></circle>
+  <circle cx="332.60" cy="102.64" r="6" fill="#a14518"><title>B, 98.06%</title></circle>
+  <circle cx="343.40" cy="77.82" r="6" fill="#a14518"><title>B, 100.03%</title></circle>
+  <circle cx="354.20" cy="127.97" r="6" fill="#a14518"><title>B, 96.05%</title></circle>
+  <circle cx="365.00" cy="98.36" r="6" fill="#a14518"><title>B, 98.40%</title></circle>
+  <text x="338" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#a14518">Method B</text>
+  <circle cx="452.00" cy="152.04" r="6" fill="#5c3a98"><title>C, 94.14%</title></circle>
+  <circle cx="462.80" cy="168.04" r="6" fill="#5c3a98"><title>C, 92.87%</title></circle>
+  <circle cx="473.60" cy="177.87" r="6" fill="#5c3a98"><title>C, 92.09%</title></circle>
+  <circle cx="484.40" cy="141.33" r="6" fill="#5c3a98"><title>C, 94.99%</title></circle>
+  <circle cx="495.20" cy="191.22" r="6" fill="#5c3a98"><title>C, 91.03%</title></circle>
+  <circle cx="506.00" cy="167.91" r="6" fill="#5c3a98"><title>C, 92.88%</title></circle>
+  <text x="479" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#5c3a98">Method C</text>
+  <circle cx="648" cy="201.05" r="6" fill="#10698a"><title>A, 90.25%</title></circle>
+  <circle cx="679" cy="194.88" r="6" fill="#10698a"><title>A, 90.74%</title></circle>
+  <circle cx="631" cy="183.91" r="6" fill="#10698a"><title>A, 91.61%</title></circle>
+  <circle cx="670" cy="175.85" r="6" fill="#10698a"><title>A, 92.25%</title></circle>
+  <circle cx="660" cy="162.87" r="6" fill="#10698a"><title>A, 93.28%</title></circle>
+  <circle cx="641" cy="155.44" r="6" fill="#10698a"><title>A, 93.87%</title></circle>
+  <text x="656" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#10698a">Method A</text>
+  <circle cx="786" cy="277.53" r="6" fill="#a14518"><title>B, 84.18%</title></circle>
+  <circle cx="753" cy="267.83" r="6" fill="#a14518"><title>B, 84.95%</title></circle>
+  <circle cx="777" cy="259.01" r="6" fill="#a14518"><title>B, 85.65%</title></circle>
+  <circle cx="742" cy="250.57" r="6" fill="#a14518"><title>B, 86.32%</title></circle>
+  <circle cx="793" cy="245.91" r="6" fill="#a14518"><title>B, 86.69%</title></circle>
+  <circle cx="760" cy="226.75" r="6" fill="#a14518"><title>B, 88.21%</title></circle>
+  <text x="769" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#a14518">Method B</text>
+  <circle cx="897" cy="179.76" r="6" fill="#5c3a98"><title>C, 91.94%</title></circle>
+  <circle cx="859" cy="167.28" r="6" fill="#5c3a98"><title>C, 92.93%</title></circle>
+  <circle cx="911" cy="152.41" r="6" fill="#5c3a98"><title>C, 94.11%</title></circle>
+  <circle cx="875" cy="151.28" r="6" fill="#5c3a98"><title>C, 94.20%</title></circle>
+  <circle cx="885" cy="142.84" r="6" fill="#5c3a98"><title>C, 94.87%</title></circle>
+  <circle cx="868" cy="129.23" r="6" fill="#5c3a98"><title>C, 95.95%</title></circle>
+  <text x="882" y="340" text-anchor="middle" font-size="20" font-weight="700" fill="#5c3a98">Method C</text>
+  <g data-svg-stage="1">
+<path d="M163 153.80H231" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="238" y="159.8" text-anchor="start" font-size="17" font-weight="700" fill="#10698a">94%</text>
+<path d="M304 103.40H372" fill="none" stroke="#a14518" stroke-width="2"/>
+<text x="379" y="109.4" text-anchor="start" font-size="17" font-weight="700" fill="#a14518">98%</text>
+<path d="M445 166.40H513" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<text x="520" y="172.4" text-anchor="start" font-size="17" font-weight="700" fill="#5c3a98">93%</text>
+<path d="M622 179.00H690" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="697" y="185.0" text-anchor="start" font-size="17" font-weight="700" fill="#10698a">92%</text>
+<path d="M735 254.60H803" fill="none" stroke="#a14518" stroke-width="2"/>
+<text x="810" y="260.6" text-anchor="start" font-size="17" font-weight="700" fill="#a14518">86%</text>
+<path d="M848 153.80H916" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<text x="923" y="159.8" text-anchor="start" font-size="17" font-weight="700" fill="#5c3a98">94%</text>
+<text x="51" y="384" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Each method has a separate mean in each water matrix.</text>
+</g>
+</svg>

@@ -3,7 +3,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-01> .
@@ -12,7 +12,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene02> .
@@ -20,7 +20,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/position> "7"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-pair-matrix> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-03> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> .
@@ -30,8 +30,8 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/position> "7"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/position> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-hypothesis-perspectives> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-04> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-04> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> .
@@ -40,17 +40,15 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/position> "8"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-05> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/position> "11"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-recovery-schema> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-05> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-05> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-05> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene05> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/position> "9"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/position> "12"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-chart-06> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-06> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> .
 
@@ -59,15 +57,16 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/position> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/position> "13"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-chart-07> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-means-formula> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-07> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-07> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-intro-scene07> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/PathStep> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/position> "11"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/position> "14"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-08> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-08> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-08> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> .
@@ -77,8 +76,8 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/position> "12"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-09> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/position> "15"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-ss-partition-visual> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-09> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-09> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-09> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> .
@@ -87,8 +86,8 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/position> "13"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-10> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/position> "16"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-df-partition-visual> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-10> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-10> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-10> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> .
@@ -97,8 +96,8 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/position> "14"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-11> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/position> "17"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-ms-calculation-visual> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-formula-11> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-11> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-11> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> .
@@ -107,9 +106,9 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/position> "15"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/position> "18"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-diagram-12> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-f-calculation-visual> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-12> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-12> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene12> .
@@ -117,11 +116,10 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/position> "16"^^<http://www.w3.org/2001/XMLSchema#integer> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-chart-13> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-formula-f> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/position> "19"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesResource> <https://w3id.org/project-chemie-digital/resource/l7-heading-13> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-scene13> .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> <https://w3id.org/project-chemie-digital/ontology/usesScene> <https://w3id.org/project-chemie-digital/resource/l7-intro-scene13> .
   <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-step-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-step-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-step-03> .
@@ -151,9 +149,9 @@
   <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-step-13> .
   <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> .
   <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/LearningPath> .
-  <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <http://www.w3.org/2004/02/skos/core#prefLabel> "ANOVA introduction: thirteen-scene review"@en .
+  <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <http://www.w3.org/2004/02/skos/core#prefLabel> "Analysis of Variance"@en .
   <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/forLearningUnit> <https://w3id.org/project-chemie-digital/resource/learning-unit-anova> .
+  <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/forLearningUnit> <https://w3id.org/project-chemie-digital/resource/learning-unit-chemometrics-anova> .
   <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/forTopic> <https://w3id.org/project-chemie-digital/resource/l7-one-way-anova> .
   <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .

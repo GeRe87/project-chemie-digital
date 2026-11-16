@@ -12,11 +12,7 @@ from generate_canonical_runtime import CoursePathReference, compile_scene_docume
 CD = Namespace('https://w3id.org/project-chemie-digital/ontology/')
 EX = Namespace('https://w3id.org/project-chemie-digital/resource/')
 GB = 'https://w3id.org/project-chemie-digital/graph/'
-EXPECTED = {
-    'R-A': [93,95,94,92,96,94], 'R-B': [97,99,98,100,96,98],
-    'R-C': [94,93,92,95,91,93], 'W-A': [90,91,92,92,93,94],
-    'W-B': [84,85,86,86,87,88], 'W-C': [92,93,94,94,95,96],
-}
+EXPECTED = {'R-A':[92.90,95.33,93.81,92.19,95.92,93.85], 'R-B':[96.79,98.67,98.06,100.03,96.05,98.40], 'R-C':[94.14,92.87,92.09,94.99,91.03,92.88], 'W-A':[90.25,90.74,91.61,92.25,93.28,93.87], 'W-B':[84.18,84.95,85.65,86.32,86.69,88.21], 'W-C':[91.94,92.93,94.11,94.20,94.87,95.95]}
 class AnovaProbeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

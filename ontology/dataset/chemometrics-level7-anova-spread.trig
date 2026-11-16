@@ -7,7 +7,7 @@
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-spread-lab .
   ex:l7-source-package cd:supportsResource ex:l7-step-spread-lab .
   ex:l7-intro-step-02 cd:usesResource ex:l7-spread-panels .
-  ex:l7-step-spread-lab a cd:PathStep ; cd:position 3 ; cd:usesScene ex:l7-scene-spread-lab ;
+  ex:l7-step-spread-lab a cd:PathStep ; cd:position 6 ; cd:usesScene ex:l7-scene-spread-lab ;
     cd:usesResource ex:l7-spread-heading, ex:l7-spread-panels, ex:l7-spread-takeaway, ex:l7-ref-calculation ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
 }
 

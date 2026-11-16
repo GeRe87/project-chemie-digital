@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<title>Add a second factor to the treatment study</title>
+<desc>The crossed design has 36 independent runs, four per combination. Activated carbon, NOM addition: 51, 55, 54, 56%. Ultrafiltration, NOM addition: 62, 66, 65, 67%. Ion exchange, NOM addition: 69, 73, 71, 75%. Activated carbon, Phosphate addition: 58, 63, 61, 62%. Ultrafiltration, Phosphate addition: 68, 74, 71, 75%. Ion exchange, Phosphate addition: 76, 80, 77, 79%. Activated carbon, Ozone pretreatment: 68, 74, 70, 72%. Ultrafiltration, Ozone pretreatment: 76, 79, 78, 79%. Ion exchange, Ozone pretreatment: 88, 90, 86, 88%.</desc>
+<text x="56" y="39" font-size="29" font-weight="700" fill="#163349" text-anchor="start">Three techniques crossed with three conditions</text>
+<text x="56" y="71" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Each run uses one technique and exactly one water condition.</text>
+<rect x="55" y="106" width="890" height="58" fill="#10698a" fill-opacity="0.1"/>
+<text x="69" y="142" font-size="21" font-weight="700" fill="#10698a" text-anchor="start">Technique</text>
+<text x="382" y="142" font-size="21" font-weight="700" fill="#10698a" text-anchor="middle">NOM addition</text>
+<text x="601" y="142" font-size="21" font-weight="700" fill="#10698a" text-anchor="middle">Phosphate addition</text>
+<text x="817" y="142" font-size="21" font-weight="700" fill="#10698a" text-anchor="middle">Ozone pretreatment</text>
+<path d="M55 222L945 222" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="69" y="200" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Activated carbon</text>
+<text x="382" y="200" font-size="22" font-weight="400" fill="#10698a" text-anchor="middle">54% · 4 runs</text>
+<text x="601" y="200" font-size="22" font-weight="400" fill="#5c3a98" text-anchor="middle">61% · 4 runs</text>
+<text x="817" y="200" font-size="22" font-weight="400" fill="#a14518" text-anchor="middle">71% · 4 runs</text>
+<path d="M55 280L945 280" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="69" y="258" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Ultrafiltration</text>
+<text x="382" y="258" font-size="22" font-weight="400" fill="#10698a" text-anchor="middle">65% · 4 runs</text>
+<text x="601" y="258" font-size="22" font-weight="400" fill="#5c3a98" text-anchor="middle">72% · 4 runs</text>
+<text x="817" y="258" font-size="22" font-weight="400" fill="#a14518" text-anchor="middle">78% · 4 runs</text>
+<path d="M55 338L945 338" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="69" y="316" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Ion exchange</text>
+<text x="382" y="316" font-size="22" font-weight="400" fill="#10698a" text-anchor="middle">72% · 4 runs</text>
+<text x="601" y="316" font-size="22" font-weight="400" fill="#5c3a98" text-anchor="middle">78% · 4 runs</text>
+<text x="817" y="316" font-size="22" font-weight="400" fill="#a14518" text-anchor="middle">88% · 4 runs</text>
+<text x="55" y="383" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Mean removal shown · 9 combinations · 36 independent runs</text>
+</svg>

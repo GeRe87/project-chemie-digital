@@ -1,17 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
-<title id="title">What does the method account for?</title><desc id="desc">Total observed spread is measured around the grand mean. Between-method variation measures differences among fitted group means; residual variation remains among preparations around their own group mean.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
-<text x="465" y="49" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Which reference are we measuring from?</text>
-<rect x="62" y="86" width="806" height="72" rx="13" fill="#dceef5"/>
-<text x="465" y="130" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">Total: all preparations around the grand mean</text>
-<line x1="465.00" y1="158.00" x2="465.00" y2="201.00" stroke="#527283" stroke-width="3"/>
-<line x1="248.00" y1="201.00" x2="682.00" y2="201.00" stroke="#527283" stroke-width="3"/>
-<line x1="248.00" y1="201.00" x2="248.00" y2="233.00" stroke="#527283" stroke-width="3"/>
-<line x1="682.00" y1="201.00" x2="682.00" y2="233.00" stroke="#527283" stroke-width="3"/>
-<rect x="55" y="233" width="386" height="103" rx="13" fill="#c8e6ef"/>
-<rect x="489" y="233" width="386" height="103" rx="13" fill="#e9def2"/>
-<text x="248" y="273" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Between: fitted method means</text>
-<text x="248" y="307" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Variation accounted for by the model</text>
-<text x="682" y="273" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Within: residual departures</text>
-<text x="682" y="307" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Variation left after fitting the means</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>What does the method account for?</title>
+  <desc>Eighteen river-water recoveries by method. One overall prediction uses the grand mean of 95 percent. The method model uses group means of 94, 98, and 93 percent, leaving spread around each group mean.</desc>
+  <text x="48" y="29" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Recovery (%)</text>
+  <path d="M82 320H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="326" text-anchor="end" font-size="19" font-weight="400" fill="#163349">90</text>
+  <path d="M82 274H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="280" text-anchor="end" font-size="19" font-weight="400" fill="#163349">92</text>
+  <path d="M82 228H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="234" text-anchor="end" font-size="19" font-weight="400" fill="#163349">94</text>
+  <path d="M82 182H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="188" text-anchor="end" font-size="19" font-weight="400" fill="#163349">96</text>
+  <path d="M82 136H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="142" text-anchor="end" font-size="19" font-weight="400" fill="#163349">98</text>
+  <path d="M82 90H730" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="70" y="96" text-anchor="end" font-size="19" font-weight="400" fill="#163349">100</text>
+  <circle cx="172" cy="253.30" r="7" fill="#10698a"><title>Method A, recovery 92.90%</title></circle>
+  <circle cx="183" cy="197.41" r="7" fill="#10698a"><title>Method A, recovery 95.33%</title></circle>
+  <circle cx="194" cy="232.37" r="7" fill="#10698a"><title>Method A, recovery 93.81%</title></circle>
+  <circle cx="205" cy="269.63" r="7" fill="#10698a"><title>Method A, recovery 92.19%</title></circle>
+  <circle cx="216" cy="183.84" r="7" fill="#10698a"><title>Method A, recovery 95.92%</title></circle>
+  <circle cx="227" cy="231.45" r="7" fill="#10698a"><title>Method A, recovery 93.85%</title></circle>
+  <text x="200" y="355" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Method A</text>
+  <circle cx="387" cy="163.83" r="7" fill="#a14518"><title>Method B, recovery 96.79%</title></circle>
+  <circle cx="398" cy="120.59" r="7" fill="#a14518"><title>Method B, recovery 98.67%</title></circle>
+  <circle cx="409" cy="134.62" r="7" fill="#a14518"><title>Method B, recovery 98.06%</title></circle>
+  <circle cx="420" cy="89.31" r="7" fill="#a14518"><title>Method B, recovery 100.03%</title></circle>
+  <circle cx="431" cy="180.85" r="7" fill="#a14518"><title>Method B, recovery 96.05%</title></circle>
+  <circle cx="442" cy="126.80" r="7" fill="#a14518"><title>Method B, recovery 98.40%</title></circle>
+  <text x="415" y="355" text-anchor="middle" font-size="21" font-weight="700" fill="#a14518">Method B</text>
+  <circle cx="602" cy="224.78" r="7" fill="#5c3a98"><title>Method C, recovery 94.14%</title></circle>
+  <circle cx="613" cy="253.99" r="7" fill="#5c3a98"><title>Method C, recovery 92.87%</title></circle>
+  <circle cx="624" cy="271.93" r="7" fill="#5c3a98"><title>Method C, recovery 92.09%</title></circle>
+  <circle cx="635" cy="205.23" r="7" fill="#5c3a98"><title>Method C, recovery 94.99%</title></circle>
+  <circle cx="646" cy="296.31" r="7" fill="#5c3a98"><title>Method C, recovery 91.03%</title></circle>
+  <circle cx="657" cy="253.76" r="7" fill="#5c3a98"><title>Method C, recovery 92.88%</title></circle>
+  <text x="630" y="355" text-anchor="middle" font-size="21" font-weight="700" fill="#5c3a98">Method C</text>
+  <path d="M82 205H730" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="751" y="211" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Grand mean: 95%</text>
+  <text x="751" y="238" text-anchor="start" font-size="18" font-weight="400" fill="#163349">One fit for all samples</text>
+  <g data-svg-stage="1">
+<path d="M153 228H247" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="254" y="234" text-anchor="start" font-size="19" font-weight="700" fill="#10698a">94%</text>
+<path d="M368 136H462" fill="none" stroke="#a14518" stroke-width="2"/>
+<text x="469" y="142" text-anchor="start" font-size="19" font-weight="700" fill="#a14518">98%</text>
+<path d="M583 251H677" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<text x="684" y="257" text-anchor="start" font-size="19" font-weight="700" fill="#5c3a98">93%</text>
+<text x="751" y="268" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Method means</text>
+<text x="751" y="297" text-anchor="start" font-size="18" font-weight="400" fill="#163349">One fit per method</text>
+</g>
+</svg>

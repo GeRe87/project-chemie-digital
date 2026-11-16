@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 510" font-family="system-ui, sans-serif">
+<title>Water treatment: compare techniques across conditions</title>
+<desc>Use the additive model to compare marginal means averaged equally over the three conditions. AC is activated carbon, UF ultrafiltration and IX ion exchange. Use the additive model MSE and 31 error degrees of freedom. Average over the three water conditions: HSD 2.30 percentage points. AC versus UF, adjusted p 4.305e-11. AC versus IX, adjusted p 5.329e-15. UF versus IX, adjusted p 8.704e-09.</desc>
+<text x="245" y="34" font-size="26" font-weight="700" fill="#10698a" text-anchor="start">Average over the three water conditions</text>
+<text x="245" y="66" font-size="20" font-weight="700" fill="#5c3a98" text-anchor="start">HSD = 2.30 pp</text>
+<text x="245" y="103" font-size="19" font-weight="700" fill="#163349" text-anchor="start">Matrix of adjusted p-values</text>
+<text x="463" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">AC</text>
+<text x="589" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">UF</text>
+<text x="715" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">IX</text>
+<text x="245" y="162" font-size="19" font-weight="700" fill="#163349" text-anchor="start">AC</text>
+<text x="463" y="162" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="589" y="162" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="715" y="162" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="245" y="192" font-size="19" font-weight="700" fill="#163349" text-anchor="start">UF</text>
+<text x="589" y="192" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="715" y="192" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="245" y="222" font-size="19" font-weight="700" fill="#163349" text-anchor="start">IX</text>
+<text x="715" y="222" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="245" y="271" font-size="19" font-weight="700" fill="#163349" text-anchor="start">Tukey plot: simultaneous 95% intervals</text>
+<path d="M595.0 288L595.0 410" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<text x="245" y="313" font-size="17" font-weight="400" fill="#163349" text-anchor="start">AC − UF</text>
+<path d="M523.190 307L550.810 307" fill="none" stroke="#a14518" stroke-width="3"/>
+<path d="M523.190 302L523.190 312" fill="none" stroke="#a14518" stroke-width="2"/>
+<path d="M550.810 302L550.810 312" fill="none" stroke="#a14518" stroke-width="2"/>
+<circle cx="537.000" cy="307" r="5" fill="#a14518"/>
+<text x="245" y="349" font-size="17" font-weight="400" fill="#163349" text-anchor="start">AC − IX</text>
+<path d="M477.190 343L504.810 343" fill="none" stroke="#a14518" stroke-width="3"/>
+<path d="M477.190 338L477.190 348" fill="none" stroke="#a14518" stroke-width="2"/>
+<path d="M504.810 338L504.810 348" fill="none" stroke="#a14518" stroke-width="2"/>
+<circle cx="491.000" cy="343" r="5" fill="#a14518"/>
+<text x="245" y="385" font-size="17" font-weight="400" fill="#163349" text-anchor="start">UF − IX</text>
+<path d="M535.190 379L562.810 379" fill="none" stroke="#a14518" stroke-width="3"/>
+<path d="M535.190 374L535.190 384" fill="none" stroke="#a14518" stroke-width="2"/>
+<path d="M562.810 374L562.810 384" fill="none" stroke="#a14518" stroke-width="2"/>
+<circle cx="549.000" cy="379" r="5" fill="#a14518"/>
+<path d="M415 410L775 410" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M415.0 410L415.0 416" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="415.0" y="435" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">-30</text>
+<path d="M505.0 410L505.0 416" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="505.0" y="435" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">-15</text>
+<path d="M595.0 410L595.0 416" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="595.0" y="435" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">0</text>
+<path d="M685.0 410L685.0 416" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="685.0" y="435" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">15</text>
+<path d="M775.0 410L775.0 416" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="775.0" y="435" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">30</text>
+<text x="595.0" y="464" font-size="18" font-weight="400" fill="#163349" text-anchor="middle">Difference in means (pp)</text>
+<text x="595" y="494" font-size="18" fill="#163349" text-anchor="middle">AC = activated carbon, UF = ultrafiltration, IX = ion exchange</text>
+</svg>

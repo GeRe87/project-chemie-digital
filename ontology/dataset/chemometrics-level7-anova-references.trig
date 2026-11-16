@@ -30,9 +30,19 @@
   ex:l7-ref-multiple a cd:MediaAsset ;
     cd:uri "https://itl.nist.gov/div898/handbook/prc/section4/prc47.htm"^^xsd:anyURI ; cd:mediaType "text/html" ;
     cd:alternativeText "NIST: Multiple comparisons"@en ; cd:hasSource ex:l7-citation-multiple ; cd:authoredResource true .
+  ex:l7-ref-holm a cd:MediaAsset ; cd:uri "https://www.jstor.org/stable/4615733"^^xsd:anyURI ; cd:mediaType "text/html" ;
+    cd:alternativeText "Holm (1979): Sequential multiple testing"@en ; cd:hasSource ex:l7-citation-holm ; cd:authoredResource true .
+  ex:l7-citation-holm a cd:Source ; dct:title "A Simple Sequentially Rejective Multiple Test Procedure" ;
+    dct:creator "Sture Holm" ; dct:identifier "l7-citation-holm" ; dct:source <https://www.jstor.org/stable/4615733> ;
+    cd:supportsResource ex:l7-ref-holm, ex:l7-reference-item-28 ; cd:authoredResource true .
   ex:l7-ref-tukey a cd:MediaAsset ;
     cd:uri "https://itl.nist.gov/div898/handbook/prc/section4/prc471.htm"^^xsd:anyURI ; cd:mediaType "text/html" ;
     cd:alternativeText "NIST: Tukey and the studentized range"@en ; cd:hasSource ex:l7-citation-tukey ; cd:authoredResource true .
+  ex:l7-ref-incomplete-blocks a cd:MediaAsset ; cd:uri "https://online.stat.psu.edu/stat503/Lesson04#incomplete-block-designs"^^xsd:anyURI ; cd:mediaType "text/html" ;
+    cd:alternativeText "Penn State: Incomplete block designs"@en ; cd:hasSource ex:l7-citation-incomplete-blocks ; cd:authoredResource true .
+  ex:l7-citation-incomplete-blocks a cd:Source ; dct:title "Blocking: Incomplete Block Designs" ;
+    dct:creator "Penn State Department of Statistics" ; dct:identifier "l7-citation-incomplete-blocks" ; dct:source <https://online.stat.psu.edu/stat503/Lesson04#incomplete-block-designs> ;
+    cd:supportsResource ex:l7-ref-incomplete-blocks, ex:l7-reference-operator-assignment, ex:l7-reference-operator-adjusted ; cd:authoredResource true .
   ex:l7-ref-factorial a cd:MediaAsset ;
     cd:uri "https://itl.nist.gov/div898/handbook/prc/section4/prc437.htm"^^xsd:anyURI ; cd:mediaType "text/html" ;
     cd:alternativeText "NIST: Two-way ANOVA calculations"@en ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
@@ -77,19 +87,19 @@
     cd:supportsResource ex:l7-ref-assumptions, ex:l7-reference-item-14, ex:l7-reference-item-20, ex:l7-reference-item-39 ; cd:authoredResource true .
   ex:l7-citation-multiple a cd:Source ; dct:title "NIST: Multiple comparisons" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-multiple" ; dct:source <https://itl.nist.gov/div898/handbook/prc/section4/prc47.htm> ;
-    cd:supportsResource ex:l7-ref-multiple, ex:l7-reference-item-03, ex:l7-reference-item-24, ex:l7-reference-item-25, ex:l7-reference-item-28 ; cd:authoredResource true .
+    cd:supportsResource ex:l7-ref-multiple, ex:l7-reference-item-03, ex:l7-reference-item-24 ; cd:authoredResource true .
   ex:l7-citation-tukey a cd:Source ; dct:title "NIST: Tukey and the studentized range" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-tukey" ; dct:source <https://itl.nist.gov/div898/handbook/prc/section4/prc471.htm> ;
-    cd:supportsResource ex:l7-ref-tukey, ex:l7-reference-item-26, ex:l7-reference-item-26-adjusted, ex:l7-reference-item-27 ; cd:authoredResource true .
+    cd:supportsResource ex:l7-ref-tukey, ex:l7-reference-item-25, ex:l7-reference-item-26, ex:l7-reference-item-26-adjusted, ex:l7-reference-item-27 ; cd:authoredResource true .
   ex:l7-citation-factorial a cd:Source ; dct:title "NIST: Two-way ANOVA calculations" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-factorial" ; dct:source <https://itl.nist.gov/div898/handbook/prc/section4/prc437.htm> ;
-    cd:supportsResource ex:l7-ref-factorial, ex:l7-reference-item-30, ex:l7-reference-item-36 ; cd:authoredResource true .
+    cd:supportsResource ex:l7-ref-factorial, ex:l7-reference-model-prediction, ex:l7-reference-model-system, ex:l7-reference-model-pattern, ex:l7-reference-item-30, ex:l7-reference-additive-table, ex:l7-reference-additive-compare, ex:l7-reference-item-33, ex:l7-reference-item-34, ex:l7-reference-item-36 ; cd:authoredResource true .
   ex:l7-citation-crossed a cd:Source ; dct:title "NIST: Main effects and interaction" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-crossed" ; dct:source <https://itl.nist.gov/div898/handbook/ppc/section2/ppc232.htm> ;
     cd:supportsResource ex:l7-ref-crossed, ex:l7-reference-item-29, ex:l7-reference-item-31, ex:l7-reference-item-32, ex:l7-reference-item-35 ; cd:authoredResource true .
   ex:l7-citation-interaction a cd:Source ; dct:title "NIST: Interaction plots" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-interaction" ; dct:source <https://itl.nist.gov/div898/handbook/pri/section5/pri594.htm> ;
-    cd:supportsResource ex:l7-ref-interaction, ex:l7-reference-item-33, ex:l7-reference-item-34, ex:l7-reference-item-37 ; cd:authoredResource true .
+    cd:supportsResource ex:l7-ref-interaction, ex:l7-reference-item-37 ; cd:authoredResource true .
   ex:l7-citation-multi-factor a cd:Source ; dct:title "NIST: Multi-factor ANOVA" ;
     dct:creator "National Institute of Standards and Technology" ; dct:identifier "l7-citation-multi-factor" ; dct:source <https://itl.nist.gov/div898/handbook/eda/section3/eda355.htm> ;
     cd:supportsResource ex:l7-ref-multi-factor, ex:l7-reference-item-38, ex:l7-reference-item-47 ; cd:authoredResource true .
@@ -98,14 +108,13 @@
     cd:supportsResource ex:l7-ref-kruskal, ex:l7-reference-item-41, ex:l7-reference-item-41-example ; cd:authoredResource true .
   ex:l7-citation-eta a cd:Source ; dct:title "Lakens (2013): Eta squared" ;
     dct:creator "Daniël Lakens" ; dct:identifier "l7-citation-eta" ; dct:source <https://doi.org/10.3389/fpsyg.2013.00863> ;
-    cd:supportsResource ex:l7-ref-eta, ex:l7-reference-item-22-question, ex:l7-reference-item-22, ex:l7-reference-item-23, ex:l7-reference-item-46 ; cd:authoredResource true .
+    cd:supportsResource ex:l7-ref-eta, ex:l7-reference-item-22-question, ex:l7-reference-item-22, ex:l7-reference-item-23, ex:l7-reference-operator-compare, ex:l7-reference-item-46 ; cd:authoredResource true .
   ex:l7-citation-welch a cd:Source ; dct:title "R stats: Welch’s one-way test" ;
     dct:creator "R Core Team" ; dct:identifier "l7-citation-welch" ; dct:source <https://stat.ethz.ch/R-manual/R-devel/library/stats/html/oneway.test.html> ;
     cd:supportsResource ex:l7-ref-welch, ex:l7-reference-item-40, ex:l7-reference-item-40-example ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-intro> {
-  ex:l7-scene01 cd:hasSceneItem ex:l7-reference-item-01 .
   ex:l7-reference-item-01 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
     cd:selectsResource ex:l7-ref-one-factor ; cd:hasSource ex:l7-citation-one-factor ; cd:authoredResource true .
@@ -156,7 +165,7 @@
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-probe> {
-  ex:l7-scene13 cd:hasSceneItem ex:l7-reference-item-13 .
+  ex:l7-intro-scene13 cd:hasSceneItem ex:l7-reference-item-13 .
   ex:l7-reference-item-13 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     dct:isPartOf ex:l7-intro-step-13 ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
@@ -219,7 +228,7 @@
   ex:l7-scene25 cd:hasSceneItem ex:l7-reference-item-25 .
   ex:l7-reference-item-25 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
-    cd:selectsResource ex:l7-ref-multiple ; cd:hasSource ex:l7-citation-multiple ; cd:authoredResource true .
+    cd:selectsResource ex:l7-ref-tukey ; cd:hasSource ex:l7-citation-tukey ; cd:authoredResource true .
   ex:l7-scene26 cd:hasSceneItem ex:l7-reference-item-26 .
   ex:l7-reference-item-26 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
@@ -235,7 +244,7 @@
   ex:l7-scene28 cd:hasSceneItem ex:l7-reference-item-28 .
   ex:l7-reference-item-28 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
-    cd:selectsResource ex:l7-ref-multiple ; cd:hasSource ex:l7-citation-multiple ; cd:authoredResource true .
+    cd:selectsResource ex:l7-ref-holm ; cd:hasSource ex:l7-citation-holm ; cd:authoredResource true .
   ex:l7-scene29 cd:hasSceneItem ex:l7-reference-item-29 .
   ex:l7-reference-item-29 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
@@ -255,11 +264,11 @@
   ex:l7-scene33 cd:hasSceneItem ex:l7-reference-item-33 .
   ex:l7-reference-item-33 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
-    cd:selectsResource ex:l7-ref-interaction ; cd:hasSource ex:l7-citation-interaction ; cd:authoredResource true .
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
   ex:l7-scene34 cd:hasSceneItem ex:l7-reference-item-34 .
   ex:l7-reference-item-34 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
-    cd:selectsResource ex:l7-ref-interaction ; cd:hasSource ex:l7-citation-interaction ; cd:authoredResource true .
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
   ex:l7-scene35 cd:hasSceneItem ex:l7-reference-item-35 .
   ex:l7-reference-item-35 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
@@ -308,6 +317,30 @@
   ex:l7-reference-item-47 a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
     cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
     cd:selectsResource ex:l7-ref-multi-factor ; cd:hasSource ex:l7-citation-multi-factor ; cd:authoredResource true .
+  ex:l7-scene36-additive cd:hasSceneItem ex:l7-reference-additive-table .
+  ex:l7-reference-additive-table a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-scene36-compare cd:hasSceneItem ex:l7-reference-additive-compare .
+  ex:l7-reference-additive-compare a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-scene-operator-assignment cd:hasSceneItem ex:l7-reference-operator-assignment .
+  ex:l7-reference-operator-assignment a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-incomplete-blocks ; cd:hasSource ex:l7-citation-incomplete-blocks ; cd:authoredResource true .
+  ex:l7-scene-operator-compare cd:hasSceneItem ex:l7-reference-operator-compare .
+  ex:l7-reference-operator-compare a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-eta ; cd:hasSource ex:l7-citation-eta ; cd:authoredResource true .
+  ex:l7-scene-operator-adjusted cd:hasSceneItem ex:l7-reference-operator-adjusted .
+  ex:l7-reference-operator-adjusted a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-incomplete-blocks ; cd:hasSource ex:l7-citation-incomplete-blocks ; cd:authoredResource true .
+  ex:l7-scene-model-prediction cd:hasSceneItem ex:l7-reference-model-prediction .
+  ex:l7-reference-model-prediction a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-scene-model-system cd:hasSceneItem ex:l7-reference-model-system .
+  ex:l7-reference-model-system a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-scene-model-pattern cd:hasSceneItem ex:l7-reference-model-pattern .
+  ex:l7-reference-model-pattern a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
@@ -337,17 +370,17 @@
   ex:l7-intro-step-22 cd:usesResource ex:l7-ref-eta .
   ex:l7-intro-step-23 cd:usesResource ex:l7-ref-eta .
   ex:l7-intro-step-24 cd:usesResource ex:l7-ref-multiple .
-  ex:l7-intro-step-25 cd:usesResource ex:l7-ref-multiple .
+  ex:l7-intro-step-25 cd:usesResource ex:l7-ref-tukey .
   ex:l7-intro-step-26 cd:usesResource ex:l7-ref-tukey .
   ex:l7-intro-step-26-adjusted cd:usesResource ex:l7-ref-tukey .
   ex:l7-intro-step-27 cd:usesResource ex:l7-ref-tukey .
-  ex:l7-intro-step-28 cd:usesResource ex:l7-ref-multiple .
+  ex:l7-intro-step-28 cd:usesResource ex:l7-ref-holm .
   ex:l7-intro-step-29 cd:usesResource ex:l7-ref-crossed .
   ex:l7-intro-step-30 cd:usesResource ex:l7-ref-factorial .
   ex:l7-intro-step-31 cd:usesResource ex:l7-ref-crossed .
   ex:l7-intro-step-32 cd:usesResource ex:l7-ref-crossed .
-  ex:l7-intro-step-33 cd:usesResource ex:l7-ref-interaction .
-  ex:l7-intro-step-34 cd:usesResource ex:l7-ref-interaction .
+  ex:l7-intro-step-33 cd:usesResource ex:l7-ref-factorial .
+  ex:l7-intro-step-34 cd:usesResource ex:l7-ref-factorial .
   ex:l7-intro-step-35 cd:usesResource ex:l7-ref-crossed .
   ex:l7-intro-step-36 cd:usesResource ex:l7-ref-factorial .
   ex:l7-intro-step-37 cd:usesResource ex:l7-ref-interaction .
@@ -360,4 +393,55 @@
   ex:l7-intro-step-45 cd:usesResource ex:l7-ref-overview .
   ex:l7-intro-step-46 cd:usesResource ex:l7-ref-eta .
   ex:l7-intro-step-47 cd:usesResource ex:l7-ref-multi-factor .
+  ex:l7-additive-table-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-additive-compare-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-operator-assignment-step cd:usesResource ex:l7-ref-incomplete-blocks .
+  ex:l7-operator-compare-step cd:usesResource ex:l7-ref-eta .
+  ex:l7-operator-adjusted-step cd:usesResource ex:l7-ref-incomplete-blocks .
+  ex:l7-model-prediction-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-model-system-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-model-pattern-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-treatment-observations-step cd:usesResource ex:l7-ref-one-factor .
+  ex:l7-treatment-one-way-step cd:usesResource ex:l7-ref-calculation .
+  ex:l7-treatment-design-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-treatment-two-way-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-four-tables-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-compare-patterns-step cd:usesResource ex:l7-ref-interaction .
+  ex:l7-interaction-meaning-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-interaction-model-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-interaction-worked-step cd:usesResource ex:l7-ref-factorial .
+  ex:l7-interaction-test-step cd:usesResource ex:l7-ref-eta .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-scene-treatment-observations cd:hasSceneItem ex:l7-reference-treatment-observations .
+  ex:l7-reference-treatment-observations a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-one-factor ; cd:hasSource ex:l7-citation-one-factor ; cd:authoredResource true .
+  ex:l7-citation-one-factor cd:supportsResource ex:l7-reference-treatment-observations .
+  ex:l7-scene-treatment-one-way cd:hasSceneItem ex:l7-reference-treatment-one-way .
+  ex:l7-reference-treatment-one-way a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-calculation ; cd:hasSource ex:l7-citation-calculation ; cd:authoredResource true .
+  ex:l7-citation-calculation cd:supportsResource ex:l7-reference-treatment-one-way .
+  ex:l7-scene-treatment-design cd:hasSceneItem ex:l7-reference-treatment-design .
+  ex:l7-reference-treatment-design a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-treatment-design .
+  ex:l7-scene-treatment-two-way cd:hasSceneItem ex:l7-reference-treatment-two-way .
+  ex:l7-reference-treatment-two-way a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-treatment-two-way .
+  ex:l7-scene-four-tables cd:hasSceneItem ex:l7-reference-four-tables .
+  ex:l7-reference-four-tables a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-four-tables .
+  ex:l7-scene-compare-patterns cd:hasSceneItem ex:l7-reference-compare-patterns .
+  ex:l7-reference-compare-patterns a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-interaction ; cd:hasSource ex:l7-citation-interaction ; cd:authoredResource true .
+  ex:l7-citation-interaction cd:supportsResource ex:l7-reference-compare-patterns .
+  ex:l7-scene-interaction-meaning cd:hasSceneItem ex:l7-reference-interaction-meaning .
+  ex:l7-reference-interaction-meaning a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-interaction-meaning .
+  ex:l7-scene-interaction-model cd:hasSceneItem ex:l7-reference-interaction-model .
+  ex:l7-reference-interaction-model a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-interaction-model .
+  ex:l7-scene-interaction-worked cd:hasSceneItem ex:l7-reference-interaction-worked .
+  ex:l7-reference-interaction-worked a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-factorial ; cd:hasSource ex:l7-citation-factorial ; cd:authoredResource true .
+  ex:l7-citation-factorial cd:supportsResource ex:l7-reference-interaction-worked .
+  ex:l7-scene-interaction-test cd:hasSceneItem ex:l7-reference-interaction-test .
+  ex:l7-reference-interaction-test a cd:SceneItem ; cd:position 90 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-eta ; cd:hasSource ex:l7-citation-eta ; cd:authoredResource true .
+  ex:l7-citation-eta cd:supportsResource ex:l7-reference-interaction-test .
 }

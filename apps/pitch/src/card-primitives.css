@@ -131,7 +131,7 @@
   flex: 1 1 auto;
   margin: 0;
   color: var(--pcd-foreground);
-  font-size: .78em;
+  font-size: max(.78em, var(--pcd-lecture-card-body-min, 0px));
   line-height: 1.28;
   overflow-wrap: break-word;
   word-break: normal;

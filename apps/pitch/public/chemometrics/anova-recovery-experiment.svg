@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 370" font-family="system-ui, sans-serif">
+  <title>Designing a one-way ANOVA experiment</title>
+
+  <g data-svg-stage="0">
+    <text x="50" y="115" font-size="24" fill="#10698a" font-weight="700">Research question</text>
+    <text x="50" y="183" font-size="35" fill="#163349" font-weight="700">Do the methods give different mean recoveries?</text>
+    <text x="50" y="232" font-size="26" fill="#163349" font-weight="400">Or is mean recovery the same for A, B and C?</text>
+  </g>
+  <g data-svg-stage="1">
+    <text x="50" y="105" font-size="27" fill="#10698a" font-weight="700">Factor</text>
+    <text x="50" y="153" font-size="34" fill="#163349" font-weight="700">Preparation method</text>
+    <text x="50" y="205" font-size="24" fill="#163349" font-weight="400">What we vary</text>
+    <text x="50" y="250" font-size="24" fill="#163349" font-weight="400">Three levels: A, B and C</text>
+    <line x1="527" y1="88" x2="527" y2="274" stroke="#a7b9c7" stroke-width="2"/>
+    <text x="581" y="105" font-size="27" fill="#a14518" font-weight="700">Response</text>
+    <text x="581" y="153" font-size="34" fill="#163349" font-weight="700">Recovery (%)</text>
+    <text x="581" y="205" font-size="24" fill="#163349" font-weight="400">What we measure</text>
+    <text x="581" y="250" font-size="24" fill="#163349" font-weight="400">One value per prepared sample</text>
+  </g>
+  <g data-svg-stage="2">
+    <text x="50" y="65" font-size="31" fill="#163349" font-weight="700">Repeat the full preparation independently</text>
+    <text x="50" y="125" font-size="24" fill="#10698a" font-weight="700">Method A</text>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(62 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="62" y1="198" x2="62" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="62" cy="231" r="6" fill="#10698a"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(102 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="102" y1="198" x2="102" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="102" cy="231" r="6" fill="#10698a"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(142 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="142" y1="198" x2="142" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="142" cy="231" r="6" fill="#10698a"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(182 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="182" y1="198" x2="182" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="182" cy="231" r="6" fill="#10698a"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(222 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="222" y1="198" x2="222" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="222" cy="231" r="6" fill="#10698a"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(262 174)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="262" y1="198" x2="262" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="262" cy="231" r="6" fill="#10698a"/>
+    <text x="394" y="125" font-size="24" fill="#a14518" font-weight="700">Method B</text>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(406 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="406" y1="198" x2="406" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="406" cy="231" r="6" fill="#a14518"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(446 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="446" y1="198" x2="446" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="446" cy="231" r="6" fill="#a14518"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(486 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="486" y1="198" x2="486" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="486" cy="231" r="6" fill="#a14518"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(526 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="526" y1="198" x2="526" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="526" cy="231" r="6" fill="#a14518"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(566 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="566" y1="198" x2="566" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="566" cy="231" r="6" fill="#a14518"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(606 174)" fill="none" stroke="#a14518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="606" y1="198" x2="606" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="606" cy="231" r="6" fill="#a14518"/>
+    <text x="738" y="125" font-size="24" fill="#5c3a98" font-weight="700">Method C</text>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(750 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="750" y1="198" x2="750" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="750" cy="231" r="6" fill="#5c3a98"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(790 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="790" y1="198" x2="790" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="790" cy="231" r="6" fill="#5c3a98"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(830 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="830" y1="198" x2="830" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="830" cy="231" r="6" fill="#5c3a98"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(870 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="870" y1="198" x2="870" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="870" cy="231" r="6" fill="#5c3a98"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(910 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="910" y1="198" x2="910" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="910" cy="231" r="6" fill="#5c3a98"/>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(950 174)" fill="none" stroke="#5c3a98" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="950" y1="198" x2="950" y2="221" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="950" cy="231" r="6" fill="#5c3a98"/>
+    <text x="50" y="289" font-size="24" fill="#163349" font-weight="400">Six independent preparations give six recovery values per method.</text>
+    <text x="50" y="327" font-size="22" fill="#163349" font-weight="400">The spread includes variation from preparation and measurement.</text>
+    <text x="50" y="354" font-size="21" fill="#163349" font-weight="400">Group sizes may differ. Aim for similar sizes when planning the experiment.</text>
+  </g>
+  <g data-svg-stage="3">
+    <text x="50" y="65" font-size="31" fill="#163349" font-weight="700">What if we used only technical replicates?</text>
+    <path d="M-7-15H7 M-5-15V-8L-10-3V13Q-10 16-7 16H7Q10 16 10 13V-3L5-8V-15 M-9 5H9" transform="translate(130 179)" fill="none" stroke="#10698a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="50" y="253" font-size="23" fill="#10698a" font-weight="700">Prepare once</text>
+    <text x="460" y="253" font-size="23" fill="#a14518" font-weight="700">Measure the same sample six times</text>
+    <text x="50" y="324" font-size="25" fill="#163349" font-weight="700">What kind of variation would those six readings capture?</text>
+    <line x1="151" y1="179" x2="400" y2="179" stroke="#a7b9c7" stroke-width="2"/>
+    <line x1="151" y1="179" x2="400" y2="179" stroke="#a7b9c7" stroke-width="2"/>
+    <line x1="400" y1="152" x2="400" y2="179" stroke="#a7b9c7" stroke-width="2"/>
+    <line x1="400" y1="152" x2="880" y2="152" stroke="#a7b9c7" stroke-width="2"/>
+    <circle cx="480" cy="152" r="6" fill="#a14518"/>
+    <circle cx="560" cy="152" r="6" fill="#a14518"/>
+    <circle cx="640" cy="152" r="6" fill="#a14518"/>
+    <circle cx="720" cy="152" r="6" fill="#a14518"/>
+    <circle cx="800" cy="152" r="6" fill="#a14518"/>
+    <circle cx="880" cy="152" r="6" fill="#a14518"/>
+  </g>
+</svg>

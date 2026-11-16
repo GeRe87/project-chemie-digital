@@ -23,7 +23,7 @@ def main():
                     enter(source);original=page.locator('[id="'+source+'"]').bounding_box()
                     count=page.locator('#pitch-slides [data-scene-document-id]').count()
                     page.locator('.navigate-'+control).click();page.wait_for_function("()=>document.querySelector('.pcd-page-motion-layer')?.getAnimations().length===1")
-                    page.evaluate("()=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===800){a.pause();a.currentTime=400}}")
+                    page.evaluate("()=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===1250){a.pause();a.currentTime=625}}")
                     layer=page.locator('.pcd-page-motion-layer');assert layer.count()==1 and layer.get_attribute('aria-hidden')=='true'
                     assert layer.evaluate('e=>e.inert');assert layer.locator('.present,[data-scene-document-id],[data-chart-block-id]').count()==0
                     assert page.locator('#pitch-slides [data-scene-document-id]').count()==count
@@ -36,9 +36,9 @@ def main():
                     cloned=layer.locator('.slides > section').bounding_box();assert abs(cloned['x']-original['x'])<1 and abs(cloned['width']-original['width'])<1
                     assert abs(cloned['y']-(original['y']-sign*height/2))<2
                     for fraction in [.2,.5,.8]:
-                        page.evaluate("t=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===800)a.currentTime=t}",800*fraction)
+                        page.evaluate("t=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===1250)a.currentTime=t}",1250*fraction)
                         page.screenshot(path=str(out/f'{label}-{theme}-{width}-{int(fraction*100)}.png'))
-                    page.evaluate("()=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===800)a.finish()}")
+                    page.evaluate("()=>{for(const a of document.getAnimations())if(a.effect?.getTiming().duration===1250)a.finish()}")
                     page.wait_for_function("()=>!document.querySelector('.pcd-page-motion-layer')&&!document.getElementById('pitch-slides').dataset.pageMotion")
                     assert page.locator('.slides section.present').get_attribute('id')==target
                     assert not page.locator('.slides section.present').evaluate("e=>e.closest('.scroll-page-content').inert")
@@ -46,7 +46,7 @@ def main():
                 enter('ex:scene-chemometrics-variance-dispersion-title--scene')
                 page.locator('.navigate-next').click();page.wait_for_timeout(80);page.locator('.navigate-next').click();page.wait_for_timeout(100)
                 assert page.locator('.slides section.present').get_attribute('id')=='ex:scene-vr03--scene';assert page.locator('.pcd-page-motion-layer').count()==1
-                page.wait_for_timeout(850);assert page.locator('.pcd-page-motion-layer').count()==0
+                page.wait_for_function("()=>!document.querySelector('.pcd-page-motion-layer')")
                 enter('ex:scene-vs-mc--scene');page.locator('.navigate-next').click();page.wait_for_timeout(80);page.keyboard.press('ArrowRight')
                 assert page.locator('.pcd-page-motion-layer').count()==0
                 enter('ex:scene-chemometrics-variance-dispersion-title--scene');page.locator('.navigate-next').click();page.wait_for_timeout(80);page.locator('.pcd-script-toggle').click()

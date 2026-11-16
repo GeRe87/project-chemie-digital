@@ -1,18 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
-<title id="title">Which follow-up fits the comparison?</title><desc id="desc">Tukey for all pairs with common variance; Holm or Bonferroni for a defined family of valid tests; Games–Howell for pairs with unequal variances.</desc>
-<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
-<text x="465" y="45" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Match the follow-up to the question and variance</text>
-<rect x="27" y="80" width="276" height="186" rx="14" fill="#dceef5"/>
-<text x="165" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">All pairs</text>
-<text x="165" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Tukey HSD</text>
-<text x="165" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Common variance</text>
-<rect x="327" y="80" width="276" height="186" rx="14" fill="#ebe3f5"/>
-<text x="465" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Defined family</text>
-<text x="465" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Holm / Bonferroni</text>
-<text x="465" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Valid individual tests</text>
-<rect x="627" y="80" width="276" height="186" rx="14" fill="#fae8dd"/>
-<text x="765" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">All pairs</text>
-<text x="765" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Games–Howell</text>
-<text x="765" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Unequal variances</text>
-<text x="465" y="329" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Plan the comparison family before interpreting results.</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Holm adjusts a family of p-values</title>
+  <desc>Three two-sided pooled t-tests have raw p-values 0.000112 for B versus C, 0.000624 for B versus A, and 0.24874 for A versus C. In that order, Holm multiplies by 3, 2 and 1, then takes the running maximum capped at 1. Adjusted p-values are 0.000336, 0.001248 and 0.24874.</desc>
+  <text x="50" y="46" text-anchor="start" font-size="25" font-weight="700" fill="#163349">Start with the three raw two-sided t-test p-values.</text>
+  <rect x="50" y="72" width="900" height="52" fill="#10698a" fill-opacity=".11"/>
+  <text x="72" y="107" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Pair</text>
+  <text x="342" y="107" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Raw p</text>
+  <text x="72" y="170" text-anchor="start" font-size="22" font-weight="650" fill="#163349">B vs C</text>
+  <text x="342" y="170" text-anchor="middle" font-size="22" font-weight="400" fill="#163349">0.000112</text>
+  <path d="M50 185H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="72" y="220" text-anchor="start" font-size="22" font-weight="650" fill="#163349">B vs A</text>
+  <text x="342" y="220" text-anchor="middle" font-size="22" font-weight="400" fill="#163349">0.000624</text>
+  <path d="M50 235H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="72" y="270" text-anchor="start" font-size="22" font-weight="650" fill="#163349">A vs C</text>
+  <text x="342" y="270" text-anchor="middle" font-size="22" font-weight="400" fill="#163349">0.24874</text>
+  <path d="M50 285H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <g data-svg-stage="1">
+<text x="556" y="107" text-anchor="middle" font-size="22" font-weight="700" fill="#5c3a98">Multiplier</text>
+<text x="556" y="170" text-anchor="middle" font-size="23" font-weight="700" fill="#5c3a98">3</text>
+<text x="556" y="220" text-anchor="middle" font-size="23" font-weight="700" fill="#5c3a98">2</text>
+<text x="556" y="270" text-anchor="middle" font-size="23" font-weight="700" fill="#5c3a98">1</text>
+<text x="50" y="334" text-anchor="start" font-size="21" font-weight="650" fill="#5c3a98">Sort smallest first. Multiply by the number of tests still in the family.</text>
+</g>
+  <g data-svg-stage="2">
+<text x="789" y="107" text-anchor="middle" font-size="22" font-weight="700" fill="#a14518">Holm-adjusted p</text>
+<text x="789" y="170" text-anchor="middle" font-size="23" font-weight="700" fill="#a14518">0.000336</text>
+<text x="789" y="220" text-anchor="middle" font-size="23" font-weight="700" fill="#a14518">0.001248</text>
+<text x="789" y="270" text-anchor="middle" font-size="23" font-weight="700" fill="#a14518">0.24874</text>
+<text x="50" y="379" text-anchor="start" font-size="21" font-weight="650" fill="#a14518">Keep the largest product seen so far, capped at 1.</text>
+</g>
+</svg>

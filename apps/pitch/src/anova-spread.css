@@ -2,8 +2,6 @@
 .reveal .pcd-spread-controls { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
 .reveal .pcd-spread-controls label { display:grid; gap:.25em; border-inline-start:4px solid; padding:.22em .5em; font-size:.7em; font-weight:700; }
 .reveal .pcd-spread-controls input { width:100%; }
-.reveal .pcd-spread-body { display:grid; grid-template-columns: 1fr 1fr; gap:.7rem; align-items:start; }
-.reveal .pcd-spread-body svg { width:100%; max-height:42dvh; }
 .reveal .pcd-spread-stats { font-size:.63em; font-variant-numeric:tabular-nums; }
 .reveal .pcd-spread-stats table { width:100%; }
 .reveal .pcd-spread-stats :is(th,td) { padding:.24em .45em; }
@@ -18,33 +16,16 @@
 }
 .reveal .pcd-spread-stat-step { color:var(--pcd-accent); font-weight:800; }
 .reveal .pcd-spread-stat strong { color:var(--pcd-accent); font-size:1.2em; }
-.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-matrix.svg"] :is(svg,img) { width:100%; max-width:none; max-height:48dvh; }
 
-.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] { width:100%; max-width:none; }
-.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-spread-panels.svg"] :is(img,svg) { width:100%; max-width:none; max-height:42dvh; }
-@media(max-width:700px) and (orientation:portrait){
- .reveal .pcd-spread-lab { max-height:54dvh; overflow:auto; }
- .reveal .pcd-spread-body { grid-template-columns:1fr; }
- .reveal .pcd-spread-body svg { max-height:24dvh; }
-}
 
-.reveal #pitch-slides section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .katex-display {
+:is(.reveal #pitch-slides, .pcd-page-motion-panel > .slides) section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .katex-display {
   margin: .5em 0;
   font-size: .84em;
 }
-.reveal #pitch-slides section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .definition-list {
+:is(.reveal #pitch-slides, .pcd-page-motion-panel > .slides) section:has([data-media-uri="/chemometrics/anova-pair-matrix.svg"]) .formula-with-legend .definition-list {
   font-size: .86em;
 }
 
-.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-range.svg"] {
-  width: 100%;
-  max-width: none;
-}
-.reveal #pitch-slides figure[data-media-uri="/chemometrics/anova-pair-range.svg"] :is(svg,img) {
-  width: 100%;
-  max-width: none;
-  max-height: 62dvh;
-}
 html:not(.print-pdf) .reveal figure:not([data-pair-revealed="true"]) [data-pair-reveal] {
   visibility: hidden;
 }
@@ -54,4 +35,162 @@ html:not(.print-pdf) .reveal figure:not([data-pair-revealed="true"]) [data-pair-
 }
 .reveal figure[data-pair-revealed="true"] [data-pair-points="selected"] > circle {
   opacity: .86;
+}
+
+figure[data-svg-stage-active] [data-svg-stage] { display: none; }
+figure[data-svg-stage-active="0"] [data-svg-stage="0"],
+figure[data-svg-stage-active="1"] [data-svg-stage="1"],
+figure[data-svg-stage-active="2"] [data-svg-stage="2"],
+figure[data-svg-stage-active="3"] [data-svg-stage="3"],
+figure[data-svg-stage-active="4"] [data-svg-stage="4"] { display: inline; }
+
+figure[data-svg-stage-mode="cumulative"]:is([data-svg-stage-active="2"], [data-svg-stage-active="3"]) [data-svg-stage="1"],
+figure[data-svg-stage-mode="cumulative"][data-svg-stage-active="3"] [data-svg-stage="2"],
+figure[data-svg-stage-mode="cumulative"][data-svg-stage-active="4"] :is([data-svg-stage="1"], [data-svg-stage="2"], [data-svg-stage="3"]) { display: inline; }
+
+body[data-presentation-theme="dark"] .reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] {
+  --anova-bridge-a: #64cce8;
+  --anova-bridge-b: #c8a6ff;
+  --anova-bridge-c: #ffb385;
+}
+.reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] [fill="#10698a"] { fill: var(--anova-bridge-a, #10698a); }
+.reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] [stroke="#10698a"] { stroke: var(--anova-bridge-a, #10698a); }
+.reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] [fill="#5c3a98"] { fill: var(--anova-bridge-b, #5c3a98); }
+.reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] [fill="#a14518"] { fill: var(--anova-bridge-c, #a14518); }
+.reveal figure[data-media-uri="/chemometrics/anova-two-to-three-groups.svg"] [stroke="#a14518"] { stroke: var(--anova-bridge-c, #a14518); }
+
+:is(.reveal #pitch-slides, .pcd-page-motion-panel > .slides) figure[data-spread-panel-tabs] .pcd-scene-view-tabs {
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto .35rem;
+}
+:is(.reveal #pitch-slides, .pcd-page-motion-panel > .slides) figure[data-spread-panel-tabs] .pcd-scene-view-tabs[hidden] { display: none; }
+
+/* Standalone SVG colours also adapt when the lecture is entered from the course world. */
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([fill="#f7fafc"],[fill="#f3f8fb"]) { fill:#152330; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#163349"] { fill:#ebf4ff; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([fill="#dceef5"],[fill="#c8e6ef"],[fill="#c9e6ec"],[fill="#bde1ec"],[fill="#bce3eb"],[fill="#b7deeb"]) { fill:#25495b; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([fill="#ebe3f5"],[fill="#e9def2"],[fill="#e9e1f3"],[fill="#ece4f4"],[fill="#ddd0ed"]) { fill:#46395b; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([fill="#fae8dd"],[fill="#f0cdb8"],[fill="#f5e9d3"]) { fill:#543b31; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([fill="#10698a"],[fill="#13677e"]) { fill:#64cce8; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([stroke="#10698a"],[stroke="#13677e"]) { stroke:#64cce8; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#5c3a98"] { fill:#c8a6ff; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [stroke="#5c3a98"] { stroke:#c8a6ff; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#a14518"] { fill:#ffb385; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [stroke="#a14518"] { stroke:#ffb385; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#697883"] { fill:#c7d2de; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([stroke="#a7b9c7"],[stroke="#bdcfdc"],[stroke="#d4dfe6"]) { stroke:#4c6577; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg :is([stroke="#527283"],[stroke="#5a768b"],[stroke="#627787"],[stroke="#697883"],[stroke="#788d9a"]) { stroke:#9ebacd; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#17313f"] { fill:#ebf4ff; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#006582"] { fill:#64cce8; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#604493"] { fill:#c8a6ff; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [fill="#a94311"] { fill:#ffb385; }
+body[data-presentation-theme="dark"] figure:is([data-media-uri^="/chemometrics/level7-anova-"], [data-media-uri="/chemometrics/anova-recovery-experiment.svg"]) .teaching-svg [stroke="#718b99"] { stroke:#9ebacd; }
+
+.reveal figure[data-recovery-table-active] > :is(img, svg.teaching-svg),
+.reveal .pcd-anova-recovery-table[hidden] { display: none; }
+.reveal .pcd-anova-recovery-table {
+  margin: auto;
+  width: min(100%, 40rem);
+  color: var(--pcd-foreground);
+  font: 500 22px/1.16 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.reveal .pcd-anova-recovery-table caption {
+  margin-block-end: .35em;
+  font-weight: 700;
+  text-align: start;
+}
+.reveal .pcd-anova-recovery-table :is(th, td) {
+  padding: .12em .65em;
+  border-block-end: 1px solid var(--pcd-border);
+}
+.reveal .pcd-anova-recovery-table tbody + tbody tr:first-child td {
+  border-block-start: 2px solid var(--pcd-accent);
+}
+.reveal .pcd-anova-recovery-table :is(th, td):last-child { text-align: end; }
+
+.reveal .pcd-anova-recovery-column-role {
+  display: block;
+  margin-block-end: .15em;
+  color: var(--pcd-accent);
+  font-size: .8em;
+  font-weight: 650;
+}
+
+.reveal .pcd-anova-recovery-table :is(th, td):first-child {
+  width: 4ch;
+  color: var(--pcd-muted);
+  text-align: end;
+}
+
+.reveal .pcd-anova-table-build > .pcd-visual-layout-plot {
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  margin: 0;
+}
+.reveal .pcd-anova-table-build figure > svg.teaching-svg {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+.reveal .pcd-anova-table-build table {
+  width: 100%;
+  color: var(--pcd-foreground);
+  font: 500 24px/1.3 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.reveal .pcd-anova-table-build caption {
+  padding-block: .5em;
+  font-weight: 700;
+  text-align: start;
+}
+.reveal .pcd-anova-table-build :is(th, td) {
+  padding: .55em .35em;
+  border-block-end: 1px solid var(--pcd-border);
+}
+.reveal .pcd-anova-table-build :is(th, td)[hidden] { display: none; }
+
+.reveal .pcd-anova-table-build [data-new-column] {
+  background: color-mix(in srgb, var(--pcd-accent) 17%, var(--pcd-surface-strong));
+  color: var(--pcd-foreground);
+  box-shadow: inset 2px 0 var(--pcd-accent);
+  font-weight: 700;
+}
+
+.reveal figure[data-media-uri="/chemometrics/level7-anova-21.svg"][data-svg-stage-active] .teaching-svg > [data-svg-stage] {
+  transform: none;
+}
+
+/* Chapter dividers reuse the lecture frame and set one question below the heading. */
+.reveal .slides section[data-chapter-divider="true"][data-composition] {
+  display: grid !important;
+  align-content: center;
+  justify-items: start;
+  text-align: left;
+  gap: clamp(.65rem, 2vw, 1.4rem);
+}
+body[data-presentation-readability] .reveal .slides section[data-chapter-divider="true"][data-composition][data-composition-main-count] > [data-composition-region="heading"] {
+  margin: 0;
+  padding-inline-start: .34em;
+  border-inline-start: .07em solid var(--pcd-accent);
+  font-size: clamp(3.35rem, 5vw, 5.5rem) !important;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+body[data-presentation-readability] .reveal .slides section[data-chapter-divider="true"] > .lead {
+  margin: 0;
+  padding: 0 0 0 .8em;
+  box-shadow: none;
+  text-align: start;
+  border: 0;
+  background: transparent;
+  color: var(--pcd-foreground);
+  font-size: clamp(1.85rem, 2.2vw, 2.2rem);
+}
+
+figure:is([data-media-uri="/chemometrics/level7-anova-two-way-table.svg"], [data-media-uri="/chemometrics/level7-anova-additive-table.svg"])[data-svg-stage-active="2"] [data-svg-stage="1"] > rect,
+figure:is([data-media-uri="/chemometrics/level7-anova-two-way-table.svg"], [data-media-uri="/chemometrics/level7-anova-additive-table.svg"])[data-svg-stage-active="3"] :is([data-svg-stage="1"], [data-svg-stage="2"]) > rect {
+  fill-opacity: 0;
 }

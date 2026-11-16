@@ -176,15 +176,15 @@
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <http://www.w3.org/2004/02/skos/core#prefLabel> "Every symbol, unit and model condition"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/body> """- **F**: dimensionless omnibus test statistic.
-- **MS_B**: group-size-weighted between-group sum of squares divided by (k−1), in percentage points squared.
-- **MS_W**: residual within-group sum of squares divided by (N−k), in percentage points squared.
+- **$MS_B$**: group-size-weighted between-group sum of squares divided by (k−1), in percentage points squared.
+- **$MS_W$**: residual within-group sum of squares divided by (N−k), in percentage points squared.
 - **B/W**: subscripts meaning between groups/within groups.
 - **k**: number of groups; k>1.
 - **N**: total observations; N>k.
 - **=**: equality.
-- **fraction bar**: division of MS_B by MS_W.
+- **fraction bar**: division of $MS_B$ by $MS_W$.
 
-The fixed-effects model assumes independent Normal errors with a common positive variance. The omnibus test asks whether all population means are equal. MS_W must be positive; F is undefined when this error mean square is zero."""@en .
+The fixed-effects model assumes independent Normal errors with a common positive variance. The omnibus test asks whether all population means are equal. $MS_W$ must be positive; F is undefined when this error mean square is zero."""@en .
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-legend-f-symbols> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .

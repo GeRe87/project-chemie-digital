@@ -360,3 +360,34 @@ body[data-presentation-theme="dark"] .reveal .slides
     font-size: clamp(2.25rem, 10vw, 3rem) !important;
   }
 }
+
+/* Reveal scales the canvas as a unit. Content layouts use its full area. */
+.reveal[data-fixed-slide-canvas="true"] .slides > section[data-composition] {
+  box-sizing: border-box;
+  width: var(--pcd-slide-width) !important;
+  height: var(--pcd-slide-height) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  background-color: var(--pcd-panel-background, var(--pcd-surface));
+  border: 1px solid var(--pcd-border);
+}
+
+body.pcd-background-active .reveal[data-fixed-slide-canvas="true"] .slides > section[data-composition] {
+  background-color: var(--pcd-world-panel-bg);
+  border-color: var(--pcd-world-panel-border);
+}
+
+.reveal .pcd-use-case-badge {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-inline-start: .85rem;
+  color: var(--pcd-accent);
+  background: color-mix(in srgb, var(--pcd-accent) 17%, transparent);
+  border-radius: .4rem;
+}
+.reveal .pcd-use-case-badge svg {
+  display: block;
+  width: 8rem;
+  height: auto;
+  font-family: system-ui, sans-serif;
+}

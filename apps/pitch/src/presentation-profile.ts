@@ -215,115 +215,48 @@ export function resolvePresentationAppearance(search: string, sourcePathId?: str
 export interface AppearanceControlHandle { destroy(): void; }
 
 export function mountAppearanceControls(options: {
-  readonly root: HTMLElement;
   readonly currentFamilyId?: string;
   readonly backgroundEnabled: boolean;
   readonly theme: PresentationThemeMode;
   readonly onBackgroundChange: (familyId: string | undefined) => void;
   readonly onThemeChange: (theme: PresentationThemeMode) => void;
 }): AppearanceControlHandle {
-  const wrapper = document.createElement("div");
-  wrapper.className = "appearance-controls";
-
-  const backgroundLabel = document.createElement("label");
-  backgroundLabel.htmlFor = "presentation-background-select";
-  backgroundLabel.textContent = "Background";
-  const backgroundSelect = document.createElement("select");
-  backgroundSelect.id = "presentation-background-select";
-  backgroundSelect.setAttribute("aria-label", "Presentation background");
-  const none = document.createElement("option");
-  none.value = "none";
-  none.textContent = "None";
-  backgroundSelect.append(none);
-  for (const family of backgroundFamilyRegistry) {
-    const option = document.createElement("option");
-    option.value = family.id;
-    option.textContent = family.label;
-    backgroundSelect.append(option);
-  }
-
-  let lastFamilyId = options.currentFamilyId ?? backgroundFamilyRegistry[0]?.id;
-  backgroundSelect.value = options.backgroundEnabled && options.currentFamilyId ? options.currentFamilyId : "none";
-
-  const themeLabel = document.createElement("label");
-  themeLabel.htmlFor = "presentation-theme-select";
-  themeLabel.textContent = "Theme";
-  const themeSelect = document.createElement("select");
-  themeSelect.id = "presentation-theme-select";
-  themeSelect.setAttribute("aria-label", "Presentation theme");
-  for (const theme of ["dark", "light"] as const) {
-    const option = document.createElement("option");
-    option.value = theme;
-    option.textContent = theme === "dark" ? "Dark" : "Light";
-    themeSelect.append(option);
-  }
-  themeSelect.value = options.theme;
+  const backgroundFamily = options.currentFamilyId ?? backgroundFamilyRegistry[0]?.id;
+  let backgroundEnabled = options.backgroundEnabled;
+  let theme = options.theme;
   const screenControls=document.createElement("div");screenControls.className="pcd-screen-controls";
   const lamp=document.createElement("button");lamp.type="button";lamp.className="pcd-theme-toggle";
   lamp.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 2H9s0-1-1-2Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 1v2M3 5l2 2M21 5l-2 2M1 12h2M21 12h2" stroke="currentColor" stroke-width="1.5"/></svg>';
-  const syncLamp=()=>{const light=themeSelect.value==="light";lamp.setAttribute("aria-pressed",String(light));lamp.setAttribute("aria-label",light?"Switch to dark mode":"Switch to light mode");lamp.title=lamp.getAttribute("aria-label")!;};
+  const syncLamp=()=>{const light=theme==="light";lamp.setAttribute("aria-pressed",String(light));lamp.setAttribute("aria-label",light?"Switch to dark mode":"Switch to light mode");lamp.title=lamp.getAttribute("aria-label")!;};
   syncLamp();screenControls.append(lamp);document.body.append(screenControls);
 
-  const hint = document.createElement("span");
-  hint.className = "appearance-controls-hint";
-  hint.textContent = "Alt+B background · Alt+T theme";
-
-  const applyBackground = () => {
-    if (backgroundSelect.value === "none") {
-      options.onBackgroundChange(undefined);
-      return;
-    }
-    lastFamilyId = backgroundSelect.value;
-    options.onBackgroundChange(backgroundSelect.value);
-  };
-  const applyTheme = () => {syncLamp();options.onThemeChange(themeSelect.value as PresentationThemeMode);};
-
-  const toggleBackground = () => {
-    if (backgroundSelect.value === "none") {
-      const nextFamilyId = lastFamilyId ?? backgroundFamilyRegistry[0]?.id;
-      if (!nextFamilyId) return;
-      backgroundSelect.value = nextFamilyId;
-      lastFamilyId = nextFamilyId;
-    } else {
-      lastFamilyId = backgroundSelect.value;
-      backgroundSelect.value = "none";
-    }
-    applyBackground();
-  };
-
   const toggleTheme = () => {
-    themeSelect.value = themeSelect.value === "dark" ? "light" : "dark";
-    applyTheme();
+    theme = theme === "dark" ? "light" : "dark";
+    syncLamp();
+    options.onThemeChange(theme);
   };
-  lamp.addEventListener("click",toggleTheme);
+  lamp.addEventListener("click", toggleTheme);
 
   const shortcut = (event: KeyboardEvent) => {
     if (!event.altKey) return;
     const key = event.key.toLowerCase();
-    if (key === "b") {
+    if (key === "b" && backgroundFamily) {
       event.preventDefault();
-      toggleBackground();
+      backgroundEnabled = !backgroundEnabled;
+      options.onBackgroundChange(backgroundEnabled ? backgroundFamily : undefined);
     } else if (key === "t") {
       event.preventDefault();
       toggleTheme();
     }
   };
-
-  backgroundSelect.addEventListener("change", applyBackground);
-  themeSelect.addEventListener("change", applyTheme);
   window.addEventListener("keydown", shortcut);
-  wrapper.append(backgroundLabel, backgroundSelect, themeLabel, themeSelect, hint);
-  if (new URLSearchParams(window.location.search).get("appearance-controls") !== "hidden") options.root.prepend(wrapper);
 
   let destroyed = false;
   return {
     destroy() {
       if (destroyed) return;
       destroyed = true;
-      backgroundSelect.removeEventListener("change", applyBackground);
-      themeSelect.removeEventListener("change", applyTheme);
       window.removeEventListener("keydown", shortcut);
-      wrapper.remove();
       lamp.removeEventListener("click",toggleTheme);screenControls.remove();
     },
   };

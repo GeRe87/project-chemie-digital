@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" font-family="system-ui, sans-serif">
+  <title>Read an ANOVA table</title>
+  <desc>One-way ANOVA for river-water recovery. Between methods: SS 84, df 2, MS 42, F 21, p 0.00004484. Within methods: SS 30, df 15, MS 2. Total: SS 114, df 17. SS shows where recovery varies and df records how many independent deviations each source contributes. MS compares variation per degree of freedom between and within methods. F compares those two scales. The small p-value shows that an F this large or larger would be rare under equal means.</desc>
+  <g fill="#163349">
+    <path d="M36 132H964V187H36Z" opacity=".07"/>
+    <path d="M36 132H964 M36 187H964 M36 246H964 M36 305H964 M36 364H964" fill="none" stroke="currentColor" opacity=".25"/>
+    <g font-size="23" font-weight="650">
+      <text x="51" y="167">Source</text>
+      <g text-anchor="middle">
+        <text x="330" y="167">SS</text><text x="452" y="167">df</text>
+        <text x="575" y="167">MS</text><text x="705" y="167">F</text>
+        <text x="870" y="167">p</text>
+      </g>
+    </g>
+    <g font-size="25">
+      <text x="51" y="225">Between methods</text>
+      <text x="51" y="284">Within methods</text>
+      <text x="51" y="343">Total</text>
+      <g text-anchor="middle" font-weight="600">
+        <text x="330" y="225">84</text><text x="452" y="225">2</text><text x="575" y="225">42</text><text x="705" y="225">21</text><text x="870" y="225">0.00004484</text>
+        <text x="330" y="284">30</text><text x="452" y="284">15</text><text x="575" y="284">2</text><text x="705" y="284">–</text><text x="870" y="284">–</text>
+        <text x="330" y="343">114</text><text x="452" y="343">17</text><text x="575" y="343">–</text><text x="705" y="343">–</text><text x="870" y="343">–</text>
+      </g>
+    </g>
+  </g>
+  <g data-svg-stage="1" fill="#10698a">
+    <rect x="272" y="132" width="238" height="232" fill-opacity=".09"/>
+    <text x="263" y="40" text-anchor="middle" font-size="24" font-weight="700">Where does recovery vary?</text>
+    <text x="263" y="70" text-anchor="middle" font-size="20">SS: how much variation comes from each source.</text>
+    <text x="263" y="96" text-anchor="middle" font-size="20">df: how many independent deviations contribute.</text>
+    <path d="M263 104V110H391V114 M272 125V115H510V125 M330 114V129m-5-6 5 6 5-6 M452 114V129m-5-6 5 6 5-6" fill="none" stroke="#10698a" stroke-width="2"/>
+  </g>
+  <g data-svg-stage="2" fill="#5c3a98">
+    <rect x="512" y="132" width="125" height="173" fill-opacity=".12"/>
+    <text x="680" y="40" text-anchor="middle" font-size="24" font-weight="700">How do the sources compare?</text>
+    <text x="680" y="70" text-anchor="middle" font-size="20">MS: variation per degree of freedom.</text>
+    <path d="M680 82V101H575V126m-5-6 5 6 5-6" fill="none" stroke="#5c3a98" stroke-width="2"/>
+  </g>
+  <g data-svg-stage="3" fill="#a14518">
+    <rect x="639" y="187" width="325" height="59" fill-opacity=".13"/>
+    <path d="M705 395V374H775V254m-5 6 5-6 5 6 M870 395V374H950V254m-5 6 5-6 5 6" fill="none" stroke="#a14518" stroke-width="2"/>
+    <text x="60" y="421" font-size="23" font-weight="700">F: how large is between-method variation relative to within-method variation?</text>
+    <text x="60" y="450" font-size="20">p: how unusual would an F this large or larger be if all means were equal?</text>
+  </g>
+</svg>

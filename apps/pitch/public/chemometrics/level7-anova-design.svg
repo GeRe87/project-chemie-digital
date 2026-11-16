@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Choose the design before looking at results</title><desc id="desc">Three SPE methods, each with six independent river-water preparations. The response is recovery in percent; predefine alpha and the null hypothesis.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <text x="465" y="49" text-anchor="middle" font-size="28" font-weight="700" fill="#163349">River-water preparations</text>
 <rect x="55" y="91" width="240" height="171" rx="13" fill="#dceef5"/>
 <text x="175" y="129" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">SPE method A</text>

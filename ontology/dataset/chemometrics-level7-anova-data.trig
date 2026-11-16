@@ -26,217 +26,217 @@
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.90"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95.33"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.81"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.19"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95.92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-A-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.85"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "97"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96.79"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "99"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.67"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.06"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "100"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "100.03"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96.05"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-B-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.40"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.14"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.87"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.09"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.99"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91.03"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "R-C-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.88"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "90"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "90.25"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "90.74"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91.61"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.25"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.28"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-A-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.87"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "84"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "84.18"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "85"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "84.95"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "86"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "85.65"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "86"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "86.32"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "87"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "86.69"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-B-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "88"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "88.21"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-01"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91.94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-02"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.93"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-03"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.11"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-04"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.20"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-05"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.87"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "W-C-06"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
-  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95.95"^^<http://www.w3.org/2001/XMLSchema#decimal> .
   <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
   <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartGroup> .
   <https://w3id.org/project-chemie-digital/resource/l7-river-group-A> <http://www.w3.org/2004/02/skos/core#prefLabel> "Method A"@en .
@@ -266,7 +266,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic river water preparations: Method A"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> .
@@ -280,7 +280,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic river water preparations: Method B"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-B-03> .
@@ -294,7 +294,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic river water preparations: Method C"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-C-03> .
@@ -308,7 +308,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic wastewater preparations: Method A"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-A-03> .
@@ -322,7 +322,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic wastewater preparations: Method B"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-B-03> .
@@ -336,7 +336,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <http://www.w3.org/2004/02/skos/core#prefLabel> "Synthetic wastewater preparations: Method C"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-W-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-W-C-03> .
@@ -350,7 +350,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <http://www.w3.org/2004/02/skos/core#prefLabel> "All 36 synthetic SPE preparations"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-master36> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> .
@@ -394,7 +394,7 @@
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <http://www.w3.org/2004/02/skos/core#prefLabel> "18 synthetic river-water SPE preparations"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each method and matrix cell; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-01> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-02> .
   <https://w3id.org/project-chemie-digital/resource/l7-spe-river18> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-R-A-03> .
@@ -420,4 +420,197 @@
   <https://w3id.org/project-chemie-digital/resource/l7-wastewater> <http://www.w3.org/2004/02/skos/core#prefLabel> "Wastewater"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-wastewater> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-wastewater> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-01"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.90"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-02"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95.33"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-03"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.81"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-04"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.19"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-05"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "95.92"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-A-06"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "93.85"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-01"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96.79"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-02"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.67"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-03"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.06"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-04"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "100.03"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-05"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "96.05"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-B-06"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "98.40"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-01"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.14"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-02"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.87"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-03"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.09"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-04"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <https://w3id.org/project-chemie-digital/ontology/numericValue> "94.99"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> <https://w3id.org/project-chemie-digital/ontology/position> "4"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-05"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <https://w3id.org/project-chemie-digital/ontology/numericValue> "91.03"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> <https://w3id.org/project-chemie-digital/ontology/position> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Observation> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "Demo-R-C-06"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <https://w3id.org/project-chemie-digital/ontology/numericValue> "92.88"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+  <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> <https://w3id.org/project-chemie-digital/ontology/position> "6"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartGroup> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <http://www.w3.org/2004/02/skos/core#prefLabel> "Method A"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <https://w3id.org/project-chemie-digital/ontology/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> <https://w3id.org/project-chemie-digital/ontology/usesDataset> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartGroup> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <http://www.w3.org/2004/02/skos/core#prefLabel> "Method B"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <https://w3id.org/project-chemie-digital/ontology/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> <https://w3id.org/project-chemie-digital/ontology/usesDataset> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartGroup> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <http://www.w3.org/2004/02/skos/core#prefLabel> "Method C"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <https://w3id.org/project-chemie-digital/ontology/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+  <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> <https://w3id.org/project-chemie-digital/ontology/usesDataset> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-method-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-river_water> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <http://www.w3.org/2004/02/skos/core#prefLabel> "Simulated recovery illustration: Method A"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> <https://w3id.org/project-chemie-digital/ontology/unit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-method-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-river_water> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <http://www.w3.org/2004/02/skos/core#prefLabel> "Simulated recovery illustration: Method B"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> <https://w3id.org/project-chemie-digital/ontology/unit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-method-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <http://purl.org/dc/terms/subject> <https://w3id.org/project-chemie-digital/resource/l7-river_water> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Dataset> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <http://www.w3.org/2004/02/skos/core#prefLabel> "Simulated recovery illustration: Method C"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/body> "Illustrative synthetic measurements from independent sample preparations, not repeated injections. Observation positions identify replicates within each combination of method and matrix; this dataset is not an ordered series."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasObservation> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-package> .
+  <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> <https://w3id.org/project-chemie-digital/ontology/unit> "%" .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-A-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-B-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-01> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-02> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-03> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-04> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-05> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-obs-demo-R-C-06> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-river-demo-group-C> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-A> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-B> .
+  <https://w3id.org/project-chemie-digital/resource/l7-source-package> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-spe-demo-R-C> .
 }

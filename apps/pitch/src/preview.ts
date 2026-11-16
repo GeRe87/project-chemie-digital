@@ -664,7 +664,8 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
     section.setAttribute("aria-labelledby", headingId);
     sourceAttributes(section, scene.source);
 
-    if (scene.topic) {
+    const isUseCase = scene.topic?.source.some(source => source.resourceId === "ex:slide-topic-use-case");
+    if (scene.topic && !isUseCase) {
       const topic = dom.createElement("p");
       topic.className = "scene-topic";
       topic.setAttribute("id", `${scene.id}-topic`);
@@ -806,6 +807,14 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         formula,
         formula ? definitionPairs!.findIndex(pair => pair.card.id === blockId) : 0,
       );
+      if (isUseCase && rendered && block.kind === "prose" && block.intent?.kind === "introduce") {
+        const badge = dom.createElement("span");
+        badge.className = "pcd-use-case-badge";
+        badge.setAttribute("role", "img");
+        badge.setAttribute("aria-label", "Use case");
+        badge.innerHTML = '<svg viewBox="0 0 120 34" aria-hidden="true"><path d="M14 10h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Zm2 0V8h7v2m-6 8 2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><text x="34" y="23" fill="currentColor" font-size="19" font-weight="700">Use case</text></svg>';
+        rendered.appendChild(badge);
+      }
       if (blockId === lectureTakeawayId) rendered?.setAttribute("data-lecture-takeaway", "");
       if (formula && rendered) {
         definitionCollection = rendered;

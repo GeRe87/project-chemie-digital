@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 426" font-family="system-ui, sans-serif">
+  <title>Build the ANOVA table with interaction</title>
+  <desc>Top table with interaction. Method: SS 14, df 2, MS 7, F 3.5, p 0.0430. Matrix: SS 169, df 1, MS 169, F 84.5, p 3.13 times ten to the minus ten. Method by matrix: SS 278, df 2, MS 139, F 69.5, p 5.48 times ten to the minus twelve. Residual: SS 60, df 30, MS 2. Total: SS 521, df 35. Bottom additive table. Method: SS 14, df 2, MS 7, F 0.663, p 0.5224. Matrix: SS 169, df 1, MS 169, F 16, p 0.000350. Residual: SS 338, df 32, MS 10.5625. Total: SS 521, df 35.</desc>
+  <text x="52" y="23" text-anchor="start" font-size="22" font-weight="700" fill="#5c3a98">With interaction · A * B</text>
+  <rect x="51" y="34" width="898" height="21" fill="#10698a" fill-opacity=".11"/>
+  <rect x="51" y="110" width="898" height="27" fill="#a14518" fill-opacity=".11"/>
+  <path d="M51 83H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 110H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 137H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 164H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 191H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="65" y="50" text-anchor="start" font-size="19" font-weight="700" fill="#163349">Source</text>
+  <text x="65" y="75" text-anchor="start" font-size="19" font-weight="450" fill="#163349">Method</text>
+  <text x="65" y="102" text-anchor="start" font-size="19" font-weight="450" fill="#163349">Matrix</text>
+  <text x="65" y="129" text-anchor="start" font-size="19" font-weight="650" fill="#a14518">Method × matrix</text>
+  <text x="65" y="156" text-anchor="start" font-size="19" font-weight="450" fill="#163349">Residual</text>
+  <text x="65" y="183" text-anchor="start" font-size="19" font-weight="450" fill="#163349">Total</text>
+  <text x="349" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">SS</text>
+  <text x="349" y="75" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">14</text>
+  <text x="349" y="102" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">169</text>
+  <text x="349" y="129" text-anchor="middle" font-size="19" font-weight="650" fill="#a14518">278</text>
+  <text x="349" y="156" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">60</text>
+  <text x="349" y="183" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">521</text>
+  <text x="52" y="215" text-anchor="start" font-size="20" font-weight="700" fill="#10698a">Additive comparison · A + B</text>
+  <rect x="51" y="223" width="898" height="21" fill="#10698a" fill-opacity=".11"/>
+  <path d="M51 271H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 295H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 319H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <path d="M51 343H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="65" y="239" text-anchor="start" font-size="17" font-weight="700" fill="#163349">Source</text>
+  <text x="65" y="264" text-anchor="start" font-size="17" font-weight="450" fill="#163349">Method</text>
+  <text x="65" y="288" text-anchor="start" font-size="17" font-weight="450" fill="#163349">Matrix</text>
+  <text x="65" y="312" text-anchor="start" font-size="17" font-weight="450" fill="#163349">Residual</text>
+  <text x="65" y="336" text-anchor="start" font-size="17" font-weight="450" fill="#163349">Total</text>
+  <text x="349" y="239" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">SS</text>
+  <text x="349" y="264" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">14</text>
+  <text x="349" y="288" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">169</text>
+  <text x="349" y="312" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">338</text>
+  <text x="349" y="336" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">521</text>
+  <text x="461" y="239" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">df</text>
+  <text x="461" y="264" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">2</text>
+  <text x="461" y="288" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">1</text>
+  <text x="461" y="312" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">32</text>
+  <text x="461" y="336" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">35</text>
+  <text x="561" y="239" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">MS</text>
+  <text x="561" y="264" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">7</text>
+  <text x="561" y="288" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">169</text>
+  <text x="561" y="312" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">10.5625</text>
+  <text x="561" y="336" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">–</text>
+  <text x="674" y="239" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">F</text>
+  <text x="674" y="264" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">0.663</text>
+  <text x="674" y="288" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">16.000</text>
+  <text x="674" y="312" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">–</text>
+  <text x="674" y="336" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">–</text>
+  <text x="842" y="239" text-anchor="middle" font-size="17" font-weight="700" fill="#163349">p</text>
+  <text x="842" y="264" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">0.5224</text>
+  <text x="842" y="288" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">0.000350</text>
+  <text x="842" y="312" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">–</text>
+  <text x="842" y="336" text-anchor="middle" font-size="17" font-weight="450" fill="#163349">–</text>
+  <g data-svg-stage="1">
+<rect x="412" y="34" width="98" height="157" fill="#5c3a98" fill-opacity=".11"/>
+<text x="461" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#5c3a98">df</text>
+<text x="461" y="75" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">2</text>
+<text x="461" y="102" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">1</text>
+<text x="461" y="129" text-anchor="middle" font-size="19" font-weight="650" fill="#a14518">2</text>
+<text x="461" y="156" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">30</text>
+<text x="461" y="183" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">35</text>
+<text x="53" y="366" text-anchor="start" font-size="17" font-weight="700" fill="#5c3a98">df: the interaction uses 2; residual df goes from 32 to 30.</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="512" y="34" width="104" height="157" fill="#10698a" fill-opacity=".11"/>
+<text x="561" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">MS</text>
+<text x="561" y="75" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">7</text>
+<text x="561" y="102" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">169</text>
+<text x="561" y="129" text-anchor="middle" font-size="19" font-weight="650" fill="#a14518">139</text>
+<text x="561" y="156" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">2</text>
+<text x="561" y="183" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">–</text>
+<text x="53" y="391" text-anchor="start" font-size="17" font-weight="700" fill="#10698a">SS: 338 = 278 for interaction + 60 for residuals. Residual MS is now 2.</text>
+</g>
+  <g data-svg-stage="3">
+<rect x="618" y="34" width="331" height="157" fill="#a14518" fill-opacity=".11"/>
+<text x="674" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">F</text>
+<text x="674" y="75" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">3.5</text>
+<text x="674" y="102" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">84.5</text>
+<text x="674" y="129" text-anchor="middle" font-size="19" font-weight="650" fill="#a14518">69.5</text>
+<text x="674" y="156" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">–</text>
+<text x="674" y="183" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">–</text>
+<text x="842" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">p</text>
+<text x="842" y="75" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">0.0430</text>
+<text x="842" y="102" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">3.13 × 10⁻¹⁰</text>
+<text x="842" y="129" text-anchor="middle" font-size="19" font-weight="650" fill="#a14518">5.48 × 10⁻¹²</text>
+<text x="842" y="156" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">–</text>
+<text x="842" y="183" text-anchor="middle" font-size="19" font-weight="450" fill="#163349">–</text>
+<text x="53" y="416" text-anchor="start" font-size="17" font-weight="700" fill="#a14518">F for interaction: 139 ÷ 2 = 69.5. Read its p-value in the interaction row.</text>
+</g>
+</svg>

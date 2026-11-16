@@ -28,7 +28,7 @@ test("page motion cancels superseded visuals without changing committed navigati
 });
 
 test("calm presentation motion is slower and background travel ignores fragment-page heights",()=>{
-  assert.equal(PRESENTATION_PAGE_MOTION.durationMs,800);
+  assert.equal(PRESENTATION_PAGE_MOTION.durationMs,1250);
   assert.deepEqual(presentationPageFrames('next',900),{incoming:[{translate:'0 900px'},{translate:'0 0'}],outgoing:[{translate:'0 0'},{translate:'0 -900px'}]});
   assert.deepEqual(presentationPageFrames('prev',720),{incoming:[{translate:'0 -720px'},{translate:'0 0'}],outgoing:[{translate:'0 0'},{translate:'0 720px'}]});
   assert.equal(presentationBackgroundProgress(0),0);

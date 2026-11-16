@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 405" font-family="system-ui, sans-serif">
+<title>Divide each sum of squares by its degrees of freedom. Between groups: 84 divided by 2 equals 42. Within groups: 30 divided by 15 equals 2.</title>
+<g fill="var(--pcd-foreground)" text-anchor="middle">
+  <text x="525" y="72" font-size="42" font-weight="750">Divide SS by its degrees of freedom</text>
+  <text x="525" y="121" font-size="25">Each mean square is a sum of squares per degree of freedom.</text>
+  <line x1="120" y1="220" x2="930" y2="220" stroke="var(--pcd-border)" stroke-width="2"/>
+  <text x="120" y="192" text-anchor="start" font-size="29" font-weight="700" fill="#10698a">Between groups</text>
+  <text x="930" y="192" text-anchor="end" font-size="45" font-weight="750">84 &#247; 2 = 42</text>
+  <text x="120" y="283" text-anchor="start" font-size="29" font-weight="700" fill="#5c3a98">Within groups</text>
+  <text x="930" y="283" text-anchor="end" font-size="45" font-weight="750">30 &#247; 15 = 2</text>
+  <text x="525" y="358" font-size="26">Mean squares are in percentage points squared.</text>
+</g>
+</svg>

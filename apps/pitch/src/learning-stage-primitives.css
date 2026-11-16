@@ -335,13 +335,13 @@
 /* Formula + diagram ------------------------------------------------------- */
 /* Auto-height evidence cells need the chart's intrinsic viewBox ratio.
    A zero-height flex remainder collapses when no fixed parent height exists. */
-.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure {
+.reveal .slides section[data-composition-profile="info-visual"] .d3-chart-host > .d3-chart-figure {
   display:flex;flex-direction:column;min-height:0;height:auto;box-sizing:border-box;
 }
-.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > .d3-chart-svg {
+.reveal .slides section[data-composition-profile="info-visual"] .d3-chart-host > .d3-chart-figure > .d3-chart-svg {
   flex:none;min-height:0;height:auto;max-height:none;width:100%;
 }
-.reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > :not(.d3-chart-svg) {
+.reveal .slides section[data-composition-profile="info-visual"] .d3-chart-host > .d3-chart-figure > :not(.d3-chart-svg) {
   flex:none;
 }
 .reveal .slides section[data-composition-profile="info-visual"] .d3-histogram-figure > :is(figcaption,.histogram-readout) {
@@ -406,7 +406,7 @@
 }
 /* A visible data question shares the visual column. Reserve room for it rather
    than allowing the chart's intrinsic aspect ratio to push it into the footer. */
-.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container="primary"]:has(> .definition-list:not([data-symbol-legend="true"])) [data-chart-block-id] .d3-chart-svg {
+.reveal .slides section[data-composition-profile="visual-formula"] > [data-composition-region-container="primary"]:has(> .definition-list:not([data-symbol-legend="true"])) .d3-chart-host .d3-chart-svg {
   max-height: 24rem;
 }
 .reveal .slides section[data-composition-profile="visual-formula"]:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"]):not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="true"])) { grid-template-columns: minmax(0,1fr); }
@@ -419,11 +419,11 @@
   .reveal .slides section[data-composition-profile="visual-formula"] .formula-with-legend { font-size: 1.1em; }
   /* A full formula/legend unit takes priority on narrow screens. Preserve the
      authored chart summary rather than squeezing a projection chart above it. */
-  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) [data-chart-block-id] { height: auto; padding: .35rem; border: 0; background: none; box-shadow: none; }
-  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id] .d3-chart-figure { height: auto; }
-  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) [data-chart-block-id] svg { display: none; }
-  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id]::before,
-  .reveal .slides section[data-composition-profile="visual-formula"] [data-chart-block-id]::after { display: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) .d3-chart-host { height: auto; padding: .35rem; border: 0; background: none; box-shadow: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"] .d3-chart-host .d3-chart-figure { height: auto; }
+  .reveal .slides section[data-composition-profile="visual-formula"]:not(:has([data-composition-region-container="secondary"] [data-presentation-disclosure-visible="false"])) .d3-chart-host svg { display: none; }
+  .reveal .slides section[data-composition-profile="visual-formula"] .d3-chart-host::before,
+  .reveal .slides section[data-composition-profile="visual-formula"] .d3-chart-host::after { display: none; }
 }
 .reveal .slides section[data-composition="learning-stage"][data-composition-profile="formula-visual"] {
   grid-template-rows: auto auto minmax(0, 1fr) auto;

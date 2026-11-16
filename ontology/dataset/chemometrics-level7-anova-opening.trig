@@ -1,0 +1,101 @@
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-anova-cover-step .
+  ex:l7-anova-cover-step a cd:PathStep ; cd:position 1 ; cd:usesScene ex:l7-scene-cover ;
+    cd:usesResource ex:l7-anova-cover-heading ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-anova-cover-step .
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-anova-bridge-step .
+  ex:l7-anova-bridge-step a cd:PathStep ; cd:position 2 ; cd:usesScene ex:l7-scene-bridge ;
+    cd:usesResource ex:l7-anova-bridge-heading, ex:l7-anova-bridge-visual ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-anova-bridge-step .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-opening> {
+  ex:l7-scene-cover a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-01 ;
+    cd:hasSceneItem ex:l7-anova-cover-heading-item ;
+    cd:narration "The lecture introduces analysis of variance through a practical comparison of sample preparation methods."@en ; cd:authoredResource true .
+  ex:l7-anova-cover-heading-item a cd:SceneItem ; cd:position 1 ; cd:language "en" ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-anova-cover-heading ; cd:authoredResource true .
+  ex:l7-scene-bridge a cd:SceneDefinition ; cd:focusConcept ex:l7-intro-concept-01 ;
+    cd:hasSceneItem ex:l7-anova-bridge-heading-item, ex:l7-anova-bridge-visual-item ;
+    cd:narration "Start with groups A and B and ask how we would compare their means. Advance to reveal group C. One-way ANOVA lets us test the hypothesis that all three population means are equal. The brackets show which groups each test considers."@en ; cd:authoredResource true .
+  ex:l7-anova-bridge-heading-item a cd:SceneItem ; cd:position 1 ; cd:language "en" ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-anova-bridge-heading ; cd:authoredResource true .
+  ex:l7-anova-bridge-visual-item a cd:SceneItem ; cd:position 2 ; cd:language "en" ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-anova-bridge-visual ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-opening> {
+  ex:l7-anova-cover-heading a cd:Interpretation ; skos:prefLabel "ANOVA: Analysis of Variance"@en ; cd:authoredResource true .
+  ex:l7-anova-bridge-heading a cd:Interpretation ; skos:prefLabel "From two samples to three or more"@en ; cd:authoredResource true .
+  ex:l7-anova-bridge-visual a cd:MediaAsset ; cd:uri "/chemometrics/anova-two-to-three-groups.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Two similar groups are bracketed below as Two-sample t-test. In the second stage Group C appears, with slightly higher values, and an ANOVA bracket spans all three groups above."@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
+  ex:teaching-offering-chemometrics-applied-statistics cd:hasUnitPlacement ex:unit-placement-chemometrics-anova .
+  ex:offering-section-chemometrics-similarity-analysis cd:groupsUnitPlacement ex:unit-placement-chemometrics-anova .
+  ex:unit-placement-chemometrics-anova a cd:UnitPlacement ; cd:position 80 ; cd:placesLearningUnit ex:learning-unit-chemometrics-anova .
+  ex:learning-unit-chemometrics-anova a cd:LearningUnit ; skos:prefLabel "ANOVA"@en ; cd:hasFocusConcept ex:l7-one-way-anova .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-intro> {
+  ex:l7-scene01 <http://purl.org/dc/terms/subject> ex:slide-topic-use-case .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-opening> {
+  ex:slide-topic-use-case a skos:Concept ; skos:prefLabel "Use case"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-hypothesis-perspectives a cd:DefinitionList ;
+    cd:hasDefinitionListEntry ex:l7-hypothesis-means, ex:l7-hypothesis-variation ;
+    cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
+  ex:l7-hypothesis-means a cd:DefinitionListEntry ; cd:position 1 ;
+    skos:prefLabel "What we test"@en ;
+    cd:body "Under the null hypothesis, methods A, B and C have the same mean recovery in the population."@en ;
+    cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
+  ex:l7-hypothesis-variation a cd:DefinitionListEntry ; cd:position 2 ;
+    skos:prefLabel "What we expect in the data"@en ;
+    cd:body "If the means are equal, the between-group and within-group mean squares estimate the same error variance on average."@en ;
+    cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
+  ex:l7-source-nist-anova cd:supportsResource ex:l7-intro-hypothesis-perspectives, ex:l7-hypothesis-means, ex:l7-hypothesis-variation .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-ss-partition-visual a cd:MediaAsset ;
+    cd:uri "/chemometrics/level7-anova-ss-partition.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "A bar of total squared deviations, 114 percentage points squared, is split proportionally into 84 between groups and 30 within groups."@en ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-ss-partition-visual .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-df-partition-visual a cd:MediaAsset ;
+    cd:uri "/chemometrics/level7-anova-df-partition.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "A bar of 17 total degrees of freedom splits into 2 between groups and 15 within groups. The components count three group means minus one and eighteen observations minus three fitted group means."@en ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-df-partition-visual .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-ms-calculation-visual a cd:MediaAsset ;
+    cd:uri "/chemometrics/level7-anova-ms-calculation.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Divide each sum of squares by its degrees of freedom. Between groups: 84 divided by 2 equals 42. Within groups: 30 divided by 15 equals 2."@en ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-ms-calculation-visual .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-f-calculation-visual a cd:MediaAsset ;
+    cd:uri "/chemometrics/level7-anova-f-calculation.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "The between-group mean square of 42 divided by the within-group mean square of 2 gives a dimensionless F of 21."@en ;
+    cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-intro-f-calculation-visual .
+}

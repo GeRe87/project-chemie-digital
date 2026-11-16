@@ -51,3 +51,43 @@ body[data-presentation-theme="dark"] .distribution-experiment { --pcd-experiment
 .pcd-interactive-disclosure pre { white-space:pre-wrap;max-height:24rem;overflow:auto;font:inherit; }
 html.print-pdf :is(.experiment-controls,.experiment-actions,.experiment-feedback) { display:none!important; }
 html.print-pdf .distribution-experiment { overflow:visible;height:auto; }
+
+.reveal .distribution-experiment.pcd-visual-layout[data-visual-layout="split"] {
+  display: grid;
+  --pcd-experiment-fill-stage: 1;
+}
+.reveal .distribution-experiment.pcd-visual-layout > .experiment-panels {
+  display: flex;
+}
+.reveal .distribution-experiment.pcd-visual-layout .experiment-panels > figure {
+  display: flex;
+  flex-direction: column;
+}
+.reveal .distribution-experiment.pcd-visual-layout .experiment-panels > figure > svg {
+  flex: 1 1 0;
+  min-height: 0;
+}
+.reveal .distribution-experiment.pcd-visual-layout .pcd-visual-layout-support {
+  display: grid;
+  align-content: start;
+  gap: .65rem;
+  min-width: 0;
+}
+.reveal .distribution-experiment .experiment-ratio-metrics {
+  grid-template-columns: minmax(0, 1fr);
+  gap: .65rem;
+}
+.reveal .experiment-ratio-metric {
+  display: grid;
+  justify-items: start;
+  gap: .2rem;
+  padding: .65rem .85rem;
+  background: color-mix(in srgb, var(--pcd-accent) 10%, var(--pcd-surface-strong));
+  border-inline-start: 3px solid var(--pcd-accent);
+}
+.reveal .experiment-ratio-metric strong {
+  font-size: 1.85em;
+  line-height: 1.05;
+  color: var(--pcd-foreground);
+  font-variant-numeric: tabular-nums;
+}

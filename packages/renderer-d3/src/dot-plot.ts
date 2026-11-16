@@ -45,6 +45,11 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
   if (!result.model) return result;
   if (!(host instanceof HTMLElement)) return { diagnostics: [{ code: "INVALID_DOT_PLOT_HOST", message: "Dot plot host must be an HTMLElement" }] };
   const model = result.model;
+  const decimalPercentages = model.yAxis.unit === "%" && model.groups.some(group =>
+    group.data.some(datum => !Number.isInteger(datum.value)));
+  const percentageFormat = new Intl.NumberFormat("en", {
+    minimumFractionDigits: 2, maximumFractionDigits: 20, useGrouping: false,
+  });
   host.replaceChildren();
   const figure = document.createElement("figure");
   figure.className = "d3-chart-figure d3-dot-plot-figure";
@@ -176,7 +181,7 @@ export function mountD3DotPlot(host: unknown, block: ChartBlock, _options: D3Dot
         halo.classList.add("d3-dot-point-halo");
         halo.setAttribute("cx", String(xx)); halo.setAttribute("cy", String(y(datum.value))); halo.setAttribute("r", "7.5");
         if (model.markerOpacity === undefined || model.markerOpacity === 1) halos.append(halo);
-        const title = svg("title"); title.textContent = `${group.label}: ${datum.value} ${model.yAxis.unit}`;
+        const title = svg("title"); title.textContent = `${group.label}: ${decimalPercentages ? percentageFormat.format(datum.value) : datum.value} ${model.yAxis.unit}`;
         point.append(title); layer.append(point);
       });
       points.append(layer);

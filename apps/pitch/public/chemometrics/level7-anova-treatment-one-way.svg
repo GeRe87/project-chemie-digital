@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<title>Build the one-way treatment ANOVA table</title>
+<desc>One-way ANOVA using the 12 NOM runs. The technique test is significant at the five percent level.</desc>
+<rect x="55" y="46" width="890" height="42" fill="#10698a" fill-opacity="0.1"/>
+<path d="M55 130L945 130" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M55 172L945 172" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M55 214L945 214" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="65" y="75" font-size="22" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="65" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Technique</text>
+<text x="65" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="65" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="322" y="75" font-size="22" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="322" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">658.67</text>
+<text x="322" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">48</text>
+<text x="322" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">706.67</text>
+<g data-svg-stage="1">
+<rect x="380" y="46" width="80" height="168" fill="#5c3a98" fill-opacity="0.1"/>
+<text x="420" y="75" font-size="22" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="420" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="420" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">9</text>
+<text x="420" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">11</text>
+</g>
+<g data-svg-stage="2">
+<rect x="478" y="46" width="80" height="168" fill="#5c3a98" fill-opacity="0.1"/>
+<text x="518" y="75" font-size="22" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="518" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">329.33</text>
+<text x="518" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">5.33</text>
+<text x="518" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="616" y="75" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="616" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">61.75</text>
+<text x="616" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="616" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="731" y="75" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="731" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">5.55 × 10⁻⁶</text>
+<text x="731" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="731" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="874" y="75" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">η²</text>
+<text x="874" y="117" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">93.21%</text>
+<text x="874" y="159" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="874" y="201" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+</svg>

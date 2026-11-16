@@ -2,7 +2,7 @@ import { capturePageMotionSnapshot } from "./page-motion-snapshot.ts";
 
 /** Commit navigation atomically, then move outgoing and incoming full pages
  * together. Cosmetic snapshots never become slides in the navigation model. */
-export const PRESENTATION_PAGE_MOTION = Object.freeze({durationMs:800,easing:"cubic-bezier(.65,0,.35,1)"});
+export const PRESENTATION_PAGE_MOTION = Object.freeze({durationMs:1250,easing:"cubic-bezier(.45,0,.55,1)"});
 
 export function presentationPageFrames(direction:string,height:number) {
   const distance=(direction==="next"?1:-1)*height;
@@ -15,7 +15,7 @@ export function presentationBackgroundProgress(pageIndex:number):number {
   return Math.max(0,pageIndex)*64;
 }
 
-export function mountPresentationPageMotion(root:HTMLElement):()=>void {
+export function mountPresentationPageMotion(root:HTMLElement, gentleEntrance = false):()=>void {
   type Snapshot=ReturnType<typeof capturePageMotionSnapshot> & {targetId:string};
   let prepared:Snapshot|undefined;
   let running:{animations:Animation[];snapshot?:Snapshot;restoreClip:()=>void}|undefined;
@@ -26,7 +26,7 @@ export function mountPresentationPageMotion(root:HTMLElement):()=>void {
   };
   const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches||document.body.dataset.presentationMode==="script";
   const prepare=(event:Event)=>{
-    cancel();if(reduced())return;
+    cancel();if(reduced() || gentleEntrance)return;
     const {sourceId,targetId}=(event as CustomEvent<{sourceId:string;targetId:string}>).detail;
     const source=root.ownerDocument.getElementById(sourceId);
     if(source&&root.contains(source))prepared={...capturePageMotionSnapshot(source),targetId};
@@ -43,6 +43,10 @@ export function mountPresentationPageMotion(root:HTMLElement):()=>void {
     if(typeof incoming.animate!=="function"){snapshot?.layer.remove();return;}
     const height=snapshot?.height??root.ownerDocument.defaultView?.innerHeight??900;
     const frames=presentationPageFrames(direction,height);
+    const entrance = gentleEntrance
+      ? [{ transform: `translateY(${direction === "next" ? 24 : -24}px)`, opacity: .65 },
+         { transform: "translateY(0)", opacity: 1 }]
+      : frames.incoming;
     const parent=incoming.parentElement,clip=parent?.style.clipPath??"",wasInert=incoming.inert;
     if(parent)parent.style.clipPath="inset(0)";
     // Moving targets are decorative until settled; navigation controls remain
@@ -51,8 +55,8 @@ export function mountPresentationPageMotion(root:HTMLElement):()=>void {
     const state={animations:[] as Animation[],snapshot,restoreClip:()=>{if(parent)parent.style.clipPath=clip;incoming.inert=wasInert;}};
     running=state;
     root.dataset.pageMotion="running";
-    const options={duration:PRESENTATION_PAGE_MOTION.durationMs,easing:PRESENTATION_PAGE_MOTION.easing,fill:"both" as const};
-    const entering=incoming.animate(frames.incoming,options);state.animations.push(entering);
+    const options={duration:gentleEntrance ? 650 : PRESENTATION_PAGE_MOTION.durationMs,easing:PRESENTATION_PAGE_MOTION.easing,fill:"both" as const};
+    const entering=incoming.animate(entrance,options);state.animations.push(entering);
     if(snapshot)state.animations.push(snapshot.layer.animate(frames.outgoing,options));
     const time=root.ownerDocument.timeline?.currentTime;
     if(typeof time==="number")state.animations.forEach(a=>{a.startTime=time;});

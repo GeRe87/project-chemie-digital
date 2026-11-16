@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" font-family="system-ui, sans-serif">
+<title>Why does the conclusion change in only one study?</title>
+<desc>Four ANOVA tables compare SPE recovery under river water alone and across both matrices, and removal under natural organic matter alone and across all conditions. A check mark indicates p below 0.05. A cross marks the SPE method in the additive model, with p = 0.522.</desc>
+<text x="255" y="34" font-size="23" font-weight="700" fill="#10698a" text-anchor="middle">One-way · reference condition</text>
+<text x="744" y="34" font-size="23" font-weight="700" fill="#5c3a98" text-anchor="middle">Two-way · additive model</text>
+<text x="26" y="71" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Example 1 · SPE recovery (one-way: river water)</text>
+<rect x="25" y="84" width="445" height="27" fill="#10698a" fill-opacity="0.1"/>
+<rect x="25" y="111" width="445" height="27" fill="#a14518" fill-opacity="0.12"/>
+<path d="M25 138L470 138" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M25 165L470 165" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M25 192L470 192" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="33" y="103" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="33" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Method</text>
+<text x="33" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="33" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="163" y="103" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="163" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">84</text>
+<text x="163" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">30</text>
+<text x="163" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">114</text>
+<text x="216" y="103" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="216" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">2</text>
+<text x="216" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">15</text>
+<text x="216" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">17</text>
+<text x="266" y="103" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="266" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">42</text>
+<text x="266" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="266" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="327" y="103" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="327" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">21</text>
+<text x="327" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="327" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="398" y="103" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="398" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">4.48 × 10⁻⁵</text>
+<path d="M-6 0l4 4 8-9" transform="translate(458 125)" fill="none" stroke="#20805b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="398" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="398" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<rect x="510" y="84" width="462" height="27" fill="#10698a" fill-opacity="0.1"/>
+<rect x="510" y="111" width="462" height="27" fill="#a14518" fill-opacity="0.12"/>
+<path d="M510 138L972 138" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 165L972 165" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 192L972 192" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 219L972 219" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="518" y="103" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="518" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Method</text>
+<text x="518" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Matrix</text>
+<text x="518" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="518" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="653" y="103" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="653" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">14</text>
+<text x="653" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">169</text>
+<text x="653" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">338</text>
+<text x="653" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">521</text>
+<text x="709" y="103" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="709" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">2</text>
+<text x="709" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">1</text>
+<text x="709" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">32</text>
+<text x="709" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">35</text>
+<text x="757" y="103" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="757" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">7</text>
+<text x="757" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">169</text>
+<text x="757" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">10.56</text>
+<text x="757" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="829" y="103" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="829" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">0.66</text>
+<text x="829" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">16</text>
+<text x="829" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="829" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="894" y="103" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="894" y="130" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">0.522</text>
+<path d="M-5 -5l10 10m0 -10l-10 10" transform="translate(957 125)" fill="none" stroke="#ca5262" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="894" y="157" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">3.50 × 10⁻⁴</text>
+<path d="M-6 0l4 4 8-9" transform="translate(957 152)" fill="none" stroke="#20805b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="894" y="184" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="894" y="211" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="26" y="255" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Example 2 · Water treatment (one-way: NOM addition)</text>
+<rect x="25" y="268" width="445" height="27" fill="#10698a" fill-opacity="0.1"/>
+<rect x="25" y="295" width="445" height="27" fill="#a14518" fill-opacity="0.12"/>
+<path d="M25 322L470 322" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M25 349L470 349" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M25 376L470 376" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="33" y="287" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="33" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Technique</text>
+<text x="33" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="33" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="163" y="287" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="163" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">658.67</text>
+<text x="163" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">48</text>
+<text x="163" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">706.67</text>
+<text x="216" y="287" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="216" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">2</text>
+<text x="216" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">9</text>
+<text x="216" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">11</text>
+<text x="266" y="287" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="266" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">329.33</text>
+<text x="266" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">5.33</text>
+<text x="266" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="327" y="287" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="327" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">61.75</text>
+<text x="327" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="327" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="398" y="287" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="398" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">5.55 × 10⁻⁶</text>
+<path d="M-6 0l4 4 8-9" transform="translate(458 309)" fill="none" stroke="#20805b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="398" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="398" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<rect x="510" y="268" width="462" height="27" fill="#10698a" fill-opacity="0.1"/>
+<rect x="510" y="295" width="462" height="27" fill="#a14518" fill-opacity="0.12"/>
+<path d="M510 322L972 322" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 349L972 349" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 376L972 376" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M510 403L972 403" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="518" y="287" font-size="17" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="518" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="start">Technique</text>
+<text x="518" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Condition</text>
+<text x="518" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="518" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="653" y="287" font-size="17" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="653" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">1810.67</text>
+<text x="653" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">1418.67</text>
+<text x="653" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">162.67</text>
+<text x="653" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">3392</text>
+<text x="709" y="287" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="709" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">2</text>
+<text x="709" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="709" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">31</text>
+<text x="709" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">35</text>
+<text x="757" y="287" font-size="17" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="757" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">905.33</text>
+<text x="757" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">709.33</text>
+<text x="757" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">5.25</text>
+<text x="757" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="829" y="287" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="829" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">172.53</text>
+<text x="829" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">135.18</text>
+<text x="829" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="829" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="894" y="287" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="894" y="314" font-size="17" font-weight="700" fill="#a14518" text-anchor="middle">1.58 × 10⁻¹⁷</text>
+<path d="M-6 0l4 4 8-9" transform="translate(957 309)" fill="none" stroke="#20805b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="894" y="341" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">4.90 × 10⁻¹⁶</text>
+<path d="M-6 0l4 4 8-9" transform="translate(957 336)" fill="none" stroke="#20805b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"/>
+<text x="894" y="368" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="894" y="395" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="26" y="433" font-size="16" fill="#163349">✓ Significant at p &lt; 0.05   ·   × Not significant</text>
+</svg>

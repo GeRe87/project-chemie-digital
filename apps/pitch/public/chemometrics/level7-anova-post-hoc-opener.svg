@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 480" font-family="system-ui, sans-serif">
+<title>ANOVA found a difference. Where is it?</title>
+<desc>A significant ANOVA gives evidence that at least one population mean differs. Many post-hoc procedures exist. Tukey HSD compares every pair of group means.</desc>
+<text x="45" y="50" font-size="30" font-weight="700" fill="#10698a" text-anchor="start">ANOVA asks one overall question</text>
+<text x="45" y="106" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Do all groups have the same population mean?</text>
+<text x="45" y="162" font-size="25" font-weight="400" fill="#163349" text-anchor="start">A significant result gives evidence that at least one mean differs.</text>
+<text x="45" y="218" font-size="30" font-weight="700" fill="#5c3a98" text-anchor="start">Post-hoc analysis follows up</text>
+<text x="45" y="274" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Which pairs of means differ? Several procedures can answer this.</text>
+<text x="45" y="330" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Tukey HSD compares every pair in one family.</text>
+</svg>

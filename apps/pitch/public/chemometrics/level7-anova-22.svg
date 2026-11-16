@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">What changes when we fit method means?</title><desc id="desc">Using only the grand mean leaves 114 squared percentage points of residual spread. Using three method means leaves 30. The observed reduction of 84 divided by 114 is 73.7 percent.</desc>
-<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <text x="465" y="46" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">How much smaller is the residual spread?</text>
 <text x="60" y="110" text-anchor="start" font-size="19" font-weight="700" fill="#163349">One overall mean</text>
 <rect x="285" y="83" width="556" height="47" rx="14" fill="#b7deeb"/>
@@ -12,5 +12,5 @@
 <line x1="431.00" y1="220.00" x2="431.00" y2="238.00" stroke="#527283" stroke-width="2"/>
 <line x1="841.00" y1="220.00" x2="841.00" y2="238.00" stroke="#527283" stroke-width="2"/>
 <text x="636" y="264" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">84 pp² less residual spread</text>
-<text x="465" y="330" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">84 ÷ 114 = 73.7% of the observed spread accounted for by method</text>
+  <g data-svg-stage="1"><text x="465" y="330" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">84 ÷ 114 = 73.7% of the observed spread accounted for by method</text></g>
 </g></svg>

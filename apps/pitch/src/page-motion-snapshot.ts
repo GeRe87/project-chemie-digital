@@ -26,6 +26,9 @@ export function capturePageMotionSnapshot(source:HTMLElement):{layer:HTMLElement
   copy.style.setProperty("display",style.display,"important");
   copy.style.setProperty("visibility","visible","important");
   copy.style.setProperty("opacity","1","important");
+  // The detached visual copy no longer matches the live stage-lock selector.
+  copy.style.setProperty("overflow", style.overflow, "important");
+  copy.style.setProperty("contain", style.contain, "important");
   copy.style.setProperty("transition","none","important");
   copy.style.fontSize=style.fontSize;
 

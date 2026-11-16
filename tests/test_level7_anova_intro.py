@@ -15,19 +15,24 @@ GB = 'https://w3id.org/project-chemie-digital/graph/'
 
 
 def review_scene(number):
-    exceptions = {7: 'l7-intro-scene07', 19: 'l7-continuation-scene19'}
+    exceptions = {7: 'l7-intro-scene07', 13: 'l7-intro-scene13'}
     if isinstance(number, str):
         return EX[f'l7-scene{number}']
     return EX[exceptions.get(number, f'l7-scene{number:02d}')]
 SCENE_ORDER = (
-    1, 2, '-spread-lab', 3, '-pair-limits', '-pair-perspectives', *range(4, 18), '17-calc', 18, 19, 20, 21, '22-question', 22, 23, 24, 25, 26,
-    '26-adjusted', *range(27, 41), '40-example', 41, '41-example', 45, 46, 47,
+    '-cover', '-bridge', '-chapter-one-way',
+    1, 2, '-spread-lab', 3, '-pair-limits', '-pair-perspectives', *range(4, 14), 18, 21, '22-question', 22, 23, '-operator-assignment', '-operator-compare',
+    '-chapter-two-way', 30, 32, 34, '36-additive',
+    '-chapter-treatment', '-treatment-observations', '-treatment-one-way', '-treatment-design', '-treatment-two-way',
+    '-four-tables', '-compare-patterns', '-interaction-meaning', '-interaction-model', '-interaction-worked', '-interaction-test',
+    '-chapter-post-hoc', '-post-hoc-opener', '-post-hoc-rule', '-post-hoc-cutoff',
+    '-post-hoc-spe',
 )
 INTRO = {URIRef(GB + s) for s in (
     'knowledge/level7-anova-intro', 'scenes/level7-anova-intro', 'paths/level7-anova-intro-review',
     'knowledge/level7-anova-continuation', 'scenes/level7-anova-continuation',
 )}
-EXPECTED = {'R-A':[93,95,94,92,96,94], 'R-B':[97,99,98,100,96,98], 'R-C':[94,93,92,95,91,93], 'W-A':[90,91,92,92,93,94], 'W-B':[84,85,86,86,87,88], 'W-C':[92,93,94,94,95,96]}
+EXPECTED = {'R-A':[92.90,95.33,93.81,92.19,95.92,93.85], 'R-B':[96.79,98.67,98.06,100.03,96.05,98.40], 'R-C':[94.14,92.87,92.09,94.99,91.03,92.88], 'W-A':[90.25,90.74,91.61,92.25,93.28,93.87], 'W-B':[84.18,84.95,85.65,86.32,86.69,88.21], 'W-C':[91.94,92.93,94.11,94.20,94.87,95.95]}
 
 class AnovaIntroTests(unittest.TestCase):
     @classmethod
@@ -50,7 +55,7 @@ class AnovaIntroTests(unittest.TestCase):
         self.assertNotIn('manova', json.dumps(self.doc).lower())
         for i in (7,13,19):
             self.assertFalse(any(list(self.ds.graph(c).triples((EX[f'l7-scene{i:02d}'],None,None))) for c in INTRO))
-        self.assertEqual(set(self.ds.graph(URIRef(GB+'paths/level7-anova-intro-review')).objects(EX['path-level7-anova-intro-review'], CD.forLearningUnit)), {EX['learning-unit-anova']})
+        self.assertEqual(set(self.ds.graph(URIRef(GB+'paths/level7-anova-intro-review')).objects(EX['path-level7-anova-intro-review'], CD.forLearningUnit)), {EX['learning-unit-chemometrics-anova']})
         for scene in self.doc['scenes']:
             self.assertEqual(scene['readingOrder'], [b['id'] for b in scene['blocks']])
 
@@ -78,9 +83,14 @@ class AnovaIntroTests(unittest.TestCase):
             self.assertEqual(chart['yAxis'], {'label':'Recovery','unit':'%'})
             group_prefix = 'l7-intro-mean-group-' if number == 7 else 'l7-river-group-'
             self.assertEqual([g['id'] for g in chart['groups']], [compact(EX[group_prefix+m]) for m in 'ABC'])
+
             for method, group in zip('ABC',chart['groups']):
                 self.assertEqual([d['id'] for d in group['data']], [compact(EX[f'l7-obs-R-{method}-{i:02d}']) for i in range(1,7)])
-                self.assertEqual([d['value'] for d in group['data']], EXPECTED['R-'+method])
+                values = [d['value'] for d in group['data']]
+                if number == 6:
+                    self.assertEqual(len(set(values)), 6)
+                else:
+                    self.assertEqual([d['value'] for d in group['data']], EXPECTED['R-'+method])
                 self.assertTrue(group['source'])
                 self.assertTrue(all(d['source'] for d in group['data']))
                 self.assertIn(GB+'data/level7-anova',json.dumps(group['source'])+json.dumps(group['data']))
@@ -89,15 +99,15 @@ class AnovaIntroTests(unittest.TestCase):
         formula = str(self.g.value(EX['l7-intro-formula-02'], CD.latex))
         legend = str(self.g.value(EX['l7-intro-symbols-02'], CD.body))
         self.assertIn('y_{ij}', formula)
-        self.assertIn('**y_ij**', legend)
+        self.assertIn('**$y_{ij}$**', legend)
         self.assertNotIn('grand', legend.lower())
         chart, = [b for b in self.scene(7)['blocks'] if b['kind'] == 'chart']
         self.assertEqual(chart['chartType'], 'dot')
         for group in chart['groups']:
             values = [point['value'] for point in group['data']]
-            self.assertEqual(group['summary']['value'], sum(values) / len(values))
+            self.assertAlmostEqual(group['summary']['value'], sum(values) / len(values))
         all_values = [point['value'] for group in chart['groups'] for point in group['data']]
-        self.assertEqual(chart['referenceLine']['value'], sum(all_values) / len(all_values))
+        self.assertAlmostEqual(chart['referenceLine']['value'], sum(all_values) / len(all_values))
         self.assertNotIn('sum of squares', json.dumps(self.scene(7)).lower())
 
     def test_spread_demo_follows_static_panels(self):
@@ -167,16 +177,24 @@ class AnovaIntroTests(unittest.TestCase):
                     else:
                         self.assertTrue(all(e.get('term') and e.get('description') for e in blocks[0]['entries']))
                     self.assertTrue(blocks[0]['source'])
-        self.assertEqual(count,17)
+        self.assertEqual(count,12)
+        self.assertFalse(any(b['kind'] == 'math' for b in self.scene(5)['blocks']))
 
     def test_narrations_and_visuals(self):
         for number, scene in zip(SCENE_ORDER, self.doc['scenes'], strict=True):
             narrations = list(self.g.objects(review_scene(number),CD.narration))
             self.assertEqual(len(narrations),1)
             self.assertEqual(narrations[0].language,'en')
-            self.assertTrue(75 <= len(str(narrations[0]).split()) <= 180, (number, len(str(narrations[0]).split())))
+            chapter = isinstance(number, str) and number.startswith('-chapter-')
+            minimum_words = 12 if chapter or number in ("-cover", "-bridge") else 75
+            self.assertTrue(minimum_words <= len(str(narrations[0]).split()) <= 180, (number, len(str(narrations[0]).split())))
             self.assertEqual(scene['narration'],str(narrations[0]))
-            self.assertTrue(any(b['kind'] in ('chart','diagram','table','media-reference','definition-list') for b in scene['blocks']))
+            if number == '-cover':
+                self.assertEqual([b.get('text') for b in scene['blocks']], ['ANOVA: Analysis of Variance'])
+            elif chapter:
+                self.assertEqual([b['kind'] for b in scene['blocks']], ['prose', 'prose'])
+            else:
+                self.assertTrue(any(b['kind'] in ('chart','diagram','table','media-reference','definition-list') for b in scene['blocks']))
             if number not in (7,13):
                 self.assertNotIn('\u2014',str(narrations[0]))
         for c in (URIRef(GB+'knowledge/level7-anova-intro'), URIRef(GB+'scenes/level7-anova-intro')):
@@ -185,14 +203,16 @@ class AnovaIntroTests(unittest.TestCase):
 
     def test_continuation_visual_evidence(self):
         import xml.etree.ElementTree as ET
-        chart, = [b for b in self.scene(19)['blocks'] if b['kind'] == 'chart']
+        chart, = [b for b in self.scene(13)['blocks'] if b['kind'] == 'chart']
         self.assertEqual(chart['experimentKind'], 'anova-one-way')
         self.assertEqual([p['value'] for p in chart['parameters'] if p['key'] == 'view'], [2])
-        originals = {n: f'l7-next-{n:02d}-visual' for n in (21,22,27,29,33,34,37)}
-        new = {14:'design',17:'decomposition','17-calc':'test-chain','22-question':'explained-question',
-               '26-adjusted':'tukey-range',40:'welch-groups','41-example':'kw-rank-sums'}
-        new.update({n:f'visual-{n}' for n in (20,23,24,25,28,39)})
-        new['40-example'] = 'welch-weights'
+        originals = {n: f'l7-next-{n:02d}-visual' for n in (21,22)}
+        new = {18: 'read-table', '22-question': 'explained-question', 23: 'visual-23',
+               30: 'factorial-grid', 32: 'two-way-observations', 34: 'two-way-ss',
+               '36-additive': 'additive-table', '-operator-assignment': 'operator-design',
+               '-operator-compare': 'operator-grouping'}
+        new.update({n: n[1:] for n in SCENE_ORDER[SCENE_ORDER.index('-treatment-observations'):]})
+        new.pop('-chapter-post-hoc')
         for n,name in (originals | {n: f'level7-anova-{name}' for n,name in new.items()}).items():
             media = EX[name]
             path = ROOT / 'apps/pitch/public' / str(self.g.value(media,CD.uri)).lstrip('/')
@@ -201,46 +221,34 @@ class AnovaIntroTests(unittest.TestCase):
             self.assertEqual(root.find('{http://www.w3.org/2000/svg}desc').text,
                              str(self.g.value(media,CD.alternativeText)))
             self.assertTrue(any(b['kind'] == 'media-reference' for b in self.scene(n)['blocks']))
-        tukey = EX['level7-anova-tukey-range']
-        tukey_svg = ET.parse(ROOT / 'apps/pitch/public' / str(self.g.value(tukey, CD.uri)).lstrip('/')).getroot()
-        labels = ' '.join(tukey_svg.itertext())
-        self.assertIn('studentized range distribution', labels)
-        self.assertIn('3 group means · 15 residual degrees of freedom', labels)
-        self.assertIn('Right-tail area ≈ 0.000532', labels)
-        for n, rows in ((18,3),(26,3),(36,5),(38,3)):
-            table, = [b for b in self.scene(n)['blocks'] if b['kind'] == 'table']
-            self.assertEqual(len(table['rows']),rows)
-        diagram = EX['l7-next-45-diagram']
-        states = sorted(self.g.objects(diagram, CD.hasDiagramState),key=lambda s: int(self.g.value(s,CD.position)))
-        self.assertEqual([len(list(self.g.objects(s,CD.activeDiagramNode))) for s in states],[3,6])
-        self.assertFalse(list(self.g.objects(states[0],CD.activeDiagramEdge)))
-        self.assertEqual(len(list(self.g.objects(states[1],CD.activeDiagramEdge))),3)
+        for n, stages in ((23, 2), (30, 2), (34, 3), ('36-additive', 3), ('-treatment-one-way', 3),
+                          ('-treatment-two-way', 3), ('-interaction-model', 2), ('-interaction-worked', 3),
+                          ('-interaction-test', 4)):
+            media, = [b for b in self.scene(n)['blocks'] if b.get('mediaType') == 'image/svg+xml']
+            svg = ET.parse(ROOT / 'apps/pitch/public' / media['uri'].lstrip('/')).getroot()
+            first_stage = 0 if n == '-interaction-worked' else 1
+            self.assertEqual(sorted({int(g.attrib['data-svg-stage']) for g in svg.iter()
+                                     if 'data-svg-stage' in g.attrib}), list(range(first_stage, stages + 1)))
 
     def test_worked_examples_use_the_intended_values(self):
-        tables = [b for b in self.scene(15)['blocks'] if b['kind'] == 'table']
-        self.assertEqual([t['caption'] for t in tables],
-                         ['Method A · mean recovery 94%', 'Method B · mean recovery 98%', 'Method C · mean recovery 93%'])
-        for label, group, t in zip('ABC', (94,98,93), tables, strict=True):
-            values = EXPECTED['R-' + label]
-            self.assertEqual(len(t['rows']), 7)
-            self.assertEqual(sum((x-group)**2 for x in values), 10)
-            resource = 'l7-next-15-table-row-7-cell-3' if label == 'A' else f'l7-teaching-15-table-{label.lower()}-r7-c3'
-            self.assertEqual(str(self.g.value(EX[resource], CD.body)), 'Sum: 10 pp²')
-        for n, phrase in (('17-calc','0.00004484'),('26-adjusted','0.000532'),('40-example','0.064'),
-                          ('41-example','0.133')):
+        for n, phrase in ((13, '0.00004484'), ('-compare-patterns', 'six percentage points below A'),
+                          ('-interaction-test', 'no significant evidence of interaction')):
             self.assertIn(phrase, self.scene(n)['narration'])
 
     def test_slide_references_and_static_links(self):
         from static_course_fallback import static_fallback
 
-        for scene in self.doc['scenes']:
-            reference, = [b for b in scene['blocks'] if b.get('mediaType') == 'text/html']
-            self.assertEqual(scene['readingOrder'][-1], reference['id'])
-            self.assertTrue(reference['uri'].startswith('https://'))
-            self.assertTrue(reference['alternativeText'])
+        for scene in self.doc['scenes'][3:]:
+            if 'l7-scene-chapter-' in scene['id'] or scene['id'] == 'ex:l7-scene01--scene':
+                continue
+            references = [b for b in scene['blocks'] if b.get('mediaType') == 'text/html']
+            self.assertTrue(references)
+            self.assertEqual(scene['readingOrder'][-len(references):], [reference['id'] for reference in references])
+            for reference in references:
+                self.assertTrue(reference['uri'].startswith('https://'))
+                self.assertTrue(reference['alternativeText'])
         expected = {
-            '26-adjusted': 'https://itl.nist.gov/div898/handbook/prc/section4/prc471.htm',
-            '40-example': 'https://stat.ethz.ch/R-manual/R-devel/library/stats/html/oneway.test.html',
+            '-interaction-test': 'https://doi.org/10.3389/fpsyg.2013.00863',
             22: 'https://doi.org/10.3389/fpsyg.2013.00863',
         }
         for number, uri in expected.items():

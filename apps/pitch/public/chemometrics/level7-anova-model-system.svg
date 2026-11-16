@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Six predictions from shared parameters</title>
+  <desc>The prediction for each combination adds a grand mean, a method shift and a matrix shift. The grand mean is 92.83 percent and the method B shift is minus 0.83 percentage points. River water adds 2.17 points and wastewater subtracts 2.17 points. The fitted values, using unrounded terms, are 94.17 and 89.83 percent. All 36 measurements inform the shared parameters.</desc>
+  <text x="52" y="40" text-anchor="start" font-size="27" font-weight="700" fill="#163349">One set of parameters is shared by all six combinations.</text>
+  <text x="52" y="83" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Add the grand mean, the method shift and the matrix shift.</text>
+  <rect x="52" y="107" width="896" height="51" fill="#10698a" fill-opacity=".11"/>
+  <text x="71" y="141" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Combination</text>
+  <text x="365" y="141" text-anchor="middle" font-size="20" font-weight="700" fill="#10698a">Grand mean</text>
+  <text x="527" y="141" text-anchor="middle" font-size="20" font-weight="700" fill="#5c3a98">Method B shift</text>
+  <text x="705" y="141" text-anchor="middle" font-size="20" font-weight="700" fill="#a14518">Matrix shift</text>
+  <text x="889" y="141" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Fitted</text>
+  <text x="71" y="207" text-anchor="start" font-size="22" font-weight="700" fill="#163349">B · river water</text>
+  <text x="365" y="207" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">92.83</text>
+  <text x="527" y="207" text-anchor="middle" font-size="24" font-weight="700" fill="#5c3a98">−0.83</text>
+  <text x="705" y="207" text-anchor="middle" font-size="24" font-weight="700" fill="#a14518">+2.17</text>
+  <text x="889" y="207" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">94.17%</text>
+  <path d="M52 226H948" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <g data-svg-stage="1">
+<text x="71" y="272" text-anchor="start" font-size="22" font-weight="700" fill="#163349">B · wastewater</text>
+<text x="365" y="272" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">92.83</text>
+<text x="527" y="272" text-anchor="middle" font-size="24" font-weight="700" fill="#5c3a98">−0.83</text>
+<text x="705" y="272" text-anchor="middle" font-size="24" font-weight="700" fill="#a14518">−2.17</text>
+<text x="889" y="272" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">89.83%</text>
+<path d="M52 291H948" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+</g>
+  <g data-svg-stage="2">
+<text x="52" y="337" text-anchor="start" font-size="20" font-weight="700" fill="#10698a">Both rows use the same method B shift. Each matrix shift is shared by A, B and C.</text>
+<text x="52" y="374" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Estimate the shared terms together using all 36 observations.</text>
+</g>
+</svg>

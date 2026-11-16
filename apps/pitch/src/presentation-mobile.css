@@ -84,10 +84,10 @@
   body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-component-kind="visual"] {
     height:auto;min-height:0;
   }
-  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure {
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] .d3-chart-host > .d3-chart-figure {
     height:auto;
   }
-  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] [data-chart-block-id] > .d3-chart-figure > .d3-chart-svg {
+  body.pcd-native-mobile .reveal .slides section[data-composition-profile="info-visual"] .d3-chart-host > .d3-chart-figure > .d3-chart-svg {
     flex:none;height:auto;min-height:230px;
   }
 }

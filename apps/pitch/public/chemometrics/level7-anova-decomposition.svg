@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Two calculations, same total</title><desc id="desc">Two independent calculation routes agree: sum squared deviations from the grand mean directly to obtain 114 pp squared, or add the between and within sums of 84 and 30.</desc>
-<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <text x="465" y="44" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Does the accounting balance?</text>
 <rect x="49" y="77" width="832" height="84" rx="14" fill="#dceef5"/>
 <text x="83" y="112" text-anchor="start" font-size="16" font-weight="700" fill="#163349">DIRECT FROM THE DATA</text>

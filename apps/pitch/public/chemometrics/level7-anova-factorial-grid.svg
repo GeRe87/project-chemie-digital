@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Build a 3 by 2 factorial design</title>
+  <desc>Three methods crossed with two water matrices, six independent preparations per combination. Stage one marks the existing river-water experiment and stage two adds wastewater, making 36 preparations.</desc>
+  <rect x="50" y="76" width="900" height="48" fill="#10698a" fill-opacity=".11"/>
+  <text x="65" y="114" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Water matrix</text>
+  <text x="400" y="114" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Method A</text>
+  <text x="620" y="114" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Method B</text>
+  <text x="840" y="114" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Method C</text>
+  <path d="M50 194H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="65" y="181" text-anchor="start" font-size="23" font-weight="450" fill="#163349">River water</text>
+  <text x="400" y="181" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <text x="620" y="181" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <text x="840" y="181" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <path d="M50 261H950" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="65" y="248" text-anchor="start" font-size="23" font-weight="450" fill="#163349">Wastewater</text>
+  <text x="400" y="248" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <text x="620" y="248" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <text x="840" y="248" text-anchor="middle" font-size="23" font-weight="450" fill="#163349">6</text>
+  <g data-svg-stage="1">
+<rect x="50" y="132" width="900" height="60" fill="#10698a" fill-opacity=".11"/>
+<text x="65" y="296" text-anchor="start" font-size="25" font-weight="700" fill="#10698a">Start with the 18 river-water preparations.</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="50" y="200" width="900" height="60" fill="#a14518" fill-opacity=".11"/>
+<text x="65" y="349" text-anchor="start" font-size="23" font-weight="700" fill="#a14518">Add the same three methods in wastewater: 36 preparations total.</text>
+</g>
+</svg>

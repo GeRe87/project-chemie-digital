@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Partition variation in the additive model</title>
+  <desc>The total sum of squares of 521 divides into method SS 14, matrix SS 169, and additive residual SS 338. The method and matrix contributions use weighted deviations of marginal means from the grand mean. The residual sums squared deviations of individual recoveries from their additive predictions.</desc>
+  <text x="52" y="52" text-anchor="start" font-size="32" font-weight="700" fill="#163349">Total SS = 521</text>
+  <text x="52" y="87" text-anchor="start" font-size="22" font-weight="400" fill="#163349">All 36 squared deviations from the grand mean</text>
+  <rect x="52" y="121" width="896" height="56" fill="#10698a" fill-opacity=".11"/>
+  <text x="73" y="156" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Method</text>
+  <text x="295" y="156" text-anchor="end" font-size="26" font-weight="700" fill="#10698a">14</text>
+  <text x="322" y="156" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Squared spread of the three method averages</text>
+  <g data-svg-stage="1">
+<rect x="52" y="194" width="896" height="56" fill="#5c3a98" fill-opacity=".11"/>
+<text x="73" y="229" text-anchor="start" font-size="23" font-weight="700" fill="#5c3a98">Matrix</text>
+<text x="295" y="229" text-anchor="end" font-size="26" font-weight="700" fill="#5c3a98">169</text>
+<text x="322" y="229" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Squared spread of the two matrix averages</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="52" y="267" width="896" height="56" fill="#a14518" fill-opacity=".11"/>
+<text x="73" y="302" text-anchor="start" font-size="23" font-weight="700" fill="#a14518">Residual</text>
+<text x="295" y="302" text-anchor="end" font-size="26" font-weight="700" fill="#a14518">338</text>
+<text x="322" y="302" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Squared distances of observations from their additive fits</text>
+</g>
+  <g data-svg-stage="3">
+<text x="52" y="377" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Total SS = 14 + 169 + 338</text>
+</g>
+</svg>

@@ -4,6 +4,7 @@
 .reveal .slides section[data-composition="visual-stage"] {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr);
+  row-gap: var(--pcd-slide-content-gap, 1.1rem);
   align-content: stretch;
   padding: 2.2rem 3.2rem 2rem !important;
 }
@@ -37,6 +38,16 @@
   min-height: 0;
   margin: .15rem auto 0;
   padding-top: 2rem;
+}
+
+/* The slide supplies the frame, while the artwork keeps its internal marks. */
+.reveal .slides section[data-composition="visual-stage"]
+  > [data-composition-region-container="main"]
+  :is([data-component-kind="visual"], .media-reference, .d3-chart-figure, .d3-flow-figure) {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Interactive visuals use the same stage, with content-sized hosts. */
@@ -277,7 +288,7 @@ body[data-diagram-theme="eco-city"] .reveal
 /* Reusable diagram with an emphasized takeaway, selected from scene structure. */
 .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) {
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: .15rem;
+  row-gap: var(--pcd-slide-content-gap, 1.1rem);
   padding: 1rem 1.6rem .75rem !important;
 }
 /* Topic-bearing visual stages reserve a distinct bottom strip for orientation
@@ -313,6 +324,52 @@ body[data-diagram-theme="eco-city"] .reveal
 }
 .reveal .slides section[data-composition="visual-stage"] .d3-flow-svg[data-layout-strategy="hierarchy-fanout"] {
   display: block;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+
+/* A visual and its controls share the main track. The visual receives the larger column. */
+.reveal .pcd-visual-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.reveal .pcd-visual-layout[data-visual-layout="split"] {
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: var(--pcd-slide-content-gap, 1.1rem);
+}
+.reveal .pcd-visual-layout > .pcd-visual-layout-plot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+}
+.reveal .pcd-visual-layout > .pcd-visual-layout-support {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  body.pcd-native-mobile .reveal .pcd-visual-layout[data-visual-layout="split"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+/* Flow hosts use the split stage height instead of the standalone diagram cap. */
+.reveal .slides section[data-composition] .pcd-visual-layout > .d3-flow-host.pcd-visual-layout-plot {
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+}
+.reveal .slides section[data-composition] .pcd-visual-layout > .d3-flow-host.pcd-visual-layout-plot :is(.d3-flow-runtime, .d3-flow-figure, .d3-flow-svg) {
   height: 100%;
   min-height: 0;
   max-height: 100%;

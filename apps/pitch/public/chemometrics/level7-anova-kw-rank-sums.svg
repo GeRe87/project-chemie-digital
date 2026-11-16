@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Kruskal–Wallis: the evidence is in the rank sums</title><desc id="desc">Rank sums are 3.5, 6.5 and 11.0. Correcting for tied ranks gives H 4.191. Of 90 equally likely allocations with two per group, 12 are as extreme, so exact p is 0.133.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <text x="465" y="43" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Sum the pooled ranks within each group</text>
 <text x="120" y="103" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">Method A</text>
 <rect x="195" y="76" width="171" height="40" rx="13" fill="#b7deeb"/>
@@ -11,5 +11,5 @@
 <text x="120" y="233" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">Method C</text>
 <rect x="195" y="206" width="539" height="40" rx="13" fill="#ddd0ed"/>
 <text x="759" y="233" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">11</text>
-<text x="465" y="320" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Tie-corrected H = 4.191    ·    Exact p = 12 / 90 = 0.133</text>
+  <g data-svg-stage="1"><text x="465" y="320" text-anchor="middle" font-size="21" font-weight="700" fill="#163349">Tie-corrected H = 4.191    ·    Exact p = 12 / 90 = 0.133</text></g>
 </g></svg>

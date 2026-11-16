@@ -1,14 +1,51 @@
 /* Structural profiles only: no course, scene or resource identity selectors. */
 .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="main"] .media-reference {width:100%;margin:0;}
 .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="main"] .media-reference :is(img,svg.teaching-svg) {width:100%;height:auto;max-height:34rem;object-fit:contain;}
+/* A single illustration uses the main grid track. Tabs and captions keep their own height. */
+@media screen {
+  html:not(.print-pdf) .reveal .slides section[data-composition="visual-stage"]
+    > [data-composition-region-container="main"] > figure.media-reference[data-media-type^="image/"]:only-child {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    max-width: none;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition="visual-stage"]
+    > [data-composition-region-container="main"] > figure.media-reference[data-media-type^="image/"]:only-child
+    > :is(.pcd-visual-stage-viewport, img, svg.teaching-svg) {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+  html:not(.print-pdf) .reveal .slides section[data-composition="visual-stage"]
+    > [data-composition-region-container="main"] > figure.media-reference[data-media-type^="image/"]:only-child
+    :is(img, svg.teaching-svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+  }
+}
 /* An authored external reading link occupies the reference rail, outside slide content. */
-.reveal .slides section[data-composition]:has(> .scene-references) {
-  padding-bottom: var(--pcd-reference-reserve, 48px) !important;
+html:not(.print-pdf) body .reveal .slides section[data-composition]:has(> .scene-references) {
+  padding-block-end: calc(var(--pcd-reference-reserve, 64px) + var(--pcd-lecture-takeaway-space, 0px)) !important;
+}
+.pcd-slide-footer {
+  position: absolute;
+  inset-inline: 24px;
+  inset-block-end: 16px;
+  display: grid;
+  min-width: 0;
+  gap: .65rem;
+}
+.pcd-slide-footer > .scene-references {
+  position: static;
 }
 .scene-references {
   position: absolute;
   inset-inline: 24px;
-  inset-block-end: 9px;
+  inset-block-end: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 6px 12px;
@@ -18,15 +55,46 @@
 .reveal .scene-references .reference-link {
   max-width: 100%;
   box-sizing: border-box;
-  padding: 4px 9px;
-  border: 1px solid var(--pcd-accent);
-  border-radius: 5px;
-  background: var(--pcd-surface-strong);
-  color: var(--pcd-foreground);
-  font: 700 var(--pcd-reference-font-size, 20px)/1.2 system-ui, sans-serif;
+  padding: 4px 0;
+  color: var(--pcd-accent);
+  font: 600 var(--pcd-reference-font-size, 17px)/1.35 system-ui, sans-serif;
   text-decoration: underline;
   text-underline-offset: .15em;
   overflow-wrap: anywhere;
+}
+/* Closing statements sit on a quiet accent rule aligned with the content. */
+.reveal .slides section[data-composition] > [data-composition-region-container="footer"]:has(> .lead[data-lecture-takeaway]:only-child) {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  justify-self: stretch;
+}
+
+.reveal .slides section[data-composition] .lead[data-lecture-takeaway] {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .45rem .75rem;
+  border: 0;
+  border-inline-start: 2px solid color-mix(in srgb, var(--pcd-accent) 65%, transparent);
+  background: transparent;
+  box-shadow: none;
+  color: var(--pcd-foreground);
+  font: 550 20px/1.45 system-ui, sans-serif;
+  text-align: start;
+}
+/* A small label identifies the takeaway without competing with the sentence. */
+.reveal .lecture-takeaway-label {
+  display: block;
+  margin-block-end: .18rem;
+  color: var(--pcd-accent);
+  font: 650 13px/1.2 system-ui, sans-serif;
+  letter-spacing: .045em;
+}
+.reveal .slides section[data-composition] .lead[data-lecture-takeaway] p {
+  margin: 0;
+  font: inherit;
 }
 .reveal .scene-references .reference-link:focus-visible {
   outline: 3px solid var(--pcd-accent);
@@ -87,7 +155,7 @@
 .reveal .slides section:is([data-composition-profile="formula-experiment"],[data-composition-profile="test-report"]) .media-reference :is(img,svg.teaching-svg) {width:100%;height:auto;max-height:31rem;object-fit:contain;}
 .reveal .slides section[data-composition-profile="formula-experiment"] .media-reference :is(img,svg.teaching-svg) {height:26rem;max-height:26rem;}
 .reveal .slides section[data-composition-profile="formula-experiment"] .media-caption {font-size:20px;line-height:1.25;}
-.reveal .slides section[data-composition-profile="test-report"] [data-chart-block-id] {box-sizing:border-box;width:100%;max-width:100%;min-width:0;margin:0;padding:.5rem;}
+.reveal .slides section[data-composition-profile="test-report"] .d3-chart-host {box-sizing:border-box;width:100%;max-width:100%;min-width:0;margin:0;padding:.5rem;}
 .reveal .slides section[data-composition-profile="test-report"] .d3-chart-figure {width:100%;min-width:0;}
 .reveal .slides section[data-composition-profile="test-report"] .d3-chart-svg {width:100%;min-width:0;}
 .media-caption > :first-child {margin-top:0!important;}
@@ -133,10 +201,7 @@ body[data-presentation-theme="light"] .reveal .slides section[data-composition] 
   box-sizing:border-box;max-height:none;overflow:visible;padding:.7rem;
   background:var(--pcd-surface-strong);border:2px solid var(--pcd-border);
  }
- html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-experiment"] .symbol-legend-disclosure :is(.authored-symbol-definitions,.authored-symbol-conventions) {font-size:18px;line-height:1.25;}
  html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"] .symbol-legend-disclosure[open] {max-height:none;overflow:visible;}
- html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"] .symbol-legend-disclosure :is(.authored-symbol-definitions,.authored-symbol-conventions) {font-size:16px;line-height:1.2;}
- html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"] .symbol-legend-disclosure .definition-list-term {font-size:18px;}
  html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"] .formula-with-legend:has(.symbol-legend-disclosure[open]) {overflow:visible;max-height:none;}
  html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"] > [data-composition-region-container="main"]:has(.symbol-legend-disclosure[open]) {overflow:visible;}
  html:not(.print-pdf) .reveal .slides section[data-composition-profile="formula-deck"]:not(:has(.formula-with-legend ~ .formula-with-legend)) .symbol-legend-disclosure[open] {

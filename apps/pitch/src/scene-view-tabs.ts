@@ -19,7 +19,7 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
     const hasFormula = (profile === 'visual-formula' || authoringLecture && profile === 'worked-calculation')
       && primary?.querySelector(authoringLecture
         ? '[data-chart-block-id],[data-diagram-type="flow"],.media-reference,.data-table'
-        : '[data-chart-block-id],[data-diagram-type="flow"]')
+        : '[data-chart-block-id],[data-diagram-type="flow"],.media-reference[data-media-type^="image/"]')
       && secondary?.querySelector('.formula-with-legend');
     if (!hasFormula && !compatibleTables) continue;
     // Keep each native table's semantics inside the accessible tab panel.

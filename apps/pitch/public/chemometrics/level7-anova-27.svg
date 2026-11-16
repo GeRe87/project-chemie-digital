@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Read the post-hoc comparison plot</title><desc id="desc">B minus A: 4, interval 1.88 to 6.12. C minus A: −1, interval −3.12 to 1.12. C minus B: −5, interval −7.12 to −2.88. Only C minus A crosses zero.</desc>
-<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+
 <g font-family="system-ui, sans-serif">
 <text x="485" y="40" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">95% simultaneous confidence intervals</text>
 <line x1="468.00" y1="62.00" x2="468.00" y2="284.00" stroke="#5a768b" stroke-width="2" stroke-dasharray="7 6"/>
@@ -38,4 +38,5 @@
 <text x="720" y="316" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">6</text>
 <text x="468" y="350" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Difference in mean recovery (percentage points)</text>
 </g>
+  <g data-svg-stage="1"><rect x="46" y="148" width="840" height="45" fill="#5c3a98" fill-opacity=".09"/></g>
 </svg>

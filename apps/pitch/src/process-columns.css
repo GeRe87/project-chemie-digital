@@ -1,4 +1,11 @@
-.reveal .pcd-process-host { width: 100%; max-width: none; }
+.reveal .slides section[data-composition] .pcd-process-host {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
 .reveal .pcd-process-columns {
   display: grid;
   grid-template-columns: repeat(var(--pcd-process-count), minmax(0, 1fr));

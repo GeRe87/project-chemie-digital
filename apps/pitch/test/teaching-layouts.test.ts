@@ -21,7 +21,7 @@ test('interactive widgets share a readable type floor instead of 13-18px local f
 
 test('auto-height evidence retains visible SVGs and aligned padded panels',()=>{
  const stages=source('learning-stage-primitives.css');
- assert.match(stages,/\[data-composition-profile="info-visual"\] \[data-chart-block-id\] > \.d3-chart-figure > \.d3-chart-svg\s*\{\s*flex:none;min-height:0;height:auto;max-height:none;width:100%;/u);
+ assert.match(stages,/\[data-composition-profile="info-visual"\] \.d3-chart-host > \.d3-chart-figure > \.d3-chart-svg\s*\{\s*flex:none;min-height:0;height:auto;max-height:none;width:100%;/u);
  assert.match(source('teaching-layouts.css'),/> \.pcd-composition-region > :first-child\s*\{\s*margin-top: 0;/u);
  assert.match(source('teaching-surfaces.css'),/\.reveal \.formula-with-legend\s*\{\s*box-sizing: border-box;\s*padding: var\(--pcd-panel-padding\);/u);
 });

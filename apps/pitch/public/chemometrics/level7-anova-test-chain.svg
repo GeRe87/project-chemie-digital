@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">From sums of squares to the p-value</title><desc id="desc">Divide method SS 84 by 2 to get 42 and residual SS 30 by 15 to get 2. F is 21; the upper tail under F with df 2,15 is 0.00004484.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <rect x="38" y="60" width="350" height="89" rx="13" fill="#dceef5"/>
 <rect x="38" y="184" width="350" height="89" rx="13" fill="#ebe3f5"/>
 <text x="213" y="96" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Between methods</text>

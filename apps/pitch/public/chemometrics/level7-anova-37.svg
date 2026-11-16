@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Interpret the interaction first</title><desc id="desc">Method means in percent, A 94 to 92, B 98 to 86, C 93 to 94, moving from river water to wastewater.</desc>
-<rect x="1" y="1" width="928" height="373" rx="18" fill="#f7fafc" stroke="#bdcfdc"/>
+
 <g font-family="system-ui, sans-serif">
 <text x="435.0" y="35" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Mean recovery (%)</text>
 <line x1="130.00" y1="308.00" x2="740.00" y2="308.00" stroke="#a7b9c7" stroke-width="1"/>

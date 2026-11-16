@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<title>Build the additive treatment ANOVA table</title>
+<desc>Additive ANOVA for water treatment. Both the technique and condition tests are significant at the five percent level.</desc>
+<rect x="55" y="43" width="890" height="42" fill="#10698a" fill-opacity="0.1"/>
+<path d="M55 127L945 127" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M55 169L945 169" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M55 211L945 211" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M55 253L945 253" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="65" y="72" font-size="22" font-weight="700" fill="#10698a" text-anchor="start">Source</text>
+<text x="65" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Technique</text>
+<text x="65" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Condition</text>
+<text x="65" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Residual</text>
+<text x="65" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="start">Total</text>
+<text x="322" y="72" font-size="22" font-weight="700" fill="#10698a" text-anchor="middle">SS</text>
+<text x="322" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">1810.67</text>
+<text x="322" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">1418.67</text>
+<text x="322" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">162.67</text>
+<text x="322" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">3392</text>
+<g data-svg-stage="1">
+<rect x="380" y="43" width="80" height="210" fill="#5c3a98" fill-opacity="0.1"/>
+<text x="420" y="72" font-size="22" font-weight="700" fill="#5c3a98" text-anchor="middle">df</text>
+<text x="420" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="420" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">2</text>
+<text x="420" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">31</text>
+<text x="420" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">35</text>
+</g>
+<g data-svg-stage="2">
+<rect x="478" y="43" width="80" height="210" fill="#5c3a98" fill-opacity="0.1"/>
+<text x="518" y="72" font-size="22" font-weight="700" fill="#5c3a98" text-anchor="middle">MS</text>
+<text x="518" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">905.33</text>
+<text x="518" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">709.33</text>
+<text x="518" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">5.25</text>
+<text x="518" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+<g data-svg-stage="3">
+<text x="616" y="72" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">F</text>
+<text x="616" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">172.53</text>
+<text x="616" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">135.18</text>
+<text x="616" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="616" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="731" y="72" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">p</text>
+<text x="731" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">1.58 × 10⁻¹⁷</text>
+<text x="731" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">4.90 × 10⁻¹⁶</text>
+<text x="731" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="731" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="874" y="72" font-size="22" font-weight="700" fill="#a14518" text-anchor="middle">η²</text>
+<text x="874" y="114" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">53.38%</text>
+<text x="874" y="156" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">41.82%</text>
+<text x="874" y="198" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+<text x="874" y="240" font-size="22" font-weight="400" fill="#163349" text-anchor="middle">–</text>
+</g>
+</svg>

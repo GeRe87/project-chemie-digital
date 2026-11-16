@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Build the additive ANOVA table</title>
+  <desc>Additive ANOVA table. Method: SS 14, df 2, MS 7, F 0.663, p 0.5224, eta squared 2.69%. Matrix: SS 169, df 1, MS 169, F 16, p 0.000350, eta squared 32.44%. Residual: SS 338, df 32, MS 10.5625. Total: SS 521, df 35. Eta squared is the share of total SS associated with each factor.</desc>
+  <rect x="52" y="25" width="896" height="46" fill="#10698a" fill-opacity=".11"/>
+  <path d="M52 123H948" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <path d="M52 173H948" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <path d="M52 223H948" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <path d="M52 273H948" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="66" y="55" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Source</text>
+  <text x="66" y="110" text-anchor="start" font-size="23" font-weight="500" fill="#163349">Method</text>
+  <text x="66" y="160" text-anchor="start" font-size="23" font-weight="500" fill="#163349">Matrix</text>
+  <text x="66" y="210" text-anchor="start" font-size="23" font-weight="500" fill="#163349">Residual</text>
+  <text x="66" y="260" text-anchor="start" font-size="23" font-weight="500" fill="#163349">Total</text>
+  <text x="349" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#10698a">SS</text>
+  <text x="349" y="110" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">14</text>
+  <text x="349" y="160" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">169</text>
+  <text x="349" y="210" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">338</text>
+  <text x="349" y="260" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">521</text>
+  <g data-svg-stage="1">
+<rect x="413" y="25" width="98" height="248" fill="#5c3a98" fill-opacity=".11"/>
+<text x="462" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#5c3a98">df</text>
+<text x="462" y="110" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">2</text>
+<text x="462" y="160" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">1</text>
+<text x="462" y="210" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">32</text>
+<text x="462" y="260" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">35</text>
+<text x="53" y="301" text-anchor="start" font-size="20" font-weight="700" fill="#5c3a98">df: method 3 − 1 · matrix 2 − 1 · residual 35 − 2 − 1</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="515" y="25" width="104" height="248" fill="#10698a" fill-opacity=".11"/>
+<text x="565" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#10698a">MS</text>
+<text x="565" y="110" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">7</text>
+<text x="565" y="160" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">169</text>
+<text x="565" y="210" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">10.5625</text>
+<text x="565" y="260" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">–</text>
+<text x="53" y="335" text-anchor="start" font-size="20" font-weight="700" fill="#10698a">MS: divide each SS by its degrees of freedom.</text>
+</g>
+  <g data-svg-stage="3">
+<rect x="622" y="25" width="326" height="248" fill="#a14518" fill-opacity=".11"/>
+<text x="669" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#a14518">F</text>
+<text x="669" y="110" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">0.663</text>
+<text x="669" y="160" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">16.000</text>
+<text x="669" y="210" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">–</text>
+<text x="669" y="260" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">–</text>
+<text x="785" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#a14518">p</text>
+<text x="901" y="55" text-anchor="middle" font-size="22" font-weight="700" fill="#a14518">η²</text>
+<text x="785" y="110" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">0.5224</text>
+<text x="785" y="160" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">0.000350</text>
+<text x="785" y="210" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">–</text>
+<text x="785" y="260" text-anchor="middle" font-size="23" font-weight="500" fill="#163349">–</text>
+<text x="901" y="110" text-anchor="middle" font-size="21" font-weight="650" fill="#163349">2.69%</text>
+<text x="901" y="160" text-anchor="middle" font-size="21" font-weight="650" fill="#163349">32.44%</text>
+<text x="901" y="210" text-anchor="middle" font-size="21" font-weight="650" fill="#163349">–</text>
+<text x="901" y="260" text-anchor="middle" font-size="21" font-weight="650" fill="#163349">–</text>
+<text x="53" y="364" text-anchor="start" font-size="20" font-weight="700" fill="#a14518">F: compare each effect MS with the additive residual MS, 10.5625.</text>
+</g>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Same recoveries, two one-way analyses</title>
+  <desc>Both dot plots contain the same 18 river-water observations. By method the means are 94, 98, and 93 percent; p is approximately 0.00004484 and eta squared is 73.7 percent. By hypothetical operator the means are 95.93, 95.60, and 93.48 percent; p is 0.214 and eta squared is 18.6 percent. Color identifies the method in both plots.</desc>
+  <text x="62" y="36" text-anchor="start" font-size="23" font-weight="700" fill="#163349">Group by preparation method</text>
+  <text x="543" y="36" text-anchor="start" font-size="23" font-weight="700" fill="#163349">Group by operator</text>
+  <text x="62" y="61" text-anchor="start" font-size="15" font-weight="400" fill="#163349">Recovery (%)</text>
+  <text x="543" y="61" text-anchor="start" font-size="15" font-weight="400" fill="#163349">Recovery (%)</text>
+  <path d="M62 254.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="259.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">90</text>
+  <path d="M62 224.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="229.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">92</text>
+  <path d="M62 194.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="199.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">94</text>
+  <path d="M62 164.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="169.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">96</text>
+  <path d="M62 134.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="139.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">98</text>
+  <path d="M62 104.0H479" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="54" y="109.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">100</text>
+  <circle cx="94" cy="210.50" r="5" fill="#10698a"><title>Method A, 92.90%</title></circle>
+  <circle cx="135" cy="174.05" r="5" fill="#10698a"><title>Method A, 95.33%</title></circle>
+  <circle cx="106" cy="196.85" r="5" fill="#10698a"><title>Method A, 93.81%</title></circle>
+  <circle cx="125" cy="221.15" r="5" fill="#10698a"><title>Method A, 92.19%</title></circle>
+  <circle cx="142" cy="165.20" r="5" fill="#10698a"><title>Method A, 95.92%</title></circle>
+  <circle cx="90" cy="196.25" r="5" fill="#10698a"><title>Method A, 93.85%</title></circle>
+  <path d="M87 194.00H145" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="150" y="198.0" text-anchor="start" font-size="15" font-weight="700" fill="#163349">94.00</text>
+  <text x="116" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">A</text>
+  <circle cx="227" cy="152.15" r="5" fill="#a14518"><title>Method B, 96.79%</title></circle>
+  <circle cx="268" cy="123.95" r="5" fill="#a14518"><title>Method B, 98.67%</title></circle>
+  <circle cx="239" cy="133.10" r="5" fill="#a14518"><title>Method B, 98.06%</title></circle>
+  <circle cx="258" cy="103.55" r="5" fill="#a14518"><title>Method B, 100.03%</title></circle>
+  <circle cx="275" cy="163.25" r="5" fill="#a14518"><title>Method B, 96.05%</title></circle>
+  <circle cx="223" cy="128.00" r="5" fill="#a14518"><title>Method B, 98.40%</title></circle>
+  <path d="M220 134.00H278" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="283" y="138.0" text-anchor="start" font-size="15" font-weight="700" fill="#163349">98.00</text>
+  <text x="249" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">B</text>
+  <circle cx="358" cy="191.90" r="5" fill="#5c3a98"><title>Method C, 94.14%</title></circle>
+  <circle cx="399" cy="210.95" r="5" fill="#5c3a98"><title>Method C, 92.87%</title></circle>
+  <circle cx="370" cy="222.65" r="5" fill="#5c3a98"><title>Method C, 92.09%</title></circle>
+  <circle cx="389" cy="179.15" r="5" fill="#5c3a98"><title>Method C, 94.99%</title></circle>
+  <circle cx="406" cy="238.55" r="5" fill="#5c3a98"><title>Method C, 91.03%</title></circle>
+  <circle cx="354" cy="210.80" r="5" fill="#5c3a98"><title>Method C, 92.88%</title></circle>
+  <path d="M351 209.00H409" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="414" y="213.0" text-anchor="start" font-size="15" font-weight="700" fill="#163349">93.00</text>
+  <text x="380" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">C</text>
+  <path d="M543 254.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="259.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">90</text>
+  <path d="M543 224.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="229.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">92</text>
+  <path d="M543 194.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="199.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">94</text>
+  <path d="M543 164.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="169.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">96</text>
+  <path d="M543 134.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="139.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">98</text>
+  <path d="M543 104.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="535" y="109.0" text-anchor="end" font-size="15" font-weight="400" fill="#163349">100</text>
+  <circle cx="575" cy="210.50" r="5" fill="#10698a"><title>Method A, 92.90%</title></circle>
+  <circle cx="616" cy="174.05" r="5" fill="#10698a"><title>Method A, 95.33%</title></circle>
+  <circle cx="587" cy="196.85" r="5" fill="#10698a"><title>Method A, 93.81%</title></circle>
+  <circle cx="606" cy="152.15" r="5" fill="#a14518"><title>Method B, 96.79%</title></circle>
+  <circle cx="623" cy="123.95" r="5" fill="#a14518"><title>Method B, 98.67%</title></circle>
+  <circle cx="571" cy="133.10" r="5" fill="#a14518"><title>Method B, 98.06%</title></circle>
+  <path d="M568 165.10H626" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="631" y="169.1" text-anchor="start" font-size="15" font-weight="700" fill="#163349">95.93</text>
+  <text x="597" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">X</text>
+  <circle cx="708" cy="103.55" r="5" fill="#a14518"><title>Method B, 100.03%</title></circle>
+  <circle cx="749" cy="163.25" r="5" fill="#a14518"><title>Method B, 96.05%</title></circle>
+  <circle cx="720" cy="128.00" r="5" fill="#a14518"><title>Method B, 98.40%</title></circle>
+  <circle cx="739" cy="191.90" r="5" fill="#5c3a98"><title>Method C, 94.14%</title></circle>
+  <circle cx="756" cy="210.95" r="5" fill="#5c3a98"><title>Method C, 92.87%</title></circle>
+  <circle cx="704" cy="222.65" r="5" fill="#5c3a98"><title>Method C, 92.09%</title></circle>
+  <path d="M701 170.05H759" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="764" y="174.05" text-anchor="start" font-size="15" font-weight="700" fill="#163349">95.60</text>
+  <text x="730" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">Y</text>
+  <circle cx="839" cy="221.15" r="5" fill="#10698a"><title>Method A, 92.19%</title></circle>
+  <circle cx="880" cy="165.20" r="5" fill="#10698a"><title>Method A, 95.92%</title></circle>
+  <circle cx="851" cy="196.25" r="5" fill="#10698a"><title>Method A, 93.85%</title></circle>
+  <circle cx="870" cy="179.15" r="5" fill="#5c3a98"><title>Method C, 94.99%</title></circle>
+  <circle cx="887" cy="238.55" r="5" fill="#5c3a98"><title>Method C, 91.03%</title></circle>
+  <circle cx="835" cy="210.80" r="5" fill="#5c3a98"><title>Method C, 92.88%</title></circle>
+  <path d="M832 201.85H890" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="895" y="205.85" text-anchor="start" font-size="15" font-weight="700" fill="#163349">93.48</text>
+  <text x="861" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">Z</text>
+  <rect x="62" y="301" width="417" height="54" fill="#10698a" fill-opacity=".11"/>
+  <rect x="543" y="301" width="417" height="54" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="76" y="335" text-anchor="start" font-size="21" font-weight="700" fill="#10698a">p ≈ 0.00004484    ·    η² = 73.7%</text>
+  <text x="559" y="335" text-anchor="start" font-size="21" font-weight="700" fill="#5c3a98">p ≈ 0.214    ·    η² = 18.6%</text>
+  <text x="62" y="384" text-anchor="start" font-size="17" font-weight="400" fill="#163349">Colors identify the methods in both views. The short lines show group means.</text>
+</svg>

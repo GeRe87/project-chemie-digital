@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 405" font-family="system-ui, sans-serif">
+  <title>84 between groups plus 30 within groups equals 114 total</title>
+  <g text-anchor="middle">
+    <text x="525" y="77" font-size="44" font-weight="750" fill="var(--pcd-foreground)">114 pp&#178; total</text>
+    <path d="M65 134v-21h920v21" fill="none" stroke="var(--pcd-foreground)" stroke-width="2"/>
+    <rect x="65" y="156" width="678" height="128" fill="#15546b"/>
+    <rect x="743" y="156" width="242" height="128" fill="#4b3279"/>
+    <text x="404" y="216" font-size="52" font-weight="750" fill="#ffffff">84</text>
+    <text x="864" y="216" font-size="52" font-weight="750" fill="#ffffff">30</text>
+    <text x="404" y="259" font-size="26" font-weight="650" fill="#ffffff">Between groups</text>
+    <text x="864" y="259" font-size="26" font-weight="650" fill="#ffffff">Within groups</text>
+    <text x="404" y="337" font-size="24" fill="var(--pcd-foreground)">Group means vs. grand mean</text>
+    <text x="864" y="337" font-size="24" fill="var(--pcd-foreground)">
+      <tspan x="864">Observations vs.</tspan><tspan x="864" y="375">their group means</tspan>
+    </text>
+  </g>
+</svg>

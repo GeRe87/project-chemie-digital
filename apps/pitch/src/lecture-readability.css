@@ -6,6 +6,7 @@ body[data-presentation-readability="lecture"] .reveal {
   font-size: 30px;
   --pcd-lecture-body: 30px;
   --pcd-lecture-secondary: 24px;
+  --pcd-lecture-card-body-min: 26px;
   --pcd-lecture-caption: 22px;
   --pcd-lecture-chart-tick: 22px;
   --pcd-lecture-chart-axis: 26px;

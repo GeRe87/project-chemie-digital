@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Where independent replication comes from</title><desc id="desc">Three separately prepared vials provide three independent units. Three injections of one extract provide three technical repeats of one unit.</desc>
-<rect x="0" y="0" width="930" height="375" rx="14" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <rect x="48" y="76" width="400" height="250" rx="14" fill="#dceef5"/>
 <rect x="482" y="76" width="400" height="250" rx="14" fill="#ebe3f5"/>
 <text x="465" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Where does independent replication come from?</text>

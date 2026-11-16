@@ -25,7 +25,7 @@ const glyphs:Record<string,string>={
   'ₙ':'{}_n','ₘ':'{}_m','ₚ':'{}_p','ₛ':'{}_s','ₜ':'{}_t','ₓ':'{}_x',
   '₊':'{}_+','₋':'{}_-','γ':'\\gamma',
   'ₐ':'{}_a','ₑ':'{}_e','ₒ':'{}_o','ₕ':'{}_h','ₗ':'{}_l',
-  'Γ':'\\Gamma','Σ':'\\Sigma','Φ':'\\Phi','α':'\\alpha','μ':'\\mu','ν':'\\nu','π':'\\pi','σ':'\\sigma','φ':'\\varphi','χ':'\\chi',
+  'Γ':'\\Gamma','Σ':'\\Sigma','Φ':'\\Phi','α':'\\alpha','η':'\\eta','μ':'\\mu','ν':'\\nu','π':'\\pi','σ':'\\sigma','φ':'\\varphi','χ':'\\chi',
   '−':'-','√':'\\sqrt{\\vphantom{x}}','∞':'\\infty','∫':'\\int','∼':'\\sim','≈':'\\approx','≤':'\\le','≥':'\\ge','′':'\\prime',
   '²':'{}^2','¹':'{}^1','⁴':'{}^4','⁻':'{}^-','ᵃ':'{}^a','ᵗ':'{}^t','ᵘ':'{}^u','ᵢ':'{}_i','ⱼ':'{}_j',
   '₀':'{}_0','₁':'{}_1','₂':'{}_2','₃':'{}_3','₅':'{}_5','₉':'{}_9','ₖ':'{}_k','₍':'{}_{(}','₎':'{}_{)}','½':'\\tfrac12','·':'\\cdot','…':'\\ldots',
@@ -41,7 +41,7 @@ export function latexText(text:string):string {
   }
   return result;
 }
-const mathCommands=new Set(['! ',',',';','Gamma','Phi','approx','bar','begin','cdot','cdots','chi','end','exp','frac','ge','infty','int','le','left','ln','mathcal','mathrm','mu','nu','operatorname','pi','qquad','quad','right','sigma','sim','sqrt','sum','text','varphi','phi','alpha','beta','delta','epsilon','varepsilon','theta','lambda','rho','tau','gamma','Delta','Sigma','times','pm','in','to','underbrace','overline','vert','mid','Pr','tfrac','dfrac','mathbf','mathbb','hat','widehat','log','lvert','rvert','vec','substack','limits','neq','ne','leq','geq','dots','equiv']);
+const mathCommands=new Set(['! ',',',';','Gamma','Phi','approx','bar','begin','cdot','cdots','chi','end','exp','frac','ge','infty','int','le','left','ln','mathcal','mathrm','mu','nu','operatorname','pi','qquad','quad','right','sigma','sim','sqrt','sum','text','varphi','phi','alpha','beta','delta','epsilon','varepsilon','theta','lambda','rho','tau','gamma','Delta','Sigma','times','pm','in','to','underbrace','overbrace','Bigl','Bigr','eta','overline','vert','mid','Pr','tfrac','dfrac','mathbf','mathbb','hat','widehat','log','lvert','rvert','vec','substack','limits','neq','ne','leq','geq','dots','equiv']);
 export function latexMath(expression:string):string {
   const additional=new Set(['prod','min','max','kappa','lceil','rceil','lfloor','rfloor','ldots','boxed','Longrightarrow','overset','phantom','textstyle','tilde','xrightarrow']);
   for(const match of expression.matchAll(/\\([A-Za-z]+|.)/gs)){

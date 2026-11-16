@@ -14,6 +14,9 @@ const tags = new Set(["svg", "g", "path", "rect", "circle", "ellipse", "line", "
 const attributes = new Set(["viewBox", "x", "y", "x1", "x2", "y1", "y2", "cx", "cy", "r", "rx", "ry", "width", "height", "d", "points", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "opacity", "fill-opacity", "stroke-opacity", "transform", "font-family", "font-size", "font-weight", "text-anchor", "dominant-baseline"]);
 
 export function safeSvgAttribute(name: string, value: string): boolean {
+  if (name === "data-fluid-y") return /^\d{1,4} \d{1,4}$/u.test(value);
+  if (name === "data-fluid-row") return /^\d{1,4}$/u.test(value);
+  if (name === "data-svg-stage") return /^[0-4]$/u.test(value);
   if (name === "data-pair-reveal") return value === "true";
   if (name === "data-pair-points") return value === "selected" || value === "context";
   if (!attributes.has(name) || /url\s*\(|[<>\\]|javascript:|https?:|data:/iu.test(value)) return false;
@@ -42,6 +45,35 @@ export function sanitizeTeachingSvg(text: string, document: Document): SVGSVGEle
   return copy(root) as SVGSVGElement;
 }
 
+/** Adjust the row spacing to the available viewport while keeping marks and type uniform. */
+function mountFluidSvgRows(svg: SVGSVGElement, dimensions: readonly number[]): () => void {
+  const axis = svg.getAttribute("data-fluid-y")?.split(" ").map(Number);
+  const [left, top, width, height] = dimensions;
+  if (!axis || left === undefined || top === undefined || !width || !height) return () => {};
+  const [first, last] = axis;
+  if (first === undefined || last === undefined || last <= first || first < top || last > top + height) return () => {};
+  const rows = Array.from(svg.querySelectorAll("[data-fluid-row]"), element => ({
+    element,
+    anchor: Number(element.getAttribute("data-fluid-row")),
+    transform: element.getAttribute("transform") ?? "",
+  }));
+
+  const observer = new ResizeObserver(([entry]) => {
+    const box = entry?.contentRect;
+    if (!box?.width || !box.height) return;
+    // Keep a readable minimum for dense plots in very short viewports.
+    const fittedHeight = Math.max(height * .8, width * box.height / box.width);
+    const extra = fittedHeight - height;
+    svg.setAttribute("viewBox", [left, top, width, fittedHeight].join(" "));
+    for (const row of rows) {
+      const progress = Math.max(0, Math.min(1, (row.anchor - first) / (last - first)));
+      row.element.setAttribute("transform", `translate(0 ${extra * progress}) ${row.transform}`.trim());
+    }
+  });
+  observer.observe(svg);
+  return () => observer.disconnect();
+}
+
 export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => void> {
   const cleanup: Array<() => void> = [];
   for (const figure of root.querySelectorAll<HTMLElement>('figure[data-media-type="image/svg+xml"]')) {
@@ -64,7 +96,10 @@ export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => voi
         figure.setAttribute("data-media-aspect", isPanoramicMedia(dimensions[2]!, dimensions[3]!) ? "panoramic" : "standard");
       }
       image.replaceWith(svg);
-      cleanup.push(() => { svg.replaceWith(image); });
+      const unmountFluidRows = dimensions?.length === 4 && !document.documentElement.classList.contains("print-pdf")
+        ? mountFluidSvgRows(svg, dimensions)
+        : () => {};
+      cleanup.push(() => { unmountFluidRows(); svg.replaceWith(image); });
     } catch {
       // Accessible image remains; an unsupported SVG never becomes inline markup.
       figure.dataset.mediaEnhancement = "static-fallback";

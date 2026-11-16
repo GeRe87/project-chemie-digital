@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
 <title id="title">Why use Welch ANOVA?</title><desc id="desc">Six independent illustrative recoveries per method. A and C have sample variance 3.5 pp squared; B has sample variance 56.</desc>
-<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<g font-family="system-ui, sans-serif">
 <text x="465" y="49" text-anchor="middle" font-size="25" font-weight="700" fill="#163349">Illustrative SPE recoveries</text>
 <line x1="200.00" y1="72.00" x2="200.00" y2="283.00" stroke="#a7b9c7" stroke-width="1"/>
 <text x="200" y="308" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">82</text>
