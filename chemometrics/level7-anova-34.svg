@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Additive versus interacting effects</title><desc id="desc">Method means in percent, A 94 to 92, B 98 to 86, C 93 to 94, moving from river water to wastewater. The comparison uses a hypothetical common shift of four points on the left.</desc>
+
+<g font-family="system-ui, sans-serif">
+<text x="235.0" y="35" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Illustrative additive model</text>
+<line x1="65.00" y1="308.00" x2="405.00" y2="308.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="53" y="314" text-anchor="end" font-size="18" font-weight="500" fill="#163349">84</text>
+<line x1="65.00" y1="248.00" x2="405.00" y2="248.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="53" y="254" text-anchor="end" font-size="18" font-weight="500" fill="#163349">88</text>
+<line x1="65.00" y1="188.00" x2="405.00" y2="188.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="53" y="194" text-anchor="end" font-size="18" font-weight="500" fill="#163349">92</text>
+<line x1="65.00" y1="128.00" x2="405.00" y2="128.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="53" y="134" text-anchor="end" font-size="18" font-weight="500" fill="#163349">96</text>
+<line x1="65.00" y1="68.00" x2="405.00" y2="68.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="53" y="74" text-anchor="end" font-size="18" font-weight="500" fill="#163349">100</text>
+<line x1="123.00" y1="158.00" x2="360.00" y2="218.00" stroke="#10698a" stroke-width="4"/>
+<circle cx="123.00" cy="158.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="360.00" cy="218.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="110" y="160.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">A 94</text>
+<text x="373" y="224.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">90 A</text>
+<line x1="123.00" y1="98.00" x2="360.00" y2="158.00" stroke="#a14518" stroke-width="4" stroke-dasharray="9 5"/>
+<circle cx="123.00" cy="98.00" r="8" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="360.00" cy="158.00" r="8" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="110" y="104.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">B 98</text>
+<text x="373" y="164.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">94 B</text>
+<line x1="123.00" y1="173.00" x2="360.00" y2="233.00" stroke="#5c3a98" stroke-width="4" stroke-dasharray="2 6"/>
+<circle cx="123.00" cy="173.00" r="8" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="360.00" cy="233.00" r="8" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="110" y="183.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">C 93</text>
+<text x="373" y="239.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">89 C</text>
+<text x="123" y="348" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">River water</text>
+<text x="360" y="348" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Wastewater</text>
+<text x="690.0" y="35" text-anchor="middle" font-size="23" font-weight="700" fill="#163349">Mean recovery by method and matrix</text>
+<line x1="520.00" y1="308.00" x2="860.00" y2="308.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="508" y="314" text-anchor="end" font-size="18" font-weight="500" fill="#163349">84</text>
+<line x1="520.00" y1="248.00" x2="860.00" y2="248.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="508" y="254" text-anchor="end" font-size="18" font-weight="500" fill="#163349">88</text>
+<line x1="520.00" y1="188.00" x2="860.00" y2="188.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="508" y="194" text-anchor="end" font-size="18" font-weight="500" fill="#163349">92</text>
+<line x1="520.00" y1="128.00" x2="860.00" y2="128.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="508" y="134" text-anchor="end" font-size="18" font-weight="500" fill="#163349">96</text>
+<line x1="520.00" y1="68.00" x2="860.00" y2="68.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="508" y="74" text-anchor="end" font-size="18" font-weight="500" fill="#163349">100</text>
+<line x1="578.00" y1="158.00" x2="815.00" y2="188.00" stroke="#10698a" stroke-width="4"/>
+<circle cx="578.00" cy="158.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="815.00" cy="188.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="565" y="160.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">A 94</text>
+<text x="828" y="194.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">92 A</text>
+<line x1="578.00" y1="98.00" x2="815.00" y2="278.00" stroke="#a14518" stroke-width="4" stroke-dasharray="9 5"/>
+<circle cx="578.00" cy="98.00" r="8" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="815.00" cy="278.00" r="8" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="565" y="104.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">B 98</text>
+<text x="828" y="284.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">86 B</text>
+<line x1="578.00" y1="173.00" x2="815.00" y2="158.00" stroke="#5c3a98" stroke-width="4" stroke-dasharray="2 6"/>
+<circle cx="578.00" cy="173.00" r="8" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="815.00" cy="158.00" r="8" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="565" y="183.0" text-anchor="end" font-size="17" font-weight="500" fill="#163349">C 93</text>
+<text x="828" y="164.0" text-anchor="start" font-size="17" font-weight="500" fill="#163349">94 C</text>
+<text x="578" y="348" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">River water</text>
+<text x="815" y="348" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Wastewater</text>
+</g>
+</svg>

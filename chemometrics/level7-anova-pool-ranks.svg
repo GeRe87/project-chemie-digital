@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Pool recoveries before ranking</title>
+  <desc>Ordered recoveries are 81 from A, 84 from A, 84 from B, 88 from B, 90 from C and 92 from C. The two 84s share ranks 2 and 3 and each receives 2.5. Rank sums are 3.5 for A, 6.5 for B and 11 for C.</desc>
+  <rect x="49" y="54" width="902" height="62" fill="#10698a" fill-opacity=".11"/>
+  <text x="65" y="94" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Method</text>
+  <text x="65" y="150" text-anchor="start" font-size="23" font-weight="700" fill="#163349">Recovery (%)</text>
+  <path d="M49 168H951" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="300" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">A</text>
+  <text x="420" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">A</text>
+  <text x="540" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">B</text>
+  <text x="660" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">B</text>
+  <text x="780" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">C</text>
+  <text x="900" y="94" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">C</text>
+  <text x="300" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">81</text>
+  <text x="420" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">84</text>
+  <text x="540" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">84</text>
+  <text x="660" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">88</text>
+  <text x="780" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">90</text>
+  <text x="900" y="150" text-anchor="middle" font-size="24" font-weight="650" fill="#163349">92</text>
+  <g data-svg-stage="1">
+<rect x="373" y="120" width="214" height="105" fill="#5c3a98" fill-opacity=".11"/>
+<text x="65" y="205" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Pooled rank</text>
+<text x="300" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">1</text>
+<text x="420" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">2.5</text>
+<text x="540" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">2.5</text>
+<text x="660" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">4</text>
+<text x="780" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">5</text>
+<text x="900" y="205" text-anchor="middle" font-size="25" font-weight="650" fill="#163349">6</text>
+<text x="65" y="265" text-anchor="start" font-size="22" font-weight="400" fill="#163349">The two 84s share positions 2 and 3, so each receives rank 2.5.</text>
+</g>
+  <g data-svg-stage="2">
+<text x="65" y="334" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Rank sums</text>
+<text x="300" y="334" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">A: 3.5</text>
+<text x="540" y="334" text-anchor="middle" font-size="26" font-weight="700" fill="#5c3a98">B: 6.5</text>
+<text x="790" y="334" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">C: 11.0</text>
+</g>
+</svg>

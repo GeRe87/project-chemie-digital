@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Choose by design, target and error model</title><desc id="desc">Check independent experimental units. For one factor, ordinary ANOVA compares means with a common variance, Welch compares means with unequal variances, and Kruskal–Wallis addresses a rank-based question.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="465" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Start with the design and independent units</text>
+<rect x="27" y="80" width="276" height="186" rx="14" fill="#dceef5"/>
+<text x="165" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Compare means</text>
+<text x="165" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Ordinary ANOVA</text>
+<text x="165" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Common variance</text>
+<rect x="327" y="80" width="276" height="186" rx="14" fill="#ebe3f5"/>
+<text x="465" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Compare means</text>
+<text x="465" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Welch ANOVA</text>
+<text x="465" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Unequal variances</text>
+<rect x="627" y="80" width="276" height="186" rx="14" fill="#fae8dd"/>
+<text x="765" y="119" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Compare ranks</text>
+<text x="765" y="174" text-anchor="middle" font-size="22" font-weight="700" fill="#163349">Kruskal–Wallis</text>
+<text x="765" y="222" text-anchor="middle" font-size="17" font-weight="500" fill="#163349">Rank-based question</text>
+<text x="465" y="327" text-anchor="middle" font-size="19" font-weight="500" fill="#163349">Paired or repeated units need a model of their dependence.</text>
+</g></svg>

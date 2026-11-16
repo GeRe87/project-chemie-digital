@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Report the river-water result</title>
+  <desc>One-way ANOVA for three methods with six independent preparations each. The overall test gives F 21 with 2 and 15 degrees of freedom, p about 0.00004484. The fitted method means account for 73.7 percent of observed squared variation. Compare individual effects with analytical tolerances.</desc>
+  <text x="55" y="56" text-anchor="start" font-size="25" font-weight="700" fill="#163349">River water · three SPE methods · six preparations each</text>
+  <rect x="55" y="91" width="890" height="70" fill="#10698a" fill-opacity=".11"/>
+  <text x="78" y="133" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Overall test</text>
+  <text x="358" y="133" text-anchor="start" font-size="26" font-weight="650" fill="#163349">F = 21   ·   df 2, 15   ·   p ≈ 0.00004484</text>
+  <g data-svg-stage="1">
+<rect x="55" y="173" width="890" height="70" fill="#5c3a98" fill-opacity=".11"/>
+<text x="78" y="215" text-anchor="start" font-size="24" font-weight="700" fill="#5c3a98">Effect size</text>
+<text x="358" y="215" text-anchor="start" font-size="26" font-weight="650" fill="#163349">73.7% of observed variation</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="55" y="255" width="890" height="74" fill="#a14518" fill-opacity=".11"/>
+<text x="78" y="300" text-anchor="start" font-size="24" font-weight="700" fill="#a14518">Analytical relevance</text>
+<text x="358" y="300" text-anchor="start" font-size="22" font-weight="650" fill="#163349">Compare the recovery gaps with your tolerance</text>
+</g>
+</svg>

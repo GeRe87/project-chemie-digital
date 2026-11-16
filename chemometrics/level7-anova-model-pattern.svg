@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Where does the additive fit miss?</title>
+  <desc>The additive model predicts a B-minus-A gap of minus one percentage point in both matrices. The observed gap is plus four in river water and minus six in wastewater. The departures from the predicted gap are plus five and minus five percentage points, respectively.</desc>
+  <text x="53" y="43" text-anchor="start" font-size="26" font-weight="700" fill="#163349">Compare the method gap within each matrix</text>
+  <text x="53" y="81" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Directed gap: mean recovery for B minus mean recovery for A</text>
+  <rect x="53" y="105" width="896" height="48" fill="#10698a" fill-opacity=".11"/>
+  <text x="75" y="136" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Water matrix</text>
+  <text x="465" y="136" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Additive fit (pp)</text>
+  <text x="710" y="136" text-anchor="middle" font-size="21" font-weight="700" fill="#5c3a98">Observed (pp)</text>
+  <text x="884" y="136" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">Departure (pp)</text>
+  <text x="75" y="205" text-anchor="start" font-size="21" font-weight="700" fill="#163349">River water</text>
+  <text x="465" y="205" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">−1.00</text>
+  <path d="M53 225H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <g data-svg-stage="1">
+<text x="710" y="205" text-anchor="middle" font-size="26" font-weight="700" fill="#5c3a98">+4.00</text>
+</g>
+  <g data-svg-stage="2">
+<text x="884" y="205" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">+5.00</text>
+</g>
+  <text x="75" y="270" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Wastewater</text>
+  <text x="465" y="270" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">−1.00</text>
+  <path d="M53 290H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <g data-svg-stage="1">
+<text x="710" y="270" text-anchor="middle" font-size="26" font-weight="700" fill="#5c3a98">−6.00</text>
+</g>
+  <g data-svg-stage="2">
+<text x="884" y="270" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">−5.00</text>
+</g>
+  <g data-svg-stage="2">
+<text x="53" y="350" text-anchor="start" font-size="22" font-weight="700" fill="#a14518">The additive fit repeats the same gap. The measured gaps change direction.</text>
+</g>
+</svg>

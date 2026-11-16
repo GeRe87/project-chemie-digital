@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Where independent replication comes from</title><desc id="desc">Three separately prepared vials provide three independent units. Three injections of one extract provide three technical repeats of one unit.</desc>
+<g font-family="system-ui, sans-serif">
+<rect x="48" y="76" width="400" height="250" rx="14" fill="#dceef5"/>
+<rect x="482" y="76" width="400" height="250" rx="14" fill="#ebe3f5"/>
+<text x="465" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">Where does independent replication come from?</text>
+<text x="248" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Prepare separate samples</text>
+<text x="682" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">Inject the same extract</text>
+<rect x="125" y="153" width="36" height="74" rx="14" fill="#b7deeb"/>
+<line x1="130.00" y1="153.00" x2="156.00" y2="153.00" stroke="#10698a" stroke-width="4"/>
+<circle cx="143.00" cy="207.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<rect x="230" y="153" width="36" height="74" rx="14" fill="#b7deeb"/>
+<line x1="235.00" y1="153.00" x2="261.00" y2="153.00" stroke="#10698a" stroke-width="4"/>
+<circle cx="248.00" cy="207.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<rect x="335" y="153" width="36" height="74" rx="14" fill="#b7deeb"/>
+<line x1="340.00" y1="153.00" x2="366.00" y2="153.00" stroke="#10698a" stroke-width="4"/>
+<circle cx="353.00" cy="207.00" r="8" fill="#10698a" stroke="white" stroke-width="1"/>
+<rect x="664" y="132" width="36" height="64" rx="14" fill="#ddd0ed"/>
+<line x1="682.00" y1="196.00" x2="572.00" y2="239.00" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="572.00" cy="247.00" r="9" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<line x1="682.00" y1="196.00" x2="682.00" y2="239.00" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="682.00" cy="247.00" r="9" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<line x1="682.00" y1="196.00" x2="792.00" y2="239.00" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="792.00" cy="247.00" r="9" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="248" y="287" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">3 independent preparations</text>
+<text x="682" y="287" text-anchor="middle" font-size="18" font-weight="700" fill="#163349">1 preparation · 3 technical repeats</text>
+</g></svg>

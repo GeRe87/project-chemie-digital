@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Compare the two groupings</title>
+  <desc>The same 36 recoveries appear in both plots. Grouped by method, the means are A 93, B 92, and C 93.50 percent. Grouped by water matrix, the means are 95 percent for river water and 90.67 percent for wastewater. Circles represent river water and squares represent wastewater. Color identifies the method. The additive model gives p 0.5224 for method and p 0.000350 for matrix.</desc>
+  <text x="68" y="34" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Grouped by preparation method</text>
+  <text x="553" y="34" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Grouped by water matrix</text>
+  <text x="68" y="70" text-anchor="start" font-size="17" font-weight="400" fill="#163349">Recovery (%)</text>
+  <text x="553" y="70" text-anchor="start" font-size="17" font-weight="400" fill="#163349">Recovery (%)</text>
+  <path d="M68 282.0H476 M553 282.0H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="60" y="287.0" text-anchor="end" font-size="16" font-weight="400" fill="#163349">84</text>
+  <text x="545" y="287.0" text-anchor="end" font-size="16" font-weight="400" fill="#163349">84</text>
+  <path d="M68 239.2H476 M553 239.2H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="60" y="244.2" text-anchor="end" font-size="16" font-weight="400" fill="#163349">88</text>
+  <text x="545" y="244.2" text-anchor="end" font-size="16" font-weight="400" fill="#163349">88</text>
+  <path d="M68 196.4H476 M553 196.4H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="60" y="201.4" text-anchor="end" font-size="16" font-weight="400" fill="#163349">92</text>
+  <text x="545" y="201.4" text-anchor="end" font-size="16" font-weight="400" fill="#163349">92</text>
+  <path d="M68 153.6H476 M553 153.6H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="60" y="158.6" text-anchor="end" font-size="16" font-weight="400" fill="#163349">96</text>
+  <text x="545" y="158.6" text-anchor="end" font-size="16" font-weight="400" fill="#163349">96</text>
+  <path d="M68 110.8H476 M553 110.8H960" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="60" y="115.8" text-anchor="end" font-size="16" font-weight="400" fill="#163349">100</text>
+  <text x="545" y="115.8" text-anchor="end" font-size="16" font-weight="400" fill="#163349">100</text>
+  <circle cx="104.00" cy="186.77" r="5" fill="#10698a"><title>Method A, river water, 92.90%</title></circle>
+  <circle cx="116.00" cy="160.77" r="5" fill="#10698a"><title>Method A, river water, 95.33%</title></circle>
+  <circle cx="99.00" cy="177.03" r="5" fill="#10698a"><title>Method A, river water, 93.81%</title></circle>
+  <circle cx="112.00" cy="194.37" r="5" fill="#10698a"><title>Method A, river water, 92.19%</title></circle>
+  <circle cx="120.00" cy="154.46" r="5" fill="#10698a"><title>Method A, river water, 95.92%</title></circle>
+  <circle cx="108.00" cy="176.61" r="5" fill="#10698a"><title>Method A, river water, 93.85%</title></circle>
+  <rect x="133.20" y="210.32" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 90.25%</title></rect>
+  <rect x="145.20" y="205.08" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 90.74%</title></rect>
+  <rect x="128.20" y="195.77" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 91.61%</title></rect>
+  <rect x="141.20" y="188.93" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 92.25%</title></rect>
+  <rect x="149.20" y="177.90" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 93.28%</title></rect>
+  <rect x="137.20" y="171.59" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 93.87%</title></rect>
+  <path d="M93 185.70H159" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="162" y="190.7" text-anchor="start" font-size="15" font-weight="700" fill="#163349">93.00%</text>
+  <text x="126" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">Method A</text>
+  <circle cx="239.00" cy="145.15" r="5" fill="#a14518"><title>Method B, river water, 96.79%</title></circle>
+  <circle cx="251.00" cy="125.03" r="5" fill="#a14518"><title>Method B, river water, 98.67%</title></circle>
+  <circle cx="234.00" cy="131.56" r="5" fill="#a14518"><title>Method B, river water, 98.06%</title></circle>
+  <circle cx="247.00" cy="110.48" r="5" fill="#a14518"><title>Method B, river water, 100.03%</title></circle>
+  <circle cx="255.00" cy="153.07" r="5" fill="#a14518"><title>Method B, river water, 96.05%</title></circle>
+  <circle cx="243.00" cy="127.92" r="5" fill="#a14518"><title>Method B, river water, 98.40%</title></circle>
+  <rect x="268.20" y="275.27" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 84.18%</title></rect>
+  <rect x="280.20" y="267.03" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 84.95%</title></rect>
+  <rect x="263.20" y="259.54" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 85.65%</title></rect>
+  <rect x="276.20" y="252.38" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 86.32%</title></rect>
+  <rect x="284.20" y="248.42" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 86.69%</title></rect>
+  <rect x="272.20" y="232.15" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 88.21%</title></rect>
+  <path d="M228 196.40H294" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="297" y="201.4" text-anchor="start" font-size="15" font-weight="700" fill="#163349">92.00%</text>
+  <text x="261" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">Method B</text>
+  <circle cx="375.00" cy="173.50" r="5" fill="#5c3a98"><title>Method C, river water, 94.14%</title></circle>
+  <circle cx="387.00" cy="187.09" r="5" fill="#5c3a98"><title>Method C, river water, 92.87%</title></circle>
+  <circle cx="370.00" cy="195.44" r="5" fill="#5c3a98"><title>Method C, river water, 92.09%</title></circle>
+  <circle cx="383.00" cy="164.41" r="5" fill="#5c3a98"><title>Method C, river water, 94.99%</title></circle>
+  <circle cx="391.00" cy="206.78" r="5" fill="#5c3a98"><title>Method C, river water, 91.03%</title></circle>
+  <circle cx="379.00" cy="186.98" r="5" fill="#5c3a98"><title>Method C, river water, 92.88%</title></circle>
+  <rect x="404.20" y="192.24" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 91.94%</title></rect>
+  <rect x="416.20" y="181.65" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 92.93%</title></rect>
+  <rect x="399.20" y="169.02" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.11%</title></rect>
+  <rect x="412.20" y="168.06" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.20%</title></rect>
+  <rect x="420.20" y="160.89" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.87%</title></rect>
+  <rect x="408.20" y="149.33" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 95.95%</title></rect>
+  <path d="M364 180.35H430" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="433" y="185.35" text-anchor="start" font-size="15" font-weight="700" fill="#163349">93.50%</text>
+  <text x="397" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#5c3a98">Method C</text>
+  <circle cx="606.00" cy="186.77" r="5" fill="#10698a"><title>Method A, river water, 92.90%</title></circle>
+  <circle cx="618.00" cy="160.77" r="5" fill="#10698a"><title>Method A, river water, 95.33%</title></circle>
+  <circle cx="601.00" cy="177.03" r="5" fill="#10698a"><title>Method A, river water, 93.81%</title></circle>
+  <circle cx="614.00" cy="194.37" r="5" fill="#10698a"><title>Method A, river water, 92.19%</title></circle>
+  <circle cx="622.00" cy="154.46" r="5" fill="#10698a"><title>Method A, river water, 95.92%</title></circle>
+  <circle cx="610.00" cy="176.61" r="5" fill="#10698a"><title>Method A, river water, 93.85%</title></circle>
+  <circle cx="629.00" cy="145.15" r="5" fill="#a14518"><title>Method B, river water, 96.79%</title></circle>
+  <circle cx="641.00" cy="125.03" r="5" fill="#a14518"><title>Method B, river water, 98.67%</title></circle>
+  <circle cx="624.00" cy="131.56" r="5" fill="#a14518"><title>Method B, river water, 98.06%</title></circle>
+  <circle cx="637.00" cy="110.48" r="5" fill="#a14518"><title>Method B, river water, 100.03%</title></circle>
+  <circle cx="645.00" cy="153.07" r="5" fill="#a14518"><title>Method B, river water, 96.05%</title></circle>
+  <circle cx="633.00" cy="127.92" r="5" fill="#a14518"><title>Method B, river water, 98.40%</title></circle>
+  <circle cx="652.00" cy="173.50" r="5" fill="#5c3a98"><title>Method C, river water, 94.14%</title></circle>
+  <circle cx="664.00" cy="187.09" r="5" fill="#5c3a98"><title>Method C, river water, 92.87%</title></circle>
+  <circle cx="647.00" cy="195.44" r="5" fill="#5c3a98"><title>Method C, river water, 92.09%</title></circle>
+  <circle cx="660.00" cy="164.41" r="5" fill="#5c3a98"><title>Method C, river water, 94.99%</title></circle>
+  <circle cx="668.00" cy="206.78" r="5" fill="#5c3a98"><title>Method C, river water, 91.03%</title></circle>
+  <circle cx="656.00" cy="186.98" r="5" fill="#5c3a98"><title>Method C, river water, 92.88%</title></circle>
+  <path d="M601 164.30H667" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="670" y="169.3" text-anchor="start" font-size="15" font-weight="700" fill="#163349">95.00%</text>
+  <text x="634" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">River water</text>
+  <rect x="804.20" y="210.32" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 90.25%</title></rect>
+  <rect x="816.20" y="205.08" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 90.74%</title></rect>
+  <rect x="799.20" y="195.77" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 91.61%</title></rect>
+  <rect x="812.20" y="188.93" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 92.25%</title></rect>
+  <rect x="820.20" y="177.90" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 93.28%</title></rect>
+  <rect x="808.20" y="171.59" width="9.6" height="9.6" rx="1" fill="#10698a"><title>Method A, wastewater, 93.87%</title></rect>
+  <rect x="827.20" y="275.27" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 84.18%</title></rect>
+  <rect x="839.20" y="267.03" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 84.95%</title></rect>
+  <rect x="822.20" y="259.54" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 85.65%</title></rect>
+  <rect x="835.20" y="252.38" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 86.32%</title></rect>
+  <rect x="843.20" y="248.42" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 86.69%</title></rect>
+  <rect x="831.20" y="232.15" width="9.6" height="9.6" rx="1" fill="#a14518"><title>Method B, wastewater, 88.21%</title></rect>
+  <rect x="850.20" y="192.24" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 91.94%</title></rect>
+  <rect x="862.20" y="181.65" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 92.93%</title></rect>
+  <rect x="845.20" y="169.02" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.11%</title></rect>
+  <rect x="858.20" y="168.06" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.20%</title></rect>
+  <rect x="866.20" y="160.89" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 94.87%</title></rect>
+  <rect x="854.20" y="149.33" width="9.6" height="9.6" rx="1" fill="#5c3a98"><title>Method C, wastewater, 95.95%</title></rect>
+  <path d="M804 210.67H870" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="873" y="215.67" text-anchor="start" font-size="15" font-weight="700" fill="#163349">90.67%</text>
+  <text x="837" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#163349">Wastewater</text>
+  <text x="68" y="343" text-anchor="start" font-size="21" font-weight="700" fill="#10698a">Method p = 0.5224</text>
+  <text x="553" y="343" text-anchor="start" font-size="21" font-weight="700" fill="#10698a">Matrix p = 0.000350</text>
+  <text x="68" y="366" font-size="17" fill="#163349">B: 98% in river water → 92% across both matrices</text>
+  <text x="553" y="366" font-size="17" fill="#163349">River water averages 4.33 percentage points higher.</text>
+  <circle cx="72" cy="391" r="5" fill="#163349"/>
+  <text x="85" y="396" text-anchor="start" font-size="17" font-weight="400" fill="#163349">River water</text>
+  <rect x="218" y="386" width="10" height="10" fill="#163349"/>
+  <text x="240" y="396" text-anchor="start" font-size="17" font-weight="400" fill="#163349">Wastewater</text>
+  <path d="M380 391H412" fill="none" stroke="#163349" stroke-width="2"/>
+  <text x="424" y="396" text-anchor="start" font-size="17" font-weight="400" fill="#163349">Group mean</text>
+</svg>

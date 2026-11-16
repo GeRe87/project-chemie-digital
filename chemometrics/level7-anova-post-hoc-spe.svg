@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 550" font-family="system-ui, sans-serif">
+<title>SPE recovery: compare methods within each matrix</title>
+<desc>One Tukey plot compares six intervals on a shared axis, with river water and wastewater paired for each method contrast. Each matrix is a separate 95% family. Both use the full model residual MSE of 2 and 30 error degrees of freedom. River water: HSD 2.01 percentage points. A versus B, adjusted p 8.978e-05. A versus C, adjusted p 0.4482. B versus C, adjusted p 2.902e-06. Wastewater: HSD 2.01 percentage points. A versus B, adjusted p 1.029e-07. A versus C, adjusted p 0.05175. B versus C, adjusted p 2.185e-10.</desc>
+<text x="20" y="34" font-size="26" font-weight="700" fill="#10698a" text-anchor="start">River water</text>
+<text x="20" y="66" font-size="20" font-weight="700" fill="#5c3a98" text-anchor="start">HSD = 2.01 pp</text>
+<text x="20" y="103" font-size="19" font-weight="700" fill="#163349" text-anchor="start">Matrix of adjusted p-values</text>
+<text x="238" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">A</text>
+<text x="364" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">B</text>
+<text x="490" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">C</text>
+<text x="20" y="162" font-size="19" font-weight="700" fill="#163349" text-anchor="start">A</text>
+<text x="238" y="162" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="364" y="162" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="490" y="162" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">0.448</text>
+<text x="20" y="192" font-size="19" font-weight="700" fill="#163349" text-anchor="start">B</text>
+<text x="364" y="192" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="490" y="192" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="20" y="222" font-size="19" font-weight="700" fill="#163349" text-anchor="start">C</text>
+<text x="490" y="222" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="600" y="34" font-size="26" font-weight="700" fill="#10698a" text-anchor="start">Wastewater</text>
+<text x="600" y="66" font-size="20" font-weight="700" fill="#5c3a98" text-anchor="start">HSD = 2.01 pp</text>
+<text x="600" y="103" font-size="19" font-weight="700" fill="#163349" text-anchor="start">Matrix of adjusted p-values</text>
+<text x="818" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">A</text>
+<text x="944" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">B</text>
+<text x="1070" y="130" font-size="18" font-weight="700" fill="#10698a" text-anchor="middle">C</text>
+<text x="600" y="162" font-size="19" font-weight="700" fill="#163349" text-anchor="start">A</text>
+<text x="818" y="162" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="944" y="162" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="1070" y="162" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">0.052</text>
+<text x="600" y="192" font-size="19" font-weight="700" fill="#163349" text-anchor="start">B</text>
+<text x="944" y="192" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="1070" y="192" font-size="20" font-weight="700" fill="#a14518" text-anchor="middle">&lt;0.001</text>
+<text x="600" y="222" font-size="19" font-weight="700" fill="#163349" text-anchor="start">C</text>
+<text x="1070" y="222" font-size="20" font-weight="400" fill="#163349" text-anchor="middle">—</text>
+<text x="20" y="265" font-size="22" font-weight="700" fill="#163349" text-anchor="start">Tukey plot</text>
+<text x="290" y="265" font-size="20" font-weight="650" fill="#10698a" text-anchor="start">● River water</text>
+<text x="490" y="265" font-size="20" font-weight="650" fill="#5c3a98" text-anchor="start">● Wastewater</text>
+<text x="710" y="265" font-size="18" font-weight="400" fill="#163349" text-anchor="start">Simultaneous 95% intervals within each matrix</text>
+<path d="M650.00 280L650.00 465" fill="none" stroke="#163349" stroke-width="2"/>
+<text x="105" y="312" font-size="21" font-weight="650" fill="#163349" text-anchor="start">A − B</text>
+<path d="M439.55 295L580.45 295" fill="none" stroke="#10698a" stroke-width="3"/>
+<path d="M439.55 290L439.55 300" fill="none" stroke="#10698a" stroke-width="2"/>
+<path d="M580.45 290L580.45 300" fill="none" stroke="#10698a" stroke-width="2"/>
+<circle cx="510" cy="295" r="5" fill="#10698a"/>
+<path d="M789.55 317L930.45 317" fill="none" stroke="#5c3a98" stroke-width="3"/>
+<path d="M789.55 312L789.55 322" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<path d="M930.45 312L930.45 322" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="860" cy="317" r="5" fill="#5c3a98"/>
+<text x="105" y="373" font-size="21" font-weight="650" fill="#163349" text-anchor="start">A − C</text>
+<path d="M614.55 356L755.45 356" fill="none" stroke="#10698a" stroke-width="3"/>
+<path d="M614.55 351L614.55 361" fill="none" stroke="#10698a" stroke-width="2"/>
+<path d="M755.45 351L755.45 361" fill="none" stroke="#10698a" stroke-width="2"/>
+<circle cx="685" cy="356" r="5" fill="#10698a"/>
+<path d="M509.55 378L650.45 378" fill="none" stroke="#5c3a98" stroke-width="3"/>
+<path d="M509.55 373L509.55 383" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<path d="M650.45 373L650.45 383" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="580" cy="378" r="5" fill="#5c3a98"/>
+<text x="105" y="434" font-size="21" font-weight="650" fill="#163349" text-anchor="start">B − C</text>
+<path d="M754.55 417L895.45 417" fill="none" stroke="#10698a" stroke-width="3"/>
+<path d="M754.55 412L754.55 422" fill="none" stroke="#10698a" stroke-width="2"/>
+<path d="M895.45 412L895.45 422" fill="none" stroke="#10698a" stroke-width="2"/>
+<circle cx="825" cy="417" r="5" fill="#10698a"/>
+<path d="M299.55 439L440.45 439" fill="none" stroke="#5c3a98" stroke-width="3"/>
+<path d="M299.55 434L299.55 444" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<path d="M440.45 434L440.45 444" fill="none" stroke="#5c3a98" stroke-width="2"/>
+<circle cx="370" cy="439" r="5" fill="#5c3a98"/>
+<path d="M230.00 465L1070.00 465" fill="none" stroke="#788d9a" stroke-width="1"/>
+<path d="M230.00 465L230.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="230" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">-12</text>
+<path d="M370.00 465L370.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="370" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">-8</text>
+<path d="M510.00 465L510.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="510" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">-4</text>
+<path d="M650.00 465L650.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="650" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">0</text>
+<path d="M790.00 465L790.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="790" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">4</text>
+<path d="M930.00 465L930.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="930" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">8</text>
+<path d="M1070.00 465L1070.00 471" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="1070" y="491" font-size="17" font-weight="400" fill="#163349" text-anchor="middle">12</text>
+<text x="650" y="518" font-size="18" font-weight="400" fill="#163349" text-anchor="middle">Difference in mean recovery (pp)</text>
+<text x="20" y="544" font-size="18" font-weight="400" fill="#163349" text-anchor="start">Tukey adjustment covers the three comparisons within each matrix.</text>
+</svg>

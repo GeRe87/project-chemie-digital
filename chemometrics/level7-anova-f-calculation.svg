@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 405" font-family="system-ui, sans-serif">
+<title>The between-group mean square of 42 divided by the within-group mean square of 2 gives a dimensionless F of 21.</title>
+<g fill="var(--pcd-foreground)" text-anchor="middle">
+  <text x="525" y="75" font-size="43" font-weight="750">Compare the two mean squares</text>
+  <text x="385" y="163" font-size="28" font-weight="650" fill="#10698a">Between groups</text>
+  <text x="385" y="220" font-size="55" font-weight="750">42</text>
+  <line x1="215" y1="241" x2="555" y2="241" stroke="var(--pcd-foreground)" stroke-width="3"/>
+  <text x="385" y="302" font-size="55" font-weight="750">2</text>
+  <text x="385" y="347" font-size="28" font-weight="650" fill="#5c3a98">Within groups</text>
+  <text x="705" y="257" font-size="60" font-weight="750">= 21</text>
+  <text x="760" y="310" font-size="24">F has no units</text>
+</g>
+</svg>

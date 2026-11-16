@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 405" font-family="system-ui, sans-serif">
+  <title>2 between groups plus 15 within groups equals 17 total degrees of freedom</title>
+  <g text-anchor="middle">
+    <text x="525" y="77" font-size="44" font-weight="750" fill="var(--pcd-foreground)">17 degrees of freedom</text>
+    <path d="M65 134v-21h920v21" fill="none" stroke="var(--pcd-foreground)" stroke-width="2"/>
+    <rect x="65" y="156" width="108.2353" height="128" fill="#15546b"/>
+    <rect x="173.2353" y="156" width="811.7647" height="128" fill="#4b3279"/>
+    <text x="119" y="238" font-size="52" font-weight="750" fill="#ffffff">2</text>
+    <text x="579" y="238" font-size="52" font-weight="750" fill="#ffffff">15</text>
+    <text x="119" y="327" font-size="26" font-weight="650" fill="var(--pcd-foreground)">Between groups</text>
+    <text x="579" y="327" font-size="26" font-weight="650" fill="var(--pcd-foreground)">Within groups</text>
+    <text x="119" y="363" font-size="24" fill="var(--pcd-foreground)">3 groups &#8722; 1</text>
+    <text x="579" y="363" font-size="24" fill="var(--pcd-foreground)">18 observations &#8722; 3 fitted means</text>
+  </g>
+</svg>

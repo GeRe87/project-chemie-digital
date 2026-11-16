@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 480" font-family="system-ui, sans-serif">
+<title>Where does the Tukey cutoff come from?</title>
+<desc>The critical value is the 95th percentile of the studentized range distribution for three groups and 12 error degrees of freedom. With error mean square 4 and five observations per group, Tukey HSD is approximately 3.37 mg/L.</desc>
+<text x="45" y="50" font-size="30" font-weight="700" fill="#10698a" text-anchor="start">HSD = q critical × √(MSE ÷ n)</text>
+<text x="45" y="106" font-size="25" font-weight="400" fill="#163349" text-anchor="start">MSE is the pooled within-group variance from the ANOVA.</text>
+<text x="45" y="162" font-size="25" font-weight="400" fill="#163349" text-anchor="start">n is the number of measurements in each group.</text>
+<text x="45" y="218" font-size="30" font-weight="700" fill="#5c3a98" text-anchor="start">q critical comes from the studentized range distribution</text>
+<text x="45" y="274" font-size="25" font-weight="400" fill="#163349" text-anchor="start">At α = 0.05, read the 95th percentile for 3 groups and 12 error df.</text>
+<text x="45" y="330" font-size="25" font-weight="400" fill="#163349" text-anchor="start">12 error df = 15 measurements − 3 groups</text>
+<text x="45" y="386" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">HSD = 3.77 × √(4 ÷ 5) ≈ 3.37 mg/L</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 370" font-family="system-ui, sans-serif" fill="var(--pcd-foreground)">
+  <title>Calculate the interaction sum of squares</title>
+  <desc>Four steps use the SPE observations. Average six river-water recoveries for method B to get 98 percent. The additive reference is 94.17 percent and the deviation is about 3.83 percentage points. Use all six method and matrix combinations to get interaction SS 278. Subtract 278 from the additive residual 338 to leave 60.</desc>
+  <g data-svg-stage="0" transform="translate(55 0)">
+    <text y="58" font-size="34" font-weight="700">1  Find the observed mean</text>
+    <text y="110" font-size="25">Recovery for method B in river water (%)</text>
+    <text y="169" font-size="32"><tspan fill="#10698a">96.79 + 98.67 + 98.06 + 100.03 + 96.05 + 98.40</tspan></text>
+    <text y="225" font-size="32">Sum = 588.00</text>
+    <text y="292" font-size="36" font-weight="700">Observed mean ȳᵢⱼ (%) = <tspan fill="#10698a">588.00 ÷ 6 = 98.00</tspan></text>
+  </g>
+  <g data-svg-stage="1" transform="translate(55 0)">
+    <text y="58" font-size="34" font-weight="700">2  Find the gap from the additive prediction</text>
+    <text y="114" font-size="24">Method B mean + river-water mean − overall mean</text>
+    <text y="158" font-size="30">Additive prediction (%) <tspan fill="#5c3a98">= 92.00 + 95.00 − 92.83 = 94.17</tspan></text>
+    <text y="222" font-size="32" font-weight="700">Gap dᵢⱼ (pp) = <tspan fill="#10698a">98.00</tspan> − <tspan fill="#5c3a98">94.17</tspan> = <tspan fill="#a14518">+3.83</tspan></text>
+    <text y="282" font-size="29">Contribution (pp²) = <tspan fill="#a14518">6 × gap² ≈ 88.17</tspan></text>
+    <text y="329" font-size="20">pp = percentage points. Contributions use unrounded gaps.</text>
+  </g>
+  <g data-svg-stage="2">
+    <text x="55" y="58" font-size="34" font-weight="700">3  Repeat for all six combinations</text>
+    <g text-anchor="middle">
+      <text x="390" y="119" font-size="25" font-weight="700">River water</text>
+      <text x="830" y="119" font-size="25" font-weight="700">Wastewater</text>
+      <path d="M55 175H1045 M610 130V310" fill="none" stroke="var(--pcd-foreground)" stroke-opacity=".25"/>
+      <g font-size="21" font-weight="650">
+        <text x="55" y="161" text-anchor="start">Method</text>
+        <text x="250" y="161" fill="#10698a">Mean (%)</text><text x="380" y="161" fill="#a14518">Gap (pp)</text><text x="520" y="161" fill="#a14518">6 × gap² (pp²)</text>
+        <text x="700" y="161" fill="#10698a">Mean (%)</text><text x="830" y="161" fill="#a14518">Gap (pp)</text><text x="970" y="161" fill="#a14518">6 × gap² (pp²)</text>
+      </g>
+      <g font-size="25">
+        <text x="55" y="210" text-anchor="start">A</text>
+        <text x="250" y="210">94.00</text><text x="380" y="210">−1.17</text><text x="520" y="210">8.17</text>
+        <text x="700" y="210">92.00</text><text x="830" y="210">+1.17</text><text x="970" y="210">8.17</text>
+        <rect x="45" y="224" width="1000" height="42" rx="5" fill="#a14518" fill-opacity=".16"/>
+        <g font-weight="700">
+          <text x="55" y="254" text-anchor="start">B</text>
+          <text x="250" y="254" fill="#10698a">98.00</text><text x="380" y="254" fill="#a14518">+3.83</text><text x="520" y="254" fill="#a14518">88.17</text>
+          <text x="700" y="254" fill="#10698a">86.00</text><text x="830" y="254" fill="#a14518">−3.83</text><text x="970" y="254" fill="#a14518">88.17</text>
+        </g>
+        <text x="55" y="298" text-anchor="start">C</text>
+        <text x="250" y="298">93.00</text><text x="380" y="298">−2.67</text><text x="520" y="298">42.67</text>
+        <text x="700" y="298">94.00</text><text x="830" y="298">+2.67</text><text x="970" y="298">42.67</text>
+      </g>
+    </g>
+  </g>
+  <g data-svg-stage="3" transform="translate(55 0)">
+    <text y="58" font-size="34" font-weight="700">4  Add the six contributions</text>
+    <text y="117" font-size="30">Sum the six contributions from the table.</text>
+    <text y="189" font-size="38" font-weight="700"><tspan fill="#a14518">Interaction SS (pp²) = 278.00</tspan></text>
+    <text y="255" font-size="30">Remaining residual SS (pp²) = 338.00 − <tspan fill="#a14518">278.00</tspan> = 60.00</text>
+    <text y="317" font-size="22">The total uses the unrounded contributions.</text>
+  </g>
+</svg>

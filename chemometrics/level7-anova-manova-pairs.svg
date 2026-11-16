@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 375" role="img" aria-labelledby="title desc">
+<title id="title">Several responses, one experimental factor</title><desc id="desc">The paired recoveries of two analytes for each of six independent preparations in each SPE method. Mean vectors: A (90,87), B (94,89), C (92,94), in percent.</desc>
+<rect x="0" y="0" width="930" height="375" rx="13" fill="#f3f8fb"/><g font-family="system-ui, sans-serif">
+<text x="465" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#163349">One dot = one preparation, measured on both analytes</text>
+<line x1="186.00" y1="290.00" x2="726.00" y2="290.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="295" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">84</text>
+<line x1="186.00" y1="256.00" x2="726.00" y2="256.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="261" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">86</text>
+<line x1="186.00" y1="222.00" x2="726.00" y2="222.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="227" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">88</text>
+<line x1="186.00" y1="188.00" x2="726.00" y2="188.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="193" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">90</text>
+<line x1="186.00" y1="154.00" x2="726.00" y2="154.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="159" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">92</text>
+<line x1="186.00" y1="120.00" x2="726.00" y2="120.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="125" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">94</text>
+<line x1="186.00" y1="86.00" x2="726.00" y2="86.00" stroke="#a7b9c7" stroke-width="1"/>
+<text x="161" y="91" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">96</text>
+<text x="186" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">86</text>
+<text x="294" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">88</text>
+<text x="402" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">90</text>
+<text x="510" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">92</text>
+<text x="618" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">94</text>
+<text x="726" y="316" text-anchor="middle" font-size="15" font-weight="500" fill="#163349">96</text>
+<circle cx="294.00" cy="256.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="348.00" cy="273.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="348.00" cy="222.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="456.00" cy="256.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="456.00" cy="205.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<circle cx="510.00" cy="222.00" r="7" fill="#10698a" stroke="white" stroke-width="1"/>
+<text x="402" y="244" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">A</text>
+<circle cx="510.00" cy="222.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="239.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="188.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="672.00" cy="222.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="672.00" cy="171.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<circle cx="726.00" cy="188.00" r="7" fill="#a14518" stroke="white" stroke-width="1"/>
+<text x="618" y="210" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">B</text>
+<circle cx="402.00" cy="137.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="456.00" cy="154.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="456.00" cy="103.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="137.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="564.00" cy="86.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<circle cx="618.00" cy="103.00" r="7" fill="#5c3a98" stroke="white" stroke-width="1"/>
+<text x="510" y="125" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">C</text>
+<text x="456" y="349" text-anchor="middle" font-size="20" font-weight="500" fill="#163349">Analyte 1 recovery (%)</text>
+<text x="29" y="67" text-anchor="start" font-size="15" font-weight="500" fill="#163349">Analyte 2</text>
+<text x="29" y="86" text-anchor="start" font-size="15" font-weight="500" fill="#163349">recovery (%)</text>
+</g></svg>

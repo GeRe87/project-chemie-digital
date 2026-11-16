@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 390" font-family="Arial, sans-serif">
+<title>Bonferroni-adjusted p-values for three pairwise t-tests</title>
+<g fill="var(--pcd-foreground)" font-size="24" text-anchor="middle">
+<text x="410" y="33" font-weight="700">Bonferroni-adjusted p-values</text>
+<text x="250" y="90" font-weight="700">A</text>
+<text x="105" y="143" font-weight="700">A</text>
+<text x="450" y="90" font-weight="700">B</text>
+<text x="105" y="220" font-weight="700">B</text>
+<text x="650" y="90" font-weight="700">C</text>
+<text x="105" y="297" font-weight="700">C</text>
+<rect x="154" y="103" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="249" y="142" fill="var(--pcd-foreground)">·</text>
+<rect x="354" y="103" width="190" height="61" rx="8" fill="var(--pcd-accent)" stroke="var(--pcd-border)"/>
+<text x="449" y="142" fill="var(--pcd-accent-foreground)">0.00187</text>
+<rect x="554" y="103" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="649" y="142" fill="var(--pcd-foreground)">0.746</text>
+<rect x="154" y="180" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="249" y="219" fill="var(--pcd-foreground)">·</text>
+<rect x="354" y="180" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="449" y="219" fill="var(--pcd-foreground)">·</text>
+<rect x="554" y="180" width="190" height="61" rx="8" fill="var(--pcd-accent)" stroke="var(--pcd-border)"/>
+<text x="649" y="219" fill="var(--pcd-accent-foreground)">0.000336</text>
+<rect x="154" y="257" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="249" y="296" fill="var(--pcd-foreground)">·</text>
+<rect x="354" y="257" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="449" y="296" fill="var(--pcd-foreground)">·</text>
+<rect x="554" y="257" width="190" height="61" rx="8" fill="var(--pcd-surface)" stroke="var(--pcd-border)"/>
+<text x="649" y="296" fill="var(--pcd-foreground)">·</text>
+<text x="410" y="365" font-size="18">Highlighted: adjusted p below 0.05. Each pair is shown once.</text>
+</g></svg>

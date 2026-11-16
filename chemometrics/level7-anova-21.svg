@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 385" font-family="system-ui, sans-serif">
+  <title>Diagnose the residuals</title>
+  <desc>A residual is observed recovery minus the fitted method mean. The table lists all 18 river-water preparations with observed recovery, fitted recovery, and residual. The normal Q-Q plot of these residuals compares the ordered decimal residuals with a normal reference line. In the schematic heavy-tail example, both ends depart strongly: the left tail falls far below the line and the right tail rises far above it. The descriptive KS distances to separate fitted normal distributions are 0.110 for the river-water residuals and 0.248 for the heavy-tail example. The Monte Carlo p-values are approximately 0.812 and 0.040, respectively, with model fitting repeated on each simulated sample.</desc>
+  <g data-svg-stage="0" transform="translate(0 140) scale(.25)">
+    <g fill="#163349">
+      <text x="48" y="55" font-size="25" font-weight="700">One preparation from Method A</text>
+      <path d="M150 320V104" fill="none" stroke="#788d9a" stroke-width="2"/>
+      <path d="M150 155H478 M150 279H478" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+      <text x="132" y="163" text-anchor="end" font-size="24">95.92%</text>
+      <text x="132" y="287" text-anchor="end" font-size="24">94.00%</text>
+      <circle cx="292" cy="155" r="9" fill="#10698a"/>
+      <text x="310" y="138" font-size="21">Observed recovery</text>
+      <path d="M274 279H310" fill="none" stroke="#5c3a98" stroke-width="5"/>
+      <text x="310" y="311" font-size="21">Fitted method mean</text>
+      <path d="M465 162V272 m-7-103 7-7 7 7 m-14 96 7 7 7-7" fill="none" stroke="#a14518" stroke-width="3"/>
+      <text x="485" y="224" font-size="23" fill="#a14518" font-weight="700">+1.92</text>
+    </g>
+    <g fill="#163349">
+      <text x="552" y="66" font-size="25" font-weight="700">What is a residual?</text>
+      <text x="552" y="112" font-size="21">Observed recovery minus</text>
+      <text x="552" y="147" font-size="21">the fitted method mean.</text>
+      <text x="552" y="182" font-size="21">95.92% minus 94.00% gives</text>
+      <text x="552" y="217" font-size="21">+1.92 percentage points.</text>
+      <text x="552" y="252" font-size="21">Positive means above the fit.</text>
+    </g>
+  </g>
+  <g data-svg-stage="1" transform="translate(232.5 140) scale(.25)" fill="#163349">
+    <g transform="translate(15 0)">
+      <rect y="15" width="290" height="306" rx="9" fill="#10698a" fill-opacity=".09"/>
+      <text x="145" y="49" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">Method A</text>
+      <path d="M12 66H278 M12 102H278 M12 140H278 M12 176H278 M12 212H278 M12 248H278 M12 284H278" fill="none" stroke="#788d9a" opacity=".28"/>
+      <g text-anchor="middle" font-size="20">
+        <text y="91" font-weight="650"><tspan x="34">No.</tspan><tspan x="104">Obs.</tspan><tspan x="174">Fit</tspan><tspan x="251">Resid.</tspan></text>
+        <text y="128"><tspan x="34">1</tspan><tspan x="104">92.90</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">−1.10</tspan></text>
+        <text y="164"><tspan x="34">2</tspan><tspan x="104">95.33</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">+1.33</tspan></text>
+        <text y="200"><tspan x="34">3</tspan><tspan x="104">93.81</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">−0.19</tspan></text>
+        <text y="236"><tspan x="34">4</tspan><tspan x="104">92.19</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">−1.81</tspan></text>
+        <text y="272"><tspan x="34">5</tspan><tspan x="104">95.92</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">+1.92</tspan></text>
+        <text y="308"><tspan x="34">6</tspan><tspan x="104">93.85</tspan><tspan x="174">94.00</tspan><tspan x="251" fill="#10698a" font-weight="700">−0.15</tspan></text>
+      </g>
+    </g>
+    <g transform="translate(320 0)">
+      <rect y="15" width="290" height="306" rx="9" fill="#a14518" fill-opacity=".09"/>
+      <text x="145" y="49" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">Method B</text>
+      <path d="M12 66H278 M12 102H278 M12 140H278 M12 176H278 M12 212H278 M12 248H278 M12 284H278" fill="none" stroke="#788d9a" opacity=".28"/>
+      <g text-anchor="middle" font-size="20">
+        <text y="91" font-weight="650"><tspan x="34">No.</tspan><tspan x="104">Obs.</tspan><tspan x="174">Fit</tspan><tspan x="251">Resid.</tspan></text>
+        <text y="128"><tspan x="34">7</tspan><tspan x="104">96.79</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">−1.21</tspan></text>
+        <text y="164"><tspan x="34">8</tspan><tspan x="104">98.67</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">+0.67</tspan></text>
+        <text y="200"><tspan x="34">9</tspan><tspan x="104">98.06</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">+0.06</tspan></text>
+        <text y="236"><tspan x="34">10</tspan><tspan x="104">100.03</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">+2.03</tspan></text>
+        <text y="272"><tspan x="34">11</tspan><tspan x="104">96.05</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">−1.95</tspan></text>
+        <text y="308"><tspan x="34">12</tspan><tspan x="104">98.40</tspan><tspan x="174">98.00</tspan><tspan x="251" fill="#a14518" font-weight="700">+0.40</tspan></text>
+      </g>
+    </g>
+    <g transform="translate(625 0)">
+      <rect y="15" width="290" height="306" rx="9" fill="#5c3a98" fill-opacity=".09"/>
+      <text x="145" y="49" text-anchor="middle" font-size="26" font-weight="700" fill="#5c3a98">Method C</text>
+      <path d="M12 66H278 M12 102H278 M12 140H278 M12 176H278 M12 212H278 M12 248H278 M12 284H278" fill="none" stroke="#788d9a" opacity=".28"/>
+      <g text-anchor="middle" font-size="20">
+        <text y="91" font-weight="650"><tspan x="34">No.</tspan><tspan x="104">Obs.</tspan><tspan x="174">Fit</tspan><tspan x="251">Resid.</tspan></text>
+        <text y="128"><tspan x="34">13</tspan><tspan x="104">94.14</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">+1.14</tspan></text>
+        <text y="164"><tspan x="34">14</tspan><tspan x="104">92.87</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">−0.13</tspan></text>
+        <text y="200"><tspan x="34">15</tspan><tspan x="104">92.09</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">−0.91</tspan></text>
+        <text y="236"><tspan x="34">16</tspan><tspan x="104">94.99</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">+1.99</tspan></text>
+        <text y="272"><tspan x="34">17</tspan><tspan x="104">91.03</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">−1.97</tspan></text>
+        <text y="308"><tspan x="34">18</tspan><tspan x="104">92.88</tspan><tspan x="174">93.00</tspan><tspan x="251" fill="#5c3a98" font-weight="700">−0.12</tspan></text>
+      </g>
+    </g>
+    <text x="15" y="367" font-size="20">Observed and fitted recovery in %. Residuals in percentage points.</text>
+  </g>
+  <g data-svg-stage="2" transform="translate(465 140) scale(.25)">
+    <text x="45" y="38" font-size="21" font-weight="650" fill="#163349">Ordered residual (percentage points)</text>
+    <g transform="translate(0 -12) scale(1.22)">
+      <g transform="translate(-460 0)">
+        <line x1="540.00" y1="262.00" x2="865.00" y2="262.00" stroke="#d4dfe6" stroke-width="1"/>
+        <text x="528" y="268" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-2</text>
+        <line x1="540.00" y1="221.00" x2="865.00" y2="221.00" stroke="#d4dfe6" stroke-width="1"/>
+        <text x="528" y="227" text-anchor="end" font-size="18" font-weight="500" fill="#163349">-1</text>
+        <line x1="540.00" y1="180.00" x2="865.00" y2="180.00" stroke="#788d9a" stroke-width="1"/>
+        <text x="528" y="186" text-anchor="end" font-size="18" font-weight="500" fill="#163349">0</text>
+        <line x1="540.00" y1="139.00" x2="865.00" y2="139.00" stroke="#d4dfe6" stroke-width="1"/>
+        <text x="528" y="145" text-anchor="end" font-size="18" font-weight="500" fill="#163349">1</text>
+        <line x1="540.00" y1="98.00" x2="865.00" y2="98.00" stroke="#d4dfe6" stroke-width="1"/>
+        <text x="528" y="104" text-anchor="end" font-size="18" font-weight="500" fill="#163349">2</text>
+        <text x="702" y="310" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">Theoretical normal quantile</text>
+        <line x1="606.85" y1="262.00" x2="799.15" y2="98.00" stroke="#627787" stroke-width="2" stroke-dasharray="6 5"/>
+        <circle cx="572.81" cy="260.77" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -1.97 pp</title></circle>
+        <circle cx="608.96" cy="259.95" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -1.95 pp</title></circle>
+        <circle cx="629.20" cy="254.21" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -1.81 pp</title></circle>
+        <circle cx="644.41" cy="229.61" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -1.21 pp</title></circle>
+        <circle cx="657.13" cy="225.10" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -1.10 pp</title></circle>
+        <circle cx="668.42" cy="217.31" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -0.91 pp</title></circle>
+        <circle cx="678.83" cy="187.79" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -0.19 pp</title></circle>
+        <circle cx="688.69" cy="186.15" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -0.15 pp</title></circle>
+        <circle cx="698.26" cy="185.33" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -0.13 pp</title></circle>
+        <circle cx="707.74" cy="184.92" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual -0.12 pp</title></circle>
+        <circle cx="717.31" cy="177.54" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +0.06 pp</title></circle>
+        <circle cx="727.17" cy="163.60" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +0.40 pp</title></circle>
+        <circle cx="737.58" cy="152.53" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +0.67 pp</title></circle>
+        <circle cx="748.87" cy="133.26" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +1.14 pp</title></circle>
+        <circle cx="761.59" cy="125.47" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +1.33 pp</title></circle>
+        <circle cx="776.80" cy="101.28" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +1.92 pp</title></circle>
+        <circle cx="797.04" cy="98.41" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +1.99 pp</title></circle>
+        <circle cx="833.19" cy="96.77" r="6" fill="#10698a" stroke="#ffffff" stroke-width="1"><title>Residual +2.03 pp</title></circle>
+        <text x="567" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-2</text>
+        <text x="635" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">-1</text>
+        <text x="703" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">0</text>
+        <text x="771" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">1</text>
+        <text x="839" y="283" text-anchor="middle" font-size="18" font-weight="500" fill="#163349">2</text>
+      </g>
+    </g>
+    <g fill="#163349">
+      <text x="552" y="38" font-size="21" font-weight="700">Counterexample: heavy tails</text>
+      <text x="552" y="68" font-size="17">Schematic normal Q–Q plot</text>
+      <path d="M554 76V315H898 M580 300.54L875 88.74" fill="none" stroke="#788d9a" stroke-width="2"/>
+      <g fill="#a14518">
+        <circle cx="591.93" cy="315.85" r="6"/>
+        <circle cx="637.27" cy="243.34" r="6"/>
+        <circle cx="663.65" cy="207.09" r="6"/>
+        <circle cx="684.22" cy="204.67" r="6"/>
+        <circle cx="702.15" cy="202.25" r="6"/>
+        <circle cx="718.84" cy="198.63" r="6"/>
+        <circle cx="735.16" cy="191.37" r="6"/>
+        <circle cx="751.85" cy="187.75" r="6"/>
+        <circle cx="769.78" cy="185.33" r="6"/>
+        <circle cx="790.35" cy="182.91" r="6"/>
+        <circle cx="816.73" cy="146.66" r="6"/>
+        <circle cx="862.07" cy="74.15" r="6"/>
+      </g>
+      <text x="726" y="338" text-anchor="middle" font-size="17">Theoretical normal quantile</text>
+      <text x="552" y="367" font-size="19">Left tail below the line, right tail above.</text>
+    </g>
+  </g>
+  <!-- Monte Carlo calibration: Python Random(721), 99999 draws per model; exceedances 81206 and 4018. Schematic sample: [-10, -4, -1, -0.8, -0.6, -0.3, 0.3, 0.6, 0.8, 1, 4, 10]. -->
+  <g data-svg-stage="3" transform="translate(697.5 140) scale(.25)" fill="#163349">
+    <text x="40" y="65" font-size="28" font-weight="700">Kolmogorov–Smirnov distance</text>
+    <text x="40" y="105" font-size="21">Largest vertical gap between the empirical and fitted normal CDFs.</text>
+    <rect x="40" y="143" width="405" height="171" rx="12" fill="#10698a" fill-opacity=".12"/>
+    <rect x="480" y="143" width="405" height="171" rx="12" fill="#a14518" fill-opacity=".12"/>
+    <g font-size="23" font-weight="700">
+      <text x="64" y="182" fill="#10698a">River-water residuals</text>
+      <text x="504" y="182" fill="#a14518">Heavy-tail example</text>
+    </g>
+    <g font-size="47" font-weight="700">
+      <text x="64" y="238" fill="#10698a">D = 0.110</text>
+      <text x="504" y="238" fill="#a14518">D = 0.248</text>
+    </g>
+    <g font-size="26" font-weight="650">
+      <text x="64" y="283" fill="#10698a">p ≈ 0.812</text>
+      <text x="504" y="283" fill="#a14518">p ≈ 0.040</text>
+    </g>
+  </g>
+</svg>

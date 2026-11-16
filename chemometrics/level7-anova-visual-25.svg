@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Largest sample mean gap under equal population means</title>
+  <desc>Three schematic experiments each draw six preparations per method from populations with the same mean of 95 percent. The largest observed sample-mean gap is 0.8 percentage points between A and B, then 1.5 between A and C, then 0.9 between B and C. Repeating this process yields the null distribution of the largest gap after scaling by the estimated standard error.</desc>
+  <text x="44" y="39" text-anchor="start" font-size="27" font-weight="700" fill="#163349">All three population means are 95%</text>
+  <text x="44" y="69" text-anchor="start" font-size="20" font-weight="400" fill="#163349">Six samples per method in each hypothetical experiment</text>
+  <path d="M594 84V340" fill="none" stroke="#788d9a" stroke-width="2"/>
+  <text x="44" y="134" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Repeat 1</text>
+  <path d="M190 127H785" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <circle cx="461.0" cy="127" r="7" fill="#10698a"/>
+  <text x="461.0" y="114" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">A</text>
+  <circle cx="567.4" cy="127" r="7" fill="#5c3a98"/>
+  <text x="567.4" y="114" text-anchor="middle" font-size="19" font-weight="700" fill="#5c3a98">C</text>
+  <circle cx="673.8" cy="127" r="7" fill="#a14518"/>
+  <text x="673.8" y="114" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">B</text>
+  <path d="M461.0 141V151H673.8V141" fill="none" stroke="#10698a" stroke-width="2"/>
+  <text x="958" y="134" text-anchor="end" font-size="21" font-weight="700" fill="#10698a">B−A gap: 0.8 pp</text>
+  <g data-svg-stage="1">
+<text x="44" y="213" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Repeat 2</text>
+<path d="M190 206H785" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+<circle cx="328.0" cy="206" r="7" fill="#5c3a98"/>
+<text x="328.0" y="193" text-anchor="middle" font-size="19" font-weight="700" fill="#5c3a98">C</text>
+<circle cx="514.2" cy="206" r="7" fill="#a14518"/>
+<text x="514.2" y="193" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">B</text>
+<circle cx="727.0" cy="206" r="7" fill="#10698a"/>
+<text x="727.0" y="193" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">A</text>
+<path d="M328.0 220V230H727.0V220" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="958" y="213" text-anchor="end" font-size="21" font-weight="700" fill="#10698a">A−C gap: 1.5 pp</text>
+</g>
+  <g data-svg-stage="2">
+<text x="44" y="292" text-anchor="start" font-size="21" font-weight="700" fill="#163349">Repeat 3</text>
+<path d="M190 285H785" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+<circle cx="407.8" cy="285" r="7" fill="#a14518"/>
+<text x="407.8" y="272" text-anchor="middle" font-size="19" font-weight="700" fill="#a14518">B</text>
+<circle cx="540.8" cy="285" r="7" fill="#10698a"/>
+<text x="540.8" y="272" text-anchor="middle" font-size="19" font-weight="700" fill="#10698a">A</text>
+<circle cx="647.2" cy="285" r="7" fill="#5c3a98"/>
+<text x="647.2" y="272" text-anchor="middle" font-size="19" font-weight="700" fill="#5c3a98">C</text>
+<path d="M407.8 299V309H647.2V299" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="958" y="292" text-anchor="end" font-size="21" font-weight="700" fill="#10698a">C−B gap: 0.9 pp</text>
+</g>
+  <text x="328" y="352" text-anchor="middle" font-size="17" fill="#163349">94%</text>
+  <text x="594" y="352" text-anchor="middle" font-size="17" fill="#163349">95%</text>
+  <g data-svg-stage="3">
+<text x="44" y="375" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Keep the largest gap from each repeat, in standard-error units.</text>
+</g>
+</svg>

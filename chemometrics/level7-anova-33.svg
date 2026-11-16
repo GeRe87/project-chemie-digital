@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>When one factor changes the effect of another</title>
+  <desc>In the additive recovery model the p-values are 0.5224 for method and 0.000350 for water matrix. An interaction means the effect of one factor depends on the level of the other. In an illustrative plant experiment, a baseline mean growth of 10 cm, fertilizer effect of 4 cm, and extra-light effect of 3 cm give an additive expectation of 17 cm. Combined growth of 21 cm is synergistic, 4 cm above expectation. Combined growth of 14 cm is antagonistic, 3 cm below expectation.</desc>
+  <text x="51" y="37" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Additive ANOVA</text>
+  <text x="302" y="37" text-anchor="start" font-size="21" font-weight="650" fill="#163349">Method: p = 0.5224 (&gt; 0.05)</text>
+  <text x="630" y="37" text-anchor="start" font-size="21" font-weight="650" fill="#163349">Matrix: p = 0.000350 (&lt; 0.05)</text>
+  <path d="M51 54H949" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="51" y="88" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Interaction: the effect of one factor depends on the level of the other.</text>
+  <text x="51" y="130" text-anchor="start" font-size="23" font-weight="700" fill="#10698a">Example: plant growth with fertilizer and extra light</text>
+  <rect x="51" y="147" width="898" height="44" fill="#10698a" fill-opacity=".11"/>
+  <text x="67" y="176" text-anchor="start" font-size="20" font-weight="650" fill="#163349">Baseline: 10 cm</text>
+  <text x="342" y="176" text-anchor="start" font-size="20" font-weight="650" fill="#163349">Fertilizer alone: +4 cm</text>
+  <text x="653" y="176" text-anchor="start" font-size="20" font-weight="650" fill="#163349">Extra light alone: +3 cm</text>
+  <text x="51" y="227" text-anchor="start" font-size="22" font-weight="700" fill="#10698a">Additive expectation for both: 10 + 4 + 3 = 17 cm</text>
+  <g data-svg-stage="1">
+<rect x="51" y="252" width="433" height="112" fill="#5c3a98" fill-opacity=".11"/>
+<text x="71" y="280" text-anchor="start" font-size="24" font-weight="700" fill="#5c3a98">Synergy</text>
+<text x="71" y="316" text-anchor="start" font-size="22" font-weight="650" fill="#163349">21 cm  ·  4 cm above expectation</text>
+<text x="71" y="345" text-anchor="start" font-size="18" font-weight="400" fill="#163349">The combination boosts growth.</text>
+</g>
+  <g data-svg-stage="2">
+<rect x="515" y="252" width="433" height="112" fill="#a14518" fill-opacity=".11"/>
+<text x="535" y="280" text-anchor="start" font-size="24" font-weight="700" fill="#a14518">Antagonism</text>
+<text x="535" y="316" text-anchor="start" font-size="22" font-weight="650" fill="#163349">14 cm  ·  3 cm below expectation</text>
+<text x="535" y="345" text-anchor="start" font-size="18" font-weight="400" fill="#163349">The combination weakens the gain.</text>
+</g>
+</svg>

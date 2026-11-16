@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Who processed the samples?</title>
+  <desc>Hypothetical assignment of the 18 river-water samples. X processes three samples with method A and three with B. Y processes three with B and three with C. Z processes three with C and three with A. Each operator uses two methods, giving an incomplete block design.</desc>
+  <text x="55" y="46" text-anchor="start" font-size="25" font-weight="700" fill="#163349">Example assignment for the same 18 river-water samples</text>
+  <rect x="55" y="70" width="892" height="48" fill="#10698a" fill-opacity=".11"/>
+  <text x="75" y="103" text-anchor="start" font-size="22" font-weight="700" fill="#163349">Operator</text>
+  <text x="380" y="103" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Method A</text>
+  <text x="570" y="103" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Method B</text>
+  <text x="760" y="103" text-anchor="middle" font-size="21" font-weight="700" fill="#10698a">Method C</text>
+  <text x="75" y="158" text-anchor="start" font-size="24" font-weight="700" fill="#163349">X</text>
+  <path d="M55 175H947" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <rect x="330" y="133" width="100" height="37" fill="#10698a" fill-opacity=".11"/>
+  <text x="380" y="158" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <rect x="520" y="133" width="100" height="37" fill="#a14518" fill-opacity=".11"/>
+  <text x="570" y="158" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <text x="760" y="158" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">–</text>
+  <text x="75" y="220" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Y</text>
+  <path d="M55 237H947" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <text x="380" y="220" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">–</text>
+  <rect x="520" y="195" width="100" height="37" fill="#a14518" fill-opacity=".11"/>
+  <text x="570" y="220" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <rect x="710" y="195" width="100" height="37" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="760" y="220" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <text x="75" y="282" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Z</text>
+  <path d="M55 299H947" fill="none" stroke="#d4dfe6" stroke-width="2"/>
+  <rect x="330" y="257" width="100" height="37" fill="#10698a" fill-opacity=".11"/>
+  <text x="380" y="282" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <text x="570" y="282" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">–</text>
+  <rect x="710" y="257" width="100" height="37" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="760" y="282" text-anchor="middle" font-size="23" font-weight="650" fill="#163349">3</text>
+  <text x="55" y="367" text-anchor="start" font-size="21" font-weight="650" fill="#163349">Each operator handles 6 samples. Each method is run by 2 operators.</text>
+</svg>

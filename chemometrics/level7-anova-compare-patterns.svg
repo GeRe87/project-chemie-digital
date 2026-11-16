@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<title>How do the gaps between group means change?</title>
+<desc>Stage one shows three technique profiles across ozone pretreatment, NOM addition and phosphate addition. The gaps vary while the rank order stays stable. Stage two shows crossing SPE profiles from wastewater to river water.</desc>
+<g data-svg-stage="0">
+<text x="56" y="39" font-size="29" font-weight="700" fill="#163349" text-anchor="start">Example 2 · Water treatment</text>
+<text x="56" y="71" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Mean removal (%)</text>
+<path d="M89 318L690 318" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="324" font-size="18" font-weight="400" fill="#163349" text-anchor="end">50</text>
+<path d="M89 264L690 264" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="270" font-size="18" font-weight="400" fill="#163349" text-anchor="end">60</text>
+<path d="M89 209L690 209" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="215" font-size="18" font-weight="400" fill="#163349" text-anchor="end">70</text>
+<path d="M89 154L690 154" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="160" font-size="18" font-weight="400" fill="#163349" text-anchor="end">80</text>
+<path d="M89 100L690 100" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="106" font-size="18" font-weight="400" fill="#163349" text-anchor="end">90</text>
+<text x="155" y="350" font-size="21" font-weight="700" fill="#163349" text-anchor="middle">Ozone pretreatment</text>
+<text x="400" y="350" font-size="21" font-weight="700" fill="#163349" text-anchor="middle">NOM addition</text>
+<text x="645" y="350" font-size="21" font-weight="700" fill="#163349" text-anchor="middle">Phosphate addition</text>
+<path d="M155 204L400 296" fill="none" stroke="#10698a" stroke-width="4"/>
+<path d="M400 296L645 258" fill="none" stroke="#10698a" stroke-width="4"/>
+<circle cx="155" cy="204" r="7" fill="#10698a"/>
+<circle cx="400" cy="296" r="7" fill="#10698a"/>
+<circle cx="645" cy="258" r="7" fill="#10698a"/>
+<path d="M724 140L753 140" fill="none" stroke="#10698a" stroke-width="4"/>
+<circle cx="738" cy="140" r="5" fill="#10698a"/>
+<text x="766" y="147" font-size="21" font-weight="700" fill="#10698a" text-anchor="start">Activated carbon</text>
+<path d="M155 165L400 236" fill="none" stroke="#5c3a98" stroke-width="4"/>
+<path d="M400 236L645 198" fill="none" stroke="#5c3a98" stroke-width="4"/>
+<circle cx="155" cy="165" r="7" fill="#5c3a98"/>
+<circle cx="400" cy="236" r="7" fill="#5c3a98"/>
+<circle cx="645" cy="198" r="7" fill="#5c3a98"/>
+<path d="M724 192L753 192" fill="none" stroke="#5c3a98" stroke-width="4"/>
+<circle cx="738" cy="192" r="5" fill="#5c3a98"/>
+<text x="766" y="199" font-size="21" font-weight="700" fill="#5c3a98" text-anchor="start">Ultrafiltration</text>
+<path d="M155 111L400 198" fill="none" stroke="#a14518" stroke-width="4"/>
+<path d="M400 198L645 165" fill="none" stroke="#a14518" stroke-width="4"/>
+<circle cx="155" cy="111" r="7" fill="#a14518"/>
+<circle cx="400" cy="198" r="7" fill="#a14518"/>
+<circle cx="645" cy="165" r="7" fill="#a14518"/>
+<path d="M724 244L753 244" fill="none" stroke="#a14518" stroke-width="4"/>
+<circle cx="738" cy="244" r="5" fill="#a14518"/>
+<text x="766" y="251" font-size="21" font-weight="700" fill="#a14518" text-anchor="start">Ion exchange</text>
+<text x="55" y="390" font-size="20" font-weight="700" fill="#163349" text-anchor="start">The gaps vary a little. The techniques keep the same order.</text>
+</g>
+<g data-svg-stage="1" display="none">
+<text x="56" y="39" font-size="29" font-weight="700" fill="#163349" text-anchor="start">Example 1 · SPE recovery</text>
+<text x="56" y="71" font-size="20" font-weight="400" fill="#163349" text-anchor="start">Mean recovery (%)</text>
+<path d="M89 318L690 318" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="324" font-size="18" font-weight="400" fill="#163349" text-anchor="end">82</text>
+<path d="M89 274L690 274" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="280" font-size="18" font-weight="400" fill="#163349" text-anchor="end">86</text>
+<path d="M89 231L690 231" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="237" font-size="18" font-weight="400" fill="#163349" text-anchor="end">90</text>
+<path d="M89 187L690 187" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="193" font-size="18" font-weight="400" fill="#163349" text-anchor="end">94</text>
+<path d="M89 144L690 144" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="150" font-size="18" font-weight="400" fill="#163349" text-anchor="end">98</text>
+<path d="M89 100L690 100" fill="none" stroke="#788d9a" stroke-width="1"/>
+<text x="76" y="106" font-size="18" font-weight="400" fill="#163349" text-anchor="end">102</text>
+<text x="220" y="350" font-size="21" font-weight="700" fill="#163349" text-anchor="middle">Wastewater</text>
+<text x="620" y="350" font-size="21" font-weight="700" fill="#163349" text-anchor="middle">River water</text>
+<path d="M220 209L620 187" fill="none" stroke="#10698a" stroke-width="4"/>
+<circle cx="220" cy="209" r="7" fill="#10698a"/>
+<circle cx="620" cy="187" r="7" fill="#10698a"/>
+<path d="M724 140L753 140" fill="none" stroke="#10698a" stroke-width="4"/>
+<circle cx="738" cy="140" r="5" fill="#10698a"/>
+<text x="766" y="147" font-size="21" font-weight="700" fill="#10698a" text-anchor="start">Method A</text>
+<path d="M220 274L620 144" fill="none" stroke="#5c3a98" stroke-width="4"/>
+<circle cx="220" cy="274" r="7" fill="#5c3a98"/>
+<circle cx="620" cy="144" r="7" fill="#5c3a98"/>
+<path d="M724 192L753 192" fill="none" stroke="#5c3a98" stroke-width="4"/>
+<circle cx="738" cy="192" r="5" fill="#5c3a98"/>
+<text x="766" y="199" font-size="21" font-weight="700" fill="#5c3a98" text-anchor="start">Method B</text>
+<path d="M220 187L620 198" fill="none" stroke="#a14518" stroke-width="4"/>
+<circle cx="220" cy="187" r="7" fill="#a14518"/>
+<circle cx="620" cy="198" r="7" fill="#a14518"/>
+<path d="M724 244L753 244" fill="none" stroke="#a14518" stroke-width="4"/>
+<circle cx="738" cy="244" r="5" fill="#a14518"/>
+<text x="766" y="251" font-size="21" font-weight="700" fill="#a14518" text-anchor="start">Method C</text>
+<text x="55" y="390" font-size="20" font-weight="700" fill="#163349" text-anchor="start">The gap changes direction: B − A is +4 pp in river water and −6 pp in wastewater.</text>
+</g>
+</svg>

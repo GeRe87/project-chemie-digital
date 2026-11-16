@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 480" font-family="system-ui, sans-serif">
+<title>Compare each gap with the HSD</title>
+<desc>Three analytical methods have five measurements each, with means 10, 12 and 17 mg/L. With an HSD of approximately 3.4 mg/L, C differs from A and B. The A–B result is inconclusive.</desc>
+<text x="45" y="50" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Three methods, five measurements per method. The overall ANOVA is significant.</text>
+<text x="45" y="106" font-size="30" font-weight="700" fill="#10698a" text-anchor="start">Mean concentrations     A: 10     B: 12     C: 17 mg/L</text>
+<text x="45" y="162" font-size="30" font-weight="700" fill="#5c3a98" text-anchor="start">HSD ≈ 3.4 mg/L</text>
+<text x="45" y="218" font-size="25" font-weight="400" fill="#163349" text-anchor="start">A vs B      2 mg/L      Inconclusive</text>
+<text x="45" y="274" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">A vs C      7 mg/L      Significant</text>
+<text x="45" y="330" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">B vs C      5 mg/L      Significant</text>
+<text x="45" y="386" font-size="25" font-weight="400" fill="#163349" text-anchor="start">HSD stands for Honestly Significant Difference.</text>
+</svg>

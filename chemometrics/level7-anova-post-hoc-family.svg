@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 480" font-family="system-ui, sans-serif">
+<title>Keep all pairwise comparisons in one family</title>
+<desc>Tukey controls the chance of one or more false positives in the comparison family at five percent under the classical assumptions. A Tukey-adjusted p-value can be compared directly with 0.05.</desc>
+<text x="45" y="50" font-size="30" font-weight="700" fill="#10698a" text-anchor="start">Three groups give three pairwise comparisons</text>
+<text x="45" y="106" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Running separate unadjusted tests raises the chance of a false positive.</text>
+<text x="45" y="162" font-size="30" font-weight="700" fill="#5c3a98" text-anchor="start">Tukey controls the familywise error rate at 5%</text>
+<text x="45" y="218" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Use the adjusted p-value or read the simultaneous 95% interval.</text>
+<text x="45" y="274" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">The plot shows the signed gap and its interval.</text>
+<text x="45" y="330" font-size="25" font-weight="400" fill="#163349" text-anchor="start">An interval entirely above or below zero gives adjusted p &lt; 0.05.</text>
+<text x="45" y="386" font-size="25" font-weight="400" fill="#163349" text-anchor="start">Classical HSD assumes independent observations, normal errors and equal variances.</text>
+<text x="45" y="442" font-size="25" font-weight="400" fill="#163349" text-anchor="start">For unequal group sizes, Tukey–Kramer uses a cutoff for each pair.</text>
+</svg>

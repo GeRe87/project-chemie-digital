@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 392">
+<title>Four questions for an ANOVA report</title><desc>A checklist for interpreting ANOVA. Identify factors and independent units, fit means and separate residual variation, evaluate the F ratio, then report effect size, diagnostics and follow-up.</desc>
+<g font-family="system-ui, sans-serif">
+<circle cx="56" cy="70" r="9" fill="#006582"/>
+<text x="89" y="76" font-size="24" font-weight="700" text-anchor="start" fill="#006582">Design</text>
+<text x="295" y="76" font-size="22" font-weight="700" text-anchor="start" fill="#17313f">What varies?</text>
+<text x="662" y="76" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Identify factors and independent units.</text>
+<path d="M89 106H1110" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="56" cy="155" r="9" fill="#604493"/>
+<text x="89" y="161" font-size="24" font-weight="700" text-anchor="start" fill="#604493">Model</text>
+<text x="295" y="161" font-size="22" font-weight="700" text-anchor="start" fill="#17313f">What is explained?</text>
+<text x="662" y="161" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Fit means and separate residual variation.</text>
+<path d="M89 191H1110" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="56" cy="240" r="9" fill="#a94311"/>
+<text x="89" y="246" font-size="24" font-weight="700" text-anchor="start" fill="#a94311">Inference</text>
+<text x="295" y="246" font-size="22" font-weight="700" text-anchor="start" fill="#17313f">How unusual is the ratio?</text>
+<text x="662" y="246" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Compare mean squares using an F reference.</text>
+<path d="M89 276H1110" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="56" cy="325" r="9" fill="#006582"/>
+<text x="89" y="331" font-size="24" font-weight="700" text-anchor="start" fill="#006582">Report</text>
+<text x="295" y="331" font-size="22" font-weight="700" text-anchor="start" fill="#17313f">What can we conclude?</text>
+<text x="662" y="331" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Report effect size, diagnostics and follow-up.</text>
+</g></svg>

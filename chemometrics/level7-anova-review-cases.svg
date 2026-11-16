@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>Choose the analysis for each design</title>
+  <desc>Three independent methods in one matrix with comparable error variances suggest one-way ANOVA. Crossing methods with matrix suggests two-way ANOVA with interaction. Comparing means under unequal variances suggests Welch ANOVA.</desc>
+  <rect x="50" y="42" width="900" height="92" fill="#10698a" fill-opacity=".11"/>
+  <text x="72" y="78" text-anchor="start" font-size="24" font-weight="700" fill="#10698a">Three SPE methods</text>
+  <text x="72" y="112" text-anchor="start" font-size="21" font-weight="400" fill="#163349">One matrix, comparable variances</text>
+  <g data-svg-stage="1">
+<text x="915" y="96" text-anchor="end" font-size="24" font-weight="700" fill="#10698a">One-way ANOVA</text>
+</g>
+  <rect x="50" y="152" width="900" height="92" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="72" y="188" text-anchor="start" font-size="24" font-weight="700" fill="#5c3a98">Methods × water matrix</text>
+  <text x="72" y="222" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Each method tested in both matrices</text>
+  <g data-svg-stage="2">
+<text x="915" y="206" text-anchor="end" font-size="24" font-weight="700" fill="#5c3a98">Two-way ANOVA with interaction</text>
+</g>
+  <rect x="50" y="262" width="900" height="92" fill="#a14518" fill-opacity=".11"/>
+  <text x="72" y="298" text-anchor="start" font-size="24" font-weight="700" fill="#a14518">Three SPE methods</text>
+  <text x="72" y="332" text-anchor="start" font-size="21" font-weight="400" fill="#163349">Same question, unequal variances</text>
+  <g data-svg-stage="3">
+<text x="915" y="316" text-anchor="end" font-size="24" font-weight="700" fill="#a14518">Welch ANOVA</text>
+</g>
+</svg>

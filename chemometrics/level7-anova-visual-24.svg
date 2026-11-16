@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
+  <title>From the overall test to pairwise questions</title>
+  <desc>All three pairwise method comparisons form one family. Family-wise error is the chance of at least one false positive in that family. Tukey accounts for the whole family.</desc>
+  <text x="55" y="53" text-anchor="start" font-size="31" font-weight="700" fill="#163349">Which method means differ?</text>
+  <rect x="55" y="95" width="275" height="90" fill="#10698a" fill-opacity=".11"/>
+  <text x="192" y="150" text-anchor="middle" font-size="32" font-weight="700" fill="#10698a">A vs B</text>
+  <rect x="360" y="95" width="275" height="90" fill="#5c3a98" fill-opacity=".11"/>
+  <text x="497" y="150" text-anchor="middle" font-size="32" font-weight="700" fill="#5c3a98">A vs C</text>
+  <rect x="665" y="95" width="275" height="90" fill="#a14518" fill-opacity=".11"/>
+  <text x="802" y="150" text-anchor="middle" font-size="32" font-weight="700" fill="#a14518">B vs C</text>
+  <g data-svg-stage="1">
+<path d="M55 212V232H940V212" fill="none" stroke="#10698a" stroke-width="2"/>
+<text x="497" y="277" text-anchor="middle" font-size="28" font-weight="700" fill="#10698a">One family of three comparisons</text>
+<text x="497" y="318" text-anchor="middle" font-size="23" font-weight="400" fill="#163349">Control the chance of at least one false positive across the family.</text>
+<text x="497" y="359" text-anchor="middle" font-size="20" fill="#163349">One specified pair: its own gap. All pairs: the largest gap sets the benchmark.</text>
+</g>
+</svg>
