@@ -356,7 +356,7 @@ body[data-diagram-theme="eco-city"] .reveal
   overflow: auto;
   overscroll-behavior: contain;
 }
-@media (max-width: 700px) and (orientation: portrait) {
+@media screen and (max-width: 700px) and (orientation: portrait) {
   body.pcd-native-mobile .reveal .pcd-visual-layout[data-visual-layout="split"] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr);

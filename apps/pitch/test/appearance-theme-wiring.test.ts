@@ -8,10 +8,11 @@ const mainSource = presentationRuntimeSource();
 
 test("appearance controls wire distinct Alt+B and Alt+T shortcuts with idempotent teardown", () => {
   assert.match(profileSource, /key === "b"/);
-  assert.match(profileSource, /toggleBackground\(\)/);
+  assert.match(profileSource, /backgroundEnabled = !backgroundEnabled/);
+  assert.match(profileSource, /options\.onBackgroundChange\(backgroundEnabled \? backgroundFamily : undefined\)/);
   assert.match(profileSource, /key === "t"/);
   assert.match(profileSource, /toggleTheme\(\)/);
-  assert.match(profileSource, /themeSelect\.value === "dark" \? "light" : "dark"/);
+  assert.match(profileSource, /theme = theme === "dark" \? "light" : "dark"/);
   assert.match(profileSource, /if \(destroyed\) return;/);
   assert.match(profileSource, /window\.removeEventListener\("keydown", shortcut\)/);
 });
