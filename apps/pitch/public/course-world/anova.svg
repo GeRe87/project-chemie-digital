@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">ANOVA research island</title>
+  <desc id="desc">Floating research island with sample flasks and a plot of three coloured groups connected by crossing lines.</desc>
+  <path d="M100 342L235 458L475 512L701 451L865 338L475 408Z" fill="#594c85"/>
+  <path d="M235 458L335 406L475 512ZM475 512L600 405L701 451Z" fill="#7162a0"/>
+  <ellipse cx="481" cy="325" rx="381" ry="111" fill="#57b1a2"/>
+  <path d="M116 347Q481 489 849 347" fill="none" stroke="#267c75" stroke-width="13"/>
+  <path d="M157 334H310" stroke="#185a7e" stroke-width="10" stroke-linecap="round"/>
+  <g stroke="#185a7e" stroke-width="6" stroke-linejoin="round">
+    <path d="M175 290L194 254V223H218V254L237 290Q241 303 229 303H183Q171 303 175 290Z" fill="#e8f4f7"/>
+    <path d="M244 290L263 254V199H287V254L306 290Q310 303 298 303H252Q240 303 244 290Z" fill="#e8f4f7"/>
+  </g>
+  <path d="M184 284H228L232 294H180ZM253 276H297L302 294H248Z" fill="#62d8ef"/>
+  <rect x="338" y="100" width="445" height="240" rx="20" fill="#e8f4f7" stroke="#185a7e" stroke-width="8"/>
+  <path d="M393 145V293H735M394 190H735M394 239H735" fill="none" stroke="#91b4c4" stroke-width="3"/>
+  <g fill="none" stroke-width="9" stroke-linecap="round">
+    <path d="M459 211L667 178" stroke="#10698a"/>
+    <path d="M459 160L667 260" stroke="#6743a3"/>
+    <path d="M459 254L667 216" stroke="#bb661f"/>
+  </g>
+  <g stroke="#e8f4f7" stroke-width="4">
+    <circle cx="459" cy="211" r="13" fill="#10698a"/><circle cx="667" cy="178" r="13" fill="#10698a"/>
+    <circle cx="459" cy="160" r="13" fill="#6743a3"/><circle cx="667" cy="260" r="13" fill="#6743a3"/>
+    <circle cx="459" cy="254" r="13" fill="#bb661f"/><circle cx="667" cy="216" r="13" fill="#bb661f"/>
+  </g>
+  <text x="480" y="393" text-anchor="middle" fill="#153147" font-family="Arial,Helvetica,sans-serif" font-size="39" font-weight="bold">ANOVA</text>
+</svg>
