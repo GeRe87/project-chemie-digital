@@ -7,8 +7,8 @@
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-introduction",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-introduction",
       "sourceKey": "621d8a1565ec39cc529fb81f540ba62f849f4472cb206adae6e8568093bdafba",
-      "pdf": "ab8ee30f31e9aa038bc71615a55f316a59f9315c548457a6458a4f58d1b33824.pdf",
-      "pdfSha256": "ab8ee30f31e9aa038bc71615a55f316a59f9315c548457a6458a4f58d1b33824",
+      "pdf": "8dd02ba8659086be2e5b2459474c805db2dea1ba151a3b4bb6f4865ae3f952c6.pdf",
+      "pdfSha256": "8dd02ba8659086be2e5b2459474c805db2dea1ba151a3b4bb6f4865ae3f952c6",
       "latex": "3ddd03960b01de00410ba532a54db8a4c384c15d2fe7c91eca320729cf5ef083.tex",
       "latexSha256": "3ddd03960b01de00410ba532a54db8a4c384c15d2fe7c91eca320729cf5ef083"
     },
@@ -16,129 +16,129 @@
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l1-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-random-variables-lecture",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-random-variables-lecture",
-      "sourceKey": "3025f5959b34fdfd7a92298645d0d81f611afdb3e76c78f928ded0a2ceffd24e",
-      "pdf": "c296ed1ae690328bd38ab60b7dc17c5448c5417c839aa2f055f804ae10395c73.pdf",
-      "pdfSha256": "c296ed1ae690328bd38ab60b7dc17c5448c5417c839aa2f055f804ae10395c73",
-      "latex": "1527918ad9002619fcf397b7fe81e50ade69bc483b2c506da280f7dfae900dad.tex",
-      "latexSha256": "1527918ad9002619fcf397b7fe81e50ade69bc483b2c506da280f7dfae900dad",
+      "sourceKey": "b20491f31266c66f40704370e9a939c30375d3fd2cdcaadca420660f2cf5d5aa",
+      "pdf": "aaeac52f1032446cc2c4d10f5b0e8427c2257b20b80930324a962b11995869d4.pdf",
+      "pdfSha256": "aaeac52f1032446cc2c4d10f5b0e8427c2257b20b80930324a962b11995869d4",
+      "latex": "feb83fc4df802b653e64332617ac054d3e3b74eed860ba365f85429e3365be3c.tex",
+      "latexSha256": "feb83fc4df802b653e64332617ac054d3e3b74eed860ba365f85429e3365be3c",
       "assets": [
         {
           "uri": "/chemometrics/uvvis-dilution-series.svg",
-          "integrity": "sha256-8590fa68e15cc53a13bf45173a518f07849ff7ea3bfd0453729713eeefcfc118",
-          "file": "asset-8590fa68e15cc53a13bf45173a518f07849ff7ea3bfd0453729713eeefcfc118.pdf",
-          "sha256": "7b8b94de5ce40fbe659a9070e5659317f4243594ee9dc1d1a460bef51e4f1a05"
+          "integrity": "sha256-a5209e515f67817691a2dc7e3121c3ba85f1b6a93452d7a6e7e30152aefab170",
+          "file": "asset-a5209e515f67817691a2dc7e3121c3ba85f1b6a93452d7a6e7e30152aefab170.pdf",
+          "sha256": "ef63e971a12619f3757d326752177e9bac13b6585d998b824fc0debc720b3a07"
         },
         {
           "uri": "/chemometrics/lake-sampling-sites.svg",
-          "integrity": "sha256-35377bf4fc7c155621091d8914a23a4ee2819e9d3490b535aa3d4faa4b7d44c4",
-          "file": "asset-35377bf4fc7c155621091d8914a23a4ee2819e9d3490b535aa3d4faa4b7d44c4.pdf",
-          "sha256": "5edbaa7a4f7e8f6058c1867620f7ef82b64095a0662c9172dfcdccb92596f00e"
+          "integrity": "sha256-2a75bf13857ba370175b9288a5171e7305319314f6dcc03614519242cd6376a0",
+          "file": "asset-2a75bf13857ba370175b9288a5171e7305319314f6dcc03614519242cd6376a0.pdf",
+          "sha256": "3d0dc2c92bc6747b281d2f86f6c0134d4aa87a988f81b982f12fb91d39e39d96"
         }
       ],
-      "bundle": "ed2d47e02ac4d7979cb3a468325ee8ba8b85c3b809d3547d0b76fb3a4552c9cc.zip",
-      "bundleSha256": "ed2d47e02ac4d7979cb3a468325ee8ba8b85c3b809d3547d0b76fb3a4552c9cc"
+      "bundle": "344f9a6a6dc4ccc97a1cb01acf4d0d5d8173e02720786be00fdbaac8bd558841.zip",
+      "bundleSha256": "344f9a6a6dc4ccc97a1cb01acf4d0d5d8173e02720786be00fdbaac8bd558841"
     },
     {
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l2-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
-      "sourceKey": "d1eb87426bbb4f194457d54435b013d6a5d1ec6402f733a2f25035a3025ac6d0",
-      "pdf": "e0f1eb09fd3bc8830706c2a95de7f3dc36876c95d9c5a0c04688ba3e4b096bb9.pdf",
-      "pdfSha256": "e0f1eb09fd3bc8830706c2a95de7f3dc36876c95d9c5a0c04688ba3e4b096bb9",
-      "latex": "718e4f852fc7124c22bb00a6b2fd8d7b080b8bc34c8f0fe6e1334f2117fe7d03.tex",
-      "latexSha256": "718e4f852fc7124c22bb00a6b2fd8d7b080b8bc34c8f0fe6e1334f2117fe7d03",
+      "sourceKey": "6231d286e1b18db57422f6f5a7e1e58fe99b23d7fe2557f0c2c9cf435786a3d1",
+      "pdf": "46de97d81f627ee351b0a8cb8aa083a9dc02d0a937cadcfd2cfea52a7819bb23.pdf",
+      "pdfSha256": "46de97d81f627ee351b0a8cb8aa083a9dc02d0a937cadcfd2cfea52a7819bb23",
+      "latex": "34d20abd3a8e218c17a460d232e65375ebd57490fa95f0b6094460266ecc23bd.tex",
+      "latexSha256": "34d20abd3a8e218c17a460d232e65375ebd57490fa95f0b6094460266ecc23bd",
       "assets": [
         {
           "uri": "/chemometrics/mean-values-five-dice.svg",
-          "integrity": "sha256-4bc7df832cfc39728ae98c671b6e9ecc1f50b3944e6c17a1bae41cc0f3da2f39",
-          "file": "asset-4bc7df832cfc39728ae98c671b6e9ecc1f50b3944e6c17a1bae41cc0f3da2f39.pdf",
-          "sha256": "ca4265ddb11f40213b5182c955198e1fc0e69defe9da52b897752f75e34df910"
+          "integrity": "sha256-64ab58f85d47ad2d024ea31a39d8f31e6b7ff02c203fc42ffeb32c19c3098cc3",
+          "file": "asset-64ab58f85d47ad2d024ea31a39d8f31e6b7ff02c203fc42ffeb32c19c3098cc3.pdf",
+          "sha256": "ed4755c7e256f374f66468323e4c695a51a9e30b444f076bce67b8de882738b0"
         },
         {
           "uri": "/chemometrics/mean-values-replicates.svg",
-          "integrity": "sha256-8dce1c57890e0912db2826a49e1e34b08b201198831c324a4bf67bbd3460fd97",
-          "file": "asset-8dce1c57890e0912db2826a49e1e34b08b201198831c324a4bf67bbd3460fd97.pdf",
-          "sha256": "b7481f1781e45fa7afd9a7a476d77982b88726a46871aecbc1a83ff20b389412"
+          "integrity": "sha256-a522ba5866e05023bdda645a1d76cae8e335582abd6e3b8713c57a39b5a4d480",
+          "file": "asset-a522ba5866e05023bdda645a1d76cae8e335582abd6e3b8713c57a39b5a4d480.pdf",
+          "sha256": "5a650bc8c2dd86c0075387e22147746a92bf9c6334d5b21407817aaa11b0238f"
         },
         {
           "uri": "/chemometrics/mean-values-sensors.svg",
-          "integrity": "sha256-c0e17917a9b65e256b4a3bc6d32903ac4fdc314d952c6e435ad4cb821dcd0a6f",
-          "file": "asset-c0e17917a9b65e256b4a3bc6d32903ac4fdc314d952c6e435ad4cb821dcd0a6f.pdf",
-          "sha256": "42d178c151b02e6dbacbb2382268b9e2a51b1b08055fc16c56ac3cc900988e42"
+          "integrity": "sha256-4051d2bcca6940c919d22df739e5d5578788874029314d73b26b5e4c8716e54c",
+          "file": "asset-4051d2bcca6940c919d22df739e5d5578788874029314d73b26b5e4c8716e54c.pdf",
+          "sha256": "d49fb827d8143947cac06d14bf31ef5bb9d2c0400b052732874d4d7b04e83b53"
         },
         {
           "uri": "/chemometrics/mean-values-loads.svg",
-          "integrity": "sha256-b685db1e67e68267fa87f9ca8b08d41e61fbbf6ffcde07a99706499908835493",
-          "file": "asset-b685db1e67e68267fa87f9ca8b08d41e61fbbf6ffcde07a99706499908835493.pdf",
-          "sha256": "7d4cf511452e429e51e34c557bc2dd1dfb3717ccc6a538d56bd43c282d8ff243"
+          "integrity": "sha256-cae70876c2c3f0cb4d9709958bbd97fe38df060aaf30a8f52746625e9d89c317",
+          "file": "asset-cae70876c2c3f0cb4d9709958bbd97fe38df060aaf30a8f52746625e9d89c317.pdf",
+          "sha256": "2705da99a270bc11a935596ba069084202fedb08b7a7db4d87b1cb18f0eec641"
         },
         {
           "uri": "/chemometrics/mean-values-cell-growth.svg",
-          "integrity": "sha256-bdd291a999980ad19f69a64fa3dff019e3e8b3c4dd05b5796f49ea22d453dc29",
-          "file": "asset-bdd291a999980ad19f69a64fa3dff019e3e8b3c4dd05b5796f49ea22d453dc29.pdf",
-          "sha256": "3226d93c823ced822b7c1098884062b47b98d16626d38d6764ae80fbd4a00204"
+          "integrity": "sha256-f053a2c6bc32993462d38c9c10b43eb9d192effaddad353ffdff4a8c576bc308",
+          "file": "asset-f053a2c6bc32993462d38c9c10b43eb9d192effaddad353ffdff4a8c576bc308.pdf",
+          "sha256": "51f2c629eb190cd60af7f6dbb724a301bb29917d639e570278af95e8f0f475bf"
         },
         {
           "uri": "/chemometrics/mean-values-microplastics.svg",
-          "integrity": "sha256-16f9a8312330caf14b40c7a606d82e3b99015a4690603573e7b9920ef1c8dda4",
-          "file": "asset-16f9a8312330caf14b40c7a606d82e3b99015a4690603573e7b9920ef1c8dda4.pdf",
-          "sha256": "fad906bda9d16d878983b38487d555faf7452132fa3f5908b58dda22b76278b1"
+          "integrity": "sha256-a7418c275fd3a038dfbd12e8bda1505097dd7b6767c0f2accfa6e4d932424bc1",
+          "file": "asset-a7418c275fd3a038dfbd12e8bda1505097dd7b6767c0f2accfa6e4d932424bc1.pdf",
+          "sha256": "c6df90bd210bdd0e8a430037b5d10ea67babdc0591d2fbd246bc1ae55868c5ad"
         },
         {
           "uri": "/chemometrics/mean-values-sites.svg",
-          "integrity": "sha256-cbd8d43b40b391996033d89acf02428ed7298981b006c1e3750c0aec31811df9",
-          "file": "asset-cbd8d43b40b391996033d89acf02428ed7298981b006c1e3750c0aec31811df9.pdf",
-          "sha256": "ae91ec60dd1a4727904fefebd402cbed4d9aa7a1b57995428e57a3c627a80678"
+          "integrity": "sha256-c4e285ca4f3a7e03a829f68d45bc45fa4c63d3e014e324b10e90da6790b8ed21",
+          "file": "asset-c4e285ca4f3a7e03a829f68d45bc45fa4c63d3e014e324b10e90da6790b8ed21.pdf",
+          "sha256": "f60c3d1f81b77000631ee9d1c4476c35a0e80938ad6b60f7c9cefc5cd35a01dd"
         },
         {
           "uri": "/chemometrics/mean-values-journey.svg",
-          "integrity": "sha256-691652d98ccabe5ba0d0fc77c327022a3a1357aaff2550b9904772c86eeb0d94",
-          "file": "asset-691652d98ccabe5ba0d0fc77c327022a3a1357aaff2550b9904772c86eeb0d94.pdf",
-          "sha256": "4fefed6f565e438d39688cd041202a043d7d5d0969e6bfd9ff581ace15bd6dd2"
+          "integrity": "sha256-0e8824d1f61cb72ce5a2b1c73de4a56ef69edaebfc243ab3d76e0b3be77ca2ab",
+          "file": "asset-0e8824d1f61cb72ce5a2b1c73de4a56ef69edaebfc243ab3d76e0b3be77ca2ab.pdf",
+          "sha256": "90778a461ed5dff0a3460979ffbfc7fe770739f7cbc0bd624dfb31c5f98a36ec"
         },
         {
           "uri": "/chemometrics/mean-values-pumping.svg",
-          "integrity": "sha256-5084a27f6315169732ca579b4212ee1a1fd6463ac2149fb3ddd731410e0128cf",
-          "file": "asset-5084a27f6315169732ca579b4212ee1a1fd6463ac2149fb3ddd731410e0128cf.pdf",
-          "sha256": "af2e75dfa397ab72fcb1b8397c9494f3423e36bcfdb056a2f2f29421dac5580f"
+          "integrity": "sha256-150749bc53deb322d32b1ddd5b55aaed2a40b437a3b0daf9a81f1f00041ef0ba",
+          "file": "asset-150749bc53deb322d32b1ddd5b55aaed2a40b437a3b0daf9a81f1f00041ef0ba.pdf",
+          "sha256": "03f7e5c18c59749d931b873a8420f9e3c7c676775740d0d147a65ac58ab52550"
         },
         {
           "uri": "/chemometrics/mean-values-reactors.svg",
-          "integrity": "sha256-c06a25db4a769c87e0830bae3860ed18f813e3feb8b0f682ae08089200a179d6",
-          "file": "asset-c06a25db4a769c87e0830bae3860ed18f813e3feb8b0f682ae08089200a179d6.pdf",
-          "sha256": "2078c7f588f6777284a2df35aaa4bc59e6dd0de9d6932b1a1c38ada5f9aa7603"
+          "integrity": "sha256-729abddd37ee0afcdfce9b5b29d099bf073e4373a1bf26a1dda0c2963ade4ed2",
+          "file": "asset-729abddd37ee0afcdfce9b5b29d099bf073e4373a1bf26a1dda0c2963ade4ed2.pdf",
+          "sha256": "f5fbab75b9f6b476761944af389bd841cfaba0991d540fe43b954d83b1a49ac0"
         }
       ],
-      "bundle": "4f2ab6a7d5b1dd1f487dadcac81c0b6bf3711e7badfbfbf43211f7e7f2b726cc.zip",
-      "bundleSha256": "4f2ab6a7d5b1dd1f487dadcac81c0b6bf3711e7badfbfbf43211f7e7f2b726cc"
+      "bundle": "1ec1e51be6eb7353be5aaadefd95446d6178e5413b32b906f9d27e98db347d28.zip",
+      "bundleSha256": "1ec1e51be6eb7353be5aaadefd95446d6178e5413b32b906f9d27e98db347d28"
     },
     {
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l3-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-variance-dispersion-lecture",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-variance-dispersion-lecture",
-      "sourceKey": "deccaa091b5a31e1b14ed5f15ebbeeea90927c27c87511470ddd9ff695fa07bf",
-      "pdf": "81b4ecddc8dc4cb1e8701685b7b3dc20fa9ccd8525c7b4518e11a029c6406009.pdf",
-      "pdfSha256": "81b4ecddc8dc4cb1e8701685b7b3dc20fa9ccd8525c7b4518e11a029c6406009",
-      "latex": "8fce502e569814e823405f861b3a410e8a44704e57f3c09327ba091764ebe0e6.tex",
-      "latexSha256": "8fce502e569814e823405f861b3a410e8a44704e57f3c09327ba091764ebe0e6",
+      "sourceKey": "df85e948f6692218f2c91562d1071b9ee36879d5f503ddfcced6dd120590380f",
+      "pdf": "4a39fe32f7b60b7e0242f851ed389197f496460d2605a50022f2adabd73b66d7.pdf",
+      "pdfSha256": "4a39fe32f7b60b7e0242f851ed389197f496460d2605a50022f2adabd73b66d7",
+      "latex": "44cdaef7ab28d8f3248e2d7e9c01c9ccf68666f30de09f8c6682497ca107e959.tex",
+      "latexSha256": "44cdaef7ab28d8f3248e2d7e9c01c9ccf68666f30de09f8c6682497ca107e959",
       "assets": [
         {
           "uri": "/chemometrics/precision-targets.svg",
-          "integrity": "sha256-cbdea70d3ad070935edeb09a07924400642366fd46638cfc2b44ec80c2aa3aa5",
-          "file": "asset-cbdea70d3ad070935edeb09a07924400642366fd46638cfc2b44ec80c2aa3aa5.pdf",
-          "sha256": "e25cf25ab9bffb617305df34ddcb04db10e385abac08cce3af29a94432f600cd"
+          "integrity": "sha256-b25c81a888b498d3a1bb40b5fc0c7ec755ad370d7c95eb40cb00b949f4954c0d",
+          "file": "asset-b25c81a888b498d3a1bb40b5fc0c7ec755ad370d7c95eb40cb00b949f4954c0d.pdf",
+          "sha256": "5f19ae1715262cf0e394007d07cea5d0e4f28d90886866451fae294ad278ab77"
         }
       ],
-      "bundle": "fc8778e48b609a07801699706fee18b2c110ffef839c242e8ff70106b62063c6.zip",
-      "bundleSha256": "fc8778e48b609a07801699706fee18b2c110ffef839c242e8ff70106b62063c6"
+      "bundle": "58c668822cd67cae3191fab9bfbdb0c93a9a397aef385664b4a1b930c0894ec2.zip",
+      "bundleSha256": "58c668822cd67cae3191fab9bfbdb0c93a9a397aef385664b4a1b930c0894ec2"
     },
     {
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l4-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-chemometrics-level4-distribution-shape-lecture",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/chemometrics-level4-distribution-shape-lecture",
       "sourceKey": "1f10a1e35c6f114697d3b593f2a63c06f063eb79e93cbb6a73df956d7ec2de97",
-      "pdf": "f72f0f8649860039c9042a5f444c99cc7bfb562d0a68c599215a8863e59d4e29.pdf",
-      "pdfSha256": "f72f0f8649860039c9042a5f444c99cc7bfb562d0a68c599215a8863e59d4e29",
+      "pdf": "b52bce3b3da76f3f374a274856a2accb11072dee8bc02933237406aec0bc155d.pdf",
+      "pdfSha256": "b52bce3b3da76f3f374a274856a2accb11072dee8bc02933237406aec0bc155d",
       "latex": "608809341cde4a5b83ff323cb577c9890671053ea3a43f2bb8e62e6acafc20ab.tex",
       "latexSha256": "608809341cde4a5b83ff323cb577c9890671053ea3a43f2bb8e62e6acafc20ab"
     },
@@ -146,289 +146,295 @@
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l5-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-level5-review-complete",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/level5-review-complete",
-      "sourceKey": "2fd4e991e41b88c74d657b78fc8ffaabbbe0ecab0bc0cea11363b5e43fb2a123",
-      "pdf": "6917c1f7b8d0eea21672cd242797133192e8b7e697af1cdb50e4a6becba21d62.pdf",
-      "pdfSha256": "6917c1f7b8d0eea21672cd242797133192e8b7e697af1cdb50e4a6becba21d62",
-      "latex": "13fad7db1b462d662de5e45a59a68b47e622b777dcf876f0899cde8d6860d065.tex",
-      "latexSha256": "13fad7db1b462d662de5e45a59a68b47e622b777dcf876f0899cde8d6860d065",
+      "sourceKey": "8b72b5789782b91c6c79d62575e77ae3f676ecf9cd109f1d3283fdbe32d987a4",
+      "pdf": "6bfbc4926651e195893dbd822a6f5903d4ba387feebd9ad68c0b45605fef325c.pdf",
+      "pdfSha256": "6bfbc4926651e195893dbd822a6f5903d4ba387feebd9ad68c0b45605fef325c",
+      "latex": "f819bbfb9e25ad5571657260087046445a01fbf5d2d86a5cf733347918e5ece3.tex",
+      "latexSha256": "f819bbfb9e25ad5571657260087046445a01fbf5d2d86a5cf733347918e5ece3",
       "assets": [
         {
           "uri": "/chemometrics/level5-normal-ic-process.svg",
-          "integrity": "sha256-7a5def957ae76a94ae31679af4b0187b2e218c11279123eef4e9032988fd11f9",
-          "file": "asset-7a5def957ae76a94ae31679af4b0187b2e218c11279123eef4e9032988fd11f9.pdf",
-          "sha256": "a466a1988dd3e67d7351755db7999f62f3ef7e86bfebf07b95a11f679d2c6dae"
+          "integrity": "sha256-0cc342ea605aee79c8556fa2b3817d01cc7465bf21d1296851745cb86cade512",
+          "file": "asset-0cc342ea605aee79c8556fa2b3817d01cc7465bf21d1296851745cb86cade512.pdf",
+          "sha256": "d1d3f73c2d8433753bd69bbd28c1490d77f03e008098c46c92389536fbfce9b7"
         },
         {
           "uri": "/chemometrics/level5-lognormal-workup-process.svg",
-          "integrity": "sha256-23a67986076f0b4aa74bb94737d4d5addfa99c9b672d90bffe78a6e06e43f6c7",
-          "file": "asset-23a67986076f0b4aa74bb94737d4d5addfa99c9b672d90bffe78a6e06e43f6c7.pdf",
-          "sha256": "6557f807cc27c3d9fc39c4f696af012e70512ae913ea4cacfd8ce923e75d83d4"
+          "integrity": "sha256-9206e28aaf26629c4eb4c90287cb0f3db4204154ff7a4b0cf83a9fd2ee1c08bb",
+          "file": "asset-9206e28aaf26629c4eb4c90287cb0f3db4204154ff7a4b0cf83a9fd2ee1c08bb.pdf",
+          "sha256": "3484bdacea493440d5a641b6df79ad1ca119c6e101e4c9b4865c22d1d2647c83"
         },
         {
           "uri": "/chemometrics/level5-lognormal-ratio-scales.svg",
-          "integrity": "sha256-89c42be0226ffb07a0c3ee9b17e0d33b179a20ce89f254acc550eb8b076a9bca",
-          "file": "asset-89c42be0226ffb07a0c3ee9b17e0d33b179a20ce89f254acc550eb8b076a9bca.pdf",
-          "sha256": "f71c7d790c5b4f5d5fb296d3dfd955cd346c598d7d30e91c61e14503dc864b5d"
+          "integrity": "sha256-07814e21579950f68111f64302262d5e5875029c871cc2e9d74c84d2dd9bf1b7",
+          "file": "asset-07814e21579950f68111f64302262d5e5875029c871cc2e9d74c84d2dd9bf1b7.pdf",
+          "sha256": "cca9f779ccbf8e197eec700324d2062be125ab821616cc58f764b60c477ede78"
         },
         {
           "uri": "/chemometrics/level5-ic-precision-process.svg",
-          "integrity": "sha256-6f6de6c19202c5a754c1227645bc796bc292275ae559cf123671b566775753d2",
-          "file": "asset-6f6de6c19202c5a754c1227645bc796bc292275ae559cf123671b566775753d2.pdf",
-          "sha256": "079c6af207e56799f06c83a5511258851652df133be8e21cc625f9e4548d8c7b"
+          "integrity": "sha256-fe7fbddf4d0cf15fc5504eafbf73b96fae9d5a70fcc7935302e267e245f1d49b",
+          "file": "asset-fe7fbddf4d0cf15fc5504eafbf73b96fae9d5a70fcc7935302e267e245f1d49b.pdf",
+          "sha256": "5e2051e1ad59aa5a137c50a67cdfcccdc123cca4462fd0f56c9313e69992bbf9"
         },
         {
           "uri": "/chemometrics/level5-normal-to-square.svg",
-          "integrity": "sha256-43c44d9700c380f0f903e025a65428d8a5d4e4500a5d7ac019cfae07076d7799",
-          "file": "asset-43c44d9700c380f0f903e025a65428d8a5d4e4500a5d7ac019cfae07076d7799.pdf",
-          "sha256": "94ddf13bd9cb51182e5d8106db88aaf13bfee789d7dde1df9e3e5079cf7210b8"
+          "integrity": "sha256-9a0592e99342b4d07e7d761cf7c524c9515dedfe7c03fa0a086b80429fa7b1db",
+          "file": "asset-9a0592e99342b4d07e7d761cf7c524c9515dedfe7c03fa0a086b80429fa7b1db.pdf",
+          "sha256": "f89dd06eb392d7f84570d575a5a74acaa4d287c3eac34fbee4680f923283d5a5"
         },
         {
           "uri": "/chemometrics/level5-ic-residual-squares.svg",
-          "integrity": "sha256-7c9ea0627c16f08ca64ad3732617c9f81589739cd127befcaa2a2543faa4abad",
-          "file": "asset-7c9ea0627c16f08ca64ad3732617c9f81589739cd127befcaa2a2543faa4abad.pdf",
-          "sha256": "9c876a7876955fe225a5cc997503750f99e7786bc3ecb1561b0a3e6f57d13abe"
+          "integrity": "sha256-47077ffefde7ac725875e98a2e41abc1b198da9a385281c42b53f4a85d1469e6",
+          "file": "asset-47077ffefde7ac725875e98a2e41abc1b198da9a385281c42b53f4a85d1469e6.pdf",
+          "sha256": "361fd50c5a2dc127f11d7c5b4bd4616be6900691511d7fca2a68e039a3b929d5"
         },
         {
           "uri": "/chemometrics/level5-ic-chi5-tail.svg",
-          "integrity": "sha256-4d142e138ab9064cf02c870f20d8b938dd10d2a14aad360a2812e8e11fc4b00a",
-          "file": "asset-4d142e138ab9064cf02c870f20d8b938dd10d2a14aad360a2812e8e11fc4b00a.pdf",
-          "sha256": "c0933f711ffcca65a6b1da19ae1cd724fc6eea13be998a3a4e50e443f499c380"
+          "integrity": "sha256-ad2f61e47cd9b9e7018700712a3b5114a6a4e2d060e40dab617bef75d89889c7",
+          "file": "asset-ad2f61e47cd9b9e7018700712a3b5114a6a4e2d060e40dab617bef75d89889c7.pdf",
+          "sha256": "fde61dcdcc67496307ef2300e4dd246c9a68758ca238154dd7464a3224be2827"
         },
         {
           "uri": "/chemometrics/level5-qq-pair.svg",
-          "integrity": "sha256-03662e534b4fea74e6a31b9eaa5d7a6c5ff7ac1afc5f54be6b6875804641f360",
-          "file": "asset-03662e534b4fea74e6a31b9eaa5d7a6c5ff7ac1afc5f54be6b6875804641f360.pdf",
-          "sha256": "7172bc451be405c45d2afe3bfd3e4f84c05b1a4a0a463240e32d07355f27d5dd"
+          "integrity": "sha256-3b8c7baa119f11ed825a16da69914ae87139c6beb9489e7e2144ab77a4e0c68a",
+          "file": "asset-3b8c7baa119f11ed825a16da69914ae87139c6beb9489e7e2144ab77a4e0c68a.pdf",
+          "sha256": "a5ea62a8546d6ec459fe6c9954afa291e8ef1d079e36d01c7af92d86bc0541d9"
         },
         {
           "uri": "/chemometrics/level5-ks-overlay-pair.svg",
-          "integrity": "sha256-72c37de8a8c3e32d99300889433d08020df32131f2a639211c798d877d599152",
-          "file": "asset-72c37de8a8c3e32d99300889433d08020df32131f2a639211c798d877d599152.pdf",
-          "sha256": "9f3fcab85a0e171741975055cb77872395c18308efffa6383fde1a56b1ffdb7d"
+          "integrity": "sha256-a2c0f45cc43cbc4c80b3722ce78baa9f0c5932cae8fb9a1424e3560cd26ee691",
+          "file": "asset-a2c0f45cc43cbc4c80b3722ce78baa9f0c5932cae8fb9a1424e3560cd26ee691.pdf",
+          "sha256": "0b2c86b637d61b6d4a88dc15cb1e9698d2678da63848295047130bdb67474c6f"
         }
       ],
-      "bundle": "1a739f81e01d7c304af41a3587d51e1f4b569b90bd4e494d0aec2092db17a143.zip",
-      "bundleSha256": "1a739f81e01d7c304af41a3587d51e1f4b569b90bd4e494d0aec2092db17a143"
+      "bundle": "2748e70ba4e26ac41bd0f310fb944598f14349f429852696f4443a614752efca.zip",
+      "bundleSha256": "2748e70ba4e26ac41bd0f310fb944598f14349f429852696f4443a614752efca"
     },
     {
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l6-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-level6-statistical-tests",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/level6-statistical-tests",
-      "sourceKey": "b38442dc6a85b509d613c0f15d6cb974d4b9a5dda7b31b6f63c6ef7396270f49",
-      "pdf": "fbd7c123609cf1d60de0654ee03851812709f1aac6e169055ea89aac9818a9fb.pdf",
-      "pdfSha256": "fbd7c123609cf1d60de0654ee03851812709f1aac6e169055ea89aac9818a9fb",
-      "latex": "3e3e3b92979231654ab5df3f8d985fddc6498850363b66f76cb2f672615beb9a.tex",
-      "latexSha256": "3e3e3b92979231654ab5df3f8d985fddc6498850363b66f76cb2f672615beb9a",
+      "sourceKey": "8fff57ea06ba19973654df0f6120948343648202585c48ff7ec7bd843c4dab74",
+      "pdf": "574bbb24d42d4faf2ac2a8718651791fee31e466c0ac9a4c225fc82122970e85.pdf",
+      "pdfSha256": "574bbb24d42d4faf2ac2a8718651791fee31e466c0ac9a4c225fc82122970e85",
+      "latex": "22ab94faae0c0a9239d320b5a984da5a945286465fc25a4ee856eae4a8083e76.tex",
+      "latexSha256": "22ab94faae0c0a9239d320b5a984da5a945286465fc25a4ee856eae4a8083e76",
       "assets": [
         {
           "uri": "/chemometrics/level6-questions.svg",
-          "integrity": "sha256-46dbeff25c887347aef9e80356c19be9d7383f12849554ad6fe9f5c23a3384c7",
-          "file": "asset-46dbeff25c887347aef9e80356c19be9d7383f12849554ad6fe9f5c23a3384c7.pdf",
-          "sha256": "6737eaa3639bd2f491263e54b94c7ff7b0c0be0ab8cbcfefc22ec3954a119dce"
+          "integrity": "sha256-cd2017053013061809c7e3db5df92d736160b44efd0c7546c59a871d6d33326c",
+          "file": "asset-cd2017053013061809c7e3db5df92d736160b44efd0c7546c59a871d6d33326c.pdf",
+          "sha256": "fe5f1869febbfb85fb1e81f451aae6d3a70319af22e37a5b045454f78f1acc42"
         },
         {
           "uri": "/chemometrics/level6-hypothesis-flow.svg",
-          "integrity": "sha256-b6294fa05a0a2c323ee0cbec02bd29fc01bb4feaa956c23ae594536f88ce083b",
-          "file": "asset-b6294fa05a0a2c323ee0cbec02bd29fc01bb4feaa956c23ae594536f88ce083b.pdf",
-          "sha256": "d7e3db50a63dde895aeb0388373c4c8a2b907429a526a8e6d72801bbac942eec"
+          "integrity": "sha256-144f0ec10ab8d85085060a681fabf0e4b7cda13b19cab8b2d0b7d458d6cb81d1",
+          "file": "asset-144f0ec10ab8d85085060a681fabf0e4b7cda13b19cab8b2d0b7d458d6cb81d1.pdf",
+          "sha256": "a644c940f6ed4842a2e90329827ba88432e4aa12bcc161c5313192f350db8db7"
         },
         {
           "uri": "/chemometrics/level6-decision-trees.svg",
-          "integrity": "sha256-f0cb39ac1453592c0113f2c7e12fab49764d225bc0b0f3783060d13baa3669a1",
-          "file": "asset-f0cb39ac1453592c0113f2c7e12fab49764d225bc0b0f3783060d13baa3669a1.pdf",
-          "sha256": "ddfefa6f9be54aacc44ec9cf9c94ddd081e5d269fc67910566ee05089b65d080"
+          "integrity": "sha256-9ac35a329339c8291078ed73710922dbfeeda962f97343b2b69626fa2d82eced",
+          "file": "asset-9ac35a329339c8291078ed73710922dbfeeda962f97343b2b69626fa2d82eced.pdf",
+          "sha256": "b0a2e0fc0808394f434919590a5f62ac13b3cd0d25deeb7a07f0925bbc6480f2"
         },
         {
           "uri": "/chemometrics/level6-frozen-lake.svg",
-          "integrity": "sha256-a7eb9161eb17e1782cbcc96ba9580fcdadf4ae74fd76dd4e407e300f58ef1943",
-          "file": "asset-a7eb9161eb17e1782cbcc96ba9580fcdadf4ae74fd76dd4e407e300f58ef1943.pdf",
-          "sha256": "5a88fec443f61a3cfc927e5a561942a99b09df8e328b58823e2773ea099cc6d4"
+          "integrity": "sha256-0b4d28f85e3d24be1f0c9391ce9cbfd62c74334b9f69ad8b09e9328b7673faa2",
+          "file": "asset-0b4d28f85e3d24be1f0c9391ce9cbfd62c74334b9f69ad8b09e9328b7673faa2.pdf",
+          "sha256": "7f455d7dd5b0f735a0433f0c32c2388bc739f20a802d00a72b8349138f763622"
         },
         {
           "uri": "/chemometrics/level6-lake-comic.svg",
-          "integrity": "sha256-e2fe6449e91e05fc7d20a83f315a1ff7987d0a0da2e9a921e747b8ede92118e5",
-          "file": "asset-e2fe6449e91e05fc7d20a83f315a1ff7987d0a0da2e9a921e747b8ede92118e5.pdf",
-          "sha256": "c488d80b76a2bb63e9e0f03457a3db37d095418ef954f84f6c19a4dda423963e"
+          "integrity": "sha256-cb7cf8c9a0a857b14a583a8950499269cddd94d2f6397323c5dd72dc2a5f9377",
+          "file": "asset-cb7cf8c9a0a857b14a583a8950499269cddd94d2f6397323c5dd72dc2a5f9377.pdf",
+          "sha256": "6352afcf8b2e434ae37d46d6afae3a3406930a2de3370471477468ca0eeba3eb"
         },
         {
           "uri": "/chemometrics/level6-df.svg",
-          "integrity": "sha256-18b4f74888365cf4561aca91261518a043c8e76b26dbee8b8aad5759854cd0df",
-          "file": "asset-18b4f74888365cf4561aca91261518a043c8e76b26dbee8b8aad5759854cd0df.pdf",
-          "sha256": "07fce53ebf7c73e7f6b1f04039de84636c44565566852aa01dd7399ee2847143"
+          "integrity": "sha256-e507bcd750dd4993c0e1d4f40fc8a6c5122cf3ebfb7e7a09d5048d7662e13d70",
+          "file": "asset-e507bcd750dd4993c0e1d4f40fc8a6c5122cf3ebfb7e7a09d5048d7662e13d70.pdf",
+          "sha256": "d63bda6a46a90b947849c1e60407decaf9f1e7e0166832c5e43b1424fe97301d"
         },
         {
           "uri": "/chemometrics/level6-tail-logic.svg",
-          "integrity": "sha256-42c2e0057c2b945d91f91e53f3ad80049ee0a5b75d0b75e79501b5a5e731ba2b",
-          "file": "asset-42c2e0057c2b945d91f91e53f3ad80049ee0a5b75d0b75e79501b5a5e731ba2b.pdf",
-          "sha256": "5bc5b4e153f260bc3051ab344ba9e6701cfbc89f7e0327f34f8c55e979331b24"
+          "integrity": "sha256-9eca6bda914a5639ffc03987013288c848019b49bc53f5f7acf19e1a82a87932",
+          "file": "asset-9eca6bda914a5639ffc03987013288c848019b49bc53f5f7acf19e1a82a87932.pdf",
+          "sha256": "d2ca1c3f84e826a403186c00f4413dfcff323de5693b6e59c42accb47cde2837"
         },
         {
           "uri": "/chemometrics/level6-t-comparisons.svg",
-          "integrity": "sha256-67340acce9581ae7e53572aea06134928f203ecc7800c8406630623d7da8e9ea",
-          "file": "asset-67340acce9581ae7e53572aea06134928f203ecc7800c8406630623d7da8e9ea.pdf",
-          "sha256": "43822ac5fec3a4e7ee9b780ca679fda4560a719b4a93eb36aebbb5e75ecf00d9"
+          "integrity": "sha256-01e377c7975932da6df21decd90e021fcfa6b0e1750f727addc2d9acacfda1be",
+          "file": "asset-01e377c7975932da6df21decd90e021fcfa6b0e1750f727addc2d9acacfda1be.pdf",
+          "sha256": "0cce5742a7e39efb24106945ef5ba7d6320614cd578bbd2c80fa9f823c163060"
         },
         {
           "uri": "/chemometrics/level6-design.svg",
-          "integrity": "sha256-c1e3c5dedf8fc945a8f97510e594bd0a16d963060275133fdbc1a2f80bd87af4",
-          "file": "asset-c1e3c5dedf8fc945a8f97510e594bd0a16d963060275133fdbc1a2f80bd87af4.pdf",
-          "sha256": "5d638bb31bbc7c8d4213c92fb650430252ed16c4316be619ab2e9bea3d255343"
+          "integrity": "sha256-9c056a0663e3a3945889a5d9463b664f6e6d814bce3591c657b47bad14949316",
+          "file": "asset-9c056a0663e3a3945889a5d9463b664f6e6d814bce3591c657b47bad14949316.pdf",
+          "sha256": "41af064b52c58eef4a7b1873b1384185929d03e7725e76eeee1aa765d3b9996b"
         },
         {
           "uri": "/chemometrics/level6-river-independent.svg",
-          "integrity": "sha256-c759afbdaa9a6a1f8f522e3f66542f0ee3b239ef2c79faf88e21eb146b944427",
-          "file": "asset-c759afbdaa9a6a1f8f522e3f66542f0ee3b239ef2c79faf88e21eb146b944427.pdf",
-          "sha256": "589911d7d0825e184688b27a87c90de319ecf5e4e9cba316519b7f5dc5ee3a03"
+          "integrity": "sha256-8f1b31cfa25592f1598e3b26ec56d22e1a2a98c1aa4667e6f0229030d1542e86",
+          "file": "asset-8f1b31cfa25592f1598e3b26ec56d22e1a2a98c1aa4667e6f0229030d1542e86.pdf",
+          "sha256": "2e68a8323fada01a0acea09be5d34af6071b0d91d229ed58b7acdb75681586c5"
         },
         {
           "uri": "/chemometrics/level6-batch-oxidation.svg",
-          "integrity": "sha256-079a89a76dffb380e445b8c7d7cc68a23e7f257aaba67989da14fd4b12279c7f",
-          "file": "asset-079a89a76dffb380e445b8c7d7cc68a23e7f257aaba67989da14fd4b12279c7f.pdf",
-          "sha256": "ac633572759fbc225f80672a01a6c9e6248c95ec3f0b49fc53678802fdfc363c"
+          "integrity": "sha256-2dce5afa75a218fc40f70b1a678f008d7baad0233d714033ae97b1b654210c0f",
+          "file": "asset-2dce5afa75a218fc40f70b1a678f008d7baad0233d714033ae97b1b654210c0f.pdf",
+          "sha256": "b5bc709ddf74dd28bafa8afe8aa8f15a9932b7c721e736536b308a8a54479a32"
         },
         {
           "uri": "/chemometrics/level6-nir-hplc.svg",
-          "integrity": "sha256-99dbfd4005a9410e7f3688fa09bace2b836430caa7e46c9c61a9422c1ab4e782",
-          "file": "asset-99dbfd4005a9410e7f3688fa09bace2b836430caa7e46c9c61a9422c1ab4e782.pdf",
-          "sha256": "43ae4010876a950961ec4d7cb77f7a546a5f6e3c641d75b18fddc1f8005fb67a"
+          "integrity": "sha256-58e962ea7e43635a75d4588b1232c4c448884981824a2bffd01cecc47bf6b58e",
+          "file": "asset-58e962ea7e43635a75d4588b1232c4c448884981824a2bffd01cecc47bf6b58e.pdf",
+          "sha256": "b8c7a7f2d22773c198375a7334cb87e06e6bf17b8b573fffc5d8173a9657bb2f"
         },
         {
           "uri": "/chemometrics/level6-three-analytes.svg",
-          "integrity": "sha256-02206675af948a48680cd23e445818fae01f4f6c3258397326f644822edae753",
-          "file": "asset-02206675af948a48680cd23e445818fae01f4f6c3258397326f644822edae753.pdf",
-          "sha256": "429fae114ce184ba44912d6db80c27d673355ee173758a1da0a370fa02f77a4d"
+          "integrity": "sha256-85d7c3c41cdabac79b71fc1d2c1f08a2dcc388d871e9acc3706f2195acfa86dd",
+          "file": "asset-85d7c3c41cdabac79b71fc1d2c1f08a2dcc388d871e9acc3706f2195acfa86dd.pdf",
+          "sha256": "6be66916c67f32d84cdefd649c8d5f7ac177e6f1397a8b99bad49296183289cc"
         },
         {
           "uri": "/chemometrics/level6-f-section.svg",
-          "integrity": "sha256-62df47582f4c3b377d2032221f2f32cea68496ed38e7eb15e8a83ac389e5a7a6",
-          "file": "asset-62df47582f4c3b377d2032221f2f32cea68496ed38e7eb15e8a83ac389e5a7a6.pdf",
-          "sha256": "402a72407529c545c661a29277ab3214b54f667630fba50f6eb7f9959d234bf1"
+          "integrity": "sha256-55811421fd4887084032b96669836d3d3eca48e7eff827cc8a50fd6b75e950fa",
+          "file": "asset-55811421fd4887084032b96669836d3d3eca48e7eff827cc8a50fd6b75e950fa.pdf",
+          "sha256": "04344d5c9bd9457dd6cf1630b4e7bf8ac238794af83fcaa8b725b0d702b1a519"
         },
         {
           "uri": "/chemometrics/level6-precision-study.svg",
-          "integrity": "sha256-aec6db4e50869c75dd3bfc8c10c2c4a7538c66b83ea760ff7e1f033f43061190",
-          "file": "asset-aec6db4e50869c75dd3bfc8c10c2c4a7538c66b83ea760ff7e1f033f43061190.pdf",
-          "sha256": "45508e63c686a38607a7c88400caedeb725ccc96723f58cc2aee06489515da7f"
+          "integrity": "sha256-9097bdd00a77b41e20c7de6a18dc6effc0ba248bc04cc1b4b03a8ab0604e2a60",
+          "file": "asset-9097bdd00a77b41e20c7de6a18dc6effc0ba248bc04cc1b4b03a8ab0604e2a60.pdf",
+          "sha256": "e891b2fea151921f0438893648b8407e13f7e8642c3620d5ff6fa0a63bc3c8a3"
         },
         {
           "uri": "/chemometrics/level6-calibration-models.svg",
-          "integrity": "sha256-3b757aa9365e58342e7648866a86bc8f2b4eb507b152469930a4b85fb8ba887c",
-          "file": "asset-3b757aa9365e58342e7648866a86bc8f2b4eb507b152469930a4b85fb8ba887c.pdf",
-          "sha256": "5aa91e59c41eb5781ecfe77af9694ba5b10731c9d331c76fb4c60174d8a87ad5"
+          "integrity": "sha256-2d4e551db30b71aa41feae3b7b2a329cb424c03c335bddf1a130ec2a07a18737",
+          "file": "asset-2d4e551db30b71aa41feae3b7b2a329cb424c03c335bddf1a130ec2a07a18737.pdf",
+          "sha256": "d0d2358da63f5d2e61f515231a3755203b2a0e7748edb8dc1061f9a0713ed1ec"
         },
         {
           "uri": "/chemometrics/level6-calibration-gain.svg",
-          "integrity": "sha256-87dc866f51a72ed9ca57c8c00acf902f8fda29c0929b6d7895512974bc321e67",
-          "file": "asset-87dc866f51a72ed9ca57c8c00acf902f8fda29c0929b6d7895512974bc321e67.pdf",
-          "sha256": "4d1a6c925638bfcfe7f5d36b3112afd10698d1114c8f2b3ab684f82f06588684"
+          "integrity": "sha256-b47cef0ded8c3bf7ec676f46c775038f19076a95da082a1a53caa65653f3ec5d",
+          "file": "asset-b47cef0ded8c3bf7ec676f46c775038f19076a95da082a1a53caa65653f3ec5d.pdf",
+          "sha256": "39846953db03a18447340abc5633796e527d0662c8dbd5c75f963c28064acf3e"
         },
         {
           "uri": "/chemometrics/level6-chi-questions.svg",
-          "integrity": "sha256-1730fee3aecb256a0a284f7362de02f17cc21ead93c5b03a7aeca41ab4548d3c",
-          "file": "asset-1730fee3aecb256a0a284f7362de02f17cc21ead93c5b03a7aeca41ab4548d3c.pdf",
-          "sha256": "0085d8c70b43553ee59f5c00a25aade7133ad62a28c806372ead8e2b6f980b23"
+          "integrity": "sha256-e1d87f058a651e4c6e9c15fa7516ac361e7a443f3b968162957bcb5d45aff062",
+          "file": "asset-e1d87f058a651e4c6e9c15fa7516ac361e7a443f3b968162957bcb5d45aff062.pdf",
+          "sha256": "fb9992437a3c88be889d135200d42366ca9986a99d8a9755f3ed4f130d9d5532"
         },
         {
           "uri": "/chemometrics/level6-known-variance.svg",
-          "integrity": "sha256-1663a4515991f318e224e9af7914caa1b81c0e8f2bc1bfd736763e9cc43898d8",
-          "file": "asset-1663a4515991f318e224e9af7914caa1b81c0e8f2bc1bfd736763e9cc43898d8.pdf",
-          "sha256": "7fb3274c8e23476d49fedad136c2129d4b8005cec2a8511e0280b3255aef8579"
+          "integrity": "sha256-ed75b7df7cb9939ba2258ffcee3aa30b925e683eebdf6ed668d167cfd51498ef",
+          "file": "asset-ed75b7df7cb9939ba2258ffcee3aa30b925e683eebdf6ed668d167cfd51498ef.pdf",
+          "sha256": "67489be1b7ce9cf26d2eee69130151a57c3fabee5ab6d3b174549c08e319aad4"
         },
         {
           "uri": "/chemometrics/level6-particle-counts.svg",
-          "integrity": "sha256-a1f7c9b339509a93bbb7258be9163b11526925b9de318d9259c9e572c92b720c",
-          "file": "asset-a1f7c9b339509a93bbb7258be9163b11526925b9de318d9259c9e572c92b720c.pdf",
-          "sha256": "5cd0db23b04be722d35e5e8a754c242c7ba9cf6c7c40d7debd68690369d2e57b"
+          "integrity": "sha256-ce6a441e1d6212f5bc704f629a7c304b1a3f5b5e57aa5d08b36071d8b85a5400",
+          "file": "asset-ce6a441e1d6212f5bc704f629a7c304b1a3f5b5e57aa5d08b36071d8b85a5400.pdf",
+          "sha256": "b9b43b4e3ff391aab3a86220120168a8a208b43ae765ba34a2c474fb39128ad1"
         },
         {
           "uri": "/chemometrics/level6-vessel-counts.svg",
-          "integrity": "sha256-06b58931ee2ca28709d91df8c875e0c2aeb1a1572eb1a871d7f85e237138c3b6",
-          "file": "asset-06b58931ee2ca28709d91df8c875e0c2aeb1a1572eb1a871d7f85e237138c3b6.pdf",
-          "sha256": "f5c291da3596ac6eb26a752dc6a6bc19794b201c1d3760d05c2281d24856a2d9"
+          "integrity": "sha256-3132be17081420a931496ecf8996b862f38d56d5e148eab3d7d34cc65ce3fd22",
+          "file": "asset-3132be17081420a931496ecf8996b862f38d56d5e148eab3d7d34cc65ce3fd22.pdf",
+          "sha256": "05a453494ecc15e0b29463c356b843fc1a5476aa4f803a7da77e2c619255e173"
         },
         {
           "uri": "/chemometrics/level6-independence-setup.svg",
-          "integrity": "sha256-810297c1a76da92544008b233a8d5adcb21d22369c0b7b0fdbdf2df7bd2c5823",
-          "file": "asset-810297c1a76da92544008b233a8d5adcb21d22369c0b7b0fdbdf2df7bd2c5823.pdf",
-          "sha256": "2e4948c61d93870c42fe9916bfe947892d831bb241541acde2a2972e4e13a631"
+          "integrity": "sha256-0312139fbcefa829794ade7188de7c8150929058f0119cc1fd22ee8c72bef7a7",
+          "file": "asset-0312139fbcefa829794ade7188de7c8150929058f0119cc1fd22ee8c72bef7a7.pdf",
+          "sha256": "66e41721d9aa34ff064823843fb13a9807fa2fd359e5dc30c7ff732fd8d8fc64"
         },
         {
           "uri": "/chemometrics/level6-rank-order.svg",
-          "integrity": "sha256-579d139afcb2afed984cd848c7431d507f74877f715ce713b27fa2806a7adae0",
-          "file": "asset-579d139afcb2afed984cd848c7431d507f74877f715ce713b27fa2806a7adae0.pdf",
-          "sha256": "07675616edfdc2faa0a9390804a02bcf493115162d36484397d4d7d14b459f93"
+          "integrity": "sha256-2c9f39df86173899e72156b0625f01aa9617389d14426b69c50c42a47db842ff",
+          "file": "asset-2c9f39df86173899e72156b0625f01aa9617389d14426b69c50c42a47db842ff.pdf",
+          "sha256": "06ed6ef985dfa48b428b0ab5885354201fb375c9ce88baa3790c35c4e96ed833"
         },
         {
           "uri": "/chemometrics/level6-cliff-grid.svg",
-          "integrity": "sha256-0e5b89106d914629e40b3d636cc08e46060df7aaa350d32f67bcde589252d44d",
-          "file": "asset-0e5b89106d914629e40b3d636cc08e46060df7aaa350d32f67bcde589252d44d.pdf",
-          "sha256": "e22de2a48325e82aba8f0356c5a34ea6a5993d62b7c71a92215452e979e2b4db"
+          "integrity": "sha256-3148ae626760e13847da576a990e7120c80411b7f46bec592d44479d52dac709",
+          "file": "asset-3148ae626760e13847da576a990e7120c80411b7f46bec592d44479d52dac709.pdf",
+          "sha256": "ba457b9fa9ae52fb055d8a29363769329a6878ad74f7598b446cef6752d58eb0"
         },
         {
           "uri": "/chemometrics/level6-signed-ranks.svg",
-          "integrity": "sha256-ec48d8f36e8d24c6e5b5e8982be38e9560d5a56ed8e5360a9fcb28fd599f025d",
-          "file": "asset-ec48d8f36e8d24c6e5b5e8982be38e9560d5a56ed8e5360a9fcb28fd599f025d.pdf",
-          "sha256": "6bf4a1bf17cdebfde167b35e1ff00d3ee5fe5efcd329fb0eaede5b0e63c01bca"
+          "integrity": "sha256-71cb715e84c6cf7bd7e2b176c557bebda12b5340a37220b4deb7d4b1a8f0839a",
+          "file": "asset-71cb715e84c6cf7bd7e2b176c557bebda12b5340a37220b4deb7d4b1a8f0839a.pdf",
+          "sha256": "14746ac614e6582d7c4a0ec0013d7104774c99c5c31765d7de704a8c4d2e46f3"
         },
         {
           "uri": "/chemometrics/level6-outlier-investigation.svg",
-          "integrity": "sha256-6219407362546b9b4b0603029ed31b85bdce39f7f74e6147c7dae5cd7bcf7740",
-          "file": "asset-6219407362546b9b4b0603029ed31b85bdce39f7f74e6147c7dae5cd7bcf7740.pdf",
-          "sha256": "f5a69a0d488746b8016d757fb92b9e34224970a6992f694f56152a5a790443b9"
+          "integrity": "sha256-ed1ae487685ac7485b6b237c171fcbfc56edb57f8d7d619a25fb42c914745940",
+          "file": "asset-ed1ae487685ac7485b6b237c171fcbfc56edb57f8d7d619a25fb42c914745940.pdf",
+          "sha256": "4a05bccf8547ec08e198c8b49a5b418d3340febd8929dba2d0c18bf49c0cc5a1"
         }
       ],
-      "bundle": "be3f0c422e671622c5520c095d8ad8450857c0d4c4f0981850eaf2953027ea1c.zip",
-      "bundleSha256": "be3f0c422e671622c5520c095d8ad8450857c0d4c4f0981850eaf2953027ea1c"
+      "bundle": "6359eb4406c36d191c380cc0771183892c04afd6b045b50df29090805ac15b8c.zip",
+      "bundleSha256": "6359eb4406c36d191c380cc0771183892c04afd6b045b50df29090805ac15b8c"
     },
     {
       "scriptId": "https://w3id.org/project-chemie-digital/resource/l7-thematic-script",
       "pathId": "https://w3id.org/project-chemie-digital/resource/path-level7-anova-intro-review",
       "pathGraphId": "https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review",
-      "sourceKey": "22c744c46fd977cc71c77206899c6b3d07faab239a53b491e4bfc195a449c05a",
-      "pdf": "b3908ce8c76693428f4df577b0a3032090ca0acbb94e121a1f98273dbc2c2ced.pdf",
-      "pdfSha256": "b3908ce8c76693428f4df577b0a3032090ca0acbb94e121a1f98273dbc2c2ced",
-      "latex": "bcc9fc61b4c10bc0dab8975fd23cc16f0cc45a36a11ed03e7dd77509e741a0ca.tex",
-      "latexSha256": "bcc9fc61b4c10bc0dab8975fd23cc16f0cc45a36a11ed03e7dd77509e741a0ca",
+      "sourceKey": "530b4e376b8c3093a8d085475fbcc71792c73c80c30b6694a05bd0dc16850eee",
+      "pdf": "2bc540fb180da94af6defc1a07e260cc8ce968c8dd1a975a49eb990d58203a64.pdf",
+      "pdfSha256": "2bc540fb180da94af6defc1a07e260cc8ce968c8dd1a975a49eb990d58203a64",
+      "latex": "b704dacc25bb60e5644a2429d3b2d18965f887cb2f0f435bbd4dba2d0b9d8f5e.tex",
+      "latexSha256": "b704dacc25bb60e5644a2429d3b2d18965f887cb2f0f435bbd4dba2d0b9d8f5e",
       "assets": [
         {
           "uri": "/chemometrics/anova-two-to-three-groups.svg",
           "integrity": "sha256-528710b91a651eb504368663af3a8178b4853315da976179567bba1821f71c59",
           "file": "asset-528710b91a651eb504368663af3a8178b4853315da976179567bba1821f71c59.pdf",
-          "sha256": "851be3a9cd6c7fa118dc9187a259f3ff2e3433af6667224343018f15a470cc5f"
+          "sha256": "790c544b5ee6164c4cc2236c1fe56bed17019c360ef4f358dcfff29d47857622"
         },
         {
           "uri": "/chemometrics/level7-anova-read-table.svg",
-          "integrity": "sha256-f91208827223003a97c1c62700aa52a69e7ccae87bd272be7882b22f6e6408c2",
-          "file": "asset-f91208827223003a97c1c62700aa52a69e7ccae87bd272be7882b22f6e6408c2.pdf",
-          "sha256": "4af5dfcb7e58a62aee57d00ade920bad8fac1094a581addf13148b72884e4fc4"
+          "integrity": "sha256-5a2f81d817a52e9462e77105a5314ead41efe1f56b9752ae168febc463e38673",
+          "file": "asset-5a2f81d817a52e9462e77105a5314ead41efe1f56b9752ae168febc463e38673.pdf",
+          "sha256": "b7a2e8ac10c7c77d6c92880264dc3ed036fb18fa9571ebb7bf4d8a903a6408b7"
         },
         {
           "uri": "/chemometrics/level7-anova-operator-grouping.svg",
-          "integrity": "sha256-24a831f4df6b635ab69732eb7917a72c26a653a73a9c41834d97c79813b3379e",
-          "file": "asset-24a831f4df6b635ab69732eb7917a72c26a653a73a9c41834d97c79813b3379e.pdf",
-          "sha256": "f8403c39dfa658ec0a34bb1aac8b591505570e40b2f5d610bd2f57cc58095157"
+          "integrity": "sha256-ba2e59c548030e1e81742038ca0b9487b19caa62baea5b94da72ffdefc1adabf",
+          "file": "asset-ba2e59c548030e1e81742038ca0b9487b19caa62baea5b94da72ffdefc1adabf.pdf",
+          "sha256": "a46033bab16e3350ff81c5f3986e4488442ebf29f57f2f6ff96f6576cf35c7b5"
+        },
+        {
+          "uri": "/chemometrics/level7-anova-additive-averages.svg",
+          "integrity": "sha256-c5d886850b5d42ce460fb50a8b6e67ab1aebc1824d8f6107417bd5ebf0844d7d",
+          "file": "asset-c5d886850b5d42ce460fb50a8b6e67ab1aebc1824d8f6107417bd5ebf0844d7d.pdf",
+          "sha256": "145d35c9c96d297e68c66566c200d1b25c4b07954ae491aedc51b8a7de85dd77"
         },
         {
           "uri": "/chemometrics/level7-anova-four-tables.svg",
-          "integrity": "sha256-dd0dca8c1397f0232c4c51c46304ef198595b8fb5debe1231bbdc3146a59f73f",
-          "file": "asset-dd0dca8c1397f0232c4c51c46304ef198595b8fb5debe1231bbdc3146a59f73f.pdf",
-          "sha256": "675e095e510ff03ec04b9c20b4eb92dde029242646727c68a2e22938616b80ba"
+          "integrity": "sha256-909099160e3b5502936eeb00da8dd782c51792ce8897f46f4dd7120b53d8ff68",
+          "file": "asset-909099160e3b5502936eeb00da8dd782c51792ce8897f46f4dd7120b53d8ff68.pdf",
+          "sha256": "db95b194a6113d8401af3d6e3de4a63bf46cf82179b5296fabc5dc78bf407170"
         },
         {
           "uri": "/chemometrics/level7-anova-interaction-test.svg",
           "integrity": "sha256-d0ca8ca84cab5e4f495d45e78edc62e1e80646fac384c274dd04b1cbdd186d9a",
           "file": "asset-d0ca8ca84cab5e4f495d45e78edc62e1e80646fac384c274dd04b1cbdd186d9a.pdf",
-          "sha256": "05dabf6ec0b867695f664cc01ee15b0f2d70dd6c68f6b86085f7a50a33638537"
+          "sha256": "6fae2f2547321ced503bcef6847f0178187e0f6c0992521bf342b45955ec3249"
         },
         {
           "uri": "/chemometrics/level7-anova-post-hoc-spe.svg",
-          "integrity": "sha256-64077675a0aa666922d74d703b7401243daa600677fd1fcd3827241054f1bd94",
-          "file": "asset-64077675a0aa666922d74d703b7401243daa600677fd1fcd3827241054f1bd94.pdf",
-          "sha256": "dc2875050520b4d772d2932c23d73248ec02c568f31a721604c2636697298644"
+          "integrity": "sha256-28666b5c79c06303a332ba955d913b56648243d9cadbb075064ffd50acf439f4",
+          "file": "asset-28666b5c79c06303a332ba955d913b56648243d9cadbb075064ffd50acf439f4.pdf",
+          "sha256": "bd2c907feca4e5c1f268924a74ec62e4b82b51052cb8c684ae79b9dcda71f75a"
         }
       ],
-      "bundle": "f3d080425b14f9ec7f80ed4b9c4115550be0d147d8f3169715504fd71ea50cad.zip",
-      "bundleSha256": "f3d080425b14f9ec7f80ed4b9c4115550be0d147d8f3169715504fd71ea50cad"
+      "bundle": "e774f9accf7493a14147848933980c465b853b40418eed07f697418109a1d5b2.zip",
+      "bundleSha256": "e774f9accf7493a14147848933980c465b853b40418eed07f697418109a1d5b2"
     }
   ]
 }

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 385" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 450" font-family="system-ui, sans-serif">
   <title>Diagnose the residuals</title>
   <desc>A residual is observed recovery minus the fitted method mean. The table lists all 18 river-water preparations with observed recovery, fitted recovery, and residual. The normal Q-Q plot of these residuals compares the ordered decimal residuals with a normal reference line. In the schematic heavy-tail example, both ends depart strongly: the left tail falls far below the line and the right tail rises far above it. The descriptive KS distances to separate fitted normal distributions are 0.110 for the river-water residuals and 0.248 for the heavy-tail example. The Monte Carlo p-values are approximately 0.812 and 0.040, respectively, with model fitting repeated on each simulated sample.</desc>
   <g data-svg-stage="0" transform="translate(0 140) scale(.25)">
@@ -16,12 +16,12 @@
       <text x="485" y="224" font-size="23" fill="#a14518" font-weight="700">+1.92</text>
     </g>
     <g fill="#163349">
-      <text x="552" y="66" font-size="25" font-weight="700">What is a residual?</text>
-      <text x="552" y="112" font-size="21">Observed recovery minus</text>
-      <text x="552" y="147" font-size="21">the fitted method mean.</text>
-      <text x="552" y="182" font-size="21">95.92% minus 94.00% gives</text>
-      <text x="552" y="217" font-size="21">+1.92 percentage points.</text>
-      <text x="552" y="252" font-size="21">Positive means above the fit.</text>
+      <text x="590" y="66" font-size="25" font-weight="700">What is a residual?</text>
+      <text x="590" y="112" font-size="21">Observed recovery minus</text>
+      <text x="590" y="147" font-size="21">the fitted method mean.</text>
+      <text x="590" y="182" font-size="21">95.92% minus 94.00% gives</text>
+      <text x="590" y="217" font-size="21">+1.92 percentage points.</text>
+      <text x="590" y="252" font-size="21">Positive means above the fit.</text>
     </g>
   </g>
   <g data-svg-stage="1" transform="translate(232.5 140) scale(.25)" fill="#163349">
@@ -131,11 +131,14 @@
       <text x="726" y="338" text-anchor="middle" font-size="17">Theoretical normal quantile</text>
       <text x="552" y="367" font-size="19">Left tail below the line, right tail above.</text>
     </g>
+      <text x="45" y="405" font-size="20" fill="#163349">Match sorted residuals to expected normal quantiles.</text>
+    <text x="45" y="435" font-size="20" fill="#163349">Approximately normal errors follow a near-straight line.</text>
   </g>
   <!-- Monte Carlo calibration: Python Random(721), 99999 draws per model; exceedances 81206 and 4018. Schematic sample: [-10, -4, -1, -0.8, -0.6, -0.3, 0.3, 0.6, 0.8, 1, 4, 10]. -->
   <g data-svg-stage="3" transform="translate(697.5 140) scale(.25)" fill="#163349">
     <text x="40" y="65" font-size="28" font-weight="700">Kolmogorov–Smirnov distance</text>
-    <text x="40" y="105" font-size="21">Largest vertical gap between the empirical and fitted normal CDFs.</text>
+    <text x="40" y="105" font-size="21">CDF: the proportion of observations at or below a value.</text>
+    <text x="40" y="134" font-size="21">D is the largest gap from the fitted normal model.</text>
     <rect x="40" y="143" width="405" height="171" rx="12" fill="#10698a" fill-opacity=".12"/>
     <rect x="480" y="143" width="405" height="171" rx="12" fill="#a14518" fill-opacity=".12"/>
     <g font-size="23" font-weight="700">
@@ -147,8 +150,8 @@
       <text x="504" y="238" fill="#a14518">D = 0.248</text>
     </g>
     <g font-size="26" font-weight="650">
-      <text x="64" y="283" fill="#10698a">p ≈ 0.812</text>
-      <text x="504" y="283" fill="#a14518">p ≈ 0.040</text>
+      <text x="64" y="283" fill="#10698a">Fit-adjusted p ≈ 0.812</text>
+      <text x="504" y="283" fill="#a14518">Fit-adjusted p ≈ 0.040</text>
     </g>
   </g>
 </svg>

@@ -9,7 +9,8 @@
     <text x="864" y="216" font-size="52" font-weight="750" fill="#ffffff">30</text>
     <text x="404" y="259" font-size="26" font-weight="650" fill="#ffffff">Between groups</text>
     <text x="864" y="259" font-size="26" font-weight="650" fill="#ffffff">Within groups</text>
-    <text x="404" y="337" font-size="24" fill="var(--pcd-foreground)">Group means vs. grand mean</text>
+    <text x="404" y="337" font-size="24" fill="var(--pcd-foreground)">Six preparations per method</text>
+    <text x="404" y="375" font-size="23" fill="var(--pcd-foreground)">6 × ((−1)² + 3² + (−2)²) = 84</text>
     <text x="864" y="337" font-size="24" fill="var(--pcd-foreground)">
       <tspan x="864">Observations vs.</tspan><tspan x="864" y="375">their group means</tspan>
     </text>

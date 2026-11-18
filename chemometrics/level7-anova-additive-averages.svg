@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" font-family="system-ui, sans-serif">
+  <title>Combine method and matrix averages</title>
+  <desc>Each combination has six independent recoveries. Method B averages 98 and 86 to 92 percent across matrices. River water averages 94, 98 and 93 to 95 percent across methods. The grand mean is 92.83 percent. An additive prediction for method B in river water is 92 plus 95 minus 92.83, or 94.17 percent.</desc>
+  <text x="40" y="40" font-size="23" fill="#163349">Each entry is the mean of six independent recoveries (%)</text>
+  <g font-size="22" fill="#163349">
+    <text x="40" y="98" font-weight="700">Method</text>
+    <text x="230" y="98" text-anchor="middle" font-weight="700">River</text>
+    <text x="365" y="98" text-anchor="middle" font-weight="700">Wastewater</text>
+    <path d="M40 111H575 M40 282H575" fill="none" stroke="#788d9a"/>
+    <text x="55" y="154">A</text><text x="230" y="154" text-anchor="middle">94.00</text><text x="365" y="154" text-anchor="middle">92.00</text>
+    <text x="55" y="206">B</text><text x="230" y="206" text-anchor="middle">98.00</text><text x="365" y="206" text-anchor="middle">86.00</text>
+    <text x="55" y="258">C</text><text x="230" y="258" text-anchor="middle">93.00</text><text x="365" y="258" text-anchor="middle">94.00</text>
+  </g>
+  <g data-svg-stage="1">
+    <rect x="40" y="174" width="535" height="47" fill="#5c3a98" fill-opacity=".10"/>
+    <g fill="#5c3a98" font-size="22" text-anchor="middle">
+      <text x="520" y="98" font-size="18" font-weight="700">Method mean</text>
+      <text x="520" y="154">93.00</text><text x="520" y="206" font-weight="700">92.00</text><text x="520" y="258">93.50</text>
+    </g>
+    <g fill="#10698a" font-size="22">
+      <text x="40" y="313" font-size="18">Across methods</text>
+      <text x="230" y="313" text-anchor="middle" font-weight="700">95.00</text>
+      <text x="365" y="313" text-anchor="middle">90.67</text>
+    </g>
+    <g fill="#163349" font-size="23">
+      <text x="620" y="113" fill="#5c3a98" font-weight="700">Method B across matrices</text>
+      <text x="620" y="150">(98 + 86) ÷ 2 = 92.00%</text>
+      <text x="620" y="203" fill="#10698a" font-weight="700">River water across methods</text>
+      <text x="620" y="240">(94 + 98 + 93) ÷ 3 = 95.00%</text>
+      <text x="620" y="298">Grand mean = 92.83%</text>
+    </g>
+  </g>
+  <g data-svg-stage="2" fill="#163349">
+    <path d="M40 345H960" fill="none" stroke="#788d9a"/>
+    <text x="40" y="381" font-size="23" font-weight="700" fill="#a14518">Additive prediction for B in river water</text>
+    <text x="40" y="417" font-size="22">Method average + matrix average − grand mean</text>
+    <text x="620" y="417" font-size="24" font-weight="700">92.00 + 95.00 − 92.83 = 94.17%</text>
+    <text x="40" y="452" font-size="19">This combines the two average effects. We will later test departures from this prediction.</text>
+  </g>
+</svg>

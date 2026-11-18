@@ -17,7 +17,8 @@
       <text x="51" y="284">Within methods</text>
       <text x="51" y="343">Total</text>
       <g text-anchor="middle" font-weight="600">
-        <text x="330" y="225">84</text><text x="452" y="225">2</text><text x="575" y="225">42</text><text x="705" y="225">21</text><text x="870" y="225">0.00004484</text>
+        <text x="330" y="225">84</text><text x="452" y="225">2</text><text x="575" y="225">42</text>
+        <g data-svg-stage="3"><text x="705" y="225">21</text><text x="870" y="225">0.00004484</text></g>
         <text x="330" y="284">30</text><text x="452" y="284">15</text><text x="575" y="284">2</text><text x="705" y="284">–</text><text x="870" y="284">–</text>
         <text x="330" y="343">114</text><text x="452" y="343">17</text><text x="575" y="343">–</text><text x="705" y="343">–</text><text x="870" y="343">–</text>
       </g>
