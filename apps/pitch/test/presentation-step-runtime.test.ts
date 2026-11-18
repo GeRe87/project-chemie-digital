@@ -119,7 +119,13 @@ test("semantic disclosure responds only to matching staged resource triggers", (
   const slide = {
     querySelectorAll() { return [table, conclusion, unrelated]; },
   };
+  const documentClasses = new Set<string>();
   const host = {
+    ownerDocument: {
+      documentElement: {
+        classList: { contains(name: string) { return documentClasses.has(name); } },
+      },
+    },
     getAttribute(name: string) {
       return name === "data-presentation-step-resource-id"
         ? "resource:chart resource:annotation"
@@ -147,6 +153,13 @@ test("semantic disclosure responds only to matching staged resource triggers", (
   applySemanticDisclosure(host, 0);
   assert.equal(table.attributes.get("data-presentation-disclosure-visible"), "false");
   assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "false");
+
+  applySemanticDisclosure(host, 3);
+  documentClasses.add("print-pdf");
+  applySemanticDisclosure(host, 0);
+  assert.equal(table.attributes.get("data-presentation-disclosure-visible"), "true");
+  assert.equal(conclusion.attributes.get("data-presentation-disclosure-visible"), "true");
+  assert.equal(unrelated.attributes.get("data-presentation-disclosure-visible"), "false");
 });
 
 test("marks staged slides structurally without scene identity", () => {
