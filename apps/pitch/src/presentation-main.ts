@@ -15,6 +15,7 @@ import "./diagram-tokens.css";
 import "./flow-theme.css";
 import "./learning-stage-primitives.css";
 import "./statistical-surfaces.css";
+import "./authoring-lecture.css";
 import "./visual-stage-primitives.css";
 import "./component-composition.css";
 import "./card-primitives.css";

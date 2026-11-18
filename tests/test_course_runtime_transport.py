@@ -51,6 +51,29 @@ class CourseRuntimeTransportTests(unittest.TestCase):
         self.assertEqual(scoped["supportedPredicates"], snapshot["supportedPredicates"])
         self.assertEqual(len(snapshot["entities"]), 7)
 
+    def test_selected_path_membership_retains_scene_role_resolution(self):
+        artifact = self.artifact()
+        snapshot = artifact["datasetSnapshot"]
+        snapshot["entities"].extend([
+            {"id": "path:first", "label": "Path"},
+            {"id": "ex:step", "label": "Step"},
+            {"id": "scene:first", "label": "Scene"},
+        ])
+        def relation(source, predicate, target):
+            return {"sourceEntityId": source, "predicateId": predicate,
+                    "targetEntityId": target, "predicateLabel": predicate,
+                    "source": [{"resourceId": source, "provenanceIds": ["graph:path"]}]}
+        membership = relation("path:first", "cd:hasStep", "ex:step")
+        role = relation("ex:step", "cd:guidingQuestion", "ex:a")
+        snapshot["statements"].extend([
+            membership, relation("ex:step", "cd:usesScene", "scene:first"), role,
+        ])
+        scoped = TRANSPORT.level_snapshot(snapshot, artifact["sceneDocuments"][0])
+        self.assertIn(membership, scoped["statements"])
+        self.assertIn(role, scoped["statements"])
+        self.assertNotIn(snapshot["statements"][5], scoped["statements"])
+        self.assertEqual(snapshot["identity"], scoped["identity"])
+
     def test_content_addressed_payloads_and_explicit_shared_snapshot(self):
         artifact = self.artifact()
         manifest, files = TRANSPORT.build_course_transport(artifact)

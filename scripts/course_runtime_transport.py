@@ -65,6 +65,9 @@ def level_snapshot(snapshot: dict[str, Any], document: dict[str, Any]) -> dict[s
     showsResource steps and semantic multi-view bindings behave identically.
     """
     seeds = source_ids(document)
+    # Path membership is needed to associate scene roles with the selected step.
+    # Treat the selected path as a source, preserving its exact one-hop boundary.
+    seeds.add(absolute_iri(document["sourcePathId"]))
     statements = [statement for statement in snapshot["statements"] if
                   absolute_iri(statement["sourceEntityId"]) in seeds or
                   absolute_iri(statement["targetEntityId"]) in seeds]
