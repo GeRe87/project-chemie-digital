@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" font-family="system-ui, sans-serif">
 <title>When one factor changes the effect of another</title>
-<desc>Plant growth is compared under adequate and limited water with and without added nutrients. The gaps widen, remain similar, or narrow. Synergy and antagonism refer to this specified response comparison. The interaction test assesses changing gaps relative to sampling variation.</desc>
+<desc>Plant growth in centimetres is compared with and without added nutrients. Blue denotes adequate water and purple limited water. Widening or narrowing gaps illustrate synergy or antagonism for this specified nutrient response under different water supplies. Illustrative confidence intervals show uncertainty. The interaction test assesses whether the gaps change beyond sampling variation.</desc>
 <text x="76" y="79" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">Plant growth</text>
 <text x="178" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">Widening gap</text>
 <path d="M38 91V270H316" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
