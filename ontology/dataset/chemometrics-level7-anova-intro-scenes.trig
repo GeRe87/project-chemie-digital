@@ -677,7 +677,7 @@ With equal group sizes, the grand mean is also the unweighted mean of the group 
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/ChartDefinition> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <http://www.w3.org/2004/02/skos/core#prefLabel> "What makes F large?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/body> "Adjust the two mean squares directly. The plot shows F on its null distribution, and the shaded right tail is the p-value."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/body> "Keep within-method MS fixed and increase between-method MS. Watch F move right and the shaded tail (the p-value) shrink."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/chartType> <https://w3id.org/project-chemie-digital/ontology/ScientificExperiment> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/differenceUnit> "percentage points" .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-f-ratio-chart> <https://w3id.org/project-chemie-digital/ontology/experimentKind> "anova-one-way" .

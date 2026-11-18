@@ -61,25 +61,50 @@
 }
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-intro-takeaway-08 cd:interpretsResource ex:l7-intro-diagram-08 .
+  ex:l7-intro-takeaway-04 cd:interpretsResource ex:l7-intro-hypothesis-perspectives .
   ex:l7-intro-hypothesis-perspectives a cd:DefinitionList ;
     cd:hasDefinitionListEntry ex:l7-hypothesis-means, ex:l7-hypothesis-variation ;
     cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
   ex:l7-hypothesis-means a cd:DefinitionListEntry ; cd:position 1 ;
-    skos:prefLabel "What we test"@en ;
-    cd:body "Under the null hypothesis, methods A, B and C have the same mean recovery in the population."@en ;
+    skos:prefLabel "One shared mean"@en ;
+    cd:body "Imagine A, B and C share a population mean. Their sample means can still differ from one set of preparations to the next."@en ;
     cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
   ex:l7-hypothesis-variation a cd:DefinitionListEntry ; cd:position 2 ;
-    skos:prefLabel "What we expect in the data"@en ;
+    skos:prefLabel "What the scatter tells us"@en ;
     cd:body "If the means are equal, the between-group and within-group mean squares estimate the same error variance on average."@en ;
     cd:hasSource ex:l7-source-nist-anova ; cd:authoredResource true .
   ex:l7-source-nist-anova cd:supportsResource ex:l7-intro-hypothesis-perspectives, ex:l7-hypothesis-means, ex:l7-hypothesis-variation .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:l7-intro-step-05 cd:usesResource ex:l7-setup-takeaway .
+  ex:l7-intro-step-06 cd:guidingQuestion ex:l7-intro-heading-06 ; cd:guidingQuestionAnswerStep ex:l7-intro-step-18 .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-intro> {
+  ex:l7-intro-item-08-4 cd:revealOn ex:l7-intro-heading-08 ; cd:revealAtStage 1 .
+  ex:l7-intro-item-04-2 cd:revealOn ex:l7-intro-heading-04 ; cd:revealAtStage 1 .
+  ex:l7-intro-item-04-4 cd:revealOn ex:l7-intro-heading-04 ; cd:revealAtStage 2 .
+  ex:l7-scene05 cd:hasSceneItem ex:l7-setup-takeaway-item .
+  ex:l7-setup-takeaway-item a cd:SceneItem ; cd:position 4 ; cd:language "en" ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:selectsResource ex:l7-setup-takeaway ; cd:revealOn ex:l7-intro-recovery-schema ; cd:revealAtStage 5 ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-setup-takeaway-item .
+}
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
+  ex:l7-setup-takeaway a cd:Interpretation ;
+    cd:body "Prepare samples independently for each method so the within-method spread includes variation from preparation."@en ;
+    cd:interpretsResource ex:l7-intro-recovery-schema ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-setup-takeaway .
 }
 
 <https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-intro> {
   ex:l7-intro-ss-partition-visual a cd:MediaAsset ;
     cd:uri "/chemometrics/level7-anova-ss-partition.svg"^^xsd:anyURI ;
     cd:mediaType "image/svg+xml" ;
-    cd:alternativeText "A bar of total squared deviations, 114 percentage points squared, is split proportionally into 84 between groups and 30 within groups."@en ;
+    cd:alternativeText "Total squared deviations split into 84 between methods and 30 within methods. Each method has six preparations, so its squared mean departure is counted six times. The mean departures are −1, 3 and −2 percentage points. The within-method sum squares the deviations from each method mean."@en ;
     cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-source-package cd:supportsResource ex:l7-intro-ss-partition-visual .
 }

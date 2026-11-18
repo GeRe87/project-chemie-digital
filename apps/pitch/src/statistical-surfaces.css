@@ -42,6 +42,18 @@ html:not(.print-pdf) body .reveal .slides section[data-composition]:has(> .scene
 .pcd-slide-footer > .scene-references {
   position: static;
 }
+.reveal .slides section[data-composition] .pcd-slide-footer > .pcd-footer-observation {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 .75rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  font: 500 20px/1.35 system-ui, sans-serif;
+  text-align: start;
+}
 .scene-references {
   position: absolute;
   inset-inline: 24px;
@@ -86,11 +98,130 @@ html:not(.print-pdf) body .reveal .slides section[data-composition]:has(> .scene
 }
 /* A small label identifies the takeaway without competing with the sentence. */
 .reveal .lecture-takeaway-label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: .45em;
   margin-block-end: .18rem;
   color: var(--pcd-accent);
   font: 650 13px/1.2 system-ui, sans-serif;
   letter-spacing: .045em;
+}
+.reveal .pcd-teaching-role-icon,
+.reveal .pcd-teaching-category {
+  display: inline-grid;
+  place-items: center;
+  width: 1.45em;
+  height: 1.45em;
+  flex: none;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, currentColor 65%, transparent);
+  border-radius: 50%;
+  line-height: 1;
+}
+.reveal .pcd-teaching-category {
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline-end: -1px;
+  z-index: 2;
+  width: 68px;
+  height: 68px;
+  margin: 0;
+  color: var(--pcd-teaching-color);
+  background: transparent;
+  border: 0;
+  border-radius: 0 18px 0 0;
+  font-size: 20px;
+}
+.reveal .pcd-teaching-category::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--pcd-teaching-color) 24%, transparent);
+  mask-image:
+    linear-gradient(to left, #000 0%, #000 48%, transparent 100%),
+    linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+.reveal .slides section[data-composition]:has(> .pcd-teaching-category) {
+  border-start-end-radius: 18px;
+}
+.reveal .slides section:has(> .pcd-teaching-category) > [data-composition-region="heading"] {
+  box-sizing: border-box;
+  padding-inline-end: 72px;
+}
+.reveal .pcd-teaching-category svg {
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-end: 6px;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Category and content colors share theme-aware tones and preserve text contrast. */
+.reveal :is([data-teaching-category], [data-teaching-content-role]) {
+  --pcd-teaching-color: var(--pcd-teaching-light, #21677c);
+}
+body[data-presentation-theme="dark"] .reveal :is([data-teaching-category], [data-teaching-content-role]) {
+  --pcd-teaching-color: var(--pcd-teaching-dark, #8dd2e6);
+}
+.reveal [data-teaching-category="cd:TitleSlide"] {
+  --pcd-teaching-light: #286aa3;
+  --pcd-teaching-dark: #9dc9f4;
+}
+.reveal [data-teaching-content-role="cd:teachingObservation"] {
+  --pcd-teaching-light: #4846a0;
+  --pcd-teaching-dark: #b6b3ff;
+}
+.reveal :is([data-teaching-category="cd:ChapterSlide"], [data-teaching-content-role="cd:teachingPartialAnswer"]) {
+  --pcd-teaching-light: #7551a2;
+  --pcd-teaching-dark: #ccb1f0;
+}
+.reveal :is([data-teaching-category="cd:UseCaseSlide"], [data-teaching-content-role="cd:teachingHint"]) {
+  --pcd-teaching-light: #94600e;
+  --pcd-teaching-dark: #e8c27c;
+}
+.reveal :is([data-teaching-category="cd:ExplorationSlide"], [data-teaching-content-role="cd:guidingQuestion"]) {
+  --pcd-teaching-light: #157184;
+  --pcd-teaching-dark: #83d1de;
+}
+.reveal [data-teaching-category="cd:DerivationSlide"] {
+  --pcd-teaching-light: #4c6589;
+  --pcd-teaching-dark: #adc4e7;
+}
+.reveal [data-teaching-category="cd:WorkedCalculationSlide"] {
+  --pcd-teaching-light: #a04e37;
+  --pcd-teaching-dark: #efb09c;
+}
+.reveal :is([data-teaching-category="cd:InterpretationSlide"], [data-teaching-content-role="cd:answerResource"]) {
+  --pcd-teaching-light: #2e7656;
+  --pcd-teaching-dark: #9ad5b7;
+}
+.reveal [data-teaching-content-role="cd:teachingTakeaway"] {
+  --pcd-teaching-light: #8b526f;
+  --pcd-teaching-dark: #e2b1cd;
+}
+.reveal .slides section[data-composition] [data-teaching-content-role],
+.reveal .slides section[data-composition] .pcd-slide-footer > .pcd-footer-observation[data-teaching-content-role] {
+  padding: .45rem .75rem;
+  border: 0;
+  border-inline-start: 3px solid var(--pcd-teaching-color);
+  border-radius: 0 5px 5px 0;
+  background: color-mix(in srgb, var(--pcd-teaching-color) 9%, var(--pcd-panel-background));
+  color: var(--pcd-foreground);
+}
+.reveal [data-teaching-content-role] .lecture-takeaway-label {
+  color: var(--pcd-teaching-color);
+}
+.reveal [data-teaching-content-role] .pcd-teaching-role-icon {
+  background: color-mix(in srgb, var(--pcd-teaching-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--pcd-teaching-color) 48%, transparent);
 }
 .reveal .slides section[data-composition] .lead[data-lecture-takeaway] p {
   margin: 0;

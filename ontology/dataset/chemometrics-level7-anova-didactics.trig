@@ -1,0 +1,147 @@
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-continuation> {
+  ex:l7-next-21-takeaway cd:interpretsResource ex:l7-next-21-visual .
+  ex:l7-teaching-22-question-conclusion cd:interpretsResource ex:level7-anova-explained-question .
+  ex:l7-next-22-takeaway cd:interpretsResource ex:l7-next-22-visual .
+  ex:l7-next-23-takeaway cd:interpretsResource ex:level7-anova-visual-23 .
+  ex:l7-operator-assignment-takeaway cd:interpretsResource ex:level7-anova-operator-design .
+  ex:l7-operator-compare-takeaway cd:interpretsResource ex:level7-anova-operator-grouping .
+  ex:l7-next-30-takeaway cd:interpretsResource ex:level7-anova-factorial-grid .
+  ex:l7-next-32-takeaway cd:interpretsResource ex:level7-anova-two-way-observations .
+  ex:l7-next-34-takeaway cd:interpretsResource ex:level7-anova-two-way-ss .
+  ex:l7-additive-table-takeaway cd:interpretsResource ex:level7-anova-additive-table .
+  ex:l7-treatment-one-way-takeaway cd:interpretsResource ex:level7-anova-treatment-one-way .
+  ex:l7-treatment-design-takeaway cd:interpretsResource ex:level7-anova-treatment-design .
+  ex:l7-treatment-two-way-takeaway cd:interpretsResource ex:level7-anova-treatment-two-way .
+  ex:l7-compare-patterns-takeaway cd:interpretsResource ex:level7-anova-compare-patterns .
+  ex:l7-interaction-meaning-takeaway cd:interpretsResource ex:level7-anova-interaction-meaning .
+  ex:l7-interaction-model-takeaway cd:interpretsResource ex:level7-anova-interaction-model .
+  ex:l7-interaction-worked-takeaway cd:interpretsResource ex:level7-anova-interaction-worked .
+  ex:l7-interaction-test-takeaway cd:interpretsResource ex:level7-anova-interaction-test .
+  ex:l7-post-hoc-rule-takeaway cd:interpretsResource ex:level7-anova-post-hoc-rule .
+  ex:l7-post-hoc-cutoff-takeaway cd:interpretsResource ex:level7-anova-post-hoc-cutoff .
+  ex:l7-post-hoc-spe-takeaway cd:interpretsResource ex:level7-anova-post-hoc-spe .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:l7-intro-step-22-question cd:guidingQuestion ex:l7-teaching-22-question-heading .
+  ex:l7-intro-step-22 cd:answersGuidingQuestion ex:l7-teaching-22-question-heading ; cd:answerResource ex:l7-next-22-takeaway .
+  ex:l7-operator-assignment-step cd:guidingQuestion ex:l7-operator-assignment-heading .
+  ex:l7-operator-compare-step cd:answersGuidingQuestion ex:l7-operator-assignment-heading ; cd:answerResource ex:l7-operator-compare-takeaway .
+  ex:l7-scene-chapter-two-way-step cd:guidingQuestion ex:l7-scene-chapter-two-way-question ; cd:guidingQuestionAnswerStep ex:l7-additive-table-step .
+  ex:l7-additive-table-step cd:answersGuidingQuestion ex:l7-scene-chapter-two-way-question ; cd:answerResource ex:l7-additive-table-takeaway .
+  ex:l7-treatment-observations-step cd:guidingQuestion ex:l7-treatment-observations-heading .
+  ex:l7-treatment-one-way-step cd:answersGuidingQuestion ex:l7-treatment-observations-heading ; cd:answerResource ex:l7-treatment-one-way-takeaway .
+  ex:l7-four-tables-step cd:guidingQuestion ex:l7-four-tables-heading .
+  ex:l7-compare-patterns-step cd:answersGuidingQuestion ex:l7-four-tables-heading ; cd:answerResource ex:l7-compare-patterns-takeaway .
+  ex:l7-interaction-meaning-step cd:guidingQuestion ex:l7-interaction-meaning-heading ; cd:guidingQuestionAnswerStep ex:l7-interaction-test-step .
+  ex:l7-interaction-test-step cd:answersGuidingQuestion ex:l7-interaction-meaning-heading ; cd:answerResource ex:l7-interaction-test-takeaway .
+  ex:l7-scene-chapter-post-hoc-step cd:guidingQuestion ex:l7-scene-chapter-post-hoc-question ; cd:guidingQuestionAnswerStep ex:l7-post-hoc-spe-step .
+  ex:l7-post-hoc-spe-step cd:answersGuidingQuestion ex:l7-scene-chapter-post-hoc-question ; cd:answerResource ex:l7-post-hoc-spe-takeaway .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-next-21-item-3 cd:revealOn ex:l7-next-21-visual ; cd:revealAtStage 4 .
+  ex:l7-teaching-22-question-3 cd:revealOn ex:level7-anova-explained-question ; cd:revealAtStage 2 .
+  ex:l7-next-22-item-4 cd:revealOn ex:l7-next-22-visual ; cd:revealAtStage 2 .
+  ex:l7-next-23-item-3 cd:revealOn ex:level7-anova-visual-23 ; cd:revealAtStage 3 .
+  ex:l7-operator-assignment-item-3 cd:revealOn ex:level7-anova-operator-design ; cd:revealAtStage 1 .
+  ex:l7-operator-compare-item-3 cd:revealOn ex:level7-anova-operator-grouping ; cd:revealAtStage 1 .
+  ex:l7-next-30-item-3 cd:revealOn ex:level7-anova-factorial-grid ; cd:revealAtStage 3 .
+  ex:l7-next-32-item-3 cd:revealOn ex:level7-anova-two-way-observations ; cd:revealAtStage 2 .
+  ex:l7-next-34-item-3 cd:revealOn ex:level7-anova-two-way-ss ; cd:revealAtStage 4 .
+  ex:l7-additive-table-item-3 cd:revealOn ex:level7-anova-additive-table ; cd:revealAtStage 4 .
+  ex:l7-treatment-one-way-item-3 cd:revealOn ex:level7-anova-treatment-one-way ; cd:revealAtStage 4 .
+  ex:l7-treatment-design-item-3 cd:revealOn ex:level7-anova-treatment-design ; cd:revealAtStage 1 .
+  ex:l7-treatment-two-way-item-3 cd:revealOn ex:level7-anova-treatment-two-way ; cd:revealAtStage 4 .
+  ex:l7-compare-patterns-item-3 cd:revealOn ex:level7-anova-compare-patterns ; cd:revealAtStage 2 .
+  ex:l7-interaction-meaning-item-3 cd:revealOn ex:level7-anova-interaction-meaning ; cd:revealAtStage 1 .
+  ex:l7-interaction-model-item-4 cd:revealOn ex:level7-anova-interaction-model ; cd:revealAtStage 3 .
+  ex:l7-interaction-worked-item-3 cd:revealOn ex:level7-anova-interaction-worked ; cd:revealAtStage 4 .
+  ex:l7-interaction-test-item-3 cd:revealOn ex:level7-anova-interaction-test ; cd:revealAtStage 5 .
+  ex:l7-post-hoc-rule-item-3 cd:revealOn ex:level7-anova-post-hoc-rule ; cd:revealAtStage 2 .
+  ex:l7-post-hoc-cutoff-item-3 cd:revealOn ex:level7-anova-post-hoc-cutoff ; cd:revealAtStage 2 .
+  ex:l7-post-hoc-spe-item-3 cd:revealOn ex:level7-anova-post-hoc-spe ; cd:revealAtStage 1 .
+}
+
+# Scene types and pilot content roles.
+
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  # Point clouds: the lab observation answers the preceding comparison question.
+  ex:l7-step-spread-lab cd:teachingObservation ex:l7-spread-observation ;
+    cd:teachingTakeaway ex:l7-spread-takeaway .
+
+  # Recovery table: the observed ratio answers only the sample-level part of the question.
+  ex:l7-intro-step-08 cd:teachingHint ex:l7-intro-heading-08 .
+  ex:l7-intro-step-12 cd:teachingPartialAnswer ex:l7-intro-takeaway-12 ;
+    cd:teachingPartialAnswerTo ex:l7-intro-heading-06 .
+  ex:l7-intro-step-11 cd:teachingTakeaway ex:l7-intro-takeaway-11 .
+  ex:l7-treatment-observations-step cd:teachingHint ex:l7-treatment-observations-takeaway .
+
+  # Tukey: separate the decision rule from the result for the two matrices.
+  ex:l7-post-hoc-rule-step cd:teachingTakeaway ex:l7-post-hoc-rule-takeaway .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-scene-chapter-one-way cd:teachingSceneType cd:ChapterSlide .
+  ex:l7-scene18 cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene21 cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene22-question cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene22 cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene23 cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene-operator-assignment cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene-operator-compare cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene-chapter-two-way cd:teachingSceneType cd:ChapterSlide .
+  ex:l7-scene30 cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene32 cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene34 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene36-additive cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-chapter-treatment cd:teachingSceneType cd:ChapterSlide .
+  ex:l7-scene-treatment-observations cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene-treatment-one-way cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-treatment-design cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene-treatment-two-way cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-four-tables cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene-compare-patterns cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene-interaction-meaning cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene-interaction-model cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene-interaction-worked cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-interaction-test cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene-chapter-post-hoc cd:teachingSceneType cd:ChapterSlide .
+  ex:l7-scene-post-hoc-opener cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene-post-hoc-rule cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-post-hoc-cutoff cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene-post-hoc-spe cd:teachingSceneType cd:InterpretationSlide .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-intro> {
+  ex:l7-scene01 cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene02 cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene03 cd:teachingSceneType cd:InterpretationSlide .
+  ex:l7-scene04 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene05 cd:teachingSceneType cd:UseCaseSlide .
+  ex:l7-scene06 cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-intro-scene07 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene08 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene09 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene10 cd:teachingSceneType cd:DerivationSlide .
+  ex:l7-scene11 cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-scene12 cd:teachingSceneType cd:WorkedCalculationSlide .
+  ex:l7-intro-scene13 cd:teachingSceneType cd:ExplorationSlide .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-opening> {
+  ex:l7-scene-cover cd:teachingSceneType cd:TitleSlide .
+  ex:l7-scene-bridge cd:teachingSceneType cd:DerivationSlide .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-pairs> {
+  ex:l7-scene-pair-limits cd:teachingSceneType cd:ExplorationSlide .
+  ex:l7-scene-pair-perspectives cd:teachingSceneType cd:InterpretationSlide .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-spread> {
+  ex:l7-scene-spread-lab cd:teachingSceneType cd:ExplorationSlide .
+}

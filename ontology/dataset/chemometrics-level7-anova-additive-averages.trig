@@ -1,0 +1,45 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level7-anova-continuation> {
+  ex:l7-additive-averages-heading a cd:Interpretation ; skos:prefLabel "How do method and matrix combine?"@en ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-additive-averages-visual a cd:MediaAsset ;
+    cd:uri "/chemometrics/level7-anova-additive-averages.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Six mean recoveries form a method by matrix table. Method averages run across matrices, matrix averages run across methods. The additive prediction combines both averages after subtracting the grand mean."@en ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-additive-averages-takeaway a cd:Interpretation ;
+    cd:body "Subtracting the grand mean avoids counting the shared baseline twice when combining the two averages."@en ;
+    cd:interpretsResource ex:l7-additive-averages-visual ; cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-source-package cd:supportsResource ex:l7-additive-averages-heading, ex:l7-additive-averages-visual, ex:l7-additive-averages-takeaway .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-scene-additive-averages a cd:SceneDefinition ; cd:focusConcept ex:l7-next-34-focus ;
+    cd:narration "Start with the mean recoveries in the six method and matrix combinations. Each mean comes from six independent preparations. First average across the two matrices for each method, then across the three methods for each matrix. Method B averages ninety-eight and eighty-six to ninety-two percent. River water averages ninety-four, ninety-eight and ninety-three to ninety-five percent. An additive prediction combines those two averages after subtracting the grand mean, because both averages already contain that common baseline. This gives ninety-four point one seven percent for method B in river water. Later we will compare the observed combination mean with this additive prediction."@en ;
+    cd:teachingSceneType cd:WorkedCalculationSlide ; cd:hasSource ex:l7-source-package ; cd:authoredResource true ;
+    cd:hasSceneItem ex:l7-additive-averages-heading-item, ex:l7-additive-averages-visual-item, ex:l7-additive-averages-takeaway-item, ex:l7-additive-averages-reference-item .
+  ex:l7-additive-averages-reference-item a cd:SceneItem ; cd:position 90 ; cd:language "en" ;
+    cd:selectsResource ex:l7-ref-factorial ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-additive-averages-heading-item a cd:SceneItem ; cd:position 1 ; cd:language "en" ;
+    cd:selectsResource ex:l7-additive-averages-heading ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-additive-averages-visual-item a cd:SceneItem ; cd:position 2 ; cd:language "en" ;
+    cd:selectsResource ex:l7-additive-averages-visual ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-additive-averages-takeaway-item a cd:SceneItem ; cd:position 3 ; cd:language "en" ;
+    cd:selectsResource ex:l7-additive-averages-takeaway ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ;
+    cd:revealOn ex:l7-additive-averages-visual ; cd:revealAtStage 3 ;
+    cd:authoredResource true ; cd:hasSource ex:l7-source-package .
+  ex:l7-source-package cd:supportsResource ex:l7-scene-additive-averages, ex:l7-additive-averages-heading-item, ex:l7-additive-averages-visual-item, ex:l7-additive-averages-takeaway-item, ex:l7-additive-averages-reference-item .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-additive-averages .
+  ex:l7-step-additive-averages a cd:PathStep ; cd:position 30 ;
+    cd:usesScene ex:l7-scene-additive-averages ;
+    cd:usesResource ex:l7-additive-averages-heading, ex:l7-additive-averages-visual, ex:l7-additive-averages-takeaway, ex:l7-ref-factorial ;
+    cd:teachingTakeaway ex:l7-additive-averages-takeaway ; cd:hasSource ex:l7-source-package ; cd:authoredResource true .
+  ex:l7-source-package cd:supportsResource ex:l7-step-additive-averages .
+}

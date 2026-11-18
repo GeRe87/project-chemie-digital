@@ -744,7 +744,7 @@ export function mountSceneDocuments(dom: PitchDomPort, documents: readonly Scene
         && !(block.kind === "media-reference" && block.mediaType === "text/html"));
     const lastContent = lectureContent.length > 2 ? lectureContent.at(-1) : undefined;
     const lectureTakeawayId = lastContent?.kind === "prose" && lastContent.intent?.kind === "explain"
-      && lastContent.disclosure?.mode !== "progressive" ? lastContent.id : undefined;
+      ? lastContent.id : undefined;
     for (const blockId of displayOrder) {
       const block = scene.blocks.find((candidate) => candidate.id === blockId);
       if (!block) throw new Error(`Scene ${scene.id} reading order references unknown block ${blockId}`);

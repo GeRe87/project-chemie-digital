@@ -118,7 +118,7 @@ function referencePanel(analysis:OneWayResult, notes:string[]):ExperimentPanel|u
     const x = lo + (hi - lo) * i / (count - 1);
     return {x, y:density(x)};
   });
-  const traces:ExperimentTrace[] = [{label:'F reference density', style:'line', points:sample(first, upper, 81)}];
+  const traces:ExperimentTrace[] = [{label:'F distribution under equal population means', style:'line', points:sample(first, upper, 81)}];
   if (f < upper) traces.push({label:'Right tail (visible portion)', style:'area', points:sample(Math.max(first, f), upper, 80)});
   notes.push(`The F drawing starts at ${first}, a positive point, to avoid a potentially infinite endpoint density at zero. It ends at ${upper}; the omitted tail continues to infinity. The p-value is the analytic full right-tail probability, not a sampled area.`);
   if (f > upper) notes.push(`The actual F statistic (${f}) lies beyond the drawing limit (${upper}); its marker and visible right-tail shading are omitted.`);

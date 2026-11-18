@@ -58,6 +58,7 @@ def compile_thematic_scripts(dataset, documents, bindings):
         document=next(d for d in documents if d['id']==binding['sceneDocumentId'])
         available=[b for scene in document['scenes'] for b in walk_script_blocks(scene['blocks'])]
         scene_ids={s['id'] for s in document['scenes']}
+        scenes_by_resource = {absolute(scene['id'].removesuffix('--scene')): scene for scene in document['scenes']}
         graph=dataset.graph(URIRef(binding['pathGraphId']))
         def step_objects(s,p):return set(graph.objects(s,p))
         def step_position(s):
@@ -68,19 +69,54 @@ def compile_thematic_scripts(dataset, documents, bindings):
             if len(positions)!=1:raise ValueError('Ambiguous step position in exact path graph')
             return int(next(iter(positions)))
         steps=sorted(graph.objects(URIRef(binding['pathId']),CD.hasStep),key=step_position)
+        positions = {step: index for index, step in enumerate(steps)}
+        expected_answers = {}
+        teaching_roles = (CD.teachingHint, CD.teachingObservation, CD.teachingPartialAnswer, CD.teachingTakeaway)
         for index,step in enumerate(steps):
             question=step_objects(step,CD.guidingQuestion)
+            target = step_objects(step, CD.guidingQuestionAnswerStep)
+            if target and (len(target) != 1 or len(question) != 1):
+                raise ValueError('Explicit answer step requires exactly one guiding question and target')
             if question:
-                if len(question)!=1 or index+1>=len(steps) or step_objects(steps[index+1],CD.answersGuidingQuestion)!=question:
+                if target:
+                    answer_step = next(iter(target))
+                    if positions.get(answer_step, -1) <= index or step_objects(answer_step, CD.answersGuidingQuestion) != question:
+                        raise ValueError('Explicit answer step must follow its guiding question in the same selected path')
+                elif len(question)!=1 or index+1>=len(steps) or step_objects(steps[index+1],CD.answersGuidingQuestion)!=question:
                     raise ValueError('Guiding question must be answered in the immediately following selected path step')
+                else:
+                    answer_step = steps[index+1]
+                if answer_step in expected_answers:
+                    raise ValueError('A selected answer step must resolve exactly one guiding question')
+                expected_answers[answer_step] = question
             answered=step_objects(step,CD.answersGuidingQuestion)
-            if answered and (index==0 or answered!=step_objects(steps[index-1],CD.guidingQuestion)):
-                raise ValueError('Answer has no immediately preceding guiding question')
+            if answered and answered != expected_answers.get(step):
+                raise ValueError('Answer has no matching earlier guiding question')
             if answered and len(step_objects(step,CD.answerResource))!=1:raise ValueError('Answer step requires one answer resource')
+            partials = step_objects(step, CD.teachingPartialAnswer)
+            partial_target = step_objects(step, CD.teachingPartialAnswerTo)
+            if partials or partial_target:
+                if not partials or len(partial_target) != 1 or not any(
+                    positions[answer_step] > index and expected == partial_target
+                    for answer_step, expected in expected_answers.items()
+                ):
+                    raise ValueError(f'{step}: partial answers must address a guiding question that is still open')
+            role_resources = set().union(*(step_objects(step, role) for role in teaching_roles))
+            if role_resources:
+                displayed = {
+                    absolute(source['resourceId'])
+                    for scene in step_objects(step, CD.usesScene)
+                    for block in walk_script_blocks(scenes_by_resource.get(str(scene), {}).get('blocks', []))
+                    if block.get('disclosure', {}).get('mode') != 'optional'
+                    for source in block.get('source', [])
+                }
+                for resource in role_resources:
+                    if str(resource) not in displayed:
+                        raise ValueError(f'{step}: teaching resource {resource} must actually be displayed in its bound step')
             for resource in question|step_objects(step,CD.answerResource):
                 scenes=step_objects(step,CD.usesScene)
                 selected={r for scene in scenes for item in objects(scene,CD.hasSceneItem) for r in objects(item,CD.selectsResource)}
-                if resource not in selected:raise ValueError('Question/answer resource must actually be displayed in its bound step')
+                if resource not in selected:raise ValueError(f'{step}: teaching resource {resource} must actually be displayed in its bound step')
         for script in sorted({s for s,_,_,_ in dataset.quads((None,CD.scriptForPath,URIRef(binding['pathId']),None))},key=str):
             if str(one(script,CD.scriptPathGraph))!=binding['pathGraphId']:continue
             key=(binding['pathId'],binding['pathGraphId'])

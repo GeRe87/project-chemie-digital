@@ -22,7 +22,7 @@
   cd:binaryTrialName a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range rdf:langString .
   cd:binaryTargetCount a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range xsd:integer .
   cd:revealAtStage a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range xsd:integer .
-  cd:revealOn a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range cd:FlowDiagram .
+  cd:revealOn a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneItem ; rdfs:range cd:LearningResource .
   cd:BinaryExperimentStage a rdfs:Class, cdm:ConceptDescriptor ; rdfs:comment "An ordered, reversible lecture snapshot including a discussion prompt; the first stage is the initial view."@en .
   cd:hasBinaryStage a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:BinaryExperiment ; rdfs:range cd:BinaryExperimentStage .
   cd:binaryRevealLevel a rdf:Property, cdm:AttributeDescriptor ; rdfs:domain cd:BinaryExperimentStage ; rdfs:range xsd:integer .
@@ -60,7 +60,7 @@
   cd:AuthoredStageShape a sh:NodeShape ; sh:targetSubjectsOf cd:revealAtStage ; sh:targetSubjectsOf cd:revealOn ;
     sh:class cd:SceneItem ;
     sh:property [ sh:path cd:revealAtStage ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 10 ] ;
-    sh:property [ sh:path cd:revealOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:FlowDiagram ] .
+    sh:property [ sh:path cd:revealOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:LearningResource ] .
   cd:BinaryLectureShape a sh:NodeShape ; sh:targetSubjectsOf cd:hasBinaryStage ;
     sh:class cd:BinaryExperiment ;
     sh:property [ sh:path cd:hasBinaryStage ; sh:minCount 1 ; sh:maxCount 30 ; sh:class cd:BinaryExperimentStage ] .

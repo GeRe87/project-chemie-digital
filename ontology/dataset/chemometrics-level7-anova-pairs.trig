@@ -6,6 +6,7 @@
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-pair-limits .
   ex:l7-step-pair-limits a cd:PathStep ; cd:position 8 ; cd:usesScene ex:l7-scene-pair-limits ;
+    cd:guidingQuestion ex:l7-pair-limits-end ;
     cd:usesResource ex:l7-pair-limits-heading, ex:l7-pair-range-visual, ex:l7-pair-limits-end, ex:l7-ref-multiple ;
     cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-source-package cd:supportsResource ex:l7-step-pair-limits .
@@ -14,7 +15,7 @@
   ex:l7-pair-matrix a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-matrix.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Bonferroni-adjusted p-values for the river-water data: A versus B 0.00187, A versus C 0.746, B versus C 0.000336."@en ; cd:authoredResource true .
   ex:l7-pair-limits-heading a cd:Interpretation ; skos:prefLabel "Ten methods: what does one pair tell us?"@en ; cd:authoredResource true .
-  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "What changes when we move from comparing two methods to testing all ten together?"@en ; cd:authoredResource true .
+  ex:l7-pair-limits-end a cd:Interpretation ; cd:body "If one pair differs, what can we conclude about all ten methods?"@en ; cd:authoredResource true .
   ex:l7-pair-range-visual a cd:MediaAsset ; cd:uri "/chemometrics/anova-pair-range.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
     cd:alternativeText "Ten overlapping groups A to J in method order, with twelve observations per group. The second view highlights C and G and compares the adjusted pairwise and omnibus p-values."@en ; cd:authoredResource true .
 }
@@ -32,6 +33,7 @@
 <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
   ex:path-level7-anova-intro-review cd:hasStep ex:l7-step-pair-perspectives .
   ex:l7-step-pair-perspectives a cd:PathStep ; cd:position 9 ; cd:usesScene ex:l7-scene-pair-perspectives ;
+    cd:answersGuidingQuestion ex:l7-pair-limits-end ; cd:answerResource ex:l7-perspectives-takeaway ;
     cd:usesResource ex:l7-perspectives-heading, ex:l7-perspectives-list, ex:l7-perspectives-takeaway, ex:l7-ref-multiple ;
     cd:hasSource ex:l7-source-package ; cd:authoredResource true .
   ex:l7-source-package cd:supportsResource ex:l7-step-pair-perspectives .
@@ -44,7 +46,9 @@
     cd:body "Is mean recovery different for C and G?"@en ; cd:authoredResource true .
   ex:l7-perspectives-global a cd:DefinitionListEntry ; cd:position 2 ; skos:prefLabel "All groups · one-way ANOVA"@en ;
     cd:body "Is there evidence that at least one of the ten mean recoveries differs?"@en ; cd:authoredResource true .
-  ex:l7-perspectives-takeaway a cd:Interpretation ; cd:body "Choose the test by how many group means the question covers."@en ; cd:authoredResource true .
+  ex:l7-perspectives-takeaway a cd:Interpretation ;
+    cd:body "Different test statistics can disagree. C–G gives evidence against equal means, while the omnibus result remains inconclusive."@en ;
+    cd:interpretsResource ex:l7-pair-range-visual ; cd:authoredResource true .
 }
 
 <https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-pairs> {
@@ -53,6 +57,6 @@
     cd:narration "Return to the recovery data. If we care specifically about C and G, we ask whether those two population means differ. The t-test uses repeated preparations from those two methods. If we instead ask whether a single mean can describe all ten methods, the omnibus ANOVA compares variation among all group means with variation within the groups. A significant F test says at least one mean differs, while identifying the methods requires follow-up comparisons. Here the pairwise result was significant and the global result was inconclusive. The test follows the scientific question."@en ; cd:authoredResource true .
   ex:l7-perspectives-item-1 a cd:SceneItem ; cd:position 1 ; cd:language "en" ; cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:selectsResource ex:l7-perspectives-heading ; cd:authoredResource true .
   ex:l7-perspectives-item-2 a cd:SceneItem ; cd:position 2 ; cd:language "en" ; cd:communicativeRole cd:DefinitionListRole ; cd:selectionPath "cd:hasDefinitionListEntry" ; cd:selectsResource ex:l7-perspectives-list ; cd:authoredResource true .
-  ex:l7-perspectives-item-3 a cd:SceneItem ; cd:position 3 ; cd:language "en" ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:selectsResource ex:l7-perspectives-takeaway ; cd:authoredResource true .
+  ex:l7-perspectives-item-3 a cd:SceneItem ; cd:position 3 ; cd:language "en" ; cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:selectsResource ex:l7-perspectives-takeaway ; cd:revealOn ex:l7-perspectives-heading ; cd:revealAtStage 1 ; cd:authoredResource true .
   ex:l7-perspectives-item-4 a cd:SceneItem ; cd:position 4 ; cd:language "en" ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:selectsResource ex:l7-ref-multiple ; cd:authoredResource true .
 }

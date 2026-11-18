@@ -6,6 +6,25 @@
 # Slide-level further reading for the ANOVA review path.
 # The lecture's worked data and results retain their existing provenance.
 <https://w3id.org/project-chemie-digital/graph/specifications/level7-anova-references> {
+  ex:l7-ref-fitted-ks a cd:MediaAsset ;
+    cd:uri "https://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm"^^xsd:anyURI ;
+    cd:mediaType "text/html" ; cd:alternativeText "NIST: KS test with estimated parameters"@en ;
+    cd:hasSource ex:l7-citation-fitted-ks ; cd:authoredResource true .
+  ex:l7-citation-fitted-ks a cd:Source ; dct:title "NIST: Kolmogorov-Smirnov Goodness-of-Fit Test" ;
+    dct:creator "NIST/SEMATECH" ; dct:identifier "l7-citation-fitted-ks" ;
+    dct:source <https://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm> ;
+    cd:supportsResource ex:l7-ref-fitted-ks, ex:l7-ref-fitted-ks-item ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/scenes/level7-anova-continuation> {
+  ex:l7-scene21 cd:hasSceneItem ex:l7-ref-fitted-ks-item .
+  ex:l7-ref-fitted-ks-item a cd:SceneItem ; cd:position 91 ; cd:language "en" ;
+    cd:selectsResource ex:l7-ref-fitted-ks ; cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ;
+    cd:hasSource ex:l7-citation-fitted-ks ; cd:authoredResource true .
+}
+<https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> {
+  ex:l7-intro-step-21 cd:usesResource ex:l7-ref-fitted-ks .
+}
+<https://w3id.org/project-chemie-digital/graph/specifications/level7-anova-references> {
   ex:l7-ref-overview a cd:MediaAsset ;
     cd:uri "https://itl.nist.gov/div898/handbook/prc/section4/prc43.htm"^^xsd:anyURI ; cd:mediaType "text/html" ;
     cd:alternativeText "NIST: ANOVA hypotheses"@en ; cd:hasSource ex:l7-citation-overview ; cd:authoredResource true .

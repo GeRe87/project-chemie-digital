@@ -29,6 +29,7 @@ export function mountAnovaSpreadLab(root: HTMLElement) {
   const figure=slide?.querySelector('figure[data-media-uri="/chemometrics/anova-spread-panels.svg"]');
   if(!figure)return;
   const lab=document.createElement("div");
+  lab.dataset.resourceId = figure.getAttribute("data-resource-id") ?? "";
   lab.className="pcd-spread-lab";
   lab.dataset.presentationStepHost="anova-spread";
   lab.dataset.presentationStepCount="3";
@@ -55,6 +56,7 @@ export function mountAnovaSpreadLab(root: HTMLElement) {
   sidebar.append(controls, stats);
   lab.append(plot, sidebar);
   figure.replaceWith(lab);
+
 
   let stage=1;
   const render=()=>{
@@ -155,7 +157,17 @@ function recoveryDataTable(documents: readonly SceneDocument[]): HTMLTableElemen
   return table;
 }
 
-export function mountStagedTeachingSvg(root: HTMLElement, documents: readonly SceneDocument[]) {
+export function mountStagedTeachingSvg(root: HTMLElement, documents: readonly SceneDocument[], slidesPdf: boolean) {
+  const completedPrintFigures = new Set([
+    "/chemometrics/level7-anova-read-table.svg",
+    "/chemometrics/level7-anova-post-hoc-rule.svg",
+    "/chemometrics/level7-anova-post-hoc-cutoff.svg",
+    "/chemometrics/level7-anova-additive-averages.svg",
+  ]);
+  const tukeyPrompts = new Map([
+    ["/chemometrics/level7-anova-post-hoc-rule.svg", "Methods A, B and C have means of 10, 12 and 17 milligrams per litre. Which gaps exceed 3.4?"],
+    ["/chemometrics/level7-anova-post-hoc-cutoff.svg", "Find the 95th percentile of the studentized range for three groups and twelve error degrees of freedom, then use the within-group mean square and sample count."],
+  ]);
   const stagedFigures = [
     ["/chemometrics/anova-recovery-experiment.svg", 3],
     ["/chemometrics/anova-two-to-three-groups.svg", 1],
@@ -176,6 +188,7 @@ export function mountStagedTeachingSvg(root: HTMLElement, documents: readonly Sc
     ["/chemometrics/level7-anova-model-pattern.svg", 2, "cumulative"],
     ["/chemometrics/level7-anova-model-components.svg", 2, "cumulative"],
     ["/chemometrics/level7-anova-two-way-observations.svg", 1],
+    ["/chemometrics/level7-anova-additive-averages.svg", 2, "cumulative"],
     ["/chemometrics/level7-anova-additive-fit.svg", 3, "cumulative"],
     ["/chemometrics/level7-anova-additive-table.svg", 3, "cumulative"],
     ["/chemometrics/level7-anova-treatment-one-way.svg", 3, "cumulative"],
@@ -190,20 +203,33 @@ export function mountStagedTeachingSvg(root: HTMLElement, documents: readonly Sc
     ["/chemometrics/level7-anova-welch-weights.svg", 1],
     ["/chemometrics/level7-anova-kw-rank-sums.svg", 1],
     ["/chemometrics/level7-anova-tukey-interval.svg", 3, "cumulative"],
+    ["/chemometrics/level7-anova-post-hoc-rule.svg", 1],
+    ["/chemometrics/level7-anova-post-hoc-cutoff.svg", 1],
     ["/chemometrics/level7-anova-visual-28.svg", 2, "cumulative"],
     ["/chemometrics/level7-anova-more-factors.svg", 1],
     ["/chemometrics/level7-anova-pool-ranks.svg", 2, "cumulative"],
     ["/chemometrics/level7-anova-review-cases.svg", 3, "cumulative"],
   ] as const;
   for (const [uri, stepCount, revealMode] of stagedFigures) {
+    if (slidesPdf && completedPrintFigures.has(uri)) continue;
     const figure = root.querySelector<HTMLElement>(`figure[data-media-uri="${uri}"]`);
     if (!figure) continue;
-    const table = uri === "/chemometrics/anova-recovery-experiment.svg" ? recoveryDataTable(documents) : undefined;
+    const recovery = uri === "/chemometrics/anova-recovery-experiment.svg";
+    const table = recovery ? recoveryDataTable(documents) : undefined;
+    const lastFigureStep = stepCount + (table ? 1 : 0);
     if (table) figure.append(table);
-    figure.dataset.presentationStepCount = String(stepCount + (table ? 1 : 0));
+    figure.dataset.presentationStepCount = String(lastFigureStep);
     figure.dataset.svgStageActive = "0";
     if (revealMode) figure.dataset.svgStageMode = revealMode;
-    const updateCaseLabel = uri === "/chemometrics/level7-anova-review-cases.svg"
+    const updateFigureLabel = uri === "/chemometrics/level7-anova-read-table.svg"
+      ? (step: number) => {
+          const label = step < 3
+            ? "River-water recovery ANOVA. Between methods: SS 84, df 2, MS 42. Within methods: SS 30, df 15, MS 2. Total: SS 114, df 17."
+            : "River-water recovery ANOVA. Between methods: SS 84, df 2, MS 42, F 21, p 0.00004484. Within methods: SS 30, df 15, MS 2. Total: SS 114, df 17.";
+          figure.querySelector("img")?.setAttribute("alt", label);
+          figure.querySelector("svg")?.setAttribute("aria-label", label);
+        }
+      : uri === "/chemometrics/level7-anova-review-cases.svg"
       ? (step: number) => {
           const cases = [
             "Three independent methods in one matrix with comparable error variances.",
@@ -216,14 +242,23 @@ export function mountStagedTeachingSvg(root: HTMLElement, documents: readonly Sc
           figure.querySelector("svg")?.setAttribute("aria-label", label);
         }
       : undefined;
-    updateCaseLabel?.(0);
+    const tukeyPrompt = tukeyPrompts.get(uri);
+    const graphic = figure.querySelector<SVGSVGElement | HTMLImageElement>("svg, img");
+    const labelAttribute = graphic instanceof HTMLImageElement ? "alt" : "aria-label";
+    const fullLabel = graphic?.getAttribute(labelAttribute);
+    const updateTukeyLabel = (step: number) => {
+      if (graphic && tukeyPrompt && fullLabel) graphic.setAttribute(labelAttribute, step ? fullLabel : tukeyPrompt);
+    };
+    updateFigureLabel?.(0);
+    updateTukeyLabel(0);
     figure.addEventListener("pcd-presentation-step", event => {
       const { step } = (event as CustomEvent<{ step: number }>).detail;
       const showTable = !!table && step === 3;
       if (table) table.hidden = !showTable;
       figure.toggleAttribute("data-recovery-table-active", showTable);
-      figure.dataset.svgStageActive = String(table && step === 4 ? 3 : step);
-      updateCaseLabel?.(step);
+      figure.dataset.svgStageActive = String(Math.min(step, stepCount));
+      updateFigureLabel?.(step);
+      updateTukeyLabel(step);
     });
   }
 }

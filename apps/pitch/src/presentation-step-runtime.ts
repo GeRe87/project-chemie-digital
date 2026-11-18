@@ -91,6 +91,25 @@ export function markStageLockedSlide(slide: Element): void {
   slide.setAttribute("data-stage-lock", "true");
 }
 
+export function mountAuthoredRevealTriggers(root: HTMLElement): void {
+  for (const dependent of root.querySelectorAll<HTMLElement>(
+    '[data-presentation-disclosure-mode="progressive"][data-relation-path~="cd:revealAtStage"]',
+  )) {
+    const trigger = dependent.dataset.presentationDisclosureTriggerResourceId;
+    const step = Number(dependent.dataset.presentationDisclosureStep);
+    if (!trigger || !step) continue;
+    const slide = dependent.closest("section");
+    const candidates = Array.from(slide?.querySelectorAll<HTMLElement>(
+      "[data-presentation-step-resource-id], [data-resource-id]",
+    ) ?? []);
+    const registered = candidates.find(el => resourceIdTokens(el, "data-presentation-step-resource-id").has(trigger));
+    const host = registered ?? candidates.find(el => resourceIdTokens(el, "data-resource-id").has(trigger));
+    if (!host) continue;
+    if (!registered) host.dataset.presentationStepResourceId = trigger;
+    host.dataset.presentationStepCount = String(Math.max(numericStepCount(host), step));
+  }
+}
+
 export function preparePresentationStepFragments(root: HTMLElement): void {
   const hosts = Array.from(root.querySelectorAll<HTMLElement>("[data-presentation-step-count]"));
 
@@ -146,6 +165,7 @@ function resourceIdTokens(element: Element, attribute: string): ReadonlySet<stri
 }
 
 export function applySemanticDisclosure(host: HTMLElement, step: number): void {
+  if (host.ownerDocument.documentElement.classList.contains("print-pdf")) return;
   const slide = host.closest("section");
   if (!slide) return;
 

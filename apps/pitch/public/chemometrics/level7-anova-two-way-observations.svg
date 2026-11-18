@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="system-ui, sans-serif">
   <title>Six method–matrix combinations</title>
   <desc>Thirty-six synthetic recovery measurements arranged by water matrix and preparation method. Each method and matrix combination has six measurements. Means in river water are 94, 98, and 93 percent. Means in wastewater are 92, 86, and 94 percent.</desc>
-  <text x="51" y="38" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Recovery (%)</text>
+  <text x="125" y="28" text-anchor="start" font-size="24" font-weight="700" fill="#163349">Recovery (%)</text>
   <text x="390" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">River water</text>
   <text x="763" y="38" text-anchor="middle" font-size="24" font-weight="700" fill="#10698a">Wastewater</text>
   <path d="M125 305.0H560 M596 305.0H945" fill="none" stroke="#d4dfe6" stroke-width="2"/>

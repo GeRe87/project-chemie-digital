@@ -1,5 +1,6 @@
 import "./anova-spread.css";
 import { mountAnovaTableBuild, mountAnovaSpreadPanelTabs, mountAnovaPairReveal, mountAnovaSpreadLab, mountStagedTeachingSvg } from "./anova-spread.ts";
+import { mountTeachingMarkers } from "./teaching-markers.ts";
 import "./process-columns.css";
 import { anovaProcessColumns, mountProcessColumns } from "./process-columns.ts";
 import Reveal from "reveal.js";
@@ -85,6 +86,7 @@ import {
   mountPresentationSwipeNavigation,
   mountPresentationWheelNavigation,
   mountPresentationStepRuntime,
+  mountAuthoredRevealTriggers,
   preparePresentationStepFragments,
 } from "./presentation-step-runtime.ts";
 import { createBrowserPitchDomPort, installNoNetworkGuard, mountSceneDocuments } from "./preview.ts";
@@ -123,14 +125,7 @@ try {
   for (const chapter of root.querySelectorAll<HTMLElement>('section[id^="ex:l7-scene-chapter-"]')) {
     chapter.dataset.chapterDivider = "true";
   }
-  for (const takeaway of root.querySelectorAll<HTMLElement>("[data-lecture-takeaway]")) {
-    const label = document.createElement("span");
-    label.className = "lecture-takeaway-label";
-    label.textContent = "In essence";
-    const content = document.createElement("div");
-    content.append(...takeaway.childNodes);
-    takeaway.append(label, content);
-  }
+  mountTeachingMarkers(root, artifact);
 } catch (error) {
   root.textContent = "Szeneninhalte konnten nicht geladen werden.";
   root.setAttribute("role", "alert");
@@ -195,8 +190,9 @@ const unmountSpreadPanelTabs = slidesPdf ? () => {} : mountAnovaSpreadPanelTabs(
   }
 });
 
-mountStagedTeachingSvg(root, documents);
+mountStagedTeachingSvg(root, documents, slidesPdf);
 if (!slidesPdf) mountAnovaTableBuild(root, documents);
+if (!slidesPdf) mountAuthoredRevealTriggers(root);
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
   ? mountPresentationProjections(root)
@@ -300,15 +296,28 @@ const referenceRails = Array.from(root.querySelectorAll<HTMLElement>("section > 
 const footerLayouts = new Map<HTMLElement, { section: HTMLElement; combined: boolean }>();
 for (const rail of referenceRails) {
   const section = rail.parentElement!;
+  const observation = section.querySelector<HTMLElement>('[data-resource-id~="ex:l7-spread-observation"]');
+  const stagedFooter = section.querySelector<HTMLElement>(
+    '[data-lecture-takeaway][data-relation-path~="cd:revealAtStage"]',
+  );
   const takeaway = section.querySelector<HTMLElement>(
     ':scope > [data-composition-region-container="footer"] > .lead[data-lecture-takeaway]:only-child',
-  );
+  ) ?? stagedFooter ?? (observation ? section.querySelector<HTMLElement>("[data-lecture-takeaway]") : null);
   if (!slidesPdf && takeaway) {
     const footer = document.createElement("div");
     footer.className = "pcd-slide-footer";
-    takeaway.parentElement!.replaceWith(footer);
+    if (takeaway.parentElement === section) takeaway.before(footer);
+    else if (takeaway.parentElement!.matches('[data-composition-region-container="footer"]') && takeaway.parentElement!.childElementCount === 1) {
+      takeaway.parentElement!.replaceWith(footer);
+    } else section.append(footer);
+    if (observation) {
+      const region = observation.parentElement;
+      observation.classList.add("pcd-footer-observation");
+      footer.append(observation);
+      if (region?.matches("[data-composition-region-container]") && !region.childElementCount) region.remove();
+    }
     footer.append(takeaway, rail);
-    footerLayouts.set(footer, { section, combined: true });
+    if (!observation) footerLayouts.set(footer, { section, combined: true });
   } else {
     footerLayouts.set(rail, { section, combined: false });
   }

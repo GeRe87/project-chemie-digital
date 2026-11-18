@@ -633,17 +633,17 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "How many groups can you see in A, B and C?"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <http://www.w3.org/2004/02/skos/core#prefLabel> "One big cloud or distinct groups?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "Why three t-tests are not one global answer"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <http://www.w3.org/2004/02/skos/core#prefLabel> "What can three pairwise tests tell us?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "One global hypothesis"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <http://www.w3.org/2004/02/skos/core#prefLabel> "Could all three methods share a mean recovery?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
@@ -653,12 +653,12 @@
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-05> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "One cloud or three groups?"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <http://www.w3.org/2004/02/skos/core#prefLabel> "Do the three methods have the same mean recovery?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <http://www.w3.org/2004/02/skos/core#prefLabel> "Every observation has two deviations"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <http://www.w3.org/2004/02/skos/core#prefLabel> "Split one recovery value’s total deviation"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-heading-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
@@ -1159,7 +1159,7 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-01> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/body> "What changes across the panels: the positions of the groups or the spread of the points?"@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/body> "In which panel can you first pick out separate groups?"@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-02> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
@@ -1169,7 +1169,7 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-03> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <https://w3id.org/project-chemie-digital/ontology/body> "ANOVA tests equal means by comparing variation between and within groups."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <https://w3id.org/project-chemie-digital/ontology/body> "ANOVA tests whether one mean fits all three methods by comparing between-method and within-method mean squares."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-04> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-05> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
@@ -1184,27 +1184,27 @@ These are the original synthetic river-water data, with three groups and six ind
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-06> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <https://w3id.org/project-chemie-digital/ontology/body> "How does one departure split? The total departure is a within-group residual plus a group-mean departure."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <https://w3id.org/project-chemie-digital/ontology/body> "The total deviation combines the observation’s deviation from its method mean and that mean’s deviation from the grand mean."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-08> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <https://w3id.org/project-chemie-digital/ontology/body> "Total variation splits into between-group and within-group sums of squares."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <https://w3id.org/project-chemie-digital/ontology/body> "Residuals sum to zero within each method, so the cross term cancels and the two sums of squares add to 114."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-09> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <https://w3id.org/project-chemie-digital/ontology/body> "Why two and fifteen degrees of freedom? Group contrasts and within-group residuals obey different fitted-mean constraints."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <https://w3id.org/project-chemie-digital/ontology/body> "Within each method, the first five residuals fix the sixth because their sum must be zero."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-10> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <https://w3id.org/project-chemie-digital/ontology/body> "How do sums of squares become comparable? Divide each by its own degrees of freedom; do not add the resulting mean squares."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <https://w3id.org/project-chemie-digital/ontology/body> "Divide each sum of squares by its own degrees of freedom to compare variation on the same scale."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-11> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/project-chemie-digital/ontology/Interpretation> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <https://w3id.org/project-chemie-digital/ontology/authoredResource> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <https://w3id.org/project-chemie-digital/ontology/body> "How are the mean squares combined? F compares between-group variation with remaining within-group variation."@en .
+  <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <https://w3id.org/project-chemie-digital/ontology/body> "The sample means differ, and the between-method mean square is 21 times the within-method mean square."@en .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-intro-takeaway-12> <https://w3id.org/project-chemie-digital/ontology/hasSource> <https://w3id.org/project-chemie-digital/resource/l7-source-scipy-anova> .
   <https://w3id.org/project-chemie-digital/resource/l7-source-nist-anova> <https://w3id.org/project-chemie-digital/ontology/supportsResource> <https://w3id.org/project-chemie-digital/resource/l7-intro-chart-02> .

@@ -3,12 +3,13 @@ import json
 import sys
 import unittest
 from pathlib import Path
-from rdflib import Dataset, Graph, Namespace, URIRef
+from rdflib import Dataset, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import RDF, DCTERMS as DCT, XSD
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from rdf_dataset import assemble_dataset
 from generate_canonical_runtime import CoursePathReference, compile_scene_document, compact
+from thematic_script import compile_thematic_scripts
 CD = Namespace('https://w3id.org/project-chemie-digital/ontology/')
 EX = Namespace('https://w3id.org/project-chemie-digital/resource/')
 GB = 'https://w3id.org/project-chemie-digital/graph/'
@@ -22,7 +23,7 @@ def review_scene(number):
 SCENE_ORDER = (
     '-cover', '-bridge', '-chapter-one-way',
     1, 2, '-spread-lab', 3, '-pair-limits', '-pair-perspectives', *range(4, 14), 18, 21, '22-question', 22, 23, '-operator-assignment', '-operator-compare',
-    '-chapter-two-way', 30, 32, 34, '36-additive',
+    '-chapter-two-way', 30, 32, '-additive-averages', 34, '36-additive',
     '-chapter-treatment', '-treatment-observations', '-treatment-one-way', '-treatment-design', '-treatment-two-way',
     '-four-tables', '-compare-patterns', '-interaction-meaning', '-interaction-model', '-interaction-worked', '-interaction-test',
     '-chapter-post-hoc', '-post-hoc-opener', '-post-hoc-rule', '-post-hoc-cutoff',
@@ -117,6 +118,74 @@ class AnovaIntroTests(unittest.TestCase):
                       and b['mediaType'] == 'image/svg+xml']
             self.assertEqual(media['uri'], '/chemometrics/anova-spread-panels.svg')
             self.assertFalse(any(b['kind'] in ('chart', 'math') for b in scene['blocks']))
+        path = self.ds.graph(URIRef(GB + 'paths/level7-anova-intro-review'))
+        question = EX['l7-intro-takeaway-02']
+        observation = EX['l7-spread-observation']
+        self.assertEqual(path.value(EX['l7-intro-step-02'], CD.guidingQuestion), question)
+        self.assertEqual(path.value(EX['l7-step-spread-lab'], CD.answersGuidingQuestion), question)
+        self.assertEqual(path.value(EX['l7-step-spread-lab'], CD.answerResource), observation)
+        self.assertIn(str(self.g.value(question, CD.body)), [b.get('text') for b in static['blocks']])
+        lab_text = [b.get('text') for b in lab['blocks']]
+        self.assertLess(lab_text.index(str(self.g.value(observation, CD.body))),
+                        lab_text.index(str(self.g.value(EX['l7-spread-takeaway'], CD.body))))
+
+    def test_authored_teaching_reveals(self):
+        expected = {
+            '-spread-lab': ('l7-spread-panels', [1, 2]),
+            '-pair-perspectives': ('l7-perspectives-heading', [1]),
+            4: ('l7-intro-heading-04', [1, 2]),
+            5: ('l7-intro-recovery-schema', [5]),
+            8: ('l7-intro-heading-08', [1]),
+            18: ('level7-anova-read-table', [4]),
+        }
+        for number, (trigger, steps) in expected.items():
+            blocks = self.scene(number)['blocks']
+            reveals = [b['disclosure'] for b in blocks if b.get('disclosure', {}).get('mode') == 'progressive']
+            self.assertEqual([(d['triggerResourceId'], d['step']) for d in reveals],
+                             [(compact(EX[trigger]), step) for step in steps])
+
+    def test_takeaway_must_follow_its_observation(self):
+        dataset = assemble_dataset()
+        scenes = dataset.graph(URIRef(GB + 'scenes/level7-anova-spread'))
+        scenes.set((EX['l7-spread-lab-takeaway-item'], CD.revealAtStage, Literal(1)))
+        with self.assertRaisesRegex(ValueError, 'evidence .* must be visible before'):
+            compile_scene_document(dataset, CoursePathReference(str(EX['path-level7-anova-intro-review']),
+                                                                GB + 'paths/level7-anova-intro-review'))
+
+    def test_recovery_question_resolves_at_final_table(self):
+        dataset = assemble_dataset()
+        path_id = EX['path-level7-anova-intro-review']
+        graph_id = GB + 'paths/level7-anova-intro-review'
+        binding = {'pathId': str(path_id), 'pathGraphId': graph_id, 'sceneDocumentId': self.doc['id']}
+        compile_thematic_scripts(dataset, [self.doc], [binding])
+        path = dataset.graph(URIRef(graph_id))
+        path.set((EX['l7-intro-step-06'], CD.guidingQuestionAnswerStep, EX['l7-intro-step-05']))
+        with self.assertRaisesRegex(ValueError, 'must follow its guiding question'):
+            compile_thematic_scripts(dataset, [self.doc], [binding])
+
+    def test_every_anova_scene_has_one_teaching_type(self):
+        types = [set(self.g.objects(review_scene(n), CD.teachingSceneType)) for n in SCENE_ORDER]
+        self.assertTrue(all(len(values) == 1 for values in types))
+        self.assertEqual(set.union(*types), {
+            CD.TitleSlide, CD.ChapterSlide, CD.UseCaseSlide, CD.ExplorationSlide,
+            CD.DerivationSlide, CD.WorkedCalculationSlide, CD.InterpretationSlide,
+        })
+
+    def test_teaching_roles_must_be_visible_and_partial_answer_must_be_open(self):
+        dataset = assemble_dataset()
+        path_id = EX['path-level7-anova-intro-review']
+        graph_id = GB + 'paths/level7-anova-intro-review'
+        path = dataset.graph(URIRef(graph_id))
+        binding = {'pathId': str(path_id), 'pathGraphId': graph_id, 'sceneDocumentId': self.doc['id']}
+        compile_thematic_scripts(dataset, [self.doc], [binding])
+        misplaced_hint = (EX['l7-intro-step-08'], CD.teachingHint, EX['l7-intro-heading-06'])
+        path.add(misplaced_hint)
+        with self.assertRaisesRegex(ValueError, 'must actually be displayed'):
+            compile_thematic_scripts(dataset, [self.doc], [binding])
+        path.remove(misplaced_hint)
+        path.set((EX['l7-intro-step-12'], CD.teachingPartialAnswerTo, EX['l7-intro-takeaway-02']))
+        with self.assertRaisesRegex(ValueError, 'guiding question that is still open'):
+            compile_thematic_scripts(dataset, [self.doc], [binding])
 
     def test_owned_resources_and_reciprocal_sources(self):
         subjects = {s for c in INTRO for s,p,o in self.ds.graph(c).triples((None,RDF.type,None))}

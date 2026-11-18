@@ -1,4 +1,15 @@
 .pcd-screen-controls { position:fixed;right:4px;top:8px;z-index:60;display:flex;flex-direction:column;gap:7px; }
+.reveal {
+  --r-controls-color: var(--pcd-accent);
+  --r-controls-color-hover: var(--pcd-foreground);
+}
+body .reveal .controls { color: var(--pcd-accent); }
+body .reveal .controls button:hover { color: var(--pcd-foreground); }
+@media screen and (min-width: 701px) {
+  html:not(.print-pdf) body:not([data-presentation-mode="script"]):has(> .pcd-screen-controls) .reveal {
+    width: calc(100% - 52px);
+  }
+}
 .pcd-screen-controls button { width:36px;height:36px;display:grid;place-items:center;padding:5px;border:1px solid var(--pcd-accent);border-radius:5px;background:var(--pcd-surface-strong);color:var(--pcd-muted);cursor:pointer; }
 .pcd-screen-controls button svg { width:24px;height:24px; }
 .pcd-theme-toggle[aria-pressed="true"] { color:#8a6400;box-shadow:0 0 10px #ffdb6090;background:#fff4c5; }

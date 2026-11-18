@@ -14,7 +14,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from rdflib import DCTERMS, RDF, SKOS, XSD, Dataset, Literal, URIRef
+from rdflib import DCTERMS, RDF, RDFS, SKOS, XSD, Dataset, Literal, URIRef
 
 from course_path_selection import (
     CoursePathReference,
@@ -2244,7 +2244,7 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                         expanded["source"].append(source_reference(dataset, item, "cd:optionalCode"))
             if reveal_stage is not None or reveal_on is not None:
                 if not isinstance(reveal_stage, Literal) or reveal_stage.datatype != XSD.integer or not 1 <= int(reveal_stage) <= 10 or not isinstance(reveal_on, URIRef):
-                    raise ValueError("Authored reveal requires a positive stage and a flow resource")
+                    raise ValueError("Authored reveal requires a positive stage and a trigger resource")
                 for expanded in blocks[expansion_start:]:
                     expanded["disclosure"] = {"order": 0, "mode": "progressive", "step": int(reveal_stage), "triggerResourceId": compact(reveal_on)}
                     expanded["source"].extend([source_reference(dataset, item, "cd:revealAtStage"), source_reference(dataset, item, "cd:revealOn")])
@@ -2318,14 +2318,38 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
         scene_compact = compact(scene_id)
         explicit_reveals = [b for b in blocks if any(s.get("relationPath") == "cd:revealAtStage" for s in b["source"])]
         if explicit_reveals:
-            diagram_sources = {compact(r) for r, b in selected_blocks if b["kind"] == "diagram" and b.get("binaryExperiment")}
+            selected_by_id = {compact(resource): (resource, candidate) for resource, candidate in selected_blocks}
+            selected_by_block = {candidate["id"]: resource for resource, candidate in selected_blocks}
             for b in explicit_reveals:
-                if b["disclosure"]["triggerResourceId"] not in diagram_sources:
-                    raise ValueError("Authored reveal trigger must be a selected experiment in the same scene")
-                trigger = next(candidate for resource, candidate in selected_blocks if compact(resource) == b["disclosure"]["triggerResourceId"])
+                disclosure = b["disclosure"]
+                trigger_id = disclosure["triggerResourceId"]
+                entry = selected_by_id.get(trigger_id)
+                if entry is None:
+                    raise ValueError(f"{scene_compact}: authored reveal trigger must be selected in the same scene")
+                _, trigger = entry
+                if trigger["disclosure"]["mode"] != "initial":
+                    raise ValueError(f"{scene_compact}: authored reveal trigger must be visible initially")
+                binary = trigger["kind"] == "diagram" and trigger.get("binaryExperiment")
+                heading = trigger["kind"] == "prose" and trigger.get("intent", {}).get("kind") == "introduce"
+                if not (binary or heading or trigger["kind"] == "media-reference"):
+                    raise ValueError(f"{scene_compact}: unsupported authored reveal trigger")
                 stages = trigger.get("binaryExperiment", {}).get("stages")
-                if stages and b["disclosure"]["step"] >= len(stages):
+                if stages and disclosure["step"] >= len(stages):
                     raise ValueError("Authored reveal exceeds the lecture stage count")
+                resource = selected_by_block.get(b["id"])
+                if resource is not None and not binary:
+                    for evidence in objects(dataset, resource, iri(CD, "interpretsResource")):
+                        selected_evidence = selected_by_id.get(compact(evidence)) if isinstance(evidence, URIRef) else None
+                        if selected_evidence is None:
+                            continue
+                        evidence_disclosure = selected_evidence[1]["disclosure"]
+                        if evidence_disclosure["mode"] == "optional" or (
+                            evidence_disclosure["mode"] == "progressive" and (
+                                evidence_disclosure.get("triggerResourceId") != trigger_id
+                                or evidence_disclosure["step"] >= disclosure["step"]
+                            )
+                        ):
+                            raise ValueError(f"{scene_compact}: evidence {compact(evidence)} must be visible before {compact(resource)}")
         if explicit_reveals or any(b.get("disclosure", {}).get("mode") == "optional" for b in blocks):
             for i, b in enumerate(blocks):
                 if "disclosure" in b:
@@ -2355,12 +2379,16 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
 
 
 def dataset_snapshot(dataset: Dataset, fingerprint: str, language: str) -> dict[str, Any]:
-    typed_subjects = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, None, None)) if isinstance(subject, URIRef) and str(subject).startswith(EX)}, key=str)
+    teaching_types = {
+        subject for subject, _, _, _ in dataset.quads((None, RDF.type, iri(CD, "TeachingSceneType"), None))
+    }
+    typed_subjects = sorted({subject for subject, _p, _o, _g in dataset.quads((None, RDF.type, None, None)) if isinstance(subject, URIRef) and (str(subject).startswith(EX) or subject in teaching_types)}, key=str)
     entity_ids = set(typed_subjects)
     entities: list[dict[str, Any]] = []
     for subject in typed_subjects:
         labels = (
             literal(dataset, subject, SKOS.prefLabel, language)
+            or (literal(dataset, subject, RDFS.label, language) if subject in teaching_types else None)
             or deterministic_authored_literal(dataset, subject, DCTERMS.title)
             or deterministic_authored_literal(dataset, subject, iri(SCHEMA, "name"))
             or local_name(subject)

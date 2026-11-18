@@ -241,10 +241,20 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
   function paintPanels(result:ReturnType<typeof runExperiment>){
     const previous=[...panels.querySelectorAll<SVGSVGElement>(':scope > figure > svg')];
     const fill=typeof getComputedStyle!=='undefined'&&getComputedStyle(root).getPropertyValue('--pcd-experiment-fill-stage').trim()==='1';
-    const heights=previous.map(svg=>fill?svg.clientHeight:0);
+    // Read the allocated panel viewport before replacing its children. A
+    // previous SVG may be absent after an undefined result or still have an
+    // intrinsic fallback height during a control repaint.
+    const stacked = experimentPlotGeometry(root.clientWidth, result.panels.length).stacked;
+    const legendHeight = Math.max(0, ...Array.from(panels.querySelectorAll("figcaption"),
+      caption => caption.clientHeight));
+    const panelGap = fill ? parseFloat(getComputedStyle(panels).rowGap) || 0 : 0;
+    const panelHeight = stacked
+      ? (panels.clientHeight - Math.max(0, result.panels.length - 1) * panelGap) / Math.max(1, result.panels.length)
+      : panels.clientHeight;
+    const availableHeight = fill ? Math.max(0, panelHeight - legendHeight) : 0;
     previous.forEach(svg=>observer?.unobserve(svg));
     panels.dataset.layout=experimentPlotGeometry(root.clientWidth,result.panels.length).stacked?'stack':'row';
-    panels.replaceChildren();root.dataset.panelCount=String(result.panels.length);for(const [index,panel] of result.panels.entries()){const figure=document.createElement('figure'),caption=document.createElement('figcaption');experimentLegendEntries(block,panel).forEach(item=>{const entry=document.createElement('span');entry.className='experiment-legend-entry';const swatch=document.createElement('i');if(item.reference)entry.dataset.experimentReference='true';swatch.style.background=item.reference?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${item.colorIndex})`;swatch.setAttribute('aria-hidden','true');entry.append(swatch,document.createTextNode(item.label));caption.append(entry);});const svg=graph(panel,true,heights[index]);figure.append(svg,caption);panels.append(figure);if(fill)observer?.observe(svg);}
+    panels.replaceChildren();root.dataset.panelCount=String(result.panels.length);for(const panel of result.panels){const figure=document.createElement('figure'),caption=document.createElement('figcaption');experimentLegendEntries(block,panel).forEach(item=>{const entry=document.createElement('span');entry.className='experiment-legend-entry';const swatch=document.createElement('i');if(item.reference)entry.dataset.experimentReference='true';swatch.style.background=item.reference?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${item.colorIndex})`;swatch.setAttribute('aria-hidden','true');entry.append(swatch,document.createTextNode(item.label));caption.append(entry);});const svg=graph(panel,true,availableHeight);figure.append(svg,caption);panels.append(figure);if(fill)observer?.observe(svg);}
     panels.style.removeProperty('--pcd-experiment-legend-height');
     if(fill&&panels.dataset.layout==='row'){
       const legendHeight=Math.max(0,...[...panels.querySelectorAll('figcaption')].map(caption=>caption.clientHeight));
@@ -299,7 +309,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
       const support = document.createElement("div");
       support.className = "pcd-visual-layout-support";
       output.classList.add("experiment-ratio-metrics");
-      support.append(controls, feedback, output);
+      support.append(captionText, controls, feedback, output);
       root.append(panels, support);
     } else {
       root.append(controls,feedback,panels,authoredDescription,comparison,actions);

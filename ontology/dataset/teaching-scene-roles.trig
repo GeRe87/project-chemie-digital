@@ -1,0 +1,41 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix cdm: <https://w3id.org/project-chemie-digital/meta/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/schema/teaching-scene-roles> {
+  cd:TeachingSceneType a rdfs:Class .
+  cd:teachingSceneType a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:SceneDefinition ; rdfs:range cd:TeachingSceneType .
+  cd:TitleSlide a cd:TeachingSceneType ; rdfs:label "Title slide"@en .
+  cd:ChapterSlide a cd:TeachingSceneType ; rdfs:label "Chapter slide"@en .
+  cd:UseCaseSlide a cd:TeachingSceneType ; rdfs:label "Use-case introduction"@en .
+  cd:ExplorationSlide a cd:TeachingSceneType ; rdfs:label "Exploration"@en .
+  cd:DerivationSlide a cd:TeachingSceneType ; rdfs:label "Derivation"@en .
+  cd:WorkedCalculationSlide a cd:TeachingSceneType ; rdfs:label "Worked calculation"@en .
+  cd:InterpretationSlide a cd:TeachingSceneType ; rdfs:label "Interpretation"@en .
+
+  cd:teachingHint a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+  cd:teachingObservation a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+  cd:teachingTakeaway a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+  cd:teachingPartialAnswer a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+  cd:teachingPartialAnswerTo a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+}
+
+<https://w3id.org/project-chemie-digital/graph/shapes/teaching-scene-roles> {
+  cd:TeachingSceneTypeShape a sh:NodeShape ; sh:targetSubjectsOf cd:teachingSceneType ;
+    sh:class cd:SceneDefinition ;
+    sh:property [ sh:path cd:teachingSceneType ; sh:minCount 1 ; sh:maxCount 1 ;
+      sh:in ( cd:TitleSlide cd:ChapterSlide cd:UseCaseSlide cd:ExplorationSlide cd:DerivationSlide cd:WorkedCalculationSlide cd:InterpretationSlide ) ] .
+  cd:TeachingContentRoleShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:teachingHint, cd:teachingObservation, cd:teachingTakeaway ;
+    sh:class cd:PathStep ;
+    sh:property [ sh:path cd:teachingHint ; sh:class cd:Interpretation ] ;
+    sh:property [ sh:path cd:teachingObservation ; sh:class cd:Interpretation ] ;
+    sh:property [ sh:path cd:teachingTakeaway ; sh:class cd:Interpretation ] .
+  cd:TeachingPartialAnswerShape a sh:NodeShape ;
+    sh:targetSubjectsOf cd:teachingPartialAnswer, cd:teachingPartialAnswerTo ;
+    sh:class cd:PathStep ;
+    sh:property [ sh:path cd:teachingPartialAnswer ; sh:minCount 1 ; sh:class cd:Interpretation ] ;
+    sh:property [ sh:path cd:teachingPartialAnswerTo ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Interpretation ] .
+}

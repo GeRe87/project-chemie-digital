@@ -33,13 +33,16 @@ The regrouping exercise in [[ref:ex:l7-script-level7-anova-operator-grouping]] k
   ex:l7-script-level7-anova-operator-grouping a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-operator-grouping ; dct:title "The same recovery observations grouped by method and by hypothetical operator."@en .
 
   ex:l7-script-ch4 a cd:ScriptSection ; cd:position 4 ; dct:title "Add a second factor"@en ;
-    cd:hasScriptMaterial ex:l7-script-level7-anova-four-tables ; dct:references ex:l7-script-level7-anova-four-tables ; cd:authoredResource true ;
+    cd:hasScriptMaterial ex:l7-script-additive-averages, ex:l7-script-level7-anova-four-tables ; dct:references ex:l7-script-additive-averages, ex:l7-script-level7-anova-four-tables ; cd:authoredResource true ;
     cd:body """The SPE design crosses three preparation methods with two water matrices. Each combination has six independent preparations, for 36 in total. The additive model fits an overall difference between methods and an overall difference between matrices. It uses the same method differences in both matrices.
+
+In [[ref:ex:l7-script-additive-averages]], average each method across matrices and each matrix across methods. With equal numbers of independent preparations in every combination, the method B average is (98 + 86)/2 = 92.00% and the river-water average is (94 + 98 + 93)/3 = 95.00%. Combine these two averages and subtract the grand mean, 92.83%, to avoid counting the common baseline twice. The additive prediction for B in river water is 94.17%.
 
 A second study crosses three treatment techniques with three water conditions: natural organic matter addition, phosphate addition and ozone pretreatment. Each combination contains four independent runs. The response is contaminant removal (%).
 
 Read across [[ref:ex:l7-script-level7-anova-four-tables]] to see what changes as a second factor enters the analysis. The river-water method comparison is clear in the one-way analysis, while the additive comparison across both matrices gives p = 0.522. In the treatment study, the technique effect remains significant after adding the water condition. To understand these patterns, examine the mean profiles and test interaction."""@en .
-  ex:l7-script-level7-anova-four-tables a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:level7-anova-four-tables ; dct:title "One-way and additive two-way ANOVA results in the two studies."@en .
+  ex:l7-script-additive-averages a cd:ScriptMaterial ; cd:position 1 ; cd:scriptResource ex:l7-additive-averages-visual ; dct:title "Method and matrix averages combine into an additive prediction."@en .
+  ex:l7-script-level7-anova-four-tables a cd:ScriptMaterial ; cd:position 2 ; cd:scriptResource ex:level7-anova-four-tables ; dct:title "One-way and additive two-way ANOVA results in the two studies."@en .
 
   ex:l7-script-ch5 a cd:ScriptSection ; cd:position 5 ; dct:title "Test whether the factor effects depend on each other"@en ;
     cd:hasScriptMaterial ex:l7-script-formula-interaction, ex:l7-script-level7-anova-interaction-test ; dct:references ex:l7-script-formula-interaction, ex:l7-script-level7-anova-interaction-test ; cd:authoredResource true ;

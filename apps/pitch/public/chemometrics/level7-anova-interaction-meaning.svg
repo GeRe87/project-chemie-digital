@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 410" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" font-family="system-ui, sans-serif">
 <title>When one factor changes the effect of another</title>
-<desc>Three schematic plots show widening gaps, nearly constant gaps, and narrowing gaps. Illustrative confidence intervals show uncertainty around each mean. The interaction test assesses whether the gaps change across conditions.</desc>
-<text x="76" y="79" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">Mean response</text>
-<text x="178" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">Synergy</text>
+<desc>Plant growth is compared under adequate and limited water with and without added nutrients. The gaps widen, remain similar, or narrow. Synergy and antagonism refer to this specified response comparison. The interaction test assesses changing gaps relative to sampling variation.</desc>
+<text x="76" y="79" text-anchor="middle" font-size="17" font-weight="400" fill="#163349">Plant growth</text>
+<text x="178" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#10698a">Widening gap</text>
 <path d="M38 91V270H316" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M98 160L258 110" fill="none" stroke="#10698a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M98 146v28m-5 0h10m-10 -28h10" fill="none" stroke="#10698a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -16,10 +16,10 @@
 <circle cx="258" cy="232" r="5" fill="#5c3a98"/>
 <path d="M111 160h8V232h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M271 110h8V232h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="98" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Reference</text>
-<text x="258" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Other condition</text>
-<text x="178" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#10698a">The gap widens.</text>
-<text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#163349">No interaction</text>
+<text x="98" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">No nutrients</text>
+<text x="258" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Nutrients added</text>
+<text x="178" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#10698a">Synergy in this example</text>
+<text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#163349">Similar gaps</text>
 <path d="M360 91V270H638" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M420 147L580 144" fill="none" stroke="#10698a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M420 133v28m-5 0h10m-10 -28h10" fill="none" stroke="#10698a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -33,10 +33,10 @@
 <circle cx="580" cy="222" r="5" fill="#5c3a98"/>
 <path d="M433 147h8V227h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M593 144h8V222h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="420" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Reference</text>
-<text x="580" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Other condition</text>
+<text x="420" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">No nutrients</text>
+<text x="580" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Nutrients added</text>
 <text x="500" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#163349">The gap stays about the same.</text>
-<text x="822" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">Antagonism</text>
+<text x="822" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#a14518">Narrowing gap</text>
 <path d="M682 91V270H960" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M742 110L902 160" fill="none" stroke="#10698a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M742 96v28m-5 0h10m-10 -28h10" fill="none" stroke="#10698a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -50,8 +50,10 @@
 <circle cx="902" cy="232" r="5" fill="#5c3a98"/>
 <path d="M755 110h8V232h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M915 160h8V232h-8" fill="none" stroke="#788d9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="742" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Reference</text>
-<text x="902" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Other condition</text>
-<text x="822" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#a14518">The gap narrows.</text>
-<text x="500" y="385" text-anchor="middle" font-size="19" font-weight="400" fill="#163349">Points show means. Bars show illustrative 95% confidence intervals.</text>
+<text x="742" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">No nutrients</text>
+<text x="902" y="297" text-anchor="middle" font-size="18" font-weight="400" fill="#163349">Nutrients added</text>
+<text x="822" y="332" text-anchor="middle" font-size="20" font-weight="700" fill="#a14518">Antagonism in this example</text>
+<text x="500" y="385" text-anchor="middle" font-size="19" font-weight="400" fill="#163349">Blue: adequate water. Purple: limited water. Response: plant growth (cm).</text>
+<text x="500" y="417" text-anchor="middle" font-size="18" fill="#163349">Here the terms describe a changing nutrient response under different water supplies.</text>
+<text x="500" y="446" text-anchor="middle" font-size="18" fill="#163349">Points show means. Bars illustrate 95% confidence intervals.</text>
 </svg>

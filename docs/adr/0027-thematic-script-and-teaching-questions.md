@@ -41,10 +41,36 @@ Existing `cd:narration` remains valid for older documents but is not repurposed.
 
 `guidingQuestion` and `answersGuidingQuestion` bind an Interpretation resource
 to occurrences in one selected path. `answerResource` identifies the actual
-answer content. SHACL checks node types/cardinality; compilation requires the
-answer immediately after its question in the exact path graph and verifies that
-both contents are actually selected for display. These are immediate pairs, not
-general long-range inquiry or scored exercise semantics.
+answer content. SHACL checks node types and cardinality. The compiler requires
+both resources to be selected for display in their bound steps. By default the
+answer must come immediately after the question. A question can name a later
+step with `guidingQuestionAnswerStep` when the intervening steps develop the
+evidence. The explicit target must occur later in the same selected path and
+must answer that exact question. The recovery example in Level 7 uses this
+exception to link the initial measurements to the final ANOVA table.
+
+### Scene types and content roles
+
+`teachingSceneType` records the purpose of a scene independently of its
+renderer layout. The vocabulary covers title, chapter, use-case introduction,
+exploration, derivation, worked calculation and interpretation. A marked
+scene has one primary type. The 48 ANOVA scenes provide the first full-path
+classification.
+
+The path step assigns content roles to selected interpretations. In addition
+to the existing guiding question and answer, it can identify a hint,
+observation, partial answer or transferable takeaway. A partial answer must
+name a question that is open at that step. A single resource can answer a
+question and serve as its takeaway if both roles apply. The compiler checks
+the selected resources and the question scope. Existing scene-item reveal
+rules determine when those resources appear. The roles do not automatically
+add labels, stages or layout changes.
+
+ANOVA pilots the roles in the spread lab (observation and takeaway), the
+recovery table sequence (hint and partial answer before the final table), and
+the Tukey sequence (decision rule and result within the two matrices).
+The schema keeps the roles optional. An SVG may contain individual prompts
+or results that are not yet separately addressable as graph resources.
 
 The Level 5 pilot binds the interval question to `rc09` and its quantile answer to
 `rc10`. The 0.95 answer is explicitly a reference example, not a claim about all

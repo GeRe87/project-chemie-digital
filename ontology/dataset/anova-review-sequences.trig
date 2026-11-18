@@ -1,0 +1,104 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<https://w3id.org/project-chemie-digital/graph/schema/didactic-review> {
+  cd:ReviewSequence a rdfs:Class .
+  cd:reviewPath a rdf:Property ; rdfs:range cd:LearningPath .
+  cd:reviewPathGraph a rdf:Property .
+  cd:reviewStartScene a rdf:Property ; rdfs:range cd:SceneDefinition .
+  cd:reviewEndScene a rdf:Property ; rdfs:range cd:SceneDefinition .
+  cd:reviewAudience a rdf:Property .
+  cd:reviewPrerequisites a rdf:Property .
+  cd:reviewLearningGoal a rdf:Property .
+  cd:reviewTransferTask a rdf:Property .
+  cd:reviewExpectedReasoning a rdf:Property .
+}
+<https://w3id.org/project-chemie-digital/graph/shapes/didactic-review> {
+  cd:ReviewSequenceShape a sh:NodeShape ; sh:targetClass cd:ReviewSequence ;
+    sh:property [ sh:path cd:reviewPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:LearningPath ] ;
+    sh:property [ sh:path cd:reviewPathGraph ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path cd:reviewStartScene ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:SceneDefinition ] ;
+    sh:property [ sh:path cd:reviewEndScene ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:SceneDefinition ] ;
+    sh:property [ sh:path cd:reviewAudience ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:reviewPrerequisites ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:reviewLearningGoal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:reviewTransferTask ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path cd:reviewExpectedReasoning ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ] .
+}
+<https://w3id.org/project-chemie-digital/graph/teaching/anova-review-sequences> {
+  ex:review-anova-opening a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene-cover ; cd:reviewEndScene ex:l7-scene01 ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "Two-sample t-test and the distinction between a sample and a population mean."@en ;
+    cd:reviewLearningGoal "Recognize why comparing three preparation methods motivates a joint question about mean recovery."@en ;
+    cd:reviewTransferTask "A third method is added to a two-method study. Which question now concerns all methods together, and what is the measured response?"@en ;
+    cd:reviewExpectedReasoning "Ask whether the population mean recovery is the same across all three methods. Recovery is the response and preparation method is the factor."@en .
+  ex:review-anova-pairs-design a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene03 ; cd:reviewEndScene ex:l7-scene05 ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "Means, variances, a two-sample t-test and the preceding visual grouping example."@en ;
+    cd:reviewLearningGoal "Distinguish a family of pairwise questions from an omnibus mean question and design independent preparation replicates for one-way ANOVA."@en ;
+    cd:reviewTransferTask "A pairwise test is significant but the ten-group F test is inconclusive. What can each result support? What variation is missed by repeatedly measuring only one prepared sample?"@en ;
+    cd:reviewExpectedReasoning "The tests address different hypotheses and can give different decisions. The global result leaves equal means unresolved. Repeated measurements of one preparation capture measurement repeatability while independent preparations are needed to capture preparation variation."@en .
+  ex:review-anova-diagnostics-effect a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene21 ; cd:reviewEndScene ex:l7-scene-operator-compare ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "The one-way ANOVA calculation, residuals, a reference distribution and p-values."@en ;
+    cd:reviewLearningGoal "Assess residual normality, distinguish evidence from explained variation and understand limitations when regrouping the same observations by operator."@en ;
+    cd:reviewTransferTask "Method accounts for 84 of 114 units of squared variation. What is eta squared? Does regrouping the same observations by operator isolate a causal operator effect?"@en ;
+    cd:reviewExpectedReasoning "Eta squared is 84/114, about 73.7 percent of observed squared variation. Operator groups mix methods, so this grouping alone cannot isolate a causal operator effect. Residual diagnostics assess model plausibility alongside the study design."@en .
+  ex:review-anova-two-way a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene-chapter-two-way ; cd:reviewEndScene ex:l7-scene-four-tables ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "One-way SS, df, MS, F, eta squared and independent preparation replicates."@en ;
+    cd:reviewLearningGoal "Build an additive two-factor ANOVA and compare its average effects with one-condition one-way effects in two crossed experiments."@en ;
+    cd:reviewTransferTask "The method result changes after adding matrix in SPE but remains significant in the treatment study. Does that p-value contrast alone establish an interaction, and which comparison should be inspected next?"@en ;
+    cd:reviewExpectedReasoning "The one-way comparison in one condition and the additive average across conditions address different questions with different residuals. Their p-value contrast alone does not establish interaction. Compare how method gaps change across conditions, then test an interaction term."@en .
+  ex:review-anova-interactions a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene-compare-patterns ; cd:reviewEndScene ex:l7-scene-interaction-test ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "Additive two-way ANOVA, marginal means, squared deviations and model residuals."@en ;
+    cd:reviewLearningGoal "Recognize context-dependent factor effects, calculate the interaction contribution from departures from additive means and interpret its test and effect size."@en ;
+    cd:reviewTransferTask "The additive residual SS is 338 and the interaction accounts for 278. What SS remains? How should method effects be reported when the interaction is significant, and what does an inconclusive interaction test in the other study establish?"@en ;
+    cd:reviewExpectedReasoning "Residual SS becomes 60. Significant interaction calls for method comparisons within matrix conditions. An inconclusive interaction test leaves the presence of interaction unresolved. Widening or narrowing gaps describe changes for specified contrasts and response scales."@en .
+  ex:review-anova-spread a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene02 ; cd:reviewEndScene ex:l7-scene-spread-lab ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "Mean, sample variance and a scatter plot."@en ;
+    cd:reviewLearningGoal "Explain how separation of means relative to scatter within groups affects visible grouping along y."@en ;
+    cd:reviewTransferTask "The group means stay fixed while within-group variance doubles. What happens to the descriptive ratio of variance of means to average group variance, and why?"@en ;
+    cd:reviewExpectedReasoning "The numerator stays fixed and the denominator doubles, so the ratio halves. This exploratory ratio precedes the formal ANOVA F statistic."@en .
+  ex:review-anova-table a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene06 ; cd:reviewEndScene ex:l7-scene18 ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "Sample means, variance, independent replication and the preceding ANOVA introduction."@en ;
+    cd:reviewLearningGoal "Trace the observed recoveries through SS, degrees of freedom and MS to the F test and its interpretation."@en ;
+    cd:reviewTransferTask "If the between-method mean square stays 42 and the within-method mean square rises from 2 to 4 at unchanged degrees of freedom, what happens to F and the right-tail p-value?"@en ;
+    cd:reviewExpectedReasoning "F falls from 21 to 10.5. Under the same reference distribution a smaller F gives a larger right-tail probability, so the evidence against equal population means weakens."@en .
+  ex:review-anova-tukey a cd:ReviewSequence ;
+    cd:reviewPath ex:path-level7-anova-intro-review ;
+    cd:reviewPathGraph <https://w3id.org/project-chemie-digital/graph/paths/level7-anova-intro-review> ;
+    cd:reviewStartScene ex:l7-scene-chapter-post-hoc ; cd:reviewEndScene ex:l7-scene-post-hoc-spe ;
+    cd:reviewAudience "Bachelor chemistry students."@en ;
+    cd:reviewPrerequisites "ANOVA residual mean square, degrees of freedom, significance level and the interaction in the SPE study."@en ;
+    cd:reviewLearningGoal "Use Tukey HSD and simultaneous intervals to interpret method pairs within each matrix, with a stated comparison family."@en ;
+    cd:reviewTransferTask "An interval for A minus C contains zero. What can you conclude? Does adjustment within river water also cover all comparisons across both matrices?"@en ;
+    cd:reviewExpectedReasoning "There is insufficient evidence of a difference for that pair at the stated family level. Containing zero does not establish equivalence. Separate within-matrix families do not automatically control one family spanning both matrices."@en .
+}

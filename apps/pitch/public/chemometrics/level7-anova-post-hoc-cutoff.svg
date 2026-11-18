@@ -7,5 +7,5 @@
 <text x="45" y="218" font-size="30" font-weight="700" fill="#5c3a98" text-anchor="start">q critical comes from the studentized range distribution</text>
 <text x="45" y="274" font-size="25" font-weight="400" fill="#163349" text-anchor="start">At α = 0.05, read the 95th percentile for 3 groups and 12 error df.</text>
 <text x="45" y="330" font-size="25" font-weight="400" fill="#163349" text-anchor="start">12 error df = 15 measurements − 3 groups</text>
-<text x="45" y="386" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">HSD = 3.77 × √(4 ÷ 5) ≈ 3.37 mg/L</text>
+<text data-svg-stage="1" x="45" y="386" font-size="30" font-weight="700" fill="#a14518" text-anchor="start">HSD = 3.77 × √(4 ÷ 5) ≈ 3.37 mg/L</text>
 </svg>

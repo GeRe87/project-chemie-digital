@@ -22,7 +22,7 @@ export function presentationUrl(href: string): string {
 export function mountSlidesPdfLink(tools: HTMLElement): () => void {
   const link = document.createElement("a");
   link.className = "pcd-slides-pdf-link";
-  link.textContent = "Slides PDF";
+  link.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8V3h12v5M6 17H3V8h18v9h-3M6 14h12v7H6zm11-3h1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   link.setAttribute("aria-label", "Open slides for printing: one slide per landscape page");
   link.title = "Print / Save slides as PDF";
   link.href = slidesPdfUrl(location.href);
@@ -63,6 +63,10 @@ export function isPrintContentBox(element: Element): boolean {
  * flow. Preserve the desktop composition before print view applies its rules. */
 export function prepareSlidesPdf(root: HTMLElement): void {
   for (const legend of root.querySelectorAll<HTMLDetailsElement>("details.symbol-legend-disclosure")) legend.open = true;
+  for (const block of root.querySelectorAll<HTMLElement>('[data-presentation-disclosure-mode="progressive"]')) {
+    block.dataset.presentationDisclosureVisible = "true";
+    block.removeAttribute("aria-hidden");
+  }
   // The print override itself defaults to block until this property is known.
   // Read the underlying composition without that override, not its own fallback.
   const html = root.ownerDocument.documentElement;

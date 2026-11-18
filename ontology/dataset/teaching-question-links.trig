@@ -7,10 +7,15 @@
   cd:guidingQuestion a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
   cd:answersGuidingQuestion a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
   cd:answerResource a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:Interpretation .
+  cd:guidingQuestionAnswerStep a rdf:Property, cdm:RelationDescriptor ; rdfs:domain cd:PathStep ; rdfs:range cd:PathStep .
 }
 <https://w3id.org/project-chemie-digital/graph/shapes/teaching-question-links> {
   cd:GuidingQuestionStepShape a sh:NodeShape ; sh:targetSubjectsOf cd:guidingQuestion ;
     sh:class cd:PathStep ; sh:property [ sh:path cd:guidingQuestion ; sh:maxCount 1 ; sh:class cd:Interpretation ] .
+  cd:GuidingQuestionAnswerTargetShape a sh:NodeShape ; sh:targetSubjectsOf cd:guidingQuestionAnswerStep ;
+    sh:class cd:PathStep ;
+    sh:property [ sh:path cd:guidingQuestion ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Interpretation ] ;
+    sh:property [ sh:path cd:guidingQuestionAnswerStep ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:PathStep ] .
   cd:AnswerStepShape a sh:NodeShape ; sh:targetSubjectsOf cd:answersGuidingQuestion, cd:answerResource ;
     sh:class cd:PathStep ;
     sh:property [ sh:path cd:answersGuidingQuestion ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cd:Interpretation ] ;
