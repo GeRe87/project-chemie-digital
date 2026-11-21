@@ -250,7 +250,7 @@
   ex:l8-heading-residual-orthogonality a cd:Interpretation ; cd:body "How do the two residual conditions become one matrix equation?"@en ; skos:prefLabel "How do the two residual conditions become one matrix equation?"@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-residual-orthogonality .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-orthogonality-rule .
-  ex:l8-heading-25 a cd:Interpretation ; cd:body "From zero residual products to the normal equation"@en ; skos:prefLabel "From zero residual products to the normal equation"@en ; cd:authoredResource true .
+  ex:l8-heading-25 a cd:Interpretation ; cd:body "Least Squares: solve the normal equation"@en ; skos:prefLabel "Least Squares: solve the normal equation"@en ; cd:authoredResource true .
   ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-25 .
   ex:l8-heading-26 a cd:Interpretation ; cd:body "Design Matrix: build it from the measurements"@en ; skos:prefLabel "Design Matrix: build it from the measurements"@en ; cd:authoredResource true .
   ex:l8-essence-26 a cd:Interpretation ; cd:body "one sample per row, one term per column."@en ; skos:prefLabel "one sample per row, one term per column."@en ; cd:authoredResource true .
@@ -289,8 +289,8 @@
   ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: write squared error as a matrix product"@en ; skos:prefLabel "Least Squares: write squared error as a matrix product"@en ; cd:authoredResource true .
   ex:l8-essence-35 a cd:Interpretation ; cd:body "The column product computes the same squared-error score as the original sum."@en ; skos:prefLabel "The column product computes the same squared-error score as the original sum."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-35 .
-  ex:l8-heading-36 a cd:Interpretation ; cd:body "Least Squares: differentiate the residual product"@en ; skos:prefLabel "Least Squares: differentiate the residual product"@en ; cd:authoredResource true .
-  ex:l8-essence-36 a cd:Interpretation ; cd:body "At the minimum the two entries of Xᵀe vanish together."@en ; skos:prefLabel "At the minimum the two entries of Xᵀe vanish together."@en ; cd:authoredResource true .
+  ex:l8-heading-36 a cd:Interpretation ; cd:body "Least Squares: differentiate term by term"@en ; skos:prefLabel "Least Squares: differentiate term by term"@en ; cd:authoredResource true .
+  ex:l8-essence-36 a cd:Interpretation ; cd:body "XᵀX is symmetric, so both β factors contribute equally to the derivative of the quadratic term."@en ; skos:prefLabel "XᵀX is symmetric, so both β factors contribute equally to the derivative of the quadratic term."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-36 .
   ex:l8-heading-37 a cd:Interpretation ; cd:body "Worked Example: put the measurements into the equation"@en ; skos:prefLabel "Worked Example: put the measurements into the equation"@en ; cd:authoredResource true .
   ex:l8-essence-37 a cd:Interpretation ; cd:body "For this calculation, write M = XᵀX and r = Xᵀy."@en ; skos:prefLabel "For this calculation, write M = XᵀX and r = Xᵀy."@en ; cd:authoredResource true .
@@ -371,4 +371,7 @@
   ex:l8-transpose-rules-takeaway a cd:Interpretation ; cd:body "Transpose a difference term by term. Reverse factor order in a product. Two transposes restore the original matrix."@en ; skos:prefLabel "Transpose a difference term by term. Reverse factor order in a product. Two transposes restore the original matrix."@en ; cd:authoredResource true .
   ex:l8-column-squares-heading a cd:Interpretation ; cd:body "Matrix Multiplication: sum the squares of a column"@en ; skos:prefLabel "Matrix Multiplication: sum the squares of a column"@en ; cd:authoredResource true .
   ex:l8-column-squares-takeaway a cd:Interpretation ; cd:body "A transposed column times itself gives a single sum of squares."@en ; skos:prefLabel "A transposed column times itself gives a single sum of squares."@en ; cd:authoredResource true .
+  ex:l8-expand-squared-error-heading a cd:Interpretation ; cd:body "Least Squares: expand the squared error"@en ; skos:prefLabel "Least Squares: expand the squared error"@en ; cd:authoredResource true .
+  ex:l8-expand-squared-error-takeaway a cd:Interpretation ; cd:body "The two mixed products are equal scalars, so they combine into one term."@en ; skos:prefLabel "The two mixed products are equal scalars, so they combine into one term."@en ; cd:authoredResource true .
+  ex:l8-expand-squared-error-takeaway cd:interpretsResource ex:l8-expand-squared-error-formula .
 }
