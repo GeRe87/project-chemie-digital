@@ -275,10 +275,10 @@
   ex:l8-essence-31 a cd:Interpretation ; cd:body "The inverse isolates the fitted coefficient column."@en ; skos:prefLabel "The inverse isolates the fitted coefficient column."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-31 .
   ex:l8-essence-31 cd:interpretsResource ex:l8-direct-solve .
-  ex:l8-heading-32 a cd:Interpretation ; cd:body "Least Squares: write out both derivatives"@en ; skos:prefLabel "Least Squares: write out both derivatives"@en ; cd:authoredResource true .
-  ex:l8-essence-32 a cd:Interpretation ; cd:body "Divide both equations by minus two to get two residual sums."@en ; skos:prefLabel "Divide both equations by minus two to get two residual sums."@en ; cd:authoredResource true .
+  ex:l8-heading-32 a cd:Interpretation ; cd:body "Least Squares: put the residuals into a column"@en ; skos:prefLabel "Least Squares: put the residuals into a column"@en ; cd:authoredResource true .
+  ex:l8-essence-32 a cd:Interpretation ; cd:body "Each row of the residual column is one measured signal minus one prediction."@en ; skos:prefLabel "Each row of the residual column is one measured signal minus one prediction."@en ; cd:authoredResource true .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-32 .
-  ex:l8-essence-32 cd:interpretsResource ex:l8-direct-conditions .
+  ex:l8-essence-32 cd:interpretsResource ex:l8-residual-column-formula .
   ex:l8-heading-33 a cd:Interpretation ; cd:body "Back to the Least-Squares Minimum"@en ; skos:prefLabel "Back to the Least-Squares Minimum"@en ; cd:authoredResource true .
   ex:l8-essence-33 a cd:Interpretation ; cd:body "a minimum has zero derivative."@en ; skos:prefLabel "a minimum has zero derivative."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-33 .
@@ -286,14 +286,14 @@
   ex:l8-heading-34 a cd:Interpretation ; cd:body "Least Squares: recall the total differential"@en ; skos:prefLabel "Least Squares: recall the total differential"@en ; cd:authoredResource true .
   ex:l8-essence-34 a cd:Interpretation ; cd:body "Both partial derivatives must vanish at the same coefficient pair."@en ; skos:prefLabel "Both partial derivatives must vanish at the same coefficient pair."@en ; cd:authoredResource true .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-34 .
-  ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: collect the coefficient terms"@en ; skos:prefLabel "Least Squares: collect the coefficient terms"@en ; cd:authoredResource true .
-  ex:l8-essence-35 a cd:Interpretation ; cd:body "The two equations have the same two unknowns."@en ; skos:prefLabel "The two equations have the same two unknowns."@en ; cd:authoredResource true .
+  ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: write squared error as a matrix product"@en ; skos:prefLabel "Least Squares: write squared error as a matrix product"@en ; cd:authoredResource true .
+  ex:l8-essence-35 a cd:Interpretation ; cd:body "The column product computes the same squared-error score as the original sum."@en ; skos:prefLabel "The column product computes the same squared-error score as the original sum."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-35 .
-  ex:l8-heading-36 a cd:Interpretation ; cd:body "Matrix Form: write the two regression equations as one"@en ; skos:prefLabel "Matrix Form: write the two regression equations as one"@en ; cd:authoredResource true .
-  ex:l8-essence-36 a cd:Interpretation ; cd:body "One row of M comes from each scalar equation."@en ; skos:prefLabel "One row of M comes from each scalar equation."@en ; cd:authoredResource true .
+  ex:l8-heading-36 a cd:Interpretation ; cd:body "Least Squares: differentiate the residual product"@en ; skos:prefLabel "Least Squares: differentiate the residual product"@en ; cd:authoredResource true .
+  ex:l8-essence-36 a cd:Interpretation ; cd:body "At the minimum the two entries of Xᵀe vanish together."@en ; skos:prefLabel "At the minimum the two entries of Xᵀe vanish together."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-36 .
   ex:l8-heading-37 a cd:Interpretation ; cd:body "Worked Example: put the measurements into the equation"@en ; skos:prefLabel "Worked Example: put the measurements into the equation"@en ; cd:authoredResource true .
-  ex:l8-essence-37 a cd:Interpretation ; cd:body "The five observations supply every entry of M and r."@en ; skos:prefLabel "The five observations supply every entry of M and r."@en ; cd:authoredResource true .
+  ex:l8-essence-37 a cd:Interpretation ; cd:body "For this calculation, write M = XᵀX and r = Xᵀy."@en ; skos:prefLabel "For this calculation, write M = XᵀX and r = Xᵀy."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-37 .
   ex:l8-essence-37 cd:interpretsResource ex:l8-direct-numbers .
   ex:l8-heading-38 a cd:Interpretation ; cd:body "Worked Example: find the inverse"@en ; skos:prefLabel "Worked Example: find the inverse"@en ; cd:authoredResource true .
@@ -363,8 +363,12 @@
   ex:l8-essence-55 a cd:Interpretation ; cd:body "Different response scales give different objectives."@en ; skos:prefLabel "Different response scales give different objectives."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-55 .
   ex:l8-essence-34 cd:interpretsResource ex:l8-minimum-two-coefficients-formula .
-  ex:l8-essence-35 cd:interpretsResource ex:l8-direct-collect .
-  ex:l8-essence-36 cd:interpretsResource ex:l8-direct-matrix .
+  ex:l8-essence-35 cd:interpretsResource ex:l8-matrix-squared-error-formula .
+  ex:l8-essence-36 cd:interpretsResource ex:l8-matrix-differential-formula .
   ex:l8-essence-38 cd:interpretsResource ex:l8-direct-inverse .
   ex:l8-five-point-matrix-heading a cd:Interpretation ; cd:body "Matrix Equations: evaluate a line at five points"@en ; skos:prefLabel "Matrix Equations: evaluate a line at five points"@en ; cd:authoredResource true .
+  ex:l8-transpose-rules-heading a cd:Interpretation ; cd:body "Matrix Transpose: differences and products"@en ; skos:prefLabel "Matrix Transpose: differences and products"@en ; cd:authoredResource true .
+  ex:l8-transpose-rules-takeaway a cd:Interpretation ; cd:body "Transpose each term of a difference. For a product, transpose each factor and reverse their order."@en ; skos:prefLabel "Transpose each term of a difference. For a product, transpose each factor and reverse their order."@en ; cd:authoredResource true .
+  ex:l8-column-squares-heading a cd:Interpretation ; cd:body "Matrix Multiplication: sum the squares of a column"@en ; skos:prefLabel "Matrix Multiplication: sum the squares of a column"@en ; cd:authoredResource true .
+  ex:l8-column-squares-takeaway a cd:Interpretation ; cd:body "A transposed column times itself gives a single sum of squares."@en ; skos:prefLabel "A transposed column times itself gives a single sum of squares."@en ; cd:authoredResource true .
 }
