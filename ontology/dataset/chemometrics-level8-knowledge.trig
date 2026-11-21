@@ -184,7 +184,8 @@
   ex:l8-minimum-two-coefficients-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/minimum-two-coefficients.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two schematic slices of the squared-error surface. Each varies one coefficient while holding the other fixed. Later frames reveal the flat tangents and the two conditions for the joint minimum."@en ; cd:authoredResource true .
   ex:l8-minimum-two-coefficients-media cd:hasSource ex:l8-source-author .
   ex:l8-minimum-two-coefficients-heading a cd:Interpretation ; cd:body "Where is the squared error smallest?"@en ; skos:prefLabel "Where is the squared error smallest?"@en ; cd:authoredResource true .
-  ex:l8-minimum-two-coefficients-takeaway a cd:Interpretation ; cd:body "Both derivatives must vanish together. Matrices help us solve the two equations."@en ; skos:prefLabel "Both derivatives must vanish together. Matrices help us solve the two equations."@en ; cd:interpretsResource ex:l8-fit-drift-local-objective ; cd:authoredResource true .
+  ex:l8-minimum-two-coefficients-takeaway a cd:Interpretation ; cd:body "Move one coefficient at a time and compare the two local error curves."@en ; skos:prefLabel "Move one coefficient at a time and compare the two local error curves."@en ; cd:interpretsResource ex:l8-fit-drift-local-objective ; cd:authoredResource true .
+  ex:l8-squared-error-conditions-heading a cd:Interpretation ; cd:body "Squared error at the minimum"@en ; skos:prefLabel "Squared error at the minimum"@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-minimum-two-coefficients-media, ex:l8-minimum-two-coefficients-scene .
   ex:l8-heading-08 a cd:Interpretation ; cd:body "Matrix Algebra"@en ; skos:prefLabel "Matrix Algebra"@en ; cd:authoredResource true .
   ex:l8-essence-08 a cd:Interpretation ; cd:body "shapes → operations → equations."@en ; skos:prefLabel "shapes → operations → equations."@en ; cd:authoredResource true .
