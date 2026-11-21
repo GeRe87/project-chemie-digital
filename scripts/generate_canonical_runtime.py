@@ -1431,7 +1431,7 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
         raise ValueError("Grouped ANOVA requires ScientificExperiment")
     if chart_type == iri(CD,"ScientificExperiment"):
         kind=literal(dataset,chart,iri(CD,"experimentKind"))
-        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson","t-test","pairwise-score","anova-one-way"):raise ValueError("Unknown scientific experiment mechanism")
+        if kind not in ("distribution","ecdf","signed","normal","means","factors","lognormal","squares","variance","student","f-ratio","dilution","calibration","stress","pearson","t-test","pairwise-score","anova-one-way","linear-regression"):raise ValueError("Unknown scientific experiment mechanism")
         if kind != "anova-one-way" and any(objects(dataset, chart, iri(CD, predicate)) for predicate in ("hasChartGroup", "differenceUnit")):
             raise ValueError("Only anova-one-way supports grouped experiment data and differenceUnit")
         parameter_ids=sorted(objects(dataset,chart,iri(CD,"hasExperimentParameter")),key=lambda p:integer(dataset,p,iri(CD,"position")))
@@ -1448,6 +1448,11 @@ def chart_payload(dataset: Dataset, chart: URIRef, language: str) -> tuple[dict[
             return grouped_anova_payload(dataset, chart, language, parameters)
         label,label_path=selected_label_reference(dataset,chart,language)
         payload={"chartType":"experiment","experimentKind":kind,"label":label,"description":selected_literal(dataset,chart,iri(CD,"body"),"cd:body",language),"parameters":parameters,"xAxis":{"label":selected_literal(dataset,chart,iri(CD,"xAxisLabel"),"cd:xAxisLabel",language)},"yAxis":{"label":selected_literal(dataset,chart,iri(CD,"yAxisLabel"),"cd:yAxisLabel",language)}}
+        if kind == "linear-regression":
+            for axis in ("x", "y"):
+                unit = literal(dataset, chart, iri(CD, axis + "AxisUnit"))
+                if unit:
+                    payload[axis + "Axis"]["unit"] = unit
         data=one(dataset,chart,iri(CD,"usesDataset"),required=False)
         if data is not None:
             rows=sorted(objects(dataset,data,iri(CD,"hasObservation")),key=lambda o:integer(dataset,o,iri(CD,"position")))
@@ -1942,6 +1947,12 @@ def compile_scene_document(dataset: Dataset, selected_path: CoursePathReference)
                     block_sources.extend(source_reference(dataset, selected, predicate) for predicate in (
                         "cd:chartType", "cd:experimentKind", "cd:hasChartGroup",
                         "cd:yAxisUnit", "cd:differenceUnit", "cd:hasExperimentParameter"))
+                if payload.get("experimentKind") == "linear-regression":
+                    block_sources.extend(source_reference(dataset, selected, predicate) for predicate in (
+                        "cd:chartType", "cd:experimentKind", "cd:usesDataset", "cd:hasExperimentParameter"))
+                    for axis in ("x", "y"):
+                        if payload[axis + "Axis"].get("unit"):
+                            block_sources.append(source_reference(dataset, selected, "cd:" + axis + "AxisUnit"))
                 for predicate in ("chartPresentation", "lineInterpolation", "showChartPoints", "chartYMinimum", "chartYMaximum"):
                     if one(dataset, selected, iri(CD, predicate), required=False) is not None:
                         block_sources.append(source_reference(dataset, selected, "cd:" + predicate))

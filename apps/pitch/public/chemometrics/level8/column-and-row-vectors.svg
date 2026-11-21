@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 410" data-teaching-stage-count="1" data-teaching-stage-mode="cumulative">
+  <title>Column and row vectors with the same entries</title>
+  <desc>The numbers 1, 2 and 3 form a 3 by 1 column vector on the left and a 1 by 3 row vector on the right. The next stage illustrates transposition.</desc>
+  <g fill="currentColor" font-family="system-ui, sans-serif" text-anchor="middle">
+    <text x="245" y="65" font-size="32" font-weight="700" fill="#13677e">Column vector</text>
+    <text x="800" y="65" font-size="32" font-weight="700" fill="#5c3a98">Row vector</text>
+    <g fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round">
+      <path d="M218 114H199V329H218m54-215h19v215h-19"/>
+      <path d="M708 180H686V264H708m184-84h22v84h-22"/>
+    </g>
+    <g font-size="50" font-weight="650">
+      <text x="245" y="174">1</text><text x="245" y="239">2</text><text x="245" y="304">3</text>
+      <text x="735" y="240">1</text><text x="800" y="240">2</text><text x="865" y="240">3</text>
+    </g>
+    <text x="245" y="379" font-size="30" font-weight="700" fill="#13677e">3 × 1</text>
+    <text x="800" y="379" font-size="30" font-weight="700" fill="#5c3a98">1 × 3</text>
+  </g>
+  <g data-svg-stage="1" fill="currentColor" font-family="system-ui, sans-serif">
+    <text x="520" y="189" text-anchor="middle" font-size="24" font-weight="650">Transpose</text>
+    <path d="M365 222H640l-17-12m17 12-17 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

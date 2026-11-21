@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 450">
+  <title>From measured pairs to estimated line coefficients</title>
+  <desc>Five time–signal pairs supply the evidence for estimating the intercept and slope of a line. The intercept sets the signal at zero minutes. The slope sets the change in signal per minute.</desc>
+  <g font-family="system-ui, sans-serif">
+    <text x="63" y="78" fill="#10698a" font-size="30" font-weight="700">Five measured pairs</text>
+    <text x="63" y="119" fill="currentColor" font-size="22">Time and detector signal</text>
+    <path d="M90 165V330H365" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g fill="#10698a">
+      <circle cx="110" cy="311" r="8"/>
+      <circle cx="165" cy="282" r="8"/>
+      <circle cx="220" cy="241" r="8"/>
+      <circle cx="275" cy="212" r="8"/>
+      <circle cx="330" cy="177" r="8"/>
+    </g>
+    <text x="90" y="153" fill="currentColor" font-size="18">Signal (mV)</text>
+    <text x="365" y="361" text-anchor="end" fill="currentColor" font-size="18">Time (min)</text>
+    <text x="505" y="207" text-anchor="middle" fill="currentColor" font-size="24" font-weight="700">Estimate</text>
+    <path d="M410 245H597l-17-12m17 12-17 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="505" y="290" text-anchor="middle" fill="currentColor" font-size="19">Use all five pairs</text>
+    <text x="655" y="78" fill="#5c3a98" font-size="30" font-weight="700">Two line coefficients</text>
+    <path d="M655 150H1055M655 247H1055M655 344H1055" fill="none" stroke="#5c3a98" stroke-width="1.5" opacity=".65"/>
+    <text x="655" y="190" fill="#5c3a98" font-size="27" font-weight="700">Intercept</text>
+    <text x="655" y="224" fill="currentColor" font-size="22">Modelled signal at 0 min</text>
+    <text x="655" y="287" fill="#5c3a98" font-size="27" font-weight="700">Slope</text>
+    <text x="655" y="321" fill="currentColor" font-size="22">Signal change per minute</text>
+  </g>
+</svg>

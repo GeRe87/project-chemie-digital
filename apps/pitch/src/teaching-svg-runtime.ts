@@ -16,6 +16,8 @@ const attributes = new Set(["viewBox", "x", "y", "x1", "x2", "y1", "y2", "cx", "
 export function safeSvgAttribute(name: string, value: string): boolean {
   if (name === "data-fluid-y") return /^\d{1,4} \d{1,4}$/u.test(value);
   if (name === "data-fluid-row") return /^\d{1,4}$/u.test(value);
+  if (name === "data-teaching-stage-count") return /^[1-4]$/u.test(value);
+  if (name === "data-teaching-stage-mode") return value === "exclusive" || value === "cumulative";
   if (name === "data-svg-stage") return /^[0-4]$/u.test(value);
   if (name === "data-pair-reveal") return value === "true";
   if (name === "data-pair-points") return value === "selected" || value === "context";

@@ -728,6 +728,17 @@ export function inferRevealCompositionPlan(scene: Scene): RevealCompositionPlan 
 
   // One statistical visual owns the stage; concise conclusions do not compete
   // with its plot area. This signature is independent of chart/subject identity.
+  const [visual, observation, question] = body;
+  if (body.length === 3 && visual?.kind === "media-reference" && visual.mediaType?.startsWith("image/")
+      && observation?.kind === "prose" && observation.intent?.kind === "explain"
+      && observation.disclosure?.mode === "initial"
+      && question?.kind === "prose" && question.intent?.kind === "explain"
+      && question.disclosure?.mode === "progressive"
+      && visual.source.some(source => source.resourceId === question.disclosure?.triggerResourceId)) {
+    return { kind: "visual-stage", profile: "diagram", mainCount: 1,
+      placements: [...placementsWithHeading(heading), placement(visual, "main", 0),
+        placement(observation, "footer", 0), placement(question, "footer", 1)] };
+  }
   if (body.length === 2 && body.some(block => block.kind === "media-reference" && block.mediaType?.startsWith("image/"))
       && body.some(block => block.kind === "prose")) {
     return {kind:"visual-stage",profile:"diagram",mainCount:1,placements:[...placementsWithHeading(heading),

@@ -4,6 +4,7 @@ import {runExperiment,validateExperiment,type ExperimentBlock,type ExperimentPan
 import {experimentPlotGeometry,wrapExperimentAxis} from './experiment-layout.ts';
 import {mountPairwiseScore} from './pairwise-score.ts';
 import {renderInlineText} from '../../renderer-shared/src/inline-math.ts';
+import {createLocalSquaredErrorPlot} from './local-squared-error-plot.ts';
 const NS='http://www.w3.org/2000/svg';
 const format=(v:number|string)=>typeof v==='string'?v:Math.abs(v)<1e-4&&v!==0?v.toExponential(2):Number(v.toPrecision(4)).toString();
 /** Presentation emphasis only: the complete numerical result remains in details
@@ -118,8 +119,21 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
    validateExperiment(block);if(block.experimentKind==='pairwise-score')return mountPairwiseScore(host,block);
    const viewParameter = block.parameters.find(parameter => parameter.key === "view");
    const splitRatio = block.experimentKind === "anova-one-way" && viewParameter?.value === 2 && !viewParameter.adjustable;
+   const signedResidualStages = block.experimentKind === 'linear-regression'
+     && block.parameters.some(parameter => parameter.key === 'signedResidualStages' && parameter.value === 1);
+   const localErrors = block.experimentKind === 'linear-regression'
+     && block.parameters.some(parameter => parameter.key === 'localSquaredErrorPlots' && parameter.value === 1);
+   const errorPlots = localErrors ? {
+     intercept: createLocalSquaredErrorPlot(host.ownerDocument, 'intercept'),
+     slope: createLocalSquaredErrorPlot(host.ownerDocument, 'slope'),
+   } : undefined;
+   const printView = new URLSearchParams(host.ownerDocument.defaultView?.location.search).has('print-pdf');
+   let showResiduals = printView;
+   if (signedResidualStages && !printView) host.dataset.presentationStepCount = '1';
    const root=document.createElement('figure');root.className='distribution-experiment pcd-interactive';root.dataset.presentationInteractive='true';root.dataset.experimentKind=block.experimentKind;root.setAttribute('role','region');root.setAttribute('aria-label',block.label);
   const controls=document.createElement('div');controls.className='experiment-controls pcd-interactive-controls';const panels=document.createElement('div');panels.className='experiment-panels';const output=document.createElement('div');output.className='experiment-readouts';output.setAttribute('role','status');output.setAttribute('aria-live','polite');
+  const residualBars = document.createElement('div');
+  residualBars.className = 'experiment-residual-bars';
   const description=document.createElement('div');description.className='experiment-description';
    description.textContent=block.label;
    const authoredDescription=document.createElement('figcaption');authoredDescription.className='experiment-caption';
@@ -155,7 +169,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
     const label = document.createElement('label');
     label.textContent = meanSquare?.label ?? p.label;
     const input = document.createElement('input');
-    input.type = block.experimentKind === 't-test' || block.experimentKind === 'anova-one-way' ? 'range' : 'number';
+    input.type = block.experimentKind === 't-test' || block.experimentKind === 'anova-one-way' || block.experimentKind === 'linear-regression' ? 'range' : 'number';
     input.min = String(controlPosition(p.key, p.minimum));
     input.max = String(controlPosition(p.key, p.maximum));
     input.step = meanSquare ? 'any' : String(p.step);
@@ -212,7 +226,7 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
     let lastSize='';
     let observer:ResizeObserver|undefined;
    function graph(panel:ExperimentPanel,wide:boolean,availableHeight=0){
-     const geometry=experimentPlotGeometry(splitRatio ? panels.clientWidth : root.clientWidth,Number(root.dataset.panelCount)||1),chartWidth=wide?geometry.plotWidth:640,right=chartWidth-25,xTitle=wrapExperimentAxis(panel.xLabel,chartWidth-30),yTitle=wrapExperimentAxis(panel.yLabel,chartWidth-90),titleExtra=(panel.xLabels?30:0)+26*(xTitle.length-1),baseHeight=Math.max(geometry.height,availableHeight-titleExtra),chartHeight=baseHeight+titleExtra,bottomY=baseHeight-58,topY=Math.max(34,38+26*(yTitle.length-1));
+     const geometry=experimentPlotGeometry((splitRatio || block.experimentKind === "linear-regression") ? panels.clientWidth : root.clientWidth,Number(root.dataset.panelCount)||1),chartWidth=wide?geometry.plotWidth:640,right=chartWidth-25,xTitle=wrapExperimentAxis(panel.xLabel,chartWidth-30),yTitle=wrapExperimentAxis(panel.yLabel,chartWidth-90),titleExtra=(panel.xLabels?30:0)+26*(xTitle.length-1),baseHeight=Math.max(geometry.height,availableHeight-titleExtra),chartHeight=baseHeight+titleExtra,bottomY=baseHeight-58,topY=Math.max(34,38+26*(yTitle.length-1));
     const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox',`0 0 ${chartWidth} ${chartHeight}`);svg.setAttribute('role','img');svg.setAttribute('aria-label',`${panel.xLabel}; ${panel.yLabel}. ${panel.traces.map(t=>t.label).join('; ')}. Numerical coordinates are accessible below.`);
    const points=panel.traces.flatMap(t=>t.points).filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)),xs=[...points.map(p=>p.x),...(panel.markers??[]).map(m=>m.x)];let lo=Math.min(...xs),hi=Math.max(...xs),bottom=Math.min(0,...points.map(p=>p.y)),top=Math.max(...points.map(p=>p.y));if(hi===lo){lo--;hi++;}if(top===bottom)top++;
     const x=scaleLinear().domain(panel.xDomain??[lo,hi]).range([70,right]),y=scaleLinear().domain(panel.yDomain??[bottom,top*1.08]).range([bottomY,topY]);
@@ -226,6 +240,15 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
    }
     const title=(lines:string[],x:number,y:number,anchor:string)=>{const text=node('text',{x,y,'text-anchor':anchor,class:'d3-chart-axis-title'});lines.forEach((line,index)=>{const span=document.createElementNS(NS,'tspan');span.setAttribute('x',String(x));span.setAttribute('dy',index?'26':'0');span.textContent=line;text.append(span);});};
      title(yTitle,70,24,'start');title(xTitle,chartWidth/2,baseHeight+(panel.xLabels?30:0)-6,'middle');
+   if (!signedResidualStages || showResiduals) {
+     for (const segment of panel.residualSegments ?? []) {
+       const positive = segment.observed >= segment.fitted;
+       const stroke = signedResidualStages ? `var(--pcd-chart-series-${positive ? 3 : 2})` : 'currentColor';
+       node('line', {x1:x(segment.x), x2:x(segment.x), y1:y(segment.observed), y2:y(segment.fitted),
+         stroke, 'stroke-opacity': signedResidualStages ? 1 : .45, 'stroke-width': signedResidualStages ? 4 : 2,
+         'data-regression-residual':'true'});
+     }
+   }
    panel.traces.forEach((trace,i)=>{const colorIndex=experimentTraceColorIndex(block,panel,i),color=colorIndex===undefined?'var(--pcd-experiment-reference)':`var(--pcd-chart-series-${colorIndex})`;
    if(trace.style==='area'){const path=area<{x:number;y:number}>().x(p=>x(p.x)).y0(y(0)).y1(p=>y(p.y))(trace.points as {x:number;y:number}[]);node('path',{d:path??'',fill:color,'fill-opacity':.35});}
     else if(trace.style==='line'||trace.style==='trajectory'){const path=line<{x:number;y:number}>().x(p=>x(p.x)).y(p=>y(p.y))(trace.points as {x:number;y:number}[]);node('path',{d:path??'',stroke:color,'stroke-width':3,fill:'none','data-trace-label':trace.label,...(i?{'stroke-dasharray':'7 3'}:{})});if(trace.style==='trajectory')trace.points.forEach((p,j)=>{node('circle',{cx:x(p.x),cy:y(p.y),r:5,fill:color});if(panel.labelPoints&&(trace.points.length<=3||j===0||j===trace.points.length-1))node('text',{x:x(p.x),y:y(p.y)-12,'text-anchor':'middle',class:'d3-chart-tick-label'},format(p.y));});}
@@ -259,6 +282,65 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
     if(fill&&panels.dataset.layout==='row'){
       const legendHeight=Math.max(0,...[...panels.querySelectorAll('figcaption')].map(caption=>caption.clientHeight));
       panels.style.setProperty('--pcd-experiment-legend-height',`${legendHeight}px`);
+    }
+  }
+  function paintResidualBars(result: ReturnType<typeof runExperiment>) {
+    if (signedResidualStages) {
+      residualBars.hidden = !showResiduals;
+      if (showResiduals) {
+        const residuals = result.panels[0]?.residualSegments ?? [];
+        const magnitude = Math.max(2, ...residuals.map(point => Math.abs(point.observed - point.fitted)));
+        const limit = 2 ** Math.ceil(Math.log2(magnitude));
+        const svg = document.createElementNS(NS, 'svg');
+        const width = Math.max(260, residualBars.clientWidth || 400);
+        const plotHeight = Math.max(160, residualBars.clientHeight || 190);
+        svg.setAttribute('viewBox', `0 0 ${width} ${plotHeight}`);
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', 'Residuals by measurement time, measured signal minus the fitted line');
+        const draw = (tag: 'line' | 'rect' | 'text', attributes: Record<string, string | number>, label?: string) => {
+          const element = document.createElementNS(NS, tag);
+          for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, String(value));
+          if (label) element.textContent = label;
+          svg.append(element);
+          return element;
+        };
+        const text = {fill: 'currentColor', 'font-size': 20};
+        const zero = plotHeight / 2 - 10;
+        const height = zero - 37;
+        const right = width - 12;
+        draw('text', {...text, x: 47, y: 22, 'font-weight': 650}, `Residual (${block.yAxis.unit ?? ''})`);
+        draw('line', {x1: 46, x2: 46, y1: zero - height, y2: zero + height, stroke: 'currentColor', 'stroke-opacity': .55});
+        draw('line', {x1: 46, x2: right, y1: zero, y2: zero, stroke: 'currentColor', 'stroke-width': 1.5});
+        for (const value of [limit, 0, -limit]) {
+          draw('text', {...text, x: 41, y: zero - value * height / limit + 5, 'text-anchor': 'end'}, format(value));
+        }
+        const spacing = (right - 46) / Math.max(1, residuals.length);
+        residuals.forEach((point, index) => {
+          const value = point.observed - point.fitted;
+          const x = 46 + (index + .5) * spacing;
+          const y = zero - value * height / limit;
+          const barWidth = spacing * .58;
+          const bar = draw('rect', {x: x - barWidth / 2, y: Math.min(zero, y), width: barWidth,
+            height: Math.max(1, Math.abs(y - zero)), fill: `var(--pcd-chart-series-${value >= 0 ? 3 : 2})`});
+          bar.setAttribute('data-residual-bar', String(index));
+          const title = document.createElementNS(NS, 'title');
+          title.textContent = `${format(point.x)} ${block.xAxis.unit ?? ''}: ${format(value)} ${block.yAxis.unit ?? ''}`;
+          bar.append(title);
+          draw('text', {...text, x, y: plotHeight - 31, 'text-anchor': 'middle'}, format(point.x));
+        });
+        draw('text', {...text, x: right, y: plotHeight - 7, 'text-anchor': 'end'}, `${block.xAxis.label} (${block.xAxis.unit ?? ''})`);
+        residualBars.replaceChildren(svg);
+      } else {
+        residualBars.replaceChildren();
+      }
+    }
+  }
+  function paintLocalErrors(result: ReturnType<typeof runExperiment>) {
+    const segments = result.panels[0]?.residualSegments;
+    if (!errorPlots || !segments) return;
+    for (const key of ['intercept', 'slope'] as const) {
+      const parameter = block.parameters.find(parameter => parameter.key === key)!;
+      errorPlots[key].paint(segments, values[key] ?? parameter.value);
     }
   }
   function paint(result:ReturnType<typeof runExperiment>){
@@ -298,23 +380,63 @@ export function mountDistributionExperiment(host:unknown,block:ExperimentBlock){
           output.append(row);
         }
       }
+    paintResidualBars(result);
+    paintLocalErrors(result);
    comparison.replaceChildren();const sources=result.readouts.filter(v=>v.label.includes('-only output SD')&&typeof v.value==='number');comparison.hidden=!sources.length;
     if(sources.length){const heading=document.createElement('p');heading.textContent='Input-specific output SDs: not additive shares.';comparison.append(heading);const max=Math.max(...sources.map(s=>Number(s.value)));for(const source of sources){const row=document.createElement('div'),label=document.createElement('span'),track=document.createElement('span'),bar=document.createElement('i');row.className='experiment-source-row';label.textContent=`${source.label}: ${format(source.value)}`;track.className='experiment-source-track';bar.style.width=`${max?100*Number(source.value)/max:0}%`;bar.setAttribute('aria-hidden','true');track.append(bar);row.append(label,track);comparison.append(row);}}
-    note.textContent=result.note;fallback.textContent=[...result.readouts.map(v=>`${v.label}: ${v.value}`),...result.panels.flatMap(p=>[...(p.xLabels??[]).map(v=>`${v.value}: ${v.label}`),...(p.markers??[]).map(v=>`${v.label}: ${v.x}`),...p.traces.flatMap(t=>[t.label,...t.points.map(v=>`${v.x}: ${v.y}`)])])].join('\n');root.dataset.modelValues=JSON.stringify({...Object.fromEntries(block.parameters.map(p=>[p.key,p.value])),...values});
+    note.textContent=signedResidualStages ? '' : result.note;fallback.textContent=[...result.readouts.map(v=>`${v.label}: ${v.value}`),...result.panels.flatMap(p=>[...(p.xLabels??[]).map(v=>`${v.value}: ${v.label}`),...(p.markers??[]).map(v=>`${v.label}: ${v.x}`),...p.traces.flatMap(t=>[t.label,...t.points.map(v=>`${v.x}: ${v.y}`)])])].join('\n');root.dataset.modelValues=JSON.stringify({...Object.fromEntries(block.parameters.map(p=>[p.key,p.value])),...values});
  }
-    const stop=(e:Event)=>{e.stopPropagation();if((e as KeyboardEvent).key==='Escape'){const opened=details.open?details:settings.open?settings:undefined;if(opened){opened.open=false;opened.querySelector('summary')?.focus();}}};root.addEventListener('keydown',stop);if (splitRatio) {
+    const stop=(e:Event)=>{e.stopPropagation();if((e as KeyboardEvent).key==='Escape'){const opened=details.open?details:settings.open?settings:undefined;if(opened){opened.open=false;opened.querySelector('summary')?.focus();}}};root.addEventListener('keydown',stop);
+    if (errorPlots) {
+      root.classList.add('pcd-visual-layout');
+      root.dataset.visualLayout = 'split';
+      root.dataset.localSquaredError = 'true';
+      const fitColumn = document.createElement('div');
+      fitColumn.className = 'experiment-fit-column';
+      const toolbar = document.createElement('div');
+      toolbar.className = 'experiment-fit-toolbar';
+      toolbar.append(controls, actions);
+      details.insertBefore(captionText, note);
+      fitColumn.append(panels, toolbar, feedback);
+      const errorColumn = document.createElement('div');
+      errorColumn.className = 'experiment-local-error-column';
+      errorColumn.append(errorPlots.intercept.slot, errorPlots.slope.slot);
+      root.append(fitColumn, errorColumn);
+    } else if (splitRatio || block.experimentKind === "linear-regression") {
       root.classList.add("pcd-visual-layout");
       root.dataset.visualLayout = "split";
       panels.classList.add("pcd-visual-layout-plot");
       const support = document.createElement("div");
       support.className = "pcd-visual-layout-support";
-      output.classList.add("experiment-ratio-metrics");
-      support.append(captionText, controls, feedback, output);
+      if (splitRatio) output.classList.add("experiment-ratio-metrics");
+      support.append(captionText, controls);
+      if (signedResidualStages) support.append(residualBars);
+      support.append(feedback);
+      if (!signedResidualStages) support.append(output);
+      support.append(actions);
       root.append(panels, support);
     } else {
       root.append(controls,feedback,panels,authoredDescription,comparison,actions);
     }
+    const stepListener: EventListener = event => {
+      const step = (event as CustomEvent<{step: number}>).detail?.step;
+      if (!Number.isInteger(step) || (step >= 1) === showResiduals) return;
+      showResiduals = step >= 1;
+      if (lastResult) paint(lastResult);
+    };
+    if (signedResidualStages && !printView) host.addEventListener('pcd-presentation-step', stepListener);
     host.replaceChildren(root);paint(runExperiment(block));
     observer=typeof ResizeObserver==='undefined'?undefined:new ResizeObserver(()=>{const size=[root.clientWidth,root.clientHeight,panels.clientHeight,...[...panels.querySelectorAll<SVGSVGElement>(':scope > figure > svg')].map(svg=>svg.clientHeight)].join(':');if(root.clientWidth>0&&size!==lastSize){lastSize=size;if(lastResult)paintPanels(lastResult);}});observer?.observe(root);observer?.observe(panels);
-    return{destroy(){observer?.disconnect();root.removeEventListener('keydown',stop);host.replaceChildren();}};
+    const residualObserver = signedResidualStages && typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(() => { if (showResiduals && lastResult) paintResidualBars(lastResult); })
+      : undefined;
+    residualObserver?.observe(residualBars);
+    const errorObserver = errorPlots && typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(() => { if (lastResult) paintLocalErrors(lastResult); })
+      : undefined;
+    if (errorPlots) {
+      errorObserver?.observe(errorPlots.intercept.slot);
+      errorObserver?.observe(errorPlots.slope.slot);
+    }
+    return{destroy(){observer?.disconnect();residualObserver?.disconnect();errorObserver?.disconnect();root.removeEventListener('keydown',stop);if(signedResidualStages&&!printView){host.removeEventListener('pcd-presentation-step',stepListener);delete host.dataset.presentationStepCount;}host.replaceChildren();}};
 }

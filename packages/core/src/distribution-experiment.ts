@@ -1,8 +1,9 @@
+import {leastSquares,regressionRow} from './linear-regression.ts';
 import type {SceneBlockBase,ChartAxis,SourceReference,DotPlotGroup} from './scene-document.ts';
 import {runAnovaExperiment,validateAnovaExperiment,type AnovaExperimentInput} from './anova-experiment.ts';
 import {pairwiseScores} from './pairwise-score.ts';
 import {normalPdf,normalCdf,normalQuantile,studentPdf,studentCdf,fPdf,fCdf,chiPdf,gammaQ,quantile,mean,variance,seededUniform,empiricalQuantile} from './distribution-math.ts';
-export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson','t-test','pairwise-score','anova-one-way'] as const;
+export const experimentKinds=['distribution','ecdf','signed','normal','means','factors','lognormal','squares','variance','student','f-ratio','dilution','calibration','stress','pearson','t-test','pairwise-score','anova-one-way','linear-regression'] as const;
 export type ExperimentKind=typeof experimentKinds[number];
 export interface ExperimentParameter {readonly id:string;readonly key:string;readonly label:string;readonly value:number;readonly minimum:number;readonly maximum:number;readonly step:number;readonly adjustable:boolean;readonly source:readonly SourceReference[];}
 export interface ExperimentBlock extends SceneBlockBase {
@@ -12,7 +13,7 @@ export interface ExperimentBlock extends SceneBlockBase {
   readonly differenceUnit?:string;
   readonly data?:readonly {readonly x:number;readonly y:number;readonly z?:number;readonly label:string;readonly source:readonly SourceReference[]}[];
 }
-const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode'],'t-test':['view','n','mean','sd','reference','alpha','direction','effect','M','seed'],'pairwise-score':['step'],'anova-one-way':['betweenScale','withinScale','view']};
+const required:Record<ExperimentKind,readonly string[]>={distribution:['location','scale','threshold','width','probability','M','seed','view','family'],ecdf:['M','mu','sigma','seed','threshold'],signed:['n','sigma','overlay'],normal:['mu','sigma','threshold','alpha','inverse'],means:['mu','sigma','n'],factors:['start','factor','delta','steps','mode'],lognormal:['reference','logSd','threshold','alpha','inverse'],squares:['df','M','seed'],variance:['n','M','sigma','seed','observed'],student:['n','M','sigma','seed','departure','observedSd'], 'f-ratio':['nA','nB','M','sigma','seed','ratio','alpha','reverse'],dilution:['M','seed','signal','signalSd','slope','intercept','pipette','pipetteHalf','flask','flaskHalf','source'],calibration:['showQuadratic'],stress:['n','sigma','seed','mode'],pearson:['mode'],'t-test':['view','n','mean','sd','reference','alpha','direction','effect','M','seed'],'pairwise-score':['step'],'anova-one-way':['betweenScale','withinScale','view'],'linear-regression':['basis','intercept','slope','quadratic','mode']};
 function requiredParameters(b:ExperimentBlock):readonly string[]{
    if(b.experimentKind==='pairwise-score')return ['step'];
    if(b.experimentKind==='t-test')return ['view','n','mean','sd','reference','alpha','direction','effect','M','seed'];
@@ -52,7 +53,7 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
     }
   }
    const expected=[...requiredParameters(b),...(b.experimentKind==='stress'?['mu','outlierShift','drift']:[])];
-  const optional:Partial<Record<ExperimentKind,readonly string[]>>={normal:['view','comparisonSigma','band'],lognormal:['view'],signed:['comparisonN'],stress:['view'],means:['comparisonN'],variance:['comparisonN'],student:['view','comparisonN','reference'],'f-ratio':['view'],calibration:['view'],pearson:['view']};
+  const optional:Partial<Record<ExperimentKind,readonly string[]>>={normal:['view','comparisonSigma','band'],lognormal:['view'],signed:['comparisonN'],stress:['view'],means:['comparisonN'],variance:['comparisonN'],student:['view','comparisonN','reference'],'f-ratio':['view'],calibration:['view'],pearson:['view'],'linear-regression':['showSquaredResiduals','signedResidualStages','localSquaredErrorPlots']};
   if(expected.some(k=>!b.parameters.some(p=>p.key===k))||b.parameters.some(p=>![...expected,...(optional[b.experimentKind]??[])].includes(p.key)))throw Error('Missing or unknown experiment parameter');
   if(Object.keys(overrides).some(k=>!b.parameters.some(p=>p.key===k&&p.adjustable)))throw Error('Unknown or fixed experiment parameter');
   const v:Record<string,number>={};for(const p of b.parameters){const x=overrides[p.key]??p.value;if(!Number.isFinite(x)||x<p.minimum||x>p.maximum)throw Error(`Parameter outside authored bounds: ${p.label}`);if(['view','comparisonN','band','n','nA','nB','M','df','seed','steps','mode','overlay','inverse','reverse','source','showQuadratic'].includes(p.key)&&!Number.isInteger(x))throw Error('This experiment parameter must be an integer');v[p.key]=x;}
@@ -68,7 +69,7 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
   if(b.experimentKind==='normal'&&v.view===4&&!(v.comparisonSigma>0))throw Error('Device comparison requires an authored positive comparison SD');
   if(b.experimentKind==='normal'&&v.view===3&&!(v.band>=1&&v.band<=3))throw Error('Coverage requires an authored band in [1,3]');
   if(b.experimentKind==='student'&&v.view===3&&!('reference'in v))throw Error('Concentration interval requires an authored reference');
-  for(const k of ['sigma','logSd','reference','start','factor','slope','pipette','flask','observedSd'])if(k in v&&v[k]<=0)throw Error(`${k} must be positive`);
+  for(const k of ['sigma','logSd','reference','start','factor',...(b.experimentKind==='linear-regression'?[]:['slope']),'pipette','flask','observedSd'])if(k in v&&v[k]<=0)throw Error(`${k} must be positive`);
   for(const k of ['n','nA','nB','comparisonN'])if(k in v&&(v[k]<2||v[k]>200))throw Error('Measurement count must be in [2,200]');
   if('df'in v&&(v.df<1||v.df>200))throw Error('Invalid degrees of freedom');
   if('M'in v&&(v.M<(b.experimentKind==='dilution'?1:2)||v.M>10000||v.M*((v.n??v.df??((v.nA??0)+(v.nB??0)||1))+(v.comparisonN??0))>2000000))throw Error('Simulation exceeds bounded work budget');
@@ -81,11 +82,27 @@ export function parameterValues(b:ExperimentBlock,overrides:Readonly<Record<stri
    if(b.experimentKind==='t-test'&&(!(v.sd>0)||!Number.isInteger(v.direction)||![0,1,2].includes(v.direction)))throw Error('t-test requires positive SD and direction 0 (two-sided), 1 (upper) or 2 (lower)');
   if(b.experimentKind==='distribution'&&(!(v.scale>0)||!(v.width>0)||!(v.probability>0&&v.probability<1)||![0,1].includes(v.family)))throw Error('Invalid general distribution model');
   if('pipetteHalf'in v&&(v.pipetteHalf<0||v.pipetteHalf>=v.pipette||v.flaskHalf<0||v.flaskHalf>=v.flask||v.signalSd<0))throw Error('Invalid dilution uncertainty bounds');
+  if(b.experimentKind==='linear-regression') {
+    if(!Number.isInteger(v.basis)||![0,1,2].includes(v.basis)||![0,1].includes(v.mode))throw Error('Unknown regression basis or fitting mode');
+    for (const key of ['showSquaredResiduals', 'signedResidualStages', 'localSquaredErrorPlots']) {
+      const option = b.parameters.find(parameter => parameter.key === key);
+      if (option && (option.adjustable || ![0, 1].includes(option.value))) {
+        throw Error('Residual visibility must be fixed by the authored experiment');
+      }
+    }
+    if (v.localSquaredErrorPlots === 1 && (v.basis !== 0 || v.mode !== 0)) {
+      throw Error('Local squared-error plots require a manually adjustable straight line');
+    }
+    if(!b.data||b.data.length>2000)throw Error('Regression requires bounded authored paired observations');
+    for(const key of ['basis','mode'])if(b.parameters.find(p=>p.key===key)?.adjustable)throw Error('Regression basis and mode are fixed by the authored model');
+    if(v.mode===1&&b.parameters.some(p=>p.adjustable))throw Error('Automatic least squares has no adjustable coefficients');
+    leastSquares(b.data.map(d=>regressionRow(d.x,v.basis)),b.data.map(d=>d.y));
+  }
   if(b.experimentKind==='anova-one-way')validateAnovaExperiment(anovaInput(b,v));
   return v;
 }
 export interface ExperimentTrace {label:string;points:readonly {x:number;y:number}[];style:'line'|'bars'|'points'|'area'|'trajectory';emphasis?:'reference';}
-export interface ExperimentPanel {xLabel:string;yLabel:string;traces:ExperimentTrace[];yDomain?:readonly [number,number];xDomain?:readonly [number,number];xLabels?:readonly {value:number;label:string}[];markers?:readonly {x:number;label:string}[];labelPoints?:boolean;hideYAxis?:boolean;inset?:ExperimentPanel;}
+export interface ExperimentPanel {xLabel:string;yLabel:string;traces:ExperimentTrace[];yDomain?:readonly [number,number];xDomain?:readonly [number,number];xLabels?:readonly {value:number;label:string}[];markers?:readonly {x:number;label:string}[];residualSegments?:readonly {x:number;observed:number;fitted:number}[];labelPoints?:boolean;hideYAxis?:boolean;inset?:ExperimentPanel;}
 export interface ExperimentResult {panels:ExperimentPanel[];readouts:{label:string;value:number|string}[];note:string;}
 const curve=(label:string,f:(x:number)=>number,lo:number,hi:number):ExperimentTrace=>({label,style:'line',points:Array.from({length:161},(_,i)=>{const x=lo+(hi-lo)*i/160;return{x,y:f(x)};})});
 function histogram(label:string,values:readonly number[],lo?:number,hi?:number):{trace:ExperimentTrace;outside:number} {
@@ -98,6 +115,26 @@ export function runExperiment(b:ExperimentBlock,overrides:Readonly<Record<string
   const panel=(xLabel:string,yLabel:string,traces:ExperimentTrace[])=>r.panels.push({xLabel,yLabel,traces});
   const uniform=seededUniform(p.seed??1),normal=()=>normalQuantile(uniform());
    switch(b.experimentKind){
+    case 'linear-regression': {
+      const data=b.data!,design=data.map(d=>regressionRow(d.x,p.basis));
+      const fit=leastSquares(design,data.map(d=>d.y));
+      const coefficients=p.mode===1?fit.coefficients:(p.basis===1?[p.intercept,p.slope,p.quadratic]:[p.intercept,p.slope]);
+      const predict=(x:number)=>regressionRow(x,p.basis).reduce((sum,value,i)=>sum+value*coefficients[i]!,0);
+      const lo=Math.min(...data.map(d=>d.x)),hi=Math.max(...data.map(d=>d.x));
+      const fitted=data.map(d=>predict(d.x));
+      const residuals=data.map((d,i)=>d.y-fitted[i]!);
+      const axis=(a:ChartAxis)=>a.unit?`${a.label} (${a.unit})`:a.label;
+      panel(axis(b.xAxis),axis(b.yAxis),[curve('Model prediction',predict,lo,hi),{label:'Observed measurements',style:'points',points:data}]);
+      r.panels[0]!.residualSegments=data.map((d,i)=>({x:d.x,observed:d.y,fitted:fitted[i]!}));
+      const ys=[...data.map(d=>d.y),...r.panels[0]!.traces[0]!.points.map(d=>d.y)],low=Math.min(...ys),high=Math.max(...ys),pad=Math.max((high-low)*.1,.01);
+      r.panels[0]!.yDomain=[low-pad,high+pad];
+      coefficients.forEach((value,i)=>add(`Coefficient b${i}`,value));
+      if (p.showSquaredResiduals !== 0) {
+        add('Sum of squared residuals', residuals.reduce((sum, residual) => sum + residual * residual, 0));
+      }
+      r.note=data.map((d,i)=>`${d.label}: observed ${d.y}, predicted ${fitted[i]}, residual ${residuals[i]}`).join('\n');
+      break;
+    }
     case 'anova-one-way':return runAnovaExperiment(anovaInput(b,p)).experiment;
     case 'pairwise-score':{
      const steps=pairwiseScores(b),current=steps[p.step-1];

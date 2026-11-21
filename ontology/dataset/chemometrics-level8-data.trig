@@ -1,0 +1,138 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/level8-linear-regression> {
+  ex:l8-drift-data-obs-1 a cd:Observation ; cd:position 1 ; skos:prefLabel "Observation 1"@en ; cd:numericValue "0"^^xsd:decimal ; cd:pairedValue "1.1"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-drift-data-obs-1 cd:hasSource ex:l8-source-author .
+  ex:l8-drift-data-obs-2 a cd:Observation ; cd:position 2 ; skos:prefLabel "Observation 2"@en ; cd:numericValue "1"^^xsd:decimal ; cd:pairedValue "2.8"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-drift-data-obs-2 cd:hasSource ex:l8-source-author .
+  ex:l8-drift-data-obs-3 a cd:Observation ; cd:position 3 ; skos:prefLabel "Observation 3"@en ; cd:numericValue "2"^^xsd:decimal ; cd:pairedValue "5.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-drift-data-obs-3 cd:hasSource ex:l8-source-author .
+  ex:l8-drift-data-obs-4 a cd:Observation ; cd:position 4 ; skos:prefLabel "Observation 4"@en ; cd:numericValue "3"^^xsd:decimal ; cd:pairedValue "6.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-drift-data-obs-4 cd:hasSource ex:l8-source-author .
+  ex:l8-drift-data-obs-5 a cd:Observation ; cd:position 5 ; skos:prefLabel "Observation 5"@en ; cd:numericValue "4"^^xsd:decimal ; cd:pairedValue "9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-drift-data-obs-5 cd:hasSource ex:l8-source-author .
+  ex:l8-drift-data a cd:Dataset ; skos:prefLabel "l8-drift-data"@en ; cd:body "Paired observations; numericValue is predictor in min; pairedValue is response in mV. Order is fixed by position. Synthetic owner-specified teaching data."@en ; cd:hasObservation ex:l8-drift-data-obs-1, ex:l8-drift-data-obs-2, ex:l8-drift-data-obs-3, ex:l8-drift-data-obs-4, ex:l8-drift-data-obs-5 ; cd:authoredResource true .
+  ex:l8-drift-data cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data-obs-1 a cd:Observation ; cd:position 1 ; skos:prefLabel "Observation 1"@en ; cd:numericValue "0"^^xsd:decimal ; cd:pairedValue "20.98"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-quadratic-data-obs-1 cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data-obs-2 a cd:Observation ; cd:position 2 ; skos:prefLabel "Observation 2"@en ; cd:numericValue "1"^^xsd:decimal ; cd:pairedValue "22.34"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-quadratic-data-obs-2 cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data-obs-3 a cd:Observation ; cd:position 3 ; skos:prefLabel "Observation 3"@en ; cd:numericValue "2"^^xsd:decimal ; cd:pairedValue "25.2"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-quadratic-data-obs-3 cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data-obs-4 a cd:Observation ; cd:position 4 ; skos:prefLabel "Observation 4"@en ; cd:numericValue "3"^^xsd:decimal ; cd:pairedValue "29.66"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-quadratic-data-obs-4 cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data-obs-5 a cd:Observation ; cd:position 5 ; skos:prefLabel "Observation 5"@en ; cd:numericValue "4"^^xsd:decimal ; cd:pairedValue "35.82"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-quadratic-data-obs-5 cd:hasSource ex:l8-source-author .
+  ex:l8-quadratic-data a cd:Dataset ; skos:prefLabel "l8-quadratic-data"@en ; cd:body "Paired observations; numericValue is predictor in min; pairedValue is response in °C. Order is fixed by position. Synthetic owner-specified teaching data."@en ; cd:hasObservation ex:l8-quadratic-data-obs-1, ex:l8-quadratic-data-obs-2, ex:l8-quadratic-data-obs-3, ex:l8-quadratic-data-obs-4, ex:l8-quadratic-data-obs-5 ; cd:authoredResource true .
+  ex:l8-quadratic-data cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data-obs-1 a cd:Observation ; cd:position 1 ; skos:prefLabel "Observation 1"@en ; cd:numericValue "0"^^xsd:decimal ; cd:pairedValue "19.6039734661351"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-decay-data-obs-1 cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data-obs-2 a cd:Observation ; cd:position 2 ; skos:prefLabel "Observation 2"@en ; cd:numericValue "1"^^xsd:decimal ; cd:pairedValue "13.9535265214206"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-decay-data-obs-2 cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data-obs-3 a cd:Observation ; cd:position 3 ; skos:prefLabel "Observation 3"@en ; cd:numericValue "2"^^xsd:decimal ; cd:pairedValue "8.98657928234443"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-decay-data-obs-3 cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data-obs-4 a cd:Observation ; cd:position 4 ; skos:prefLabel "Observation 4"@en ; cd:numericValue "3"^^xsd:decimal ; cd:pairedValue "5.78768435878101"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-decay-data-obs-4 cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data-obs-5 a cd:Observation ; cd:position 5 ; skos:prefLabel "Observation 5"@en ; cd:numericValue "4"^^xsd:decimal ; cd:pairedValue "4.11950196409767"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-decay-data-obs-5 cd:hasSource ex:l8-source-author .
+  ex:l8-decay-data a cd:Dataset ; skos:prefLabel "l8-decay-data"@en ; cd:body "Paired observations; numericValue is predictor in min; pairedValue is response in mg/L. Order is fixed by position. Synthetic owner-specified teaching data."@en ; cd:hasObservation ex:l8-decay-data-obs-1, ex:l8-decay-data-obs-2, ex:l8-decay-data-obs-3, ex:l8-decay-data-obs-4, ex:l8-decay-data-obs-5 ; cd:authoredResource true .
+  ex:l8-decay-data cd:hasSource ex:l8-source-author .
+  ex:l8-log-data-obs-1 a cd:Observation ; cd:position 1 ; skos:prefLabel "Observation 1"@en ; cd:numericValue "0"^^xsd:decimal ; cd:pairedValue "2.97573227355399"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-log-data-obs-1 cd:hasSource ex:l8-source-author .
+  ex:l8-log-data-obs-2 a cd:Observation ; cd:position 2 ; skos:prefLabel "Observation 2"@en ; cd:numericValue "1"^^xsd:decimal ; cd:pairedValue "2.63573227355399"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-log-data-obs-2 cd:hasSource ex:l8-source-author .
+  ex:l8-log-data-obs-3 a cd:Observation ; cd:position 3 ; skos:prefLabel "Observation 3"@en ; cd:numericValue "2"^^xsd:decimal ; cd:pairedValue "2.19573227355399"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-log-data-obs-3 cd:hasSource ex:l8-source-author .
+  ex:l8-log-data-obs-4 a cd:Observation ; cd:position 4 ; skos:prefLabel "Observation 4"@en ; cd:numericValue "3"^^xsd:decimal ; cd:pairedValue "1.75573227355399"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-log-data-obs-4 cd:hasSource ex:l8-source-author .
+  ex:l8-log-data-obs-5 a cd:Observation ; cd:position 5 ; skos:prefLabel "Observation 5"@en ; cd:numericValue "4"^^xsd:decimal ; cd:pairedValue "1.41573227355399"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-log-data-obs-5 cd:hasSource ex:l8-source-author .
+  ex:l8-log-data a cd:Dataset ; skos:prefLabel "l8-log-data"@en ; cd:body "Paired observations; numericValue is predictor in min; pairedValue is response in dimensionless log ratio. Order is fixed by position. Synthetic owner-specified teaching data."@en ; cd:hasObservation ex:l8-log-data-obs-1, ex:l8-log-data-obs-2, ex:l8-log-data-obs-3, ex:l8-log-data-obs-4, ex:l8-log-data-obs-5 ; cd:authoredResource true .
+  ex:l8-log-data cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data-obs-1 a cd:Observation ; cd:position 1 ; skos:prefLabel "Observation 1"@en ; cd:numericValue "1"^^xsd:decimal ; cd:pairedValue "8.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-reciprocal-data-obs-1 cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data-obs-2 a cd:Observation ; cd:position 2 ; skos:prefLabel "Observation 2"@en ; cd:numericValue "2"^^xsd:decimal ; cd:pairedValue "4.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-reciprocal-data-obs-2 cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data-obs-3 a cd:Observation ; cd:position 3 ; skos:prefLabel "Observation 3"@en ; cd:numericValue "4"^^xsd:decimal ; cd:pairedValue "2.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-reciprocal-data-obs-3 cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data-obs-4 a cd:Observation ; cd:position 4 ; skos:prefLabel "Observation 4"@en ; cd:numericValue "8"^^xsd:decimal ; cd:pairedValue "1.4"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-reciprocal-data-obs-4 cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data-obs-5 a cd:Observation ; cd:position 5 ; skos:prefLabel "Observation 5"@en ; cd:numericValue "16"^^xsd:decimal ; cd:pairedValue "0.9"^^xsd:decimal ; cd:authoredResource true .
+  ex:l8-reciprocal-data-obs-5 cd:hasSource ex:l8-source-author .
+  ex:l8-reciprocal-data a cd:Dataset ; skos:prefLabel "l8-reciprocal-data"@en ; cd:body "Paired observations; numericValue is predictor in mL/min; pairedValue is response in min. Order is fixed by position. Synthetic owner-specified teaching data."@en ; cd:hasObservation ex:l8-reciprocal-data-obs-1, ex:l8-reciprocal-data-obs-2, ex:l8-reciprocal-data-obs-3, ex:l8-reciprocal-data-obs-4, ex:l8-reciprocal-data-obs-5 ; cd:authoredResource true .
+  ex:l8-reciprocal-data cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-basis a cd:ExperimentParameter ; cd:position 1 ; cd:parameterKey "basis" ; skos:prefLabel "basis"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-basis cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-intercept a cd:ExperimentParameter ; cd:position 2 ; cd:parameterKey "intercept" ; skos:prefLabel "intercept"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "-2.0"^^xsd:decimal ; cd:parameterMaximum "5.0"^^xsd:decimal ; cd:parameterStep "0.02"^^xsd:decimal ; cd:adjustableParameter true ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-intercept cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-slope a cd:ExperimentParameter ; cd:position 3 ; cd:parameterKey "slope" ; skos:prefLabel "slope"@en ; cd:numericValue "2.5"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "4.0"^^xsd:decimal ; cd:parameterStep "0.01"^^xsd:decimal ; cd:adjustableParameter true ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-slope cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-quadratic a cd:ExperimentParameter ; cd:position 4 ; cd:parameterKey "quadratic" ; skos:prefLabel "quadratic"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-quadratic cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-mode a cd:ExperimentParameter ; cd:position 5 ; cd:parameterKey "mode" ; skos:prefLabel "mode"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-mode cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-manual-show-squared-residuals a cd:ExperimentParameter ; cd:position 6 ; cd:parameterKey "showSquaredResiduals" ; skos:prefLabel "Show sum of squared residuals"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-show-squared-residuals cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-show-squared-residuals .
+  ex:l8-fit-drift-manual-signed-stages a cd:ExperimentParameter ; cd:position 7 ; cd:parameterKey "signedResidualStages" ; skos:prefLabel "Reveal the residual plot"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-manual-signed-stages cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-signed-stages .
+  ex:l8-fit-drift-manual a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Fit the drift line by hand"@en ; cd:body "Adjust the height and tilt of the line. Compare your line with the measured points."@en ; cd:usesDataset ex:l8-drift-data ; cd:xAxisLabel "Time"@en ; cd:yAxisLabel "Signal"@en ; cd:xAxisUnit "min" ; cd:yAxisUnit "mV" ; cd:hasExperimentParameter ex:l8-fit-drift-manual-basis, ex:l8-fit-drift-manual-intercept, ex:l8-fit-drift-manual-slope, ex:l8-fit-drift-manual-quadratic, ex:l8-fit-drift-manual-mode, ex:l8-fit-drift-manual-show-squared-residuals, ex:l8-fit-drift-manual-signed-stages ; cd:authoredResource true .
+  ex:l8-fit-drift-manual cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-local-objective-show-local-plots a cd:ExperimentParameter ; cd:position 6 ; cd:parameterKey "localSquaredErrorPlots" ; skos:prefLabel "Show local squared-error plots"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-local-objective-show-local-plots cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-local-objective a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Explore the squared error"@en ; cd:body "Move one slider and watch both error curves. The dot marks your current setting."@en ; cd:usesDataset ex:l8-drift-data ; cd:xAxisLabel "Time"@en ; cd:yAxisLabel "Signal"@en ; cd:xAxisUnit "min" ; cd:yAxisUnit "mV" ; cd:hasExperimentParameter ex:l8-fit-drift-manual-basis, ex:l8-fit-drift-manual-intercept, ex:l8-fit-drift-manual-slope, ex:l8-fit-drift-manual-quadratic, ex:l8-fit-drift-manual-mode, ex:l8-fit-drift-local-objective-show-local-plots ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-local-objective, ex:l8-fit-drift-local-objective-show-local-plots .
+  ex:l8-fit-drift-auto-basis a cd:ExperimentParameter ; cd:position 1 ; cd:parameterKey "basis" ; skos:prefLabel "basis"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-auto-basis cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-auto-intercept a cd:ExperimentParameter ; cd:position 2 ; cd:parameterKey "intercept" ; skos:prefLabel "intercept"@en ; cd:numericValue "1.02"^^xsd:decimal ; cd:parameterMinimum "1.02"^^xsd:decimal ; cd:parameterMaximum "1.02"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-auto-intercept cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-auto-slope a cd:ExperimentParameter ; cd:position 3 ; cd:parameterKey "slope" ; skos:prefLabel "slope"@en ; cd:numericValue "1.99"^^xsd:decimal ; cd:parameterMinimum "1.99"^^xsd:decimal ; cd:parameterMaximum "1.99"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-auto-slope cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-auto-quadratic a cd:ExperimentParameter ; cd:position 4 ; cd:parameterKey "quadratic" ; skos:prefLabel "quadratic"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-auto-quadratic cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-auto-mode a cd:ExperimentParameter ; cd:position 5 ; cd:parameterKey "mode" ; skos:prefLabel "mode"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-drift-auto-mode cd:hasSource ex:l8-source-author .
+  ex:l8-fit-drift-auto a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Least-squares drift line"@en ; cd:body "The coefficients minimise the sum of squared vertical residuals for the fixed observations and chosen model terms."@en ; cd:usesDataset ex:l8-drift-data ; cd:xAxisLabel "Time"@en ; cd:yAxisLabel "Signal"@en ; cd:xAxisUnit "min" ; cd:yAxisUnit "mV" ; cd:hasExperimentParameter ex:l8-fit-drift-auto-basis, ex:l8-fit-drift-auto-intercept, ex:l8-fit-drift-auto-slope, ex:l8-fit-drift-auto-quadratic, ex:l8-fit-drift-auto-mode ; cd:authoredResource true .
+  ex:l8-fit-drift-auto cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual-basis a cd:ExperimentParameter ; cd:position 1 ; cd:parameterKey "basis" ; skos:prefLabel "basis"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual-basis cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual-intercept a cd:ExperimentParameter ; cd:position 2 ; cd:parameterKey "intercept" ; skos:prefLabel "intercept"@en ; cd:numericValue "20.0"^^xsd:decimal ; cd:parameterMinimum "15.0"^^xsd:decimal ; cd:parameterMaximum "25.0"^^xsd:decimal ; cd:parameterStep "0.02"^^xsd:decimal ; cd:adjustableParameter true ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual-intercept cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual-slope a cd:ExperimentParameter ; cd:position 3 ; cd:parameterKey "slope" ; skos:prefLabel "slope"@en ; cd:numericValue "2.0"^^xsd:decimal ; cd:parameterMinimum "-2.0"^^xsd:decimal ; cd:parameterMaximum "6.0"^^xsd:decimal ; cd:parameterStep "0.02"^^xsd:decimal ; cd:adjustableParameter true ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual-slope cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual-quadratic a cd:ExperimentParameter ; cd:position 4 ; cd:parameterKey "quadratic" ; skos:prefLabel "quadratic"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "-1.0"^^xsd:decimal ; cd:parameterMaximum "2.0"^^xsd:decimal ; cd:parameterStep "0.01"^^xsd:decimal ; cd:adjustableParameter true ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual-quadratic cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual-mode a cd:ExperimentParameter ; cd:position 5 ; cd:parameterKey "mode" ; skos:prefLabel "mode"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual-mode cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-manual a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Explore a curved heating ramp"@en ; cd:body "Move the coefficient controls. Compare the candidate curve with the fixed observations and reduce the squared vertical gaps."@en ; cd:usesDataset ex:l8-quadratic-data ; cd:xAxisLabel "Time"@en ; cd:yAxisLabel "Temperature"@en ; cd:xAxisUnit "min" ; cd:yAxisUnit "°C" ; cd:hasExperimentParameter ex:l8-fit-quadratic-manual-basis, ex:l8-fit-quadratic-manual-intercept, ex:l8-fit-quadratic-manual-slope, ex:l8-fit-quadratic-manual-quadratic, ex:l8-fit-quadratic-manual-mode ; cd:authoredResource true .
+  ex:l8-fit-quadratic-manual cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto-basis a cd:ExperimentParameter ; cd:position 1 ; cd:parameterKey "basis" ; skos:prefLabel "basis"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto-basis cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto-intercept a cd:ExperimentParameter ; cd:position 2 ; cd:parameterKey "intercept" ; skos:prefLabel "intercept"@en ; cd:numericValue "21.0"^^xsd:decimal ; cd:parameterMinimum "21.0"^^xsd:decimal ; cd:parameterMaximum "21.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto-intercept cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto-slope a cd:ExperimentParameter ; cd:position 3 ; cd:parameterKey "slope" ; skos:prefLabel "slope"@en ; cd:numericValue "0.5"^^xsd:decimal ; cd:parameterMinimum "0.5"^^xsd:decimal ; cd:parameterMaximum "0.5"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto-slope cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto-quadratic a cd:ExperimentParameter ; cd:position 4 ; cd:parameterKey "quadratic" ; skos:prefLabel "quadratic"@en ; cd:numericValue "0.8"^^xsd:decimal ; cd:parameterMinimum "0.8"^^xsd:decimal ; cd:parameterMaximum "0.8"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto-quadratic cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto-mode a cd:ExperimentParameter ; cd:position 5 ; cd:parameterKey "mode" ; skos:prefLabel "mode"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto-mode cd:hasSource ex:l8-source-author .
+  ex:l8-fit-quadratic-auto a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Least-squares quadratic ramp"@en ; cd:body "The coefficients minimise the sum of squared vertical residuals for the fixed observations and chosen model terms."@en ; cd:usesDataset ex:l8-quadratic-data ; cd:xAxisLabel "Time"@en ; cd:yAxisLabel "Temperature"@en ; cd:xAxisUnit "min" ; cd:yAxisUnit "°C" ; cd:hasExperimentParameter ex:l8-fit-quadratic-auto-basis, ex:l8-fit-quadratic-auto-intercept, ex:l8-fit-quadratic-auto-slope, ex:l8-fit-quadratic-auto-quadratic, ex:l8-fit-quadratic-auto-mode ; cd:authoredResource true .
+  ex:l8-fit-quadratic-auto cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto-basis a cd:ExperimentParameter ; cd:position 1 ; cd:parameterKey "basis" ; skos:prefLabel "basis"@en ; cd:numericValue "2.0"^^xsd:decimal ; cd:parameterMinimum "2.0"^^xsd:decimal ; cd:parameterMaximum "2.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto-basis cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto-intercept a cd:ExperimentParameter ; cd:position 2 ; cd:parameterKey "intercept" ; skos:prefLabel "intercept"@en ; cd:numericValue "0.4"^^xsd:decimal ; cd:parameterMinimum "0.4"^^xsd:decimal ; cd:parameterMaximum "0.4"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto-intercept cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto-slope a cd:ExperimentParameter ; cd:position 3 ; cd:parameterKey "slope" ; skos:prefLabel "slope"@en ; cd:numericValue "8.0"^^xsd:decimal ; cd:parameterMinimum "8.0"^^xsd:decimal ; cd:parameterMaximum "8.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto-slope cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto-quadratic a cd:ExperimentParameter ; cd:position 4 ; cd:parameterKey "quadratic" ; skos:prefLabel "quadratic"@en ; cd:numericValue "0.0"^^xsd:decimal ; cd:parameterMinimum "0.0"^^xsd:decimal ; cd:parameterMaximum "0.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto-quadratic cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto-mode a cd:ExperimentParameter ; cd:position 5 ; cd:parameterKey "mode" ; skos:prefLabel "mode"@en ; cd:numericValue "1.0"^^xsd:decimal ; cd:parameterMinimum "1.0"^^xsd:decimal ; cd:parameterMaximum "1.0"^^xsd:decimal ; cd:parameterStep "1.0"^^xsd:decimal ; cd:adjustableParameter false ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto-mode cd:hasSource ex:l8-source-author .
+  ex:l8-fit-reciprocal-auto a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Residence time at positive flow"@en ; cd:body "The coefficients minimise the sum of squared vertical residuals for the fixed observations and chosen model terms."@en ; cd:usesDataset ex:l8-reciprocal-data ; cd:xAxisLabel "Flow"@en ; cd:yAxisLabel "Residence time"@en ; cd:xAxisUnit "mL/min" ; cd:yAxisUnit "min" ; cd:hasExperimentParameter ex:l8-fit-reciprocal-auto-basis, ex:l8-fit-reciprocal-auto-intercept, ex:l8-fit-reciprocal-auto-slope, ex:l8-fit-reciprocal-auto-quadratic, ex:l8-fit-reciprocal-auto-mode ; cd:authoredResource true .
+  ex:l8-fit-reciprocal-auto cd:hasSource ex:l8-source-author .
+}

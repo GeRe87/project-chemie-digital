@@ -21,7 +21,7 @@
 <https://w3id.org/project-chemie-digital/graph/shapes/scientific-experiments> {
  cd:ScientificExperimentShape a sh:NodeShape ; sh:targetSubjectsOf cd:experimentKind ;
   sh:property [ sh:path cd:chartType ; sh:hasValue cd:ScientificExperiment ] ;
-   sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" "t-test" "pairwise-score" "anova-one-way" ) ] ;
+   sh:property [ sh:path cd:experimentKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "distribution" "ecdf" "signed" "normal" "means" "factors" "lognormal" "squares" "variance" "student" "f-ratio" "dilution" "calibration" "stress" "pearson" "t-test" "pairwise-score" "anova-one-way" "linear-regression" ) ] ;
   sh:or (
    [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "anova-one-way" ] ; sh:node cd:GroupedAnovaShape ]
    [ sh:not [ sh:property [ sh:path cd:experimentKind ; sh:hasValue "anova-one-way" ] ] ;

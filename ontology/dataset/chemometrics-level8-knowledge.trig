@@ -1,0 +1,371 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/level8-linear-regression> {
+  ex:l8-source-nist-linear a cd:Source ; dct:title "NIST/SEMATECH e-Handbook 4.1.4.1: Linear Least Squares Regression"@en ; dct:creator "NIST/SEMATECH" ; dct:identifier "l8-source-nist-linear" ; dct:source <https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm> ; cd:authoredResource true .
+  ex:l8-source-nist-ls a cd:Source ; dct:title "NIST/SEMATECH e-Handbook 4.4.3.1: Least Squares"@en ; dct:creator "NIST/SEMATECH" ; dct:identifier "l8-source-nist-ls" ; dct:source <https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd431.htm> ; cd:authoredResource true .
+  ex:l8-source-mit a cd:Source ; dct:title "MIT OCW 18.06: Lecture 1, The geometry of linear equations"@en ; dct:creator "Gilbert Strang / MIT OpenCourseWare" ; dct:identifier "l8-source-mit" ; dct:source <https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-1-the-geometry-of-linear-equations/> ; cd:authoredResource true .
+  ex:l8-source-author a cd:Source ; dct:title "Owner-specified synthetic teaching examples, Level 8 TERMIN 1"@en ; dct:creator "Local course author" ; dct:identifier "level8-owner-task-2026-11-19" ; cd:body "Synthetic worked data supplied in the local authoring task; no personal or measured laboratory data. Numerical checks are recorded in the local handoff."@en ; cd:authoredResource true .
+  ex:l8-linear-regression a cd:Concept ; skos:prefLabel "Linear regression foundations"@en ; cd:body "A fixed design matrix combines known model terms with coefficients to describe observations by least squares."@en ; cd:authoredResource true .
+  ex:l8-definition-matrix a cd:Definition ; skos:prefLabel "Matrix"@en ; cd:body "A rectangular arrangement of entries with an ordered row index and an ordered column index. Its shape is the number of rows by the number of columns."@en ; cd:authoredResource true .
+  ex:l8-definition-design a cd:Definition ; skos:prefLabel "Design matrix"@en ; cd:body "A matrix with one row per observation and one column per known model term. The ordering of coefficient entries must match the ordering of its columns."@en ; cd:authoredResource true .
+  ex:l8-definition-residual a cd:Definition ; skos:prefLabel "Residual"@en ; cd:body "Observed response minus fitted response for the same observation. A positive residual means the observation lies above its fitted value."@en ; cd:authoredResource true .
+  ex:l8-definition-linear a cd:Definition ; skos:prefLabel "Linear in the coefficients"@en ; cd:body "The unknown coefficients enter only as a weighted sum of known model terms. Curvature in a predictor does not by itself make the coefficient problem nonlinear."@en ; cd:authoredResource true .
+  ex:l8-linear-regression cd:hasDefinition ex:l8-definition-linear .
+  ex:l8-definition-linear cd:hasSource ex:l8-source-nist-linear .
+  ex:l8-source-nist-linear cd:supportsResource ex:l8-definition-linear .
+  ex:l8-media-detector-drift-use-case a cd:MediaAsset ; cd:uri "/chemometrics/level8/detector-drift-use-case.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A detector and clock introduce the measurement. The next frame shows five readings and marks 2.5 minutes. The last frame adds a candidate straight line through the observed range and extends it beyond the last reading."@en ; cd:authoredResource true .
+  ex:l8-media-detector-drift-use-case cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-detector-drift-use-case .
+  ex:l8-media-estimate-line-coefficients a cd:MediaAsset ; cd:uri "/chemometrics/level8/estimate-line-coefficients.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five time–signal pairs supply the evidence for estimating the intercept and slope of a line. The intercept sets the signal at zero minutes. The slope sets the change in signal per minute."@en ; cd:authoredResource true .
+  ex:l8-media-estimate-line-coefficients cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-estimate-line-coefficients .
+  ex:l8-media-drift-observations a cd:MediaAsset ; cd:uri "/chemometrics/level8/drift-observations.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five synthetic signals at times 0, 1, 2, 3, 4 min: 1.10, 2.80, 5.20, 6.90, 9.00 mV. Only observations are shown."@en ; cd:authoredResource true .
+  ex:l8-media-drift-observations cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-drift-observations .
+  ex:l8-media-drift-line a cd:MediaAsset ; cd:uri "/chemometrics/level8/drift-line.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The five drift observations; stage 1 adds the fitted line with intercept 1.02 mV and slope 1.99 mV per min."@en ; cd:authoredResource true .
+  ex:l8-media-drift-line cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-drift-line .
+  ex:l8-media-drift-residuals a cd:MediaAsset ; cd:uri "/chemometrics/level8/drift-residuals.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The five drift observations; stage 1 adds the fitted line, and stage 2 labels the signed vertical residuals +0.08, -0.21, +0.20, -0.09, +0.02 mV."@en ; cd:authoredResource true .
+  ex:l8-media-drift-residuals cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-drift-residuals .
+  ex:l8-media-signed-cancellation a cd:MediaAsset ; cd:uri "/chemometrics/level8/signed-cancellation.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five signed residual bars: +0.08, -0.21, +0.20, -0.09, +0.02 mV. Stage 1 adds a zero signed total; stage 2 shows nonzero squared contributions summing to 0.099 mV squared."@en ; cd:authoredResource true .
+  ex:l8-media-signed-cancellation cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-signed-cancellation .
+  ex:l8-media-compare-residual-scores a cd:MediaAsset ; cd:uri "/chemometrics/level8/compare-residual-scores.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five signed residual bars for each candidate line, shown on the same scale. Successive reveals compare signed totals and totals after squaring."@en ; cd:authoredResource true .
+  ex:l8-media-compare-residual-scores cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-compare-residual-scores .
+  ex:l8-media-squared-contributions a cd:MediaAsset ; cd:uri "/chemometrics/level8/squared-contributions.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Areas proportional to squared drift residuals, in order: 0.0064, 0.0441, 0.0400, 0.0081, 0.0004 mV squared. Stage 1 adds their total 0.0990 mV squared. Square side length uses one common display scale."@en ; cd:authoredResource true .
+  ex:l8-media-squared-contributions cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-squared-contributions .
+  ex:l8-media-value-shapes a cd:MediaAsset ; cd:uri "/chemometrics/level8/value-shapes.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A scalar 5, a three-entry column vector, and a two-row three-column matrix, arranged left to right. Stages 1 and 2 add vector and matrix to the scalar."@en ; cd:authoredResource true .
+  ex:l8-media-value-shapes cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-value-shapes .
+  ex:l8-media-row-column-index a cd:MediaAsset ; cd:uri "/chemometrics/level8/row-column-index.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A two-row three-column matrix. Stage 1 highlights row 2; stage 2 circles column 3 within that row, locating the entry 6."@en ; cd:authoredResource true .
+  ex:l8-media-row-column-index cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-row-column-index .
+  ex:l8-media-row-dot-column a cd:MediaAsset ; cd:uri "/chemometrics/level8/row-dot-column.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Matrix A has rows [1,2] and [3,4]; B has rows [5,6] and [7,8]. Stage 1 highlights A row 1 and B column 2; stage 2 gives 1 times 6 plus 2 times 8 equals 22 in product row 1 column 2."@en ; cd:authoredResource true .
+  ex:l8-media-row-dot-column cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-row-dot-column .
+  ex:l8-media-matrix-order a cd:MediaAsset ; cd:uri "/chemometrics/level8/matrix-order.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The product AB is [[19,22],[43,50]]. Stage 1 adds BA = [[23,34],[31,46]]. Stage 2 adds entrywise product [[5,12],[21,32]], which is different again."@en ; cd:authoredResource true .
+  ex:l8-media-matrix-order cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-matrix-order .
+  ex:l8-media-inverse-check a cd:MediaAsset ; cd:uri "/chemometrics/level8/inverse-check.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The dimensionless matrix [[2,1],[1,1]], its inverse [[1,-1],[-1,2]], and their identity product. Stage 1 adds the inverse; stage 2 adds the identity."@en ; cd:authoredResource true .
+  ex:l8-media-inverse-check cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-inverse-check .
+  ex:l8-media-dependent-columns a cd:MediaAsset ; cd:uri "/chemometrics/level8/dependent-columns.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two parallel column arrows point in the same direction; the second is twice the first. Stage 1 adds two different coefficient choices with the same combined column, so the coefficients cannot be identified uniquely."@en ; cd:authoredResource true .
+  ex:l8-media-dependent-columns cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-dependent-columns .
+  ex:l8-media-design-build a cd:MediaAsset ; cd:uri "/chemometrics/level8/design-build.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five ordered sample rows at times 0 to 4 min. Stage 1 adds a column of ones for the intercept; stage 2 adds the time column; stage 3 aligns the response values 1.10, 2.80, 5.20, 6.90, 9.00 mV."@en ; cd:authoredResource true .
+  ex:l8-media-design-build cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-design-build .
+  ex:l8-media-normal-equation-sums a cd:MediaAsset ; cd:uri "/chemometrics/level8/normal-equation-sums.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Column products for the drift design: five ones sum to 5; times sum to 10; squared times sum to 30. Stage 1 assembles X transpose X as [[5,10],[10,30]]. Stage 2 adds X transpose y = [25,69.9]."@en ; cd:authoredResource true .
+  ex:l8-media-normal-equation-sums cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-normal-equation-sums .
+  ex:l8-media-quadratic-ramp a cd:MediaAsset ; cd:uri "/chemometrics/level8/quadratic-ramp.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Temperatures 20.98, 22.34, 25.20, 29.66, 35.82 degrees Celsius at times 0 to 4 min. Stage 1 adds the quadratic fit 21 + 0.5x + 0.8x squared. Stage 2 adds the straight fit 19.4 + 3.7x as a second comparison."@en ; cd:authoredResource true .
+  ex:l8-media-quadratic-ramp cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-quadratic-ramp .
+  ex:l8-media-decay-raw a cd:MediaAsset ; cd:uri "/chemometrics/level8/decay-raw.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five positive synthetic concentrations in mg/L at times 0 to 4 min, generated from 20 exp(-0.4t plus the authored log perturbation). Stage 1 adds the back-transformed log fit 20 exp(-0.4t)."@en ; cd:authoredResource true .
+  ex:l8-media-decay-raw cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-decay-raw .
+  ex:l8-media-decay-log a cd:MediaAsset ; cd:uri "/chemometrics/level8/decay-log.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The same five decay observations after natural log of concentration divided by 1 mg/L. Stage 1 adds the fitted straight line with intercept ln(20) and slope -0.4 per min."@en ; cd:authoredResource true .
+  ex:l8-media-decay-log cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-decay-log .
+  ex:l8-media-reciprocal-flow a cd:MediaAsset ; cd:uri "/chemometrics/level8/reciprocal-flow.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Residence time at positive flows 1, 2, 4, 8, 16 mL/min is 8.4, 4.4, 2.4, 1.4, 0.9 min. Stage 1 adds the reciprocal curve 0.4 + 8/q; zero flow is excluded."@en ; cd:authoredResource true .
+  ex:l8-media-reciprocal-flow cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-reciprocal-flow .
+  ex:l8-media-category-design a cd:MediaAsset ; cd:uri "/chemometrics/level8/category-design.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Method A has design row [1,0,0], method B [1,1,0], and method C [1,0,1]. Stage 1 adds fitted recoveries 94, 98, 93 percent; each row type occurs six times in the reused Level 7 data."@en ; cd:authoredResource true .
+  ex:l8-media-category-design cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-category-design .
+  ex:l8-media-quadratic-bowl a cd:MediaAsset ; cd:uri "/chemometrics/level8/quadratic-bowl.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A dimensionless squared-distance bowl has its lowest point at trial value 3. Stage 1 adds a horizontal tangent at the minimum; the vertical axis is squared distance, not a probability."@en ; cd:authoredResource true .
+  ex:l8-media-quadratic-bowl cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-quadratic-bowl .
+  ex:l8-media-signed-gaps-question a cd:MediaAsset ; cd:uri "/chemometrics/level8/signed-gaps-question.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five signed residuals in measurement order: +0.08, -0.21, +0.20, -0.09, +0.02 mV. The next stage reveals their sum."@en ; cd:authoredResource true .
+  ex:l8-media-signed-gaps-question cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-signed-gaps-question .
+  ex:l8-media-model-workflow a cd:MediaAsset ; cd:uri "/chemometrics/level8/model-workflow.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "A four-step horizontal workflow: choose known terms, build rows and columns, minimise squared residuals, read fitted values. Stages 1, 2, 3 reveal one subsequent step each. Uncertainty is deliberately left for the next appointment."@en ; cd:authoredResource true .
+  ex:l8-media-model-workflow cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-media-model-workflow .
+  ex:l8-r-code a cd:CodeExample ; cd:code "x <- 0:4\ny <- c(1.10, 2.80, 5.20, 6.90, 9.00)\nfit <- lm(y ~ x)\ncoef(fit)                 # 1.02, 1.99\nfitted(fit)               # 1.02 3.01 5.00 6.99 8.98\nresiduals(fit)            # .08 -.21 .20 -.09 .02\nsum(residuals(fit)^2)     # 0.099\nmodel.matrix(fit)         # columns: (Intercept), x" ; cd:programmingLanguage "r" ; cd:editable false ; cd:executable false ; cd:authoredResource true .
+  ex:l8-r-code cd:hasSource ex:l8-source-author .
+  ex:l8-source-author cd:supportsResource ex:l8-r-code .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data-obs-1 .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data-obs-2 .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data-obs-3 .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data-obs-4 .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data-obs-5 .
+  ex:l8-source-author cd:supportsResource ex:l8-drift-data .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data-obs-1 .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data-obs-2 .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data-obs-3 .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data-obs-4 .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data-obs-5 .
+  ex:l8-source-author cd:supportsResource ex:l8-quadratic-data .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data-obs-1 .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data-obs-2 .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data-obs-3 .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data-obs-4 .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data-obs-5 .
+  ex:l8-source-author cd:supportsResource ex:l8-decay-data .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data-obs-1 .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data-obs-2 .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data-obs-3 .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data-obs-4 .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data-obs-5 .
+  ex:l8-source-author cd:supportsResource ex:l8-log-data .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data-obs-1 .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data-obs-2 .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data-obs-3 .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data-obs-4 .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data-obs-5 .
+  ex:l8-source-author cd:supportsResource ex:l8-reciprocal-data .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-basis .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-intercept .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-slope .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-quadratic .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual-mode .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-manual .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto-basis .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto-intercept .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto-slope .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto-quadratic .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto-mode .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-drift-auto .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual-basis .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual-intercept .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual-slope .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual-quadratic .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual-mode .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-manual .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto-basis .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto-intercept .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto-slope .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto-quadratic .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto-mode .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-quadratic-auto .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto-basis .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto-intercept .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto-slope .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto-quadratic .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto-mode .
+  ex:l8-source-author cd:supportsResource ex:l8-fit-reciprocal-auto .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-normal-rule-1 .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-normal-rule-2 .
+  ex:l8-heading-01 a cd:Interpretation ; cd:body "Linear Regression"@en ; skos:prefLabel "Linear Regression"@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-01 .
+  ex:l8-heading-02 a cd:Interpretation ; cd:body "A signal drifts during a run"@en ; skos:prefLabel "A signal drifts during a run"@en ; cd:authoredResource true .
+  ex:l8-essence-02 a cd:Interpretation ; cd:body "We recorded one detector reading per minute."@en ; skos:prefLabel "We recorded one detector reading per minute."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-02 .
+  ex:l8-essence-02 cd:interpretsResource ex:l8-media-detector-drift-use-case .
+  ex:l8-heading-03 a cd:Interpretation ; cd:body "What signal would you predict at 2.5 min?"@en ; skos:prefLabel "What signal would you predict at 2.5 min?"@en ; cd:authoredResource true .
+  ex:l8-heading-estimate-line-coefficients a cd:Interpretation ; cd:body "Estimate a model from measurements"@en ; skos:prefLabel "Estimate a model from measurements"@en ; cd:authoredResource true .
+  ex:l8-essence-estimate-line-coefficients a cd:Interpretation ; cd:body "The measurements guide our choice of intercept and slope."@en ; skos:prefLabel "The measurements guide our choice of intercept and slope."@en ; cd:authoredResource true .
+  ex:l8-essence-estimate-line-coefficients cd:interpretsResource ex:l8-media-estimate-line-coefficients .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-estimate-line-coefficients .
+  ex:l8-heading-04 a cd:Interpretation ; cd:body "Fit by eye: two coefficients"@en ; skos:prefLabel "Fit by eye: two coefficients"@en ; cd:authoredResource true .
+  ex:l8-essence-04 a cd:Interpretation ; cd:body "move the intercept, then the slope."@en ; skos:prefLabel "move the intercept, then the slope."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-04 .
+  ex:l8-essence-04 cd:interpretsResource ex:l8-media-drift-line .
+  ex:l8-heading-05 a cd:Interpretation ; cd:body "Give every vertical gap a sign"@en ; skos:prefLabel "Give every vertical gap a sign"@en ; cd:authoredResource true .
+  ex:l8-essence-05 a cd:Interpretation ; cd:body "observed minus fitted."@en ; skos:prefLabel "observed minus fitted."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-05 .
+  ex:l8-essence-05 cd:interpretsResource ex:l8-media-drift-residuals .
+  ex:l8-heading-06 a cd:Interpretation ; cd:body "What happens when we add the signed gaps?"@en ; skos:prefLabel "What happens when we add the signed gaps?"@en ; cd:authoredResource true .
+  ex:l8-essence-06 a cd:Interpretation ; cd:body "Positive and negative gaps cancel even when every point misses the line."@en ; skos:prefLabel "Positive and negative gaps cancel even when every point misses the line."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-06 .
+  ex:l8-essence-06 cd:interpretsResource ex:l8-media-signed-gaps-question .
+  ex:l8-heading-07 a cd:Interpretation ; cd:body "What should we minimise to fit a line?"@en ; skos:prefLabel "What should we minimise to fit a line?"@en ; cd:authoredResource true .
+  ex:l8-essence-07 a cd:Interpretation ; cd:body "Squaring prevents cancellation and gives larger misses more weight."@en ; skos:prefLabel "Squaring prevents cancellation and gives larger misses more weight."@en ; cd:authoredResource true .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-07 .
+  ex:l8-essence-07 cd:interpretsResource ex:l8-media-compare-residual-scores .
+  ex:l8-minimum-two-coefficients-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/minimum-two-coefficients.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Two schematic slices of the squared-error surface. Each varies one coefficient while holding the other fixed. Later frames reveal the flat tangents and the two conditions for the joint minimum."@en ; cd:authoredResource true .
+  ex:l8-minimum-two-coefficients-media cd:hasSource ex:l8-source-author .
+  ex:l8-minimum-two-coefficients-heading a cd:Interpretation ; cd:body "Where is the squared error smallest?"@en ; skos:prefLabel "Where is the squared error smallest?"@en ; cd:authoredResource true .
+  ex:l8-minimum-two-coefficients-takeaway a cd:Interpretation ; cd:body "Both derivatives must vanish together. Matrices help us solve the two equations."@en ; skos:prefLabel "Both derivatives must vanish together. Matrices help us solve the two equations."@en ; cd:interpretsResource ex:l8-fit-drift-local-objective ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-minimum-two-coefficients-media, ex:l8-minimum-two-coefficients-scene .
+  ex:l8-heading-08 a cd:Interpretation ; cd:body "Matrix Algebra"@en ; skos:prefLabel "Matrix Algebra"@en ; cd:authoredResource true .
+  ex:l8-essence-08 a cd:Interpretation ; cd:body "shapes → operations → equations."@en ; skos:prefLabel "shapes → operations → equations."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-08 .
+  ex:l8-essence-08 cd:interpretsResource ex:variable-value-shapes .
+  ex:l8-heading-09 a cd:Interpretation ; cd:body "Matrix Shapes: count rows before columns"@en ; skos:prefLabel "Matrix Shapes: count rows before columns"@en ; cd:authoredResource true .
+  ex:l8-essence-09 a cd:Interpretation ; cd:body "Count rows first and columns second."@en ; skos:prefLabel "Count rows first and columns second."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-09 .
+  ex:l8-essence-09 cd:interpretsResource ex:l8-f-shape .
+  ex:l8-heading-10 a cd:Interpretation ; cd:body "Matrix Indexing: row first, then column"@en ; skos:prefLabel "Matrix Indexing: row first, then column"@en ; cd:authoredResource true .
+  ex:l8-essence-10 a cd:Interpretation ; cd:body "the second row, third column."@en ; skos:prefLabel "the second row, third column."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-10 .
+  ex:l8-essence-10 cd:interpretsResource ex:l8-f-index .
+  ex:l8-heading-11 a cd:Interpretation ; cd:body "Matrix Orientation: swap rows and columns"@en ; skos:prefLabel "Matrix Orientation: swap rows and columns"@en ; cd:authoredResource true .
+  ex:l8-essence-11 a cd:Interpretation ; cd:body "Swapping rows and columns reverses the dimensions."@en ; skos:prefLabel "Swapping rows and columns reverses the dimensions."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-11 .
+  ex:l8-essence-11 cd:interpretsResource ex:l8-f-vectors .
+  ex:l8-media-column-and-row-vectors a cd:MediaAsset ; cd:uri "/chemometrics/level8/column-and-row-vectors.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The numbers 1, 2 and 3 form a 3 by 1 column vector on the left and a 1 by 3 row vector on the right. The next stage illustrates transposition."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-media-column-and-row-vectors .
+  ex:l8-heading-12 a cd:Interpretation ; cd:body "Matrix Types: square matrices"@en ; skos:prefLabel "Matrix Types: square matrices"@en ; cd:authoredResource true .
+  ex:l8-essence-12 a cd:Interpretation ; cd:body "Square matrices have equally many rows and columns."@en ; skos:prefLabel "Square matrices have equally many rows and columns."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-12 .
+  ex:l8-heading-13 a cd:Interpretation ; cd:body "Matrix Types: diagonal matrices"@en ; skos:prefLabel "Matrix Types: diagonal matrices"@en ; cd:authoredResource true .
+  ex:l8-essence-13 a cd:Interpretation ; cd:body "All entries outside the main diagonal are zero."@en ; skos:prefLabel "All entries outside the main diagonal are zero."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-13 .
+  ex:l8-heading-14 a cd:Interpretation ; cd:body "Matrix Types: identity matrices"@en ; skos:prefLabel "Matrix Types: identity matrices"@en ; cd:authoredResource true .
+  ex:l8-essence-14 a cd:Interpretation ; cd:body "An identity leaves a compatible matrix unchanged."@en ; skos:prefLabel "An identity leaves a compatible matrix unchanged."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-14 .
+  ex:l8-heading-15 a cd:Interpretation ; cd:body "Matrix Arithmetic: addition and subtraction"@en ; skos:prefLabel "Matrix Arithmetic: addition and subtraction"@en ; cd:authoredResource true .
+  ex:l8-essence-15 a cd:Interpretation ; cd:body "equal shapes, matching positions."@en ; skos:prefLabel "equal shapes, matching positions."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-15 .
+  ex:l8-heading-16 a cd:Interpretation ; cd:body "Matrix Arithmetic: multiplication by a scalar"@en ; skos:prefLabel "Matrix Arithmetic: multiplication by a scalar"@en ; cd:authoredResource true .
+  ex:l8-essence-16 a cd:Interpretation ; cd:body "scale every entry."@en ; skos:prefLabel "scale every entry."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-16 .
+  ex:l8-heading-17 a cd:Interpretation ; cd:body "Matrix Transpose: rows become columns"@en ; skos:prefLabel "Matrix Transpose: rows become columns"@en ; cd:authoredResource true .
+  ex:l8-essence-17 a cd:Interpretation ; cd:body "change the layout, not the values."@en ; skos:prefLabel "change the layout, not the values."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-17 .
+  ex:l8-essence-17 cd:interpretsResource ex:l8-f-transpose .
+  ex:l8-heading-18 a cd:Interpretation ; cd:body "Matrix Multiplication: which dimensions must match?"@en ; skos:prefLabel "Matrix Multiplication: which dimensions must match?"@en ; cd:authoredResource true .
+  ex:l8-essence-18 a cd:Interpretation ; cd:body "the inner dimensions must match."@en ; skos:prefLabel "the inner dimensions must match."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-18 .
+  ex:l8-heading-19 a cd:Interpretation ; cd:body "Matrix Multiplication: one row meets one column"@en ; skos:prefLabel "Matrix Multiplication: one row meets one column"@en ; cd:authoredResource true .
+  ex:l8-essence-19 a cd:Interpretation ; cd:body "Every result cell pairs one row with one column."@en ; skos:prefLabel "Every result cell pairs one row with one column."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-19 .
+  ex:l8-essence-19 cd:interpretsResource ex:l8-f-dot .
+  ex:l8-heading-20 a cd:Interpretation ; cd:body "Matrix Multiplication: why order matters"@en ; skos:prefLabel "Matrix Multiplication: why order matters"@en ; cd:authoredResource true .
+  ex:l8-essence-20 a cd:Interpretation ; cd:body "AB and BA need not agree."@en ; skos:prefLabel "AB and BA need not agree."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-20 .
+  ex:l8-essence-20 cd:interpretsResource ex:l8-f-products .
+  ex:l8-heading-21 a cd:Interpretation ; cd:body "Matrix Arithmetic: entrywise multiplication"@en ; skos:prefLabel "Matrix Arithmetic: entrywise multiplication"@en ; cd:authoredResource true .
+  ex:l8-essence-21 a cd:Interpretation ; cd:body "matching entries are not row-dot-column."@en ; skos:prefLabel "matching entries are not row-dot-column."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-21 .
+  ex:l8-essence-21 cd:interpretsResource ex:l8-f-hadamard .
+  ex:l8-heading-22 a cd:Interpretation ; cd:body "Matrix Inverse: undoing a matrix product"@en ; skos:prefLabel "Matrix Inverse: undoing a matrix product"@en ; cd:authoredResource true .
+  ex:l8-essence-22 a cd:Interpretation ; cd:body "verify the identity product."@en ; skos:prefLabel "verify the identity product."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-22 .
+  ex:l8-essence-22 cd:interpretsResource ex:l8-f-inverse .
+  ex:l8-heading-23 a cd:Interpretation ; cd:body "Matrix Inverse: when no inverse exists"@en ; skos:prefLabel "Matrix Inverse: when no inverse exists"@en ; cd:authoredResource true .
+  ex:l8-essence-23 a cd:Interpretation ; cd:body "duplicate directions lose information."@en ; skos:prefLabel "duplicate directions lose information."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-23 .
+  ex:l8-essence-23 cd:interpretsResource ex:l8-f-singular .
+  ex:l8-heading-24 a cd:Interpretation ; cd:body "Matrix Equations: write two equations as one"@en ; skos:prefLabel "Matrix Equations: write two equations as one"@en ; cd:authoredResource true .
+  ex:l8-essence-24 a cd:Interpretation ; cd:body "the unknown column is [2, 1]."@en ; skos:prefLabel "the unknown column is [2, 1]."@en ; cd:authoredResource true .
+  ex:l8-source-mit cd:supportsResource ex:l8-scene-24 .
+  ex:l8-essence-24 cd:interpretsResource ex:l8-f-equations .
+  ex:l8-heading-25 a cd:Interpretation ; cd:body "Design Matrix: recover the same solution"@en ; skos:prefLabel "Design Matrix: recover the same solution"@en ; cd:authoredResource true .
+  ex:l8-essence-25 a cd:Interpretation ; cd:body "The design matrix writes our earlier solution in a form that works for more model terms."@en ; skos:prefLabel "The design matrix writes our earlier solution in a form that works for more model terms."@en ; cd:authoredResource true .
+  ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-25 .
+  ex:l8-essence-25 cd:interpretsResource ex:l8-direct-design-link .
+  ex:l8-heading-26 a cd:Interpretation ; cd:body "Design Matrix: build it from the measurements"@en ; skos:prefLabel "Design Matrix: build it from the measurements"@en ; cd:authoredResource true .
+  ex:l8-essence-26 a cd:Interpretation ; cd:body "one sample per row, one term per column."@en ; skos:prefLabel "one sample per row, one term per column."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-26 .
+  ex:l8-essence-26 cd:interpretsResource ex:l8-media-design-build .
+  ex:l8-heading-27 a cd:Interpretation ; cd:body "Design Matrix: one row per observation"@en ; skos:prefLabel "Design Matrix: one row per observation"@en ; cd:authoredResource true .
+  ex:l8-essence-27 a cd:Interpretation ; cd:body "time 2 min is observation 3."@en ; skos:prefLabel "time 2 min is observation 3."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-27 .
+  ex:l8-essence-27 cd:interpretsResource ex:l8-f-row .
+  ex:l8-heading-28 a cd:Interpretation ; cd:body "Design Matrix: one column per model term"@en ; skos:prefLabel "Design Matrix: one column per model term"@en ; cd:authoredResource true .
+  ex:l8-essence-28 a cd:Interpretation ; cd:body "constant first, time second."@en ; skos:prefLabel "constant first, time second."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-28 .
+  ex:l8-essence-28 cd:interpretsResource ex:l8-f-design .
+  ex:l8-heading-29 a cd:Interpretation ; cd:body "Matrix Prediction: multiply by the coefficient column"@en ; skos:prefLabel "Matrix Prediction: multiply by the coefficient column"@en ; cd:authoredResource true .
+  ex:l8-essence-29 a cd:Interpretation ; cd:body "every row computes one prediction."@en ; skos:prefLabel "every row computes one prediction."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-29 .
+  ex:l8-essence-29 cd:interpretsResource ex:l8-f-prediction .
+  ex:l8-heading-30 a cd:Interpretation ; cd:body "Matrix Prediction: check the units"@en ; skos:prefLabel "Matrix Prediction: check the units"@en ; cd:authoredResource true .
+  ex:l8-essence-30 a cd:Interpretation ; cd:body "both contributions must be in mV."@en ; skos:prefLabel "both contributions must be in mV."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-30 .
+  ex:l8-heading-31 a cd:Interpretation ; cd:body "Matrix Algebra: solve for the fitted coefficients"@en ; skos:prefLabel "Matrix Algebra: solve for the fitted coefficients"@en ; cd:authoredResource true .
+  ex:l8-essence-31 a cd:Interpretation ; cd:body "The inverse isolates the fitted coefficient column."@en ; skos:prefLabel "The inverse isolates the fitted coefficient column."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-31 .
+  ex:l8-essence-31 cd:interpretsResource ex:l8-direct-solve .
+  ex:l8-heading-32 a cd:Interpretation ; cd:body "Least Squares: write out both derivatives"@en ; skos:prefLabel "Least Squares: write out both derivatives"@en ; cd:authoredResource true .
+  ex:l8-essence-32 a cd:Interpretation ; cd:body "Divide both equations by minus two to get two residual sums."@en ; skos:prefLabel "Divide both equations by minus two to get two residual sums."@en ; cd:authoredResource true .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-32 .
+  ex:l8-essence-32 cd:interpretsResource ex:l8-direct-conditions .
+  ex:l8-heading-33 a cd:Interpretation ; cd:body "Back to the Least-Squares Minimum"@en ; skos:prefLabel "Back to the Least-Squares Minimum"@en ; cd:authoredResource true .
+  ex:l8-essence-33 a cd:Interpretation ; cd:body "a minimum has zero derivative."@en ; skos:prefLabel "a minimum has zero derivative."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-33 .
+  ex:l8-essence-33 cd:interpretsResource ex:l8-media-quadratic-bowl .
+  ex:l8-heading-34 a cd:Interpretation ; cd:body "Least Squares: recall the total differential"@en ; skos:prefLabel "Least Squares: recall the total differential"@en ; cd:authoredResource true .
+  ex:l8-essence-34 a cd:Interpretation ; cd:body "Both partial derivatives must vanish at the same coefficient pair."@en ; skos:prefLabel "Both partial derivatives must vanish at the same coefficient pair."@en ; cd:authoredResource true .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-34 .
+  ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: collect the coefficient terms"@en ; skos:prefLabel "Least Squares: collect the coefficient terms"@en ; cd:authoredResource true .
+  ex:l8-essence-35 a cd:Interpretation ; cd:body "The two equations have the same two unknowns."@en ; skos:prefLabel "The two equations have the same two unknowns."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-35 .
+  ex:l8-heading-36 a cd:Interpretation ; cd:body "Matrix Form: write the two regression equations as one"@en ; skos:prefLabel "Matrix Form: write the two regression equations as one"@en ; cd:authoredResource true .
+  ex:l8-essence-36 a cd:Interpretation ; cd:body "One row of M comes from each scalar equation."@en ; skos:prefLabel "One row of M comes from each scalar equation."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-36 .
+  ex:l8-heading-37 a cd:Interpretation ; cd:body "Worked Example: put the measurements into the equation"@en ; skos:prefLabel "Worked Example: put the measurements into the equation"@en ; cd:authoredResource true .
+  ex:l8-essence-37 a cd:Interpretation ; cd:body "The five observations supply every entry of M and r."@en ; skos:prefLabel "The five observations supply every entry of M and r."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-37 .
+  ex:l8-essence-37 cd:interpretsResource ex:l8-direct-numbers .
+  ex:l8-heading-38 a cd:Interpretation ; cd:body "Worked Example: find the inverse"@en ; skos:prefLabel "Worked Example: find the inverse"@en ; cd:authoredResource true .
+  ex:l8-essence-38 a cd:Interpretation ; cd:body "A nonzero determinant makes the inverse possible."@en ; skos:prefLabel "A nonzero determinant makes the inverse possible."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-38 .
+  ex:l8-heading-39 a cd:Interpretation ; cd:body "Worked Example: calculate the intercept and slope"@en ; skos:prefLabel "Worked Example: calculate the intercept and slope"@en ; cd:authoredResource true .
+  ex:l8-essence-39 a cd:Interpretation ; cd:body "At 2.5 min, the fitted line predicts 5.995 mV."@en ; skos:prefLabel "At 2.5 min, the fitted line predicts 5.995 mV."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-39 .
+  ex:l8-essence-39 cd:interpretsResource ex:l8-direct-fitted .
+  ex:l8-heading-40 a cd:Interpretation ; cd:body "Return to the observations"@en ; skos:prefLabel "Return to the observations"@en ; cd:authoredResource true .
+  ex:l8-essence-40 a cd:Interpretation ; cd:body "fitted values and residuals match row by row."@en ; skos:prefLabel "fitted values and residuals match row by row."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-40 .
+  ex:l8-essence-40 cd:interpretsResource ex:l8-media-drift-residuals .
+  ex:l8-heading-41 a cd:Interpretation ; cd:body "Why duplicate columns fail"@en ; skos:prefLabel "Why duplicate columns fail"@en ; cd:authoredResource true .
+  ex:l8-essence-41 a cd:Interpretation ; cd:body "coefficients need independent columns."@en ; skos:prefLabel "coefficients need independent columns."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-41 .
+  ex:l8-essence-41 cd:interpretsResource ex:l8-media-dependent-columns .
+  ex:l8-heading-42 a cd:Interpretation ; cd:body "Read a small R fit without running R"@en ; skos:prefLabel "Read a small R fit without running R"@en ; cd:authoredResource true .
+  ex:l8-essence-42 a cd:Interpretation ; cd:body "formula, coefficients, predictions, residuals."@en ; skos:prefLabel "formula, coefficients, predictions, residuals."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-42 .
+  ex:l8-heading-43 a cd:Interpretation ; cd:body "Change the terms, keep the coefficient problem"@en ; skos:prefLabel "Change the terms, keep the coefficient problem"@en ; cd:authoredResource true .
+  ex:l8-essence-43 a cd:Interpretation ; cd:body "curvature, logarithms, reciprocals, categories."@en ; skos:prefLabel "curvature, logarithms, reciprocals, categories."@en ; cd:authoredResource true .
+  ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-43 .
+  ex:l8-essence-43 cd:interpretsResource ex:l8-media-model-workflow .
+  ex:l8-heading-44 a cd:Interpretation ; cd:body "A heating ramp is visibly curved"@en ; skos:prefLabel "A heating ramp is visibly curved"@en ; cd:authoredResource true .
+  ex:l8-essence-44 a cd:Interpretation ; cd:body "the slope increases over time."@en ; skos:prefLabel "the slope increases over time."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-44 .
+  ex:l8-essence-44 cd:interpretsResource ex:l8-media-quadratic-ramp .
+  ex:l8-heading-45 a cd:Interpretation ; cd:body "Build the columns [1, x, x squared]"@en ; skos:prefLabel "Build the columns [1, x, x squared]"@en ; cd:authoredResource true .
+  ex:l8-essence-45 a cd:Interpretation ; cd:body "powers of observed time are known."@en ; skos:prefLabel "powers of observed time are known."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-45 .
+  ex:l8-heading-46 a cd:Interpretation ; cd:body "Fit the quadratic ramp"@en ; skos:prefLabel "Fit the quadratic ramp"@en ; cd:authoredResource true .
+  ex:l8-essence-46 a cd:Interpretation ; cd:body "21, 0.5, 0.8 in compatible units."@en ; skos:prefLabel "21, 0.5, 0.8 in compatible units."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-46 .
+  ex:l8-essence-46 cd:interpretsResource ex:l8-media-quadratic-ramp .
+  ex:l8-heading-47 a cd:Interpretation ; cd:body "Linear refers to the coefficients"@en ; skos:prefLabel "Linear refers to the coefficients"@en ; cd:authoredResource true .
+  ex:l8-essence-47 a cd:Interpretation ; cd:body "curved in x can still be linear in beta."@en ; skos:prefLabel "curved in x can still be linear in beta."@en ; cd:authoredResource true .
+  ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-47 .
+  ex:l8-heading-48 a cd:Interpretation ; cd:body "A positive concentration decays"@en ; skos:prefLabel "A positive concentration decays"@en ; cd:authoredResource true .
+  ex:l8-essence-48 a cd:Interpretation ; cd:body "use the same five times, a new response."@en ; skos:prefLabel "use the same five times, a new response."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-48 .
+  ex:l8-essence-48 cd:interpretsResource ex:l8-media-decay-raw .
+  ex:l8-heading-49 a cd:Interpretation ; cd:body "Fit a dimensionless log ratio"@en ; skos:prefLabel "Fit a dimensionless log ratio"@en ; cd:authoredResource true .
+  ex:l8-essence-49 a cd:Interpretation ; cd:body "log of C divided by 1 mg/L."@en ; skos:prefLabel "log of C divided by 1 mg/L."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-49 .
+  ex:l8-essence-49 cd:interpretsResource ex:l8-media-decay-log .
+  ex:l8-heading-50 a cd:Interpretation ; cd:body "Back-transform, but keep the criterion clear"@en ; skos:prefLabel "Back-transform, but keep the criterion clear"@en ; cd:authoredResource true .
+  ex:l8-essence-50 a cd:Interpretation ; cd:body "Back-transform the fitted log response."@en ; skos:prefLabel "Back-transform the fitted log response."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-50 .
+  ex:l8-heading-51 a cd:Interpretation ; cd:body "A reciprocal term gives a special hyperbola"@en ; skos:prefLabel "A reciprocal term gives a special hyperbola"@en ; cd:authoredResource true .
+  ex:l8-essence-51 a cd:Interpretation ; cd:body "positive flow only."@en ; skos:prefLabel "positive flow only."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-51 .
+  ex:l8-essence-51 cd:interpretsResource ex:l8-media-reciprocal-flow .
+  ex:l8-heading-52 a cd:Interpretation ; cd:body "Optional bridge: categories also become columns"@en ; skos:prefLabel "Optional bridge: categories also become columns"@en ; cd:authoredResource true .
+  ex:l8-essence-52 a cd:Interpretation ; cd:body "baseline plus two indicator differences."@en ; skos:prefLabel "baseline plus two indicator differences."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-52 .
+  ex:l8-essence-52 cd:interpretsResource ex:l8-media-category-design .
+  ex:l8-heading-53 a cd:Interpretation ; cd:body "What stays the same across all examples?"@en ; skos:prefLabel "What stays the same across all examples?"@en ; cd:authoredResource true .
+  ex:l8-essence-53 a cd:Interpretation ; cd:body "known terms, fitted coefficients, explicit criterion."@en ; skos:prefLabel "known terms, fitted coefficients, explicit criterion."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-53 .
+  ex:l8-essence-53 cd:interpretsResource ex:l8-media-model-workflow .
+  ex:l8-heading-54 a cd:Interpretation ; cd:body "How certain is our predicted signal?"@en ; skos:prefLabel "How certain is our predicted signal?"@en ; cd:authoredResource true .
+  ex:l8-essence-54 a cd:Interpretation ; cd:body "what would change if we repeated the measurements?"@en ; skos:prefLabel "what would change if we repeated the measurements?"@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-54 .
+  ex:l8-essence-54 cd:interpretsResource ex:l8-media-drift-observations .
+  ex:l8-heading-55 a cd:Interpretation ; cd:body "Which residual scale are we minimising?"@en ; skos:prefLabel "Which residual scale are we minimising?"@en ; cd:authoredResource true .
+  ex:l8-essence-55 a cd:Interpretation ; cd:body "Different response scales give different objectives."@en ; skos:prefLabel "Different response scales give different objectives."@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-55 .
+  ex:l8-essence-34 cd:interpretsResource ex:l8-minimum-two-coefficients-formula .
+  ex:l8-essence-35 cd:interpretsResource ex:l8-direct-collect .
+  ex:l8-essence-36 cd:interpretsResource ex:l8-direct-matrix .
+  ex:l8-essence-38 cd:interpretsResource ex:l8-direct-inverse .
+}

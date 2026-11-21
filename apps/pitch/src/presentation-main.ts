@@ -1,3 +1,4 @@
+import { mountAuthoredSvgStages } from "./authored-svg-stages.ts";
 import "./anova-spread.css";
 import { mountAnovaTableBuild, mountAnovaSpreadPanelTabs, mountAnovaPairReveal, mountAnovaSpreadLab, mountStagedTeachingSvg } from "./anova-spread.ts";
 import { mountTeachingMarkers } from "./teaching-markers.ts";
@@ -191,6 +192,8 @@ const unmountSpreadPanelTabs = slidesPdf ? () => {} : mountAnovaSpreadPanelTabs(
   }
 });
 
+const destroyTeachingMedia = await mountTeachingSvgMedia(root);
+mountAuthoredSvgStages(root, slidesPdf);
 mountStagedTeachingSvg(root, documents, slidesPdf);
 if (!slidesPdf) mountAnovaTableBuild(root, documents);
 if (!slidesPdf) mountAuthoredRevealTriggers(root);
@@ -379,7 +382,6 @@ if (slidesPdf) {
   await pdfLayoutReady;
   prepareSlidesPdf(root);
   liveCharts.pause();
-  const destroyTeachingMedia = await mountTeachingSvgMedia(root);
   const unmountPdfToolbar = mountSlidesPdfToolbar(root);
   mountPageLifecycle(window, { destroy() {
     unmountPdfToolbar();
@@ -561,7 +563,6 @@ deck.on("slidechanged",syncBackgroundPage);
 const stopBackgroundProgress = progressSource.start((offset) => syncBackgroundProgress(offset));
 
 let codeRuntime: CodeRuntimeController | undefined;
-const destroyTeachingMedia = await mountTeachingSvgMedia(root);
 let pollRuntime: PollRuntimeController | undefined;
 let localPollRuntime: LocalPollRuntimeController | undefined;
 
