@@ -250,6 +250,9 @@
   ex:l8-essence-24 a cd:Interpretation ; cd:body "the unknown column is [2, 1]."@en ; skos:prefLabel "the unknown column is [2, 1]."@en ; cd:authoredResource true .
   ex:l8-source-mit cd:supportsResource ex:l8-scene-24 .
   ex:l8-essence-24 cd:interpretsResource ex:l8-f-equations .
+  ex:l8-heading-residual-orthogonality a cd:Interpretation ; cd:body "How do the two residual conditions become one matrix equation?"@en ; skos:prefLabel "How do the two residual conditions become one matrix equation?"@en ; cd:authoredResource true .
+  ex:l8-source-author cd:supportsResource ex:l8-scene-residual-orthogonality .
+  ex:l8-source-nist-ls cd:supportsResource ex:l8-orthogonality-rule .
   ex:l8-heading-25 a cd:Interpretation ; cd:body "Design Matrix: recover the same solution"@en ; skos:prefLabel "Design Matrix: recover the same solution"@en ; cd:authoredResource true .
   ex:l8-essence-25 a cd:Interpretation ; cd:body "The design matrix writes our earlier solution in a form that works for more model terms."@en ; skos:prefLabel "The design matrix writes our earlier solution in a form that works for more model terms."@en ; cd:authoredResource true .
   ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-25 .
