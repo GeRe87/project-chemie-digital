@@ -243,10 +243,6 @@
   ex:l8-essence-22 a cd:Interpretation ; cd:body "verify the identity product."@en ; skos:prefLabel "verify the identity product."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-22 .
   ex:l8-essence-22 cd:interpretsResource ex:l8-f-inverse .
-  ex:l8-heading-23 a cd:Interpretation ; cd:body "Matrix Inverse: when no inverse exists"@en ; skos:prefLabel "Matrix Inverse: when no inverse exists"@en ; cd:authoredResource true .
-  ex:l8-essence-23 a cd:Interpretation ; cd:body "duplicate directions lose information."@en ; skos:prefLabel "duplicate directions lose information."@en ; cd:authoredResource true .
-  ex:l8-source-author cd:supportsResource ex:l8-scene-23 .
-  ex:l8-essence-23 cd:interpretsResource ex:l8-f-singular .
   ex:l8-heading-24 a cd:Interpretation ; cd:body "Matrix Equations: write two equations as one"@en ; skos:prefLabel "Matrix Equations: write two equations as one"@en ; cd:authoredResource true .
   ex:l8-essence-24 a cd:Interpretation ; cd:body "the unknown column is [2, 1]."@en ; skos:prefLabel "the unknown column is [2, 1]."@en ; cd:authoredResource true .
   ex:l8-source-mit cd:supportsResource ex:l8-scene-24 .
