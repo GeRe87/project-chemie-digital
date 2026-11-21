@@ -82,3 +82,17 @@
 .pcd-script-view :is(h1,h2,h3,.pcd-script-contents) .katex {
   font-size:1em;
 }
+
+/* An empty phantom in a boxed term marks an animated focus formula.
+   Use one focus box per equation. Ordinary TeX and print show the box. */
+@media screen {
+  .reveal .formula-with-legend .katex:has(menclose[notation="box"] mphantom:empty) .fbox {
+    border-color: transparent;
+  }
+
+  .reveal section:has([data-presentation-disclosure-visible="true"])
+  .formula-with-legend .katex:has(menclose[notation="box"] mphantom:empty) .fbox {
+    border-color: var(--pcd-chart-series-3, currentColor);
+    background-color: color-mix(in srgb, var(--pcd-chart-series-3, currentColor) 15%, transparent);
+  }
+}

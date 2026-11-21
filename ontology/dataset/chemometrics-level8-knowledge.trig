@@ -284,7 +284,7 @@
   ex:l8-source-author cd:supportsResource ex:l8-scene-33 .
   ex:l8-essence-33 cd:interpretsResource ex:l8-media-quadratic-bowl .
   ex:l8-heading-34 a cd:Interpretation ; cd:body "Least Squares: recall the total differential"@en ; skos:prefLabel "Least Squares: recall the total differential"@en ; cd:authoredResource true .
-  ex:l8-essence-34 a cd:Interpretation ; cd:body "Both partial derivatives must vanish at the same coefficient pair."@en ; skos:prefLabel "Both partial derivatives must vanish at the same coefficient pair."@en ; cd:authoredResource true .
+  ex:l8-essence-34 a cd:Interpretation ; cd:body "Start with the highlighted term: the residual for one measurement."@en ; skos:prefLabel "Start with the highlighted term: the residual for one measurement."@en ; cd:authoredResource true .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-34 .
   ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: write squared error as a matrix product"@en ; skos:prefLabel "Least Squares: write squared error as a matrix product"@en ; cd:authoredResource true .
   ex:l8-essence-35 a cd:Interpretation ; cd:body "The column product computes the same squared-error score as the original sum."@en ; skos:prefLabel "The column product computes the same squared-error score as the original sum."@en ; cd:authoredResource true .
@@ -367,8 +367,8 @@
   ex:l8-essence-36 cd:interpretsResource ex:l8-matrix-differential-formula .
   ex:l8-essence-38 cd:interpretsResource ex:l8-direct-inverse .
   ex:l8-five-point-matrix-heading a cd:Interpretation ; cd:body "Matrix Equations: evaluate a line at five points"@en ; skos:prefLabel "Matrix Equations: evaluate a line at five points"@en ; cd:authoredResource true .
-  ex:l8-transpose-rules-heading a cd:Interpretation ; cd:body "Matrix Transpose: differences and products"@en ; skos:prefLabel "Matrix Transpose: differences and products"@en ; cd:authoredResource true .
-  ex:l8-transpose-rules-takeaway a cd:Interpretation ; cd:body "Transpose each term of a difference. For a product, transpose each factor and reverse their order."@en ; skos:prefLabel "Transpose each term of a difference. For a product, transpose each factor and reverse their order."@en ; cd:authoredResource true .
+  ex:l8-transpose-rules-heading a cd:Interpretation ; cd:body "Matrix Transpose: three useful rules"@en ; skos:prefLabel "Matrix Transpose: three useful rules"@en ; cd:authoredResource true .
+  ex:l8-transpose-rules-takeaway a cd:Interpretation ; cd:body "Transpose a difference term by term. Reverse factor order in a product. Two transposes restore the original matrix."@en ; skos:prefLabel "Transpose a difference term by term. Reverse factor order in a product. Two transposes restore the original matrix."@en ; cd:authoredResource true .
   ex:l8-column-squares-heading a cd:Interpretation ; cd:body "Matrix Multiplication: sum the squares of a column"@en ; skos:prefLabel "Matrix Multiplication: sum the squares of a column"@en ; cd:authoredResource true .
   ex:l8-column-squares-takeaway a cd:Interpretation ; cd:body "A transposed column times itself gives a single sum of squares."@en ; skos:prefLabel "A transposed column times itself gives a single sum of squares."@en ; cd:authoredResource true .
 }
