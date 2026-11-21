@@ -36,7 +36,7 @@
   ex:l8-step-23 a cd:PathStep ; cd:position 21 ; cd:usesScene ex:l8-scene-23 ; cd:usesResource ex:l8-heading-23, ex:l8-f-singular, ex:l8-essence-23 ; cd:teachingTakeaway ex:l8-essence-23 ; cd:authoredResource true .
   ex:l8-step-24 a cd:PathStep ; cd:position 22 ; cd:usesScene ex:l8-scene-24 ; cd:usesResource ex:l8-heading-24, ex:l8-f-equations, ex:l8-essence-24 ; cd:teachingTakeaway ex:l8-essence-24 ; cd:authoredResource true .
   ex:l8-step-residual-orthogonality a cd:PathStep ; cd:position 38 ; cd:usesScene ex:l8-scene-residual-orthogonality ; cd:authoredResource true .
-  ex:l8-step-25 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l8-scene-25 ; cd:usesResource ex:l8-heading-25, ex:l8-direct-design-link, ex:l8-essence-25 ; cd:teachingTakeaway ex:l8-essence-25 ; cd:authoredResource true .
+  ex:l8-step-25 a cd:PathStep ; cd:position 39 ; cd:usesScene ex:l8-scene-25 ; cd:authoredResource true .
   ex:l8-step-26 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l8-scene-26 ; cd:usesResource ex:l8-heading-26, ex:l8-media-design-build, ex:l8-essence-26 ; cd:teachingTakeaway ex:l8-essence-26 ; cd:authoredResource true .
   ex:l8-step-27 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l8-scene-27 ; cd:usesResource ex:l8-heading-27, ex:l8-f-row, ex:l8-essence-27 ; cd:teachingTakeaway ex:l8-essence-27 ; cd:authoredResource true .
   ex:l8-step-27 cd:usesResource ex:l8-definition-design .

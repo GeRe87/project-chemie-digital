@@ -253,10 +253,8 @@
   ex:l8-heading-residual-orthogonality a cd:Interpretation ; cd:body "How do the two residual conditions become one matrix equation?"@en ; skos:prefLabel "How do the two residual conditions become one matrix equation?"@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-residual-orthogonality .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-orthogonality-rule .
-  ex:l8-heading-25 a cd:Interpretation ; cd:body "Design Matrix: recover the same solution"@en ; skos:prefLabel "Design Matrix: recover the same solution"@en ; cd:authoredResource true .
-  ex:l8-essence-25 a cd:Interpretation ; cd:body "The design matrix writes our earlier solution in a form that works for more model terms."@en ; skos:prefLabel "The design matrix writes our earlier solution in a form that works for more model terms."@en ; cd:authoredResource true .
+  ex:l8-heading-25 a cd:Interpretation ; cd:body "From zero residual products to the normal equation"@en ; skos:prefLabel "From zero residual products to the normal equation"@en ; cd:authoredResource true .
   ex:l8-source-nist-linear cd:supportsResource ex:l8-scene-25 .
-  ex:l8-essence-25 cd:interpretsResource ex:l8-direct-design-link .
   ex:l8-heading-26 a cd:Interpretation ; cd:body "Design Matrix: build it from the measurements"@en ; skos:prefLabel "Design Matrix: build it from the measurements"@en ; cd:authoredResource true .
   ex:l8-essence-26 a cd:Interpretation ; cd:body "one sample per row, one term per column."@en ; skos:prefLabel "one sample per row, one term per column."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-26 .
