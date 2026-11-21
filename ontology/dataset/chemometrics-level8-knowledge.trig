@@ -366,4 +366,5 @@
   ex:l8-essence-35 cd:interpretsResource ex:l8-direct-collect .
   ex:l8-essence-36 cd:interpretsResource ex:l8-direct-matrix .
   ex:l8-essence-38 cd:interpretsResource ex:l8-direct-inverse .
+  ex:l8-five-point-matrix-heading a cd:Interpretation ; cd:body "Matrix Equations: evaluate a line at five points"@en ; skos:prefLabel "Matrix Equations: evaluate a line at five points"@en ; cd:authoredResource true .
 }
