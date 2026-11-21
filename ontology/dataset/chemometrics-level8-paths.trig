@@ -47,8 +47,8 @@
   ex:l8-step-32 a cd:PathStep ; cd:position 28 ; cd:usesScene ex:l8-scene-32 ; cd:usesResource ex:l8-heading-32, ex:l8-residual-column-formula, ex:l8-essence-32 ; cd:teachingTakeaway ex:l8-essence-32 ; cd:authoredResource true .
   ex:l8-step-33 a cd:PathStep ; cd:position 26 ; cd:usesScene ex:l8-scene-33 ; cd:usesResource ex:l8-heading-33 ; cd:authoredResource true .
   ex:l8-step-34 a cd:PathStep ; cd:position 27 ; cd:usesScene ex:l8-scene-34 ; cd:usesResource ex:l8-heading-34, ex:l8-minimum-two-coefficients-formula, ex:l8-essence-34 ; cd:teachingHint ex:l8-essence-34 ; cd:authoredResource true .
-  ex:l8-step-35 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l8-scene-35 ; cd:usesResource ex:l8-heading-35, ex:l8-matrix-squared-error-formula, ex:l8-essence-35 ; cd:teachingTakeaway ex:l8-essence-35 ; cd:authoredResource true .
-  ex:l8-expand-squared-error-step a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l8-expand-squared-error-scene ; cd:usesResource ex:l8-expand-squared-error-heading, ex:l8-expand-squared-error-formula, ex:l8-expand-squared-error-takeaway ; cd:teachingTakeaway ex:l8-expand-squared-error-takeaway ; cd:authoredResource true .
+  ex:l8-step-35 a cd:PathStep ; cd:position 29 ; cd:usesScene ex:l8-scene-35; cd:authoredResource true .
+  ex:l8-expand-squared-error-step a cd:PathStep ; cd:position 30 ; cd:usesScene ex:l8-expand-squared-error-scene; cd:authoredResource true .
   ex:l8-step-36 a cd:PathStep ; cd:position 31 ; cd:usesScene ex:l8-scene-36 ; cd:usesResource ex:l8-heading-36, ex:l8-matrix-differential-formula, ex:l8-essence-36 ; cd:teachingTakeaway ex:l8-essence-36 ; cd:authoredResource true .
   ex:l8-step-37 a cd:PathStep ; cd:position 33 ; cd:usesScene ex:l8-scene-37 ; cd:usesResource ex:l8-heading-37, ex:l8-direct-numbers, ex:l8-essence-37 ; cd:teachingTakeaway ex:l8-essence-37 ; cd:authoredResource true .
   ex:l8-step-38 a cd:PathStep ; cd:position 34 ; cd:usesScene ex:l8-scene-38 ; cd:usesResource ex:l8-heading-38, ex:l8-direct-inverse, ex:l8-essence-38 ; cd:teachingTakeaway ex:l8-essence-38 ; cd:authoredResource true .
