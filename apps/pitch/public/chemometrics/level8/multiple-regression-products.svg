@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 505" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>Build XᵀX and Xᵀy from the six runs</title><desc>The design matrix and detector signal vector for all six runs. The first reveal gives the six distinct design-column pairings and the symmetric X transpose X matrix. The second pairs each design column with the signal vector to give 33, 74 and 180.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="124" y="51" text-anchor="middle" font-size="26" fill="currentColor" font-weight="700">Design matrix X</text>
+<text x="288" y="51" text-anchor="middle" font-size="26" fill="#a46ac4" font-weight="700">Signal y</text>
+<path d="M40 112 H31 V417 H40 M211 112 H220 V417 H211" fill="none" stroke="currentColor" stroke-width="2.5" opacity="1"/>
+<path d="M249 112 H240 V417 H249 M328 112 H337 V417 H328" fill="none" stroke="#a46ac4" stroke-width="2.5" opacity="1"/>
+<path d="M355 32 V473" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.35"/>
+<text x="65" y="94" text-anchor="middle" font-size="23" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="94" text-anchor="middle" font-size="23" fill="#2587a8" font-weight="700">c</text>
+<text x="185" y="94" text-anchor="middle" font-size="23" fill="#c4612a" font-weight="700">ΔT</text>
+<text x="288" y="94" text-anchor="middle" font-size="23" fill="#a46ac4" font-weight="700">mV</text>
+<text x="65" y="147" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="147" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">1</text>
+<text x="185" y="147" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">0</text>
+<text x="288" y="147" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">3.10</text>
+<text x="65" y="194" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="194" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">2</text>
+<text x="185" y="194" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">0</text>
+<text x="288" y="194" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">4.80</text>
+<text x="65" y="241" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="241" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">3</text>
+<text x="185" y="241" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">0</text>
+<text x="288" y="241" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">7.10</text>
+<text x="65" y="288" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="288" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">1</text>
+<text x="185" y="288" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">10</text>
+<text x="288" y="288" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">3.90</text>
+<text x="65" y="335" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="335" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">2</text>
+<text x="185" y="335" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">10</text>
+<text x="288" y="335" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">6.20</text>
+<text x="65" y="382" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">1</text>
+<text x="125" y="382" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">3</text>
+<text x="185" y="382" text-anchor="middle" font-size="27" fill="#c4612a" font-weight="700">10</text>
+<text x="288" y="382" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">7.90</text>
+<g data-svg-stage="1">
+<text x="390" y="51" text-anchor="start" font-size="27" fill="currentColor" font-weight="700">XᵀX  ·  Pair each design column with the others</text>
+<path d="M976 80 H967 V244 H976 M1173 80 H1182 V244 H1173" fill="none" stroke="#2587a8" stroke-width="2.5" opacity="1"/>
+<text x="390" y="93" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">1 × 1</text>
+<text x="390" y="119" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">1 + 1 + 1 + 1 + 1 + 1 = 6</text>
+<text x="704" y="93" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">c × c</text>
+<text x="704" y="119" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">2 × (1² + 2² + 3²) = 28</text>
+<text x="390" y="150" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">1 × c</text>
+<text x="390" y="176" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">2 × (1 + 2 + 3) = 12</text>
+<text x="704" y="150" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">c × ΔT</text>
+<text x="704" y="176" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">10 × (1 + 2 + 3) = 60</text>
+<text x="390" y="207" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">1 × ΔT</text>
+<text x="390" y="233" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">0 + 0 + 0 + 10 + 10 + 10 = 30</text>
+<text x="704" y="207" text-anchor="start" font-size="20" fill="#2587a8" font-weight="700">ΔT × ΔT</text>
+<text x="704" y="233" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">3 × 10² = 300</text>
+<text x="1005" y="121" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">6</text>
+<text x="1074" y="121" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">12</text>
+<text x="1143" y="121" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">30</text>
+<text x="1005" y="166" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">12</text>
+<text x="1074" y="166" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">28</text>
+<text x="1143" y="166" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">60</text>
+<text x="1005" y="211" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">30</text>
+<text x="1074" y="211" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">60</text>
+<text x="1143" y="211" text-anchor="middle" font-size="27" fill="#2587a8" font-weight="700">300</text>
+</g>
+<g data-svg-stage="2">
+<path d="M390 263 H1182" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.35"/>
+<text x="390" y="302" text-anchor="start" font-size="27" fill="currentColor" font-weight="700">Xᵀy  ·  Pair each design column with the signal</text>
+<text x="390" y="347" text-anchor="start" font-size="21" fill="#a46ac4" font-weight="700">1 × y</text>
+<text x="508" y="347" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">3.10 + 4.80 + 7.10 + 3.90 + 6.20 + 7.90 = 33</text>
+<text x="390" y="391" text-anchor="start" font-size="21" fill="#a46ac4" font-weight="700">c × y</text>
+<text x="508" y="389" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">1×3.10 + 2×4.80 + 3×7.10</text>
+<text x="508" y="416" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">+ 1×3.90 + 2×6.20 + 3×7.90 = 74</text>
+<text x="390" y="463" text-anchor="start" font-size="21" fill="#a46ac4" font-weight="700">ΔT × y</text>
+<text x="508" y="463" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">10 × (3.90 + 6.20 + 7.90) = 180</text>
+<path d="M1071 324 H1062 V480 H1071 M1173 324 H1182 V480 H1173" fill="none" stroke="#a46ac4" stroke-width="2.5" opacity="1"/>
+<text x="1122" y="363" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">33</text>
+<text x="1122" y="407" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">74</text>
+<text x="1122" y="451" text-anchor="middle" font-size="27" fill="#a46ac4" font-weight="700">180</text>
+</g>
+</g>
+</svg>
