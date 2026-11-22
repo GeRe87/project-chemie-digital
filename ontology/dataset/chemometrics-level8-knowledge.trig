@@ -442,11 +442,8 @@
   ex:l8-xty-worked-takeaway cd:interpretsResource ex:l8-xty-worked-formula .
   ex:l8-gram-design-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/gram-design-curve.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five input rows at x equal to 1, 4, 9, 16 and 25 with columns 1, x, square root of x. The right-hand plot shows the curve 1 plus 0.18 times x plus 0.6 times square root of x for the same columns."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
   ex:l8-inverse-remaining-heading a cd:Interpretation ; cd:body "The coefficient formula: what is still missing?"@en ; skos:prefLabel "The coefficient formula: what is still missing?"@en ; cd:authoredResource true .
-  ex:l8-inverse-remaining-takeaway a cd:Interpretation ; cd:body "The remaining operation is the inverse, or equivalently solving the system with XᵀX."@en ; skos:prefLabel "The remaining operation is the inverse, or equivalently solving the system with XᵀX."@en ; cd:authoredResource true .
+  ex:l8-inverse-remaining-takeaway a cd:Interpretation ; cd:body "Set G = XᵀX and r = Xᵀy. The goal is to solve Gβ̂ = r."@en ; skos:prefLabel "Set G = XᵀX and r = Xᵀy. The goal is to solve Gβ̂ = r."@en ; cd:authoredResource true .
   ex:l8-inverse-remaining-takeaway cd:interpretsResource ex:l8-inverse-remaining-formula .
-  ex:l8-inverse-meaning-heading a cd:Interpretation ; cd:body "The hard part: undoing XᵀX"@en ; skos:prefLabel "The hard part: undoing XᵀX"@en ; cd:authoredResource true .
-  ex:l8-inverse-meaning-takeaway a cd:Interpretation ; cd:body "A closed formula works for two columns. With more columns, a factorisation can help solve the system."@en ; skos:prefLabel "A closed formula works for two columns. With more columns, a factorisation can help solve the system."@en ; cd:authoredResource true .
-  ex:l8-inverse-meaning-takeaway cd:interpretsResource ex:l8-inverse-meaning-formula .
   ex:l8-inverse-two-heading a cd:Interpretation ; cd:body "Two columns: the 2 × 2 inverse"@en ; skos:prefLabel "Two columns: the 2 × 2 inverse"@en ; cd:authoredResource true .
   ex:l8-inverse-two-takeaway a cd:Interpretation ; cd:body "Swap the diagonal entries, change the signs off the diagonal and divide by the determinant."@en ; skos:prefLabel "Swap the diagonal entries, change the signs off the diagonal and divide by the determinant."@en ; cd:authoredResource true .
   ex:l8-inverse-two-takeaway cd:interpretsResource ex:l8-inverse-two-formula .
