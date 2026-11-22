@@ -376,4 +376,7 @@
   ex:l8-expand-squared-error-takeaway cd:interpretsResource ex:l8-expand-squared-error-formula .
   ex:l8-quadratic-gradient-heading a cd:Interpretation ; cd:body "Least Squares: where does the factor 2 come from?"@en ; skos:prefLabel "Least Squares: where does the factor 2 come from?"@en ; cd:authoredResource true .
   ex:l8-isolate-coefficients-heading a cd:Interpretation ; cd:body "Least Squares: isolate the coefficients"@en ; skos:prefLabel "Least Squares: isolate the coefficients"@en ; cd:authoredResource true .
+  ex:l8-least-squares-solution-heading a cd:Interpretation ; cd:body "Ordinary Least Squares: the coefficient formula"@en ; skos:prefLabel "Ordinary Least Squares: the coefficient formula"@en ; cd:authoredResource true .
+  ex:l8-least-squares-solution-takeaway a cd:Interpretation ; cd:body "The design matrix and the measured responses determine the fitted coefficients."@en ; skos:prefLabel "The design matrix and the measured responses determine the fitted coefficients."@en ; cd:authoredResource true .
+  ex:l8-least-squares-solution-takeaway cd:interpretsResource ex:l8-least-squares-solution-formula .
 }
