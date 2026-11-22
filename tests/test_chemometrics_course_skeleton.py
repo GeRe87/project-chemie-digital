@@ -58,6 +58,7 @@ CHEMOMETRICS_ROWS = [
     ),
     (70, str(EX["unit-placement-chemometrics-statistical-tests"]), str(EX["learning-unit-statistical-tests"])),
     (80, str(EX["unit-placement-chemometrics-anova"]), str(EX["learning-unit-chemometrics-anova"])),
+    (90, str(EX["unit-placement-chemometrics-linear-regression"]), str(EX["learning-unit-linear-regression-foundations"])),
 ]
 
 SECTION_SPECS = [
@@ -96,7 +97,7 @@ SECTION_SPECS = [
         EX["offering-section-chemometrics-data-modeling"],
         "Data Modeling",
         "Linear and non-linear regression, model diagnostics and machine-learning methods for prediction and classification.",
-        (),
+        (EX["unit-placement-chemometrics-linear-regression"],),
     ),
     (
         50,

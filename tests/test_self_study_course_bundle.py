@@ -84,7 +84,8 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         self.assertIn((f"{EX}path-level5-review-complete", f"{GRAPH}paths/level5-review-complete"), binding_pairs)
         self.assertIn((f"{EX}path-level6-statistical-tests", f"{GRAPH}paths/level6-statistical-tests"), binding_pairs)
         self.assertIn((f"{EX}path-level7-anova-intro-review", f"{GRAPH}paths/level7-anova-intro-review"), binding_pairs)
-        expected_renderable_count = 8 if introduction_id in placements else 7
+        self.assertIn((f"{EX}path-level8-linear-regression", f"{GRAPH}paths/level8-linear-regression"), binding_pairs)
+        expected_renderable_count = 9 if introduction_id in placements else 8
         self.assertEqual(
             expected_renderable_count,
             len(artifact["sceneDocuments"]),

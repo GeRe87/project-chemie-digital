@@ -131,6 +131,7 @@ class ChemometricsIntroductionTests(unittest.TestCase):
                 ),
                 (70, EX["unit-placement-chemometrics-statistical-tests"], EX["learning-unit-statistical-tests"]),
                 (80, EX["unit-placement-chemometrics-anova"], EX["learning-unit-chemometrics-anova"]),
+                (90, EX["unit-placement-chemometrics-linear-regression"], EX["learning-unit-linear-regression-foundations"]),
             ],
             sorted(placements),
         )

@@ -4,6 +4,23 @@
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<https://w3id.org/project-chemie-digital/graph/specifications/course-scale> {
+  ex:teaching-offering-chemometrics-applied-statistics cd:hasUnitPlacement ex:unit-placement-chemometrics-linear-regression .
+  ex:offering-section-chemometrics-data-modeling cd:groupsUnitPlacement ex:unit-placement-chemometrics-linear-regression .
+  ex:unit-placement-chemometrics-linear-regression a cd:UnitPlacement ;
+    cd:position 90 ;
+    cd:placesLearningUnit ex:learning-unit-linear-regression-foundations .
+}
+
+<https://w3id.org/project-chemie-digital/graph/specifications/course-world-artwork> {
+  ex:learning-unit-linear-regression-foundations cd:hasThumbnail ex:world-linear-regression-art .
+  ex:world-linear-regression-art a cd:MediaAsset ;
+    cd:uri "/course-world/linear-regression.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "A floating research island with a detector and a chart showing five measurements near a fitted line."@en ;
+    cd:authoredResource true .
+}
+
 <https://w3id.org/project-chemie-digital/graph/paths/level8-linear-regression> {
   ex:teaching-offering-level8-local a cd:TeachingOffering ; skos:prefLabel "Level 8 · local authoring only"@en ; cd:hasUnitPlacement ex:unit-placement-level8-local ; cd:authoredResource true .
   ex:unit-placement-level8-local a cd:UnitPlacement ; cd:position 1 ; cd:placesLearningUnit ex:learning-unit-linear-regression-foundations ; cd:authoredResource true .
