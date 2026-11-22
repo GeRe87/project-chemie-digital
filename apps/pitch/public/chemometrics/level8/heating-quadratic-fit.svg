@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 510" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="3" data-teaching-stage-mode="cumulative">
+<title>Build and fit a quadratic heating model</title><desc>Five observed temperatures alongside a design matrix. The first column has five ones. Reveals add time 0 through 4 and its square 0, 1, 4, 9, 16. The final reveal shows the least-squares quadratic curve against the same observations and dashed straight fit.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="179" y="53" text-anchor="middle" font-size="28" fill="currentColor" font-weight="700">Design matrix X</text>
+<text x="415" y="53" text-anchor="middle" font-size="28" fill="currentColor" font-weight="700">Response y</text>
+<path d="M63 133 H49 V402 H63 M298 133 H312 V402 H298" fill="none" stroke="currentColor" stroke-width="2" />
+<path d="M353 133 H339 V402 H353 M477 133 H491 V402 H477" fill="none" stroke="currentColor" stroke-width="2" />
+<text x="95" y="111" text-anchor="middle" font-size="24" fill="#2685a5" font-weight="700">1</text>
+<text x="95" y="168" text-anchor="middle" font-size="29" fill="#2685a5" font-weight="500">1</text>
+<text x="95" y="220" text-anchor="middle" font-size="29" fill="#2685a5" font-weight="500">1</text>
+<text x="95" y="272" text-anchor="middle" font-size="29" fill="#2685a5" font-weight="500">1</text>
+<text x="95" y="324" text-anchor="middle" font-size="29" fill="#2685a5" font-weight="500">1</text>
+<text x="95" y="376" text-anchor="middle" font-size="29" fill="#2685a5" font-weight="500">1</text>
+<text x="415" y="111" text-anchor="middle" font-size="24" fill="currentColor" font-weight="700">°C</text>
+<text x="415" y="168" text-anchor="middle" font-size="29" fill="currentColor" font-weight="500">20.98</text>
+<text x="415" y="220" text-anchor="middle" font-size="29" fill="currentColor" font-weight="500">22.34</text>
+<text x="415" y="272" text-anchor="middle" font-size="29" fill="currentColor" font-weight="500">25.20</text>
+<text x="415" y="324" text-anchor="middle" font-size="29" fill="currentColor" font-weight="500">29.66</text>
+<text x="415" y="376" text-anchor="middle" font-size="29" fill="currentColor" font-weight="500">35.82</text>
+<g data-svg-stage="1">
+<text x="181" y="111" text-anchor="middle" font-size="24" fill="#cb632c" font-weight="700">x</text>
+<text x="181" y="168" text-anchor="middle" font-size="29" fill="#cb632c" font-weight="500">0</text>
+<text x="181" y="220" text-anchor="middle" font-size="29" fill="#cb632c" font-weight="500">1</text>
+<text x="181" y="272" text-anchor="middle" font-size="29" fill="#cb632c" font-weight="500">2</text>
+<text x="181" y="324" text-anchor="middle" font-size="29" fill="#cb632c" font-weight="500">3</text>
+<text x="181" y="376" text-anchor="middle" font-size="29" fill="#cb632c" font-weight="500">4</text>
+</g>
+<g data-svg-stage="2">
+<text x="266" y="111" text-anchor="middle" font-size="24" fill="#a46ac4" font-weight="700">x²</text>
+<text x="266" y="168" text-anchor="middle" font-size="29" fill="#a46ac4" font-weight="500">0</text>
+<text x="266" y="220" text-anchor="middle" font-size="29" fill="#a46ac4" font-weight="500">1</text>
+<text x="266" y="272" text-anchor="middle" font-size="29" fill="#a46ac4" font-weight="500">4</text>
+<text x="266" y="324" text-anchor="middle" font-size="29" fill="#a46ac4" font-weight="500">9</text>
+<text x="266" y="376" text-anchor="middle" font-size="29" fill="#a46ac4" font-weight="500">16</text>
+</g>
+<text x="594" y="50" text-anchor="start" font-size="24" fill="currentColor" font-weight="700">Temperature / °C</text>
+<text x="583" y="325.5263157894737" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">20</text>
+<path d="M594 318.53 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.20"/>
+<text x="583" y="266.57894736842104" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">24</text>
+<path d="M594 259.58 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.20"/>
+<text x="583" y="207.6315789473684" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">28</text>
+<path d="M594 200.63 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.20"/>
+<text x="583" y="148.68421052631578" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">32</text>
+<path d="M594 141.68 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.20"/>
+<text x="583" y="89.73684210526318" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">36</text>
+<path d="M594 82.74 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.20"/>
+<path d="M594 68 V348 H1161" fill="none" stroke="currentColor" stroke-width="2" opacity="0.65"/>
+<text x="612.0" y="377" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">0</text>
+<text x="743.25" y="377" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">1</text>
+<text x="874.5" y="377" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">2</text>
+<text x="1005.75" y="377" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">3</text>
+<text x="1137.0" y="377" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">4</text>
+<text x="877.5" y="409" text-anchor="middle" font-size="24" fill="currentColor" font-weight="500">Time x / min</text>
+<g data-svg-stage="3">
+<path d="M612.00 327.37 L620.31 323.92 M625.85 321.62 L634.16 318.16 M639.70 315.86 L648.02 312.41 M653.56 310.11 L661.87 306.65 M667.41 304.35 L675.72 300.90 M681.26 298.60 L689.57 295.14 M695.11 292.84 L703.42 289.39 M708.96 287.09 L717.28 283.63 M722.82 281.33 L731.13 277.88 M736.67 275.58 L744.98 272.12 M750.52 269.82 L758.83 266.37 M764.37 264.07 L772.68 260.61 M778.23 258.31 L786.54 254.86 M792.08 252.56 L800.39 249.10 M805.93 246.80 L814.24 243.35 M819.78 241.05 L828.09 237.59 M833.63 235.29 L841.95 231.84 M847.49 229.54 L855.80 226.08 M861.34 223.78 L869.65 220.33 M875.19 218.03 L883.50 214.58 M889.04 212.27 L897.35 208.82 M902.89 206.52 L911.21 203.07 M916.75 200.76 L925.06 197.31 M930.60 195.01 L938.91 191.56 M944.45 189.25 L952.76 185.80 M958.30 183.50 L966.61 180.05 M972.16 177.74 L980.47 174.29 M986.01 171.99 L994.32 168.54 M999.86 166.23 L1008.17 162.78 M1013.71 160.48 L1022.02 157.03 M1027.56 154.72 L1035.88 151.27 M1041.42 148.97 L1049.73 145.52 M1055.27 143.22 L1063.58 139.76 M1069.12 137.46 L1077.43 134.01 M1082.97 131.71 L1091.28 128.25 M1096.82 125.95 L1105.14 122.50 M1110.68 120.20 L1118.99 116.74 M1124.53 114.44 L1132.84 110.99" fill="none" stroke="#cb632c" stroke-width="3" opacity="0.75"/>
+<path d="M612.00 303.79 Q874.50 289.05 1137.00 85.68" fill="none" stroke="#a46ac4" stroke-width="5" />
+<path d="M635.00 453.00 L644.00 453.00 M650.00 453.00 L659.00 453.00 M665.00 453.00 L674.00 453.00" fill="none" stroke="#cb632c" stroke-width="4"/>
+<text x="689" y="459" text-anchor="start" font-size="21" fill="currentColor" font-weight="500">Straight fit</text>
+<path d="M898 453 h42" fill="none" stroke="#a46ac4" stroke-width="4" />
+<text x="952" y="459" text-anchor="start" font-size="21" fill="currentColor" font-weight="500">Quadratic fit</text>
+<text x="270" y="459" text-anchor="middle" font-size="22" fill="#a46ac4" font-weight="700">The new column lets the slope change.</text>
+</g>
+<circle cx="612.00" cy="304.08" r="7" fill="#2685a5" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="743.25" cy="284.04" r="7" fill="#2685a5" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="874.50" cy="241.89" r="7" fill="#2685a5" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="1005.75" cy="176.17" r="7" fill="#2685a5" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="1137.00" cy="85.39" r="7" fill="#2685a5" stroke="currentColor" stroke-width="1.4"/>
+</g>
+</svg>
