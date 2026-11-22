@@ -3,7 +3,7 @@
   <desc>Five signed residual bars for each candidate line, shown on the same scale. Successive reveals compare signed totals and totals after squaring.</desc>
   <g font-family="system-ui, sans-serif" fill="currentColor">
     <text x="55" y="57" font-size="28" font-weight="700">Line A · our starting line</text>
-    <text x="595" y="57" font-size="28" font-weight="700">Line B · a closer candidate</text>
+    <text x="595" y="57" font-size="28" font-weight="700">Line B · another candidate</text>
     <text x="55" y="100" font-size="20">Residuals (mV)</text>
     <text x="595" y="100" font-size="20">Residuals (mV)</text>
     <path d="M65 220H505M605 220H1045" fill="none" stroke="currentColor" stroke-width="2"/>

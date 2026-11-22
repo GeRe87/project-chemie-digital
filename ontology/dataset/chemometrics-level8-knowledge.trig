@@ -284,7 +284,7 @@
   ex:l8-source-author cd:supportsResource ex:l8-scene-33 .
   ex:l8-essence-33 cd:interpretsResource ex:l8-media-quadratic-bowl .
   ex:l8-heading-34 a cd:Interpretation ; cd:body "Least Squares: recall the total differential"@en ; skos:prefLabel "Least Squares: recall the total differential"@en ; cd:authoredResource true .
-  ex:l8-essence-34 a cd:Interpretation ; cd:body "Start with the highlighted term: the residual for one measurement."@en ; skos:prefLabel "Start with the highlighted term: the residual for one measurement."@en ; cd:authoredResource true .
+  ex:l8-essence-34 a cd:Interpretation ; cd:body "Start with the residual for one measurement."@en ; skos:prefLabel "Start with the residual for one measurement."@en ; cd:authoredResource true .
   ex:l8-source-nist-ls cd:supportsResource ex:l8-scene-34 .
   ex:l8-heading-35 a cd:Interpretation ; cd:body "Least Squares: write squared error as a matrix product"@en ; skos:prefLabel "Least Squares: write squared error as a matrix product"@en ; cd:authoredResource true .
   ex:l8-essence-35 a cd:Interpretation ; cd:body "The column product computes the same squared-error score as the original sum."@en ; skos:prefLabel "The column product computes the same squared-error score as the original sum."@en ; cd:authoredResource true .
@@ -377,7 +377,7 @@
   ex:l8-quadratic-gradient-heading a cd:Interpretation ; cd:body "Least Squares: where does the factor 2 come from?"@en ; skos:prefLabel "Least Squares: where does the factor 2 come from?"@en ; cd:authoredResource true .
   ex:l8-isolate-coefficients-heading a cd:Interpretation ; cd:body "Least Squares: isolate the coefficients"@en ; skos:prefLabel "Least Squares: isolate the coefficients"@en ; cd:authoredResource true .
   ex:l8-least-squares-solution-heading a cd:Interpretation ; cd:body "Ordinary Least Squares: the coefficient formula"@en ; skos:prefLabel "Ordinary Least Squares: the coefficient formula"@en ; cd:authoredResource true .
-  ex:l8-least-squares-solution-takeaway a cd:Interpretation ; cd:body "Fit the coefficients, then evaluate the line at 2.5 minutes."@en ; skos:prefLabel "Fit the coefficients, then evaluate the line at 2.5 minutes."@en ; cd:authoredResource true .
+  ex:l8-least-squares-solution-takeaway a cd:Interpretation ; cd:body "The next step is to choose the columns of the design matrix."@en ; skos:prefLabel "The next step is to choose the columns of the design matrix."@en ; cd:authoredResource true .
   ex:l8-least-squares-solution-takeaway cd:interpretsResource ex:l8-least-squares-solution-formula .
   ex:l8-basis-linear-heading a cd:Interpretation ; cd:body "Design matrix: intercept and linear term"@en ; skos:prefLabel "Design matrix: intercept and linear term"@en ; cd:authoredResource true .
   ex:l8-basis-linear-takeaway a cd:Interpretation ; cd:body "The constant and x columns produce a straight line."@en ; skos:prefLabel "The constant and x columns produce a straight line."@en ; cd:authoredResource true .
@@ -488,4 +488,6 @@
   ex:l8-anova-recovery-coefficients-takeaway a cd:Interpretation ; cd:body "Method A gives 94% recovery. B adds 4 percentage points and C subtracts 1."@en ; skos:prefLabel "Method A gives 94% recovery. B adds 4 percentage points and C subtracts 1."@en ; cd:interpretsResource ex:l8-anova-recovery-coefficients-formula ; cd:authoredResource true .
   ex:l8-multiple-regression-plane-heading a cd:Interpretation ; cd:body "Where do the two fitted lines come from?"@en ; skos:prefLabel "Where do the two fitted lines come from?"@en ; cd:authoredResource true .
   ex:l8-multiple-regression-plane-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/multiple-regression-plane.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "An axonometric diagram of the multiple regression for the six detector readings. Concentration, temperature and detector signal are the three axes. Six outlined points show the measured signals near the fitted plane. Reveal one highlights the line cut from the plane at 20 degrees Celsius. Reveal two adds the parallel cut at 30 degrees Celsius."@en ; dct:references ex:l8-multiple-regression-runs ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-design-products-chapter-heading a cd:Interpretation ; cd:body "Design matrices and cross-products"@en ; skos:prefLabel "Design matrices and cross-products"@en ; cd:authoredResource true .
+  ex:l8-regression-cases-chapter-heading a cd:Interpretation ; cd:body "From the formula to fitted models"@en ; skos:prefLabel "From the formula to fitted models"@en ; cd:authoredResource true .
 }

@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: square-root column</title><desc>Design columns 1, √x for x equal to 1, 2, 3, 4, 5, paired with the curve y = 1 + √x.</desc>
-<g fill="#2c8198" font-family="system-ui, sans-serif">
+<svg style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: square-root column</title><desc>Design columns 1, √x for x equal to 1, 2, 3, 4, 5, paired with the curve y = 1 + √x.</desc>
+<g fill="currentColor" font-family="system-ui, sans-serif">
 <text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
 <text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁√xᵢ</text>
 <text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
 <text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
-<path d="M 151 136 H 136 V 413 H 151 M 350 136 H 365 V 413 H 350" stroke="#2c8198" stroke-width="3" opacity="1" fill="none"/>
-<path d="M 105 125 V 414" stroke="#2c8198" stroke-width="2" opacity="0.3" fill="none"/>
+<path d="M 151 136 H 136 V 413 H 151 M 350 136 H 365 V 413 H 350" stroke="currentColor" stroke-width="3" opacity="1" fill="none"/>
+<path d="M 105 125 V 414" stroke="currentColor" stroke-width="2" opacity="0.3" fill="none"/>
 <text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
 <text x="313.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">√x</text>
 <text x="62.0" y="175.0" text-anchor="middle" font-size="27" font-weight="400">1</text>
@@ -23,31 +23,31 @@
 <text x="62.0" y="387.0" text-anchor="middle" font-size="27" font-weight="400">5</text>
 <text x="188.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
 <text x="313.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">2.24</text>
-<path d="M 605 104 V 404 H 1155" stroke="#2c8198" stroke-width="2.5" opacity="1" fill="none"/>
-<path d="M 605 404.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<path d="M 605 104 V 404 H 1155" stroke="currentColor" stroke-width="2.5" opacity="1" fill="none"/>
+<path d="M 605 404.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
 <text x="590.0" y="411.0" text-anchor="end" font-size="20" font-weight="400">1.9</text>
-<path d="M 605 304.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<path d="M 605 304.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
 <text x="590.0" y="311.0" text-anchor="end" font-size="20" font-weight="400">2.4</text>
-<path d="M 605 204.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<path d="M 605 204.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
 <text x="590.0" y="211.0" text-anchor="end" font-size="20" font-weight="400">2.9</text>
-<path d="M 605 104.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<path d="M 605 104.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
 <text x="590.0" y="111.0" text-anchor="end" font-size="20" font-weight="400">3.4</text>
-<path d="M 605.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<path d="M 605.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
 <text x="605.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">1</text>
-<path d="M 742.5 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<path d="M 742.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
 <text x="742.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">2</text>
-<path d="M 880.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<path d="M 880.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
 <text x="880.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">3</text>
-<path d="M 1017.5 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<path d="M 1017.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
 <text x="1017.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">4</text>
-<path d="M 1155.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<path d="M 1155.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
 <text x="1155.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">5</text>
 <text x="535.0" y="260.0" text-anchor="start" font-size="26" font-weight="700">y</text>
 <text x="1155.0" y="472.0" text-anchor="end" font-size="26" font-weight="700">x</text>
 <path d="M 605.0 375.0 L 610.5 371.1 L 616.0 367.3 L 621.5 363.6 L 627.0 359.9 L 632.5 356.3 L 638.0 352.7 L 643.5 349.3 L 649.0 345.8 L 654.5 342.4 L 660.0 339.1 L 665.5 335.8 L 671.0 332.6 L 676.5 329.4 L 682.0 326.2 L 687.5 323.1 L 693.0 320.0 L 698.5 317.0 L 704.0 314.0 L 709.5 311.0 L 715.0 308.1 L 720.5 305.2 L 726.0 302.3 L 731.5 299.5 L 737.0 296.7 L 742.5 293.9 L 748.0 291.1 L 753.5 288.4 L 759.0 285.7 L 764.5 283.0 L 770.0 280.4 L 775.5 277.8 L 781.0 275.2 L 786.5 272.6 L 792.0 270.0 L 797.5 267.5 L 803.0 265.0 L 808.5 262.5 L 814.0 260.0 L 819.5 257.5 L 825.0 255.1 L 830.5 252.7 L 836.0 250.3 L 841.5 247.9 L 847.0 245.5 L 852.5 243.2 L 858.0 240.8 L 863.5 238.5 L 869.0 236.2 L 874.5 234.0 L 880.0 231.7 L 885.5 229.4 L 891.0 227.2 L 896.5 225.0 L 902.0 222.8 L 907.5 220.6 L 913.0 218.4 L 918.5 216.2 L 924.0 214.1 L 929.5 211.9 L 935.0 209.8 L 940.5 207.7 L 946.0 205.6 L 951.5 203.5 L 957.0 201.4 L 962.5 199.3 L 968.0 197.3 L 973.5 195.2 L 979.0 193.2 L 984.5 191.2 L 990.0 189.1 L 995.5 187.1 L 1001.0 185.2 L 1006.5 183.2 L 1012.0 181.2 L 1017.5 179.2 L 1023.0 177.3 L 1028.5 175.3 L 1034.0 173.4 L 1039.5 171.5 L 1045.0 169.6 L 1050.5 167.7 L 1056.0 165.8 L 1061.5 163.9 L 1067.0 162.0 L 1072.5 160.1 L 1078.0 158.3 L 1083.5 156.4 L 1089.0 154.6 L 1094.5 152.7 L 1100.0 150.9 L 1105.5 149.1 L 1111.0 147.3 L 1116.5 145.5 L 1122.0 143.7 L 1127.5 141.9 L 1133.0 140.1 L 1138.5 138.3 L 1144.0 136.5 L 1149.5 134.8 L 1155.0 133.0" stroke="#168aaa" stroke-width="5" opacity="1" fill="none"/>
-<circle cx="605.0" cy="375.0" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
-<circle cx="742.5" cy="293.9" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
-<circle cx="880.0" cy="231.7" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
-<circle cx="1017.5" cy="179.2" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
-<circle cx="1155.0" cy="133.0" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+<circle cx="605.0" cy="375.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="742.5" cy="293.9" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="880.0" cy="231.7" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1017.5" cy="179.2" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1155.0" cy="133.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
 </g></svg>

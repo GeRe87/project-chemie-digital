@@ -35,6 +35,10 @@ html:not(.print-pdf) .reveal .slides section[data-scene-view-tabs="true"] {
   outline: 3px solid var(--pcd-accent);
   outline-offset: 3px;
 }
+.pcd-scene-view-tabs [role="tab"]:disabled {
+  opacity: .5;
+  cursor: default;
+}
 .pcd-scene-view-tabs-hint { margin-left: auto; align-self: center; color: var(--pcd-muted); }
 section[data-scene-view-tabs="true"] .distribution-experiment { --pcd-interactive-font-size: 24px; }
 section[data-scene-view-tabs="true"] .experiment-panels figcaption { display: flex; flex-wrap: wrap; gap: .25rem .75rem; }

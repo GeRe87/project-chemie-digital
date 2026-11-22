@@ -14,6 +14,111 @@
   white-space: nowrap;
 }
 
+.pcd-rule-dialog.pcd-symbol-dialog { width: min(75rem, 94vw); }
+.pcd-symbol-dialog-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1rem;
+  align-items: start;
+}
+.pcd-symbol-equation { position: sticky; top: 0; min-width: 0; overflow-x: auto; }
+.pcd-symbol-dialog-content > dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: .7rem 1.1rem;
+  align-items: start;
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+.pcd-symbol-dialog-content dt { font-weight: 700; color: var(--pcd-accent); }
+.pcd-symbol-dialog-content dd { margin: 0 0 .65rem; }
+.pcd-symbol-dialog-content dd p { margin: 0; }
+@media (max-width: 800px) {
+  .pcd-symbol-dialog-content { grid-template-columns: minmax(0, 1fr); }
+  .pcd-symbol-equation { position: static; }
+}
+
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition]:is(.present, .scroll-page section) {
+    display: block !important;
+    padding: .9rem .85rem 4rem !important;
+    height: calc(100dvh - 3rem) !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: contain;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] > :is(h1, h2) {
+    font-size: clamp(1.45rem,4vw,2.1rem) !important;
+    line-height: 1.12 !important;
+    margin: 0 0 .7rem !important;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] > .pcd-composition-region {
+    display: block;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    margin-block: .65rem;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition]
+    :is([data-lecture-takeaway], .pcd-composition-region:has(> [data-lecture-takeaway]:only-child)) {
+    position: static !important;
+    height: auto !important;
+    block-size: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] [data-lecture-takeaway] p {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .pcd-scene-view-tabs { font-size: 1rem; }
+  body.pcd-regression-lecture.pcd-native-mobile .pcd-scene-view-tabs-hint { display: none; }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .formula-with-legend {
+    max-height: none;
+    overflow: visible;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .math-display {
+    max-width: 100%;
+    font-size: clamp(1rem,3vw,1.35rem);
+    overflow-x: auto;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .media-reference {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .media-reference > .teaching-svg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    flex: none !important;
+    aspect-ratio: var(--pcd-teaching-svg-aspect, 16 / 9) !important;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .media-reference[data-dense-svg="true"]:not(:has([data-teaching-orbit])) {
+    display: block !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .media-reference[data-dense-svg="true"]:not(:has([data-teaching-orbit]))::before {
+    content: "Scroll sideways for the full diagram";
+    display: block;
+    position: sticky;
+    left: 0;
+    width: max-content;
+    font-size: .85rem;
+    margin: .3rem 0;
+  }
+  body.pcd-regression-lecture.pcd-native-mobile .reveal .slides section[data-composition] .media-reference[data-dense-svg="true"]:not(:has([data-teaching-orbit])) > .teaching-svg {
+    min-width: 60rem;
+    max-width: none !important;
+  }
+}
+
 /*
  * Generic native portrait viewport layer.
  *

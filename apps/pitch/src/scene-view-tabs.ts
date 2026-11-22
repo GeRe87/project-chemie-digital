@@ -64,6 +64,7 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
     let selected = 0;
     const select = (index: number, focus = false, notify = true) => {
       selected = (index + tabs.length) % tabs.length;
+      if (tabs[selected]!.disabled) selected = 0;
       tabs.forEach((tab, i) => {
         tab.setAttribute('aria-selected', String(i === selected));
         tab.tabIndex = i === selected ? 0 : -1;
@@ -96,7 +97,21 @@ export function mountSceneViewTabs(root: HTMLElement, layout: () => void = () =>
     slide.dataset.sceneViewTabs = 'true';
     slide.insertBefore(ribbon, panels[0]!);
     select(0, false, false);
+    const formulaAvailability = !compatibleTables && secondary?.querySelector('[data-presentation-disclosure-mode="progressive"]')
+      ? new MutationObserver(updateFormulaAvailability)
+      : undefined;
+    function updateFormulaAvailability() {
+      const formulaReady = [...secondary!.querySelectorAll('.math-display,.mathematical-derivation')]
+        .some(formula => !formula.closest('[data-presentation-disclosure-visible="false"]'));
+      tabs[1]!.disabled = !formulaReady;
+      if (!formulaReady && selected === 1) select(0, true);
+    }
+    if (formulaAvailability && secondary) {
+      formulaAvailability.observe(secondary, { subtree: true, attributes: true, attributeFilter: ['data-presentation-disclosure-visible'] });
+      updateFormulaAvailability();
+    }
     cleanups.push(() => {
+      formulaAvailability?.disconnect();
       ribbon.removeEventListener('click', click);
       window.removeEventListener('keydown', keyboard, true);
       ribbon.remove();

@@ -31,6 +31,7 @@ import "./analytical-proof-runtime.css";
 import "./media-stage-primitives.css";
 import "./lecture-readability.css";
 import "./presentation-mobile.css";
+import { mountPresentationSymbols } from "./presentation-symbols.ts";
 import "./presentation-clock.css";
 import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
@@ -209,9 +210,29 @@ const unmountPresentationLaserPointer = appearance.profile.presenterCapabilities
 // Interactive observation decks require real-sized form controls on portrait
 // screens rather than a scaled-down desktop canvas. Capability, not scene ID.
 const hasObservationExplorer = documents.some(document => document.scenes.some(scene => [...walkSceneBlocks(scene.blocks)].some(block => block.kind === "chart" && block.chartType === "observations" || block.kind === "diagram" && !!block.binaryExperiment)));
-const nativePortraitViewport = !slidesPdf && (appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer)
-  && window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
+const isRegressionLecture = documents.some(document => document.sourcePathId === "ex:path-level8-linear-regression");
+const nativePortraitEnabled = appearance.profile.viewportPolicy === "native-portrait" || hasObservationExplorer || isRegressionLecture;
+const nativePortraitQuery = `(max-width: ${isRegressionLecture ? 900 : 700}px) and (orientation: portrait)`;
+const nativePortraitViewport = !slidesPdf && nativePortraitEnabled && window.matchMedia(nativePortraitQuery).matches;
 document.body.classList.toggle("pcd-native-mobile", nativePortraitViewport);
+document.body.classList.toggle("pcd-regression-lecture", isRegressionLecture);
+const unmountPresentationSymbols = !slidesPdf && isRegressionLecture ? mountPresentationSymbols(root) : () => {};
+const portraitPanFigures = isRegressionLecture
+  ? root.querySelectorAll<HTMLElement>('figure[data-dense-svg]:not(:has([data-teaching-orbit]))') : [];
+function syncPortraitPan(enabled: boolean) {
+  for (const figure of portraitPanFigures) {
+    if (enabled) {
+      figure.dataset.presentationInteractive = "true";
+      figure.setAttribute("tabindex", "0");
+      figure.setAttribute("aria-description", "Scroll horizontally to read the full diagram.");
+    } else {
+      delete figure.dataset.presentationInteractive;
+      figure.removeAttribute("tabindex");
+      figure.removeAttribute("aria-description");
+    }
+  }
+}
+syncPortraitPan(nativePortraitViewport);
 const nativeViewportWidth = Math.max(320, Math.round(window.visualViewport?.width ?? window.innerWidth));
 const nativeViewportHeight = Math.max(560, Math.round(window.visualViewport?.height ?? window.innerHeight));
 
@@ -352,8 +373,8 @@ const initialSceneId = /^\d+(?:\/0)?$/.test(initialHash)
 const slideWidth = 1440;
 const slideHeight = 900;
 const fixedCanvas = appearance.view === "deck" && !slidesPdf && !nativePortraitViewport;
-if (fixedCanvas) {
-  presentation.dataset.fixedSlideCanvas = "true";
+if (fixedCanvas || (isRegressionLecture && appearance.view === "deck" && !slidesPdf)) {
+  if (fixedCanvas) presentation.dataset.fixedSlideCanvas = "true";
   presentation.style.setProperty("--pcd-slide-width", `${slideWidth}px`);
   presentation.style.setProperty("--pcd-slide-height", `${slideHeight}px`);
 }
@@ -410,11 +431,16 @@ if (slidesPdf) {
 }
 let viewportKey = `${nativePortraitViewport}:${nativeViewportWidth}:${nativeViewportHeight}`;
 const syncNativeViewport = () => {
-  if (!hasObservationExplorer && appearance.profile.viewportPolicy !== "native-portrait") return;
-  const native = window.matchMedia("(max-width: 700px) and (orientation: portrait)").matches;
+  if (!nativePortraitEnabled) return;
+  const native = window.matchMedia(nativePortraitQuery).matches;
   const width = Math.max(320, Math.round(window.innerWidth));
   const height = Math.max(560, Math.round(window.innerHeight));
   document.body.classList.toggle("pcd-native-mobile", native);
+  syncPortraitPan(native);
+  if (isRegressionLecture && appearance.view === "deck") {
+    if (native) delete presentation.dataset.fixedSlideCanvas;
+    else presentation.dataset.fixedSlideCanvas = "true";
+  }
   const key = `${native}:${width}:${height}`;
   if (key === viewportKey) return;
   viewportKey = key;
@@ -634,6 +660,8 @@ mountPageLifecycle(window, {
   document.body.classList.remove("pcd-no-scroll-transition");
   document.body.classList.remove("pcd-full-media-active");
   document.body.classList.remove("pcd-native-mobile");
+  document.body.classList.remove("pcd-regression-lecture");
+  unmountPresentationSymbols();
   for (const video of presentationVideos) video.pause();
   deck.off("slidechanged", onCourseEnd);
   returnButton.removeEventListener("click", returnToWorld);

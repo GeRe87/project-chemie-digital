@@ -101,7 +101,11 @@ export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => voi
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", image.alt);
       const dimensions = svg.getAttribute("viewBox")?.trim().split(/[\s,]+/u).map(Number);
+      if ((dimensions?.[2] ?? 0) >= 850 && svg.querySelectorAll("text").length >= 18) {
+        figure.dataset.denseSvg = "true";
+      }
       if (dimensions?.length === 4 && dimensions[2]! > 0 && dimensions[3]! > 0) {
+        svg.style.setProperty("--pcd-teaching-svg-aspect", `${dimensions[2]} / ${dimensions[3]}`);
         figure.setAttribute("data-media-aspect", isPanoramicMedia(dimensions[2]!, dimensions[3]!) ? "panoramic" : "standard");
       }
       image.replaceWith(svg);
