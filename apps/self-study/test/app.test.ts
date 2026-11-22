@@ -410,7 +410,10 @@ test("generated Chemometrics runtime exposes section-aware 1.1 regions with exac
     documentValue.placements.map((placement) => placement.id).sort(),
   );
   assert.equal(new Set(grouped).size, grouped.length);
-  assert.equal(documentValue.sections.filter((section) => section.placementIds.length === 0).length, 4);
+  const modeling = documentValue.sections.find((section) => section.id.endsWith("/offering-section-chemometrics-data-modeling"))!;
+  assert.equal(modeling.placementIds.length, 1);
+  assert.match(modeling.placementIds[0]!, /\/unit-placement-chemometrics-linear-regression$/u);
+  assert.equal(documentValue.sections.filter((section) => section.placementIds.length === 0).length, 3);
 });
 
 test("course-world projection stays generic and does not hardcode Chemometrics section labels", async () => {
@@ -439,8 +442,9 @@ test("generated static world renders every authored region, description, member 
       assert.ok(index.includes(escapeRenderedText(description.value)), `missing static section description ${section.id}`);
     }
   }
-  assert.ok(
-    (index.match(/class="course-world-section-empty">In preparation/g) ?? []).length === 4,
+  assert.equal(
+    (index.match(/class="course-world-section-empty">In preparation/g) ?? []).length,
+    documentValue.sections.filter((section) => section.placementIds.length === 0).length,
     "expected all authored empty sections to remain visible",
   );
 });
