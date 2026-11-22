@@ -417,4 +417,11 @@
   ex:l8-fixed-basis-coefficients-heading a cd:Interpretation ; cd:body "When is a model linear in its coefficients?"@en ; skos:prefLabel "When is a model linear in its coefficients?"@en ; cd:authoredResource true .
   ex:l8-fixed-basis-coefficients-takeaway a cd:Interpretation ; cd:body "A design column must be known before fitting."@en ; skos:prefLabel "A design column must be known before fitting."@en ; cd:authoredResource true .
   ex:l8-fixed-basis-coefficients-takeaway cd:interpretsResource ex:l8-fixed-basis-coefficients-formula .
+  ex:l8-basis-mixed-heading a cd:Interpretation ; cd:body "Design matrix: mix several functions"@en ; skos:prefLabel "Design matrix: mix several functions"@en ; cd:authoredResource true .
+  ex:l8-basis-mixed-takeaway a cd:Interpretation ; cd:body "Each fixed function adds one column. The fitted coefficients still enter linearly."@en ; skos:prefLabel "Each fixed function adds one column. The fitted coefficients still enter linearly."@en ; cd:authoredResource true .
+  ex:l8-basis-mixed-takeaway cd:interpretsResource ex:l8-basis-mixed-media .
+  ex:l8-basis-column-limit-heading a cd:Interpretation ; cd:body "How many columns can we fit?"@en ; skos:prefLabel "How many columns can we fit?"@en ; cd:authoredResource true .
+  ex:l8-basis-column-limit-takeaway a cd:Interpretation ; cd:body "To keep at least one residual degree of freedom, use at most n − 1 independent columns."@en ; skos:prefLabel "To keep at least one residual degree of freedom, use at most n − 1 independent columns."@en ; cd:authoredResource true .
+  ex:l8-basis-column-limit-takeaway cd:interpretsResource ex:l8-basis-column-limit-formula .
+  ex:l8-basis-mixed-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/basis-mixed.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "First five rows of a seven-column design using a constant, squared input, logarithm, hyperbolic sine, exponential, reciprocal and square root. The example curve dips and then rises."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
 }
