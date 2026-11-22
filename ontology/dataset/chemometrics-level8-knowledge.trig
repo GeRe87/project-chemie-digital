@@ -160,7 +160,7 @@
   ex:l8-essence-02 a cd:Interpretation ; cd:body "We recorded one detector reading per minute."@en ; skos:prefLabel "We recorded one detector reading per minute."@en ; cd:authoredResource true .
   ex:l8-source-author cd:supportsResource ex:l8-scene-02 .
   ex:l8-essence-02 cd:interpretsResource ex:l8-media-detector-drift-use-case .
-  ex:l8-heading-03 a cd:Interpretation ; cd:body "What signal would you predict at 2.5 min?"@en ; skos:prefLabel "What signal would you predict at 2.5 min?"@en ; cd:authoredResource true .
+  ex:l8-heading-03 a cd:Interpretation ; cd:body "How can we predict the signal at 2.5 min?"@en ; skos:prefLabel "How can we predict the signal at 2.5 min?"@en ; cd:authoredResource true .
   ex:l8-heading-estimate-line-coefficients a cd:Interpretation ; cd:body "Estimate a model from measurements"@en ; skos:prefLabel "Estimate a model from measurements"@en ; cd:authoredResource true .
   ex:l8-essence-estimate-line-coefficients a cd:Interpretation ; cd:body "The measurements guide our choice of intercept and slope."@en ; skos:prefLabel "The measurements guide our choice of intercept and slope."@en ; cd:authoredResource true .
   ex:l8-essence-estimate-line-coefficients cd:interpretsResource ex:l8-media-estimate-line-coefficients .
@@ -377,7 +377,7 @@
   ex:l8-quadratic-gradient-heading a cd:Interpretation ; cd:body "Least Squares: where does the factor 2 come from?"@en ; skos:prefLabel "Least Squares: where does the factor 2 come from?"@en ; cd:authoredResource true .
   ex:l8-isolate-coefficients-heading a cd:Interpretation ; cd:body "Least Squares: isolate the coefficients"@en ; skos:prefLabel "Least Squares: isolate the coefficients"@en ; cd:authoredResource true .
   ex:l8-least-squares-solution-heading a cd:Interpretation ; cd:body "Ordinary Least Squares: the coefficient formula"@en ; skos:prefLabel "Ordinary Least Squares: the coefficient formula"@en ; cd:authoredResource true .
-  ex:l8-least-squares-solution-takeaway a cd:Interpretation ; cd:body "The design matrix and the measured responses determine the fitted coefficients."@en ; skos:prefLabel "The design matrix and the measured responses determine the fitted coefficients."@en ; cd:authoredResource true .
+  ex:l8-least-squares-solution-takeaway a cd:Interpretation ; cd:body "Fit the coefficients, then evaluate the line at 2.5 minutes."@en ; skos:prefLabel "Fit the coefficients, then evaluate the line at 2.5 minutes."@en ; cd:authoredResource true .
   ex:l8-least-squares-solution-takeaway cd:interpretsResource ex:l8-least-squares-solution-formula .
   ex:l8-basis-linear-heading a cd:Interpretation ; cd:body "Design matrix: intercept and linear term"@en ; skos:prefLabel "Design matrix: intercept and linear term"@en ; cd:authoredResource true .
   ex:l8-basis-linear-takeaway a cd:Interpretation ; cd:body "The constant and x columns produce a straight line."@en ; skos:prefLabel "The constant and x columns produce a straight line."@en ; cd:authoredResource true .
@@ -428,4 +428,17 @@
   ex:l8-basis-eight-rows-takeaway a cd:Interpretation ; cd:body "With rank seven, eight observed responses determine a unique least-squares fit."@en ; skos:prefLabel "With rank seven, eight observed responses determine a unique least-squares fit."@en ; cd:authoredResource true .
   ex:l8-basis-eight-rows-takeaway cd:interpretsResource ex:l8-basis-eight-rows-media .
   ex:l8-basis-eight-rows-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/basis-eight-rows.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "The same seven-column design, now with eight rows. Three new inputs at 1.5, 2.5 and 3.5 are highlighted beside their positions on the example curve. Full column rank leaves one residual degree of freedom."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-gram-design-heading a cd:Interpretation ; cd:body "Five inputs, three design columns"@en ; skos:prefLabel "Five inputs, three design columns"@en ; cd:authoredResource true .
+  ex:l8-gram-design-takeaway a cd:Interpretation ; cd:body "Choose the model terms first. Each term gives one design column."@en ; skos:prefLabel "Choose the model terms first. Each term gives one design column."@en ; cd:authoredResource true .
+  ex:l8-gram-design-takeaway cd:interpretsResource ex:l8-gram-design-media .
+  ex:l8-gram-rule-heading a cd:Interpretation ; cd:body "From one squared length to XᵀX"@en ; skos:prefLabel "From one squared length to XᵀX"@en ; cd:authoredResource true .
+  ex:l8-gram-rule-takeaway a cd:Interpretation ; cd:body "The diagonal contains squared lengths. Off-diagonal entries compare two different columns."@en ; skos:prefLabel "The diagonal contains squared lengths. Off-diagonal entries compare two different columns."@en ; cd:authoredResource true .
+  ex:l8-gram-rule-takeaway cd:interpretsResource ex:l8-gram-rule-formula .
+  ex:l8-gram-worked-heading a cd:Interpretation ; cd:body "Calculate XᵀX for the five inputs"@en ; skos:prefLabel "Calculate XᵀX for the five inputs"@en ; cd:authoredResource true .
+  ex:l8-gram-worked-takeaway a cd:Interpretation ; cd:body "The matrix is symmetric because the order of two real columns in a dot product does not change the value."@en ; skos:prefLabel "The matrix is symmetric because the order of two real columns in a dot product does not change the value."@en ; cd:authoredResource true .
+  ex:l8-gram-worked-takeaway cd:interpretsResource ex:l8-gram-worked-formula .
+  ex:l8-gram-reading-heading a cd:Interpretation ; cd:body "What does XᵀX tell us about the inputs?"@en ; skos:prefLabel "What does XᵀX tell us about the inputs?"@en ; cd:authoredResource true .
+  ex:l8-gram-reading-takeaway a cd:Interpretation ; cd:body "XᵀX contains information about the design and input values. It contains no measured responses."@en ; skos:prefLabel "XᵀX contains information about the design and input values. It contains no measured responses."@en ; cd:authoredResource true .
+  ex:l8-gram-reading-takeaway cd:interpretsResource ex:l8-gram-reading-formula .
+  ex:l8-gram-design-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/gram-design-curve.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five input rows at x equal to 1, 4, 9, 16 and 25 with columns 1, x, square root of x. The right-hand plot shows the curve 1 plus 0.18 times x plus 0.6 times square root of x for the same columns."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
 }
