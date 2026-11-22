@@ -10,6 +10,11 @@ import {scriptMedia} from '../../../scripts/script_pdf_media.mts';
 const runtime=JSON.parse(readFileSync(new URL('../../../apps/pitch/public/authoring-level5-review-complete-runtime.json',import.meta.url),'utf8'));
 const script:ThematicScript=runtime.thematicScripts[0];
 
+test('PDF metadata preserves the title separator without mathematical commands',()=>{
+  const tex=renderLatexScript({...script,title:'Linear Regression Foundations · TERMIN 1'});
+  assert(tex.includes(String.raw`\hypersetup{pdftitle={Linear Regression Foundations · TERMIN 1}`));
+});
+
 test('repeated authored figure occurrences share one verified PDF asset',()=>{
   const revised=structuredClone(script),before=scriptMedia(revised);
   assert(before.length>0);

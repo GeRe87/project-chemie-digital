@@ -19,7 +19,7 @@ const expand=(id:string)=>id.startsWith('ex:')?EX+id.slice(3):id;
 const glyphs:Record<string,string>={
   'ε':'\\varepsilon','κ':'\\kappa','δ':'\\delta','θ':'\\theta','λ':'\\lambda','ρ':'\\rho','Ω':'\\Omega','β':'\\beta',
   '∈':'\\in','ℝ':'\\mathbb{R}','ℤ':'\\mathbb{Z}','ℂ':'\\mathbb{C}','×':'\\times','³':'{}^3','≠':'\\ne','→':'\\to',
-  '∑':'\\sum','∛':'\\sqrt[3]{\\vphantom{x}}','𝜇':'\\mu',
+  '∑':'\\sum','∛':'\\sqrt[3]{\\vphantom{x}}','𝜇':'\\mu','⊙':'\\odot','ᵀ':'{}^{\\mathsf T}',
   '⁰':'{}^0','⁵':'{}^5','⁶':'{}^6','⁷':'{}^7','⁸':'{}^8','⁹':'{}^9','⁺':'{}^+',
   '₄':'{}_4','₆':'{}_6','₇':'{}_7','₈':'{}_8',
   'ₙ':'{}_n','ₘ':'{}_m','ₚ':'{}_p','ₛ':'{}_s','ₜ':'{}_t','ₓ':'{}_x',
@@ -43,11 +43,18 @@ export function latexText(text:string):string {
 }
 const mathCommands=new Set(['! ',',',';','Gamma','Phi','approx','bar','begin','cdot','cdots','chi','end','exp','frac','ge','infty','int','le','left','ln','mathcal','mathrm','mu','nu','operatorname','pi','qquad','quad','right','sigma','sim','sqrt','sum','text','varphi','phi','alpha','beta','delta','epsilon','varepsilon','theta','lambda','rho','tau','gamma','Delta','Sigma','times','pm','in','to','underbrace','overbrace','Bigl','Bigr','eta','overline','vert','mid','Pr','tfrac','dfrac','mathbf','mathbb','hat','widehat','log','lvert','rvert','vec','substack','limits','neq','ne','leq','geq','dots','equiv']);
 export function latexMath(expression:string):string {
-  const additional=new Set(['prod','min','max','kappa','lceil','rceil','lfloor','rfloor','ldots','boxed','Longrightarrow','overset','phantom','textstyle','tilde','xrightarrow']);
+  const additional=new Set(['prod','min','max','kappa','lceil','rceil','lfloor','rfloor','ldots','boxed','Longrightarrow','overset','phantom','textstyle','tilde','xrightarrow',
+    'Longleftrightarrow','bigl','bigr','longrightarrow','mathsf','odot','partial','sinh','textcolor','top','vdots']);
   for(const match of expression.matchAll(/\\([A-Za-z]+|.)/gs)){
     if(!['\\',',',';','!','{','}','|',' ','%'].includes(match[1]!)&&!mathCommands.has(match[1]!)&&!additional.has(match[1]!))throw new Error(`Unsupported/unsafe math command: ${match[0]}`);
+    const argument=expression.slice(match.index!+match[0].length);
+    if(match[1]==='textcolor'&&!/^\s*\{(?:teal|purple|brown)\}/u.test(argument))throw new Error('Unsupported mathematical colour');
+    if(match[1]==='begin'||match[1]==='end'){
+      const environment=/^\s*\{(gathered|aligned|matrix|pmatrix|bmatrix|array|cases)\}/u.exec(argument);
+      if(!environment)throw new Error('Unsupported mathematical environment');
+      if(match[1]==='begin'&&environment[1]==='array'&&!/^\s*\{[lcr|]+\}/u.test(argument.slice(environment[0].length)))throw new Error('Unsupported mathematical array columns');
+    }
   }
-  for(const match of expression.matchAll(/\\(?:begin|end)\{([^}]+)\}/g))if(!['gathered','aligned','matrix','pmatrix','cases'].includes(match[1]!))throw new Error('Unsupported mathematical environment');
   const unsafePercent=/(^|[^\\])(?:\\\\)*%/u.test(expression);
   if(expression.includes('^^')||unsafePercent||/[\u0000-\u0008\u000b\u000c\u000e-\u001f#]/u.test(expression))throw new Error('Unsafe mathematical source');
   // unicode-math's text-font \mathrm has no mathematical Greek glyphs in
@@ -315,6 +322,7 @@ export function renderLatexScript(script:ThematicScript):string {
     const entry=byId.get(id);if(!entry)throw new Error('Unresolved LaTeX script reference');
     const label=latexLabel(id);return `\\hyperref[${label}]{${names[entry.category]}~\\ref*{${label}}}`;
   };
+  const metadataTitle=[...script.title.replace(/\s+/gu,' ')].map(char=>special[char]??char).join('');
   return String.raw`\documentclass[11pt,a4paper]{article}
 \usepackage[margin=22mm]{geometry}
 \usepackage{fontspec}
@@ -341,7 +349,7 @@ export function renderLatexScript(script:ThematicScript):string {
 \setlength{\parskip}{0.65em}
 \setlength{\emergencystretch}{3em}
 \begin{document}
-`+`\\hypersetup{pdftitle={${latexText(script.title)}},pdfsubject={Authored thematic script},pdfcreator={Project Chemie Digital LaTeX exporter}}\n\\title{${latexInline(script.title)}}\n\\author{}\n\\date{}\n\\maketitle\n\\tableofcontents\n\\clearpage\n`+
+`+`\\hypersetup{pdftitle={${metadataTitle}},pdfsubject={Authored thematic script},pdfcreator={Project Chemie Digital LaTeX exporter}}\n\\title{${latexInline(script.title)}}\n\\author{}\n\\date{}\n\\maketitle\n\\tableofcontents\n\\clearpage\n`+
     script.sections.map(section=>`\\section{${latexInline(section.title)}}\n`+
       resolveScriptSectionFlow(section).map(item=>{
         if(item.kind==='prose')return prose(item.body,reference)+'\n\n';
