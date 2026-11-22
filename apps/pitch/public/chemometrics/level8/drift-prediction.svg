@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 475" data-teaching-stage-count="1" data-teaching-stage-mode="cumulative">
+<title>Back to the detector: predict the signal at 2.5 min</title><desc>Scatter plot of the five detector measurements with the least-squares line. The final stage marks its prediction at 2.5 minutes: 5.995 millivolts.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="125" y="43" fill="#2c8198" font-size="28" text-anchor="start" font-weight="700">Measured signal / mV</text>
+<path d="M 125 72 V 390 H 1025" fill="none" stroke="#2c8198" stroke-width="3" opacity="1"/>
+<text x="106" y="397.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">0</text>
+<path d="M 125 390.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<text x="106" y="335.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">2</text>
+<path d="M 125 328.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<text x="106" y="273.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">4</text>
+<path d="M 125 266.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<text x="106" y="211.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">6</text>
+<path d="M 125 204.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<text x="106" y="149.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">8</text>
+<path d="M 125 142.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<text x="106" y="87.0" fill="#2c8198" font-size="23" text-anchor="end" font-weight="500">10</text>
+<path d="M 125 80.0 H 1025" fill="none" stroke="#2c8198" stroke-width="2" opacity="0.21"/>
+<path d="M 125.0 390 v 8" fill="none" stroke="#2c8198" stroke-width="2" opacity="1"/>
+<text x="125.0" y="424" fill="#2c8198" font-size="23" text-anchor="middle" font-weight="500">0</text>
+<path d="M 350.0 390 v 8" fill="none" stroke="#2c8198" stroke-width="2" opacity="1"/>
+<text x="350.0" y="424" fill="#2c8198" font-size="23" text-anchor="middle" font-weight="500">1</text>
+<path d="M 575.0 390 v 8" fill="none" stroke="#2c8198" stroke-width="2" opacity="1"/>
+<text x="575.0" y="424" fill="#2c8198" font-size="23" text-anchor="middle" font-weight="500">2</text>
+<path d="M 800.0 390 v 8" fill="none" stroke="#2c8198" stroke-width="2" opacity="1"/>
+<text x="800.0" y="424" fill="#2c8198" font-size="23" text-anchor="middle" font-weight="500">3</text>
+<path d="M 1025.0 390 v 8" fill="none" stroke="#2c8198" stroke-width="2" opacity="1"/>
+<text x="1025.0" y="424" fill="#2c8198" font-size="23" text-anchor="middle" font-weight="500">4</text>
+<text x="1025" y="460" fill="#2c8198" font-size="27" text-anchor="end" font-weight="700">Time / min</text>
+<path d="M 125.0 358.38 L 1025.0 111.62" fill="none" stroke="#9461b0" stroke-width="5" opacity="1"/>
+<circle cx="125.00" cy="355.90" r="8" fill="#168aaa"/>
+<circle cx="350.00" cy="303.20" r="8" fill="#168aaa"/>
+<circle cx="575.00" cy="228.80" r="8" fill="#168aaa"/>
+<circle cx="800.00" cy="176.10" r="8" fill="#168aaa"/>
+<circle cx="1025.00" cy="111.00" r="8" fill="#168aaa"/>
+<circle cx="511.00" cy="38.00" r="7" fill="#168aaa"/>
+<text x="526" y="45" fill="#2c8198" font-size="22" text-anchor="start" font-weight="500">Measurements</text>
+<path d="M 692 38 h 45" fill="none" stroke="#9461b0" stroke-width="5" opacity="1"/>
+<text x="751" y="45" fill="#9461b0" font-size="22" text-anchor="start" font-weight="500">OLS fit: ŷ = 1.02 + 1.99t</text>
+<g data-svg-stage="1">
+<path d="M 687.5 213 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 227 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 241 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 255 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 269 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 283 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 297 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 311 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 325 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 339 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 353 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 367 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 687.5 381 v 7" fill="none" stroke="#bb663b" stroke-width="3" opacity="1"/>
+<path d="M 129 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 143 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 157 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 171 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 185 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 199 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 213 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 227 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 241 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 255 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 269 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 283 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 297 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 311 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 325 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 339 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 353 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 367 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 381 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 395 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 409 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 423 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 437 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 451 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 465 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 479 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 493 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 507 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 521 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 535 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 549 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 563 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 577 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 591 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 605 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 619 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 633 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 647 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<path d="M 661 204.16 h 7" fill="none" stroke="#bb663b" stroke-width="2" opacity="0.7"/>
+<circle cx="687.50" cy="204.16" r="10" fill="#bb663b"/>
+<text x="687.5" y="428" fill="#bb663b" font-size="25" text-anchor="middle" font-weight="750">2.5</text>
+<path d="M 695.5 195.16 l 23 -40 h 80" fill="none" stroke="#bb663b" stroke-width="2.5" opacity="1"/>
+<text x="722.5" y="145.155" fill="#bb663b" font-size="32" text-anchor="start" font-weight="750">5.995 mV</text>
+</g></g></svg>
