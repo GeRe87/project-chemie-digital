@@ -202,7 +202,7 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
         self.assertEqual(direct_placements, set(grouped))
         self.assertEqual(len(direct_placements), len(grouped))
         self.assertEqual(
-            [spec[1] for spec in SECTION_SPECS[3:]],
+            [spec[1] for spec in SECTION_SPECS[4:]],
             [
                 section
                 for _position, section, _label, _description, placements in SECTION_SPECS
@@ -231,8 +231,8 @@ class ChemometricsCourseSkeletonTests(unittest.TestCase):
             [section["placementIds"] for section in document["sections"]],
         )
         self.assertEqual(
-            [[], [], [], []],
-            [section["placementIds"] for section in document["sections"][3:]],
+            [[], [], []],
+            [section["placementIds"] for section in document["sections"][4:]],
         )
 
     def test_section_roadmap_does_not_create_future_learning_units_or_placements(self) -> None:
