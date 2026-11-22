@@ -1,6 +1,7 @@
 import { walkSceneBlocks } from "../../../packages/core/src/scene-blocks.ts";
 import { resolvePublicAssetUrl } from "./public-asset-url.ts";
 import { isPanoramicMedia } from "./media-geometry.ts";
+import { mountTeachingSvgOrbit } from "./teaching-svg-orbit.ts";
 import type { SceneBlock } from "../../../packages/core/src/scene-document.ts";
 
 /** Only explicit authored media, including media inside semantic groups. */
@@ -21,6 +22,12 @@ export function safeSvgAttribute(name: string, value: string): boolean {
   if (name === "data-svg-stage") return /^[0-4]$/u.test(value);
   if (name === "data-pair-reveal") return value === "true";
   if (name === "data-pair-points") return value === "selected" || value === "context";
+  if (name === "data-teaching-orbit") return value === "true";
+  if (name === "data-orbit-points") {
+    const points = value.split(" ");
+    return points.length <= 12 && points.every(point => /^-?\d{1,4}(?:\.\d{1,3})?(?:,-?\d{1,4}(?:\.\d{1,3})?){2}$/u.test(point));
+  }
+  if (name === "data-orbit-offset") return /^-?\d{1,2},-?\d{1,2}$/u.test(value);
   if (!attributes.has(name) || /url\s*\(|[<>\\]|javascript:|https?:|data:/iu.test(value)) return false;
   if (name === "fill" || name === "stroke") return /^(none|currentColor|#[a-f\d]{3,8}|var\(--pcd-[a-z\d-]+\))$/iu.test(value);
   return true;
@@ -98,10 +105,10 @@ export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => voi
         figure.setAttribute("data-media-aspect", isPanoramicMedia(dimensions[2]!, dimensions[3]!) ? "panoramic" : "standard");
       }
       image.replaceWith(svg);
-      const unmountFluidRows = dimensions?.length === 4 && !document.documentElement.classList.contains("print-pdf")
-        ? mountFluidSvgRows(svg, dimensions)
-        : () => {};
-      cleanup.push(() => { unmountFluidRows(); svg.replaceWith(image); });
+      const interactive = !document.documentElement.classList.contains("print-pdf");
+      const unmountFluidRows = interactive && dimensions?.length === 4 ? mountFluidSvgRows(svg, dimensions) : () => {};
+      const unmountOrbit = interactive ? mountTeachingSvgOrbit(svg) : () => {};
+      cleanup.push(() => { unmountOrbit(); unmountFluidRows(); svg.replaceWith(image); });
     } catch {
       // Accessible image remains; an unsupported SVG never becomes inline markup.
       figure.dataset.mediaEnhancement = "static-fallback";
