@@ -108,21 +108,21 @@ body[data-presentation-theme="light"] :is(.formula-with-legend,.pcd-script-view)
 .reveal .formula-with-legend:has(.math-display .katex .fbox) .math-expression-label {
   color: var(--pcd-formula-focus);
 }
-.reveal .math-display {
+:is(.reveal .math-display, .pcd-script-view .self-study-math) {
   --pcd-formula-teal: #006d72;
   --pcd-formula-purple: #6b32a8;
   --pcd-formula-brown: #8b4b00;
 }
-body[data-presentation-theme="dark"] .reveal .math-display {
+body[data-presentation-theme="dark"] :is(.reveal .math-display, .pcd-script-view .self-study-math) {
   --pcd-formula-teal: #5ff3df;
   --pcd-formula-purple: #d2a5ff;
   --pcd-formula-brown: #ffca72;
 }
-/* The authored TeX also works in the script and print engines. */
-.reveal .math-display .katex-html [style*="color:teal;"] { --pcd-formula-tone: var(--pcd-formula-teal); }
-.reveal .math-display .katex-html [style*="color:purple;"] { --pcd-formula-tone: var(--pcd-formula-purple); }
-.reveal .math-display .katex-html [style*="color:brown;"] { --pcd-formula-tone: var(--pcd-formula-brown); }
-.reveal .math-display .katex-html :is([style*="color:teal;"], [style*="color:purple;"], [style*="color:brown;"]) {
+/* Map the authored math colors in the deck and on-screen script. */
+:is(.reveal .math-display, .pcd-script-view .self-study-math) .katex-html [style*="color:teal;"] { --pcd-formula-tone: var(--pcd-formula-teal); }
+:is(.reveal .math-display, .pcd-script-view .self-study-math) .katex-html [style*="color:purple;"] { --pcd-formula-tone: var(--pcd-formula-purple); }
+:is(.reveal .math-display, .pcd-script-view .self-study-math) .katex-html [style*="color:brown;"] { --pcd-formula-tone: var(--pcd-formula-brown); }
+:is(.reveal .math-display, .pcd-script-view .self-study-math) .katex-html :is([style*="color:teal;"], [style*="color:purple;"], [style*="color:brown;"]) {
   color: var(--pcd-formula-tone) !important;
 }
 .reveal .formula-with-legend .math-display .katex .fbox:is([style*="color:teal;"], [style*="color:purple;"], [style*="color:brown;"]) {
