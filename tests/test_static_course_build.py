@@ -148,7 +148,8 @@ class StaticCourseBuildTests(unittest.TestCase):
                                 "ex:path-chemometrics-level4-distribution-shape-lecture--scene-document",
                                  "ex:path-level5-review-complete--scene-document",
                                  "ex:path-level6-statistical-tests--scene-document",
-                                 "ex:path-level7-anova-intro-review--scene-document"},
+                                 "ex:path-level7-anova-intro-review--scene-document",
+                                 "ex:path-level8-linear-regression--scene-document"},
                              {path["sceneDocumentId"] for unit in model["units"] for path in unit["paths"] if path["status"] == "available"})
             with self.assertRaises(subprocess.CalledProcessError):
                 STATIC.validate_transport(file, "https://example/wrong")
