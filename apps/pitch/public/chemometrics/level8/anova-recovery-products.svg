@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 505" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>What do the dummy columns count and sum?</title><desc>All 18 original river-water recoveries appear alongside the three design row patterns. Each pattern occurs six times. First, pair the design columns to count all samples, each method and their overlap. Second, pair the design columns with recovery to total all recoveries and the B and C recoveries. The result is the vector 1710, 588, 558.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="33" y="48" text-anchor="start" font-size="26" fill="currentColor" font-weight="700">Design rows X and recovery y</text>
+<text x="30" y="91" text-anchor="start" font-size="18" fill="currentColor" font-weight="500">Method</text>
+<text x="110" y="91" text-anchor="middle" font-size="20" fill="currentColor" font-weight="700">1</text>
+<text x="158" y="91" text-anchor="middle" font-size="20" fill="#a46ac4" font-weight="700">B</text>
+<text x="204" y="91" text-anchor="middle" font-size="20" fill="#c4612a" font-weight="700">C</text>
+<text x="248" y="91" text-anchor="start" font-size="19" fill="currentColor" font-weight="700">Recovery / %</text>
+<path d="M30 108 H414" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+<path d="M427 31 V473" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.35"/>
+<text x="49" y="149" text-anchor="start" font-size="26" fill="#2587a8" font-weight="700">A</text>
+<text x="44" y="177" text-anchor="start" font-size="17" fill="currentColor" font-weight="500">×6</text>
+<path d="M99 122 H90 V161 H99 M215 122 H224 V161 H215" fill="none" stroke="#2587a8" stroke-width="2.5" opacity="1"/>
+<text x="110" y="149" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="158" y="149" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">0</text>
+<text x="204" y="149" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">0</text>
+<text x="248" y="149" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">92.90   95.33   93.81</text>
+<text x="248" y="176" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">92.19   95.92   93.85</text>
+<text x="49" y="256" text-anchor="start" font-size="26" fill="#a46ac4" font-weight="700">B</text>
+<text x="44" y="284" text-anchor="start" font-size="17" fill="currentColor" font-weight="500">×6</text>
+<path d="M99 229 H90 V268 H99 M215 229 H224 V268 H215" fill="none" stroke="#a46ac4" stroke-width="2.5" opacity="1"/>
+<text x="110" y="256" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="158" y="256" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="204" y="256" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">0</text>
+<text x="248" y="256" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">96.79   98.67   98.06</text>
+<text x="248" y="283" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">100.03   96.05   98.40</text>
+<text x="49" y="363" text-anchor="start" font-size="26" fill="#c4612a" font-weight="700">C</text>
+<text x="44" y="391" text-anchor="start" font-size="17" fill="currentColor" font-weight="500">×6</text>
+<path d="M99 336 H90 V375 H99 M215 336 H224 V375 H215" fill="none" stroke="#c4612a" stroke-width="2.5" opacity="1"/>
+<text x="110" y="363" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="158" y="363" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">0</text>
+<text x="204" y="363" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="248" y="363" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">94.14   92.87   92.09</text>
+<text x="248" y="390" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">94.99   91.03   92.88</text>
+<text x="34" y="472" text-anchor="start" font-size="19" fill="currentColor" font-weight="500">Each row pattern appears six times.</text>
+<g data-svg-stage="1">
+<text x="455" y="48" text-anchor="start" font-size="27" fill="#2587a8" font-weight="700">XᵀX  ·  Count matching ones</text>
+<text x="455" y="98" text-anchor="start" font-size="19" fill="#2587a8" font-weight="700">1 × 1</text>
+<text x="568" y="98" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">18 samples</text>
+<text x="455" y="135" text-anchor="start" font-size="19" fill="#2587a8" font-weight="700">1 × B, B × B</text>
+<text x="618" y="135" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">6 in B</text>
+<text x="455" y="172" text-anchor="start" font-size="19" fill="#2587a8" font-weight="700">1 × C, C × C</text>
+<text x="618" y="172" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">6 in C</text>
+<text x="455" y="209" text-anchor="start" font-size="19" fill="#2587a8" font-weight="700">B × C</text>
+<text x="568" y="209" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">0 shared samples</text>
+<path d="M976 72 H967 V230 H976 M1155 72 H1164 V230 H1155" fill="none" stroke="#2587a8" stroke-width="2.5" opacity="1"/>
+<text x="1004" y="112" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">18</text>
+<text x="1066" y="112" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+<text x="1128" y="112" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+<text x="1004" y="157" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+<text x="1066" y="157" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+<text x="1128" y="157" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">0</text>
+<text x="1004" y="202" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+<text x="1066" y="202" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">0</text>
+<text x="1128" y="202" text-anchor="middle" font-size="26" fill="#2587a8" font-weight="700">6</text>
+</g>
+<g data-svg-stage="2">
+<path d="M455 253 H1165" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.35"/>
+<text x="455" y="290" text-anchor="start" font-size="27" fill="#a46ac4" font-weight="700">Xᵀy  ·  Sum the selected recoveries</text>
+<text x="455" y="334" text-anchor="start" font-size="20" fill="#a46ac4" font-weight="700">1 × y</text>
+<text x="568" y="334" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">564 + 588 + 558 = 1710</text>
+<text x="455" y="383" text-anchor="start" font-size="20" fill="#a46ac4" font-weight="700">B × y</text>
+<text x="568" y="383" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">Sum of all six B recoveries = 588</text>
+<text x="455" y="432" text-anchor="start" font-size="20" fill="#a46ac4" font-weight="700">C × y</text>
+<text x="568" y="432" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">Sum of all six C recoveries = 558</text>
+<path d="M1054 302 H1045 V459 H1054 M1155 302 H1164 V459 H1155" fill="none" stroke="#a46ac4" stroke-width="2.5" opacity="1"/>
+<text x="1105" y="338" text-anchor="middle" font-size="26" fill="#a46ac4" font-weight="700">1710</text>
+<text x="1105" y="385" text-anchor="middle" font-size="26" fill="#a46ac4" font-weight="700">588</text>
+<text x="1105" y="432" text-anchor="middle" font-size="26" fill="#a46ac4" font-weight="700">558</text>
+</g>
+</g>
+</svg>
