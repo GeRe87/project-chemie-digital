@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: logarithmic column</title><desc>Design columns 1, ln(x) for x equal to 1, 2, 3, 4, 5, paired with the curve y = 1 + ln(x).</desc>
+<g fill="#2c8198" font-family="system-ui, sans-serif">
+<text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
+<text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁ ln(xᵢ)</text>
+<text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
+<text x="565.0" y="81.0" text-anchor="start" font-size="29" font-weight="700">y = 1 + ln(x)</text>
+<text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
+<path d="M 151 136 H 136 V 413 H 151 M 350 136 H 365 V 413 H 350" stroke="#2c8198" stroke-width="3" opacity="1" fill="none"/>
+<path d="M 105 125 V 414" stroke="#2c8198" stroke-width="2" opacity="0.3" fill="none"/>
+<text x="62.0" y="451.0" text-anchor="middle" font-size="22" font-weight="400">x values</text>
+<text x="250.5" y="451.0" text-anchor="middle" font-size="25" font-weight="700">X  ·  5 × 2</text>
+<text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
+<text x="313.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">ln(x)</text>
+<text x="62.0" y="175.0" text-anchor="middle" font-size="27" font-weight="400">1</text>
+<text x="188.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">0</text>
+<text x="62.0" y="228.0" text-anchor="middle" font-size="27" font-weight="400">2</text>
+<text x="188.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">0.69</text>
+<text x="62.0" y="281.0" text-anchor="middle" font-size="27" font-weight="400">3</text>
+<text x="188.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1.1</text>
+<text x="62.0" y="334.0" text-anchor="middle" font-size="27" font-weight="400">4</text>
+<text x="188.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1.39</text>
+<text x="62.0" y="387.0" text-anchor="middle" font-size="27" font-weight="400">5</text>
+<text x="188.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1.61</text>
+<path d="M 605 104 V 404 H 1155" stroke="#2c8198" stroke-width="2.5" opacity="1" fill="none"/>
+<path d="M 605 404.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="411.0" text-anchor="end" font-size="20" font-weight="400">0.8</text>
+<path d="M 605 304.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="311.0" text-anchor="end" font-size="20" font-weight="400">1.5</text>
+<path d="M 605 204.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="211.0" text-anchor="end" font-size="20" font-weight="400">2.1</text>
+<path d="M 605 104.0 H 1155" stroke="#2c8198" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="111.0" text-anchor="end" font-size="20" font-weight="400">2.8</text>
+<path d="M 605.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<text x="605.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">1</text>
+<path d="M 742.5 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<text x="742.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">2</text>
+<path d="M 880.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<text x="880.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">3</text>
+<path d="M 1017.5 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<text x="1017.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">4</text>
+<path d="M 1155.0 404 v 7" stroke="#2c8198" stroke-width="2" opacity="1" fill="none"/>
+<text x="1155.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">5</text>
+<text x="535.0" y="260.0" text-anchor="start" font-size="26" font-weight="700">y</text>
+<text x="1155.0" y="472.0" text-anchor="end" font-size="26" font-weight="700">x</text>
+<path d="M 605.0 375.0 L 610.5 369.1 L 616.0 363.4 L 621.5 357.9 L 627.0 352.7 L 632.5 347.6 L 638.0 342.6 L 643.5 337.9 L 649.0 333.2 L 654.5 328.7 L 660.0 324.4 L 665.5 320.2 L 671.0 316.0 L 676.5 312.0 L 682.0 308.1 L 687.5 304.3 L 693.0 300.6 L 698.5 297.0 L 704.0 293.4 L 709.5 290.0 L 715.0 286.6 L 720.5 283.3 L 726.0 280.1 L 731.5 276.9 L 737.0 273.8 L 742.5 270.8 L 748.0 267.8 L 753.5 264.9 L 759.0 262.0 L 764.5 259.2 L 770.0 256.4 L 775.5 253.7 L 781.0 251.1 L 786.5 248.5 L 792.0 245.9 L 797.5 243.4 L 803.0 240.9 L 808.5 238.4 L 814.0 236.0 L 819.5 233.7 L 825.0 231.3 L 830.5 229.0 L 836.0 226.8 L 841.5 224.5 L 847.0 222.4 L 852.5 220.2 L 858.0 218.1 L 863.5 216.0 L 869.0 213.9 L 874.5 211.8 L 880.0 209.8 L 885.5 207.8 L 891.0 205.9 L 896.5 203.9 L 902.0 202.0 L 907.5 200.1 L 913.0 198.3 L 918.5 196.4 L 924.0 194.6 L 929.5 192.8 L 935.0 191.0 L 940.5 189.2 L 946.0 187.5 L 951.5 185.8 L 957.0 184.1 L 962.5 182.4 L 968.0 180.8 L 973.5 179.1 L 979.0 177.5 L 984.5 175.9 L 990.0 174.3 L 995.5 172.7 L 1001.0 171.2 L 1006.5 169.6 L 1012.0 168.1 L 1017.5 166.6 L 1023.0 165.1 L 1028.5 163.6 L 1034.0 162.1 L 1039.5 160.7 L 1045.0 159.2 L 1050.5 157.8 L 1056.0 156.4 L 1061.5 155.0 L 1067.0 153.6 L 1072.5 152.2 L 1078.0 150.9 L 1083.5 149.5 L 1089.0 148.2 L 1094.5 146.9 L 1100.0 145.6 L 1105.5 144.3 L 1111.0 143.0 L 1116.5 141.7 L 1122.0 140.4 L 1127.5 139.2 L 1133.0 137.9 L 1138.5 136.7 L 1144.0 135.5 L 1149.5 134.2 L 1155.0 133.0" stroke="#168aaa" stroke-width="5" opacity="1" fill="none"/>
+<circle cx="605.0" cy="375.0" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+<circle cx="742.5" cy="270.8" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+<circle cx="880.0" cy="209.8" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+<circle cx="1017.5" cy="166.6" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+<circle cx="1155.0" cy="133.0" r="6" fill="#168aaa" stroke="#2c8198" stroke-width="1.5"/>
+</g></svg>
