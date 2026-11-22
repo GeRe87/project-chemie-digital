@@ -437,8 +437,8 @@
   ex:l8-gram-worked-heading a cd:Interpretation ; cd:body "Calculate XᵀX for the five inputs"@en ; skos:prefLabel "Calculate XᵀX for the five inputs"@en ; cd:authoredResource true .
   ex:l8-gram-worked-takeaway a cd:Interpretation ; cd:body "The matrix is symmetric because the order of two real columns in a dot product does not change the value."@en ; skos:prefLabel "The matrix is symmetric because the order of two real columns in a dot product does not change the value."@en ; cd:authoredResource true .
   ex:l8-gram-worked-takeaway cd:interpretsResource ex:l8-gram-worked-formula .
-  ex:l8-gram-reading-heading a cd:Interpretation ; cd:body "What does XᵀX tell us about the inputs?"@en ; skos:prefLabel "What does XᵀX tell us about the inputs?"@en ; cd:authoredResource true .
-  ex:l8-gram-reading-takeaway a cd:Interpretation ; cd:body "XᵀX contains information about the design and input values. It contains no measured responses."@en ; skos:prefLabel "XᵀX contains information about the design and input values. It contains no measured responses."@en ; cd:authoredResource true .
-  ex:l8-gram-reading-takeaway cd:interpretsResource ex:l8-gram-reading-formula .
+  ex:l8-xty-worked-heading a cd:Interpretation ; cd:body "Calculate Xᵀy from the measured responses"@en ; skos:prefLabel "Calculate Xᵀy from the measured responses"@en ; cd:authoredResource true .
+  ex:l8-xty-worked-takeaway a cd:Interpretation ; cd:body "The right-hand side has one dot product per design column."@en ; skos:prefLabel "The right-hand side has one dot product per design column."@en ; cd:authoredResource true .
+  ex:l8-xty-worked-takeaway cd:interpretsResource ex:l8-xty-worked-formula .
   ex:l8-gram-design-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/gram-design-curve.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five input rows at x equal to 1, 4, 9, 16 and 25 with columns 1, x, square root of x. The right-hand plot shows the curve 1 plus 0.18 times x plus 0.6 times square root of x for the same columns."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
 }
