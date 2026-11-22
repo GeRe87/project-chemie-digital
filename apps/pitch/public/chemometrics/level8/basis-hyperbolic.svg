@@ -3,12 +3,9 @@
 <text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
 <text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁ sinh(xᵢ) + b₂ cosh(xᵢ)</text>
 <text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
-<text x="565.0" y="81.0" text-anchor="start" font-size="29" font-weight="700">y = 1 + sinh(x) + 0.5 cosh(x)</text>
 <text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
 <path d="M 151 136 H 136 V 413 H 151 M 447 136 H 462 V 413 H 447" stroke="#2c8198" stroke-width="3" opacity="1" fill="none"/>
 <path d="M 105 125 V 414" stroke="#2c8198" stroke-width="2" opacity="0.3" fill="none"/>
-<text x="62.0" y="451.0" text-anchor="middle" font-size="22" font-weight="400">x values</text>
-<text x="299.0" y="451.0" text-anchor="middle" font-size="25" font-weight="700">X  ·  5 × 3</text>
 <text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
 <text x="299.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">sinh(x)</text>
 <text x="410.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">cosh(x)</text>
