@@ -374,4 +374,6 @@
   ex:l8-expand-squared-error-heading a cd:Interpretation ; cd:body "Least Squares: expand the squared error"@en ; skos:prefLabel "Least Squares: expand the squared error"@en ; cd:authoredResource true .
   ex:l8-expand-squared-error-takeaway a cd:Interpretation ; cd:body "The two mixed products are equal scalars, so they combine into one term."@en ; skos:prefLabel "The two mixed products are equal scalars, so they combine into one term."@en ; cd:authoredResource true .
   ex:l8-expand-squared-error-takeaway cd:interpretsResource ex:l8-expand-squared-error-formula .
+  ex:l8-quadratic-gradient-heading a cd:Interpretation ; cd:body "Least Squares: where does the factor 2 come from?"@en ; skos:prefLabel "Least Squares: where does the factor 2 come from?"@en ; cd:authoredResource true .
+  ex:l8-isolate-coefficients-heading a cd:Interpretation ; cd:body "Least Squares: isolate the coefficients"@en ; skos:prefLabel "Least Squares: isolate the coefficients"@en ; cd:authoredResource true .
 }
