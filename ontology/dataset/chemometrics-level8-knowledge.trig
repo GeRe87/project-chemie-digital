@@ -458,4 +458,6 @@
   ex:l8-drift-fit-heading a cd:Interpretation ; cd:body "Back to the detector: fit the drift line"@en ; skos:prefLabel "Back to the detector: fit the drift line"@en ; cd:authoredResource true .
   ex:l8-drift-fit-takeaway a cd:Interpretation ; cd:body "The intercept is 1.02 mV. The slope is 1.99 mV per minute."@en ; skos:prefLabel "The intercept is 1.02 mV. The slope is 1.99 mV per minute."@en ; cd:authoredResource true .
   ex:l8-drift-fit-takeaway cd:interpretsResource ex:l8-drift-fit-formula .
+  ex:l8-drift-products-heading a cd:Interpretation ; cd:body "Build XᵀX and Xᵀy from the drift measurements"@en ; skos:prefLabel "Build XᵀX and Xᵀy from the drift measurements"@en ; cd:authoredResource true .
+  ex:l8-drift-products-media a cd:MediaAsset ; cd:uri "/chemometrics/level8/drift-fit-products.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ; cd:alternativeText "Five rows of X and y for the detector series. The first reveal builds X transpose X from five ones, sum of times 10 and sum of squared times 30. The second builds X transpose y from the response sum 25 and the time-weighted response sum 69.9."@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
 }
