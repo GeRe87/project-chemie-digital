@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340">
+<title>Two ways to handle the inverse</title>
+<desc>Determinant formula for an invertible two-by-two matrix, or Cholesky factorisation for a symmetric positive-definite matrix.</desc>
+<g font-family="system-ui, sans-serif">
+  <path d="M 40 47 H 545" stroke="#15829a" stroke-width="4"/>
+  <path d="M 655 47 H 1160" stroke="#a566c0" stroke-width="4"/>
+  <path d="M 600 46 V 300" stroke="currentColor" opacity="0.24" stroke-width="2"/>
+  <g fill="#2c8198">
+    <text x="46" y="101" font-size="27" font-weight="650">2 × 2 MATRIX</text>
+    <text x="46" y="153" font-size="38" font-weight="720">Determinant formula</text>
+    <text x="46" y="216" font-size="30">Nonzero determinant</text>
+    <text x="46" y="270" font-size="30">Adjugate ÷ determinant</text>
+    <path d="M 465 178 h -13 v 68 h 13 M 536 178 h 13 v 68 h -13" fill="none" stroke="#15829a" stroke-width="3"/>
+    <rect x="472" y="189" width="20" height="20" rx="3" fill="#15829a"/>
+    <rect x="513" y="218" width="20" height="20" rx="3" fill="#15829a"/>
+    <rect x="513" y="189" width="20" height="20" rx="3" opacity=".4"/>
+    <rect x="472" y="218" width="20" height="20" rx="3" opacity=".4"/>
+  </g>
+  <g fill="#9461b0">
+    <text x="661" y="101" font-size="27" font-weight="650">SYMMETRIC POSITIVE DEFINITE</text>
+    <text x="661" y="153" font-size="38" font-weight="720">Cholesky factorisation</text>
+    <text x="661" y="216" font-size="30">G = LLᵀ</text>
+    <text x="661" y="270" font-size="30">Invert via triangular factors</text>
+    <path d="M 1074 178 h -13 v 83 h 13 M 1144 178 h 13 v 83 h -13" fill="none" stroke="#a566c0" stroke-width="3"/>
+    <rect x="1077" y="187" width="15" height="15" rx="3"/>
+    <rect x="1077" y="213" width="15" height="15" rx="3"/>
+    <rect x="1102" y="213" width="15" height="15" rx="3"/>
+    <rect x="1077" y="239" width="15" height="15" rx="3"/>
+    <rect x="1102" y="239" width="15" height="15" rx="3"/>
+    <rect x="1127" y="239" width="15" height="15" rx="3"/>
+  </g>
+</g>
+</svg>
