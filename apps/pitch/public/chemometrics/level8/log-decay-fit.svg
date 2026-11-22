@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 490" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>Fit a line, then return to mg/L</title><desc>Two coordinated plots of the same five observations. The left plot shows log concentration ratios over time and then the fitted line. The right plot shows the original concentrations and finally their back-transformed exponential fit.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="85" y="63" text-anchor="start" font-size="25" fill="currentColor" font-weight="700">Log concentration ratio</text>
+<text x="73" y="314.1" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">1.5</text>
+<path d="M85 307.10 H557" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="73" y="247.6" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">2</text>
+<path d="M85 240.60 H557" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="73" y="181.1" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">2.5</text>
+<path d="M85 174.10 H557" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="73" y="114.6" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">3</text>
+<path d="M85 107.60 H557" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<path d="M85 81 V347 H557" fill="none" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+<text x="103.0" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">0</text>
+<text x="211.5" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">1</text>
+<text x="320.0" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">2</text>
+<text x="428.5" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">3</text>
+<text x="537.0" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">4</text>
+<text x="321.0" y="406" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">Time / min</text>
+<text x="672" y="63" text-anchor="start" font-size="25" fill="currentColor" font-weight="700">Tracer concentration / mg/L</text>
+<text x="660" y="354.0" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">0</text>
+<path d="M672 347.00 H1143" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="660" y="293.54545454545456" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">5</text>
+<path d="M672 286.55 H1143" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="660" y="233.0909090909091" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">10</text>
+<path d="M672 226.09 H1143" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="660" y="172.63636363636363" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">15</text>
+<path d="M672 165.64 H1143" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="660" y="112.18181818181819" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">20</text>
+<path d="M672 105.18 H1143" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<path d="M672 81 V347 H1143" fill="none" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+<text x="690.0" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">0</text>
+<text x="798.25" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">1</text>
+<text x="906.5" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">2</text>
+<text x="1014.75" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">3</text>
+<text x="1123.0" y="376" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">4</text>
+<text x="907.5" y="406" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">Time / min</text>
+<g data-svg-stage="1">
+<path d="M103.00 108.17 L537.00 320.97" fill="none" stroke="#a46ac4" stroke-width="5" opacity="1"/>
+<text x="321" y="452" text-anchor="middle" font-size="23" fill="#a46ac4" font-weight="700">Log-scale fit · slope −0.40 per minute</text>
+</g>
+<g data-svg-stage="2">
+<path d="M690.00 105.18 L700.83 114.66 L711.65 123.77 L722.48 132.53 L733.30 140.94 L744.12 149.02 L754.95 156.78 L765.77 164.24 L776.60 171.40 L787.42 178.29 L798.25 184.90 L809.08 191.26 L819.90 197.37 L830.73 203.23 L841.55 208.87 L852.38 214.29 L863.20 219.49 L874.02 224.49 L884.85 229.29 L895.67 233.91 L906.50 238.34 L917.33 242.60 L928.15 246.70 L938.98 250.63 L949.80 254.41 L960.62 258.04 L971.45 261.53 L982.28 264.88 L993.10 268.10 L1003.92 271.19 L1014.75 274.17 L1025.58 277.02 L1036.40 279.77 L1047.22 282.40 L1058.05 284.93 L1068.88 287.37 L1079.70 289.71 L1090.53 291.95 L1101.35 294.11 L1112.17 296.19 L1123.00 298.18" fill="none" stroke="#cb632c" stroke-width="5" opacity="1"/>
+<text x="906" y="452" text-anchor="middle" font-size="21" fill="#cb632c" font-weight="700">Back-transformed fit · about 33% less each minute</text>
+</g>
+<circle cx="103.00" cy="110.83" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="211.50" cy="156.05" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="320.00" cy="214.57" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="428.50" cy="273.09" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="537.00" cy="318.31" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="690.00" cy="109.97" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="798.25" cy="178.29" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="906.50" cy="238.34" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1014.75" cy="277.02" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1123.00" cy="297.19" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+</g>
+</svg>
