@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="3" data-teaching-stage-mode="cumulative">
+<title>Turn three SPE methods into a design matrix</title><desc>All 18 river-water recovery observations, grouped by SPE method A, B or C. One row represents one independent preparation. The three reveals add the intercept column of ones, the indicator for method B, and the indicator for method C. Both indicators are zero for reference method A.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="600" y="34" fill="currentColor" text-anchor="middle" font-size="26" font-weight="700">River-water SPE · 18 independent preparations</text>
+<text x="200" y="79" fill="#2587a8" text-anchor="middle" font-size="29" font-weight="700">Method A</text>
+<path d="M37 91 H383" fill="none" stroke="#2587a8" stroke-width="3" opacity="1"/>
+<text x="54" y="126" fill="currentColor" text-anchor="start" font-size="21" font-weight="500">Row</text>
+<text x="329" y="126" fill="currentColor" text-anchor="middle" font-size="22" font-weight="700">y (%)</text>
+<path d="M282 104 V321" fill="none" stroke="currentColor" stroke-width="1" opacity="0.38"/>
+<text x="61" y="157" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">01</text>
+<text x="329" y="157" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">92.90</text>
+<text x="61" y="186" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">02</text>
+<text x="329" y="186" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">95.33</text>
+<text x="61" y="215" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">03</text>
+<text x="329" y="215" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">93.81</text>
+<text x="61" y="244" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">04</text>
+<text x="329" y="244" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">92.19</text>
+<text x="61" y="273" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">05</text>
+<text x="329" y="273" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">95.92</text>
+<text x="61" y="302" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">06</text>
+<text x="329" y="302" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">93.85</text>
+<text x="589" y="79" fill="#995cbb" text-anchor="middle" font-size="29" font-weight="700">Method B</text>
+<path d="M426 91 H772" fill="none" stroke="#995cbb" stroke-width="3" opacity="1"/>
+<text x="443" y="126" fill="currentColor" text-anchor="start" font-size="21" font-weight="500">Row</text>
+<text x="718" y="126" fill="currentColor" text-anchor="middle" font-size="22" font-weight="700">y (%)</text>
+<path d="M671 104 V321" fill="none" stroke="currentColor" stroke-width="1" opacity="0.38"/>
+<text x="450" y="157" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">07</text>
+<text x="718" y="157" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">96.79</text>
+<text x="450" y="186" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">08</text>
+<text x="718" y="186" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">98.67</text>
+<text x="450" y="215" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">09</text>
+<text x="718" y="215" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">98.06</text>
+<text x="450" y="244" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">10</text>
+<text x="718" y="244" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">100.03</text>
+<text x="450" y="273" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">11</text>
+<text x="718" y="273" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">96.05</text>
+<text x="450" y="302" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">12</text>
+<text x="718" y="302" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">98.40</text>
+<text x="978" y="79" fill="#c05b23" text-anchor="middle" font-size="29" font-weight="700">Method C</text>
+<path d="M815 91 H1161" fill="none" stroke="#c05b23" stroke-width="3" opacity="1"/>
+<text x="832" y="126" fill="currentColor" text-anchor="start" font-size="21" font-weight="500">Row</text>
+<text x="1107" y="126" fill="currentColor" text-anchor="middle" font-size="22" font-weight="700">y (%)</text>
+<path d="M1060 104 V321" fill="none" stroke="currentColor" stroke-width="1" opacity="0.38"/>
+<text x="839" y="157" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">13</text>
+<text x="1107" y="157" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">94.14</text>
+<text x="839" y="186" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">14</text>
+<text x="1107" y="186" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">92.87</text>
+<text x="839" y="215" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">15</text>
+<text x="1107" y="215" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">92.09</text>
+<text x="839" y="244" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">16</text>
+<text x="1107" y="244" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">94.99</text>
+<text x="839" y="273" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">17</text>
+<text x="1107" y="273" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">91.03</text>
+<text x="839" y="302" fill="currentColor" text-anchor="start" font-size="20" font-weight="500">18</text>
+<text x="1107" y="302" fill="currentColor" text-anchor="middle" font-size="23" font-weight="700">92.88</text>
+<path d="M37 339 H1161" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+<g data-svg-stage="1">
+<text x="125" y="126" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="157" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="186" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="215" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="244" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="273" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="125" y="302" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="126" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="157" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="186" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="215" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="244" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="273" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="514" y="302" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="126" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="157" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="186" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="215" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="244" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="273" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="903" y="302" fill="#2587a8" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="77" y="371" fill="#2587a8" text-anchor="start" font-size="24" font-weight="700">Intercept</text>
+<text x="240" y="371" fill="currentColor" text-anchor="start" font-size="24" font-weight="500">Put a 1 in every row to give the model a baseline.</text>
+</g>
+<g data-svg-stage="2">
+<text x="188" y="126" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">B</text>
+<text x="188" y="157" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="188" y="186" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="188" y="215" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="188" y="244" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="188" y="273" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="188" y="302" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="577" y="126" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">B</text>
+<text x="577" y="157" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="577" y="186" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="577" y="215" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="577" y="244" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="577" y="273" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="577" y="302" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="966" y="126" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="700">B</text>
+<text x="966" y="157" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="966" y="186" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="966" y="215" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="966" y="244" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="966" y="273" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="966" y="302" fill="#995cbb" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="77" y="411" fill="#995cbb" text-anchor="start" font-size="24" font-weight="700">Dummy B</text>
+<text x="240" y="411" fill="currentColor" text-anchor="start" font-size="24" font-weight="500">Put a 1 in method B rows and a 0 everywhere else.</text>
+</g>
+<g data-svg-stage="3">
+<text x="251" y="126" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">C</text>
+<text x="251" y="157" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="251" y="186" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="251" y="215" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="251" y="244" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="251" y="273" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="251" y="302" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="126" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">C</text>
+<text x="640" y="157" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="186" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="215" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="244" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="273" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="640" y="302" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="500">0</text>
+<text x="1029" y="126" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">C</text>
+<text x="1029" y="157" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="1029" y="186" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="1029" y="215" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="1029" y="244" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="1029" y="273" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="1029" y="302" fill="#c05b23" text-anchor="middle" font-size="23" font-weight="700">1</text>
+<text x="77" y="451" fill="#c05b23" text-anchor="start" font-size="24" font-weight="700">Dummy C</text>
+<text x="240" y="451" fill="currentColor" text-anchor="start" font-size="24" font-weight="500">Use 1 for C and 0 elsewhere. Method A has two zeros and is the reference.</text>
+</g>
+</g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 490" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="1" data-teaching-stage-mode="cumulative">
+<title>How does the concentration fall over time?</title><desc>Five measurements of dissolved tracer in mg/L, from 19.60 at zero minutes to 4.12 at four minutes. The first reveal compares the drops over the first and last minutes: 5.65 versus 1.67 mg/L.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="115" y="56" text-anchor="start" font-size="25" fill="currentColor" font-weight="700">Tracer concentration / mg/L</text>
+<text x="103" y="358.0" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">0</text>
+<path d="M115 351.00 H1080" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="103" y="295.04545454545456" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">5</text>
+<path d="M115 288.05 H1080" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="103" y="232.0909090909091" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">10</text>
+<path d="M115 225.09 H1080" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="103" y="169.13636363636363" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">15</text>
+<path d="M115 162.14 H1080" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="103" y="106.18181818181819" text-anchor="end" font-size="20" fill="currentColor" font-weight="500">20</text>
+<path d="M115 99.18 H1080" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<path d="M115 74 V351 H1080" fill="none" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+<text x="133.0" y="380" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">0</text>
+<text x="364.75" y="380" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">1</text>
+<text x="596.5" y="380" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">2</text>
+<text x="828.25" y="380" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">3</text>
+<text x="1060.0" y="380" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500">4</text>
+<text x="597.5" y="410" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">Time / min</text>
+<text x="1079" y="55" text-anchor="end" font-size="23" fill="currentColor" font-weight="500">Dissolved tracer sampled once per minute</text>
+<g data-svg-stage="1">
+<path d="M133.00 104.17 H378.75" fill="none" stroke="#cb632c" stroke-width="2" opacity="0.55"/>
+<path d="M373.75 104.17 H381.75 V175.31 H373.75" fill="none" stroke="#cb632c" stroke-width="3" opacity="1"/>
+<text x="392.75" y="146.74028416925162" text-anchor="start" font-size="21" fill="#cb632c" font-weight="700">−5.65 mg/L</text>
+<path d="M828.25 278.13 H1074.00" fill="none" stroke="#cb632c" stroke-width="2" opacity="0.55"/>
+<path d="M1069.00 278.13 H1077.00 V299.13 H1069.00" fill="none" stroke="#cb632c" stroke-width="3" opacity="1"/>
+<text x="1079.0" y="295.62975883096834" text-anchor="start" font-size="21" fill="#cb632c" font-weight="700">−1.67 mg/L</text>
+</g>
+<circle cx="133.00" cy="104.17" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="364.75" cy="175.31" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="596.50" cy="237.85" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="828.25" cy="278.13" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1060.00" cy="299.13" r="7" fill="#2587a8" stroke="currentColor" stroke-width="1.5"/>
+<g data-svg-stage="1">
+<text x="600" y="459" text-anchor="middle" font-size="27" fill="#cb632c" font-weight="700">Could a similar fraction be lost each minute?</text>
+</g>
+</g>
+</svg>

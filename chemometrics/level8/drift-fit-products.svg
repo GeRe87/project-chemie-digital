@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>Build XᵀX and Xᵀy from the drift measurements</title><desc>Five rows of X and y for the detector series. The first reveal builds X transpose X from five ones, sum of times 10 and sum of squared times 30. The second builds X transpose y from the response sum 25 and the time-weighted response sum 69.9.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="126" y="53" fill="#277e92" font-size="28" text-anchor="middle" font-weight="700">Design matrix X</text>
+<text x="318" y="53" fill="#9562ad" font-size="28" text-anchor="middle" font-weight="700">Response y</text>
+<text x="84" y="107" fill="#277e92" font-size="26" text-anchor="middle" font-weight="650">1</text>
+<text x="173" y="107" fill="#277e92" font-size="26" text-anchor="middle" font-weight="650">t / min</text>
+<text x="318" y="107" fill="#9562ad" font-size="26" text-anchor="middle" font-weight="650">mV</text>
+<path d="M 45 125 H 33 V 385 H 45 M 213 125 H 225 V 385 H 213" fill="none" stroke="#277e92" stroke-width="3" opacity="1"/>
+<path d="M 266 125 H 254 V 385 H 266 M 370 125 H 382 V 385 H 370" fill="none" stroke="#9562ad" stroke-width="3" opacity="1"/>
+<text x="84" y="163" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="173" y="163" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">0</text>
+<text x="318" y="163" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="500">1.10</text>
+<text x="84" y="212" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="173" y="212" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="318" y="212" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="500">2.80</text>
+<text x="84" y="261" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="173" y="261" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">2</text>
+<text x="318" y="261" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="500">5.20</text>
+<text x="84" y="310" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="173" y="310" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">3</text>
+<text x="318" y="310" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="500">6.90</text>
+<text x="84" y="359" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">1</text>
+<text x="173" y="359" fill="#277e92" font-size="30" text-anchor="middle" font-weight="500">4</text>
+<text x="318" y="359" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="500">9.00</text>
+<path d="M 421 38 V 427" fill="none" stroke="#277e92" stroke-width="2" opacity="0.35"/>
+<g data-svg-stage="1">
+<text x="462" y="53" fill="#277e92" font-size="28" text-anchor="start" font-weight="700">XᵀX · Pair the design columns</text>
+<text x="462" y="105" fill="#277e92" font-size="25" text-anchor="start" font-weight="500">1 + 1 + 1 + 1 + 1 = 5</text>
+<text x="462" y="151" fill="#277e92" font-size="25" text-anchor="start" font-weight="500">0 + 1 + 2 + 3 + 4 = 10</text>
+<text x="462" y="197" fill="#277e92" font-size="25" text-anchor="start" font-weight="500">0² + 1² + 2² + 3² + 4² = 30</text>
+<path d="M 1022 92 H 1010 V 199 H 1022 M 1148 92 H 1160 V 199 H 1148" fill="none" stroke="#277e92" stroke-width="3" opacity="1"/>
+<text x="1050" y="135" fill="#277e92" font-size="30" text-anchor="middle" font-weight="700">5</text>
+<text x="1120" y="135" fill="#277e92" font-size="30" text-anchor="middle" font-weight="700">10</text>
+<text x="1050" y="182" fill="#277e92" font-size="30" text-anchor="middle" font-weight="700">10</text>
+<text x="1120" y="182" fill="#277e92" font-size="30" text-anchor="middle" font-weight="700">30</text>
+</g>
+<g data-svg-stage="2">
+<path d="M 462 230 H 1160" fill="none" stroke="#9562ad" stroke-width="2" opacity="0.35"/>
+<text x="462" y="278" fill="#9562ad" font-size="28" text-anchor="start" font-weight="700">Xᵀy · Pair each design column with y</text>
+<text x="462" y="325" fill="#9562ad" font-size="23" text-anchor="start" font-weight="500">1.10 + 2.80 + 5.20 + 6.90 + 9.00 = 25</text>
+<text x="462" y="371" fill="#9562ad" font-size="23" text-anchor="start" font-weight="500">0·1.10 + 1·2.80 + 2·5.20</text>
+<text x="485" y="406" fill="#9562ad" font-size="23" text-anchor="start" font-weight="500">+ 3·6.90 + 4·9.00 = 69.9</text>
+<path d="M 1037 312 H 1025 V 411 H 1037 M 1136 312 H 1148 V 411 H 1136" fill="none" stroke="#9562ad" stroke-width="3" opacity="1"/>
+<text x="1086" y="350" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="700">25</text>
+<text x="1086" y="396" fill="#9562ad" font-size="30" text-anchor="middle" font-weight="700">69.9</text>
+</g>
+</g></svg>

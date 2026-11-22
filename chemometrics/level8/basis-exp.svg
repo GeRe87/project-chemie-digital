@@ -1,0 +1,53 @@
+<svg style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: exponential column</title><desc>Design columns 1, exp(x) for x equal to 1, 2, 3, 4, 5, paired with the curve y = 1 + 0.05 exp(x).</desc>
+<g fill="currentColor" font-family="system-ui, sans-serif">
+<text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
+<text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁ exp(xᵢ)</text>
+<text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
+<text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
+<path d="M 151 136 H 136 V 413 H 151 M 350 136 H 365 V 413 H 350" stroke="currentColor" stroke-width="3" opacity="1" fill="none"/>
+<path d="M 105 125 V 414" stroke="currentColor" stroke-width="2" opacity="0.3" fill="none"/>
+<text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
+<text x="313.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">exp(x)</text>
+<text x="62.0" y="175.0" text-anchor="middle" font-size="27" font-weight="400">1</text>
+<text x="188.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">2.72</text>
+<text x="62.0" y="228.0" text-anchor="middle" font-size="27" font-weight="400">2</text>
+<text x="188.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">7.39</text>
+<text x="62.0" y="281.0" text-anchor="middle" font-size="27" font-weight="400">3</text>
+<text x="188.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">20.09</text>
+<text x="62.0" y="334.0" text-anchor="middle" font-size="27" font-weight="400">4</text>
+<text x="188.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">54.6</text>
+<text x="62.0" y="387.0" text-anchor="middle" font-size="27" font-weight="400">5</text>
+<text x="188.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="313.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">148.41</text>
+<path d="M 605 104 V 404 H 1155" stroke="currentColor" stroke-width="2.5" opacity="1" fill="none"/>
+<path d="M 605 404.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="411.0" text-anchor="end" font-size="20" font-weight="400">0.3</text>
+<path d="M 605 304.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="311.0" text-anchor="end" font-size="20" font-weight="400">3.3</text>
+<path d="M 605 204.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="211.0" text-anchor="end" font-size="20" font-weight="400">6.3</text>
+<path d="M 605 104.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="111.0" text-anchor="end" font-size="20" font-weight="400">9.3</text>
+<path d="M 605.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="605.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">1</text>
+<path d="M 742.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="742.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">2</text>
+<path d="M 880.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="880.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">3</text>
+<path d="M 1017.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1017.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">4</text>
+<path d="M 1155.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1155.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">5</text>
+<text x="535.0" y="260.0" text-anchor="start" font-size="26" font-weight="700">y</text>
+<text x="1155.0" y="472.0" text-anchor="end" font-size="26" font-weight="700">x</text>
+<path d="M 605.0 375.0 L 610.5 374.8 L 616.0 374.6 L 621.5 374.4 L 627.0 374.2 L 632.5 374.0 L 638.0 373.7 L 643.5 373.5 L 649.0 373.3 L 654.5 373.0 L 660.0 372.7 L 665.5 372.5 L 671.0 372.2 L 676.5 371.9 L 682.0 371.6 L 687.5 371.3 L 693.0 370.9 L 698.5 370.6 L 704.0 370.2 L 709.5 369.8 L 715.0 369.4 L 720.5 369.0 L 726.0 368.6 L 731.5 368.2 L 737.0 367.7 L 742.5 367.2 L 748.0 366.7 L 753.5 366.2 L 759.0 365.6 L 764.5 365.1 L 770.0 364.5 L 775.5 363.9 L 781.0 363.2 L 786.5 362.6 L 792.0 361.9 L 797.5 361.2 L 803.0 360.4 L 808.5 359.7 L 814.0 358.8 L 819.5 358.0 L 825.0 357.1 L 830.5 356.2 L 836.0 355.3 L 841.5 354.3 L 847.0 353.2 L 852.5 352.2 L 858.0 351.1 L 863.5 349.9 L 869.0 348.7 L 874.5 347.4 L 880.0 346.1 L 885.5 344.8 L 891.0 343.4 L 896.5 341.9 L 902.0 340.3 L 907.5 338.7 L 913.0 337.1 L 918.5 335.4 L 924.0 333.5 L 929.5 331.7 L 935.0 329.7 L 940.5 327.7 L 946.0 325.6 L 951.5 323.4 L 957.0 321.1 L 962.5 318.7 L 968.0 316.2 L 973.5 313.6 L 979.0 311.0 L 984.5 308.2 L 990.0 305.3 L 995.5 302.2 L 1001.0 299.1 L 1006.5 295.8 L 1012.0 292.4 L 1017.5 288.8 L 1023.0 285.1 L 1028.5 281.3 L 1034.0 277.3 L 1039.5 273.1 L 1045.0 268.7 L 1050.5 264.2 L 1056.0 259.5 L 1061.5 254.6 L 1067.0 249.5 L 1072.5 244.2 L 1078.0 238.7 L 1083.5 233.0 L 1089.0 227.0 L 1094.5 220.8 L 1100.0 214.3 L 1105.5 207.5 L 1111.0 200.5 L 1116.5 193.2 L 1122.0 185.6 L 1127.5 177.7 L 1133.0 169.5 L 1138.5 160.9 L 1144.0 152.0 L 1149.5 142.7 L 1155.0 133.0" stroke="#168aaa" stroke-width="5" opacity="1" fill="none"/>
+<circle cx="605.0" cy="375.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="742.5" cy="367.2" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="880.0" cy="346.1" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1017.5" cy="288.8" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1155.0" cy="133.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+</g></svg>

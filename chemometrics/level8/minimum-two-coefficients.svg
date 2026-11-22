@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 450" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+  <title>How the error changes as each coefficient moves</title>
+  <desc>Two schematic slices of the squared-error surface. Each varies one coefficient while holding the other fixed. Later frames reveal the flat tangents and the two conditions for the joint minimum.</desc>
+  <g fill="currentColor" font-family="system-ui, sans-serif">
+    <text x="65" y="65" font-size="29" font-weight="700">Vary the intercept</text>
+    <text x="65" y="100" font-size="22">Hold the slope fixed</text>
+    <text x="585" y="65" font-size="29" font-weight="700">Vary the slope</text>
+    <text x="585" y="100" font-size="22">Hold the intercept fixed</text>
+    <text x="65" y="146" font-size="22">Squared error</text>
+    <text x="585" y="146" font-size="22">Squared error</text>
+    <path d="M65 161V362H475m110-201v201h410" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M112 187Q275 460 438 187" fill="none" stroke="#13677e" stroke-width="5"/>
+    <path d="M632 178Q795 469 958 178" fill="none" stroke="#5c3a98" stroke-width="5"/>
+    <text x="475" y="394" text-anchor="end" font-size="22">Intercept</text>
+    <text x="995" y="394" text-anchor="end" font-size="22">Slope</text>
+  </g>
+  <g data-svg-stage="1" fill="#a14518" stroke="#a14518" font-family="system-ui, sans-serif" text-anchor="middle">
+    <path d="M226 323.5h98M746 323.5h98" stroke-width="3"/>
+    <circle cx="275" cy="323.5" r="6"/><circle cx="795" cy="323.5" r="6"/>
+    <text x="275" y="286" stroke="none" font-size="22" font-weight="700">Flat tangent</text>
+    <text x="795" y="286" stroke="none" font-size="22" font-weight="700">Flat tangent</text>
+  </g>
+  <g data-svg-stage="2" font-family="system-ui, sans-serif" text-anchor="middle">
+    <text x="540" y="433" fill="currentColor" font-size="25" font-weight="700">At the best fit, both slopes of the error surface are zero.</text>
+  </g>
+</svg>

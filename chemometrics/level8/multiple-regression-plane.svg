@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 545" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-orbit="true" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>Where do the two fitted lines come from?</title><desc>An axonometric plot of the six detector readings near the fitted plane. The axes are concentration, temperature and detector signal. Reveal one highlights the line where the plane is cut at 20 degrees Celsius. Reveal two adds the parallel cut at 30 degrees Celsius.</desc>
+<g font-family="system-ui, sans-serif">
+<polygon data-orbit-points="0.0,0.0,0.0 607.2,0.0,0.0 607.2,414.0,0.0 0.0,414.0,0.0" points="330.59,373.48 734.83,449.62 871.39,344.84 467.14,268.69" fill="currentColor" fill-opacity="0.026" stroke="currentColor" stroke-opacity="0.22" stroke-width="2"/>
+<path data-orbit-points="69.0,0.0,0.0 69.0,414.0,0.0" d="M376.52,382.13 L513.08,277.35" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="376.52" y="406.13" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="69.0,0.0,0.0" data-orbit-offset="0,24">1</text>
+<path data-orbit-points="299.0,0.0,0.0 299.0,414.0,0.0" d="M529.65,410.98 L666.20,306.19" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="529.65" y="434.98" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="299.0,0.0,0.0" data-orbit-offset="0,24">2</text>
+<path data-orbit-points="529.0,0.0,0.0 529.0,414.0,0.0" d="M682.77,439.82 L819.32,335.03" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="682.77" y="463.82" text-anchor="middle" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="529.0,0.0,0.0" data-orbit-offset="0,24">3</text>
+<path data-orbit-points="0.0,92.0,0.0 607.2,92.0,0.0" d="M360.93,350.19 L765.18,426.34" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="777.18" y="436.34" text-anchor="start" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="607.2,92.0,0.0" data-orbit-offset="12,10">20</text>
+<path data-orbit-points="0.0,207.0,0.0 607.2,207.0,0.0" d="M398.86,321.09 L803.11,397.23" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="815.11" y="407.23" text-anchor="start" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="607.2,207.0,0.0" data-orbit-offset="12,10">25</text>
+<path data-orbit-points="0.0,322.0,0.0 607.2,322.0,0.0" d="M436.80,291.98 L841.04,368.12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.23" stroke-linecap="round"/>
+<text x="853.04" y="378.12" text-anchor="start" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="607.2,322.0,0.0" data-orbit-offset="12,10">30</text>
+<path data-orbit-points="0.0,0.0,0.0 0.0,-5.98,0.0" d="M330.59,373.48 L328.61,374.99" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.78" stroke-linecap="round"/>
+<text x="320.59" y="380.48" text-anchor="end" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="0.0,0.0,0.0" data-orbit-offset="-10,7">2</text>
+<path data-orbit-points="0.0,0.0,114.0 0.0,-5.98,114.0" d="M330.59,295.14 L328.61,296.65" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.78" stroke-linecap="round"/>
+<text x="320.59" y="302.14" text-anchor="end" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="0.0,0.0,114.0" data-orbit-offset="-10,7">4</text>
+<path data-orbit-points="0.0,0.0,228.0 0.0,-5.98,228.0" d="M330.59,216.80 L328.61,218.31" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.78" stroke-linecap="round"/>
+<text x="320.59" y="223.80" text-anchor="end" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="0.0,0.0,228.0" data-orbit-offset="-10,7">6</text>
+<path data-orbit-points="0.0,0.0,342.0 0.0,-5.98,342.0" d="M330.59,138.46 L328.61,139.98" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.78" stroke-linecap="round"/>
+<text x="320.59" y="145.46" text-anchor="end" font-size="21" fill="currentColor" font-weight="500" data-orbit-points="0.0,0.0,342.0" data-orbit-offset="-10,7">8</text>
+<path data-orbit-points="0.0,0.0,0.0 607.2,0.0,0.0 607.2,414.0,0.0" d="M330.59,373.48 L734.83,449.62 L871.39,344.84" fill="none" stroke="currentColor" stroke-width="2.7" opacity="0.9" stroke-linecap="round"/>
+<path data-orbit-points="0.0,0.0,0.0 0.0,0.0,404.7" d="M330.59,373.48 L330.59,95.38" fill="none" stroke="currentColor" stroke-width="2.7" opacity="0.9" stroke-linecap="round"/>
+<text x="734.83" y="481.62" text-anchor="middle" font-size="22" fill="currentColor" font-weight="700" data-orbit-points="607.2,0.0,0.0" data-orbit-offset="0,32">c</text>
+<text x="891.39" y="350.84" text-anchor="start" font-size="22" fill="currentColor" font-weight="700" data-orbit-points="607.2,414.0,0.0" data-orbit-offset="20,6">T</text>
+<text x="329.59" y="82.38" text-anchor="middle" font-size="22" fill="currentColor" font-weight="700" data-orbit-points="0.0,0.0,404.7" data-orbit-offset="-1,-13">y</text>
+<polygon data-orbit-points="41.4,46.0,31.92 556.6,46.0,287.28 556.6,368.0,367.08 41.4,368.0,111.72" points="373.32,345.09 716.32,234.22 822.53,97.88 479.53,208.75" fill="#8d68b5" fill-opacity="0.22" stroke="#8d68b5" stroke-opacity="0.91" stroke-width="2"/>
+<path data-orbit-points="69.0,46.0,45.6 69.0,368.0,125.4" d="M391.70,339.15 L497.91,202.82" fill="none" stroke="#8d68b5" stroke-width="1.2" opacity="0.37" stroke-linecap="round"/>
+<path data-orbit-points="299.0,46.0,159.6 299.0,368.0,239.4" d="M544.82,289.66 L651.03,153.32" fill="none" stroke="#8d68b5" stroke-width="1.2" opacity="0.37" stroke-linecap="round"/>
+<path data-orbit-points="529.0,46.0,273.6 529.0,368.0,353.4" d="M697.94,240.16 L804.15,103.82" fill="none" stroke="#8d68b5" stroke-width="1.2" opacity="0.37" stroke-linecap="round"/>
+<path data-orbit-points="41.4,138.0,54.72 556.6,138.0,310.08" d="M403.67,306.14 L746.66,195.27" fill="none" stroke="#8d68b5" stroke-width="1.2" opacity="0.37" stroke-linecap="round"/>
+<path data-orbit-points="41.4,230.0,77.52 556.6,230.0,332.88" d="M434.01,267.19 L777.01,156.31" fill="none" stroke="#8d68b5" stroke-width="1.2" opacity="0.37" stroke-linecap="round"/>
+<circle cx="305" cy="39" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<text x="323" y="46" text-anchor="start" font-size="22" fill="currentColor" font-weight="500">Measured readings</text>
+<polygon points="620,32 652,32 645,46 613,46" fill="#8d68b5" fill-opacity=".35" stroke="#8d68b5" stroke-width="2"/>
+<text x="665" y="46" text-anchor="start" font-size="22" fill="currentColor" font-weight="500">Regression plane</text>
+<text x="232" y="498" text-anchor="middle" font-size="22" fill="currentColor" font-weight="700">c   Concentration / (mg/L)</text>
+<text x="613" y="498" text-anchor="middle" font-size="22" fill="currentColor" font-weight="700">T   Temperature / °C</text>
+<text x="971" y="498" text-anchor="middle" font-size="22" fill="currentColor" font-weight="700">y   Detector signal / mV</text>
+<g data-svg-stage="1">
+<polygon data-orbit-points="41.4,92.0,0.0 556.6,92.0,0.0 556.6,92.0,298.68 41.4,92.0,43.32" points="388.49,355.39 731.49,419.99 731.49,214.74 388.49,325.62" fill="#2587a8" fill-opacity="0.11" stroke="#2587a8" stroke-opacity="0.57" stroke-width="2"/>
+<path data-orbit-points="41.4,92.0,43.32 556.6,92.0,298.68" d="M388.49,325.62 L731.49,214.74" fill="none" stroke="#2587a8" stroke-width="6" opacity="1" stroke-linecap="round"/>
+<text x="744.49" y="217.74" text-anchor="start" font-size="23" fill="#2587a8" font-weight="700" data-orbit-points="556.6,92.0,298.68" data-orbit-offset="13,3">20 °C</text>
+</g>
+<g data-svg-stage="2">
+<polygon data-orbit-points="41.4,322.0,0.0 556.6,322.0,0.0 556.6,322.0,355.68 41.4,322.0,100.32" points="464.36,297.17 807.35,361.78 807.35,117.36 464.36,228.23" fill="#c4612a" fill-opacity="0.11" stroke="#c4612a" stroke-opacity="0.57" stroke-width="2"/>
+<path data-orbit-points="41.4,322.0,100.32 556.6,322.0,355.68" d="M464.36,228.23 L807.35,117.36" fill="none" stroke="#c4612a" stroke-width="6" opacity="1" stroke-linecap="round"/>
+<text x="820.35" y="120.36" text-anchor="start" font-size="23" fill="#c4612a" font-weight="700" data-orbit-points="556.6,322.0,355.68" data-orbit-offset="13,3">30 °C</text>
+</g>
+<circle data-orbit-points="69.0,92.0,62.7" cx="406.87" cy="315.76" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<circle data-orbit-points="299.0,92.0,159.6" cx="559.99" cy="278.01" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<circle data-orbit-points="529.0,92.0,290.7" cx="713.11" cy="216.77" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<circle data-orbit-points="69.0,322.0,108.3" cx="482.73" cy="226.21" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<circle data-orbit-points="299.0,322.0,239.4" cx="635.86" cy="164.96" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+<circle data-orbit-points="529.0,322.0,336.3" cx="788.98" cy="127.22" r="6.6" fill="currentColor" stroke="#8d68b5" stroke-width="2.3"/>
+</g>
+</svg>

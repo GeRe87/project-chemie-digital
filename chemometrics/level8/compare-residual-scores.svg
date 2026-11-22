@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+  <title>Compare two candidate lines using the same five observations</title>
+  <desc>Five signed residual bars for each candidate line, shown on the same scale. Successive reveals compare signed totals and totals after squaring.</desc>
+  <g font-family="system-ui, sans-serif" fill="currentColor">
+    <text x="55" y="57" font-size="28" font-weight="700">Line A · our starting line</text>
+    <text x="595" y="57" font-size="28" font-weight="700">Line B · another candidate</text>
+    <text x="55" y="100" font-size="20">Residuals (mV)</text>
+    <text x="595" y="100" font-size="20">Residuals (mV)</text>
+    <path d="M65 220H505M605 220H1045" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g fill="#13677e">
+      <rect x="110" y="121" width="34" height="99"/>
+      <rect x="190" y="193" width="34" height="27"/>
+      <rect x="270" y="202" width="34" height="18"/>
+      <rect x="650" y="211" width="34" height="9"/>
+      <rect x="810" y="202" width="34" height="18"/>
+    </g>
+    <g fill="#a14518">
+      <rect x="350" y="220" width="34" height="54"/>
+      <rect x="430" y="220" width="34" height="90"/>
+      <rect x="730" y="220" width="34" height="18"/>
+      <rect x="890" y="220" width="34" height="9"/>
+    </g>
+    <circle cx="987" cy="220" r="4" fill="#697883"/>
+    <g font-size="18" text-anchor="middle">
+      <text x="127" y="337">0</text><text x="207" y="337">1</text><text x="287" y="337">2</text><text x="367" y="337">3</text><text x="447" y="337">4</text>
+      <text x="667" y="337">0</text><text x="747" y="337">1</text><text x="827" y="337">2</text><text x="907" y="337">3</text><text x="987" y="337">4</text>
+    </g>
+    <text x="505" y="368" text-anchor="end" font-size="19">Time (min)</text>
+    <text x="1045" y="368" text-anchor="end" font-size="19">Time (min)</text>
+  </g>
+  <g data-svg-stage="1" font-family="system-ui, sans-serif" fill="#a14518" font-size="27" font-weight="700">
+    <text x="55" y="410">Signed sum = 0.00 mV</text>
+    <text x="595" y="410">Signed sum = 0.00 mV</text>
+  </g>
+  <g data-svg-stage="2" font-family="system-ui, sans-serif" fill="#5c3a98" font-size="29" font-weight="700">
+    <text x="55" y="459">Squared sum = 2.70 mV²</text>
+    <text x="595" y="459">Squared sum = 0.10 mV²</text>
+  </g>
+</svg>

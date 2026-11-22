@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Linear regression research island</title>
+  <desc id="desc">A floating research island with a detector and a chart showing five measurements near a fitted line.</desc>
+  <path d="M95 340 230 454 467 510 711 460 864 341 484 407Z" fill="#40547b"/>
+  <path d="M230 454 325 405 467 510 596 399 711 460 467 510Z" fill="#64769b"/>
+  <ellipse cx="480" cy="325" rx="385" ry="108" fill="#60b9ad"/>
+  <path d="M112 347Q480 481 848 347" fill="none" stroke="#267c75" stroke-width="12"/>
+  <ellipse cx="608" cy="348" rx="204" ry="27" fill="#287f80" opacity=".52"/>
+  <path d="M551 309h98l18 37H532z" fill="#104b67"/>
+  <rect x="399" y="91" width="408" height="235" rx="22" fill="#e8f4f7" stroke="#185a7e" stroke-width="8"/>
+  <path d="M451 139v140h304M451 173h304m-304 48h304" fill="none" stroke="#97b4c1" stroke-width="4"/>
+  <path d="m476 259 249-103" fill="none" stroke="#b95c25" stroke-width="9" stroke-linecap="round"/>
+  <g fill="#097e9c" stroke="#e8f4f7" stroke-width="4">
+    <circle cx="486" cy="251" r="12"/>
+    <circle cx="540" cy="240" r="12"/>
+    <circle cx="596" cy="205" r="12"/>
+    <circle cx="653" cy="190" r="12"/>
+    <circle cx="711" cy="155" r="12"/>
+  </g>
+  <path d="M316 290c50 0 31 46 90 46h105" fill="none" stroke="#185a7e" stroke-width="8" stroke-linecap="round"/>
+  <rect x="149" y="219" width="178" height="115" rx="17" fill="#d2ebf0" stroke="#185a7e" stroke-width="8"/>
+  <rect x="174" y="241" width="125" height="58" rx="9" fill="#183752"/>
+  <path d="M185 274h24l12-16 14 26 14-17h37" fill="none" stroke="#71e2da" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="181" cy="314" r="6" fill="#107da1"/>
+  <path d="M692 387h61m-46 15h23M161 361h42" fill="none" stroke="#9cddd0" stroke-width="6" stroke-linecap="round"/>
+</svg>

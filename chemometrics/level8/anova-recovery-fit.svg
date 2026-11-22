@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 490" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>One-way ANOVA is a comparison of two regressions</title><desc>All 18 recovery measurements by preparation method. An intercept-only fit is the grand mean, 95 percent. The first reveal adds method means of 94, 98 and 93 percent. The second reveals the residual sums of squares, 114 and 30, and the common regression and ANOVA F statistic of 21.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="86" y="46" fill="currentColor" text-anchor="start" font-size="25" font-weight="700">Recovery / %</text>
+<text x="74" y="378.0" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">90</text>
+<path d="M86 371.00 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<text x="74" y="323.27272727272725" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">92</text>
+<path d="M86 316.27 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<text x="74" y="268.54545454545456" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">94</text>
+<path d="M86 261.55 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<text x="74" y="213.8181818181818" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">96</text>
+<path d="M86 206.82 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<text x="74" y="159.0909090909091" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">98</text>
+<path d="M86 152.09 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<text x="74" y="104.36363636363637" fill="currentColor" text-anchor="end" font-size="21" font-weight="500">100</text>
+<path d="M86 97.36 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.19"/>
+<path d="M86 70 V371 H744" fill="none" stroke="currentColor" stroke-width="2" opacity="0.6"/>
+<path d="M86 234.18 h11 M104 234.18 h11 M122 234.18 h11 M140 234.18 h11 M158 234.18 h11 M176 234.18 h11 M194 234.18 h11 M212 234.18 h11 M230 234.18 h11 M248 234.18 h11 M266 234.18 h11 M284 234.18 h11 M302 234.18 h11 M320 234.18 h11 M338 234.18 h11 M356 234.18 h11 M374 234.18 h11 M392 234.18 h11 M410 234.18 h11 M428 234.18 h11 M446 234.18 h11 M464 234.18 h11 M482 234.18 h11 M500 234.18 h11 M518 234.18 h11 M536 234.18 h11 M554 234.18 h11 M572 234.18 h11 M590 234.18 h11 M608 234.18 h11 M626 234.18 h11 M644 234.18 h11 M662 234.18 h11 M680 234.18 h11 M698 234.18 h11 M716 234.18 h11 M734 234.18 h10" fill="none" stroke="currentColor" stroke-width="2" opacity="0.62"/>
+<text x="816" y="94" fill="currentColor" text-anchor="start" font-size="25" font-weight="700">Intercept only</text>
+<text x="816" y="131" fill="currentColor" text-anchor="start" font-size="23" font-weight="500">One mean for all samples: 95%</text>
+<g data-svg-stage="1">
+<text x="816" y="201" fill="currentColor" text-anchor="start" font-size="25" font-weight="700">Intercept + method</text>
+<text x="816" y="237" fill="currentColor" text-anchor="start" font-size="23" font-weight="500">A: 94%   B: 98%   C: 93%</text>
+<text x="816" y="273" fill="currentColor" text-anchor="start" font-size="22" font-weight="500">Changes from A: +4 and −1 pp</text>
+<path d="M125 261.55 H271" fill="none" stroke="#2587a8" stroke-width="5" opacity="1"/>
+<path d="M343 152.09 H489" fill="none" stroke="#995cbb" stroke-width="5" opacity="1"/>
+<path d="M561 288.91 H707" fill="none" stroke="#c05b23" stroke-width="5" opacity="1"/>
+</g>
+<circle cx="152" cy="291.65" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="173" cy="225.15" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="189" cy="266.74" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="209" cy="311.07" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="228" cy="209.01" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="246" cy="265.65" r="6.7" fill="#2587a8" stroke="currentColor" stroke-width="1.2"/>
+<text x="198" y="409" fill="#2587a8" text-anchor="middle" font-size="25" font-weight="700">Method A</text>
+<circle cx="370" cy="185.20" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="391" cy="133.76" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="407" cy="150.45" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="427" cy="96.54" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="446" cy="205.45" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="464" cy="141.15" r="6.7" fill="#995cbb" stroke="currentColor" stroke-width="1.2"/>
+<text x="416" y="409" fill="#995cbb" text-anchor="middle" font-size="25" font-weight="700">Method B</text>
+<circle cx="588" cy="257.71" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="609" cy="292.47" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="625" cy="313.81" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="645" cy="234.46" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="664" cy="342.82" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<circle cx="682" cy="292.19" r="6.7" fill="#c05b23" stroke="currentColor" stroke-width="1.2"/>
+<text x="634" y="409" fill="#c05b23" text-anchor="middle" font-size="25" font-weight="700">Method C</text>
+<g data-svg-stage="2">
+<path d="M816 300 H1164" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+<text x="816" y="337" fill="currentColor" text-anchor="start" font-size="25" font-weight="700">Residual SS: 114 → 30</text>
+<text x="816" y="377" fill="currentColor" text-anchor="start" font-size="26" font-weight="700">Same ANOVA F-test: F = 21</text>
+<text x="816" y="413" fill="currentColor" text-anchor="start" font-size="22" font-weight="500">df: 2 and 15</text>
+</g>
+</g>
+</svg>

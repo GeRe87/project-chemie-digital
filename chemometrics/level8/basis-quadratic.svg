@@ -1,0 +1,59 @@
+<svg style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: intercept, x and x²</title><desc>Design columns 1, x, x² for x equal to 0, 1, 2, 3, 4, paired with the curve y = 1 + x + 0.5x².</desc>
+<g fill="currentColor" font-family="system-ui, sans-serif">
+<text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
+<text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁xᵢ + b₂xᵢ²</text>
+<text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
+<text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
+<path d="M 151 136 H 136 V 413 H 151 M 447 136 H 462 V 413 H 447" stroke="currentColor" stroke-width="3" opacity="1" fill="none"/>
+<path d="M 105 125 V 414" stroke="currentColor" stroke-width="2" opacity="0.3" fill="none"/>
+<text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
+<text x="299.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">x</text>
+<text x="410.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">x²</text>
+<text x="62.0" y="175.0" text-anchor="middle" font-size="27" font-weight="400">0</text>
+<text x="188.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">0</text>
+<text x="410.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">0</text>
+<text x="62.0" y="228.0" text-anchor="middle" font-size="27" font-weight="400">1</text>
+<text x="188.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="410.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="62.0" y="281.0" text-anchor="middle" font-size="27" font-weight="400">2</text>
+<text x="188.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">2</text>
+<text x="410.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">4</text>
+<text x="62.0" y="334.0" text-anchor="middle" font-size="27" font-weight="400">3</text>
+<text x="188.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">3</text>
+<text x="410.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">9</text>
+<text x="62.0" y="387.0" text-anchor="middle" font-size="27" font-weight="400">4</text>
+<text x="188.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">4</text>
+<text x="410.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">16</text>
+<path d="M 605 104 V 404 H 1155" stroke="currentColor" stroke-width="2.5" opacity="1" fill="none"/>
+<path d="M 605 404.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="411.0" text-anchor="end" font-size="20" font-weight="400">0.0</text>
+<path d="M 605 318.3 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="325.3" text-anchor="end" font-size="20" font-weight="400">4.0</text>
+<path d="M 605 232.6 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="239.6" text-anchor="end" font-size="20" font-weight="400">8.0</text>
+<path d="M 605 146.9 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="153.9" text-anchor="end" font-size="20" font-weight="400">12.0</text>
+<path d="M 605.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="605.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">0</text>
+<path d="M 742.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="742.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">1</text>
+<path d="M 880.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="880.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">2</text>
+<path d="M 1017.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1017.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">3</text>
+<path d="M 1155.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1155.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">4</text>
+<text x="535.0" y="260.0" text-anchor="start" font-size="26" font-weight="700">y</text>
+<text x="1155.0" y="472.0" text-anchor="end" font-size="26" font-weight="700">x</text>
+<path d="M 605.0 382.6 L 610.5 381.7 L 616.0 380.8 L 621.5 379.8 L 627.0 378.9 L 632.5 377.9 L 638.0 376.8 L 643.5 375.7 L 649.0 374.6 L 654.5 373.5 L 660.0 372.3 L 665.5 371.1 L 671.0 369.8 L 676.5 368.5 L 682.0 367.2 L 687.5 365.9 L 693.0 364.5 L 698.5 363.0 L 704.0 361.6 L 709.5 360.1 L 715.0 358.6 L 720.5 357.0 L 726.0 355.4 L 731.5 353.8 L 737.0 352.1 L 742.5 350.4 L 748.0 348.7 L 753.5 346.9 L 759.0 345.1 L 764.5 343.3 L 770.0 341.4 L 775.5 339.5 L 781.0 337.6 L 786.5 335.6 L 792.0 333.6 L 797.5 331.6 L 803.0 329.5 L 808.5 327.4 L 814.0 325.2 L 819.5 323.1 L 825.0 320.9 L 830.5 318.6 L 836.0 316.3 L 841.5 314.0 L 847.0 311.7 L 852.5 309.3 L 858.0 306.9 L 863.5 304.4 L 869.0 301.9 L 874.5 299.4 L 880.0 296.9 L 885.5 294.3 L 891.0 291.6 L 896.5 289.0 L 902.0 286.3 L 907.5 283.6 L 913.0 280.8 L 918.5 278.0 L 924.0 275.2 L 929.5 272.3 L 935.0 269.4 L 940.5 266.5 L 946.0 263.5 L 951.5 260.5 L 957.0 257.5 L 962.5 254.4 L 968.0 251.3 L 973.5 248.2 L 979.0 245.0 L 984.5 241.8 L 990.0 238.6 L 995.5 235.3 L 1001.0 232.0 L 1006.5 228.6 L 1012.0 225.3 L 1017.5 221.9 L 1023.0 218.4 L 1028.5 214.9 L 1034.0 211.4 L 1039.5 207.9 L 1045.0 204.3 L 1050.5 200.7 L 1056.0 197.0 L 1061.5 193.3 L 1067.0 189.6 L 1072.5 185.9 L 1078.0 182.1 L 1083.5 178.2 L 1089.0 174.4 L 1094.5 170.5 L 1100.0 166.6 L 1105.5 162.6 L 1111.0 158.6 L 1116.5 154.6 L 1122.0 150.5 L 1127.5 146.4 L 1133.0 142.3 L 1138.5 138.1 L 1144.0 133.9 L 1149.5 129.7 L 1155.0 125.4" stroke="#168aaa" stroke-width="5" opacity="1" fill="none"/>
+<circle cx="605.0" cy="382.6" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="742.5" cy="350.4" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="880.0" cy="296.9" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1017.5" cy="221.9" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1155.0" cy="125.4" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+</g></svg>

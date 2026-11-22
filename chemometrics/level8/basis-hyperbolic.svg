@@ -1,0 +1,59 @@
+<svg style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><title>Design matrix: combine sinh and cosh</title><desc>Design columns 1, sinh(x), cosh(x) for x equal to -2, -1, 0, 1, 2, paired with the curve y = 1 + sinh(x) + 0.5 cosh(x).</desc>
+<g fill="currentColor" font-family="system-ui, sans-serif">
+<text x="36.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">INPUTS AND DESIGN COLUMNS</text>
+<text x="36" y="81" font-size="24" font-weight="600">yᵢ = b₀ + b₁ sinh(xᵢ) + b₂ cosh(xᵢ)</text>
+<text x="565.0" y="45.0" text-anchor="start" font-size="26" font-weight="700">ILLUSTRATIVE CURVE</text>
+<text x="62.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">xᵢ</text>
+<path d="M 151 136 H 136 V 413 H 151 M 447 136 H 462 V 413 H 447" stroke="currentColor" stroke-width="3" opacity="1" fill="none"/>
+<path d="M 105 125 V 414" stroke="currentColor" stroke-width="2" opacity="0.3" fill="none"/>
+<text x="188.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">1</text>
+<text x="299.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">sinh(x)</text>
+<text x="410.0" y="110.0" text-anchor="middle" font-size="27" font-weight="700">cosh(x)</text>
+<text x="62.0" y="175.0" text-anchor="middle" font-size="27" font-weight="400">-2</text>
+<text x="188.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">-3.63</text>
+<text x="410.0" y="175.0" text-anchor="middle" font-size="28" font-weight="400">3.76</text>
+<text x="62.0" y="228.0" text-anchor="middle" font-size="27" font-weight="400">-1</text>
+<text x="188.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">-1.18</text>
+<text x="410.0" y="228.0" text-anchor="middle" font-size="28" font-weight="400">1.54</text>
+<text x="62.0" y="281.0" text-anchor="middle" font-size="27" font-weight="400">0</text>
+<text x="188.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">0</text>
+<text x="410.0" y="281.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="62.0" y="334.0" text-anchor="middle" font-size="27" font-weight="400">1</text>
+<text x="188.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1.18</text>
+<text x="410.0" y="334.0" text-anchor="middle" font-size="28" font-weight="400">1.54</text>
+<text x="62.0" y="387.0" text-anchor="middle" font-size="27" font-weight="400">2</text>
+<text x="188.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">1</text>
+<text x="299.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">3.63</text>
+<text x="410.0" y="387.0" text-anchor="middle" font-size="28" font-weight="400">3.76</text>
+<path d="M 605 104 V 404 H 1155" stroke="currentColor" stroke-width="2.5" opacity="1" fill="none"/>
+<path d="M 605 404.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="411.0" text-anchor="end" font-size="20" font-weight="400">-1.6</text>
+<path d="M 605 304.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="311.0" text-anchor="end" font-size="20" font-weight="400">1.4</text>
+<path d="M 605 204.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="211.0" text-anchor="end" font-size="20" font-weight="400">4.4</text>
+<path d="M 605 104.0 H 1155" stroke="currentColor" stroke-width="2" opacity="0.19" fill="none"/>
+<text x="590.0" y="111.0" text-anchor="end" font-size="20" font-weight="400">7.4</text>
+<path d="M 605.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="605.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">-2</text>
+<path d="M 742.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="742.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">-1</text>
+<path d="M 880.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="880.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">0</text>
+<path d="M 1017.5 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1017.5" y="435.0" text-anchor="middle" font-size="23" font-weight="400">1</text>
+<path d="M 1155.0 404 v 7" stroke="currentColor" stroke-width="2" opacity="1" fill="none"/>
+<text x="1155.0" y="435.0" text-anchor="middle" font-size="23" font-weight="400">2</text>
+<text x="535.0" y="260.0" text-anchor="start" font-size="26" font-weight="700">y</text>
+<text x="1155.0" y="472.0" text-anchor="end" font-size="26" font-weight="700">x</text>
+<path d="M 605.0 375.0 L 610.5 372.4 L 616.0 369.9 L 621.5 367.6 L 627.0 365.3 L 632.5 363.0 L 638.0 360.9 L 643.5 358.8 L 649.0 356.8 L 654.5 354.9 L 660.0 353.0 L 665.5 351.2 L 671.0 349.4 L 676.5 347.7 L 682.0 346.0 L 687.5 344.4 L 693.0 342.8 L 698.5 341.3 L 704.0 339.8 L 709.5 338.3 L 715.0 336.9 L 720.5 335.5 L 726.0 334.1 L 731.5 332.8 L 737.0 331.5 L 742.5 330.2 L 748.0 328.9 L 753.5 327.7 L 759.0 326.5 L 764.5 325.3 L 770.0 324.1 L 775.5 322.9 L 781.0 321.7 L 786.5 320.5 L 792.0 319.4 L 797.5 318.2 L 803.0 317.0 L 808.5 315.9 L 814.0 314.7 L 819.5 313.6 L 825.0 312.4 L 830.5 311.2 L 836.0 310.1 L 841.5 308.9 L 847.0 307.7 L 852.5 306.4 L 858.0 305.2 L 863.5 304.0 L 869.0 302.7 L 874.5 301.4 L 880.0 300.1 L 885.5 298.7 L 891.0 297.3 L 896.5 295.9 L 902.0 294.5 L 907.5 293.0 L 913.0 291.5 L 918.5 289.9 L 924.0 288.3 L 929.5 286.7 L 935.0 285.0 L 940.5 283.3 L 946.0 281.5 L 951.5 279.6 L 957.0 277.7 L 962.5 275.7 L 968.0 273.7 L 973.5 271.6 L 979.0 269.4 L 984.5 267.2 L 990.0 264.8 L 995.5 262.4 L 1001.0 259.9 L 1006.5 257.3 L 1012.0 254.6 L 1017.5 251.8 L 1023.0 248.9 L 1028.5 245.9 L 1034.0 242.8 L 1039.5 239.6 L 1045.0 236.2 L 1050.5 232.7 L 1056.0 229.1 L 1061.5 225.3 L 1067.0 221.4 L 1072.5 217.4 L 1078.0 213.1 L 1083.5 208.7 L 1089.0 204.2 L 1094.5 199.5 L 1100.0 194.5 L 1105.5 189.4 L 1111.0 184.1 L 1116.5 178.5 L 1122.0 172.8 L 1127.5 166.8 L 1133.0 160.6 L 1138.5 154.1 L 1144.0 147.3 L 1149.5 140.3 L 1155.0 133.0" stroke="#168aaa" stroke-width="5" opacity="1" fill="none"/>
+<circle cx="605.0" cy="375.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="742.5" cy="330.2" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="880.0" cy="300.1" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1017.5" cy="251.8" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+<circle cx="1155.0" cy="133.0" r="6" fill="#168aaa" stroke="currentColor" stroke-width="1.5"/>
+</g></svg>
