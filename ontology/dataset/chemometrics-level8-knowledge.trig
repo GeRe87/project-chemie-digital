@@ -414,4 +414,7 @@
   ex:l8-basis-gram-columns-heading a cd:Interpretation ; cd:body "What is inside XᵀX?"@en ; skos:prefLabel "What is inside XᵀX?"@en ; cd:authoredResource true .
   ex:l8-basis-gram-columns-takeaway a cd:Interpretation ; cd:body "Each entry is a dot product of two design columns. Adding a column adds a row and a column to XᵀX."@en ; skos:prefLabel "Each entry is a dot product of two design columns. Adding a column adds a row and a column to XᵀX."@en ; cd:authoredResource true .
   ex:l8-basis-gram-columns-takeaway cd:interpretsResource ex:l8-basis-gram-columns-formula .
+  ex:l8-fixed-basis-coefficients-heading a cd:Interpretation ; cd:body "When is a model linear in its coefficients?"@en ; skos:prefLabel "When is a model linear in its coefficients?"@en ; cd:authoredResource true .
+  ex:l8-fixed-basis-coefficients-takeaway a cd:Interpretation ; cd:body "A design column must be known before fitting."@en ; skos:prefLabel "A design column must be known before fitting."@en ; cd:authoredResource true .
+  ex:l8-fixed-basis-coefficients-takeaway cd:interpretsResource ex:l8-fixed-basis-coefficients-formula .
 }
