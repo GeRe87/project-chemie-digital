@@ -135,4 +135,32 @@
   ex:l8-fit-reciprocal-auto-mode cd:hasSource ex:l8-source-author .
   ex:l8-fit-reciprocal-auto a cd:ChartDefinition ; cd:chartType cd:ScientificExperiment ; cd:experimentKind "linear-regression" ; skos:prefLabel "Residence time at positive flow"@en ; cd:body "The coefficients minimise the sum of squared vertical residuals for the fixed observations and chosen model terms."@en ; cd:usesDataset ex:l8-reciprocal-data ; cd:xAxisLabel "Flow"@en ; cd:yAxisLabel "Residence time"@en ; cd:xAxisUnit "mL/min" ; cd:yAxisUnit "min" ; cd:hasExperimentParameter ex:l8-fit-reciprocal-auto-basis, ex:l8-fit-reciprocal-auto-intercept, ex:l8-fit-reciprocal-auto-slope, ex:l8-fit-reciprocal-auto-quadratic, ex:l8-fit-reciprocal-auto-mode ; cd:authoredResource true .
   ex:l8-fit-reciprocal-auto cd:hasSource ex:l8-source-author .
+  ex:l8-multiple-regression-runs a cd:TableDefinition ; skos:prefLabel "Six synthetic detector calibration runs"@en ; cd:hasTableColumn ex:l8-multiple-regression-runs-column-1, ex:l8-multiple-regression-runs-column-2, ex:l8-multiple-regression-runs-column-3 ; cd:hasTableRow ex:l8-multiple-regression-runs-row-1, ex:l8-multiple-regression-runs-row-2, ex:l8-multiple-regression-runs-row-3, ex:l8-multiple-regression-runs-row-4, ex:l8-multiple-regression-runs-row-5, ex:l8-multiple-regression-runs-row-6 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-column-1 a cd:TableColumn ; cd:position 1 ; skos:prefLabel "Concentration (mg/L)"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-column-2 a cd:TableColumn ; cd:position 2 ; skos:prefLabel "Temperature (°C)"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-column-3 a cd:TableColumn ; cd:position 3 ; skos:prefLabel "Detector signal (mV)"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-1 a cd:TableRow ; cd:position 1 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-1-cell-1, ex:l8-multiple-regression-runs-row-1-cell-2, ex:l8-multiple-regression-runs-row-1-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-1-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-1-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "20"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-1-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "3.10"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-2 a cd:TableRow ; cd:position 2 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-2-cell-1, ex:l8-multiple-regression-runs-row-2-cell-2, ex:l8-multiple-regression-runs-row-2-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-2-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-2-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "20"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-2-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "4.80"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-3 a cd:TableRow ; cd:position 3 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-3-cell-1, ex:l8-multiple-regression-runs-row-3-cell-2, ex:l8-multiple-regression-runs-row-3-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-3-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-3-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "20"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-3-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "7.10"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-4 a cd:TableRow ; cd:position 4 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-4-cell-1, ex:l8-multiple-regression-runs-row-4-cell-2, ex:l8-multiple-regression-runs-row-4-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-4-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "1"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-4-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "30"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-4-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "3.90"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-5 a cd:TableRow ; cd:position 5 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-5-cell-1, ex:l8-multiple-regression-runs-row-5-cell-2, ex:l8-multiple-regression-runs-row-5-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-5-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "2"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-5-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "30"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-5-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "6.20"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-6 a cd:TableRow ; cd:position 6 ; cd:hasTableCell ex:l8-multiple-regression-runs-row-6-cell-1, ex:l8-multiple-regression-runs-row-6-cell-2, ex:l8-multiple-regression-runs-row-6-cell-3 ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-6-cell-1 a cd:TableCell ; cd:position 1 ; cd:body "3"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-6-cell-2 a cd:TableCell ; cd:position 2 ; cd:body "30"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
+  ex:l8-multiple-regression-runs-row-6-cell-3 a cd:TableCell ; cd:position 3 ; cd:body "7.90"@en ; cd:hasSource ex:l8-source-author ; cd:authoredResource true .
 }

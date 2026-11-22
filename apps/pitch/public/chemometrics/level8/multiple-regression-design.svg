@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="3" data-teaching-stage-mode="cumulative">
+<title>Multiple linear regression: two predictors</title><desc>Six teaching measurements of detector signal in millivolts, taken at three concentrations and two temperatures. The design matrix is revealed in three steps: an intercept column of ones, the measured concentration, and the temperature offset from 20 °C.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="36" y="47" text-anchor="start" font-size="28" fill="currentColor" font-weight="700">Measure three concentrations at two temperatures.</text>
+<text x="228" y="97" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">Experimental runs</text>
+<text x="665" y="97" text-anchor="middle" font-size="27" fill="currentColor" font-weight="700">Design matrix X</text>
+<text x="71" y="133" text-anchor="middle" font-size="20" fill="currentColor" font-weight="500">Run</text>
+<text x="161" y="133" text-anchor="middle" font-size="21" fill="#2587a8" font-weight="500">c / mg/L</text>
+<text x="271" y="133" text-anchor="middle" font-size="21" fill="#c4612a" font-weight="500">T / °C</text>
+<text x="378" y="133" text-anchor="middle" font-size="21" fill="#a46ac4" font-weight="500">y / mV</text>
+<path d="M35 146 H421" fill="none" stroke="currentColor" stroke-width="1" opacity="0.45"/>
+<path d="M37 252 H421" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+<path d="M454 85 V391" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+<path d="M537 150 H526 V374 H537 M779 150 H790 V374 H779" fill="none" stroke="currentColor" stroke-width="2" opacity="1"/>
+<text x="71" y="171" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">1</text>
+<text x="161" y="171" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">1</text>
+<text x="271" y="171" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">20</text>
+<text x="378" y="171" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">3.10</text>
+<text x="71" y="207" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">2</text>
+<text x="161" y="207" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">2</text>
+<text x="271" y="207" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">20</text>
+<text x="378" y="207" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">4.80</text>
+<text x="71" y="243" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">3</text>
+<text x="161" y="243" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">3</text>
+<text x="271" y="243" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">20</text>
+<text x="378" y="243" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">7.10</text>
+<text x="71" y="279" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">4</text>
+<text x="161" y="279" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">1</text>
+<text x="271" y="279" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">30</text>
+<text x="378" y="279" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">3.90</text>
+<text x="71" y="315" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">5</text>
+<text x="161" y="315" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">2</text>
+<text x="271" y="315" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">30</text>
+<text x="378" y="315" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">6.20</text>
+<text x="71" y="351" text-anchor="middle" font-size="22" fill="currentColor" font-weight="500">6</text>
+<text x="161" y="351" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">3</text>
+<text x="271" y="351" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">30</text>
+<text x="378" y="351" text-anchor="middle" font-size="25" fill="#a46ac4" font-weight="700">7.90</text>
+<g data-svg-stage="1">
+<text x="570" y="133" text-anchor="middle" font-size="25" fill="currentColor" font-weight="700">1</text>
+<text x="570" y="171" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="570" y="207" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="570" y="243" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="570" y="279" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="570" y="315" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="570" y="351" text-anchor="middle" font-size="25" fill="currentColor" font-weight="500">1</text>
+<text x="822" y="159" text-anchor="start" font-size="24" fill="currentColor" font-weight="700">Intercept</text>
+<text x="822" y="189" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">Use ones for the baseline.</text>
+</g>
+<g data-svg-stage="2">
+<text x="654" y="133" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="700">c</text>
+<text x="654" y="171" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">1</text>
+<text x="654" y="207" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">2</text>
+<text x="654" y="243" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">3</text>
+<text x="654" y="279" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">1</text>
+<text x="654" y="315" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">2</text>
+<text x="654" y="351" text-anchor="middle" font-size="25" fill="#2587a8" font-weight="500">3</text>
+<text x="822" y="249" text-anchor="start" font-size="24" fill="#2587a8" font-weight="700">Concentration</text>
+<text x="822" y="279" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">Use the measured concentration.</text>
+</g>
+<g data-svg-stage="3">
+<text x="740" y="133" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="700">ΔT</text>
+<text x="740" y="171" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">0</text>
+<text x="740" y="207" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">0</text>
+<text x="740" y="243" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">0</text>
+<text x="740" y="279" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">10</text>
+<text x="740" y="315" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">10</text>
+<text x="740" y="351" text-anchor="middle" font-size="25" fill="#c4612a" font-weight="500">10</text>
+<text x="822" y="339" text-anchor="start" font-size="24" fill="#c4612a" font-weight="700">Temperature offset</text>
+<text x="822" y="369" text-anchor="start" font-size="20" fill="currentColor" font-weight="500">Use degrees above 20 °C.</text>
+</g>
+<text x="36" y="444" text-anchor="start" font-size="25" fill="currentColor" font-weight="700">Each row pairs both settings with one measured signal y.</text>
+</g>
+</svg>

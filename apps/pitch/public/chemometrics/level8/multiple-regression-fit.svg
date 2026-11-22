@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" style="color-scheme: light dark; color: light-dark(#172a3b, #e3edf7)" data-teaching-stage-count="2" data-teaching-stage-mode="cumulative">
+<title>What changes when we hold one predictor fixed?</title><desc>Signal versus concentration for the six measurements, grouped by temperature. The first reveal shows parallel least-squares lines for 20 and 30 °C. The second compares two changes: 2 mV per mg/L at fixed temperature and 1 mV per 10 °C at fixed concentration.</desc>
+<g font-family="system-ui, sans-serif">
+<text x="93" y="49" text-anchor="start" font-size="25" fill="currentColor" font-weight="700">Detector signal / mV</text>
+<text x="81" y="360.8333333333333" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">3</text>
+<path d="M93 353.83 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="81" y="310.5" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">4</text>
+<path d="M93 303.50 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="81" y="260.1666666666667" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">5</text>
+<path d="M93 253.17 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="81" y="209.83333333333334" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">6</text>
+<path d="M93 202.83 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="81" y="159.5" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">7</text>
+<path d="M93 152.50 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<text x="81" y="109.16666666666669" text-anchor="end" font-size="21" fill="currentColor" font-weight="500">8</text>
+<path d="M93 102.17 H744" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+<path d="M93 77 V379 H744" fill="none" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+<text x="148.0" y="410" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">1</text>
+<text x="419.0" y="410" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">2</text>
+<text x="690.0" y="410" text-anchor="middle" font-size="23" fill="currentColor" font-weight="500">3</text>
+<text x="418.5" y="445" text-anchor="middle" font-size="24" fill="currentColor" font-weight="500">Concentration / (mg/L)</text>
+<circle cx="807" cy="46" r="6" fill="#2587a8"/>
+<text x="823" y="53" text-anchor="start" font-size="23" fill="#2587a8" font-weight="700">20 °C</text>
+<circle cx="978" cy="46" r="6" fill="#c4612a"/>
+<text x="994" y="53" text-anchor="start" font-size="23" fill="#c4612a" font-weight="700">30 °C</text>
+<g data-svg-stage="1">
+<path d="M148.00 353.83 L690.00 152.50" fill="none" stroke="#2587a8" stroke-width="4" opacity="1"/>
+<path d="M148.00 303.50 L690.00 102.17" fill="none" stroke="#c4612a" stroke-width="4" opacity="1"/>
+<text x="800" y="115" text-anchor="start" font-size="26" fill="currentColor" font-weight="700">Two fitted profiles</text>
+<text x="800" y="147" text-anchor="start" font-size="21" fill="currentColor" font-weight="500">Same slope at both temperatures</text>
+</g>
+<g data-svg-stage="2">
+<path d="M419.00 202.83 h10 V253.17 h-10" fill="none" stroke="#a46ac4" stroke-width="3" opacity="1"/>
+<text x="443.00" y="218.00" text-anchor="start" font-size="20" fill="#a46ac4" font-weight="700">+1 mV</text>
+<text x="800" y="207" text-anchor="start" font-size="24" fill="#2587a8" font-weight="700">Hold temperature fixed</text>
+<text x="800" y="238" text-anchor="start" font-size="22" fill="currentColor" font-weight="500">+1 mg/L gives +2 mV</text>
+<text x="800" y="298" text-anchor="start" font-size="24" fill="#c4612a" font-weight="700">Hold concentration fixed</text>
+<text x="800" y="329" text-anchor="start" font-size="22" fill="currentColor" font-weight="500">+10 °C gives +1 mV</text>
+<path d="M800 363 H1167" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+<text x="800" y="399" text-anchor="start" font-size="23" fill="currentColor" font-weight="700">Next: encode a category</text>
+<text x="800" y="430" text-anchor="start" font-size="22" fill="currentColor" font-weight="500">as a 0/1 predictor</text>
+</g>
+<circle cx="148.00" cy="348.80" r="6.8" fill="#2587a8" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="419.00" cy="263.23" r="6.8" fill="#2587a8" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="690.00" cy="147.47" r="6.8" fill="#2587a8" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="148.00" cy="308.53" r="6.8" fill="#c4612a" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="419.00" cy="192.77" r="6.8" fill="#c4612a" stroke="currentColor" stroke-width="1.4"/>
+<circle cx="690.00" cy="107.20" r="6.8" fill="#c4612a" stroke="currentColor" stroke-width="1.4"/>
+</g>
+</svg>
