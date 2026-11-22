@@ -85,6 +85,9 @@ class SelfStudyCourseBundleTests(unittest.TestCase):
         self.assertIn((f"{EX}path-level6-statistical-tests", f"{GRAPH}paths/level6-statistical-tests"), binding_pairs)
         self.assertIn((f"{EX}path-level7-anova-intro-review", f"{GRAPH}paths/level7-anova-intro-review"), binding_pairs)
         self.assertIn((f"{EX}path-level8-linear-regression", f"{GRAPH}paths/level8-linear-regression"), binding_pairs)
+        level8 = next(unit for unit in document["units"] if unit["id"] == f"{EX}learning-unit-linear-regression-foundations")
+        self.assertEqual("/course-world/linear-regression.svg", level8["thumbnail"]["uri"])
+        self.assertTrue(any(script["id"] == f"{EX}l8-thematic-script" for script in artifact["thematicScripts"]))
         expected_renderable_count = 9 if introduction_id in placements else 8
         self.assertEqual(
             expected_renderable_count,

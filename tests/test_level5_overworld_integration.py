@@ -35,7 +35,7 @@ import assert from 'node:assert/strict';
 import {createPitchCourseWorldModel,renderPitchCourseWorldHtml} from './apps/pitch/src/course-world.ts';
 let input='';for await(const chunk of process.stdin)input+=chunk;
 const a=JSON.parse(input),m=createPitchCourseWorldModel(a.teachingOfferingDocuments[0],a.sceneDocuments,a.sceneDocumentBindings,'en');
-assert.equal(m.units.length,8);assert.equal(m.sections.length,7);
+assert.equal(m.units.length,9);assert.equal(m.sections.length,7);
 const region=m.sections[2],unit=region.units[0];
 assert.equal(region.regionNumber,3);assert.match(region.label,/Theoretical Distributions/);
 assert.equal(region.units.length,3);assert.equal(unit.levelNumber,5);
