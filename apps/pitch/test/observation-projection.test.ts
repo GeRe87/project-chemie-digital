@@ -15,6 +15,7 @@ class Element implements MinimalElement {
 }
 // Compile from canonical TriG without requiring or writing an ignored preview file.
 const fullArtifact=JSON.parse(execFileSync("python",["-X","utf8","-c",`
+import json
 import sys
 sys.path.insert(0, 'scripts')
 import generate_canonical_runtime as r
@@ -25,7 +26,7 @@ artifact=r.build_artifact(r.CourseUnitPathSelectionRequest(
  unit_id=base+'resource/learning-unit-quantiles-moments-shape',
  requested_path_id=base+'resource/path-chemometrics-level4-distribution-shape-lecture',
  requested_path_graph_id=base+'graph/paths/chemometrics-level4-distribution-shape-lecture'))
-print(r.canonical_json(artifact))
+print(json.dumps(artifact, ensure_ascii=False, sort_keys=True, separators=(',', ':')))
 `],{cwd:fileURLToPath(new URL("../../../",import.meta.url)),encoding:"utf8",maxBuffer:32*1024*1024}));
 const artifact={...fullArtifact,thematicScripts:[],sceneDocuments:fullArtifact.sceneDocuments.map(d=>({
   ...d,scenes:d.scenes.filter(s=>s.blocks.some(b=>b.chartType==="observations"&&b.view==="ecdf"))
