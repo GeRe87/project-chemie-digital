@@ -19,19 +19,20 @@ renderer-neutral scenes are compiled into Reveal.js and other educational views.
 - Do not hardcode a specific lecture concept or resource IRI in generic renderers.
 - Scientific claims, statistical assumptions and citations must be reviewable.
 
-## Proposed agent control: owner-bound native CAC
+## Agent control: owner-bound native CAC
 
-This owner-authorized governance draft proposes regular native CAC for
-owner-bound work, with Codex coordination and OpenCode implementation. Its new
-wording takes effect only after owner-approved integration; this draft alone does
-not supersede the existing CDAC-only decision or approve a migration.
+Use regular native CAC for owner-bound work, with Codex coordination and OpenCode
+implementation.
 
 The owner defines the objective, permitted paths and semantic/runtime contract
 impact. CAC execution uses an exact, clean, isolated Git base, an exact local
 commit and reproducible evidence, with independent review of that exact head.
 Agents cannot self-approve, widen scope or introduce hidden side effects.
-Protect remotes and shared settings; do not alter them implicitly. Draft
-submission and integration/release each require explicit owner authority.
+Protect remotes and shared settings; do not alter them implicitly. A reviewable
+draft PR or equivalent may be submitted within the authorized task's scope,
+without another general advance approval when already covered by that authority.
+Actual integration, publishing, deployment and release require explicit owner
+approval.
 
 `.cdac/project.json` (`chemie-digital.product-control.v2`) remains unchanged as a
 legacy binding for compatible existing read clients of
@@ -80,9 +81,10 @@ For every nontrivial change:
    Accurately scoped document checks may establish draft readiness only, not
    full validation. Do not run checks outside the worker's authorization.
 7. Commit the exact local changes and evidence for independent exact-head review.
-   Submit a reviewable draft PR or user-requested equivalent only with explicit
-   owner authorization, with rationale, changed paths, tests and an independent
-   review decision before integration. No self-approval is permitted.
+   Submit a reviewable draft PR or user-requested equivalent within the authorized
+   task, with rationale, changed paths, tests and an independent review decision
+   before integration. No additional general advance approval is needed when
+   submission is already covered by the task. No self-approval is permitted.
 8. Reconcile the exact PR head against current `main` and any overlapping
    open PR stack. Never silently adopt unmerged results or overwrite other work.
 
@@ -125,7 +127,7 @@ effective without evidence. Do not copy secrets into logs, issues or evidence.
 Existing draft PRs #185–#277 and #280, historical reviews and Handoffs retain
 their existing status; unaccepted work remains unaccepted unless reviewed
 independently. Existing decisions, scientific corrections and historical
-approvals are not overturned or expanded by this draft. Old workflow state
+approvals must not be silently overturned or expanded. Old workflow state
 records confer neither permission nor acceptance under CAC or CDAC.
 
 ## Definition of done
