@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from rdflib import BNode, Dataset, Literal, RDF, URIRef
+from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("rdf_dataset", ROOT / "scripts" / "rdf_dataset.py")
@@ -150,6 +151,106 @@ class RdfDatasetTests(unittest.TestCase):
             (subject, datatype_predicate, datatype_literal, graph),
             set(parsed.quads((subject, datatype_predicate, None, graph))),
         )
+
+    def test_canonical_nquads_keeps_coincident_blank_structures_distinct(self) -> None:
+        dataset = Dataset(default_union=False)
+        graphs = tuple(URIRef(f"{MODULE.SHAPES_GRAPH_BASE}coincident-{i}") for i in range(2))
+        predicate = URIRef("https://example.invalid/predicate")
+        value = Literal('same\n"structure"', lang="de")
+        for index, graph in enumerate(graphs):
+            dataset.graph(graph).add((BNode(f"independent-{index}"), predicate, value))
+
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=MODULE.canonical_nquads(dataset), format="nquads")
+        # Inspect parsed RDF terms, not labels or another canonical serialization.
+        nodes = []
+        for graph in graphs:
+            triples = set(parsed.graph(graph))
+            self.assertEqual(1, len(triples))
+            node, actual_predicate, actual_value = triples.pop()
+            self.assertIsInstance(node, BNode)
+            self.assertEqual(predicate, actual_predicate)
+            self.assertEqual(value, actual_value)
+            nodes.append(node)
+        self.assertNotEqual(nodes[0], nodes[1])
+        self.assertEqual(set(graphs), {g for *_triple, g in parsed.quads((None, None, None, None))})
+        self.assertEqual(2, sum(1 for _ in parsed.quads((None, None, None, None))))
+
+    def test_canonical_nquads_retains_shared_nodes_and_separate_components(self) -> None:
+        dataset = Dataset(default_union=False)
+        graphs = tuple(URIRef(f"{MODULE.SHAPES_GRAPH_BASE}shared-{i}") for i in range(4))
+        predicate = URIRef("https://example.invalid/predicate")
+        link = URIRef("https://example.invalid/link")
+        anchor = URIRef("https://example.invalid/anchor")
+        shared, local, independent = (BNode(name) for name in ("shared", "local", "independent"))
+        value = Literal("same structure")
+        dataset.graph(graphs[0]).add((shared, predicate, value))
+        dataset.graph(graphs[1]).add((shared, link, local))
+        dataset.graph(graphs[1]).add((local, predicate, Literal("local")))
+        dataset.graph(graphs[2]).add((anchor, link, shared))
+        dataset.graph(graphs[3]).add((independent, predicate, value))
+
+        serialized = MODULE.canonical_nquads(dataset)
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=serialized, format="nquads")
+        shared_after = next(parsed.graph(graphs[2]).objects(anchor, link))
+        local_after = next(parsed.graph(graphs[1]).objects(shared_after, link))
+        independent_after = next(parsed.graph(graphs[3]).subjects(predicate, value))
+        self.assertTrue(all(isinstance(node, BNode) for node in (shared_after, local_after, independent_after)))
+        self.assertEqual(3, len({shared_after, local_after, independent_after}))
+        self.assertEqual(
+            {
+                (shared_after, predicate, value, graphs[0]),
+                (shared_after, link, local_after, graphs[1]),
+                (local_after, predicate, Literal("local"), graphs[1]),
+                (anchor, link, shared_after, graphs[2]),
+                (independent_after, predicate, value, graphs[3]),
+            },
+            set(parsed.quads((None, None, None, None))),
+        )
+
+        # Relabel globally and reverse insertion order without losing shared identity.
+        relabeled = Dataset(default_union=False)
+        mapping = {shared: BNode("z"), local: BNode("y"), independent: BNode("x")}
+        for subject, pred, obj, graph in reversed(list(dataset.quads((None, None, None, None)))):
+            relabeled.graph(graph).add((mapping.get(subject, subject), pred, mapping.get(obj, obj)))
+        self.assertEqual(serialized, MODULE.canonical_nquads(relabeled))
+        self.assertEqual(MODULE.dataset_fingerprint(dataset), MODULE.dataset_fingerprint(relabeled))
+
+    def test_full_authored_dataset_nquads_roundtrip_preserves_identity(self) -> None:
+        dataset = MODULE.assemble_dataset()
+        parsed = Dataset(default_union=False)
+        parsed.parse(data=MODULE.canonical_nquads(dataset), format="nquads")
+
+        # Both sides must independently meet the pinned authored inventory. In
+        # particular, per-graph isomorphism alone cannot detect merged blank nodes.
+        for candidate in (dataset, parsed):
+            owners: dict[BNode, set[URIRef]] = {}
+            graph_ids: set[URIRef] = set()
+            quad_count = 0
+            for subject, _predicate, obj, graph in candidate.quads((None, None, None, None)):
+                quad_count += 1
+                graph_ids.add(graph)
+                for term in (subject, obj):
+                    if isinstance(term, BNode):
+                        owners.setdefault(term, set()).add(graph)
+            self.assertEqual(279, len(graph_ids))
+            self.assertEqual(64729, quad_count)
+            self.assertEqual(798, len(owners))
+            self.assertEqual(0, sum(len(graphs) > 1 for graphs in owners.values()))
+            self.assertEqual(0, len(candidate.default_graph))
+
+        original_graphs = {g for *_triple, g in dataset.quads((None, None, None, None))}
+        parsed_graphs = {g for *_triple, g in parsed.quads((None, None, None, None))}
+        self.assertEqual(original_graphs, parsed_graphs)
+        for graph in original_graphs:
+            with self.subTest(graph=str(graph)):
+                self.assertTrue(isomorphic(dataset.graph(graph), parsed.graph(graph)))
+                self.assertEqual(
+                    {(predicate, obj) for _subject, predicate, obj in dataset.graph(graph) if isinstance(obj, Literal)},
+                    {(predicate, obj) for _subject, predicate, obj in parsed.graph(graph) if isinstance(obj, Literal)},
+                )
+        self.assertEqual(MODULE.dataset_fingerprint(dataset), MODULE.dataset_fingerprint(parsed))
 
     def test_non_project_graph_is_rejected(self) -> None:
         dataset = Dataset()
