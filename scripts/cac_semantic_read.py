@@ -192,11 +192,19 @@ class Binding:
                 _fail("BINDING_REJECTED", "Native state exceeded bound")
             raw = self.state_path.read_bytes()
             state = json.loads(raw)
-            valid = (type(state) is dict and state.get("status") == "running"
+            # Native first attempts have only base_sha until a head is recorded.
+            # An explicit head (even malformed) must never fall back to the base.
+            selected_sha = None
+            if type(state) is dict:
+                selected_sha = state.get("head_sha")
+                if selected_sha is None:
+                    selected_sha = state.get("base_sha")
+            valid = (type(selected_sha) is str and _SHA.fullmatch(selected_sha)
+                     and selected_sha == self.sha
+                     and type(state) is dict and state.get("status") == "running"
                      and state.get("project") == "project-chemie-digital"
                      and state.get("run_id") == self.run_id
                      and state.get("worktree") == str(self.root)
-                     and state.get("head_sha") == self.sha
                      and state.get("run_dir") == str(self.state_path.parent)
                      and self.state_path.name == "state.json"
                      and all(_same_typed(state.get(k), v) for k, v in zip(IDENTITY_KEYS, self.identity)))
@@ -582,25 +590,24 @@ async def serve(binding: Binding) -> None:
     # mcp 2 low-level API; intentionally no FastMCP or implicit callable schemas.
     from mcp.server.lowlevel import Server
     from mcp.server.stdio import stdio_server
-    from mcp.types import Tool, TextContent
-    server = Server("pcd")
+    from mcp import types
 
-    @server.list_tools()
-    async def on_list_tools():
+    async def list_tools(_ctx, _params):
         try:
             binding.check()
-            tools = [Tool(name=name, description="Bounded read-only Product " + name,
-                          inputSchema=schema) for name, schema in tool_schemas().items()]
+            tools = [types.Tool(name=name, description="Bounded read-only Product " + name,
+                                inputSchema=schema) for name, schema in tool_schemas().items()]
             binding.check()
-            return tools
+            return types.ListToolsResult(tools=tools)
         except Exception:
             binding.cache = None
             raise ValueError("PCD catalog binding rejected") from None
 
-    @server.call_tool(validate_input=False)
-    async def on_call_tool(name: str, arguments: dict):
-        return [TextContent(type="text", text=canonical_json(dispatch(binding, name, arguments)))]
+    async def call_tool(_ctx, params):
+        return types.CallToolResult(content=[types.TextContent(
+            type="text", text=canonical_json(dispatch(binding, params.name, params.arguments or {})))])
 
+    server = Server("pcd", on_list_tools=list_tools, on_call_tool=call_tool)
     async with stdio_server() as (reader, writer):
         await server.run(reader, writer, server.create_initialization_options())
 

@@ -172,6 +172,56 @@ class SemanticTests(unittest.TestCase):
         self.assertNotIn("items", result)
 
 
+class ServerCallbackTests(unittest.TestCase):
+    def test_constructor_callbacks_without_sdk_or_stdio_service(self):
+        import asyncio
+        from contextlib import asynccontextmanager
+        from types import ModuleType, SimpleNamespace
+
+        binding = FixtureBinding()
+        test = self
+
+        class Server:
+            # Deliberately no decorator API or framework argument validation.
+            def __init__(self, name, *, on_list_tools, on_call_tool):
+                test.assertEqual(name, "pcd")
+                self.list_tools, self.call_tool = on_list_tools, on_call_tool
+
+            def create_initialization_options(self):
+                return None
+
+            async def run(self, reader, writer, options):
+                before = binding.checks
+                catalog = await self.list_tools(None, None)
+                test.assertEqual(binding.checks, before + 2)
+                test.assertEqual({tool.name for tool in catalog.tools}, set(M.FUNCTIONS))
+                for arguments in (None, {"limit": True}, {"unexpected": 1}):
+                    result = await self.call_tool(None, SimpleNamespace(
+                        name="semantic_inventory", arguments=arguments))
+                    expected = M.dispatch(binding, "semantic_inventory", arguments or {})
+                    test.assertEqual(result.content[0].type, "text")
+                    test.assertEqual(result.content[0].text, M.canonical_json(expected))
+                binding.cache = "cached"
+                with patch.object(binding, "check", side_effect=RuntimeError("private")):
+                    with test.assertRaisesRegex(ValueError, "^PCD catalog binding rejected$"):
+                        await self.list_tools(None, None)
+                test.assertIsNone(binding.cache)
+
+        @asynccontextmanager
+        async def stdio_server():
+            yield None, None
+
+        modules = {name: ModuleType(name) for name in
+                   ("mcp", "mcp.types", "mcp.server", "mcp.server.lowlevel", "mcp.server.stdio")}
+        modules["mcp"].types = modules["mcp.types"]
+        for name in ("Tool", "ListToolsResult", "CallToolResult", "TextContent"):
+            setattr(modules["mcp.types"], name, SimpleNamespace)
+        modules["mcp.server.lowlevel"].Server = Server
+        modules["mcp.server.stdio"].stdio_server = stdio_server
+        with patch.dict(sys.modules, modules):
+            asyncio.run(M.serve(binding))
+
+
 class BindingTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -226,6 +276,33 @@ class BindingTests(unittest.TestCase):
         with self.assertRaises(M.DiscoveryError) as caught:
             self.binding.check()
         self.assertEqual(caught.exception.code, code)
+
+    def test_native_first_attempt_absent_or_null_head_uses_pinned_base(self):
+        self.state["base_sha"] = self.binding.sha
+        del self.state["head_sha"]
+        self.save()
+        manifest = self.binding.check()
+        self.assertEqual(self.binding.check(), manifest)
+        # Each native shape is valid at startup, not a permitted live transition.
+        self.binding.envelope = None
+        self.state["head_sha"] = None
+        self.save()
+        self.assertEqual(self.binding.check(), manifest)
+        self.state["base_sha"] = "b" * 40
+        self.save()
+        self.assert_rejected("BINDING_REJECTED")
+
+    def test_explicit_head_never_falls_back_to_matching_base(self):
+        self.state["base_sha"] = self.binding.sha
+        for head in ("b" * 40, "", False, 1, [], "A" * 40):
+            with self.subTest(head=head):
+                self.state["head_sha"] = head
+                self.save()
+                self.assert_rejected("BINDING_REJECTED")
+        self.state["head_sha"] = self.binding.sha
+        self.state["base_sha"] = "b" * 40
+        self.save()
+        self.binding.check()
 
     def test_identity_types_each_field_and_stale_state(self):
         self.binding.check()

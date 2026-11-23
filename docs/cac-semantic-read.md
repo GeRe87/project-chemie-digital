@@ -57,7 +57,8 @@ This implementation requires a JSON object in the regular canonical file
 | `run_id` | exact launch run ID |
 | `run_dir` | canonical physical state parent, absolute string |
 | `worktree` | exact canonical physical data checkout, absolute string |
-| `head_sha` | exact launch SHA |
+| `head_sha` | if present and non-null, valid 40-lowercase-hex string equal to the exact launch SHA; wrong or malformed explicit values are rejected |
+| `base_sha` | required only when `head_sha` is absent or null; valid 40-lowercase-hex string equal to the exact launch SHA |
 | `active_worker_outcome_token` | nonempty string |
 | `active_agent_attempt` | positive integer, not boolean |
 | `active_agent_artifact_dir` | nonempty string |
@@ -174,8 +175,21 @@ binding invariants, cleanup, and cached assembly. Proposed focused command:
 **Worker execution record:** no test, environment-creation, install, service,
 historical-audit or full-suite command was executed. This run exposes no validation
 or generator IDs and no shell execution API. Source edits and commit use run-bound
-agentctl only. Tests, mcp 2 API compatibility, native state compatibility, real tool
-calls and parity are pending; no pass is asserted.
+agentctl only. The operator reported the prior 15 focused tests passing in an
+AWV-style environment without the MCP SDK; this is not worker-executed evidence
+for this correction. Added regression tests cover absent/null first-attempt heads,
+explicit-head precedence, and constructor callbacks using an in-memory SDK double
+without launching stdio. These new tests have not been executed by the worker.
+
+The compatibility correction uses the native mcp 2 constructor callbacks
+`Server("pcd", on_list_tools=list_tools, on_call_tool=call_tool)`, with
+`ListToolsResult`/`CallToolResult` envelopes and runtime-only SDK imports. Query
+validation remains in application dispatch, preserving its error envelopes. A
+running first attempt may select `base_sha` only if `head_sha` is absent or null;
+the selected SHA must still equal both the launch pin and fresh physical Git HEAD.
+All existing state-byte, attempt, source, and call guards remain in force. Both
+compatibility corrections **must still be verified by operator native calls** at
+the exact reviewed head. No new tool parity or runtime pass is claimed.
 
 After independent review of the exact committed head, the operator should:
 
