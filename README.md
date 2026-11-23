@@ -118,7 +118,12 @@ Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasSt
 ## Repository principles
 
 - `main` remains reviewable and stable.
-- CDAC (`GeRe87/chemie-digital-agent-control-`) is the single agent-control interface declared in `.cdac/project.json`.
+- This owner-authorized governance draft proposes regular native CAC for owner-bound work, Codex coordination and OpenCode implementation; its new wording takes effect only after owner-approved integration, not by this draft alone.
+- The owner bounds permitted paths and contract impact. Use an exact, clean, isolated Git base, an exact local commit and reproducible evidence, followed by independent exact-head review. No self-approval, scope widening or hidden side effects; remotes and shared settings remain protected.
+- `.cdac/project.json` remains an unchanged legacy binding for compatible existing CDAC read clients, not editing or automation authority. Neither global profile is disabled; no live migration is implied. Deactivation requires proven semantic equivalence, identified remaining users and separately approved reversible change.
+- Draft submission and integration/release require explicit owner authority. Existing draft PRs, decisions, scientific corrections and historical approvals retain their status; retired Agent Workflow Core dispatchers and state files must not be reinstated.
+- Both `npm test` and external `agent-validator/project-chemie-digital` success on the exact current PR head are required before integration. Failed or absent checks never pass; diagnostic comments do not substitute for status. Scoped document checks can establish draft readiness only, not full validation.
+- Native inspection tools, the bounded PR #280 rehearsal evidence and the four read-only CDAC semantic capability equivalence gates are detailed in `docs/agent-operating-model.md`. This draft implements no Semantics MCP and claims no universal CDAC replacement.
 - Owner-authorized tasks use isolated Git branches and reviewable draft pull requests; neither issues nor legacy manager/worker leases are required for routine lecture editing.
 - No automatic PR merge, deployment or release occurs without the applicable review, exact-head validator and owner decision.
 - Architectural decisions are recorded as ADRs.
