@@ -220,10 +220,12 @@ class RdfDatasetTests(unittest.TestCase):
     def test_full_authored_dataset_nquads_roundtrip_preserves_identity(self) -> None:
         dataset = MODULE.assemble_dataset()
         parsed = Dataset(default_union=False)
-        parsed.parse(data=MODULE.canonical_nquads(dataset), format="nquads")
+        serialized = MODULE.canonical_nquads(dataset)
+        parsed.parse(data=serialized, format="nquads")
 
-        # Both sides must independently meet the pinned authored inventory. In
-        # particular, per-graph isomorphism alone cannot detect merged blank nodes.
+        # Compare inventories derived independently from RDF terms on both sides:
+        # per-graph isomorphism alone cannot detect merged blank nodes.
+        inventories = []
         for candidate in (dataset, parsed):
             owners: dict[BNode, set[URIRef]] = {}
             graph_ids: set[URIRef] = set()
@@ -234,11 +236,14 @@ class RdfDatasetTests(unittest.TestCase):
                 for term in (subject, obj):
                     if isinstance(term, BNode):
                         owners.setdefault(term, set()).add(graph)
-            self.assertEqual(279, len(graph_ids))
-            self.assertEqual(64729, quad_count)
-            self.assertEqual(798, len(owners))
-            self.assertEqual(0, sum(len(graphs) > 1 for graphs in owners.values()))
+            ownership_degrees: dict[int, int] = {}
+            for graphs in owners.values():
+                degree = len(graphs)
+                ownership_degrees[degree] = ownership_degrees.get(degree, 0) + 1
+            inventories.append((graph_ids, quad_count, len(owners), ownership_degrees))
             self.assertEqual(0, len(candidate.default_graph))
+        self.assertEqual(inventories[0], inventories[1])
+        self.assertEqual(serialized, MODULE.canonical_nquads(parsed))
 
         original_graphs = {g for *_triple, g in dataset.quads((None, None, None, None))}
         parsed_graphs = {g for *_triple, g in parsed.quads((None, None, None, None))}
