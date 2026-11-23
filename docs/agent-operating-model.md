@@ -152,8 +152,7 @@ equivalence, and a preview is not integration or publication approval.
 
 Product command: `npm test`; semantic/SHACL, Python and frontend/runtime tests
 must pass. Both this command and external commit status
-`agent-validator/project-chemie-digital` must succeed on the **exact current PR
-head** before integration. Missing, stale, pending, failure or error never count
+`agent-validator/project-chemie-digital` must succeed on the **exact current PR HEAD** before integration. Missing, stale, pending, failure or error never count
 as passing. The marker `<!-- agent-workflow-validator:project-chemie-digital -->`
 is a diagnostic PR comment only, not status success. The external local validator
 at `GeRe87/agent-workflow-validator` is a technical checker, not a second
