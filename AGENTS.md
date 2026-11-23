@@ -19,18 +19,36 @@ renderer-neutral scenes are compiled into Reveal.js and other educational views.
 - Do not hardcode a specific lecture concept or resource IRI in generic renderers.
 - Scientific claims, statistical assumptions and citations must be reviewable.
 
-## Agent control: CDAC only
+## Agent control: owner-bound native CAC
 
-The sole Project Chemie Digital agent-control interface is
-`GeRe87/chemie-digital-agent-control-` (CDAC), bound to the explicit
-`.cdac/project.json` contract (`chemie-digital.product-control.v2`).
+Use regular native CAC for owner-bound work, with Codex coordination and OpenCode
+implementation.
+
+The owner defines the objective, permitted paths and semantic/runtime contract
+impact. CAC execution uses an exact, clean, isolated Git base, an exact local
+commit and reproducible evidence, with independent review of that exact head.
+Agents cannot self-approve, widen scope or introduce hidden side effects.
+Protect remotes and shared settings; do not alter them implicitly. A reviewable
+draft PR or equivalent may be submitted within the authorized task's scope,
+without another general advance approval when already covered by that authority.
+Actual integration, publishing, deployment and release require explicit owner
+approval.
+
+`.cdac/project.json` (`chemie-digital.product-control.v2`) remains unchanged as a
+legacy binding for compatible existing read clients of
+`GeRe87/chemie-digital-agent-control-` (CDAC). It transfers no editing or automation
+authority. Neither global profile is disabled and no live migration is implied.
+Deactivation requires proven semantic equivalence, identified remaining users
+and a separately approved, reversible change. See
+`docs/agent-operating-model.md` for native inspection and compatibility gates.
 
 **Do not use `agent-workflow-core`, a manager/worker dispatcher, scheduled
 turns, claimable workflow states, activeIssue assignment, agent leases or legacy
 track status as authorisation.** Historical Agent Workflow Core configuration
 and state have been retired; their immutable Git blob references are archived in
 `docs/legacy-agent-workflow-core/README.md`. Existing `.agents/handoffs/`
-remain historical task evidence, not executable instructions.
+remain historical task evidence, not executable instructions. Do not reinstate
+retired dispatchers or state files.
 
 An owner may directly authorise a bounded OpenCode task in conversation or
 issue form. CDAC supplies exact Product context, semantic discovery, diff
@@ -38,7 +56,7 @@ inspection and other *explicitly enabled* inspection tools; read-only CDAC
 output never creates editing permission by itself. No CDAC worker-start or
 Product-writing service is implied by the current MCP implementation.
 
-## Direct owner-to-agent implementation
+## Owner-bound implementation through native CAC
 
 For every nontrivial change:
 
@@ -47,16 +65,26 @@ For every nontrivial change:
    each lecture-content edit.
 2. Confirm the actual Product repository origin, branch, clean/dirty status and
    exact current HEAD; distinguish `main` from the heads of existing draft PRs.
-3. Work in a new isolated branch/worktree. Never replace or reset the owner's
-   existing checkout or another PR's worktree.
+3. Work in a new isolated branch/worktree from an exact clean base. Never replace
+   or reset the owner's existing checkout or another PR's worktree.
 4. Inspect relevant canonical RDF, ontology, SHACL, tests and prior work.
-   Reuse resources and generic scene contracts before adding new ones.
+   Reuse resources and generic scene contracts before adding new ones. Use
+   run-bound `agentctl_repo_info`, `agentctl_read_product_file` /
+   `agentctl_read_context`, `agentctl_search_product_context` and
+   `agentctl_diff_summary` / `agentctl_file_diff` with relative scoped paths.
+   Use `agentctl_historical_source_audit` only where separately authorized;
+   retain native run, path, source-range and expected-head/hash guards.
 5. Modify only the authorised scope; preserve named-graph provenance, identity
    and existing scientific corrections.
-6. Run focused tests and `npm test`; report actual commands, exit codes,
-   failures and unrun checks without inventing a result.
-7. Submit a reviewable draft PR or user-requested equivalent, with rationale,
-   changed paths, tests and an explicit review decision before integration.
+6. Run authorized focused tests and, before integration, `npm test`; report actual
+   commands, exit codes, failures and unrun checks without inventing a result.
+   Accurately scoped document checks may establish draft readiness only, not
+   full validation. Do not run checks outside the worker's authorization.
+7. Commit the exact local changes and evidence for independent exact-head review.
+   Submit a reviewable draft PR or user-requested equivalent within the authorized
+   task, with rationale, changed paths, tests and an independent review decision
+   before integration. No additional general advance approval is needed when
+   submission is already covered by the task. No self-approval is permitted.
 8. Reconcile the exact PR head against current `main` and any overlapping
    open PR stack. Never silently adopt unmerged results or overwrite other work.
 
@@ -80,7 +108,9 @@ agent-validator/project-chemie-digital
 The diagnostic PR comment marker is
 `<!-- agent-workflow-validator:project-chemie-digital -->`.
 Only a `success` result on that exact head counts; missing, stale, pending,
-failure or error does not. No GitHub Actions workflow is authorised. When a
+failure or error does not. The diagnostic comment is not status success.
+Both `npm test` and the external status must pass on the exact current PR head
+before integration. No GitHub Actions workflow is authorised. When a
 relevant change has merged into `main`, assess stale integration bases and
 rerun validation on any reconciled PR head.
 
@@ -94,9 +124,11 @@ regulatory, examination or data-protection decisions, remove previously accepted
 requirements or make breaking ontology changes. Never claim pedagogy is
 effective without evidence. Do not copy secrets into logs, issues or evidence.
 
-Existing draft PRs #185–#277 and #280, historical reviews and Handoffs remain
-preserved and unaccepted unless reviewed independently. Their old workflow
-state records confer neither permission nor acceptance under CDAC.
+Existing draft PRs #185–#277 and #280, historical reviews and Handoffs retain
+their existing status; unaccepted work remains unaccepted unless reviewed
+independently. Existing decisions, scientific corrections and historical
+approvals must not be silently overturned or expanded. Old workflow state
+records confer neither permission nor acceptance under CAC or CDAC.
 
 ## Definition of done
 

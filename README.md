@@ -118,9 +118,12 @@ Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasSt
 ## Repository principles
 
 - `main` remains reviewable and stable.
-- CDAC (`GeRe87/chemie-digital-agent-control-`) is the single agent-control interface declared in `.cdac/project.json`.
-- Owner-authorized tasks use isolated Git branches and reviewable draft pull requests; neither issues nor legacy manager/worker leases are required for routine lecture editing.
-- No automatic PR merge, deployment or release occurs without the applicable review, exact-head validator and owner decision.
+- Use regular native CAC for owner-bound work, with Codex coordination and OpenCode implementation on an exact, clean, isolated Git base. The owner bounds paths and contract impact; exact local commits and reproducible evidence receive independent exact-head review. No self-approval, scope widening or hidden side effects; remotes and shared settings remain protected.
+- Reviewable draft PRs or equivalents stay within the authorized task; no additional general advance approval is needed when submission is already covered. Issues and legacy manager/worker leases are not prerequisites for routine lecture editing. Actual integration, publishing, deployment and release require explicit owner approval.
+- `.cdac/project.json` remains an unchanged, bounded read-only legacy binding, not editing or automation authority. Neither global profile is disabled and no live migration is implied. Deactivation remains unresolved pending proven semantic equivalence, identified remaining users and a separately approved reversible change.
+- Both `npm test` and external `agent-validator/project-chemie-digital` success on the exact current PR head are required before integration. Failed or absent checks never pass; diagnostic comments do not substitute for status. Scoped document checks establish draft readiness only, not full validation.
+- Existing draft PRs, decisions, scientific corrections and historical approvals retain their status. Retired Agent Workflow Core dispatchers and state files must not be reinstated.
+- The [operating model](docs/agent-operating-model.md) details native inspection guards and the four CDAC semantic read-tool equivalence gates; no universal CDAC replacement is assumed. The existing Product CLI `npm run authoring:preview` yields a renderer-neutral preview for a conforming draft; CAC-native preview parity is a separate open check, not a fifth CDAC semantic read tool.
 - Architectural decisions are recorded as ADRs.
 - Semantic content is validated with SHACL.
 - Domain knowledge, reusable resources, paths, scenes, view documents and renderer adapters remain separate layers.
@@ -128,4 +131,4 @@ Path order is represented by each `cd:PathStep` integer `cd:position`; `cd:hasSt
 - Generated JSON is disposable transport, never an authored semantic source.
 - GitHub Actions workflows must not be added or restored.
 
-See `AGENTS.md` and `docs/agent-operating-model.md`.
+See [agent instructions](AGENTS.md) and the [operating model](docs/agent-operating-model.md).
