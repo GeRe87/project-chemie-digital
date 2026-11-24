@@ -343,6 +343,13 @@ body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"
   height: 100%;
   min-height: 0;
   max-height: 100%;
+  /* Isolate SVG painting to avoid stale labels under Reveal scaling. */
+  transform: translateZ(0);
+}
+
+/* Separate bounded dot/regression captions from axis labels; scroll layout stays unchanged. */
+body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"]:has(> [data-composition-region-container="footer"]) .d3-chart-figure:has(> :is(.d3-dot-plot-svg, .d3-regression-svg)) > .d3-chart-caption {
+  padding-top: 4rem;
 }
 body:not(.reveal-scroll) .reveal .slides section[data-composition="visual-stage"] > [data-composition-region-container="footer"] .keypoint-list {
   display: flex;

@@ -19,7 +19,11 @@ class TedRevisionTests(unittest.TestCase):
     def setUpClass(cls):
         cls.dataset = R.assemble_dataset()
         cls.artifact = build_collection_artifact(R.EX + "talks")
-        cls.scenes = cls.artifact["sceneDocuments"][0]["scenes"]
+        document, = [
+            document for document in cls.artifact["sceneDocuments"]
+            if document["sourcePathId"] == "ex:path-talk-microplastics-ted-gc-ms"
+        ]
+        cls.scenes = document["scenes"]
 
     def scene(self, name):
         return next(scene for scene in self.scenes if scene["id"] == f"ex:ted-scene-{name}--scene")
