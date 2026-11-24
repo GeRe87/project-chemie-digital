@@ -1,6 +1,6 @@
 {
   "artifactVersion": "1.0",
-  "datasetFingerprint": "sha256:4f467011718a8c79816be4cedc22b070b82b7f90cb9d35f727ee229797438fee",
+  "datasetFingerprint": "sha256:3180dbe77c1f95aa712ee64e518b33b43f9fca8c826ac718c8a218f0af831184",
   "datasetSnapshot": {
     "entities": [
       {
@@ -16873,7 +16873,7 @@
         ]
       }
     ],
-    "identity": "sha256:4f467011718a8c79816be4cedc22b070b82b7f90cb9d35f727ee229797438fee",
+    "identity": "sha256:3180dbe77c1f95aa712ee64e518b33b43f9fca8c826ac718c8a218f0af831184",
     "source": [
       {
         "provenanceIds": [
@@ -69415,7 +69415,7 @@
                   "resourceId": "ex:ted-demo-one"
                 }
               ],
-              "uri": "/cogniflow-showcase/cf_web_showcase_1.mp4"
+              "uri": "/talks-media/cf_web_showcase_1.mp4"
             }
           ],
           "id": "ex:ted-scene-demo-one--scene",
@@ -69516,7 +69516,7 @@
                   "resourceId": "ex:ted-demo-two"
                 }
               ],
-              "uri": "/cogniflow-showcase/cf_web_showcase_2.mp4"
+              "uri": "/talks-media/cf_web_showcase_2.mp4"
             }
           ],
           "id": "ex:ted-scene-demo-two--scene",
