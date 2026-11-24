@@ -1,0 +1,199 @@
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/eh26-qpeaks-review> {
+  ex:eh26-scan-eic a cd:Dataset ; skos:prefLabel "Illustrative extracted-ion chromatogram"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-eic-01, ex:eh26-scan-eic-02, ex:eh26-scan-eic-03, ex:eh26-scan-eic-04, ex:eh26-scan-eic-05, ex:eh26-scan-eic-06, ex:eh26-scan-eic-07, ex:eh26-scan-eic-08, ex:eh26-scan-eic-09, ex:eh26-scan-eic-10, ex:eh26-scan-eic-11, ex:eh26-scan-eic-12, ex:eh26-scan-eic-13, ex:eh26-scan-eic-14, ex:eh26-scan-eic-15, ex:eh26-scan-eic-16, ex:eh26-scan-eic-17, ex:eh26-scan-eic-18, ex:eh26-scan-eic-19, ex:eh26-scan-eic-20, ex:eh26-scan-eic-21, ex:eh26-scan-eic-22, ex:eh26-scan-eic-23, ex:eh26-scan-eic-24, ex:eh26-scan-eic-25, ex:eh26-scan-eic-26, ex:eh26-scan-eic-27, ex:eh26-scan-eic-28, ex:eh26-scan-eic-29, ex:eh26-scan-eic-30, ex:eh26-scan-eic-31, ex:eh26-scan-eic-32, ex:eh26-scan-eic-33, ex:eh26-scan-eic-34, ex:eh26-scan-eic-35, ex:eh26-scan-eic-36, ex:eh26-scan-eic-37, ex:eh26-scan-eic-38, ex:eh26-scan-eic-39, ex:eh26-scan-eic-40, ex:eh26-scan-eic-41, ex:eh26-scan-eic-42, ex:eh26-scan-eic-43, ex:eh26-scan-eic-44, ex:eh26-scan-eic-45, ex:eh26-scan-eic-46, ex:eh26-scan-eic-47, ex:eh26-scan-eic-48, ex:eh26-scan-eic-49, ex:eh26-scan-eic-50, ex:eh26-scan-eic-51, ex:eh26-scan-eic-52, ex:eh26-scan-eic-53, ex:eh26-scan-eic-54, ex:eh26-scan-eic-55, ex:eh26-scan-eic-56, ex:eh26-scan-eic-57, ex:eh26-scan-eic-58, ex:eh26-scan-eic-59, ex:eh26-scan-eic-60, ex:eh26-scan-eic-61 ; cd:authoredResource true .
+  ex:eh26-scan-eic-01 a cd:Observation ; cd:position 1 ; cd:xValue 0.000 ; cd:numericValue 0.032000 ; cd:authoredResource true .
+  ex:eh26-scan-eic-02 a cd:Observation ; cd:position 2 ; cd:xValue 0.100 ; cd:numericValue 0.035990 ; cd:authoredResource true .
+  ex:eh26-scan-eic-03 a cd:Observation ; cd:position 3 ; cd:xValue 0.200 ; cd:numericValue 0.032564 ; cd:authoredResource true .
+  ex:eh26-scan-eic-04 a cd:Observation ; cd:position 4 ; cd:xValue 0.300 ; cd:numericValue 0.028090 ; cd:authoredResource true .
+  ex:eh26-scan-eic-05 a cd:Observation ; cd:position 5 ; cd:xValue 0.400 ; cd:numericValue 0.030882 ; cd:authoredResource true .
+  ex:eh26-scan-eic-06 a cd:Observation ; cd:position 6 ; cd:xValue 0.500 ; cd:numericValue 0.035752 ; cd:authoredResource true .
+  ex:eh26-scan-eic-07 a cd:Observation ; cd:position 7 ; cd:xValue 0.600 ; cd:numericValue 0.033648 ; cd:authoredResource true .
+  ex:eh26-scan-eic-08 a cd:Observation ; cd:position 8 ; cd:xValue 0.700 ; cd:numericValue 0.028481 ; cd:authoredResource true .
+  ex:eh26-scan-eic-09 a cd:Observation ; cd:position 9 ; cd:xValue 0.800 ; cd:numericValue 0.029854 ; cd:authoredResource true .
+  ex:eh26-scan-eic-10 a cd:Observation ; cd:position 10 ; cd:xValue 0.900 ; cd:numericValue 0.035215 ; cd:authoredResource true .
+  ex:eh26-scan-eic-11 a cd:Observation ; cd:position 11 ; cd:xValue 1.000 ; cd:numericValue 0.034601 ; cd:authoredResource true .
+  ex:eh26-scan-eic-12 a cd:Observation ; cd:position 12 ; cd:xValue 1.100 ; cd:numericValue 0.029153 ; cd:authoredResource true .
+  ex:eh26-scan-eic-13 a cd:Observation ; cd:position 13 ; cd:xValue 1.200 ; cd:numericValue 0.028996 ; cd:authoredResource true .
+  ex:eh26-scan-eic-14 a cd:Observation ; cd:position 14 ; cd:xValue 1.300 ; cd:numericValue 0.034423 ; cd:authoredResource true .
+  ex:eh26-scan-eic-15 a cd:Observation ; cd:position 15 ; cd:xValue 1.400 ; cd:numericValue 0.035355 ; cd:authoredResource true .
+  ex:eh26-scan-eic-16 a cd:Observation ; cd:position 16 ; cd:xValue 1.500 ; cd:numericValue 0.030105 ; cd:authoredResource true .
+  ex:eh26-scan-eic-17 a cd:Observation ; cd:position 17 ; cd:xValue 1.600 ; cd:numericValue 0.028666 ; cd:authoredResource true .
+  ex:eh26-scan-eic-18 a cd:Observation ; cd:position 18 ; cd:xValue 1.700 ; cd:numericValue 0.034755 ; cd:authoredResource true .
+  ex:eh26-scan-eic-19 a cd:Observation ; cd:position 19 ; cd:xValue 1.800 ; cd:numericValue 0.040965 ; cd:authoredResource true .
+  ex:eh26-scan-eic-20 a cd:Observation ; cd:position 20 ; cd:xValue 1.900 ; cd:numericValue 0.048168 ; cd:authoredResource true .
+  ex:eh26-scan-eic-21 a cd:Observation ; cd:position 21 ; cd:xValue 2.000 ; cd:numericValue 0.076324 ; cd:authoredResource true .
+  ex:eh26-scan-eic-22 a cd:Observation ; cd:position 22 ; cd:xValue 2.100 ; cd:numericValue 0.148724 ; cd:authoredResource true .
+  ex:eh26-scan-eic-23 a cd:Observation ; cd:position 23 ; cd:xValue 2.200 ; cd:numericValue 0.275112 ; cd:authoredResource true .
+  ex:eh26-scan-eic-24 a cd:Observation ; cd:position 24 ; cd:xValue 2.300 ; cd:numericValue 0.450837 ; cd:authoredResource true .
+  ex:eh26-scan-eic-25 a cd:Observation ; cd:position 25 ; cd:xValue 2.400 ; cd:numericValue 0.652521 ; cd:authoredResource true .
+  ex:eh26-scan-eic-26 a cd:Observation ; cd:position 26 ; cd:xValue 2.500 ; cd:numericValue 0.825089 ; cd:authoredResource true .
+  ex:eh26-scan-eic-27 a cd:Observation ; cd:position 27 ; cd:xValue 2.600 ; cd:numericValue 0.895855 ; cd:authoredResource true .
+  ex:eh26-scan-eic-28 a cd:Observation ; cd:position 28 ; cd:xValue 2.700 ; cd:numericValue 0.869303 ; cd:authoredResource true .
+  ex:eh26-scan-eic-29 a cd:Observation ; cd:position 29 ; cd:xValue 2.800 ; cd:numericValue 0.796154 ; cd:authoredResource true .
+  ex:eh26-scan-eic-30 a cd:Observation ; cd:position 30 ; cd:xValue 2.900 ; cd:numericValue 0.696512 ; cd:authoredResource true .
+  ex:eh26-scan-eic-31 a cd:Observation ; cd:position 31 ; cd:xValue 3.000 ; cd:numericValue 0.581866 ; cd:authoredResource true .
+  ex:eh26-scan-eic-32 a cd:Observation ; cd:position 32 ; cd:xValue 3.100 ; cd:numericValue 0.457826 ; cd:authoredResource true .
+  ex:eh26-scan-eic-33 a cd:Observation ; cd:position 33 ; cd:xValue 3.200 ; cd:numericValue 0.339194 ; cd:authoredResource true .
+  ex:eh26-scan-eic-34 a cd:Observation ; cd:position 34 ; cd:xValue 3.300 ; cd:numericValue 0.244487 ; cd:authoredResource true .
+  ex:eh26-scan-eic-35 a cd:Observation ; cd:position 35 ; cd:xValue 3.400 ; cd:numericValue 0.177026 ; cd:authoredResource true .
+  ex:eh26-scan-eic-36 a cd:Observation ; cd:position 36 ; cd:xValue 3.500 ; cd:numericValue 0.127058 ; cd:authoredResource true .
+  ex:eh26-scan-eic-37 a cd:Observation ; cd:position 37 ; cd:xValue 3.600 ; cd:numericValue 0.092352 ; cd:authoredResource true .
+  ex:eh26-scan-eic-38 a cd:Observation ; cd:position 38 ; cd:xValue 3.700 ; cd:numericValue 0.081543 ; cd:authoredResource true .
+  ex:eh26-scan-eic-39 a cd:Observation ; cd:position 39 ; cd:xValue 3.800 ; cd:numericValue 0.096582 ; cd:authoredResource true .
+  ex:eh26-scan-eic-40 a cd:Observation ; cd:position 40 ; cd:xValue 3.900 ; cd:numericValue 0.128428 ; cd:authoredResource true .
+  ex:eh26-scan-eic-41 a cd:Observation ; cd:position 41 ; cd:xValue 4.000 ; cd:numericValue 0.173749 ; cd:authoredResource true .
+  ex:eh26-scan-eic-42 a cd:Observation ; cd:position 42 ; cd:xValue 4.100 ; cd:numericValue 0.239606 ; cd:authoredResource true .
+  ex:eh26-scan-eic-43 a cd:Observation ; cd:position 43 ; cd:xValue 4.200 ; cd:numericValue 0.324411 ; cd:authoredResource true .
+  ex:eh26-scan-eic-44 a cd:Observation ; cd:position 44 ; cd:xValue 4.300 ; cd:numericValue 0.408141 ; cd:authoredResource true .
+  ex:eh26-scan-eic-45 a cd:Observation ; cd:position 45 ; cd:xValue 4.400 ; cd:numericValue 0.469864 ; cd:authoredResource true .
+  ex:eh26-scan-eic-46 a cd:Observation ; cd:position 46 ; cd:xValue 4.500 ; cd:numericValue 0.503162 ; cd:authoredResource true .
+  ex:eh26-scan-eic-47 a cd:Observation ; cd:position 47 ; cd:xValue 4.600 ; cd:numericValue 0.506678 ; cd:authoredResource true .
+  ex:eh26-scan-eic-48 a cd:Observation ; cd:position 48 ; cd:xValue 4.700 ; cd:numericValue 0.473816 ; cd:authoredResource true .
+  ex:eh26-scan-eic-49 a cd:Observation ; cd:position 49 ; cd:xValue 4.800 ; cd:numericValue 0.404938 ; cd:authoredResource true .
+  ex:eh26-scan-eic-50 a cd:Observation ; cd:position 50 ; cd:xValue 4.900 ; cd:numericValue 0.319347 ; cd:authoredResource true .
+  ex:eh26-scan-eic-51 a cd:Observation ; cd:position 51 ; cd:xValue 5.000 ; cd:numericValue 0.240480 ; cd:authoredResource true .
+  ex:eh26-scan-eic-52 a cd:Observation ; cd:position 52 ; cd:xValue 5.100 ; cd:numericValue 0.175211 ; cd:authoredResource true .
+  ex:eh26-scan-eic-53 a cd:Observation ; cd:position 53 ; cd:xValue 5.200 ; cd:numericValue 0.119623 ; cd:authoredResource true .
+  ex:eh26-scan-eic-54 a cd:Observation ; cd:position 54 ; cd:xValue 5.300 ; cd:numericValue 0.077044 ; cd:authoredResource true .
+  ex:eh26-scan-eic-55 a cd:Observation ; cd:position 55 ; cd:xValue 5.400 ; cd:numericValue 0.054629 ; cd:authoredResource true .
+  ex:eh26-scan-eic-56 a cd:Observation ; cd:position 56 ; cd:xValue 5.500 ; cd:numericValue 0.046983 ; cd:authoredResource true .
+  ex:eh26-scan-eic-57 a cd:Observation ; cd:position 57 ; cd:xValue 5.600 ; cd:numericValue 0.040265 ; cd:authoredResource true .
+  ex:eh26-scan-eic-58 a cd:Observation ; cd:position 58 ; cd:xValue 5.700 ; cd:numericValue 0.031667 ; cd:authoredResource true .
+  ex:eh26-scan-eic-59 a cd:Observation ; cd:position 59 ; cd:xValue 5.800 ; cd:numericValue 0.029528 ; cd:authoredResource true .
+  ex:eh26-scan-eic-60 a cd:Observation ; cd:position 60 ; cd:xValue 5.900 ; cd:numericValue 0.034323 ; cd:authoredResource true .
+  ex:eh26-scan-eic-61 a cd:Observation ; cd:position 61 ; cd:xValue 6.000 ; cd:numericValue 0.035666 ; cd:authoredResource true .
+  ex:eh26-scan-fit1 a cd:Dataset ; skos:prefLabel "Local fit 1"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-fit1-01, ex:eh26-scan-fit1-02, ex:eh26-scan-fit1-03, ex:eh26-scan-fit1-04, ex:eh26-scan-fit1-05, ex:eh26-scan-fit1-06, ex:eh26-scan-fit1-07, ex:eh26-scan-fit1-08, ex:eh26-scan-fit1-09, ex:eh26-scan-fit1-10, ex:eh26-scan-fit1-11, ex:eh26-scan-fit1-12, ex:eh26-scan-fit1-13 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-01 a cd:Observation ; cd:position 1 ; cd:xValue 1.200 ; cd:numericValue 0.034632 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-02 a cd:Observation ; cd:position 2 ; cd:xValue 1.300 ; cd:numericValue 0.030485 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-03 a cd:Observation ; cd:position 3 ; cd:xValue 1.400 ; cd:numericValue 0.028696 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-04 a cd:Observation ; cd:position 4 ; cd:xValue 1.500 ; cd:numericValue 0.028885 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-05 a cd:Observation ; cd:position 5 ; cd:xValue 1.600 ; cd:numericValue 0.031092 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-06 a cd:Observation ; cd:position 6 ; cd:xValue 1.700 ; cd:numericValue 0.035788 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-07 a cd:Observation ; cd:position 7 ; cd:xValue 1.800 ; cd:numericValue 0.044049 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-08 a cd:Observation ; cd:position 8 ; cd:xValue 1.900 ; cd:numericValue 0.058364 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.000 ; cd:numericValue 0.083796 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-10 a cd:Observation ; cd:position 10 ; cd:xValue 2.100 ; cd:numericValue 0.130372 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-11 a cd:Observation ; cd:position 11 ; cd:xValue 2.200 ; cd:numericValue 0.219795 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-12 a cd:Observation ; cd:position 12 ; cd:xValue 2.300 ; cd:numericValue 0.401543 ; cd:authoredResource true .
+  ex:eh26-scan-fit1-13 a cd:Observation ; cd:position 13 ; cd:xValue 2.400 ; cd:numericValue 0.794917 ; cd:authoredResource true .
+  ex:eh26-scan-stage1 a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "1  Short window · leading edge"@en ; cd:targetObservation ex:eh26-scan-fit1-07 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:eh26-scan-fit2 a cd:Dataset ; skos:prefLabel "Local fit 2"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-fit2-01, ex:eh26-scan-fit2-02, ex:eh26-scan-fit2-03, ex:eh26-scan-fit2-04, ex:eh26-scan-fit2-05, ex:eh26-scan-fit2-06, ex:eh26-scan-fit2-07, ex:eh26-scan-fit2-08, ex:eh26-scan-fit2-09, ex:eh26-scan-fit2-10, ex:eh26-scan-fit2-11, ex:eh26-scan-fit2-12, ex:eh26-scan-fit2-13 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-01 a cd:Observation ; cd:position 1 ; cd:xValue 1.600 ; cd:numericValue 0.028980 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-02 a cd:Observation ; cd:position 2 ; cd:xValue 1.700 ; cd:numericValue 0.032615 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-03 a cd:Observation ; cd:position 3 ; cd:xValue 1.800 ; cd:numericValue 0.040390 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-04 a cd:Observation ; cd:position 4 ; cd:xValue 1.900 ; cd:numericValue 0.055036 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-05 a cd:Observation ; cd:position 5 ; cd:xValue 2.000 ; cd:numericValue 0.082519 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-06 a cd:Observation ; cd:position 6 ; cd:xValue 2.100 ; cd:numericValue 0.136141 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-07 a cd:Observation ; cd:position 7 ; cd:xValue 2.200 ; cd:numericValue 0.247143 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-08 a cd:Observation ; cd:position 8 ; cd:xValue 2.300 ; cd:numericValue 0.435865 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.400 ; cd:numericValue 0.659345 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-10 a cd:Observation ; cd:position 10 ; cd:xValue 2.500 ; cd:numericValue 0.855526 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-11 a cd:Observation ; cd:position 11 ; cd:xValue 2.600 ; cd:numericValue 0.952164 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-12 a cd:Observation ; cd:position 12 ; cd:xValue 2.700 ; cd:numericValue 0.908970 ; cd:authoredResource true .
+  ex:eh26-scan-fit2-13 a cd:Observation ; cd:position 13 ; cd:xValue 2.800 ; cd:numericValue 0.744297 ; cd:authoredResource true .
+  ex:eh26-scan-stage2 a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "2  Short window · approaching the peak"@en ; cd:targetObservation ex:eh26-scan-fit2-07 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:eh26-scan-fit3 a cd:Dataset ; skos:prefLabel "Local fit 3"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-fit3-01, ex:eh26-scan-fit3-02, ex:eh26-scan-fit3-03, ex:eh26-scan-fit3-04, ex:eh26-scan-fit3-05, ex:eh26-scan-fit3-06, ex:eh26-scan-fit3-07, ex:eh26-scan-fit3-08, ex:eh26-scan-fit3-09, ex:eh26-scan-fit3-10, ex:eh26-scan-fit3-11, ex:eh26-scan-fit3-12, ex:eh26-scan-fit3-13 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-01 a cd:Observation ; cd:position 1 ; cd:xValue 2.000 ; cd:numericValue 0.073459 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-02 a cd:Observation ; cd:position 2 ; cd:xValue 2.100 ; cd:numericValue 0.153976 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-03 a cd:Observation ; cd:position 3 ; cd:xValue 2.200 ; cd:numericValue 0.283128 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-04 a cd:Observation ; cd:position 4 ; cd:xValue 2.300 ; cd:numericValue 0.456710 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-05 a cd:Observation ; cd:position 5 ; cd:xValue 2.400 ; cd:numericValue 0.646284 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-06 a cd:Observation ; cd:position 6 ; cd:xValue 2.500 ; cd:numericValue 0.802292 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-07 a cd:Observation ; cd:position 7 ; cd:xValue 2.600 ; cd:numericValue 0.873709 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-08 a cd:Observation ; cd:position 8 ; cd:xValue 2.700 ; cd:numericValue 0.864984 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.800 ; cd:numericValue 0.806746 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-10 a cd:Observation ; cd:position 10 ; cd:xValue 2.900 ; cd:numericValue 0.708848 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-11 a cd:Observation ; cd:position 11 ; cd:xValue 3.000 ; cd:numericValue 0.586755 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-12 a cd:Observation ; cd:position 12 ; cd:xValue 3.100 ; cd:numericValue 0.457559 ; cd:authoredResource true .
+  ex:eh26-scan-fit3-13 a cd:Observation ; cd:position 13 ; cd:xValue 3.200 ; cd:numericValue 0.336144 ; cd:authoredResource true .
+  ex:eh26-scan-stage3 a cd:ChartPointAnnotation ; cd:position 1 ; cd:body "Selected fit · first peak"@en ; cd:targetObservation ex:eh26-scan-fit3-07 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:eh26-scan-fit4 a cd:Dataset ; skos:prefLabel "Local fit 4"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-fit4-01, ex:eh26-scan-fit4-02, ex:eh26-scan-fit4-03, ex:eh26-scan-fit4-04, ex:eh26-scan-fit4-05, ex:eh26-scan-fit4-06, ex:eh26-scan-fit4-07, ex:eh26-scan-fit4-08, ex:eh26-scan-fit4-09, ex:eh26-scan-fit4-10, ex:eh26-scan-fit4-11, ex:eh26-scan-fit4-12, ex:eh26-scan-fit4-13, ex:eh26-scan-fit4-14, ex:eh26-scan-fit4-15, ex:eh26-scan-fit4-16, ex:eh26-scan-fit4-17, ex:eh26-scan-fit4-18, ex:eh26-scan-fit4-19, ex:eh26-scan-fit4-20, ex:eh26-scan-fit4-21, ex:eh26-scan-fit4-22, ex:eh26-scan-fit4-23 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-01 a cd:Observation ; cd:position 1 ; cd:xValue 1.500 ; cd:numericValue 0.015626 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-02 a cd:Observation ; cd:position 2 ; cd:xValue 1.600 ; cd:numericValue 0.025590 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-03 a cd:Observation ; cd:position 3 ; cd:xValue 1.700 ; cd:numericValue 0.040583 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-04 a cd:Observation ; cd:position 4 ; cd:xValue 1.800 ; cd:numericValue 0.062327 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-05 a cd:Observation ; cd:position 5 ; cd:xValue 1.900 ; cd:numericValue 0.092695 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-06 a cd:Observation ; cd:position 6 ; cd:xValue 2.000 ; cd:numericValue 0.133503 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-07 a cd:Observation ; cd:position 7 ; cd:xValue 2.100 ; cd:numericValue 0.186201 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-08 a cd:Observation ; cd:position 8 ; cd:xValue 2.200 ; cd:numericValue 0.251496 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-09 a cd:Observation ; cd:position 9 ; cd:xValue 2.300 ; cd:numericValue 0.328952 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-10 a cd:Observation ; cd:position 10 ; cd:xValue 2.400 ; cd:numericValue 0.416669 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-11 a cd:Observation ; cd:position 11 ; cd:xValue 2.500 ; cd:numericValue 0.511098 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-12 a cd:Observation ; cd:position 12 ; cd:xValue 2.600 ; cd:numericValue 0.607118 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-13 a cd:Observation ; cd:position 13 ; cd:xValue 2.700 ; cd:numericValue 0.685483 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-14 a cd:Observation ; cd:position 14 ; cd:xValue 2.800 ; cd:numericValue 0.722061 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-15 a cd:Observation ; cd:position 15 ; cd:xValue 2.900 ; cd:numericValue 0.709585 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-16 a cd:Observation ; cd:position 16 ; cd:xValue 3.000 ; cd:numericValue 0.650563 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-17 a cd:Observation ; cd:position 17 ; cd:xValue 3.100 ; cd:numericValue 0.556453 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-18 a cd:Observation ; cd:position 18 ; cd:xValue 3.200 ; cd:numericValue 0.444038 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-19 a cd:Observation ; cd:position 19 ; cd:xValue 3.300 ; cd:numericValue 0.330573 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-20 a cd:Observation ; cd:position 20 ; cd:xValue 3.400 ; cd:numericValue 0.229597 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-21 a cd:Observation ; cd:position 21 ; cd:xValue 3.500 ; cd:numericValue 0.148772 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-22 a cd:Observation ; cd:position 22 ; cd:xValue 3.600 ; cd:numericValue 0.089935 ; cd:authoredResource true .
+  ex:eh26-scan-fit4-23 a cd:Observation ; cd:position 23 ; cd:xValue 3.700 ; cd:numericValue 0.050721 ; cd:authoredResource true .
+  ex:eh26-scan-stage4 a cd:ChartPointAnnotation ; cd:position 4 ; cd:body "4  Wider window · fit the same region at another scale"@en ; cd:targetObservation ex:eh26-scan-fit4-12 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:eh26-scan-fit5 a cd:Dataset ; skos:prefLabel "Local fit 5"@en ; cd:unit "a.u." ; cd:hasObservation ex:eh26-scan-fit5-01, ex:eh26-scan-fit5-02, ex:eh26-scan-fit5-03, ex:eh26-scan-fit5-04, ex:eh26-scan-fit5-05, ex:eh26-scan-fit5-06, ex:eh26-scan-fit5-07, ex:eh26-scan-fit5-08, ex:eh26-scan-fit5-09, ex:eh26-scan-fit5-10, ex:eh26-scan-fit5-11, ex:eh26-scan-fit5-12, ex:eh26-scan-fit5-13 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-01 a cd:Observation ; cd:position 1 ; cd:xValue 3.900 ; cd:numericValue 0.122708 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-02 a cd:Observation ; cd:position 2 ; cd:xValue 4.000 ; cd:numericValue 0.180808 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-03 a cd:Observation ; cd:position 3 ; cd:xValue 4.100 ; cd:numericValue 0.250449 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-04 a cd:Observation ; cd:position 4 ; cd:xValue 4.200 ; cd:numericValue 0.326123 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-05 a cd:Observation ; cd:position 5 ; cd:xValue 4.300 ; cd:numericValue 0.399210 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-06 a cd:Observation ; cd:position 6 ; cd:xValue 4.400 ; cd:numericValue 0.459389 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-07 a cd:Observation ; cd:position 7 ; cd:xValue 4.500 ; cd:numericValue 0.496957 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-08 a cd:Observation ; cd:position 8 ; cd:xValue 4.600 ; cd:numericValue 0.501945 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-09 a cd:Observation ; cd:position 9 ; cd:xValue 4.700 ; cd:numericValue 0.470147 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-10 a cd:Observation ; cd:position 10 ; cd:xValue 4.800 ; cd:numericValue 0.408368 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-11 a cd:Observation ; cd:position 11 ; cd:xValue 4.900 ; cd:numericValue 0.328935 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-12 a cd:Observation ; cd:position 12 ; cd:xValue 5.000 ; cd:numericValue 0.245702 ; cd:authoredResource true .
+  ex:eh26-scan-fit5-13 a cd:Observation ; cd:position 13 ; cd:xValue 5.100 ; cd:numericValue 0.170195 ; cd:authoredResource true .
+  ex:eh26-scan-stage5 a cd:ChartPointAnnotation ; cd:position 2 ; cd:body "Selected fit · second peak"@en ; cd:targetObservation ex:eh26-scan-fit5-07 ; cd:focusSeries true ; cd:authoredResource true .
+  ex:eh26-qpeaks-scan a cd:ChartDefinition ; cd:chartType cd:LineChart ;
+    skos:prefLabel "Moving regression windows"@en ;
+    cd:body "Illustrative ion trace. Solid and dashed lines show local fits at two window widths. Selected fits are lifted in step two. Step three shows the shaded area under each extrapolated model at its original intensity; dashed extensions lie outside the fitted time interval."@en ;
+    cd:xAxisLabel "Relative retention time"@en ; cd:yAxisLabel "Ion signal"@en ; cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:eh26-scan-eic ; dct:hasPart ex:eh26-scan-fit3, ex:eh26-scan-fit5 ;
+    cd:hasChartAnnotation ex:eh26-scan-stage3, ex:eh26-scan-stage5 ;
+    dct:references ex:ted-qpeaks ; cd:hasSource ex:ted-source-processing-description ; cd:authoredResource true .
+  ex:ted-source-processing-description cd:supportsResource ex:eh26-qpeaks-scan .
+}
+
+<https://w3id.org/project-chemie-digital/graph/media/eh26-review-illustrations> {
+  ex:eh26-signal-evidence-figure a cd:MediaAsset ;
+    skos:prefLabel "From an ion signal to a traceable result"@en ;
+    cd:uri "/talks/eh26-signal-evidence.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "A chromatogram leads through marker selection and calibration to an estimate of polymer mass with links to the data and decisions behind it."@en ;
+    cd:hasSource ex:ted-source-processing-description ; cd:authoredResource true .
+  ex:ted-source-processing-description cd:supportsResource ex:eh26-signal-evidence-figure .
+  ex:eh26-evidence-recap-figure a cd:MediaAsset ;
+    skos:prefLabel "Three checks for a reusable analytical result"@en ;
+    cd:uri "/talks/eh26-evidence-recap.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Link calibration to the result, record how the result was produced, and check that adjacent processing steps exchange compatible data."@en ;
+    cd:hasSource ex:ted-source-fair ; cd:authoredResource true .
+  ex:ted-source-fair cd:supportsResource ex:eh26-evidence-recap-figure .
+}
+
+<https://w3id.org/project-chemie-digital/graph/diagrams/eh26-fair-review> {
+  ex:eh26-fair-result a cd:DiagramNode ; cd:position 1 ; skos:prefLabel "Reported SBR result"@en ; cd:body "Polymer per sample mass\n• Linked to the evidence"@en ; cd:visualRole "hierarchy-root" ; cd:visualMotif "workflow-results" ; cd:authoredResource true .
+  ex:eh26-fair-input a cd:DiagramNode ; cd:position 2 ; skos:prefLabel "Signal and marker"@en ; cd:body "Trace the signal\n• File, ion trace and marker area"@en ; cd:visualRole "hierarchy-option" ; cd:visualMotif "data-import" ; cd:authoredResource true .
+  ex:eh26-fair-edge-input a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "traces to"@en ; cd:sourceNode ex:eh26-fair-result ; cd:targetNode ex:eh26-fair-input ; cd:authoredResource true .
+  ex:eh26-fair-calibration a cd:DiagramNode ; cd:position 3 ; skos:prefLabel "Calibration"@en ; cd:body "Recover the calibration\n• Standards, window and model"@en ; cd:visualRole "hierarchy-option" ; cd:visualMotif "regression" ; cd:authoredResource true .
+  ex:eh26-fair-edge-calibration a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "uses"@en ; cd:sourceNode ex:eh26-fair-result ; cd:targetNode ex:eh26-fair-calibration ; cd:authoredResource true .
+  ex:eh26-fair-parameters a cd:DiagramNode ; cd:position 4 ; skos:prefLabel "Processing settings"@en ; cd:body "Reproduce the decisions\n• Settings, criteria and version"@en ; cd:visualRole "hierarchy-option" ; cd:visualMotif "peak-search" ; cd:authoredResource true .
+  ex:eh26-fair-edge-parameters a cd:DiagramEdge ; cd:position 3 ; skos:prefLabel "records"@en ; cd:sourceNode ex:eh26-fair-result ; cd:targetNode ex:eh26-fair-parameters ; cd:authoredResource true .
+  ex:eh26-fair-reuse a cd:DiagramNode ; cd:position 5 ; skos:prefLabel "Find, access and reuse"@en ; cd:body "Find and reuse\n• Persistent IDs, access and license"@en ; cd:visualRole "hierarchy-other" ; cd:visualMotif "semantic-model" ; cd:authoredResource true .
+  ex:eh26-fair-edge-reuse a cd:DiagramEdge ; cd:position 4 ; skos:prefLabel "supports reuse"@en ; cd:sourceNode ex:eh26-fair-result ; cd:targetNode ex:eh26-fair-reuse ; cd:authoredResource true .
+  ex:eh26-fair-stage-1 a cd:DiagramState ; cd:position 1 ; skos:prefLabel "Follow the result"@en ; cd:activeDiagramNode ex:eh26-fair-result, ex:eh26-fair-input ; cd:activeDiagramEdge ex:eh26-fair-edge-input ; cd:authoredResource true .
+  ex:eh26-fair-stage-2 a cd:DiagramState ; cd:position 2 ; skos:prefLabel "Inspect its evidence"@en ; cd:activeDiagramNode ex:eh26-fair-result, ex:eh26-fair-input, ex:eh26-fair-calibration, ex:eh26-fair-parameters ; cd:activeDiagramEdge ex:eh26-fair-edge-input, ex:eh26-fair-edge-calibration, ex:eh26-fair-edge-parameters ; cd:authoredResource true .
+  ex:eh26-fair-stage-3 a cd:DiagramState ; cd:position 3 ; skos:prefLabel "Make it reusable"@en ; cd:activeDiagramNode ex:eh26-fair-result, ex:eh26-fair-input, ex:eh26-fair-calibration, ex:eh26-fair-parameters, ex:eh26-fair-reuse ; cd:activeDiagramEdge ex:eh26-fair-edge-input, ex:eh26-fair-edge-calibration, ex:eh26-fair-edge-parameters, ex:eh26-fair-edge-reuse ; cd:authoredResource true .
+  ex:eh26-fair-evidence a cd:FlowDiagram ;
+    skos:prefLabel "Evidence behind a reported result"@en ;
+    cd:body "A shared vocabulary links scientific objects and their provenance across tools."@en ;
+    cd:hasDiagramNode ex:eh26-fair-result, ex:eh26-fair-input, ex:eh26-fair-calibration, ex:eh26-fair-parameters, ex:eh26-fair-reuse ; cd:hasDiagramEdge ex:eh26-fair-edge-input, ex:eh26-fair-edge-calibration, ex:eh26-fair-edge-parameters, ex:eh26-fair-edge-reuse ;
+    cd:hasDiagramState ex:eh26-fair-stage-1, ex:eh26-fair-stage-2, ex:eh26-fair-stage-3 ; cd:hasSource ex:ted-source-fair ; cd:authoredResource true .
+  ex:ted-source-fair cd:supportsResource ex:eh26-fair-evidence .
+}

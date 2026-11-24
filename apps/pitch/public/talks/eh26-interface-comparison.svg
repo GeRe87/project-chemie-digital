@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 365">
+<title>The same SHACL check before and after correction</title><desc>Peak detection produces a PeakVector. The initial IntegerValue input declaration fails the type check. After declaring PeakVector as the input, the same SHACL check passes.</desc>
+<g font-family="system-ui, sans-serif">
+<path d="M550 30V343" fill="none" stroke="#718b99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="58" y="55" font-size="27" font-weight="700" text-anchor="start" fill="#17313f">Original declaration</text>
+<text x="58" y="110" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Peak detection outputs</text>
+<text x="58" y="142" font-size="26" font-weight="700" text-anchor="start" fill="#006582">PeakVector</text>
+<path d="M58 170h385" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="58" y="209" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Peak integration expects</text>
+<text x="58" y="241" font-size="26" font-weight="700" text-anchor="start" fill="#a94311">IntegerValue</text>
+<rect x="58" y="273" width="378" height="55" rx="7" fill="#e8f3f7"/>
+<text x="76" y="308" font-size="21" font-weight="700" text-anchor="start" fill="#a94311">Mismatch · check fails</text>
+<text x="624" y="55" font-size="27" font-weight="700" text-anchor="start" fill="#17313f">Corrected declaration</text>
+<text x="624" y="110" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Peak detection outputs</text>
+<text x="624" y="142" font-size="26" font-weight="700" text-anchor="start" fill="#006582">PeakVector</text>
+<path d="M624 170h385" fill="none" stroke="#718b99" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="624" y="209" font-size="19" font-weight="400" text-anchor="start" fill="#17313f">Peak integration expects</text>
+<text x="624" y="241" font-size="26" font-weight="700" text-anchor="start" fill="#006582">PeakVector</text>
+<rect x="624" y="273" width="378" height="55" rx="7" fill="#e8f3f7"/>
+<text x="642" y="308" font-size="21" font-weight="700" text-anchor="start" fill="#006582">Matching types · check passes</text>
+</g></svg>

@@ -81,7 +81,7 @@ test("interactive runtime preparation stays pinned and the course dev entry prep
   assert.equal(rootPackage.scripts["prepare:interactive-runtime"], "python scripts/prepare_interactive_runtime.py");
   assert.equal(rootPackage.scripts["check:interactive-runtime"], "python scripts/prepare_interactive_runtime.py --check");
   assert.doesNotMatch(rootPackage.scripts["pitch:dev"], /prepare:interactive-runtime/);
-  assert.match(pitchPackage.scripts["dev:introduction"], /prepare_interactive_runtime\.py/);
+  assert.match(pitchPackage.scripts.dev, /generate:talks/);
 
   const prepSource = readFileSync(new URL("../../../scripts/prepare_interactive_runtime.py", import.meta.url), "utf8");
   assert.match(prepSource, /CODEMIRROR_VERSION = "6\.43\.6"/);

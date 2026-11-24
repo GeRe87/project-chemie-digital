@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 410">
+  <rect x="4" y="4" width="1192" height="402" rx="24" fill="#eef6f8"/>
+  <path d="M32 330h1136" fill="none" stroke="#006582" stroke-width="1.5" stroke-opacity=".15"/>
+  <g font-family="Arial, sans-serif" text-anchor="middle" stroke-linecap="round" stroke-linejoin="round">
+    <title>Presentation build steps</title>
+    <g>
+      <title>Measurement completes</title>
+      <ellipse cx="123" cy="318" rx="82" ry="9" fill="#006582" fill-opacity=".12"/>
+      <rect x="44" y="194" width="151" height="114" rx="13" fill="#cbe7ee" stroke="#006582" stroke-width="4"/>
+      <rect x="56" y="210" width="82" height="58" rx="5" fill="#eef6f8" stroke="#006582" stroke-width="3"/>
+      <path d="M64 250h12l9-23 12 32 10-19h21M148 222h32m-32 16h32m-32 16h32" fill="none" stroke="#006582" stroke-width="3.5"/>
+      <circle cx="170" cy="283" r="6" fill="#207350"/>
+      <path d="M66 309v6m105-6v6" stroke="#006582" stroke-width="5"/>
+      <text x="119" y="357" fill="#17313f" font-size="25" font-weight="700">TED-GC-MS</text>
+      <text x="119" y="384" fill="#17313f" font-size="18">Acquisition complete</text>
+    </g>
+    <g>
+      <title>Saved data file</title>
+      <path d="M203 247h30m-8-7 8 7-8 7" fill="none" stroke="#006582" stroke-width="3"/>
+      <path d="M247 210h49l22 22v65h-71z" fill="#e4f4f6" stroke="#006582" stroke-width="4"/>
+      <path d="M296 211v22h21m-58 48v-29m0 29h45m-38-6 9-10 7 3 8-15 8 10" fill="none" stroke="#006582" stroke-width="3"/>
+      <text x="283" y="357" fill="#17313f" font-size="25" font-weight="700">Data file</text>
+      <text x="283" y="384" fill="#17313f" font-size="18">Saved and ready</text>
+    </g>
+    <g>
+      <title>Event handler registers readiness</title>
+      <path d="M283 199v-80h203m-9-8 9 8-9 8" fill="none" stroke="#604493" stroke-width="3" stroke-opacity=".6"/>
+      <g opacity="0">
+        <title>Scan sweep</title>
+        <path d="M243 220h79" stroke="#a94311" stroke-width="14" stroke-opacity=".16"/>
+        <path d="M243 220h79" stroke="#a94311" stroke-width="4"/>
+      </g>
+      <rect x="496" y="57" width="205" height="116" rx="18" fill="#e7dff5" stroke="#604493" stroke-width="3.5"/>
+      <circle cx="599" cy="87" r="18" fill="none" stroke="#604493" stroke-width="2"/>
+      <path d="M584 88h8l4-8 7 15 4-8h7" fill="none" stroke="#604493" stroke-width="2.8"/>
+      <text x="599" y="132" fill="#17313f" font-size="23" font-weight="700">Event handler</text>
+      <text x="599" y="154" fill="#17313f" font-size="17">Registers events</text>
+      <circle cx="515" cy="72" r="4.5" fill="#207350"/>
+    </g>
+    <g>
+      <title>Execution engine runs the pipeline</title>
+      <path d="M600 179v27m-8-8 8 8 8-8" fill="none" stroke="#604493" stroke-width="3" stroke-opacity=".6"/>
+      <g opacity="0">
+        <title>Dispatch pulse</title>
+        <circle cx="600" cy="180" r="4.5" fill="#604493"/>
+      </g>
+      <rect x="512" y="214" width="172" height="106" rx="16" fill="#e7dff5" stroke="#604493" stroke-width="3.5"/>
+      <g transform="translate(570 263)">
+        <g>
+          <title>Turn clockwise</title>
+          <path d="M-6-32H6l2 9 8 4 8-4 8 10-6 7v10l6 7-8 10-8-4-8 4-2 9H-6l-2-9-8-4-8 4-8-10 6-7V-6l-6-7 8-10 8 4 8-4z" fill="#604493"/>
+          <circle r="10" fill="#e7dff5"/>
+        </g>
+      </g>
+      <g transform="translate(631 276)">
+        <g>
+          <title>Turn counterclockwise</title>
+          <path d="M-5-24H5l2 7 6 3 7-2 6 8-5 6v5l5 6-6 8-7-2-6 3-2 7H-5l-2-7-6-3-7 2-6-8 5-6v-5l-5-6 6-8 7 2 6-3z" fill="#604493"/>
+          <circle r="7" fill="#e7dff5"/>
+        </g>
+      </g>
+      <text x="598" y="357" fill="#17313f" font-size="25" font-weight="700">Execution engine</text>
+      <text x="598" y="384" fill="#17313f" font-size="18">Runs the configured pipeline</text>
+    </g>
+    <g>
+      <title>Completed report appears</title>
+      <path d="M697 262h91m-8-7 8 7-8 7" fill="none" stroke="#207350" stroke-width="3"/>
+      <path d="M800 210h61l24 24v74h-85z" fill="#d9ede5" stroke="#207350" stroke-width="4"/>
+      <path d="M860 212v24h23m-69 18 9 9 16-18m-25 38h56m-56 12h39" fill="none" stroke="#207350" stroke-width="3.5"/>
+      <text x="844" y="357" fill="#17313f" font-size="25" font-weight="700">Report</text>
+      <text x="844" y="384" fill="#17313f" font-size="18">Results and provenance</text>
+    </g>
+    <g>
+      <title>Handler registers the report, then sends it to storage</title>
+      <path d="M845 199v-80H713m8-8-8 8 8 8" fill="none" stroke="#604493" stroke-width="3" stroke-opacity=".7"/>
+      <g transform="translate(557 0)">
+        <g opacity="0">
+          <title>Scan sweep</title>
+          <path d="M242 220h91" stroke="#a94311" stroke-width="14" stroke-opacity=".16"/>
+          <path d="M242 220h91" stroke="#a94311" stroke-width="4"/>
+        </g>
+      </g>
+      <g>
+        <title>Delayed arrival</title>
+        <path d="M712 82h384v119m-8-8 8 8 8-8" fill="none" stroke="#207350" stroke-width="3"/>
+        <rect x="865" y="60" width="53" height="43" rx="5" fill="#d9ede5" stroke="#207350" stroke-width="3"/>
+        <path d="m868 64 23 19 24-19" fill="none" stroke="#207350" stroke-width="3"/>
+        <path d="M1025 293v-45q0-37 39-37h65q37 0 37 37v45z" fill="#d9ede5" stroke="#207350" stroke-width="4"/>
+        <path d="M1111 293v-45q0-36 24-36m-90 37h53m-27 44v25m-17 0h35" fill="none" stroke="#207350" stroke-width="4"/>
+        <circle cx="1088" cy="274" r="4.5" fill="#207350"/>
+        <text x="1094" y="357" fill="#17313f" font-size="25" font-weight="700">Data store</text>
+        <text x="1094" y="384" fill="#17313f" font-size="18">Archived report</text>
+      </g>
+    </g>
+  </g>
+</svg>

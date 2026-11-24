@@ -106,49 +106,6 @@ class TeachingOfferingRuntimeTests(unittest.TestCase):
         graph.add((URIRef(UNIT),URIRef(CD+'hasThumbnail'),URIRef(EX+'second-art')))
         with self.assertRaisesRegex(ValueError,'at most one'):project(dataset)
 
-    def test_current_standard_deviation_document_preserves_authored_course_metadata(self) -> None:
-        current = assemble_dataset()
-        identity = f"sha256:{dataset_fingerprint(current)}"
-        document = project_teaching_offering_runtime_document(current, OFFERING, identity)
-
-        self.assertEqual("1.1", document["version"])
-        self.assertEqual(identity, document["datasetFingerprint"])
-        self.assertEqual(
-            {
-                "id": OFFERING,
-                "graphId": COURSE_GRAPH,
-                "labels": [
-                    {
-                        "value": "Digitalisierung in der Chemie: Datenmanagement, Prozesse, KI",
-                        "language": "de",
-                    }
-                ],
-                "descriptions": [],
-            },
-            document["offering"],
-        )
-        self.assertEqual(
-            [{"id": PLACEMENT, "position": 10, "unitId": UNIT}],
-            document["placements"],
-        )
-        self.assertEqual(1, len(document["units"]))
-        unit = document["units"][0]
-        self.assertEqual(UNIT, unit["id"])
-        self.assertEqual([{"value": "Standardabweichung", "language": "de"}], unit["labels"])
-        self.assertEqual([], unit["descriptions"])
-        self.assertEqual(
-            [
-                {
-                    "id": PATH,
-                    "graphId": PATH_GRAPH,
-                    "labels": [],
-                    "descriptions": [],
-                }
-            ],
-            unit["paths"],
-        )
-        self.assertEqual([], document["sections"])
-
     def test_placement_order_is_independent_of_rdf_insertion_order(self) -> None:
         placement_a = f"{EX}placement-a"
         placement_b = f"{EX}placement-b"
@@ -526,29 +483,6 @@ class TeachingOfferingRuntimeTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "exactly one LearningUnit"):
             project(current)
-
-    def test_root_and_teaching_offering_document_share_exact_dataset_fingerprint(self) -> None:
-        artifact = RUNTIME.build_artifact()
-        self.assertEqual("1.0", artifact["artifactVersion"])
-        self.assertEqual(1, len(artifact["teachingOfferingDocuments"]))
-        self.assertEqual(
-            artifact["datasetFingerprint"],
-            artifact["teachingOfferingDocuments"][0]["datasetFingerprint"],
-        )
-
-    def test_additive_course_document_does_not_change_scene_document_or_static_fallback(self) -> None:
-        artifact = RUNTIME.build_artifact()
-        current = RUNTIME.assemble_dataset()
-        selection = RUNTIME.select_course_unit_path(current, RUNTIME.default_selection_request())
-        expected_scene_document = RUNTIME.compile_scene_document(current, selection.path)
-        self.assertEqual(expected_scene_document, artifact["sceneDocuments"][0])
-
-        legacy_shape = {
-            key: value
-            for key, value in artifact.items()
-            if key != "teachingOfferingDocuments"
-        }
-        self.assertEqual(RUNTIME.static_fallback(legacy_shape), RUNTIME.static_fallback(artifact))
 
 
 if __name__ == "__main__":

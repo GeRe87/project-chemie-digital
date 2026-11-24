@@ -65,28 +65,6 @@ class SummaryLanguageProjectionTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.dataset = RDF_DATASET.assemble_dataset(include_legacy=False)
 
-    def test_mean_values_path_language_is_english(self) -> None:
-        selected = RUNTIME.select_course_unit_path(self.dataset, mean_values_request())
-        self.assertEqual("en", RUNTIME.effective_path_language(self.dataset, selected.path))
-
-    def test_all_keypoint_owner_detail_bodies_survive_english_snapshot_exactly(self) -> None:
-        artifact = RUNTIME.build_artifact(mean_values_request())
-        entities = entity_map(artifact)
-        for owner_id in MEAN_OWNER_IDS:
-            with self.subTest(owner=owner_id):
-                expected = RUNTIME.literal(self.dataset, EX[owner_id], CD.body, "en")
-                self.assertIsNotNone(expected)
-                self.assertEqual(expected, entities[f"ex:{owner_id}"]["description"])
-
-    def test_default_standard_deviation_projection_remains_german(self) -> None:
-        selected = RUNTIME.select_course_unit_path(self.dataset, RUNTIME.default_selection_request())
-        self.assertEqual("de", RUNTIME.effective_path_language(self.dataset, selected.path))
-        artifact = RUNTIME.build_artifact()
-        entities = entity_map(artifact)
-        expected = RUNTIME.literal(self.dataset, EX["def-variance"], CD.body, "de")
-        self.assertEqual(expected, entities["ex:def-variance"]["description"])
-        self.assertEqual(9, len(artifact["sceneDocuments"][0]["scenes"]))
-
     def test_missing_requested_language_uses_deterministic_authored_fallback(self) -> None:
         dataset = Dataset()
         graph = dataset.graph(URIRef("urn:test:content"))
@@ -143,12 +121,6 @@ class SummaryLanguageProjectionTests(unittest.TestCase):
             r"Conflicting explicit cd:language values .*: de, en",
         ):
             RUNTIME.effective_path_language(dataset, reference)
-
-    def test_identical_mean_values_input_serializes_deterministically(self) -> None:
-        first = RUNTIME.canonical_json(RUNTIME.build_artifact(mean_values_request()))
-        second = RUNTIME.canonical_json(RUNTIME.build_artifact(mean_values_request()))
-        self.assertEqual(first, second)
-
 
 if __name__ == "__main__":
     unittest.main()

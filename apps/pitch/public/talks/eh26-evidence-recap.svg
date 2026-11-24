@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 365">
+  <title>Three checks for a reusable analytical result</title>
+  <desc>Link calibration to the result, record how the result was produced, and check that adjacent processing steps exchange compatible data.</desc>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#17313f">
+    <path d="M170 226C291 226 364 185 550 226C736 267 809 226 930 226" fill="none" stroke="#718b99" stroke-width="3"/>
+    <circle cx="170" cy="226" r="8" fill="#006582"/><circle cx="550" cy="226" r="8" fill="#a94311"/><circle cx="930" cy="226" r="8" fill="#604493"/>
+    <circle cx="170" cy="114" r="83" fill="#e8f3f7"/>
+    <path d="M121 154H222M121 154V75M133 143L208 86" fill="none" stroke="#006582" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="149" cy="132" r="7" fill="#006582"/><circle cx="173" cy="109" r="7" fill="#006582"/><circle cx="199" cy="99" r="7" fill="#006582"/>
+    <circle cx="550" cy="114" r="83" fill="#fae9db"/>
+    <path d="M527 77H573M512 104L539 82M588 104L561 82M516 145L543 120M584 145L557 120" fill="none" stroke="#a94311" stroke-width="4"/>
+    <circle cx="550" cy="78" r="13" fill="#a94311"/><circle cx="510" cy="108" r="10" fill="#a94311"/><circle cx="590" cy="108" r="10" fill="#a94311"/>
+    <circle cx="550" cy="116" r="10" fill="#a94311"/><circle cx="516" cy="148" r="10" fill="#a94311"/><circle cx="584" cy="148" r="10" fill="#a94311"/>
+    <circle cx="930" cy="114" r="83" fill="#eee8f8"/>
+    <path d="M872 103H913V127H872ZM947 103H988V127H947ZM913 115H947M923 152L931 160L948 141" fill="none" stroke="#604493" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="170" y="285" font-size="26" font-weight="700">Trace the calibration</text>
+    <text x="550" y="285" font-size="26" font-weight="700">Record the decisions</text>
+    <text x="930" y="285" font-size="26" font-weight="700">Check the interfaces</text>
+    <text x="170" y="319" font-size="19">Which standards and model?</text>
+    <text x="550" y="319" font-size="19">Which signal and marker, and why?</text>
+    <text x="930" y="319" font-size="19">Can each step read the previous output?</text>
+  </g>
+</svg>

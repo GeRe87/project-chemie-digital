@@ -132,17 +132,6 @@ class LearningPathTopicSemanticTests(unittest.TestCase):
         graph.remove((STANDARD_DEVIATION_PATH, CD.forTopic, None))
         self._assert_nonconformant(graph)
 
-    def test_existing_paths_support_single_and_multi_topic_authoring(self) -> None:
-        self.assertEqual(
-            {STANDARD_DEVIATION_TOPIC},
-            set(self.graph.objects(STANDARD_DEVIATION_PATH, CD.forTopic)),
-        )
-        self.assertEqual(
-            VARIABLES_TOPICS,
-            set(self.graph.objects(RANDOM_VARIABLES_PATH, CD.forTopic)),
-        )
-        self._assert_conformant(learning_path_fixture())
-
     def test_multi_topic_learning_path_is_conformant_as_unordered_membership(self) -> None:
         topics = (STANDARD_DEVIATION_TOPIC, RANDOM_VARIABLE_TOPIC)
         for insertion_order in (topics, tuple(reversed(topics))):

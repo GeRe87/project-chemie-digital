@@ -1,0 +1,75 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/eh26-process-terminology> {
+  ex:eh26-terminology a cd:Concept ;
+    skos:prefLabel "Who Does What With the Data, and Why?"@en ;
+    cd:hasDefinition ex:eh26-terminology-definition ; cd:authoredResource true .
+  ex:eh26-terminology-definition a cd:Definition ;
+    cd:body "A terminology standard in development for describing digital data processes in RDF."@en ;
+    cd:authoredResource true .
+  ex:eh26-terminology-statement a cd:Interpretation ;
+    cd:body "Ports define the interface. The run record captures who did what and why."@en ;
+    cd:bodyFormat "markdown" ;
+    cd:authoredResource true .
+  ex:eh26-terminology-example a cd:FlowDiagram ;
+    skos:prefLabel "Describe one processing decision"@en ;
+    cd:body "Example: document how and why an SBR marker is selected."@en ;
+    cd:hasDiagramNode ex:eh26-term-root, ex:eh26-term-actor, ex:eh26-term-operation, ex:eh26-term-purpose ;
+    cd:hasDiagramEdge ex:eh26-term-edge-actor, ex:eh26-term-edge-operation, ex:eh26-term-edge-purpose ;
+    cd:authoredResource true .
+  ex:eh26-term-root a cd:DiagramNode ; cd:position 1 ;
+    skos:prefLabel "SBR marker selection"@en ; cd:body "One processing decision\n• Select an SBR marker"@en ;
+    cd:visualRole "hierarchy-root" ; cd:visualMotif "marker-selection" ; cd:authoredResource true .
+  ex:eh26-term-actor a cd:DiagramNode ; cd:position 2 ;
+    skos:prefLabel "Who or what?"@en ; cd:body "Identify the actor\n• Analyst or software version"@en ;
+    cd:visualRole "hierarchy-option" ; cd:visualMotif "semantic-model" ; cd:authoredResource true .
+  ex:eh26-term-operation a cd:DiagramNode ; cd:position 3 ;
+    skos:prefLabel "Does what?"@en ; cd:body "Record the operation\n• Feature in, marker area out"@en ;
+    cd:visualRole "hierarchy-option" ; cd:visualMotif "peak-search" ; cd:authoredResource true .
+  ex:eh26-term-purpose a cd:DiagramNode ; cd:position 4 ;
+    skos:prefLabel "Why?"@en ; cd:body "Explain the purpose\n• Estimate SBR mass"@en ;
+    cd:visualRole "hierarchy-option" ; cd:visualMotif "regression" ; cd:authoredResource true .
+  ex:eh26-term-edge-actor a cd:DiagramEdge ; cd:position 1 ; skos:prefLabel "records the actor"@en ;
+    cd:sourceNode ex:eh26-term-root ; cd:targetNode ex:eh26-term-actor ; cd:authoredResource true .
+  ex:eh26-term-edge-operation a cd:DiagramEdge ; cd:position 2 ; skos:prefLabel "records the action"@en ;
+    cd:sourceNode ex:eh26-term-root ; cd:targetNode ex:eh26-term-operation ; cd:authoredResource true .
+  ex:eh26-term-edge-purpose a cd:DiagramEdge ; cd:position 3 ; skos:prefLabel "records the purpose"@en ;
+    cd:sourceNode ex:eh26-term-root ; cd:targetNode ex:eh26-term-purpose ; cd:authoredResource true .
+  ex:eh26-thanks-heading a cd:Interpretation ; skos:prefLabel "Thank You"@en ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-environmental-health-2026> {
+  ex:path-talk-environmental-health-2026
+    cd:hasStep ex:eh26-step-terminology, ex:eh26-step-thanks ;
+    cd:forTopic ex:eh26-terminology, ex:ted-thanks .
+  ex:eh26-step-terminology a cd:PathStep ; cd:position 11 ; cd:usesScene ex:eh26-scene-terminology ;
+    cd:usesResource ex:eh26-terminology, ex:eh26-processing-unit-figure, ex:eh26-terminology-statement ; cd:authoredResource true .
+  ex:eh26-step-thanks a cd:PathStep ; cd:position 15 ; cd:usesScene ex:eh26-scene-thanks ;
+    cd:usesResource ex:eh26-thanks-heading, ex:ted-talks-qr, ex:ted-talks-website, ex:eh26-ude-logo ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/eh26-process-terminology-and-closing> {
+  ex:eh26-scene-terminology a cd:SceneDefinition ; cd:focusConcept ex:eh26-terminology ;
+    cd:hasSceneItem ex:eh26-term-title, ex:eh26-term-visual, ex:eh26-term-footer ;
+    cd:narration "The terminology describes reusable Processing Units through ports. For SBR marker selection, the input is a set of detected features. The parameter supplies the selection rule. The output is the selected marker and its area. For this particular run, we can also record the analyst or software version and the purpose of estimating SBR mass."@en ;
+    cd:authoredResource true .
+  ex:eh26-term-title a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:eh26-terminology ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-term-visual a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:eh26-processing-unit-figure ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-term-footer a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:eh26-terminology-statement ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-scene-thanks a cd:SceneDefinition ; cd:focusConcept ex:ted-thanks ;
+    cd:hasSceneItem ex:eh26-thanks-title, ex:eh26-thanks-qr, ex:eh26-thanks-contact, ex:eh26-thanks-logo ;
+    cd:narration "Thank you for listening. If you have any questions, please email me at gerrit.renner@uni-due.de. You can find this presentation by scanning the QR code on this slide or by visiting talks.odea-project.org."@en ; cd:authoredResource true .
+  ex:eh26-thanks-title a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:eh26-thanks-heading ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-thanks-qr a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:ted-talks-qr ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-thanks-contact a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:ted-talks-website ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-thanks-logo a cd:SceneItem ; cd:position 4 ; cd:selectsResource ex:eh26-ude-logo ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+}
