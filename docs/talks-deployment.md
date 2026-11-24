@@ -34,7 +34,7 @@ Output: `dist/talks`, with root `index.html`, compiled chunks, canonical
 transports, `course-runtime/static-course.html`, six WebP background layers, pinned
 vendor assets and `validated-build.json` hashes. The build uses `/` as its base:
 serve this directory at a domain root, not a nested path. The shared course build
-still uses `npm run build:chemometrics` and `dist/chemometrics`.
+is maintained on the `chemometrics` branch.
 
 The existing pinned webR/CodeMirror vendor preparation requires Internet access on
 the first build. Later offline builds may invoke the same Python builder with
@@ -44,7 +44,7 @@ No talk currently runs code, but the shared inherited capabilities remain availa
 Generation updates the disposable Pitch HTML fallback and ignored runtime files
 inside the **current worktree**. Run family generators/builds sequentially in that
 worktree, or use separate worktrees; never point them at another agent's checkout.
-Rebuild Talks after running the general test suite, which generates lecture previews.
+The Talks test suite generates only the Talks runtime.
 
 ## Local feedback and release checks
 
@@ -65,7 +65,7 @@ requires clean, unchanged source. The generator-owned Pitch and self-study HTML
 shells are the only end-of-run tracked-file exceptions; their before/after hashes
 are recorded explicitly. Validation runs in an isolated checkout, never a course
 publication checkout. Browser acceptance and independent review
-remain separate gates. No existing test or Chemometrics command is removed.
+remain separate gates. Course-specific commands and content tests are maintained on the `chemometrics` branch.
 
 The observed GitHub run at `7cefac37` failed after 590 Python tests in 3069.972
 seconds, with 20 failures and one error. It was not merely a timeout. Repeated

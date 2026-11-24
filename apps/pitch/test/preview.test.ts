@@ -5,11 +5,20 @@ import { presentationRuntimeSource } from "./runtime-source.ts";
 import {
   canonicalDatasetFingerprint,
   canonicalDatasetSnapshot,
-  compilePitchSceneDocuments,
+  canonicalRuntimeArtifact,
   compilePitchSceneDocumentsFromArtifact,
 } from "../src/graph-scene-data.ts";
 
 import { installNoNetworkGuard, isAllowedLocalRuntimeRequest, mountSceneDocuments, type MinimalElement } from "../src/preview.ts";
+
+const tedDocument = canonicalRuntimeArtifact.sceneDocuments.find(
+  (document) => document.sourcePathId === "ex:path-talk-microplastics-ted-gc-ms",
+);
+assert.ok(tedDocument);
+const compileTed = () => compilePitchSceneDocumentsFromArtifact({
+  ...canonicalRuntimeArtifact,
+  sceneDocuments: [tedDocument],
+});
 
 class FakeElement implements MinimalElement {
   private html = ""; className = ""; textContent: string | null = null; children: FakeElement[] = []; attributes = new Map<string,string>();
@@ -20,7 +29,7 @@ class FakeElement implements MinimalElement {
 }
 
 test("generic formula cards preserve paired source-linked text and independent KaTeX expressions", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const blocks = [
     { id: "heading", kind: "prose" as const, text: "Unrelated mathematical examples", intent: { kind: "introduce" as const }, source: [{ resourceId: "ex:heading" }] },
@@ -64,7 +73,7 @@ test("canonical runtime exposes one fingerprinted Dataset snapshot", () => {
 });
 
 test("accepts a valid single SceneDocument without Standard Deviation path coupling", () => {
-  const [standardDeviationDocument] = compilePitchSceneDocuments();
+  const [standardDeviationDocument] = compileTed();
   assert.ok(standardDeviationDocument);
   const genericPathId = "ex:alternate-fixture-path";
   const documents = compilePitchSceneDocumentsFromArtifact({
@@ -90,7 +99,7 @@ test("retains exactly-one SceneDocument cardinality for generic preview loading"
 });
 
 test("rejects unsupported canonical runtime artifact versions at runtime", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   assert.throws(
     () => compilePitchSceneDocumentsFromArtifact({
@@ -104,7 +113,7 @@ test("rejects unsupported canonical runtime artifact versions at runtime", () =>
 });
 
 test("mounts generic composition fit markers for an inferred scene", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -140,7 +149,7 @@ test("mounts generic composition fit markers for an inferred scene", () => {
 });
 
 test("wraps rendered list text in a neutral marker span without changing semantic text", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -227,7 +236,7 @@ test("generic card primitive restores definition entries as visual cards", () =>
 });
 
 test("definition-list renderer separates authored points and caps adaptive spacing", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -402,7 +411,7 @@ test("definition-list renderer separates authored points and caps adaptive spaci
 });
 
 test("chart stage host publishes chart and annotation resources for semantic disclosure", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -558,7 +567,7 @@ test("evidence split uses shared data-surface and visual primitives", () => {
 
 
 test("renders generic main-aside-note composition regions from block semantics", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -659,7 +668,7 @@ test("renders generic main-aside-note composition regions from block semantics",
 
 
 test("renders generic evidence-stage regions from table and chart semantics", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(
@@ -788,7 +797,7 @@ test("generic visual evidence compositions own analysis and worked-case presenta
 });
 
 test("renders evidence-stage context-data-visual regions from generic block structure", () => {
-  const [document] = compilePitchSceneDocuments();
+  const [document] = compileTed();
   assert.ok(document);
   const { presentationTitle: _title, ...sourceScene } = document.scenes[0]!;
   const heading = sourceScene.blocks.find(

@@ -134,7 +134,7 @@ class StaticCourseBuildTests(unittest.TestCase):
             file.write_text(RUNTIME.canonical_json(artifact), encoding="utf-8")
             model = STATIC.validate_transport(file, offering)
             self.assertEqual(artifact["presentationCollection"]["title"], model["title"])
-            self.assertEqual(1, len(artifact["sceneDocumentBindings"]))
+            self.assertEqual(2, len(artifact["sceneDocumentBindings"]))
             with self.assertRaises(subprocess.CalledProcessError):
                 STATIC.validate_transport(file, "https://example/wrong")
             artifact["sceneDocumentBindings"] = []

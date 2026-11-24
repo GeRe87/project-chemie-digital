@@ -29,6 +29,17 @@ class PresentationCollectionTest(unittest.TestCase):
         with patch.object(R, "assemble_dataset", return_value=self.dataset):
             return P.build_collection_artifact(EX + "talks")
 
+    def test_published_collection_keeps_ted_and_environmental_health(self):
+        artifact = P.build_collection_artifact(EX + "talks")
+        documents = {
+            document["sourcePathId"]: len(document["scenes"])
+            for document in artifact["sceneDocuments"]
+        }
+        self.assertEqual({
+            "ex:path-talk-microplastics-ted-gc-ms": 29,
+            "ex:path-talk-environmental-health-2026": 15,
+        }, documents)
+
     def test_exact_bindings_and_title_are_semantic(self):
         before = set(self.dataset.quads((None, None, None, None)))
         artifact = self.build()

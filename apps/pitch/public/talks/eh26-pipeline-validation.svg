@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 440">
+  <title>Validate the pipeline plan before execution, then record the run</title>
+  <desc>Four processing steps share three interfaces: ion traces, peak candidates and marker areas. Before the run, RDF describes the steps and SHACL checks the declared interfaces and required settings. During execution, the run record captures actual inputs, software versions and start and end times.</desc>
+  <g font-family="system-ui, sans-serif" fill="#17313f" text-anchor="middle">
+    <text x="560" y="34" font-size="22" font-weight="700">Three interfaces in one TED-GC-MS pipeline</text>
+    <path d="M105 112H1015" fill="none" stroke="#718b99" stroke-width="3"/>
+    <path d="M371 106l9 6-9 6m310-12 9 6-9 6m282-12 9 6-9 6" fill="none" stroke="#718b99" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#006582">
+      <circle cx="105" cy="112" r="9"/><circle cx="413" cy="112" r="9"/>
+      <circle cx="721" cy="112" r="9"/><circle cx="1015" cy="112" r="9"/>
+    </g>
+    <text x="105" y="85" font-size="21" font-weight="700">Extract ion traces</text>
+    <text x="413" y="85" font-size="21" font-weight="700">Detect peaks</text>
+    <text x="721" y="85" font-size="21" font-weight="700">Integrate markers</text>
+    <text x="1015" y="85" font-size="21" font-weight="700">Calibrate mass</text>
+    <g fill="#e8f3f7">
+      <rect x="180" y="94" width="154" height="37" rx="18"/>
+      <rect x="478" y="94" width="176" height="37" rx="18"/>
+      <rect x="790" y="94" width="158" height="37" rx="18"/>
+    </g>
+    <g fill="#006582" font-size="18" font-weight="700">
+      <text x="257" y="118">Ion traces</text>
+      <text x="566" y="118">Peak candidates</text>
+      <text x="869" y="118">Marker areas</text>
+    </g>
+    <path d="M39 171H1081M575 204V395" fill="none" stroke="#718b99" stroke-width="2"/>
+    <g text-anchor="start">
+      <text x="57" y="223" font-size="24" font-weight="700" fill="#006582">Before execution</text>
+      <text x="57" y="262" font-size="22" font-weight="700">Plan and check the interfaces</text>
+      <text x="57" y="302" font-size="20">RDF describes steps, inputs, outputs and settings.</text>
+      <text x="57" y="335" font-size="20">SHACL checks declared types, units and</text>
+      <text x="57" y="362" font-size="20">required settings against the rules we specify.</text>
+      <text x="616" y="223" font-size="24" font-weight="700" fill="#604493">During execution</text>
+      <text x="616" y="262" font-size="22" font-weight="700">Record what actually ran</text>
+      <text x="616" y="302" font-size="20">Record actual inputs, settings and versions.</text>
+      <text x="616" y="335" font-size="20">Capture start and end times for each step.</text>
+      <text x="616" y="368" font-size="20">Link results to the run and the checked plan.</text>
+    </g>
+  </g>
+</svg>

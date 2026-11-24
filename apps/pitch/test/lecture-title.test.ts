@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type {SceneDocument} from "../../../packages/core/src/scene-document.ts";
-import {hasAuthoredTitleSlide,prependLectureTitle} from "../src/lecture-title.ts";
+import type {TeachingOfferingRuntimeDocument} from "../../../packages/core/src/canonical-runtime.ts";
+import {hasAuthoredTitleSlide,prependLectureTitle,resolveLectureTitle} from "../src/lecture-title.ts";
 
 const pathId = "ex:fixture-path";
 const graphId = "graph:fixture";
@@ -10,6 +11,20 @@ const document = {
   scenes: [{id: "fixture-scene", blocks: [], readingOrder: [], source: [{resourceId: pathId}]}],
 } as SceneDocument;
 const title = {title: "Fixture lecture", course: "Fixture course", pathId, graphId};
+
+const bindings = [{ sceneDocumentId: document.id, pathId, pathGraphId: graphId }];
+const offerings = [{
+  offering: { labels: [{ value: title.course, language: "en" }] },
+  units: [{ paths: [{ id: pathId, graphId, labels: [{ value: title.title, language: "en" }] }] }],
+}] as TeachingOfferingRuntimeDocument[];
+
+test("lecture title requires the selected document and its exact path graph", () => {
+  assert.deepEqual(resolveLectureTitle(document, bindings, offerings), title);
+  assert.equal(resolveLectureTitle(document, [], offerings), undefined);
+  assert.equal(resolveLectureTitle(document, bindings, []), undefined);
+  assert.equal(resolveLectureTitle(document, [{ ...bindings[0]!, pathGraphId: "graph:other" }], offerings), undefined);
+});
+
 
 test("existing heading-only title slides are not duplicated",()=>{
   const source=[{resourceId:"fixture"}];

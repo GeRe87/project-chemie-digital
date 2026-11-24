@@ -1,0 +1,40 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/media/eh26-title-and-evidence> {
+  ex:eh26-title-subtitle a cd:Interpretation ;
+    cd:body "From Signal to Evidence"@en ; cd:authoredResource true .
+  ex:eh26-ude-logo a cd:MediaAsset ;
+    skos:prefLabel "University of Duisburg-Essen"@en ;
+    cd:uri "/talks/eh26-ude-logo.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "University of Duisburg-Essen logo"@en ; cd:authoredResource true .
+  ex:eh26-fair-evidence-figure a cd:MediaAsset ;
+    skos:prefLabel "Follow the evidence behind an SBR result"@en ;
+    cd:uri "/talks/eh26-fair-evidence.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "The SBR result links to the signal and marker, calibration, and processing decisions. Persistent identifiers, access and licensing support reuse."@en ;
+    cd:hasSource ex:ted-source-fair ; cd:authoredResource true .
+  ex:ted-source-fair cd:supportsResource ex:eh26-fair-evidence-figure .
+  ex:eh26-processing-unit-figure a cd:MediaAsset ;
+    skos:prefLabel "A Processing Unit for SBR marker selection"@en ;
+    cd:uri "/talks/eh26-processing-unit.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "SBR marker selection consumes detected features and a marker rule. The output is the selected marker and area. The run record identifies the analyst or software version and the purpose of estimating SBR mass."@en ;
+    dct:references <https://cogniflow.odea-project.org/cf#ProcessingUnit> ;
+    cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-environmental-health-2026> {
+  ex:eh26-step-01 cd:usesResource ex:eh26-title-subtitle, ex:eh26-ude-logo .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/eh26-title-and-evidence> {
+  ex:eh26-scene-01 cd:hasSceneItem ex:eh26-title-subtitle-item, ex:eh26-title-logo-item .
+  ex:eh26-title-subtitle-item a cd:SceneItem ; cd:position 2 ;
+    cd:selectsResource ex:eh26-title-subtitle ; cd:communicativeRole cd:StatementRole ;
+    cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-title-logo-item a cd:SceneItem ; cd:position 5 ;
+    cd:selectsResource ex:eh26-ude-logo ; cd:communicativeRole cd:MediaRole ;
+    cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+}

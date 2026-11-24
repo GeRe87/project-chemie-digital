@@ -19,7 +19,8 @@ class TedRevisionTests(unittest.TestCase):
     def setUpClass(cls):
         cls.dataset = R.assemble_dataset()
         cls.artifact = build_collection_artifact(R.EX + "talks")
-        cls.scenes = cls.artifact["sceneDocuments"][0]["scenes"]
+        cls.document = next(document for document in cls.artifact["sceneDocuments"] if document["sourcePathId"] == "ex:path-talk-microplastics-ted-gc-ms")
+        cls.scenes = cls.document["scenes"]
 
     def scene(self, name):
         return next(scene for scene in self.scenes if scene["id"] == f"ex:ted-scene-{name}--scene")
@@ -68,7 +69,7 @@ class TedRevisionTests(unittest.TestCase):
         self.assertEqual(annotations[2]["media"]["darkUri"], "/talks-media/ted-marker-spectrum-dark.svg")
         self.assertIn(annotations[2]["media"]["darkUri"], list(media_uris([chart])))
         self.assertIn("not a measured spectrum", annotations[2]["media"]["alternativeText"])
-        self.assertIn("Synthetic mirror-spectrum inset", R.static_fallback(self.artifact))
+        self.assertIn("Synthetic mirror-spectrum inset", R.static_fallback({"sceneDocuments": [self.document]}))
 
     def test_five_supplied_points_are_unmodified_and_uv_comparison_is_artificial(self):
         dataset = A.data()
