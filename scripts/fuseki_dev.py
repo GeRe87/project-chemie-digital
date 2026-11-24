@@ -674,26 +674,26 @@ async def serve(workflow):
     from mcp.server.stdio import stdio_server
     from mcp import types
 
-    app = MCPServer("fuseki-private-draft")
-
-    @app.list_tools()
-    async def list_tools():
+    async def list_tools(_ctx, _params):
         try:
             workflow.recheck()
         except Exception:
-            return []
-        return [types.Tool(name=name, description="Fixed operator-authorized " + name,
-                           inputSchema={"type": "object", "properties": {}, "additionalProperties": False})
-                for name in TOOLS]
+            return types.ListToolsResult(tools=[])
+        return types.ListToolsResult(tools=[
+            types.Tool(name=name, description="Fixed operator-authorized " + name,
+                       inputSchema={"type": "object", "properties": {}, "additionalProperties": False})
+            for name in TOOLS])
 
-    @app.call_tool()
-    async def call_tool(name, arguments):
+    async def call_tool(_ctx, params):
         try:
-            result = workflow.execute(name, arguments)
+            args = {} if params.arguments is None else params.arguments
+            arguments(params.name, args)
+            result = workflow.execute(params.name, args)
         except Exception:
             return types.CallToolResult(isError=True, content=[types.TextContent(type="text", text='{"status":"refused"}')])
         return types.CallToolResult(isError=False, content=[types.TextContent(type="text", text=json.dumps(result, sort_keys=True))])
 
+    app = MCPServer("fuseki-private-draft", on_list_tools=list_tools, on_call_tool=call_tool)
     async with stdio_server() as (reader, writer):
         await app.run(reader, writer, app.create_initialization_options())
 

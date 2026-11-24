@@ -424,6 +424,72 @@ class AdapterContracts(unittest.TestCase):
 
 
 class NativeAndTransportContracts(unittest.TestCase):
+    def test_mcp2_constructor_callbacks_and_typed_results_without_sdk(self):
+        # Model only the approved MCP 2 constructor API: no decorator methods.
+        workflow = Mock()
+        workflow.execute.return_value = {"status": "passed"}
+        sdk_types = types.ModuleType("mcp.types")
+        for name in ("Tool", "ListToolsResult", "CallToolResult", "TextContent"):
+            setattr(sdk_types, name, type(name, (types.SimpleNamespace,), {}))
+        test = self
+        reader, writer, options = object(), object(), object()
+
+        class MCPServer:
+            def __init__(self, name, *, on_list_tools, on_call_tool):
+                test.assertEqual("fuseki-private-draft", name)
+                self.list_tools, self.call_tool = on_list_tools, on_call_tool
+
+            def create_initialization_options(self):
+                return options
+
+            async def run(self, actual_reader, actual_writer, actual_options):
+                test.assertIs(reader, actual_reader)
+                test.assertIs(writer, actual_writer)
+                test.assertIs(options, actual_options)
+                listed = await self.list_tools(None, None)
+                test.assertIsInstance(listed, sdk_types.ListToolsResult)
+                test.assertEqual(list(DEV.TOOLS), [tool.name for tool in listed.tools])
+                for tool in listed.tools:
+                    test.assertEqual({"type": "object", "properties": {}, "additionalProperties": False}, tool.inputSchema)
+                workflow.recheck.side_effect = DEV.Refused("private stale details")
+                stale = await self.list_tools(None, None)
+                test.assertIsInstance(stale, sdk_types.ListToolsResult)
+                test.assertEqual([], stale.tools)
+                workflow.recheck.side_effect = None
+                for args in (None, {}):
+                    result = await self.call_tool(None, types.SimpleNamespace(name="draft_open", arguments=args))
+                    test.assertIsInstance(result, sdk_types.CallToolResult)
+                    test.assertFalse(result.isError)
+                    test.assertIsInstance(result.content[0], sdk_types.TextContent)
+                    test.assertEqual({"status": "passed"}, json.loads(result.content[0].text))
+                    workflow.execute.assert_called_with("draft_open", {})
+                workflow.execute.reset_mock()
+                for name, args in [("draft_open", value) for value in
+                                   ([], "", False, 0, {"path": "forbidden"})] + [("unknown", {})]:
+                    result = await self.call_tool(None, types.SimpleNamespace(name=name, arguments=args))
+                    test.assertTrue(result.isError)
+                    test.assertEqual('{"status":"refused"}', result.content[0].text)
+                workflow.execute.assert_not_called()
+                workflow.execute.side_effect = DEV.Refused("private operation details")
+                result = await self.call_tool(None, types.SimpleNamespace(name="draft_open", arguments={}))
+                test.assertTrue(result.isError)
+                test.assertEqual('{"status":"refused"}', result.content[0].text)
+
+        from contextlib import asynccontextmanager
+
+        @asynccontextmanager
+        async def stdio_server():
+            yield reader, writer
+
+        modules = {name: types.ModuleType(name) for name in
+                   ("mcp", "mcp.server", "mcp.server.lowlevel", "mcp.server.stdio")}
+        modules["mcp"].types = sdk_types
+        modules["mcp.types"] = sdk_types
+        modules["mcp.server.lowlevel"].Server = MCPServer
+        modules["mcp.server.stdio"].stdio_server = stdio_server
+        with patch.dict(sys.modules, modules):
+            DEV.asyncio.run(DEV.serve(workflow))
+
     def test_binding_uses_real_environment_and_current_state(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()

@@ -36,8 +36,8 @@ The operator must provide:
   and PowerShell 7 (`pwsh`) with working `Get-NetTCPConnection` access.
   This adapter never downloads or installs anything.
 - A fresh isolated Python environment with existing Product dependencies and
-  the operator's compatible MCP Python SDK. MCP imports occur only in the
-  stdio entry point. The SDK is deliberately not added to Product requirements.
+  the optional operator SDK pinned to **`mcp==2.0.0`**. MCP imports occur only in
+  the stdio entry point. The SDK is deliberately not added to Product requirements.
   No editable installation is needed.
 
 Example operator provisioning commands (not executed by the implementation
@@ -46,8 +46,15 @@ worker; use independently approved local paths and SDK provisioning):
 ```powershell
 py -3.11 -m venv C:\private\fuseki-draft-env
 C:\private\fuseki-draft-env\Scripts\python.exe -m pip install -r scripts\requirements-static-build.txt
-# Provision the operator-approved MCP SDK into this environment separately.
+C:\private\fuseki-draft-env\Scripts\python.exe -m pip install mcp==2.0.0
 ```
+
+The transport uses MCP 2.0.0 low-level constructor callbacks (`on_list_tools`
+and `on_call_tool`), not decorator registration. Discovery returns a typed
+`ListToolsResult`, empty on a stale binding. Calls return typed `CallToolResult`
+values; omitted protocol arguments (`None`) mean `{}`, while explicit non-object
+arguments, extra keys and unknown tools are refused. Full RDF preflight remains
+at startup; this transport-only correction does not defer authorization checks.
 
 Clear `JAVA_TOOL_OPTIONS`, `_JAVA_OPTIONS`, `JDK_JAVA_OPTIONS` and `CLASSPATH`;
 their presence, even with empty values, is refused. Use the pinned Java path,
