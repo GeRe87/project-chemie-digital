@@ -19,6 +19,7 @@ import shutil
 import socket
 import subprocess
 import time
+import tempfile
 import urllib.error
 import urllib.request
 
@@ -26,6 +27,7 @@ SCRIPTS = Path(__file__).resolve().parent
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
+import rdflib
 import rdf_dataset as rdf
 from fuseki_local import FUSEKI_MAIN_CLASS
 from rdflib import BNode, Dataset, Literal, RDF, URIRef
@@ -38,6 +40,17 @@ MATERIAL_FIELDS = set("product_head product_tree baseline_nquads_sha256 source_f
 JAR_SHA256 = "2c92c598e65ab69d99820052e05f4277ed1d77980a8845f87545ad35b71a76ee"
 JVM_ENV = {"JAVA_TOOL_OPTIONS", "_JAVA_OPTIONS", "JDK_JAVA_OPTIONS", "CLASSPATH"}
 MAX_RESPONSE = 128 * 1024 * 1024
+
+
+@contextmanager
+def lexical_source_terms():
+    """Scope RDFLib parser normalization to this synchronous opt-in operation."""
+    previous = rdflib.NORMALIZE_LITERALS
+    rdflib.NORMALIZE_LITERALS = False
+    try:
+        yield
+    finally:
+        rdflib.NORMALIZE_LITERALS = previous
 
 
 class Refused(RuntimeError):
@@ -207,6 +220,7 @@ class Server:
         self.output, self.label = output, label
         self.process = self.log = None
         self.updates = 0
+        self.update_status = None
         self.cleanup = False
         self.http = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
 
@@ -241,6 +255,7 @@ class Server:
 
     def post(self, sparql, update=False):
         if update:
+            require(self.label == "draft_open", "Resume is read-only")
             require(self.updates == 0, "Only one update allowed")
             self.updates += 1  # An ambiguous send is never retried.
         kind = "application/sparql-update" if update else "application/sparql-query"
@@ -248,9 +263,17 @@ class Server:
                                      headers={"Content-Type": kind + "; charset=utf-8",
                                               "Accept": "application/sparql-results+json"})
         self.owned_listener()
-        with self.http.open(req, timeout=60) as response:
-            require(200 <= response.status < 300, "HTTP failure")
-            body = response.read(MAX_RESPONSE + 1)
+        try:
+            with self.http.open(req, timeout=60) as response:
+                if update:
+                    self.update_status = response.status
+                require(200 <= response.status < 300, "HTTP failure")
+                body = response.read(MAX_RESPONSE + 1)
+        except urllib.error.HTTPError as error:
+            if update:
+                self.update_status = error.code
+            error.close()
+            raise
         require(len(body) <= MAX_RESPONSE, "Response too large")
         return None if update else decoded(body)
 
@@ -262,7 +285,10 @@ class Server:
         self.dataset_path = "/chem-dev-" + secrets.token_hex(16)
         self.url = f"http://127.0.0.1:{self.port}{self.dataset_path}"
         command = [str(self.java), "-Xmx1G", "-cp", str(self.jar), FUSEKI_MAIN_CLASS,
-                   "--localhost", f"--port={self.port}", f"--file={self.nq}", "--update", self.dataset_path]
+                   "--localhost", f"--port={self.port}", f"--file={self.nq}"]
+        if self.label == "draft_open":
+            command.append("--update")
+        command.append(self.dataset_path)
         self.log = (self.output / (self.label + ".log")).open("xb")
         self.process = subprocess.Popen(command, cwd=self.output, stdout=self.log, stderr=subprocess.STDOUT)
         deadline = time.monotonic() + 120
@@ -353,6 +379,7 @@ def update_text(material, old, new):
 
 
 class Workflow:
+    @lexical_source_terms()
     def __init__(self, manifest_path, manifest_sha):
         require(sys.platform == "win32", "Windows only")
         self.path = normalized(manifest_path)
@@ -530,7 +557,15 @@ class Workflow:
             child.start()
             yield child
         finally:
-            child.stop()
+            try:
+                child.stop()
+            finally:
+                self.write(self.output / (label + "-server.json"), packed({
+                    "pid": child.process.pid if child.process is not None else None,
+                    "port": getattr(child, "port", None), "updates": child.updates,
+                    "update_status": child.update_status, "cleanup": child.cleanup,
+                    "returncode": child.process.returncode if child.process is not None else None,
+                }))
 
     def execute(self, name, args):
         arguments(name, args)
@@ -559,12 +594,13 @@ class Workflow:
                         self.recheck()
                         # Immediately preceding full live fingerprint/owner verification is mandatory.
                         self.verify(live(child), edited=False)
+                        self.recheck()  # Native binding and byte pins after the full live read.
                         child.post(update_text(self.c, self.old, self.new), update=True)
                         actual = live(child)
                         self.verify(actual)
                     self.verified = actual
-                    result.update(pid=child.process.pid, updates=child.updates,
-                                  dataset_sha256=digest(canonical(actual)))
+                    result.update(pid=child.process.pid, port=child.port, updates=child.updates,
+                                  update_status=child.update_status, dataset_sha256=digest(canonical(actual)))
                 self.recheck()
                 if name == "draft_open":
                     self.receipt = {"schema": 1, "opening_run_id": self.m["run_id"],
@@ -601,6 +637,7 @@ class Workflow:
             self.state = "failed"
             raise
 
+    @lexical_source_terms()
     def export(self):
         self.recheck()
         self.verify(self.verified)
@@ -608,14 +645,22 @@ class Workflow:
                 "Export requires exact validated fingerprint")
         original = (self.source / self.c["source_file"]).read_bytes()
         patched = original.replace(self.c["raw_old"].encode(), self.c["raw_new"].encode(), 1)
-        # One private candidate, also used as the assembly override. Never copy a checkout.
         candidate = self.output / "export" / self.c["source_file"]
-        self.write(candidate, patched)
-        paths = tuple(candidate if p == self.source / self.c["source_file"] else p for p in self.trig_paths)
-        rebuilt = rdf.assemble_dataset(trig_paths=paths)
-        self.verify(rebuilt)
-        require(digest(canonical(rebuilt)) == self.validated_sha, "Candidate differs from validated live RDF")
-        self.recheck()
+        require(not (self.output / "export").exists() and not (self.output / "authored.diff").exists(),
+                "Export already exists")
+        # Staging is never an eligible export and is removed even on refusal.
+        with tempfile.TemporaryDirectory(prefix=".draft-stage-", dir=self.output) as directory:
+            staged = Path(directory) / "candidate.trig"
+            self.write(staged, patched)
+            require(staged.read_bytes() == patched, "Staged bytes differ")
+            paths = tuple(staged if p == self.source / self.c["source_file"] else p for p in self.trig_paths)
+            rebuilt = rdf.assemble_dataset(trig_paths=paths)
+            self.verify(rebuilt)
+            require(digest(canonical(rebuilt)) == self.validated_sha, "Candidate differs from validated live RDF")
+            self.recheck()
+            normalized(str(candidate))
+            candidate.parent.mkdir(parents=True, exist_ok=False)
+            staged.rename(candidate)  # Same filesystem; publish only the verified exact bytes.
         diff = "".join(difflib.unified_diff(original.decode("utf-8").splitlines(True), patched.decode("utf-8").splitlines(True),
                                          fromfile="a/" + self.c["source_file"], tofile="b/" + self.c["source_file"]))
         self.write(self.output / "authored.diff", diff.encode("utf-8"))

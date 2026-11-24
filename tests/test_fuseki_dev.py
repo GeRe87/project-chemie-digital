@@ -10,9 +10,12 @@ import sys
 import tempfile
 import types
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, MagicMock
 
+import rdflib
 from rdflib import Dataset, Literal, RDF, URIRef
+
+IMPORT_NORMALIZATION = rdflib.NORMALIZE_LITERALS
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("fuseki_dev", ROOT / "scripts" / "fuseki_dev.py")
@@ -30,6 +33,7 @@ def without_mcp(name, *args, **kwargs):
 
 with patch("builtins.__import__", side_effect=without_mcp):
     SPEC.loader.exec_module(DEV)
+assert rdflib.NORMALIZE_LITERALS == IMPORT_NORMALIZATION, "Import changed RDFLib normalization"
 
 BASE = "https://w3id.org/project-chemie-digital/"
 G, S, P, KIND = (BASE + value for value in ("graph/test", "resource/section", "ontology/body", "ontology/ScriptSection"))
@@ -229,11 +233,29 @@ class AdapterContracts(unittest.TestCase):
         with patch.object(workflow, "write", side_effect=corrupt), self.assertRaises(DEV.Refused):
             workflow.export()
         self.assertFalse((workflow.output / "authored.diff").exists())
+        self.assertFalse((workflow.output / "export").exists())
+        self.assertFalse(list(workflow.output.glob(".draft-stage-*")))
+        self.assertEqual(self.original, self.owner_path.read_bytes())
+
+    def test_failed_reassembly_never_publishes_candidate_or_diff(self):
+        workflow = self.resume(self.workflow())
+        workflow.verified = self.edited(workflow)
+        workflow.validated_sha = DEV.digest(workflow.expected_bytes)
+        workflow.output.mkdir()
+        previous = DEV.rdflib.NORMALIZE_LITERALS
+        with patch.object(DEV.rdf, "assemble_dataset", return_value=workflow.base) as assemble:
+            with self.assertRaises(DEV.Refused):
+                workflow.export()
+        assemble.assert_called_once()
+        self.assertFalse((workflow.output / "export").exists())
+        self.assertFalse((workflow.output / "authored.diff").exists())
+        self.assertFalse(list(workflow.output.glob(".draft-stage-*")))
+        self.assertEqual(previous, DEV.rdflib.NORMALIZE_LITERALS)
         self.assertEqual(self.original, self.owner_path.read_bytes())
 
     def test_resume_validate_export_order_and_real_validator_api_defaults(self):
         workflow = self.resume(self.workflow())
-        child = Mock(process=Mock(pid=123), updates=0, cleanup=True)
+        child = Mock(process=Mock(pid=123), port=1234, updates=0, update_status=None, cleanup=True)
 
         @contextmanager
         def server(*args):
@@ -255,7 +277,7 @@ class AdapterContracts(unittest.TestCase):
 
     def test_open_writes_receipt_only_after_owned_cleanup(self):
         workflow = self.workflow()
-        child = Mock(process=Mock(pid=123), updates=0, cleanup=False)
+        child = Mock(process=Mock(pid=123), port=1234, updates=0, update_status=204, cleanup=False)
 
         def update(*args, **kwargs):
             self.assertEqual({"update": True}, kwargs)
@@ -276,6 +298,9 @@ class AdapterContracts(unittest.TestCase):
             result = workflow.execute("draft_open", {})
         self.assertTrue(result["cleanup"])
         self.assertEqual(1, result["updates"])
+        self.assertEqual(1234, result["port"])
+        self.assertEqual(204, result["update_status"])
+        self.assertEqual(result, DEV.decoded((workflow.output / "draft_open.json").read_bytes()))
         raw = Path(self.m["receipt_path"]).read_bytes()
         self.assertEqual(DEV.digest(raw), result["receipt_sha256"])
         self.assertEqual(workflow.expected_bytes, Path(self.m["checkpoint_path"]).read_bytes())
@@ -283,6 +308,25 @@ class AdapterContracts(unittest.TestCase):
         self.assertEqual(self.original, self.owner_path.read_bytes())
         with self.assertRaises(DEV.Refused):
             workflow.execute("draft_open", {})
+
+    def test_owned_server_evidence_records_actual_status_and_cleanup_on_failure(self):
+        workflow = self.workflow()
+        workflow.output.mkdir()
+        child = Mock(process=Mock(pid=321, returncode=0), port=4321, updates=1,
+                     update_status=204, cleanup=False)
+
+        def stop():
+            child.cleanup = True
+
+        child.stop.side_effect = stop
+        with patch.object(DEV, "Server", return_value=child), self.assertRaises(DEV.Refused):
+            with workflow.server(self.baseline_path, "draft_open"):
+                raise DEV.Refused("readback failed")
+        evidence = DEV.decoded((workflow.output / "draft_open-server.json").read_bytes())
+        self.assertEqual({"pid": 321, "port": 4321, "updates": 1, "update_status": 204,
+                          "cleanup": True, "returncode": 0}, evidence)
+        child.stop.assert_called_once_with()
+        self.assertFalse(Path(self.m["receipt_path"]).exists())
 
     def test_source_and_executable_drift_refused_before_start(self):
         workflow = self.workflow()
@@ -320,6 +364,56 @@ class AdapterContracts(unittest.TestCase):
         self.assertEqual(1, update.count("DELETE"))
         self.assertEqual(1, update.count("INSERT"))
 
+    def test_source_and_export_preserve_noncanonical_decimal_without_global_leak(self):
+        previous = DEV.rdflib.NORMALIZE_LITERALS
+        extra = (f"<{G}> {{ <{BASE}resource/number> <{P}> "
+                 '\"09.80\"^^<http://www.w3.org/2001/XMLSchema#decimal> . }\n').encode()
+        shapes = self.trig_paths[1]
+        shapes.write_bytes(shapes.read_bytes() + extra)
+        with DEV.lexical_source_terms():
+            baseline = DEV.rdf.assemble_dataset(trig_paths=self.trig_paths)
+        self.baseline_path.write_bytes(DEV.canonical(baseline))
+        self.m["material"]["baseline_nquads_sha256"] = DEV.digest(self.baseline_path.read_bytes())
+        workflow = self.resume(self.workflow())
+        self.assertEqual(previous, DEV.rdflib.NORMALIZE_LITERALS)
+        workflow.verified = DEV.copy_dataset(workflow.expected)
+        workflow.validated_sha = DEV.digest(workflow.expected_bytes)
+        workflow.output.mkdir()
+        workflow.export()
+        values = workflow.base.graph(URIRef(G)).objects(URIRef(BASE + "resource/number"), URIRef(P))
+        self.assertEqual(["09.80"], [str(value) for value in values])
+        self.assertEqual(previous, DEV.rdflib.NORMALIZE_LITERALS)
+        self.assertFalse(list(workflow.output.glob(".draft-stage-*")))
+        with self.assertRaises(RuntimeError):
+            with DEV.lexical_source_terms():
+                self.assertFalse(DEV.rdflib.NORMALIZE_LITERALS)
+                raise RuntimeError("parser failure")
+        self.assertEqual(previous, DEV.rdflib.NORMALIZE_LITERALS)
+
+    def test_binding_drift_during_final_live_read_prevents_update(self):
+        workflow = self.workflow()
+        child = Mock(process=Mock(pid=123), port=1234, updates=0, cleanup=True)
+
+        @contextmanager
+        def server(*args):
+            yield child
+
+        calls = 0
+
+        def read(_child):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                self.binding.check.side_effect = DEV.Refused("stale attempt")
+            return DEV.copy_dataset(workflow.base)
+
+        with patch.object(workflow, "server", side_effect=server), patch.object(DEV, "live", side_effect=read):
+            with self.assertRaises(DEV.Refused):
+                workflow.execute("draft_open", {})
+        child.post.assert_not_called()
+        self.assertEqual("failed", workflow.state)
+        self.assertFalse(Path(self.m["receipt_path"]).exists())
+
     def test_drift_and_duplicate_json_refused(self):
         workflow = self.workflow()
         self.manifest_path.write_bytes(self.manifest_path.read_bytes() + b" ")
@@ -352,7 +446,7 @@ class NativeAndTransportContracts(unittest.TestCase):
                     binding.check()
 
     def test_listener_ownership_precedes_http_and_one_update_only(self):
-        child = DEV.Server(Path("java"), Path("jar"), Path("nq"), Path("out"), "test")
+        child = DEV.Server(Path("java"), Path("jar"), Path("nq"), Path("out"), "draft_open")
         child.url = "http://127.0.0.1:1234/random"
         child.http = Mock()
         with patch.object(child, "owned_listener", side_effect=DEV.Refused("foreign")):
@@ -364,6 +458,50 @@ class NativeAndTransportContracts(unittest.TestCase):
             with self.assertRaises(DEV.Refused):
                 child.post("fixed", update=True)
         self.assertEqual(1, child.updates)
+
+    def test_phase_specific_launch_and_update_status(self):
+        with tempfile.TemporaryDirectory() as temp, patch.dict(os.environ, {}, clear=True):
+            for phase in ("draft_open", "draft_resume"):
+                child = DEV.Server(Path("java"), Path("jar"), Path("nq"), Path(temp), phase)
+                with patch.object(DEV.socket, "socket") as sock, patch.object(DEV.subprocess, "Popen") as popen, patch.object(
+                        child, "owned_listener", return_value=True), patch.object(child, "post", return_value={"boolean": False}):
+                    sock.return_value.__enter__.return_value.getsockname.return_value = ("127.0.0.1", 1234)
+                    popen.return_value.poll.return_value = None
+                    child.start()
+                    command = popen.call_args.args[0]
+                    self.assertIn("--file=nq", command)
+                    self.assertEqual(phase == "draft_open", "--update" in command)
+                    child.log.close()
+                child.http = MagicMock()
+                if phase == "draft_resume":
+                    with self.assertRaises(DEV.Refused):
+                        child.post("fixed", update=True)
+                    child.http.open.assert_not_called()
+                    self.assertEqual(0, child.updates)
+                else:
+                    response = child.http.open.return_value.__enter__.return_value = Mock(status=204)
+                    response.read.return_value = b""
+                    with patch.object(child, "owned_listener", return_value=True):
+                        child.post("fixed", update=True)
+                        self.assertEqual(204, child.update_status)
+                        with self.assertRaises(DEV.Refused):
+                            child.post("fixed", update=True)
+                    self.assertEqual(1, child.updates)
+                    child.http.open.assert_called_once()
+
+    def test_failed_update_records_http_status_without_retry(self):
+        child = DEV.Server(Path("java"), Path("jar"), Path("nq"), Path("out"), "draft_open")
+        child.url = "http://127.0.0.1:1234/random"
+        child.http = Mock()
+        child.http.open.side_effect = DEV.urllib.error.HTTPError(child.url, 503, "failed", {}, None)
+        with patch.object(child, "owned_listener", return_value=True):
+            with self.assertRaises(DEV.urllib.error.HTTPError):
+                child.post("fixed", update=True)
+            with self.assertRaises(DEV.Refused):
+                child.post("fixed", update=True)
+        self.assertEqual(503, child.update_status)
+        self.assertEqual(1, child.updates)
+        child.http.open.assert_called_once()
 
     def test_os_listener_checks_fail_closed_for_foreign_wildcard_and_malformed(self):
         child = DEV.Server(Path("java"), Path("jar"), Path("nq"), Path("out"), "test")

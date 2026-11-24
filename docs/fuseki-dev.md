@@ -91,6 +91,11 @@ checked against Git (allowing checkout CRLF only), assembled with the existing
 `rdf_dataset.assemble_dataset`, and pinned throughout the process. Existing
 `parse_trig_path` newline semantics apply. Executed tool-module bytes, source
 bytes, native state, manifest and Java/JAR pins are rechecked around operations.
+Source parsing, patch preflight and export reassembly temporarily disable RDFLib
+literal normalization, preserving spellings such as `"09.80"^^xsd:decimal`.
+The synchronous workflow restores the prior setting even on failure; importing
+the adapter does not change it. Live SELECT decoding uses `normalize=False`.
+Do not share a workflow operation with concurrent in-process RDFLib parsing.
 
 ## Manifest schema 1
 
@@ -161,8 +166,8 @@ terminally failed; start a new independently authorized run rather than retry.
    authenticate manifest, native binding, clean source, canonical baseline,
    owner, whole lexical old/new terms and concrete patch reassembly. Launch a
    fresh in-memory JVM from the baseline. Read the complete named dataset and
-   verify the original fingerprint/owner immediately before sending the one
-   fixed generated SPARQL DELETE/INSERT. Read back and verify exact expected
+   verify the original fingerprint/owner, then recheck native binding and all
+   pins immediately before sending the one fixed generated SPARQL DELETE/INSERT. Read back and verify exact expected
    dataset-wide RDF term equality, then terminate the owned JVM and prove
    cleanup. Only then write canonical private `dataset.nq` and `receipt.json`.
 2. The operator reviews those artifacts, their operation/material pins and the
@@ -174,20 +179,24 @@ terminally failed; start a new independently authorized run rather than retry.
    a new fresh output directory and the independently approved receipt fields.
    Checkpoint and canonical receipt bytes must bind the complete operation,
    opening identity and exact expected canonical NQ. Wrong/stale authorization
-   fails before directory creation or Popen. A new JVM loads the checkpoint,
-   performs no update, and reads back the full exact draft. Cleanup is proved.
+   fails before directory creation or Popen. A new read-only JVM loads the
+   checkpoint with `--file` and **without `--update`**, reads back the full exact
+   draft, and proves cleanup. The client also refuses any resume mutation POST.
 4. **`draft_validate({})`.** Validate that real resume live read-back with
    existing `validate_semantics.validate_dataset(dataset)` defaults: full
    pySHACL, RDFS inference and meta-SHACL. No cache, shortcut or new validator.
    Preserve and reverify the input; bind the successful fingerprint. Private
    `validation.txt` records the existing report. A failure prevents export.
-5. **`draft_export({})`.** Require the exact validated fingerprint. Make one
-   private candidate owner-file copy with exactly the concrete raw replacement.
-   Reassemble the original complete source using that one file override through
-   `assemble_dataset(trig_paths=...)`. Require canonical equality to validated
-   live NQ. Emit deterministic UTF-8 `authored.diff` and return candidate and
-   fingerprint evidence. Never write the source, clone/commit a candidate,
-   edit further, publish or merge.
+5. **`draft_export({})`.** Require the exact validated fingerprint. Stage one
+   owner-file copy with exactly the concrete raw replacement in a temporary
+   private directory outside `output_dir/export`. Reassemble the original
+   complete source using that override through `assemble_dataset(trig_paths=...)`.
+   Require exact candidate bytes, canonical equality to validated live NQ and
+   a final binding/pin recheck. Only then atomically rename the verified file
+   into `output_dir/export/<source_file>` and emit deterministic UTF-8
+   `authored.diff`. Staging is cleaned on success and refusal; failed comparison
+   leaves neither an eligible export nor a diff. Never write the source,
+   clone/commit a candidate, edit further, publish or merge.
 
 Receipt schema (canonical JSON) has exactly `schema: 1`, `opening_run_id`,
 `opening_native_head`, `opening_native_tree`, `opening_attempt_sha256`,
@@ -197,7 +206,13 @@ expected canonical `dataset_sha256`. Its digest is SHA-256 of `packed(operation)
 Receipt digest approval is over **all receipt bytes**, not an embedded field.
 
 Each successful tool also writes a private `<tool-name>.json` evidence file.
-MCP results include hashes and cleanup evidence, not literal content or tokens.
+Open/resume evidence includes the actual JVM PID, selected port, mutation attempt
+count (`updates`), actual mutation HTTP `update_status` (null if no response),
+and proved `cleanup`. A private `<tool-name>-server.json` also records these
+fields and the child return code after cleanup, including failed operations.
+Only open enables `--update`; at most one mutation attempt is allowed, with no
+retry after an ambiguous send. Resume records zero updates and null status.
+MCP results include hashes and process evidence, not literal content or tokens.
 Startup/transport errors are generic on stderr; tool errors return only
 `{"status":"refused"}`. Discovery is empty on stale native binding. Retain
 private failure artifacts for operator diagnosis; an incomplete output directory
