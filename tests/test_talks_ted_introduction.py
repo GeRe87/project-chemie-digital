@@ -184,9 +184,29 @@ class TedIntroductionTests(unittest.TestCase):
         self.assertEqual(replacement["description"], original["description"])
         self.assertIn("Find peaks better", R.static_fallback(self.artifact))
 
+    def test_dataset_excludes_course_and_retired_presentation(self):
+        dataset = R.assemble_dataset()
+        for identity in (
+            "teaching-offering-chemometrics-applied-statistics",
+            "path-standard-deviation",
+            "path-cogniflow-standardized-data-processing",
+            "scene-cogniflow-domain-specifications",
+            "scene-cogniflow-processing-pipeline",
+        ):
+            self.assertFalse(list(dataset.quads((URIRef(R.EX + identity), None, None, None))), identity)
+        self.assertTrue(list(dataset.quads((URIRef(R.EX + "cogniflow-domain-specifications"), None, None, None))))
+        self.assertTrue(list(dataset.quads((URIRef(R.EX + "cogniflow-processing-pipeline"), None, None, None))))
+
     def test_demo_crops_match_and_keep_semantic_documentation_visible(self):
         videos = [b for s in self.scenes for b in s["blocks"] if b["kind"] == "media-reference" and b["mediaType"] == "video/mp4"]
-        self.assertEqual(len(videos), 2)
+        self.assertEqual({video["uri"] for video in videos}, {
+            "/talks-media/cf_web_showcase_1.mp4",
+            "/talks-media/cf_web_showcase_2.mp4",
+        })
+        for video in videos:
+            path = R.ROOT / "apps/pitch/public" / video["uri"].lstrip("/")
+            with path.open("rb") as stream:
+                self.assertEqual(stream.read(8)[4:], b"ftyp")
         self.assertEqual(videos[0]["crop"], videos[1]["crop"])
         for video in videos:
             self.assertFalse(video.get("redactions"))

@@ -4,15 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate:chemometrics": "python ../../scripts/generate_canonical_runtime.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-chemometrics-applied-statistics --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-chemometrics-mean-values --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-mean-values --path-id https://w3id.org/project-chemie-digital/resource/path-chemometrics-mean-values-lecture --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/chemometrics-mean-values-lecture",
-    "generate:cogniflow": "python ../../scripts/generate_canonical_runtime_media.py --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-cogniflow-standardized-data-processing --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-cogniflow-standardized-data-processing --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-cogniflow-standardized-data-processing --path-id https://w3id.org/project-chemie-digital/resource/path-cogniflow-standardized-data-processing --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/cogniflow-standardized-data-processing",
-    "dev": "npm run generate:chemometrics && vite --host 127.0.0.1 --port 5173 --strictPort",
-    "dev:cogniflow": "npm run generate:cogniflow && vite --force --host 127.0.0.1 --port 5173 --strictPort",
-    "build:cogniflow": "npm run generate:cogniflow && vite build --base=./",
-    "dev:standard-deviation": "python ../../scripts/generate_canonical_runtime.py && vite --host 127.0.0.1 --port 5173 --strictPort",
-    "test": "python ../../scripts/generate_canonical_runtime.py && python ../../scripts/generate_canonical_runtime.py --check && npm --prefix ../.. run preview:level4:generate && node --experimental-strip-types --test test/*.test.ts",
-    "generate:introduction": "python scripts/generate-course-runtime.py",
-    "dev:introduction": "python ../../scripts/prepare_interactive_runtime.py && npm run generate:introduction && vite --force --host 127.0.0.1 --port 5173 --strictPort"
+    "dev": "npm --prefix ../.. run generate:talks && vite --host 127.0.0.1 --port 5186 --strictPort",
+    "test": "npm --prefix ../.. run generate:talks && node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {
     "katex": "0.16.22",

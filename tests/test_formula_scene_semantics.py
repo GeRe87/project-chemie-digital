@@ -166,33 +166,6 @@ class FormulaSceneSemanticTests(unittest.TestCase):
         conforms, report = VALIDATION.run_validation()
         self.assertTrue(conforms, report)
 
-    def test_canonical_standard_deviation_formula_metadata_is_explicit(self) -> None:
-        dataset = RUNTIME.assemble_dataset()
-        item = URIRef(f"{EX}scene4-i2")
-        self.assertEqual([Literal(2)], RUNTIME.objects(dataset, item, cd("position")))
-        self.assertEqual([URIRef(f"{EX}sample-sd-formula")], RUNTIME.objects(dataset, item, cd("selectsResource")))
-        self.assertEqual([cd("FormulaRole")], RUNTIME.objects(dataset, item, cd("communicativeRole")))
-        self.assertEqual([Literal("cd:latex")], RUNTIME.objects(dataset, item, cd("selectionPath")))
-        self.assertEqual([Literal("de")], RUNTIME.objects(dataset, item, cd("language")))
-        self.assertEqual([Literal(True)], RUNTIME.objects(dataset, item, cd("authoredResource")))
-
-    def test_standard_deviation_formula_output_remains_semantically_compatible(self) -> None:
-        dataset = RUNTIME.assemble_dataset()
-        document = RUNTIME.compile_scene_document(
-            dataset,
-            RUNTIME.CoursePathReference(str(STANDARD_DEVIATION_PATH), STANDARD_DEVIATION_PATH_GRAPH),
-        )
-        self.assertEqual("1.0", document["version"])
-        formula_block = document["scenes"][3]["blocks"][1]
-        self.assertEqual("math", formula_block["kind"])
-        self.assertEqual(SAMPLE_FORMULA_LATEX, formula_block["expression"])
-        self.assertEqual("Mathematische Formel für Standardabweichung", formula_block["spokenText"])
-        self.assertEqual({"kind": "explain"}, formula_block["intent"])
-        self.assertEqual("primary", formula_block["emphasis"])
-        self.assertEqual({"order": 1, "mode": "initial"}, formula_block["disclosure"])
-        self.assertEqual("ex:sample-sd-formula", formula_block["source"][0]["resourceId"])
-        self.assertEqual("cd:latex", formula_block["source"][0]["relationPath"])
-
     def test_valid_formula_role_math_expression_and_latex_selector_compiles(self) -> None:
         document = RUNTIME.compile_scene_document(formula_scene_dataset(), selected_formula_path())
         self.assertEqual("1.0", document["version"])
@@ -224,19 +197,6 @@ class FormulaSceneSemanticTests(unittest.TestCase):
                 formula_scene_dataset(resource_type="Definition"),
                 selected_formula_path(),
             )
-
-    def test_random_variables_scene_compilation_remains_compatible(self) -> None:
-        dataset = RUNTIME.assemble_dataset()
-        document = RUNTIME.compile_scene_document(
-            dataset,
-            RUNTIME.CoursePathReference(str(RANDOM_VARIABLES_PATH), RANDOM_VARIABLES_PATH_GRAPH),
-        )
-        # The path now contains canonical table blocks, so the compiler correctly
-        # promotes the SceneDocument contract to the table-capable version.
-        self.assertEqual("1.5", document["version"])
-        self.assertEqual("ex:path-chemometrics-random-variables-lecture", document["sourcePathId"])
-        self.assertEqual(12, len(document["scenes"]))
-
 
 if __name__ == "__main__":
     unittest.main()

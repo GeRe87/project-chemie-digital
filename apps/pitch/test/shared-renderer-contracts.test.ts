@@ -306,49 +306,6 @@ test("legacy per-scene layout styles are no longer imported", () => {
 });
 
 
-test("FAIR data object is authored as a semantic table rather than TSV code", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-motivation.trig");
-  assert.equal(trig.includes("ex:code-cogniflow-fair-data-object"), false);
-  assert.equal(trig.includes("ex:table-cogniflow-fair-data-object a cd:TableDefinition"), true);
-  assert.equal(trig.includes("cd:communicativeRole cd:TableRole"), true);
-  assert.equal(trig.includes('cd:selectionPath "cd:hasTableRow"'), true);
-});
-
-
-test("CogniFlow tables no longer use TSV code heuristics", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-motivation.trig");
-  const preview = source("../src/preview.ts");
-  const flowTheme = source("../src/flow-theme.css");
-
-  assert.equal(/programmingLanguage\s+"tsv"/i.test(trig), false);
-  assert.equal(preview.includes('block.language === "tsv"'), false);
-  assert.equal(flowTheme.includes(":has(> .d3-chart-host):has(> .code-block):has(> .d3-flow-host)"), false);
-  assert.equal(trig.includes("ex:table-cogniflow-feature-results a cd:TableDefinition"), true);
-  assert.equal(trig.includes("ex:table-cogniflow-fair-data-object a cd:TableDefinition"), true);
-});
-
-
-test("FAIR processing gap reuses the generic process-context layout semantics", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-motivation.trig");
-  assert.equal(trig.includes("ex:cogniflow-snr-example a cd:DefinitionList"), true);
-  assert.equal(trig.includes("ex:cogniflow-missing-processing-context a cd:DefinitionList"), true);
-  assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-example-list a cd:SceneItem"), true);
-  assert.equal(trig.includes("ex:scene-item-cogniflow-fair-processing-gap-missing-list a cd:SceneItem"), true);
-});
-
-
-test("Semantic Triples knowledge graph is authored as a NetworkDiagram", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-semantic-triples.trig");
-  const main = presentationRuntimeSource();
-  assert.equal(trig.includes("ex:diagram-cogniflow-semantic-triples-network a cd:NetworkDiagram"), true);
-  assert.equal(trig.includes('skos:prefLabel "livesIn"@en'), true);
-  assert.equal(trig.includes('skos:prefLabel "worksAt"@en'), true);
-  assert.equal(trig.includes('skos:prefLabel "locatedIn"@en'), true);
-  assert.equal(trig.includes("ex:keypoint-cogniflow-semantic-graph a cd:KeyPoint"), false);
-  assert.equal(main.includes("anna-knowledge-graph.svg"), false);
-});
-
-
 test("generic concentric renderer uses true SVG circles instead of themed card rectangles", () => {
   const renderer = source("../../../packages/renderer-d3/src/flow-diagram.ts");
   const css = source("../src/visual-stage-primitives.css");
@@ -357,32 +314,6 @@ test("generic concentric renderer uses true SVG circles instead of themed card r
   assert.equal(css.includes('circle.d3-flow-node-shape'), true);
   assert.equal(css.includes('clip-path: none'), true);
 });
-
-test("semantic core is canonical grouped network data rather than a bespoke ring payload", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-semantic-core.trig");
-  const main = presentationRuntimeSource();
-  assert.equal(trig.includes("ex:diagram-cogniflow-semantic-core a cd:NetworkDiagram"), true);
-  assert.equal(trig.includes("cd:focusNode ex:node-cogniflow-semantic-core"), true);
-  assert.equal(trig.includes("cd:hasDiagramGroup ex:group-cogniflow-semantic-concepts"), true);
-  assert.equal(trig.includes("cd:memberOfDiagramGroup ex:group-cogniflow-semantic-specifications"), true);
-  assert.equal(trig.includes("ex:cogniflow-ring-core a cd:Interpretation"), false);
-  assert.equal(main.includes("mountCogniflowSemanticRings"), false);
-});
-
-
-test("processing and service scenes use canonical diagrams and generic shells", () => {
-  const processing = source("../../../ontology/dataset/cogniflow-processing-pipeline.trig");
-  const service = source("../../../ontology/dataset/cogniflow-service-process.trig");
-  const theme = source("../src/flow-theme.css");
-
-  assert.equal(processing.includes("ex:diagram-cogniflow-processing-pipeline a cd:FlowDiagram"), true);
-  assert.equal(processing.includes("cd:communicativeRole cd:DiagramRole"), true);
-  assert.equal(processing.includes("ex:keypoint-cogniflow-step-baseline a cd:KeyPoint"), false);
-  assert.equal(service.includes("ex:diagram-cogniflow-service-process a cd:SequenceDiagram"), true);
-  assert.equal(theme.includes("ex:role-service-consumer"), false);
-  assert.equal(theme.includes("data-participant-index"), true);
-});
-
 
 test("processing pipeline nodes author title and body separately", () => {
   const trig = source("../../../ontology/dataset/cogniflow-processing-pipeline.trig");
@@ -396,24 +327,6 @@ test("processing pipeline nodes author title and body separately", () => {
   assert.equal(renderer.includes("d3-flow-node-body"), true);
   assert.equal(renderer.includes("d3-flow-node-title-divider"), true);
   assert.equal(layout.includes("readonly bodyLines"), true);
-});
-
-
-test("extension system uses structured module entries and generic card primitives", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-extension-system.trig");
-  const main = presentationRuntimeSource();
-  const css = source("../src/card-primitives.css");
-  const preview = source("../src/preview.ts");
-
-  assert.equal(trig.includes("ex:cogniflow-extension-modules a cd:DefinitionList"), true);
-  assert.equal(trig.includes("a cd:DefinitionListEntry"), true);
-  assert.equal(trig.includes("cd:communicativeRole cd:DefinitionListRole"), true);
-  assert.equal(trig.includes("ex:keypoint-cogniflow-extension-"), false);
-  assert.equal(main.includes('import "./cogniflow-extension-system.css"'), false);
-  assert.equal(css.toLowerCase().includes("cogniflow"), false);
-  assert.equal(css.includes(":nth-child("), false);
-  assert.equal(preview.includes("definition-list-entry"), true);
-  assert.equal(preview.includes("--definition-entry-hue"), true);
 });
 
 
@@ -483,28 +396,6 @@ test("full-media showcase behavior is structural rather than scene-id driven", (
   assert.equal(main.includes('dataset.composition === "media-stage"'), true);
   assert.equal(main.includes('dataset.compositionProfile === "full-viewport"'), true);
   assert.equal(main.includes("pcd-full-media-active"), true);
-});
-
-
-test("take-home, closing and portrait viewport no longer depend on CogniFlow identity", () => {
-  const main = presentationRuntimeSource();
-  const profile = source("../src/presentation-profile.ts");
-  const composition = source("../src/component-composition.css");
-  const mobile = source("../src/presentation-mobile.css");
-  const takeHome = source("../../../ontology/dataset/cogniflow-take-home.trig");
-
-  assert.equal(takeHome.includes("cd:hasKeyPoint ex:keypoint-cogniflow-take-home-semantics"), true);
-  assert.equal(main.includes('appearance.profile.id === "cogniflow-standardized-data-processing"'), false);
-  assert.equal(main.includes('appearance.profile.viewportPolicy === "native-portrait"'), true);
-  assert.equal(profile.includes('readonly viewportPolicy?: PresentationViewportPolicy'), true);
-  assert.equal(composition.toLowerCase().includes("cogniflow"), false);
-  assert.equal(mobile.toLowerCase().includes("cogniflow"), false);
-  assert.equal(
-    composition.includes('section[data-composition="stack"][data-composition-main-count="0"]'),
-    true,
-  );
-  assert.equal(composition.includes('data-layout="closing"'), false);
-  assert.equal(main.includes("available anywhere via pip"), false);
 });
 
 
@@ -612,14 +503,4 @@ test("production behavior has a single explicit CogniFlow lexical allowlist", ()
   }
 
   assert.deepEqual(violations, []);
-});
-
-
-test("closing focus concept satisfies the canonical Concept definition contract", () => {
-  const trig = source("../../../ontology/dataset/cogniflow-closing.trig");
-
-  assert.equal(trig.includes("cd:hasDefinition ex:def-cogniflow-closing"), true);
-  assert.equal(trig.includes("ex:def-cogniflow-closing a cd:Definition"), true);
-  assert.equal(trig.includes('cd:body "Closing acknowledgment for the standardized data-processing presentation."@en'), true);
-  assert.equal(trig.includes("cd:selectsResource ex:def-cogniflow-closing"), false);
 });

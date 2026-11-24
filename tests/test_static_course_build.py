@@ -126,19 +126,15 @@ class StaticCourseBuildTests(unittest.TestCase):
             RUNTIME.build_offering_artifact("https://example/absent", snapshot_language="en")
 
     def test_real_transport_has_exact_canonical_available_bindings(self):
-        offering = str(RUNTIME.EX) + "teaching-offering-chemometrics-applied-statistics"
-        artifact = RUNTIME.build_offering_artifact(offering, snapshot_language="en")
+        from presentation_collection import build_collection_artifact
+        offering = str(RUNTIME.EX) + "talks"
+        artifact = build_collection_artifact(offering)
         with tempfile.TemporaryDirectory(dir=self.temp_parent) as temporary:
             file = Path(temporary) / "runtime.json"
             file.write_text(RUNTIME.canonical_json(artifact), encoding="utf-8")
             model = STATIC.validate_transport(file, offering)
-            self.assertEqual(offering, model["offeringId"])
-            self.assertEqual({"ex:path-chemometrics-introduction--scene-document",
-                              "ex:path-chemometrics-random-variables-lecture--scene-document",
-                               "ex:path-chemometrics-mean-values-lecture--scene-document",
-                               "ex:path-chemometrics-variance-dispersion-lecture--scene-document",
-                               "ex:path-chemometrics-level4-distribution-shape-lecture--scene-document"},
-                             {path["sceneDocumentId"] for unit in model["units"] for path in unit["paths"] if path["status"] == "available"})
+            self.assertEqual(artifact["presentationCollection"]["title"], model["title"])
+            self.assertEqual(1, len(artifact["sceneDocumentBindings"]))
             with self.assertRaises(subprocess.CalledProcessError):
                 STATIC.validate_transport(file, "https://example/wrong")
             artifact["sceneDocumentBindings"] = []

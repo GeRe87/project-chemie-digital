@@ -104,54 +104,5 @@ class CanonicalDerivationReferenceTests(unittest.TestCase):
         for path in (Path(__file__).resolve().parents[1] / "ontology/dataset").glob("*.trig"):
             cls.dataset.parse(path, format="trig")
 
-    def test_existing_mean_calculation_is_referenced_without_changing_published_path(self):
-        document = compile_scene_document(self.dataset, CoursePathReference(
-            "https://w3id.org/project-chemie-digital/resource/path-mathematical-derivation-reference",
-            "https://w3id.org/project-chemie-digital/graph/paths/mathematical-derivation-reference"))
-        self.assertEqual(document["version"], "1.7")
-        block = next(b for b in document["scenes"][0]["blocks"] if b["kind"] == "math")
-        self.assertEqual(block["derivation"]["steps"][0]["to"]["id"], "ex:mean-dice-average-formula")
-        self.assertIn("14.8", block["derivation"]["steps"][0]["to"]["expression"])
-        owner = Namespace("https://w3id.org/project-chemie-digital/resource/")
-        self.assertNotIn(owner["path-step-mathematical-derivation-reference"], set(self.dataset.objects(owner["path-chemometrics-mean-values-lecture"], CD.hasStep)))
-
-    def test_residual_and_shift_algebra_on_existing_observations_is_exact(self):
-        owner = Namespace("https://w3id.org/project-chemie-digital/resource/")
-        for resource in [owner["vr-data-a"], owner["vr-data-b"]]:
-            values = [Fraction(str(next(self.dataset.objects(o, CD.numericValue)))) for o in self.dataset.objects(resource, CD.hasObservation)]
-            n = len(values)
-            mean = sum(values) / n
-            residuals = [x - mean for x in values]
-            center = Fraction(7, 3)  # arbitrary center, not a claimed simulation population
-            delta = mean - center
-            self.assertEqual(sum(residuals), 0)
-            self.assertEqual(sum((x-center)**2 for x in values), sum(d*d for d in residuals)+n*delta**2)
-            for x,d in zip(values,residuals):
-                self.assertEqual((x-center)**2, d*d+2*delta*d+delta**2)
-
-    def test_stem_chart_uses_unchanged_six_observations_and_exact_shared_mean(self):
-        owner = Namespace("https://w3id.org/project-chemie-digital/resource/")
-        chart, _ = dot_plot_payload(self.dataset, owner['vs-deviation-chart'], 'en')
-        self.assertTrue(chart['drawStems'])
-        self.assertEqual([d['value'] for g in chart['groups'] for d in g['data']], [9,10,13,5,10,17])
-        self.assertEqual([d['label'] for g in chart['groups'] for d in g['data']], ['A₁','A₂','A₃','B₁','B₂','B₃'])
-        self.assertAlmostEqual(chart['referenceLine']['value'], 32/3)
-
-    def test_lake_results_match_the_canonical_observations(self):
-        owner = Namespace("https://w3id.org/project-chemie-digital/resource/")
-        values = [decimal_number(self.dataset, o, CD.numericValue) for o in objects(self.dataset, owner['lake-sample'], CD.hasObservation)]
-        mean = sum(values)/len(values)
-        self.assertAlmostEqual(mean, decimal_number(self.dataset, owner['lake-mean'], CD.numericValue), places=12)
-        self.assertAlmostEqual(sum((v-mean)**2 for v in values)/len(values), decimal_number(self.dataset, owner['lake-msd'], CD.numericValue), places=12)
-
-    def test_center_substitution_and_symbol_legend_are_explicit(self):
-        owner = Namespace("https://w3id.org/project-chemie-digital/resource/")
-        value = mathematical_derivation_payload(self.dataset, owner['md-centers-section'], 'en')
-        self.assertEqual(value['steps'][0]['to']['id'], 'ex:md-centers')
-        self.assertEqual(value['steps'][0]['rule']['id'], 'ex:rule-add-differences')
-        self.assertTrue(all(e['symbol'] for e in value['legend']))
-        self.assertTrue(all(';' not in e['description'] for e in value['legend']))
-        self.assertFalse(any(e['term'] in ['a, aᵢ','b, bᵢ','c'] for e in value['legend']))
-
 if __name__ == "__main__":
     unittest.main()

@@ -14,7 +14,6 @@ resolvePresentationCollection(collection, artifact.sceneDocuments.map((d: {id: s
 // descriptions, narration, and to promotional text within source-code excerpts.
 // A source IRI is not an assertion that a product name should appear in copy.
 const CANONICAL_SOURCE_IRI = /https:\/\/cogniflow\.odea-project\.org\/[A-Za-z0-9_./#%~-]+/g;
-const EXISTING_DEMO_ASSET = /\/cogniflow-showcase\/[A-Za-z0-9_./~-]+/g;
 const FORBIDDEN_BRAND = /cogniflow/i;
 const VISIBLE_TEXT_FIELDS = new Set([
   "title", "subtitle", "name", "label", "description", "text", "term",
@@ -27,11 +26,8 @@ function assertPublicPresentationPolicy(value: unknown): void {
         throw new Error(`Internal branding in presentation text at ${path}`);
       }
       if (key === "code" || key === "fallback") {
-        // Inspectable TriG retains authoritative vocabulary IRIs, and static
-        // fallbacks may include existing file URLs. No promotional text is
-        // allowed outside those precise technical references.
-        const proseOnly = node.replaceAll(CANONICAL_SOURCE_IRI, "")
-          .replaceAll(EXISTING_DEMO_ASSET, "");
+        // Inspectable TriG retains authoritative vocabulary IRIs.
+        const proseOnly = node.replaceAll(CANONICAL_SOURCE_IRI, "");
         if (FORBIDDEN_BRAND.test(proseOnly)) {
           throw new Error(`Unrelated internal branding in public presentation transport at ${path}`);
         }

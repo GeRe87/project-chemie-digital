@@ -1,30 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import {readFileSync} from "node:fs";
-import type {CanonicalRuntimeArtifact} from "../../../packages/core/src/canonical-runtime.ts";
 import type {SceneDocument} from "../../../packages/core/src/scene-document.ts";
-import {hasAuthoredTitleSlide,prependLectureTitle,resolveLectureTitle} from "../src/lecture-title.ts";
+import {hasAuthoredTitleSlide,prependLectureTitle} from "../src/lecture-title.ts";
 
-const artifact=JSON.parse(readFileSync(new URL("../public/authoring-runtime.json",import.meta.url),"utf8")) as CanonicalRuntimeArtifact;
-const document=artifact.sceneDocuments[0]!;
-const bindings=artifact.sceneDocumentBindings!;
-
-test("lecture title resolves existing authored labels through the exact graph/path binding",()=>{
-  const before=JSON.stringify(artifact);
-  const title=resolveLectureTitle(document,bindings,artifact.teachingOfferingDocuments);
-  assert.equal(title?.title,"Quantiles & Statistical Moments");
-  assert.equal(title?.course,"Chemometrics and Applied Statistics");
-  assert.equal(title?.pathId,bindings[0]!.pathId);
-  assert.equal(title?.graphId,bindings[0]!.pathGraphId);
-  assert.equal(document.scenes.length,65,"metadata chrome is not a new scientific scene");
-  assert.equal(JSON.stringify(artifact),before);
-});
-
-test("missing or mismatched path provenance does not invent a lecture title",()=>{
-  assert.equal(resolveLectureTitle(document,[],artifact.teachingOfferingDocuments),undefined);
-  assert.equal(resolveLectureTitle(document,bindings,[]),undefined);
-  assert.equal(resolveLectureTitle(document,bindings.map(b=>({...b,pathGraphId:"https://example.test/other"})),artifact.teachingOfferingDocuments),undefined);
-});
+const pathId = "ex:fixture-path";
+const graphId = "graph:fixture";
+const document = {
+  id: "fixture-document", sourcePathId: pathId, source: [{resourceId: pathId}],
+  scenes: [{id: "fixture-scene", blocks: [], readingOrder: [], source: [{resourceId: pathId}]}],
+} as SceneDocument;
+const title = {title: "Fixture lecture", course: "Fixture course", pathId, graphId};
 
 test("existing heading-only title slides are not duplicated",()=>{
   const source=[{resourceId:"fixture"}];
@@ -49,7 +34,6 @@ test("generated lecture title uses the shared heading-only layout without a cour
   }
   const root=new Element("div"),first=new Element("section");
   first.dataset.sceneDocumentId=document.id;root.append(first);
-  const title=resolveLectureTitle(document,bindings,artifact.teachingOfferingDocuments)!;
   const unmount=prependLectureTitle(root as unknown as HTMLElement,document,title);
   const cover=root.children[0]!;
   assert.equal(cover.dataset.composition,"stack");
@@ -57,7 +41,7 @@ test("generated lecture title uses the shared heading-only layout without a cour
   assert.equal(cover.children.length,1);
   assert.equal(cover.children[0]!.tagName,"h2");
   assert.equal(cover.children[0]!.dataset.compositionRegion,"heading");
-  assert.equal(cover.children[0]!.textContent,"Quantiles & Statistical Moments");
+  assert.equal(cover.children[0]!.textContent,"Fixture lecture");
   assert.equal(root.children[1],first);
   unmount();assert.deepEqual(root.children,[first]);
 });

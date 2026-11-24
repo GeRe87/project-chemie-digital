@@ -10,118 +10,9 @@ The project follows a knowledge-first architecture:
 4. Scene-to-RDF bindings support deterministic scene-context graph projections.
 5. Reveal.js renders live presentations as one output channel; additional adapters may provide self-study, knowledge-network, print and OER views.
 
-## Initial vertical slice
+## Talks checkout
 
-The first demonstrator is the pitch presentation for the Studiendekanat. It uses the same layered platform architecture planned for the later course.
-
-The technical proof of concept uses **standard deviation**:
-
-- concepts, relations, resources, paths and scenes authored solely in TriG under `ontology/dataset/`,
-- definition, formula, symbols, examples and exercises as reusable resources,
-- deterministic path resolution and scene composition,
-- Reveal.js rendering from disposable generated transport,
-- renderer-neutral one-hop scene graph projection with preserved RDF identity and provenance.
-
-The Chemometrics Variables path includes consecutive scenes for scalar/vector/matrix shapes and numeric/categorical/Boolean value domains. Both reuse the shared infocard primitive with independently authored mathematical expressions. Content and examples live in `ontology/dataset/chemometrics-basics.trig`; their order and selection live in the corresponding Variables path and scene graphs. Value domains are distinct from collection shapes, and the examples are illustrative rather than an exhaustive taxonomy.
-
-Chemometrics Level 1 has twelve active Variables scenes, including a compact purpose card after the definition. Level 2 has thirty-five Mean Values scenes and eight executable R labs with authored function glossaries. Its two-card dice experiment leads to expectation, a theoretical-versus-observed comparison and empirical estimation. The arithmetic formula is followed by a worked substitution (74/5 = 14.8) before the same-case R example. Geometric and harmonic means each follow a case, a comparison of unsuitable summaries for that question, a general formula, a numerical calculation and a same-case R example. The speed calculation finds the harmonic speed first, then total time; the Pb median comparison continues with a same-case R lab. Growth candidates compare directly with the observed 1600 cells; worked applications are marked “Example:”. Redundant footers and two standalone practice selections are omitted, and six concluding discussion questions share a responsive three-column/two-row grid. Selection cards give application examples with concise conditions. Use `npm run pitch:intro` and select a level from the overworld on port 5173; regenerate that course bundle after full tests, which restore the default German pitch transport. Fresh portrait opening remains unresolved; quantitative river/tracer animation is separate. See the [Level 2 visual audit and scientific review](docs/migration/chemometrics-mean-values-level-2.md).
-
-The active Variables presentation currently ends with “Types of variable values” (11 scenes). Later scene definitions and their semantic resources remain authored for reuse but are not selected by this path. The broader learning-unit focus concepts are unchanged.
-
-Shared teaching primitives give Level 2 transparent theme-aware dice/cell and experiment-setup drawings, square text/card surfaces, top-aligned prompt/code columns and larger editor type. All 25 active formulas have authored symbol legends displayed underneath; the compiler preserves their RDF `dct:hasPart` links. Illustrated exercises keep their sketches inside the task column or discussion card. Turbidity shows the arithmetic mean 10.72 NTU as an explicitly authored derived reference alongside the unchanged measurements. The warmup uses a bold instruction and two question bullets; ordinary and emphasized points use distinct reusable markers. Water-analysis results share one intrinsic-height surface. See the Level 2 audit for remaining portrait-navigation/scaling limits and the separately pending river/tracer animation.
-
-## Local Chemometrics production preparation
-
-`npm run build:chemometrics` reuses the semantic offering/Overworld generator and
-generic Pitch application, validates SHACL/selection/pinned runtime dependencies,
-and emits a checked static site in `dist/chemometrics/` with base `/`.
-`npm run check:chemometrics-build` verifies the emitted transport/assets/hash evidence.
-Use `npm ci` and the production pins in `scripts/requirements-static-build.txt`;
-`--offline` requires an already prepared verified vendor tree. No deployment is
-performed. Nested project-path hosting remains blocked by existing generic R-runtime
-paths; a `./` bundle is supported only at a domain root. See
-[production preparation and future deployment requirements](docs/deployment/chemometrics.md)
-for tests, limitations, release-branch promotion/rollback and the required authorized
-deployment-only Actions policy exception. This work depends on the unaccepted draft
-course stack and does not constitute a release or merge approval.
-
-## Local validation
-
-For the bounded Level 4 preview, use `npm run preview:level4` and open
-`http://127.0.0.1:5173/authoring.html`. It contains the consolidated opening and
-two notation foundations, 50-point analytical examples, SD/IQR/MAD comparisons,
-boxplot/histogram readings, interactive bins, worked unequal widths, a rebuilt
-ECDF sequence and mean/variance/kurtosis/skewness with shared 3×3 views ending in
-a base-R lab (65 slides total), in shared compositions. Prepare
-the pinned assets with `npm run prepare:interactive-runtime` for the R lab; its
-first run may download ggplot2. Preview generation does not rewrite the ordinary
-course bundle. See [opening review](docs/chemometrics-level4-opening-review.md) and
-[histogram revision](docs/chemometrics-level4-histograms-review.md), followed by the
-[current ECDF/moments revision and focused checks](docs/chemometrics-level4-ecdf-moments-review.md).
-The latest [applied-moment grid review](docs/chemometrics-level4-applied-moments-review.md)
-records the revised 65-scene sequence and current verification.
-
-The repository is validated without GitHub Actions. The sole authorised automated provider is the local exact-head validator at `GeRe87/agent-workflow-validator`.
-
-Required commit-status context:
-
-```text
-agent-validator/project-chemie-digital
-```
-
-Required diagnostic marker:
-
-```html
-<!-- agent-workflow-validator:project-chemie-digital -->
-```
-
-The status must be `success` on the exact current pull-request head. The marked comment is diagnostic only; an older-head status or comment is stale and non-passing.
-
-The local project command is:
-
-```bash
-npm test
-```
-
-The host requires Python 3.11+, `pyshacl==0.40.0`, Node.js 22+ and npm. `npm test` performs JSON checks, SHACL semantic validation, Python semantic tests, core tests and renderer tests.
-
-## Offline course/unit/path selection
-
-Canonical runtime generation first validates a renderer-neutral `TeachingOffering → UnitPlacement → LearningUnit` context against the assembled immutable RDF Dataset. Available paths are exact `{path IRI, named-graph IRI}` references whose `rdf:type cd:LearningPath` and `cd:forLearningUnit` evidence occur in the same named graph.
-
-The default commands remain unchanged:
-
-```bash
-npm run generate:runtime
-npm run check:runtime
-```
-
-They use the current Digital Chemistry offering, Standardabweichung placement and learning unit. Because that unit currently exposes exactly one valid path reference, ADR-0009's singleton fallback selects it deterministically before scene compilation.
-
-For a future unit with multiple paths, the runtime accepts an exact explicit semantic selection:
-
-```bash
-python scripts/generate_canonical_runtime.py \
-  --offering-id https://w3id.org/project-chemie-digital/resource/teaching-offering-digital-chemistry \
-  --placement-id https://w3id.org/project-chemie-digital/resource/unit-placement-standard-deviation \
-  --unit-id https://w3id.org/project-chemie-digital/resource/learning-unit-standard-deviation \
-  --path-id https://w3id.org/project-chemie-digital/resource/path-standard-deviation \
-  --path-graph-id https://w3id.org/project-chemie-digital/graph/paths/standard-deviation
-```
-
-`--path-id` and `--path-graph-id` must be supplied together. All selection identities must be absolute HTTP(S) IRIs. Zero available paths and multi-path requests without an explicit selection fail closed; sorting, RDF/file order, labels, renderer type, routes, course position and path-step order never choose a winner. Selection is offline compiler/application context only: it does not add navigation RDF, learner state, accounts, personalization or LMS semantics.
-
-## Generated TeachingOffering runtime read model
-
-The same offline generation adds `teachingOfferingDocuments[]` to the existing `canonical-runtime` container without changing root `artifactVersion: "1.0"`. The active projector emits `TeachingOfferingRuntimeDocument 1.1`, while the shared consumer still accepts legacy `1.0` documents as flat course composition.
-
-The document preserves absolute TeachingOffering, UnitPlacement, LearningUnit and LearningPath IRIs, the validated offering composition graph, authored placement positions, and exact `{path id, graphId}` references. Version 1.1 additionally carries explicit `sections[]` records for renderer-neutral `OfferingSection` groupings. `sections: []` means the validated current offering has no authored sections; legacy 1.0 absence of section state means only that the older contract cannot express it. Placement order follows authored `cd:position`; section order follows authored section position; grouped `placementIds[]` retain the existing placement order.
-
-Only explicitly supported authored display metadata is transported: `skos:prefLabel` as `labels[]` and `dct:description` as `descriptions[]`, with RDF language tags preserved. Missing values remain empty arrays. In particular, the current Standardabweichung path has no authored human-readable path label, so its runtime reference deliberately contains `labels: []` and `descriptions: []`; no IRI-local-name, filename, renderer or route fallback is fabricated.
-
-The course runtime document carries exactly the same `datasetFingerprint` as the root artifact. It lists available paths but contains no current, selected, preferred or default path, no URL/menu/router state and no learner progress, answers, scores, accounts or LMS data. ADR-0009 remains the separate path-selection/revalidation boundary. The root artifact may additionally carry validated `sceneDocumentBindings[]` records that map exact absolute `{pathId, pathGraphId}` references to compiled `sceneDocumentId` values. This additive read-model field lets course-level applications navigate without reverse-parsing compact `SceneDocument.sourcePathId` strings. Pitch may continue to consume only the selected `sceneDocuments[]`; Self-Study uses the explicit bindings to build its course world.
-
-Canonical TriG remains the only authored semantic authority. `teachingOfferingDocuments[]` and the generic `datasetSnapshot` are generated transports and must not be edited as course content or promoted into parallel authored sources.
+This branch contains the scientific presentation collection and the shared renderer and semantic tooling. Chemometrics course content and its course-specific preview and tests live on the `chemometrics` branch.
 
 ## Connected interactive runtime
 
@@ -164,12 +55,12 @@ npm run build:talks
 npm run check:talks-build
 ```
 
-The production artifact is `dist/talks`, separate from `dist/chemometrics`.
+The production artifact is `dist/talks`.
 See [Talks build and Cloudflare Pages preparation](docs/talks-deployment.md) and
 [ADR-0020](docs/adr/0020-scientific-presentation-collections.md). Hosting configuration
 is an owner action; these commands do not deploy either site.
 
-The first talk also contains nineteen visual TED-GC-MS content scenes. Their
+The current TED-GC-MS talk contains 29 scenes. Its
 knowledge, diagrams, synthetic chromatogram and scene selection are authored in
 `ontology/dataset/talks-ted-*.trig`; see the [content and scientific review record](docs/handoffs/issue-294-ted-introduction.md).
 Time-saving comparisons use the reusable [semantic timeline-chart standard](docs/timeline-charts.md),
