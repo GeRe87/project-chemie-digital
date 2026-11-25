@@ -16,6 +16,8 @@ private write adapter below. Run one pinned checkout/profile at a time:
    `git rev-parse HEAD` and `git status --porcelain` (must be empty). Provision a
    fresh local Python virtual environment with the existing Product dependencies,
    activate it, and use Node.js 22+ and Java 21+. Do not reuse an old NQ snapshot.
+   If this checkout does not already have the pinned local Fuseki installation,
+   run `npm run fuseki:prepare` from the checkout root.
 2. Generate a new NQ using the existing writer with RDFLib literal normalization
    disabled for the whole assembly. From the checkout root in PowerShell:
 
