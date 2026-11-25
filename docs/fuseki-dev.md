@@ -7,6 +7,61 @@ The normal `scripts/fuseki_local.py` launcher remains read-only and unchanged.
 No RDF content or external service is changed by installing these three files.
 Python 3.11+ is required.
 
+## Local serial Windows M6 read-only check
+
+This separate operator procedure uses the existing read-only launcher, not the
+private write adapter below. Run one pinned checkout/profile at a time:
+
+1. Use a clean checkout at an independently approved exact commit. Record
+   `git rev-parse HEAD` and `git status --porcelain` (must be empty). Provision a
+   fresh local Python virtual environment with the existing Product dependencies,
+   activate it, and use Node.js 22+ and Java 21+. Do not reuse an old NQ snapshot.
+2. Generate a new NQ using the existing writer with RDFLib literal normalization
+   disabled for the whole assembly. From the checkout root in PowerShell:
+
+   ```powershell
+   python -c "import sys, rdflib; sys.path.insert(0, 'scripts'); rdflib.NORMALIZE_LITERALS=False; from fuseki_local import write_snapshot; write_snapshot()"
+   Get-FileHash .local\fuseki\canonical-dataset.nq -Algorithm SHA256
+   Get-FileHash .local\fuseki\apache-jena-fuseki-6.2.0\fuseki-server.jar -Algorithm SHA256
+   ```
+
+   Compare the new NQ byte SHA-256 with the independently approved snapshot pin,
+   not just the generated fingerprint sidecar. Require the pinned Fuseki 6.2.0
+   JAR SHA-256 `2c92c598e65ab69d99820052e05f4277ed1d77980a8845f87545ad35b71a76ee`.
+   Stop on any mismatch; do not approve a new pin merely because it was generated.
+3. Require port 3030 to be free before starting. Inspect
+   `Get-NetTCPConnection -State Listen -LocalPort 3030 -ErrorAction SilentlyContinue`;
+   an inspection error is not evidence that the port is free. Do not stop a foreign
+   process. Start `npm run fuseki:start` in the foreground and retain its console
+   output in an operator-owned log. In a second terminal, verify the listener is
+   loopback-only and record its `OwningProcess`. Inspect that PID with
+   `Get-CimInstance Win32_Process -Filter "ProcessId = <owned-PID>"`: bind the owned
+   JVM command line to this checkout's pinned JAR and freshly hashed snapshot.
+   Retain checkout, PID, JAR, snapshot and log evidence together.
+4. In that second terminal select the explicit local endpoint and profile:
+
+   ```powershell
+   $env:CHEMIE_DIGITAL_SPARQL_ENDPOINT = 'http://127.0.0.1:3030/chemie-digital/query'
+   npm run fuseki:check -- --profile talks
+   # For the Chemometrics snapshot instead:
+   # npm run fuseki:check -- --profile chemometrics
+   ```
+
+   Zero arguments still select Chemometrics. Unknown, extra or missing profile
+   arguments are refused before HTTP. Talks checks the canonical thanks scene's
+   `SceneDefinition` type in its named graph with ASK. Success is a liveness/profile
+   proof, not snapshot identity: the separately approved NQ hash remains necessary.
+   Full pySHACL validation with RDFS inference and Meta-SHACL remains binding.
+5. Stop the foreground launcher with Ctrl+C. Verify the owned launcher/JVM have
+   exited and port 3030 has no listener before switching checkout, snapshot or
+   profile. If cleanup is incomplete, stop and investigate only owned processes.
+
+This procedure changes no port or dataset configuration, RDF, Jena/TDB2 setup,
+external service or hosting. The private write adapter and its authorization
+requirements remain unchanged. Operator validation commands for the CLI tests are
+`node --experimental-strip-types --test packages/semantic-client/test/preflight.test.mts`
+and the existing `npm run test:semantic-client`; these are not live Fuseki proof.
+
 ## Operator prerequisites and trust boundary
 
 Run only in an active native CAC Product attempt on Windows. Use the existing
