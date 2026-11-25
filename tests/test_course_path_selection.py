@@ -17,23 +17,22 @@ from course_path_selection import (  # noqa: E402
     CourseUnitPathSelectionRequest,
     select_course_unit_path,
 )
-from rdf_dataset import assemble_dataset  # noqa: E402
 
 CD = "https://w3id.org/project-chemie-digital/ontology/"
 EX = "https://w3id.org/project-chemie-digital/resource/"
 GRAPH = "https://w3id.org/project-chemie-digital/graph/"
 
-OFFERING = f"{EX}teaching-offering-digital-chemistry"
-PLACEMENT = f"{EX}unit-placement-standard-deviation"
-UNIT = f"{EX}learning-unit-standard-deviation"
-PATH = f"{EX}path-standard-deviation"
-PATH_GRAPH = f"{GRAPH}paths/standard-deviation"
+OFFERING = f"{EX}test-offering"
+PLACEMENT = f"{EX}unit-placement-fixture"
+UNIT = f"{EX}learning-unit-fixture"
+PATH = f"{EX}path-fixture"
+PATH_GRAPH = f"{GRAPH}paths/fixture"
 COURSE_GRAPH = f"{GRAPH}specifications/course-scale"
 OTHER_UNIT = f"{EX}learning-unit-other"
 OTHER_PATH = f"{EX}path-other"
 OTHER_PATH_GRAPH = f"{GRAPH}paths/other"
-SECOND_PATH = f"{EX}path-standard-deviation-review"
-SECOND_PATH_GRAPH = f"{GRAPH}paths/standard-deviation-review"
+SECOND_PATH = f"{EX}path-fixture-review"
+SECOND_PATH_GRAPH = f"{GRAPH}paths/fixture-review"
 
 TEACHING_OFFERING = URIRef(f"{CD}TeachingOffering")
 LEARNING_PATH = URIRef(f"{CD}LearningPath")
@@ -43,7 +42,15 @@ FOR_LEARNING_UNIT = URIRef(f"{CD}forLearningUnit")
 
 
 def canonical_dataset() -> Dataset:
-    return assemble_dataset()
+    dataset = Dataset()
+    graph = dataset.graph(URIRef(COURSE_GRAPH))
+    graph.add((URIRef(OFFERING), RDF.type, TEACHING_OFFERING))
+    graph.add((URIRef(OFFERING), HAS_UNIT_PLACEMENT, URIRef(PLACEMENT)))
+    graph.add((URIRef(PLACEMENT), RDF.type, URIRef(CD + "UnitPlacement")))
+    graph.add((URIRef(PLACEMENT), PLACES_LEARNING_UNIT, URIRef(UNIT)))
+    graph.add((URIRef(UNIT), RDF.type, URIRef(CD + "LearningUnit")))
+    add_available_path(dataset, PATH, PATH_GRAPH, UNIT)
+    return dataset
 
 
 def default_request(

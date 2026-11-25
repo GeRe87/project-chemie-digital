@@ -173,20 +173,6 @@ class SceneSemanticValidationTests(unittest.TestCase):
             meta_shacl=False,
         )
 
-    def test_reference_scene_conforms_and_traces_graph_relations(self) -> None:
-        conforms, report = MODULE.run_validation()
-        self.assertTrue(conforms, report)
-        graph = self.canonical_graph
-        concept = URIRef(EX + "standard-deviation")
-        definition = URIRef(EX + "sd-definition-basic-de")
-        source = URIRef(EX + "source-nist-dispersion")
-        authored = URIRef(CD + "authoredResource")
-        self.assertIn((concept, URIRef(CD + "hasDefinition"), definition), graph)
-        self.assertIn((definition, URIRef(CD + "hasSource"), source), graph)
-        self.assertIn((concept, authored, Literal(True)), graph)
-        self.assertIn((definition, authored, Literal(True)), graph)
-        self.assertIn((source, authored, Literal(True)), graph)
-
     def test_all_scene_definitions_are_renderer_neutral(self) -> None:
         graph = self.canonical_graph
         scene_type = URIRef(CD + "SceneDefinition")

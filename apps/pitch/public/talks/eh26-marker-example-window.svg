@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270">
+  <title>Record the integration limits</title>
+  <rect x="2" y="2" width="636" height="266" rx="20" fill="#122836" stroke="#568498" stroke-width="3"/>
+  <g font-family="Arial, sans-serif" stroke-linecap="round" stroke-linejoin="round">
+  <text x="25" y="39" fill="#e9f4fb" font-size="27" font-weight="700">Record the integration limits</text>
+  <path d="M26 62h23" stroke="#8cddfc" stroke-width="3"/>
+  <text x="57" y="68" fill="#8cddfc" font-size="18">Selected ion</text>
+  <path d="M224 62h23" stroke="#59e2bc" stroke-width="3"/>
+  <text x="255" y="68" fill="#59e2bc" font-size="18">Target component</text>
+  <path d="M430 62h23" stroke="#ffa779" stroke-width="3"/>
+  <text x="461" y="68" fill="#ffa779" font-size="18">Overlap</text>
+  <path d="M55 94v121h537M55 174h537M55 134h537" fill="none" stroke="#6b90a2" stroke-opacity=".45"/>
+  <polygon points="176.5,215.0 176.5,201.8 233.8,181.8 323.1,118.4 412.5,187.1 448.2,197.6 448.2,215.0" fill="#59e2bc" fill-opacity=".32"/>
+  <path d="M176.5 93v122M448.2 93v122" stroke="#eef8ff" stroke-width="2" stroke-dasharray="5 6"/>
+  <polyline points="55.0,215.0 144.4,209.0 233.8,171.2 323.1,95.7 412.5,150.1 501.9,199.9 591.2,215.0" fill="none" stroke="#8cddfc" stroke-width="4" stroke-dasharray="8 5"/>
+  <polyline points="55.0,215.0 144.4,213.0 233.8,181.8 323.1,118.4 412.5,187.1 501.9,213.5 591.2,215.0" fill="none" stroke="#59e2bc" stroke-width="4"/>
+  <polyline points="55.0,215.0 144.4,214.7 233.8,212.0 323.1,202.2 412.5,186.3 501.9,205.2 591.2,215.0" fill="none" stroke="#ffa779" stroke-width="4"/>
+  <text x="55" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.00</text>
+  <text x="323" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.38</text>
+  <text x="592" y="237" fill="#b4cedc" font-size="15" text-anchor="middle">4.75</text>
+  <text x="320" y="257" fill="#e9f4fb" font-size="18" text-anchor="middle">Shading marks the target area inside the chosen limits</text>
+  </g>
+</svg>

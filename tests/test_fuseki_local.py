@@ -13,12 +13,11 @@ assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
-STANDARD_DEVIATION_GRAPH = URIRef(
-    "https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation"
+TED_GRAPH = URIRef(
+    "https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-semantics"
 )
-R_CODE_EXAMPLE = URIRef("https://w3id.org/project-chemie-digital/resource/sd-r-code-example")
+TED_CODE_EXAMPLE = URIRef("https://w3id.org/project-chemie-digital/resource/ted-semantics-code")
 CODE_PREDICATE = URIRef("https://w3id.org/project-chemie-digital/ontology/code")
-EXPECTED_R_CODE = Literal("x <- c(6, 8, 10)\nsd(x)")
 
 
 def populated_graph_names(dataset: Dataset) -> set[str]:
@@ -50,26 +49,25 @@ class FusekiLocalFoundationTests(unittest.TestCase):
             text = output.read_text(encoding="utf-8")
             self.assertEqual(64, len(fingerprint))
             self.assertIn(
-                "<https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation>",
+                "<https://w3id.org/project-chemie-digital/graph/knowledge/talks-ted-semantics>",
                 text,
             )
             self.assertIn(
-                "<https://w3id.org/project-chemie-digital/graph/paths/standard-deviation>",
+                "<https://w3id.org/project-chemie-digital/graph/paths/talk-microplastics-ted-gc-ms>",
                 text,
             )
             self.assertIn(
-                "<https://w3id.org/project-chemie-digital/resource/standard-deviation>",
+                "<https://w3id.org/project-chemie-digital/resource/talk-microplastics-ted-gc-ms>",
                 text,
             )
 
-    def test_snapshot_is_valid_nquads_and_roundtrips_multiline_r_code(self) -> None:
+    def test_snapshot_is_valid_nquads_and_roundtrips_multiline_ted_code(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "canonical-dataset.nq"
             MODULE.write_snapshot(output)
             text = output.read_text(encoding="utf-8")
 
-            self.assertNotIn('"""x <- c(6, 8, 10)', text)
-            self.assertIn('"x <- c(6, 8, 10)\\nsd(x)"', text)
+            self.assertIn(r"\n@prefix schema:", text)
 
             parsed = Dataset(default_union=False)
             parsed.parse(output, format="nquads")
@@ -80,10 +78,10 @@ class FusekiLocalFoundationTests(unittest.TestCase):
                 len(list(parsed.quads((None, None, None, None)))),
             )
             self.assertEqual(populated_graph_names(original), populated_graph_names(parsed))
-            self.assertIn(
-                (R_CODE_EXAMPLE, CODE_PREDICATE, EXPECTED_R_CODE, STANDARD_DEVIATION_GRAPH),
-                set(parsed.quads((R_CODE_EXAMPLE, CODE_PREDICATE, None, STANDARD_DEVIATION_GRAPH))),
-            )
+            code = original.graph(TED_GRAPH).value(TED_CODE_EXAMPLE, CODE_PREDICATE)
+            self.assertIsInstance(code, Literal)
+            self.assertIn("\n@prefix schema:", str(code))
+            self.assertEqual(code, parsed.graph(TED_GRAPH).value(TED_CODE_EXAMPLE, CODE_PREDICATE))
 
 
 if __name__ == "__main__":

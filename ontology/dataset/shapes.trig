@@ -697,17 +697,41 @@ SELECT $this WHERE {
         $this cd:usesDataset ?dataset ; cd:hasChartAnnotation ?annotation .
         {
           ?annotation cd:targetObservation ?observation .
-          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+          FILTER NOT EXISTS {
+            { ?dataset cd:hasObservation ?observation . }
+            UNION
+            {
+              $this cd:chartType cd:LineChart ;
+                <http://purl.org/dc/terms/hasPart> ?series .
+              ?series a cd:Dataset ; cd:hasObservation ?observation .
+            }
+          }
         }
         UNION
         {
           ?annotation cd:startObservation ?observation .
-          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+          FILTER NOT EXISTS {
+            { ?dataset cd:hasObservation ?observation . }
+            UNION
+            {
+              $this cd:chartType cd:LineChart ;
+                <http://purl.org/dc/terms/hasPart> ?series .
+              ?series a cd:Dataset ; cd:hasObservation ?observation .
+            }
+          }
         }
         UNION
         {
           ?annotation cd:endObservation ?observation .
-          FILTER NOT EXISTS { ?dataset cd:hasObservation ?observation . }
+          FILTER NOT EXISTS {
+            { ?dataset cd:hasObservation ?observation . }
+            UNION
+            {
+              $this cd:chartType cd:LineChart ;
+                <http://purl.org/dc/terms/hasPart> ?series .
+              ?series a cd:Dataset ; cd:hasObservation ?observation .
+            }
+          }
         }
       }"""
     ] ;

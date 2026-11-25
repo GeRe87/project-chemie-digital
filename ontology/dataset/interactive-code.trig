@@ -50,31 +50,6 @@ graph:concepts {
     rdfs:range xsd:boolean .
 }
 
-<https://w3id.org/project-chemie-digital/graph/specifications/standard-deviation> {
-  ex:sd-r-code-example a cd:CodeExample ;
-    skos:prefLabel "Standardabweichung mit R berechnen"@de, "calculate standard deviation with R"@en ;
-    cd:code """x <- c(6, 8, 10)
-sd(x)""" ;
-    cd:programmingLanguage "r" ;
-    cd:editable true ;
-    cd:executable true ;
-    cd:authoredResource true .
-
-  ex:exercise-calculate-s cd:hasCodeExample ex:sd-r-code-example .
-}
-
-<https://w3id.org/project-chemie-digital/graph/scenes/standard-deviation> {
-  ex:scene-exercise-recap cd:hasSceneItem ex:scene9-code .
-
-  ex:scene9-code a cd:SceneItem ;
-    cd:position 5 ;
-    cd:selectsResource ex:sd-r-code-example ;
-    cd:communicativeRole cd:CodeRole ;
-    cd:selectionPath "cd:hasCodeExample" ;
-    cd:language "de" ;
-    cd:authoredResource true .
-}
-
 <https://w3id.org/project-chemie-digital/graph/shapes/core> {
   ex:CodeExampleShape a sh:NodeShape ;
     sh:targetClass cd:CodeExample ;
@@ -83,8 +58,4 @@ sd(x)""" ;
     sh:property [ sh:path cd:editable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
     sh:property [ sh:path cd:executable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
 
-  ex:InteractiveCodeSceneItemShape a sh:NodeShape ;
-    sh:targetNode ex:scene9-code ;
-    sh:property [ sh:path cd:communicativeRole ; sh:hasValue cd:CodeRole ] ;
-    sh:property [ sh:path cd:selectionPath ; sh:hasValue "cd:hasCodeExample" ] .
 }

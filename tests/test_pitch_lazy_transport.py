@@ -20,7 +20,7 @@ class PitchLazyTransportTests(unittest.TestCase):
         spec=importlib.util.spec_from_file_location('lazy_course_fixture',ROOT/'apps/pitch/scripts/generate-course-runtime.py')
         generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
         with patch.object(generator,'ROOT',temporary),patch.object(generator,'OUTPUT',temporary/'apps/pitch/src/generated/canonical-runtime.json'),patch.object(generator.RUNTIME,'PITCH_INDEX',cls.shell):
-            cls.full=generator.generate_course(generator.CHEMOMETRICS_OFFERING)
+            cls.full=generator.generate_course(generator.RUNTIME.EX + 'talks', collection=True)
         cls.public=temporary/'apps/pitch/public/course-runtime'
         cls.manifest=json.loads((cls.public/'manifest.json').read_text(encoding='utf-8'))
 

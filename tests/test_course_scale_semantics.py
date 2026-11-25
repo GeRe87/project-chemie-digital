@@ -98,35 +98,6 @@ class CourseScaleSemanticTests(unittest.TestCase):
             for row in graph.query(query)
         ]
 
-    def test_reference_offering_exposes_ordered_standard_deviation_unit(self) -> None:
-        rows = self._ordered_course_rows(self.dataset)
-        self.assertEqual(
-            [(10, str(self.placement), str(self.unit))],
-            rows,
-        )
-        self.assertEqual({EX["standard-deviation"]}, set(self.graph.objects(self.unit, CD.hasFocusConcept)))
-        self.assertEqual([], list(self.graph.objects(self.unit, CD.position)))
-
-    def test_existing_path_can_be_queried_for_learning_unit(self) -> None:
-        query = """
-            PREFIX cd: <https://w3id.org/project-chemie-digital/ontology/>
-            PREFIX ex: <https://w3id.org/project-chemie-digital/resource/>
-            SELECT ?path WHERE {
-              ?path a cd:LearningPath ;
-                    cd:forLearningUnit ex:learning-unit-standard-deviation .
-            }
-            ORDER BY STR(?path)
-        """
-        self.assertEqual([self.path], [row.path for row in self.graph.query(query)])
-
-    def test_course_order_is_stable_when_trig_source_order_is_reversed(self) -> None:
-        forward = RDF_DATASET.assemble_dataset(include_legacy=False)
-        reverse = RDF_DATASET.assemble_dataset(
-            include_legacy=False,
-            trig_paths=tuple(reversed(RDF_DATASET.CANONICAL_TRIG)),
-        )
-        self.assertEqual(self._ordered_course_rows(forward), self._ordered_course_rows(reverse))
-
     def test_shacl_rejects_blank_node_course_scale_identities(self) -> None:
         cases = (
             (CD.TeachingOffering, ((CD.hasUnitPlacement, self.placement),)),

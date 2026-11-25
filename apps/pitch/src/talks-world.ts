@@ -18,6 +18,9 @@ export function renderTalksWorld(collection: PresentationCollection, talks: Retu
     <ol class="talks-world-grid">${talks.map(talk => `<li><article class="pitch-world-card">
       <p>Scientific talk</p><h2>${escape(talk.title)}</h2>${talk.event ? `<p>${escape(talk.event.name)}</p>` : ""}
       <button type="button" class="pitch-world-start" data-scene-document-id="${escape(talk.document.id)}">Open presentation <span aria-hidden="true">→</span></button>
+      ${talk.document.id === "ex:path-talk-environmental-health-2026--scene-document"
+        ? '<p><a href="/microplastics-eh2026/">Watch with narration</a></p>'
+        : ""}
     </article></li>`).join("")}
     <li class="talks-future"><h2>Future Talks</h2><p>This collection can grow with new semantically authored presentations.</p></li></ol>
     <p class="talks-reference">Reference: <a href="https://chemometrics.odea-project.org/">Chemometrics course ↗</a></p>

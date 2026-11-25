@@ -1,0 +1,52 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/knowledge/eh26-instrument-and-quality> {
+  ex:eh26-ted-instrument-figure a cd:MediaAsset ;
+    cd:uri "/talks/eh26-ted-setup.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "TED-GC-MS setup showing sample heating, Twister capture, transfer of the sorbent, thermal desorption, cryofocusing, gas chromatography and mass spectrometry."@en ;
+    dct:references ex:ted-setup-illustration ; cd:authoredResource true .
+  ex:eh26-controlled-automation-figure a cd:MediaAsset ;
+    cd:uri "/talks/eh26-controlled-automation.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "A TED-GC-MS instrument saves its completed data file. An event handler registers file readiness and starts the execution engine. The engine follows the configured pipeline and produces a report with provenance. The same event handler registers the completed report before sending it to the data store."@en ;
+    dct:references ex:eh26-controlled-automation-flow ; cd:authoredResource true .
+  ex:eh26-quality-checks a cd:Concept ;
+    skos:prefLabel "What Makes an SBR Result Comparable?"@en ;
+    cd:hasDefinition ex:eh26-quality-definition ; cd:authoredResource true .
+  ex:eh26-quality-definition a cd:Definition ;
+    cd:body "A comparison links each result to evidence about background, recovery in its matrix, calibration, and the sampling design."@en ;
+    cd:hasSource ex:eh26-quality-source ; cd:authoredResource true .
+  ex:eh26-quality-visual a cd:MediaAsset ;
+    cd:uri "/talks/eh26-quality-checks.svg"^^xsd:anyURI ; cd:mediaType "image/svg+xml" ;
+    cd:alternativeText "Three questions before comparing SBR results. Procedural blank: what did the method contribute? Matrix spike: how much of the addition was recovered? Independent check standard: did the response meet its acceptance criterion?"@en ;
+    cd:authoredResource true .
+  ex:eh26-quality-footer a cd:Interpretation ;
+    cd:body "Compare SBR results alongside their quality checks. · Kittner et al."@en ;
+    cd:hasSource ex:eh26-quality-source ; cd:authoredResource true .
+  ex:eh26-quality-source a cd:Source ;
+    dct:title "Decomposability versus detectability: First validation of TED-GC/MS for microplastic detection in different environmental matrices" ;
+    dct:creator "M. Kittner, P. Eisentraut, and U. Braun" ;
+    dct:identifier "10.1002/appl.202200089" ; dct:source <https://doi.org/10.1002/appl.202200089> ;
+    cd:supportsResource ex:eh26-quality-definition, ex:eh26-quality-footer ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/paths/talk-environmental-health-2026> {
+  ex:path-talk-environmental-health-2026 cd:hasStep ex:eh26-step-quality ; cd:forTopic ex:eh26-quality-checks .
+  ex:eh26-step-quality a cd:PathStep ; cd:position 9 ; cd:usesScene ex:eh26-scene-quality ;
+    cd:usesResource ex:eh26-quality-checks, ex:eh26-quality-visual, ex:eh26-quality-footer ; cd:authoredResource true .
+}
+
+<https://w3id.org/project-chemie-digital/graph/scenes/eh26-quality-checks> {
+  ex:eh26-scene-quality a cd:SceneDefinition ; cd:focusConcept ex:eh26-quality-checks ;
+    cd:hasSceneItem ex:eh26-quality-title-item, ex:eh26-quality-visual-item, ex:eh26-quality-footer-item ;
+    cd:narration "Suppose another laboratory wants to compare its results with the two SBR values we just saw. I would ask for three pieces of evidence before interpreting the difference.\n\nFirst, look at the procedural blank. It passes through the same preparation steps as a sample and helps us see what the procedure itself contributes. If a signal also appears in that blank, we need to investigate its origin and apply the decision rule specified by the method. Saving the blank result and the rule makes that decision visible to the next analyst.\n\nSecond, look at recovery in the sample matrix. In a recovery experiment, we add a known amount of the target material to a representative sample and measure how much of the addition the method recovers. Inflow and outflow can carry different co-extracted material, so evidence from one matrix may have limited relevance to the other. Here, the useful record includes the added amount, the matrix, the preparation, and the measured response. Published work on TED-GC-MS demonstrates why this matrix-specific check matters.\n\nThird, look at the calibration record. Which standards bracketed the sample response, and did the independent check meet its acceptance criterion? A repeatable signal is easier to interpret when we can see the concentration range, the actual model, and the checks performed on that day.\n\nThere is also a question of study design. Three analytical replicates tell us something about the repeatability of those measurements. To estimate a treatment effect, we would also need independent sampling that represents variability in the process, with a design that supports comparing influent and effluent. That distinction matters when an environmental or health decision rests on a reported number.\n\nTaken together, these checks give the reader a way to ask where an apparent difference came from: the sample, the method, or the study design. The next question is how to keep that evidence accessible when data move between people, instruments, and software."@en ; cd:authoredResource true .
+  ex:eh26-quality-title-item a cd:SceneItem ; cd:position 1 ; cd:selectsResource ex:eh26-quality-checks ;
+    cd:communicativeRole cd:HeadingRole ; cd:selectionPath "skos:prefLabel@en" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-quality-visual-item a cd:SceneItem ; cd:position 2 ; cd:selectsResource ex:eh26-quality-visual ;
+    cd:communicativeRole cd:MediaRole ; cd:selectionPath "cd:uri" ; cd:language "en" ; cd:authoredResource true .
+  ex:eh26-quality-footer-item a cd:SceneItem ; cd:position 3 ; cd:selectsResource ex:eh26-quality-footer ;
+    cd:communicativeRole cd:StatementRole ; cd:selectionPath "cd:body" ; cd:language "en" ; cd:authoredResource true .
+}

@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from pyshacl import validate
-from rdflib import Graph, URIRef
+from rdflib import Graph, RDF, URIRef
 from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,8 +14,7 @@ FOCUSED_VALIDATION_TRIG = (
     ROOT / "ontology" / "dataset" / "core.trig",
     ROOT / "ontology" / "dataset" / "concepts.trig",
     ROOT / "ontology" / "dataset" / "shapes.trig",
-    ROOT / "ontology" / "dataset" / "standard-deviation.trig",
-    ROOT / "ontology" / "dataset" / "standard-deviation-shapes.trig",
+    ROOT / "ontology" / "dataset" / "talks-ted-knowledge.trig",
 )
 
 if str(ROOT / "scripts") not in sys.path:
@@ -68,16 +67,17 @@ class SemanticValidationTests(unittest.TestCase):
 
     def test_missing_definition_is_rejected(self) -> None:
         graph, shapes = assembled_validation_graphs()
-        concept = URIRef("https://w3id.org/project-chemie-digital/resource/standard-deviation")
+        concept = URIRef("https://w3id.org/project-chemie-digital/resource/ted-gc-ms")
         has_definition = URIRef("https://w3id.org/project-chemie-digital/ontology/hasDefinition")
         graph.remove((concept, has_definition, None))
         conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=False)
         self.assertFalse(conforms, str(report))
 
-    def test_definition_without_repository_source_is_rejected(self) -> None:
+    def test_pitch_resource_without_repository_source_is_rejected(self) -> None:
         graph, shapes = assembled_validation_graphs()
-        resource = URIRef("https://w3id.org/project-chemie-digital/resource/sd-definition-basic-de")
+        resource = URIRef("https://w3id.org/project-chemie-digital/resource/ted-definition")
         has_source = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
+        graph.add((resource, RDF.type, URIRef("https://w3id.org/project-chemie-digital/ontology/PitchResource")))
         graph.remove((resource, has_source, None))
         conforms, _, report = validate(data_graph=graph, shacl_graph=shapes, inference="rdfs", meta_shacl=False)
         self.assertFalse(conforms, str(report))

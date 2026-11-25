@@ -28,7 +28,7 @@ def canonical_source_graph_names() -> set[str]:
         names.update(populated_graph_names(parsed))
     return names
 
-STANDARD_DEVIATION = URIRef(f"{MODULE.RESOURCE_BASE}standard-deviation")
+TED_CONCEPT = URIRef(f"{MODULE.RESOURCE_BASE}microplastics-analysis")
 PREF_LABEL = URIRef("http://www.w3.org/2004/02/skos/core#prefLabel")
 HAS_SOURCE = URIRef("https://w3id.org/project-chemie-digital/ontology/hasSource")
 
@@ -89,11 +89,11 @@ class RdfDatasetTests(unittest.TestCase):
         self.assertTrue(conforms, report)
         self.assertIn("Dataset fingerprint:", report)
 
-    def test_assembled_standard_deviation_has_exact_bilingual_labels_and_no_direct_source(self) -> None:
+    def test_talk_concept_keeps_authored_language_and_scope(self) -> None:
         dataset = MODULE.assemble_dataset()
-        labels = {obj for _s, _p, obj, _g in dataset.quads((STANDARD_DEVIATION, PREF_LABEL, None, None))}
-        self.assertEqual({Literal("Standardabweichung", lang="de"), Literal("standard deviation", lang="en")}, labels)
-        self.assertEqual([], list(dataset.quads((STANDARD_DEVIATION, HAS_SOURCE, None, None))))
+        labels = {obj for _s, _p, obj, _g in dataset.quads((TED_CONCEPT, PREF_LABEL, None, None))}
+        self.assertEqual({Literal("Microplastics analysis", lang="en")}, labels)
+        self.assertEqual([], list(dataset.quads((TED_CONCEPT, HAS_SOURCE, None, None))))
 
     def test_fingerprint_is_independent_of_source_file_order(self) -> None:
         forward = MODULE.assemble_dataset(trig_paths=MODULE.CANONICAL_TRIG)

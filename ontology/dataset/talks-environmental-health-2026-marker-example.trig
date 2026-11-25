@@ -1,0 +1,40 @@
+@prefix cd: <https://w3id.org/project-chemie-digital/ontology/> .
+@prefix ex: <https://w3id.org/project-chemie-digital/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/project-chemie-digital/graph/data/eh26-marker-example> {
+  ex:eh26-marker-chromatogram a cd:ChartDefinition ;
+    skos:prefLabel "Schematic TIC → EIC: marker evidence"@en ;
+    cd:body "From a selected ion trace to a candidate and a documented integration window."@en ;
+    cd:chartType cd:LineChart ; cd:xAxisLabel "Relative retention time"@en ;
+    cd:yAxisLabel "Relative ion signal"@en ; cd:yAxisUnit "a.u." ;
+    cd:usesDataset ex:ted-schematic-eic ; dct:hasPart ex:ted-schematic-signal ;
+    cd:hasChartAnnotation ex:ted-select-eic, ex:ted-marker-candidate-a, ex:ted-marker-spectrum, ex:ted-marker-area,
+      ex:eh26-marker-example-candidate, ex:eh26-marker-example-background, ex:eh26-marker-example-ion,
+      ex:eh26-marker-example-overlap, ex:eh26-marker-example-window ;
+    dct:references ex:ted-polymer-markers ; cd:hasSource ex:ted-source-method, ex:ted-source-review ; cd:authoredResource true .
+
+  ex:eh26-marker-example-candidate a cd:ChartPointAnnotation ; cd:position 5 ; cd:targetObservation ex:ted-e36 ;
+    cd:body "Candidate at expected time"@en ; cd:annotationMedia ex:eh26-marker-example-candidate-figure ; cd:authoredResource true .
+  ex:eh26-marker-example-background a cd:ChartPointAnnotation ; cd:position 6 ; cd:targetObservation ex:ted-e36 ;
+    cd:body "Inspect the local background"@en ; cd:annotationMedia ex:eh26-marker-example-background-figure ; cd:authoredResource true .
+  ex:eh26-marker-example-ion a cd:ChartPointAnnotation ; cd:position 7 ; cd:targetObservation ex:ted-e36 ;
+    cd:body "Compare a supporting ion"@en ; cd:annotationMedia ex:eh26-marker-example-ion-figure ; cd:authoredResource true .
+  ex:eh26-marker-example-overlap a cd:ChartPointAnnotation ; cd:position 8 ; cd:targetObservation ex:ted-e36 ;
+    cd:body "An overlap adds signal"@en ; cd:annotationMedia ex:eh26-marker-example-overlap-figure ; cd:authoredResource true .
+  ex:eh26-marker-example-window a cd:ChartPointAnnotation ; cd:position 9 ; cd:targetObservation ex:ted-e36 ;
+    cd:body "Document the integration limits"@en ; cd:annotationMedia ex:eh26-marker-example-window-figure ; cd:authoredResource true .
+
+  ex:eh26-marker-example-candidate-figure a cd:MediaAsset ; cd:uri "/talks/eh26-marker-example-candidate.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Zoom into the selected ion trace near relative retention time 4.4. Its apex falls near the expected marker time."@en ; cd:authoredResource true .
+  ex:eh26-marker-example-background-figure a cd:MediaAsset ; cd:uri "/talks/eh26-marker-example-background.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "A dashed curve beneath the same candidate illustrates the local background contribution, including the signal near both sides of the peak."@en ; cd:authoredResource true .
+  ex:eh26-marker-example-ion-figure a cd:MediaAsset ; cd:uri "/talks/eh26-marker-example-ion.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "A second ion reaches its maximum at the same retention time. Its similar elution profile supports the candidate."@en ; cd:authoredResource true .
+  ex:eh26-marker-example-overlap-figure a cd:MediaAsset ; cd:uri "/talks/eh26-marker-example-overlap.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "An orange second component contributes to the trailing side of the selected ion signal. The teal target component and the orange contribution are shown separately beneath the selected trace."@en ; cd:authoredResource true .
+  ex:eh26-marker-example-window-figure a cd:MediaAsset ; cd:uri "/talks/eh26-marker-example-window.svg"^^xsd:anyURI ;
+    cd:mediaType "image/svg+xml" ; cd:alternativeText "Two dashed vertical lines mark the integration bounds. Shading shows the portion of the estimated target component inside that window. The overlapping component remains visible for comparison."@en ; cd:authoredResource true .
+}

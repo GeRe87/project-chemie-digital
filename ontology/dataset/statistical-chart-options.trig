@@ -45,3 +45,13 @@
         UNION { ?r cd:unit ?u . ?d cd:unit ?v . FILTER (?u != ?v) }
       }""" ] .
 }
+
+<https://w3id.org/project-chemie-digital/graph/ontology/box-plot> {
+  cd:LearningDomain cdm:definesControlledValue cd:BoxPlot .
+  cd:BoxPlot a cdm:ControlledValue ; rdfs:label "Box-and-whisker plot"@en .
+}
+<https://w3id.org/project-chemie-digital/graph/ontology/histogram> {
+  cd:LearningDomain cdm:definesControlledValue cd:Histogram, cd:Histogram2D .
+  cd:Histogram a cdm:ControlledValue ; rdfs:label "Histogram"@en .
+  cd:Histogram2D a cdm:ControlledValue ; rdfs:label "Two-dimensional histogram"@en .
+}

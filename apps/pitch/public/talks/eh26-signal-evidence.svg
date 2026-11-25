@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 370">
+  <title>From an ion signal to a traceable result</title>
+  <desc>A chromatogram leads through marker selection and calibration to an estimate of polymer mass with links to the data and decisions behind it.</desc>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#17313f">
+    <text x="192" y="43" font-size="27" font-weight="700">Ion signal</text>
+    <text x="552" y="43" font-size="27" font-weight="700">Analytical decisions</text>
+    <text x="908" y="43" font-size="27" font-weight="700">Reported evidence</text>
+    <path d="M61 94V249H319" fill="none" stroke="#718b99" stroke-width="3" stroke-linecap="round"/>
+    <path d="M68 233L92 235L113 229C145 225 148 224 163 199C183 169 184 103 207 110C230 115 226 197 252 223C274 240 289 203 304 219L315 231" fill="none" stroke="#006582" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="207" cy="110" r="10" fill="#a94311"/>
+    <path d="M336 177H418M406 166L418 177L406 188M684 177H766M754 166L766 177L754 188" fill="none" stroke="#718b99" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M459 207H608M459 207V96M468 194L599 111" fill="none" stroke="#006582" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="492" cy="180" r="7" fill="#a94311"/><circle cx="533" cy="151" r="7" fill="#a94311"/><circle cx="574" cy="131" r="7" fill="#a94311"/>
+    <circle cx="595" cy="205" r="35" fill="#e8f3f7" stroke="#006582" stroke-width="4"/>
+    <path d="M580 206L591 217L611 193" fill="none" stroke="#006582" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M847 87H945L979 121V244H847ZM945 87V121H979" fill="#e8f3f7" stroke="#006582" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M869 146H953M869 163H953M869 180H921" fill="none" stroke="#006582" stroke-width="4" stroke-linecap="round"/>
+    <path d="M908 245V269M835 269H982" stroke="#718b99" fill="none" stroke-width="3"/>
+    <circle cx="835" cy="269" r="7" fill="#a94311"/><circle cx="908" cy="269" r="7" fill="#a94311"/><circle cx="982" cy="269" r="7" fill="#a94311"/>
+    <text x="192" y="322" font-size="20">An ion trace over time</text>
+    <text x="552" y="322" font-size="20">Select a marker · apply calibration</text>
+    <text x="908" y="322" font-size="20">Polymer mass with its provenance</text>
+  </g>
+</svg>
