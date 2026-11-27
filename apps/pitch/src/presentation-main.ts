@@ -29,6 +29,7 @@ import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
 import "./teaching-primitives.css";
 import "./mathematical-derivation.css";
+import "./talks-layout.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";
 import "./script-view.css";
@@ -115,6 +116,30 @@ try {
   throw error;
 }
 
+// This talk's two authored project references are navigation links. Keep the
+// general teaching Markdown renderer and the network guard unchanged.
+for (const paragraph of root.querySelectorAll(
+  'section[data-source-path-id="ex:path-talk-environmental-health-2026"] .lead > p',
+)) {
+  const tail = paragraph.lastChild;
+  if (tail?.nodeType !== Node.TEXT_NODE) continue;
+  for (const [label, href] of [
+    ["qAlgorithms", "https://qalgorithms.odea-project.org/"],
+    ["CogniFlow", "https://cogniflow.odea-project.org/"],
+  ]) {
+    const reference = "[" + label + "](" + href + ")";
+    if (!tail.textContent?.endsWith(reference)) continue;
+    tail.textContent = tail.textContent.slice(0, -reference.length);
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = label;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    paragraph.append(link);
+    break;
+  }
+}
+
 if (courseWorldModel) {
   const selected = new Set(documents.map(d => d.id));
   appendPitchCourseLevelBoundarySlides(root, { ...courseWorldModel, units: courseWorldModel.units.filter(u => u.paths.some(p => selected.has(p.sceneDocumentId ?? ""))) });
@@ -162,6 +187,11 @@ const appearance = resolvePresentationAppearance(window.location.search, documen
 // Keep keyboard shortcuts and the floating theme lamp, without a toolbar rail.
 shellRoot.hidden = appearance.profile.showToolbar === false;
 for (const message of appearance.diagnostics) console.warn(message);
+const healthTalkSections = root.querySelectorAll<HTMLElement>(
+  'section[data-source-path-id="ex:path-talk-environmental-health-2026"]',
+);
+const teachingMediaOptions = { stagedTalkSections: new Set<Element>(healthTalkSections) };
+const destroyTalkMedia = healthTalkSections.length ? await mountTeachingSvgMedia(root, teachingMediaOptions) : undefined;
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
   ? mountPresentationProjections(root)
@@ -444,7 +474,7 @@ deck.on("slidechanged",syncBackgroundPage);
 const stopBackgroundProgress = progressSource.start((offset) => syncBackgroundProgress(offset));
 
 let codeRuntime: CodeRuntimeController | undefined;
-const destroyTeachingMedia = await mountTeachingSvgMedia(root);
+const destroyTeachingMedia = destroyTalkMedia ?? await mountTeachingSvgMedia(root);
 let pollRuntime: PollRuntimeController | undefined;
 let localPollRuntime: LocalPollRuntimeController | undefined;
 

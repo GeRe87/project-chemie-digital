@@ -38,7 +38,60 @@ export function sanitizeTeachingSvg(text: string, document: Document): SVGSVGEle
   return copy(root) as SVGSVGElement;
 }
 
-export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => void> {
+// Timed talk illustrations opt into a build or focus sequence with a titled top-level group.
+// The original SVG remains a complete illustration for static exports.
+function mountSvgSteps(figure: HTMLElement, svg: SVGSVGElement): () => void {
+  const layer = Array.from(svg.children).find(child =>
+    child.localName === "g" && child.firstElementChild?.localName === "title"
+    && (child.firstElementChild.textContent === "Presentation build steps"
+      || (child.firstElementChild.textContent === "Presentation focus regions" && child.getAttribute("opacity") === "0")));
+  if (!layer) return () => {};
+
+  const regions = Array.from(layer.children).filter(child => child.localName === "g");
+  if (!regions.length || regions.length > 12 || regions.length !== layer.children.length - 1) {
+    return () => {};
+  }
+  const build = layer.firstElementChild?.textContent === "Presentation build steps";
+  layer.classList.add(build ? "teaching-svg-build" : "teaching-svg-focus");
+  layer.setAttribute("aria-hidden", "true");
+  figure.dataset.presentationStepCount = String(regions.length);
+  figure.dataset.presentationStepHost = build ? "svg-build" : "svg-focus";
+
+  if (build) {
+    const motionClasses = new Map([
+      ["Scan sweep", "teaching-svg-sweep"],
+      ["Turn clockwise", "teaching-svg-turn"],
+      ["Turn counterclockwise", "teaching-svg-turn-reverse"],
+      ["Dispatch pulse", "teaching-svg-pulse"],
+      ["Delayed arrival", "teaching-svg-delayed"],
+    ]);
+    for (const group of layer.querySelectorAll("g")) {
+      if (group.firstElementChild?.localName !== "title") continue;
+      const motionClass = motionClasses.get(group.firstElementChild.textContent ?? "");
+      if (motionClass) group.classList.add(motionClass);
+    }
+    regions[0].classList.add("is-visible");
+  }
+
+  const update = (event: Event) => {
+    const step = (event as CustomEvent<{step: number}>).detail.step;
+    regions.forEach((region, index) => {
+      region.classList.toggle("is-focused", index + 1 === step);
+      if (build) region.classList.toggle("is-visible", index < Math.max(1, step));
+    });
+  };
+  figure.addEventListener("pcd-presentation-step", update);
+  return () => {
+    figure.removeEventListener("pcd-presentation-step", update);
+    delete figure.dataset.presentationStepCount;
+    delete figure.dataset.presentationStepHost;
+  };
+}
+
+export async function mountTeachingSvgMedia(
+  root: ParentNode,
+  { stagedTalkSections }: { stagedTalkSections?: ReadonlySet<Element> } = {},
+): Promise<() => void> {
   const cleanup: Array<() => void> = [];
   for (const figure of root.querySelectorAll<HTMLElement>('figure[data-media-type="image/svg+xml"]')) {
     const image = figure.querySelector<HTMLImageElement>("img");
@@ -56,7 +109,12 @@ export async function mountTeachingSvgMedia(root: ParentNode): Promise<() => voi
       svg.setAttribute("role", "img");
       svg.setAttribute("aria-label", image.alt);
       image.replaceWith(svg);
-      cleanup.push(() => { svg.replaceWith(image); });
+      const slide = figure.closest("section");
+      const unmountSteps = slide && stagedTalkSections?.has(slide) ? mountSvgSteps(figure, svg) : undefined;
+      cleanup.push(() => {
+        unmountSteps?.();
+        svg.replaceWith(image);
+      });
     } catch {
       // Accessible image remains; an unsupported SVG never becomes inline markup.
       figure.dataset.mediaEnhancement = "static-fallback";

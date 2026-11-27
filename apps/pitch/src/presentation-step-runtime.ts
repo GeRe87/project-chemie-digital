@@ -77,7 +77,7 @@ function numericStepCount(host: Element): number {
 
 export function initialPresentationStep(host: Element): number {
   const kind = host.getAttribute("data-presentation-step-host");
-  return kind === "chart" || kind === "diagram-state" ? Math.min(1, numericStepCount(host)) : 0;
+  return kind === "chart" || kind === "diagram-state" || kind === "svg-build" ? Math.min(1, numericStepCount(host)) : 0;
 }
 
 function hostId(host: Element, fallbackIndex: number): string {
