@@ -6,6 +6,7 @@ import type { ChartBlock, LineChartAnnotation, LineChartBlock, LineChartDatum } 
 export interface D3LineChartOptions {
   readonly reducedMotion: boolean;
   readonly yDomain?: readonly [number, number];
+  readonly replaceRepeatedEvidence?: boolean;
 }
 export interface D3LineChartRenderModel {
   readonly version: "1.0";
@@ -119,6 +120,17 @@ export function mountD3LineChart(
   const model = result.model;
   const presentation = lineChartPresentationPlan(model.annotations);
   const stepCount = presentation.stepCount;
+  const illustratedPoints = new Map<string, Set<string>>();
+  const replacementSteps: number[] = [];
+  if (options.replaceRepeatedEvidence) {
+    model.annotations.forEach((annotation, index) => {
+      if (annotation.kind !== "point" || !annotation.media) return;
+      const points = illustratedPoints.get(annotation.seriesId) ?? new Set<string>();
+      if (points.has(annotation.datumId)) replacementSteps.push(index + 2);
+      points.add(annotation.datumId);
+      illustratedPoints.set(annotation.seriesId, points);
+    });
+  }
   let currentStep = 0;
   let destroyed = false;
 
@@ -166,9 +178,11 @@ export function mountD3LineChart(
       point.style.opacity = visibleSeries(id) ? (activeFocus && id !== activeFocus ? "0.25" : "0.9") : "0";
       point.classList.toggle("d3-chart-series-context", !!activeFocus && id !== activeFocus);
     }
+    // A new inset for the same point replaces the earlier evidence view.
+    const firstVisibleStep = replacementSteps.findLast(step => step <= currentStep) ?? 0;
     for (const group of chartSvg.querySelectorAll<SVGGElement>("[data-annotation-step]")) {
       const requiredStep = Number(group.dataset.annotationStep ?? "999");
-      const visible = currentStep >= requiredStep;
+      const visible = requiredStep >= firstVisibleStep && requiredStep <= currentStep;
       group.style.opacity = visible ? "1" : "0";
       group.style.transform = visible ? "translateY(0)" : "translateY(8px)";
       group.setAttribute("aria-hidden", String(!visible));
@@ -178,7 +192,8 @@ export function mountD3LineChart(
   const render = (): void => {
     if (destroyed) return;
     chartSvg.replaceChildren();
-    const width = Math.max(680, Math.round(host.getBoundingClientRect().width || 1000));
+    const hostWidth = Math.round(host.getBoundingClientRect().width || 1000);
+    const width = Math.max(680, hostWidth);
     const height = Math.max(480, Math.round(width * 0.52));
     const margin = { top: 54, right: 58, bottom: 82, left: 98 };
     const plotWidth = width - margin.left - margin.right;
@@ -357,8 +372,16 @@ export function mountD3LineChart(
         // Evidence overlays the plot, not an extra row that shrinks its trace.
         // Choose the side away from the annotated datum to keep its peak clear.
         const datum = series.data.find(datum => datum.id === annotation.datumId)!;
-        const insetWidth = plotWidth * .43;
-        const insetX = x(datum.x) < margin.left + plotWidth / 2 ? margin.left + plotWidth - insetWidth : margin.left;
+        const compactInset = hostWidth < 520 && replacementSteps.includes(annotationIndex + 2);
+        const insetWidth = plotWidth * (compactInset ? .94 : .43);
+        const insetHeight = insetWidth * 270 / 640;
+        const insetX = compactInset ? margin.left + (plotWidth - insetWidth) / 2
+          : x(datum.x) < margin.left + plotWidth / 2 ? margin.left + plotWidth - insetWidth : margin.left;
+        const insetY = compactInset ? margin.top + plotHeight - insetHeight - 10 : margin.top + 8;
+        if (compactInset) {
+          group.querySelector(".d3-chart-annotation-label")?.remove();
+          group.querySelector(".d3-chart-annotation-connector")?.remove();
+        }
         image.setAttribute("x", String(insetX));
         image.setAttribute("y", String(margin.top + 8)); image.setAttribute("width", String(insetWidth));
         image.setAttribute("height", String(insetWidth * 270 / 640));

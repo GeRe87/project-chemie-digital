@@ -157,10 +157,13 @@ const unmountDiagrams = mountPitchDiagrams(
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
+const healthTalkSections = root.querySelectorAll<HTMLElement>(
+  'section[data-source-path-id="ex:path-talk-environmental-health-2026"]',
+);
 const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
-  { reducedMotion },
+  { reducedMotion, replaceRepeatedEvidence: healthTalkSections.length > 0 },
 );
 const unmountLiveCharts = mountLiveChartUpdates(root, documents, { reducedMotion });
 const unmountSemanticMultiViews = mountSemanticMultiViews(
@@ -187,9 +190,6 @@ const appearance = resolvePresentationAppearance(window.location.search, documen
 // Keep keyboard shortcuts and the floating theme lamp, without a toolbar rail.
 shellRoot.hidden = appearance.profile.showToolbar === false;
 for (const message of appearance.diagnostics) console.warn(message);
-const healthTalkSections = root.querySelectorAll<HTMLElement>(
-  'section[data-source-path-id="ex:path-talk-environmental-health-2026"]',
-);
 const teachingMediaOptions = { stagedTalkSections: new Set<Element>(healthTalkSections) };
 const destroyTalkMedia = healthTalkSections.length ? await mountTeachingSvgMedia(root, teachingMediaOptions) : undefined;
 preparePresentationStepFragments(root);
