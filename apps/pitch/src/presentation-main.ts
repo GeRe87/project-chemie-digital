@@ -116,28 +116,22 @@ try {
   throw error;
 }
 
-// This talk's two authored project references are navigation links. Keep the
-// general teaching Markdown renderer and the network guard unchanged.
+// Render the authored reference in the Environmental Health chart footers.
+const referenceLabel = "qAlgorithms";
+const referenceUrl = "https://qalgorithms.odea-project.org/";
+const referenceMarkdown = "[" + referenceLabel + "](" + referenceUrl + ")";
 for (const paragraph of root.querySelectorAll(
   'section[data-source-path-id="ex:path-talk-environmental-health-2026"] .lead > p',
 )) {
   const tail = paragraph.lastChild;
-  if (tail?.nodeType !== Node.TEXT_NODE) continue;
-  for (const [label, href] of [
-    ["qAlgorithms", "https://qalgorithms.odea-project.org/"],
-    ["CogniFlow", "https://cogniflow.odea-project.org/"],
-  ]) {
-    const reference = "[" + label + "](" + href + ")";
-    if (!tail.textContent?.endsWith(reference)) continue;
-    tail.textContent = tail.textContent.slice(0, -reference.length);
-    const link = document.createElement("a");
-    link.href = href;
-    link.textContent = label;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    paragraph.append(link);
-    break;
-  }
+  if (tail?.nodeType !== Node.TEXT_NODE || !tail.textContent?.endsWith(referenceMarkdown)) continue;
+  tail.textContent = tail.textContent.slice(0, -referenceMarkdown.length);
+  const link = document.createElement("a");
+  link.href = referenceUrl;
+  link.textContent = referenceLabel;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  paragraph.append(link);
 }
 
 if (courseWorldModel) {
