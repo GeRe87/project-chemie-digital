@@ -29,6 +29,7 @@ import "./presentation-laser-pointer.css";
 import "./presentation-step-runtime.css";
 import "./teaching-primitives.css";
 import "./mathematical-derivation.css";
+import "./talks-layout.css";
 import "./presenter-tools.css";
 import "./presentation-page-motion.css";
 import "./script-view.css";
@@ -115,6 +116,24 @@ try {
   throw error;
 }
 
+// Render the authored reference in the Environmental Health chart footers.
+const referenceLabel = "qAlgorithms";
+const referenceUrl = "https://qalgorithms.odea-project.org/";
+const referenceMarkdown = "[" + referenceLabel + "](" + referenceUrl + ")";
+for (const paragraph of root.querySelectorAll(
+  'section[data-source-path-id="ex:path-talk-environmental-health-2026"] .lead > p',
+)) {
+  const tail = paragraph.lastChild;
+  if (tail?.nodeType !== Node.TEXT_NODE || !tail.textContent?.endsWith(referenceMarkdown)) continue;
+  tail.textContent = tail.textContent.slice(0, -referenceMarkdown.length);
+  const link = document.createElement("a");
+  link.href = referenceUrl;
+  link.textContent = referenceLabel;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  paragraph.append(link);
+}
+
 if (courseWorldModel) {
   const selected = new Set(documents.map(d => d.id));
   appendPitchCourseLevelBoundarySlides(root, { ...courseWorldModel, units: courseWorldModel.units.filter(u => u.paths.some(p => selected.has(p.sceneDocumentId ?? ""))) });
@@ -132,10 +151,13 @@ const unmountDiagrams = mountPitchDiagrams(
   documents,
   { reducedMotion, interactionPolicy: "keyboard" },
 );
+const healthTalkSections = root.querySelectorAll<HTMLElement>(
+  'section[data-source-path-id="ex:path-talk-environmental-health-2026"]',
+);
 const unmountCharts = mountPitchCharts(
   Array.from(root.querySelectorAll<HTMLElement>("[data-chart-block-id]")),
   documents,
-  { reducedMotion },
+  { reducedMotion, replaceRepeatedEvidence: healthTalkSections.length > 0 },
 );
 const unmountLiveCharts = mountLiveChartUpdates(root, documents, { reducedMotion });
 const unmountSemanticMultiViews = mountSemanticMultiViews(
@@ -162,6 +184,8 @@ const appearance = resolvePresentationAppearance(window.location.search, documen
 // Keep keyboard shortcuts and the floating theme lamp, without a toolbar rail.
 shellRoot.hidden = appearance.profile.showToolbar === false;
 for (const message of appearance.diagnostics) console.warn(message);
+const teachingMediaOptions = { stagedTalkSections: new Set<Element>(healthTalkSections) };
+const destroyTalkMedia = healthTalkSections.length ? await mountTeachingSvgMedia(root, teachingMediaOptions) : undefined;
 preparePresentationStepFragments(root);
 const unmountPresentationProjection = appearance.profile.projectionCapabilities?.publication
   ? mountPresentationProjections(root)
@@ -444,7 +468,7 @@ deck.on("slidechanged",syncBackgroundPage);
 const stopBackgroundProgress = progressSource.start((offset) => syncBackgroundProgress(offset));
 
 let codeRuntime: CodeRuntimeController | undefined;
-const destroyTeachingMedia = await mountTeachingSvgMedia(root);
+const destroyTeachingMedia = destroyTalkMedia ?? await mountTeachingSvgMedia(root);
 let pollRuntime: PollRuntimeController | undefined;
 let localPollRuntime: LocalPollRuntimeController | undefined;
 

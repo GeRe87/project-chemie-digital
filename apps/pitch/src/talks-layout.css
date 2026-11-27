@@ -1,0 +1,272 @@
+/* Reuse the diagram frame without forcing a diagram layout on a chart or image. */
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] {
+  border: 1px solid var(--pcd-world-panel-border);
+  border-radius: var(--pcd-surface-radius, 0);
+  background: var(--pcd-world-panel-bg);
+  box-shadow: var(--pcd-world-panel-shadow);
+}
+
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg {
+  max-height: min(52vh, 460px);
+  margin-inline: auto;
+}
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] .d3-flow-node-body > tspan {
+  font-weight: 500;
+}
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] .d3-flow-node-body > tspan:first-child {
+  font-weight: 750;
+}
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] .lead a {
+  color: var(--pcd-accent);
+  text-decoration: underline;
+  text-underline-offset: .13em;
+  white-space: nowrap;
+}
+.reveal .slides section[data-source-path-id="ex:path-talk-environmental-health-2026"] .lead > p {
+  margin: 0;
+}
+
+.reveal .slides section[id="ex:eh26-scene-01--scene"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(165px, 20%);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas: "title title" "subtitle subtitle" "illustration illustration" "credit logo";
+  gap: .45rem 1.2rem;
+  min-height: 0;
+  padding: 1.4rem 1.8rem !important;
+  text-align: left;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] > [data-composition-region-container] {
+  display: contents;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] > h2 {
+  grid-area: title;
+  max-width: 29ch;
+  margin: 0;
+  font-size: clamp(1.15em, 4.2vw, 1.7em);
+  line-height: 1.09;
+  text-transform: none;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] :is([data-resource-id~="ex:eh26-title-subtitle"], [data-resource-id~="ex:eh26-statement-01"]) {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] [data-resource-id~="ex:eh26-title-subtitle"] {
+  grid-area: subtitle;
+  font-size: .92em;
+  color: var(--pcd-accent);
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] [data-resource-id~="ex:eh26-statement-01"] {
+  grid-area: credit;
+  align-self: center;
+  font-size: .61em;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] [data-media-uri="/talks/eh26-signal-evidence.svg"] {
+  grid-area: illustration;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  min-height: 0;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] [data-media-uri="/talks/eh26-signal-evidence.svg"] > :is(svg, img) {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] [data-media-uri="/talks/eh26-ude-logo.svg"] {
+  grid-area: logo;
+  align-self: end;
+  margin: 0;
+}
+.reveal .slides :is(section[id="ex:eh26-scene-01--scene"], section[id="ex:eh26-scene-thanks--scene"]) [data-media-uri="/talks/eh26-ude-logo.svg"] img {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: .25rem;
+  background: #fff;
+}
+.reveal .slides section[id="ex:eh26-scene-01--scene"] figure figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20%);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: "title title" "qr qr" "contact logo";
+  gap: .65rem 1rem;
+  padding: 2rem !important;
+}
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > h2 { grid-area: title; margin: 0; }
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > figure { display: grid; place-items: center; margin: 0; min-height: 0; }
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > [data-media-uri="/talks-media/talks-website-qr.svg"] { grid-area: qr; }
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > [data-media-uri="/talks-media/talks-website-qr.svg"] > :is(img, svg) {
+  width: 100%; height: 100%; min-height: 0; max-height: 100%; object-fit: contain;
+}
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > .lead {
+  grid-area: contact; align-self: end; width: 100%; max-width: none; margin: 0; overflow-wrap: anywhere;
+}
+.reveal .slides section[id="ex:eh26-scene-thanks--scene"] > [data-media-uri="/talks/eh26-ude-logo.svg"] { grid-area: logo; align-self: end; }
+
+body.pcd-native-mobile .reveal .slides section[id="ex:eh26-scene-thanks--scene"] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 25%);
+  gap: .5rem;
+  padding: .9rem .78rem 1rem !important;
+}
+body.pcd-native-mobile .reveal .slides section[id="ex:eh26-scene-thanks--scene"] > [data-media-uri="/talks/eh26-ude-logo.svg"] {
+  align-self: start;
+}
+
+/* Keep the chart, topic link and takeaway together inside the talk's frame. */
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"]:has(> .d3-chart-host):has(> .lead) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: .55rem;
+  height: 100%;
+  min-height: 0;
+  padding: 16px 25.6px 12px !important;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"]:has(> .d3-chart-host) > h2 {
+  margin: 0;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"]:has(> .lead) > .d3-chart-host {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: .55rem 1rem .35rem;
+  box-sizing: border-box;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"] > .d3-chart-host > .d3-chart-figure {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+  min-height: 0;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"] > .d3-chart-host > .d3-chart-figure:has(> .d3-dot-legend) {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"] > .d3-chart-host .d3-chart-svg {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+body:not(.reveal-scroll) .reveal .slides
+section[data-source-path-id="ex:path-talk-environmental-health-2026"]:has(> .d3-chart-host) > .lead {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: .45rem .65rem;
+  border-top: 2px solid var(--pcd-accent);
+  font-size: .76em;
+  line-height: 1.25;
+}
+
+/* Keep the timed SVG builds and dark-mode contrast of the talk illustrations. */
+.teaching-svg-focus { opacity: 1; pointer-events: none; }
+.teaching-svg-focus > g { opacity: 0; transition: opacity 240ms ease-in-out; }
+.teaching-svg-focus > g.is-focused { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .teaching-svg-focus > g { transition: none; }
+}
+
+.teaching-svg-build > g { opacity: 0; visibility: hidden; }
+.teaching-svg-build > g.is-visible { opacity: 1; visibility: visible; }
+.teaching-svg-build :is(.teaching-svg-sweep, .teaching-svg-pulse) { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .teaching-svg-build > g { transition: opacity .22s ease, visibility .22s; }
+  .teaching-svg-build > g.is-focused:not(:nth-child(2)) {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: teaching-svg-arrival .55s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .teaching-svg-build .is-focused .teaching-svg-sweep { animation: teaching-svg-scan .72s .18s ease-in-out both; }
+  .teaching-svg-build .is-focused .teaching-svg-pulse { animation: teaching-svg-dispatch .45s .2s ease-in-out both; }
+  .teaching-svg-build .is-focused :is(.teaching-svg-turn, .teaching-svg-turn-reverse) {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: teaching-svg-rotate 1.35s linear 3;
+  }
+  .teaching-svg-build .is-focused .teaching-svg-turn-reverse { animation-direction: reverse; }
+  .teaching-svg-build .is-focused .teaching-svg-delayed { animation: teaching-svg-arrival .55s .8s ease both; }
+  .teaching-svg-delayed { transform-box: fill-box; transform-origin: center; }
+}
+
+@keyframes teaching-svg-arrival {
+  0% { opacity: 0; transform: translateY(8px) scale(.96); }
+  56% { opacity: 1; transform: translateY(-2px) rotate(-1.5deg) scale(1.015); }
+  79% { transform: rotate(.8deg); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes teaching-svg-scan {
+  0%, 100% { opacity: 0; }
+  17%, 82% { opacity: 1; }
+  100% { transform: translateY(76px); }
+}
+@keyframes teaching-svg-dispatch {
+  0%, 100% { opacity: 0; }
+  20%, 75% { opacity: 1; }
+  100% { transform: translateY(24px); }
+}
+@keyframes teaching-svg-rotate { to { transform: rotate(1turn); } }
+
+@media print {
+  .teaching-svg-build > g { opacity: 1; visibility: visible; }
+  .teaching-svg-build g { animation: none !important; }
+}
+
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#17313f"] { fill: #eef5fa; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#e8f3f7"] { fill: #203e50; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#fae9db"] { fill: #4d352c; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#eee8f8"] { fill: #3f3358; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#006582"] { fill: #72d0ed; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [stroke="#006582"] { stroke: #72d0ed; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#a94311"] { fill: #ffac70; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [stroke="#a94311"] { stroke: #ffac70; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [fill="#604493"] { fill: #ccb3ff; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [stroke="#604493"] { stroke: #ccb3ff; }
+body[data-presentation-theme="dark"] section[data-source-path-id="ex:path-talk-environmental-health-2026"] .teaching-svg:has([fill="#17313f"]) [stroke="#718b99"] { stroke: #9ab2c2; }
+
+.reveal figure[data-media-uri="/talks/eh26-controlled-automation.svg"] svg { width: 100%; }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] {
+  --pcd-automation-paper: #192c3a;
+  --pcd-automation-green: #83ddb0;
+}
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] [fill="#eef6f8"] { fill: var(--pcd-automation-paper); }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] :is([fill="#cbe7ee"], [fill="#e4f4f6"]) { fill: #254956; }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] [fill="#e7dff5"] { fill: #423657; }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] [fill="#d9ede5"] { fill: #214837; }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] [stroke="#207350"] { stroke: var(--pcd-automation-green); }
+body[data-presentation-theme="dark"] figure[data-media-uri="/talks/eh26-controlled-automation.svg"] [fill="#207350"] { fill: var(--pcd-automation-green); }
+
+/* Keep portrait flow diagrams inside the reserved slide region in both talks. */
+body.pcd-native-mobile .reveal .slides
+section:is(
+  [data-source-path-id="ex:path-talk-environmental-health-2026"],
+  [data-source-path-id="ex:path-talk-microplastics-ted-gc-ms"]
+) .d3-flow-host .d3-flow-svg {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
