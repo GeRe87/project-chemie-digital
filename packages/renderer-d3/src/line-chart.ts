@@ -383,8 +383,8 @@ export function mountD3LineChart(
           group.querySelector(".d3-chart-annotation-connector")?.remove();
         }
         image.setAttribute("x", String(insetX));
-        image.setAttribute("y", String(margin.top + 8)); image.setAttribute("width", String(insetWidth));
-        image.setAttribute("height", String(insetWidth * 270 / 640));
+        image.setAttribute("y", String(insetY)); image.setAttribute("width", String(insetWidth));
+        image.setAttribute("height", String(insetHeight));
         image.dataset.mediaUri = annotation.media.uri;
         if (annotation.media.darkUri) image.dataset.darkUri = annotation.media.darkUri;
         image.setAttribute("role", "img"); image.setAttribute("aria-label", annotation.media.alternativeText);
